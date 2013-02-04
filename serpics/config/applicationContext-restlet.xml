@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+   <bean id="resletEngine" class="org.restlet.ext.spring.SpringComponent">
+	<property name="server">
+		<bean class="org.restlet.ext.spring.SpringServer">
+			<constructor-arg value="http" />
+			<constructor-arg value="8182" />
+		</bean>
+	</property>
+	<property name="defaultTarget" ref="root" />
+</bean>
+
+<bean id="root" class="org.restlet.ext.spring.SpringRouter">
+	<property name="attachments">
+		<map>
+			<entry key="/commerce" value-ref="commerce" />
+		</map>
+	</property>
+</bean>
+
+<bean id="commerce" class="org.restlet.ext.spring.SpringRouter">
+	<property name="attachments">
+		<map>
+			<entry key="/users">
+				<bean class="org.restlet.ext.spring.SpringFinder">
+					<lookup-method name="create"
+						bean="userResource" />
+				</bean>
+			</entry>
+			<entry key="/login/{realm}">
+				<bean class="org.restlet.ext.spring.SpringFinder">
+					<lookup-method name="create"
+						bean="LoginResource" />
+				</bean>
+			</entry>
+			<entry key="/connect/{realm}">
+				<bean class="org.restlet.ext.spring.SpringFinder">
+					<lookup-method name="create"
+						bean="ConnectResource" />
+				</bean>
+			</entry>
+			<entry key="/setup">
+				<bean class="org.restlet.ext.spring.SpringFinder">
+					<lookup-method name="create" bean="initCommerce"/>
+				</bean>
+			</entry>
+		</map>
+	</property>
+	
+</bean>
+
+<bean id="initCommerce"
+	class="com.serpics.core.restlet.InitResource"
+	scope="prototype">
+</bean>	
+
+<bean id="userResource"
+	class="com.serpics.membership.restlet.Users"
+	scope="prototype">
+</bean>
+<bean id ="LoginResource"
+	class="com.serpics.membership.restlet.Login"
+	scope="prototype">
+</bean>
+
+<bean id ="ConnectResource"
+	class="com.serpics.membership.restlet.Connect"
+	scope="prototype">
+</bean>
+</beans>

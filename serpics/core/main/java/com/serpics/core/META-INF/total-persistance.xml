@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="casper" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- Core --> 
+		<class>com.casper.persistence.core.AttributeLookup</class>
+		<class>com.casper.persistence.core.AttributeLookupPK</class>
+		<class>com.casper.persistence.core.BaseAttribute</class>
+		<class>com.casper.persistence.core.Country</class>
+		<class>com.casper.persistence.core.CountryDescr</class>
+		<class>com.casper.persistence.core.CountryDescrPK</class>
+		<class>com.casper.persistence.core.Geocode</class>
+		<class>com.casper.persistence.core.GeocodeDescr</class>
+		<class>com.casper.persistence.core.GeocodeDescrPK</class>
+		<class>com.casper.persistence.core.Paymethlookup</class>
+		<class>com.casper.persistence.core.PaymethlookupPK</class>
+		<class>com.casper.persistence.core.Paymethod</class>
+		<class>com.casper.persistence.core.PaymethodDescr</class>
+		<class>com.casper.persistence.core.PaymethodDescrPK</class>
+		<class>com.casper.persistence.core.Region</class>
+		<class>com.casper.persistence.core.RegionsDescr</class>
+		<class>com.casper.persistence.core.RegionsDescrPK</class>
+		<class>com.casper.persistence.core.Currency</class>
+		<class>com.casper.persistence.core.BaseAttributeDescr</class>
+		<class>com.casper.persistence.core.BaseAttributeDescrPK</class>
+		<class>com.casper.persistence.core.Locale</class>
+		
+		<!-- Membership  -->
+		<class>com.casper.persistence.membership.UsersReg</class>
+		<class>com.casper.persistence.membership.User</class>
+		<class>com.casper.persistence.membership.Store</class>
+		<class>com.casper.persistence.membership.Role</class>
+		<class>com.casper.persistence.membership.MembgrouprelPK</class>
+		<class>com.casper.persistence.membership.Membgrouprel</class>
+		<class>com.casper.persistence.membership.MembersRolePK</class>
+		<class>com.casper.persistence.membership.MembersRole</class>
+		<class>com.casper.persistence.membership.Membergroup</class>
+		<class>com.casper.persistence.membership.MemberRelationPK</class>
+		<class>com.casper.persistence.membership.MemberRelation</class>
+		<class>com.casper.persistence.membership.MemberAttributeValueVarchar</class>
+		<class>com.casper.persistence.membership.MemberAttributeValueText</class>
+		<class>com.casper.persistence.membership.MemberAttributeValueLong</class>
+		<class>com.casper.persistence.membership.MemberAttributeValueDecimal</class>
+		<class>com.casper.persistence.membership.MemberAttributeValueDatetime</class>
+		<class>com.casper.persistence.membership.MemberAttribute</class>
+		<class>com.casper.persistence.membership.Member</class>
+		<class>com.casper.persistence.membership.Address</class>
+		
+		<!-- Commerce  -->
+		<class>com.casper.persistence.commerce.Orderitem</class>
+		<class>com.casper.persistence.commerce.OrderitemsAttribute</class>
+		<class>com.casper.persistence.commerce.OrderitemsAttributeValueDatetime</class>
+		<class>com.casper.persistence.commerce.OrderitemsAttributeValueDecimal</class>
+		<class>com.casper.persistence.commerce.OrderitemsAttributeValueLong</class>
+		<class>com.casper.persistence.commerce.OrderitemsAttributeValueText</class>
+		<class>com.casper.persistence.commerce.OrderitemsAttributeValueVarchar</class>
+		<class>com.casper.persistence.commerce.Orderpayment</class>
+		<class>com.casper.persistence.commerce.Order</class>
+		<class>com.casper.persistence.commerce.OrdersAttribute</class>
+		<class>com.casper.persistence.commerce.OrdersAttributeValueDatetime</class>
+		<class>com.casper.persistence.commerce.OrdersAttributeValueDecimal</class>
+		<class>com.casper.persistence.commerce.OrdersAttributeValueLong</class>
+		<class>com.casper.persistence.commerce.OrdersAttributeValueText</class>
+		<class>com.casper.persistence.commerce.OrdersAttributeValueVarchar</class>
+		<class>com.casper.persistence.commerce.Shipmode</class>
+		<class>com.casper.persistence.commerce.ShipmodeDescr</class>
+		<class>com.casper.persistence.commerce.ShipmodeDescrPK</class>
+		<class>com.casper.persistence.commerce.Shipmodelookup</class>
+		<class>com.casper.persistence.commerce.Shipping</class>
+		<class>com.casper.persistence.commerce.Suborder</class>
+		
+		<!--  Catalog -->
+				<class>com.casper.persistance.catalog.Brand</class>
+		<class>com.casper.persistance.catalog.Catalog</class>
+		<class>com.casper.persistance.catalog.Category</class>
+		<class>com.casper.persistance.catalog.Ctentry</class>
+		<class>com.casper.persistance.catalog.CtentryAttributeValueDatetime</class>
+		<class>com.casper.persistance.catalog.CtentryAttributeValueDecimal</class>
+		<class>com.casper.persistance.catalog.CtentryAttributeValueLong</class>
+		<class>com.casper.persistance.catalog.CtentryAttributeValueText</class>
+		<class>com.casper.persistance.catalog.CtentryAttributeValueVarchar</class>
+		<class>com.casper.persistance.catalog.CtentryAttribute</class>
+		<class>com.casper.persistance.catalog.CtentryDescr</class>
+		<class>com.casper.persistance.catalog.CtentryDescrPK</class>
+		<class>com.casper.persistance.catalog.CtentryRelationPK</class>
+		<class>com.casper.persistance.catalog.Media</class>
+		<class>com.casper.persistance.catalog.MediaDescr</class>
+		<class>com.casper.persistance.catalog.MediaDescrPK</class>
+		<class>com.casper.persistance.catalog.Pricelist</class>
+		<class>com.casper.persistance.catalog.PricelistDescr</class>
+		<class>com.casper.persistance.catalog.PricelistDescrPK</class>
+		<class>com.casper.persistance.catalog.Price</class>
+		<class>com.casper.persistance.catalog.Productffmt</class>
+		<class>com.casper.persistance.catalog.ProductffmtPK</class>
+		<class>com.casper.persistance.catalog.Product</class>
+		<class>com.casper.persistance.catalog.CategoryRelation</class>
+		<class>com.casper.persistance.catalog.CtentryRelation</class>
+		<class>com.casper.persistance.catalog.CategoryProductRelation</class>
+	</persistence-unit>
+</persistence>
