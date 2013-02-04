@@ -3,7 +3,6 @@
 	<classpathentry kind="src" output="target/classes" path="core/main/java"/>
 	<classpathentry kind="src" path="catalog/test/java"/>
 	<classpathentry kind="src" path="commerce/test/java"/>
-	<classpathentry kind="src" path="target/generated-sources/java"/>
 	<classpathentry kind="src" path="membership/test/java"/>
 	<classpathentry kind="src" path="warehouse/main/java"/>
 	<classpathentry kind="src" path="membership/main/java"/>
