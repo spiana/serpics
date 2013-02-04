@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- Core --> 
+		<class>com.serpics.base.persistence.AttributeLookup</class>
+		<class>com.serpics.base.persistence.AttributeLookupPK</class>
+		<class>com.serpics.base.persistence.BaseAttribute</class>
+		<class>com.serpics.base.persistence.Country</class>
+		<class>com.serpics.base.persistence.CountryDescr</class>
+		<class>com.serpics.base.persistence.CountryDescrPK</class>
+		<class>com.serpics.base.persistence.Geocode</class>
+		<class>com.serpics.base.persistence.GeocodeDescr</class>
+		<class>com.serpics.base.persistence.GeocodeDescrPK</class>
+		<class>com.serpics.base.persistence.Paymethlookup</class>
+		<class>com.serpics.base.persistence.PaymethlookupPK</class>
+		<class>com.serpics.base.persistence.Paymethod</class>
+		<class>com.serpics.base.persistence.PaymethodDescr</class>
+		<class>com.serpics.base.persistence.PaymethodDescrPK</class>
+		<class>com.serpics.base.persistence.Region</class>
+		<class>com.serpics.base.persistence.RegionsDescr</class>
+		<class>com.serpics.base.persistence.RegionsDescrPK</class>
+		<class>com.serpics.base.persistence.Currency</class>
+		<class>com.serpics.base.persistence.BaseAttributeDescr</class>
+		<class>com.serpics.base.persistence.BaseAttributeDescrPK</class>
+		<class>com.serpics.base.persistence.Locale</class>
+		
+		<!-- Membership  -->
+		<class>com.serpics.membership.persistence.UsersReg</class>
+		<class>com.serpics.membership.persistence.User</class>
+		<class>com.serpics.membership.persistence.Store</class>
+		<class>com.serpics.membership.persistence.Role</class>
+		<class>com.serpics.membership.persistence.MembgrouprelPK</class>
+		<class>com.serpics.membership.persistence.Membgrouprel</class>
+		<class>com.serpics.membership.persistence.MembersRolePK</class>
+		<class>com.serpics.membership.persistence.MembersRole</class>
+		<class>com.serpics.membership.persistence.Membergroup</class>
+		<class>com.serpics.membership.persistence.MemberRelationPK</class>
+		<!-- <class>com.serpics.membership.persistence.MemberRelation</class> -->
+		<class>com.serpics.membership.persistence.User2UserRelation</class>
+		<class>com.serpics.membership.persistence.UserStoreRelation</class>
+		<class>com.serpics.membership.persistence.MemberAttributeValueVarchar</class>
+		<class>com.serpics.membership.persistence.MemberAttributeValueText</class>
+		<class>com.serpics.membership.persistence.MemberAttributeValueLong</class>
+		<class>com.serpics.membership.persistence.MemberAttributeValueDecimal</class>
+		<class>com.serpics.membership.persistence.MemberAttributeValueDatetime</class>
+		<class>com.serpics.membership.persistence.MemberAttribute</class>
+		<class>com.serpics.membership.persistence.Member</class> 
+		<class>com.serpics.membership.persistence.AbstractAddress</class>
+		<class>com.serpics.membership.persistence.PermanentAddress</class>
+		
+		<!-- Commerce  -->
+		<class>com.serpics.commerce.persistence.Orderitem</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttribute</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueDatetime</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueDecimal</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueLong</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueText</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueVarchar</class>
+		<class>com.serpics.commerce.persistence.Orderpayment</class>
+		<class>com.serpics.commerce.persistence.Order</class>
+		<class>com.serpics.commerce.persistence.OrdersAttribute</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueDatetime</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueDecimal</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueLong</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueText</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueVarchar</class>
+		<class>com.serpics.commerce.persistence.Shipmode</class>
+		<class>com.serpics.commerce.persistence.ShipmodeDescr</class>
+		<class>com.serpics.commerce.persistence.ShipmodeDescrPK</class>
+		<class>com.serpics.commerce.persistence.Shipmodelookup</class>
+		<class>com.serpics.commerce.persistence.Shipping</class>
+		<class>com.serpics.commerce.persistence.Suborder</class>
+		
+		<!--  Catalog -->
+		<class>com.serpics.catalog.persistence.Brand</class>
+		<class>com.serpics.catalog.persistence.Catalog</class>
+		<class>com.serpics.catalog.persistence.Category</class>
+		<class>com.serpics.catalog.persistence.Ctentry</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueDatetime</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueDecimal</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueLong</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueText</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueVarchar</class>
+		<class>com.serpics.catalog.persistence.CtentryAttribute</class>
+		<class>com.serpics.catalog.persistence.CtentryDescr</class>
+		<class>com.serpics.catalog.persistence.CtentryDescrPK</class>
+		<class>com.serpics.catalog.persistence.CtentryRelationPK</class>
+		<class>com.serpics.catalog.persistence.Media</class>
+		<class>com.serpics.catalog.persistence.MediaDescr</class>
+		<class>com.serpics.catalog.persistence.MediaDescrPK</class>
+		<class>com.serpics.catalog.persistence.Pricelist</class>
+		<class>com.serpics.catalog.persistence.PricelistDescr</class>
+		<class>com.serpics.catalog.persistence.PricelistDescrPK</class>
+		<class>com.serpics.catalog.persistence.Price</class>
+		<class>com.serpics.catalog.persistence.Productffmt</class>
+		<class>com.serpics.catalog.persistence.ProductffmtPK</class>
+		<class>com.serpics.catalog.persistence.Product</class>
+		<class>com.serpics.catalog.persistence.CategoryRelation</class>
+		<class>com.serpics.catalog.persistence.CtentryRelation</class>
+		<class>com.serpics.catalog.persistence.CategoryProductRelation</class>
+	</persistence-unit>
+</persistence>
