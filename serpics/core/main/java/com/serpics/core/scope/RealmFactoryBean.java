@@ -15,6 +15,7 @@ public class RealmFactoryBean<T> extends AbstractAutowiringFactoryBean<T> {
 	protected T doCreateInstance() {
 
 		return null;
+
 	}
 
 	@Override
