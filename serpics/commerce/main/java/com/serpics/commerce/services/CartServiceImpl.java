@@ -15,6 +15,7 @@ import com.serpics.catalog.hooks.PriceHook;
 import com.serpics.catalog.hooks.ProductHook;
 import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.catalog.persistence.Product;
+import com.serpics.commerce.hooks.CommerceHook;
 import com.serpics.commerce.hooks.DiscountHook;
 import com.serpics.commerce.persistence.AbstractOrder;
 import com.serpics.commerce.persistence.Cart;
@@ -59,6 +60,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		DiscountHook discounthook = (DiscountHook) getHook("discountHook");
 		PriceHook pricehook = (PriceHook) getHook("priceHook");
 		ProductHook producthook = (ProductHook) getHook("productHook");
+		CommerceHook commerceHook = (CommerceHook) getHook("commerceHook");
 
 		Product product = producthook.resolveSKU(orderitem.getSku());
 
@@ -66,13 +68,10 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		orderitem.setSkuPrice(pricehook.resolveProductPrice(product, cart.getCurrency()));
 		discounthook.applyItemDiscount(orderitem);
 
-		cart.setOrderAmount(cart.getTotalProduct().add(
-				new BigDecimal(orderitem.getQuantity() * orderitem.getSkuNetPrice())));
-
 		orderitem.setOrder(cart);
 		cart.getOrderitems().add(orderitem);
 
-		discounthook.applyOrderDiscount(cart);
+		commerceHook.calculateShipping(orderitem);
 
 		cartRepository.saveAndFlush(cart);
 
@@ -84,6 +83,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
 			throws InventoryNotAvailableException, ProductNotFoundException {
 		DiscountHook discounthook = (DiscountHook) getHook("discountHook");
 		PriceHook pricehook = (PriceHook) getHook("priceHook");
+		CommerceHook commerceHook = (CommerceHook) getHook("commerceHook");
 
 		Orderitem orderitem = new Orderitem();
 
@@ -105,6 +105,9 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		discounthook.applyItemDiscount(orderitem);
 		orderitem.setOrder(cart);
 		cart.getOrderitems().add(orderitem);
+
+		commerceHook.calculateShipping(orderitem);
+
 		cartRepository.saveAndFlush(cart);
 	}
 
@@ -168,10 +171,18 @@ public class CartServiceImpl extends AbstractService implements CartService {
 	@Override
 	@Transactional
 	public void prepareCart(Cart cart) throws InventoryNotAvailableException, ProductNotFoundException {
+		prepareCart(cart, false);
+	}
+
+	@Override
+	@Transactional
+	public void prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
+			ProductNotFoundException {
 		DiscountHook discounthook = (DiscountHook) getHook("discountHook");
 		PriceHook pricehook = (PriceHook) getHook("priceHook");
 		ProductHook producthook = (ProductHook) getHook("productHook");
 		InventoryHook inventoryHook = (InventoryHook) getHook("inventoryHook");
+		CommerceHook commerceHook = (CommerceHook) getHook("commerceHook");
 
 		cart.setOrderAmount(new BigDecimal(0));
 		cart.setTotalProduct(new BigDecimal(0));
@@ -179,17 +190,25 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		cart.setTotalTax(new BigDecimal(0));
 		for (Orderitem orderitem : cart.getOrderitems()) {
 			Product product = producthook.resolveSKU(orderitem.getSku());
-
-			inventoryHook.checkInventory(product);
-
+			if (updateInventory)
+				inventoryHook.updateInventory(product);
+			else
+				inventoryHook.checkInventory(product);
 			orderitem.setSkuCost(pricehook.resolveProductCost(product, cart.getCurrency()));
 			orderitem.setSkuPrice(pricehook.resolveProductPrice(product, cart.getCurrency()));
-			discounthook.applyItemDiscount(orderitem);
 
-			cart.setOrderAmount(cart.getTotalProduct().add(
-					new BigDecimal(orderitem.getQuantity() * orderitem.getSkuNetPrice())));
+			discounthook.applyItemDiscount(orderitem);
+			commerceHook.calculateShipping(orderitem);
 		}
+
+		commerceHook.calculateProductTotal(cart);
+
 		discounthook.applyOrderDiscount(cart);
+
+		commerceHook.calculateShiping(cart);
+		commerceHook.calculateTax(cart);
+		commerceHook.calculateOrderTotale(cart);
+
 		cartRepository.saveAndFlush(cart);
 	}
 

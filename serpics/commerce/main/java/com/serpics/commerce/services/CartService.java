@@ -32,4 +32,8 @@ public interface CartService {
 	public void prepareCart() throws InventoryNotAvailableException, ProductNotFoundException;
 
 	public void prepareCart(Cart cart) throws InventoryNotAvailableException, ProductNotFoundException;
+
+	public void prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
+			ProductNotFoundException;
+
 }
