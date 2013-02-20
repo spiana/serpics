@@ -70,4 +70,13 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 		return s == null ? false : true;
 	}
 
+	@Override
+	public void createStore(String storeName) {
+		Store s = new Store();
+		s.setUuid(storeName);
+		s.setName(storeName);
+		s = m.createStore(s);
+
+	}
+
 }

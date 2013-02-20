@@ -1,17 +1,12 @@
 package com.serpics.core.hook;
 
-import com.serpics.core.AbstractAutowiringFactoryBean;
+import com.serpics.membership.hooks.MembershipHookImpl;
 
-public class HookFactoryBean extends AbstractAutowiringFactoryBean<AbstractHook> {
+public class HookFactoryBean<T> {
 
-	@Override
-	protected AbstractHook doCreateInstance() {
-		return null;
-	}
-
-	@Override
-	public Class<?> getObjectType() {
-		return AbstractHook.class;
+	public T getObject() throws Exception {
+		// TODO Auto-generated method stub
+		return (T) new MembershipHookImpl();
 	}
 
 }

@@ -2,6 +2,7 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+
 	<bean name="hookLookup" class="com.serpics.core.service.HookLookupImpl" >
 	<property name="realmhooks">
 		<map>
@@ -13,10 +14,19 @@
 	<bean name="defaultHooks" class="com.serpics.core.hook.HooksMap">
 		<constructor-arg>
 		<map>
-			<entry key="membershipHook" value = "membershipHook"	/>
+		
+		<!-- 	<entry key="membershipHook" value = "membershipHook"	/> -->
 		</map>
 		</constructor-arg>
 	</bean>
-	
-	<bean id="membershipHook" class="com.serpics.membership.hooks.MembershipHookImpl" scope="prototype" />
+
+
+
+<bean  id="membershipHook"  scope="store"  class="com.serpics.membership.hooks.MembershipHookFactory" >
+
+</bean>
+<!-- 
+	<bean  class="com.serpics.membership.hooks.MembershipHookImpl" scope="prototype" />
+	<bean  class="com.serpics.core.test.MyMembershipHook" scope="prototype" />
+-->	
 </beans>

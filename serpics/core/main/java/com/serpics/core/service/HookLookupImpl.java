@@ -29,7 +29,7 @@ public class HookLookupImpl implements HookLookup, BeanFactoryAware {
 
 		String beanName = hooks.get(hookName);
 		if (beanName == null)
-			throw new RuntimeException(new HookMappingException());
+			throw new RuntimeException(new HookMappingException(String.format("hook [%s] not found !", hookName)));
 
 		AbstractHook c = (AbstractHook) this.beanFactory.getBean(beanName);
 		c.setSessionContext(context);

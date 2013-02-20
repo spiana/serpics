@@ -67,6 +67,9 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 	@Column(name = "sku_price", nullable = false, precision = 10, scale = 4)
 	private Double skuPrice = new Double(0);
 
+	@Column(name = "shipping_cost", nullable = false, precision = 10, scale = 4)
+	private Double shippingCost = new Double(0);
+
 	@Column(nullable = false, length = 2)
 	private String status;
 
@@ -255,6 +258,14 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	public void setProduct(AbstractProduct product) {
 		this.product = product;
+	}
+
+	public Double getShippingCost() {
+		return shippingCost;
+	}
+
+	public void setShippingCost(Double shippingCost) {
+		this.shippingCost = shippingCost;
 	}
 
 }
