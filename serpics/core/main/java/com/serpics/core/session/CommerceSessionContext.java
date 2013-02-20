@@ -68,6 +68,9 @@ public class CommerceSessionContext extends SessionContext {
 	}
 
 	public String getUserCookie() {
+		if (userCookie == null)
+			this.userCookie = getSessionId();
+
 		return userCookie;
 	}
 

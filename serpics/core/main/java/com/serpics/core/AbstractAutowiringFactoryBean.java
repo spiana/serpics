@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 public abstract class AbstractAutowiringFactoryBean<T> extends AbstractFactoryBean<T> implements
 		ApplicationContextAware {
 
-	private ApplicationContext applicationContext;
+	protected ApplicationContext applicationContext;
 
 	@Override
 	public void setApplicationContext(final ApplicationContext applicationContext) {
@@ -29,5 +29,10 @@ public abstract class AbstractAutowiringFactoryBean<T> extends AbstractFactoryBe
 	 * @see #createInstance()
 	 */
 	protected abstract T doCreateInstance();
+
+	@Override
+	public boolean isSingleton() {
+		return false;
+	}
 
 }

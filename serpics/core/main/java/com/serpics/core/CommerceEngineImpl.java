@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.serpics.core.scope.CommerceScopeContextHolder;
+import com.serpics.core.scope.StoreScopeContextHolder;
 import com.serpics.core.security.StoreRealm;
 import com.serpics.core.security.UserPrincipal;
 import com.serpics.core.service.Membership;
@@ -69,6 +70,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 		context.setUserPrincipal(user);
 		context.setLastAccess(new Date());
 		threadLocal.set(context);
+		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
 		CommerceScopeContextHolder.setThreadScopeAttributes(context.getCommerceScopeAttribute());
 		return (CommerceSessionContext) context;
 	}
@@ -79,6 +81,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 		SessionContext context = getSessionManager().createSessionContext(s);
 		context.setLastAccess(new Date());
 		threadLocal.set(context);
+		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
 		CommerceScopeContextHolder.setThreadScopeAttributes(context.getCommerceScopeAttribute());
 		UserPrincipal user = membershipService.login(loginId, password);
 		context.setUserPrincipal(user);
@@ -91,6 +94,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 			throws SerpicsException {
 		context.setLastAccess(new Date());
 		threadLocal.set(context);
+		StoreScopeContextHolder.setCurrentStoreRealm(context.getRealm());
 		CommerceScopeContextHolder.setThreadScopeAttributes(context.getCommerceScopeAttribute());
 		UserPrincipal user = membershipService.login(loginId, password);
 		context.setUserPrincipal(user);
@@ -102,6 +106,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 		SessionContext _s = this.sessionManager.getSessionContext(sessionId);
 		_s.setLastAccess(new Date());
 		threadLocal.set(_s);
+		StoreScopeContextHolder.setCurrentStoreRealm(_s.getRealm());
 		CommerceScopeContextHolder.setThreadScopeAttributes(_s.getCommerceScopeAttribute());
 		return (CommerceSessionContext) _s;
 	}
