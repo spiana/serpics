@@ -1,10 +1,12 @@
 package com.serpics.membership.hooks;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.serpics.core.hook.AbstractHookFactory;
 
-@Component("membershiopHook")
+@Component("membershipHook")
+@Scope("store")
 public class MembershipHookFactory extends AbstractHookFactory<MembershipHook> {
 
 	@Override

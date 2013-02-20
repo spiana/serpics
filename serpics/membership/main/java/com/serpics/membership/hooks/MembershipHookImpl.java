@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import org.springframework.context.annotation.Scope;
-
 import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.core.datatype.UserType;
@@ -19,7 +17,6 @@ import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.UserRegrepository;
 
 @Hook(type = "membershipHook")
-@Scope("store")
 public class MembershipHookImpl extends AbstractHook implements MembershipHook {
 	@Resource
 	UserRegrepository userRegRepository;
