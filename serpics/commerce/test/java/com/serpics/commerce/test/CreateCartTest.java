@@ -25,9 +25,8 @@ import com.serpics.commerce.services.OrderService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
-import com.serpics.membership.services.MembershipService;
 
-@ContextConfiguration({ "classpath:com/serpics/commerce/test/resources/applicationContext.xml" })
+@ContextConfiguration({ "classpath:resources/applicationContext.xml" })
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,16 +35,7 @@ public class CreateCartTest {
 	BaseService b;
 
 	@Autowired
-	MembershipService m;
-	@Autowired
 	CommerceEngine ce;
-
-	@Resource(name = "cartService")
-	CartService cs;
-
-	@Resource
-	OrderService orderService;
-
 	@Resource
 	CartRepository cartRepository;
 	@Resource
@@ -60,6 +50,9 @@ public class CreateCartTest {
 	public void test() throws SerpicsException {
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		assertNotNull("not connect with context !", context);
+
+		CartService cs = (CartService) ce.getApplicationContext().getBean("cartService");
+		OrderService orderService = ce.getApplicationContext().getBean(OrderService.class);
 
 		Cart cart = cs.createSessionCart();
 		assertNotNull(cart);

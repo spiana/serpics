@@ -37,6 +37,19 @@ public class CartServiceImpl extends AbstractService implements CartService {
 	@Resource
 	OrderItemRepository orderitemrepository;
 
+	@Resource
+	DiscountHook discountHook;
+	@Resource
+	PriceHook priceHook;
+
+	@Resource
+	ProductHook productHook;
+	@Resource
+	CommerceHook commerceHook;
+
+	@Resource
+	InventoryHook inventoryHook;
+
 	@Override
 	@Transactional
 	public Cart createSessionCart() {
@@ -59,16 +72,11 @@ public class CartServiceImpl extends AbstractService implements CartService {
 	@Transactional
 	public void cartUpdate(Orderitem orderitem, Cart cart) throws InventoryNotAvailableException,
 			ProductNotFoundException {
-		DiscountHook discounthook = (DiscountHook) getHook("discountHook");
-		PriceHook pricehook = (PriceHook) getHook("priceHook");
-		ProductHook producthook = (ProductHook) getHook("productHook");
-		CommerceHook commerceHook = (CommerceHook) getHook("commerceHook");
+		Product product = productHook.resolveSKU(orderitem.getSku());
 
-		Product product = producthook.resolveSKU(orderitem.getSku());
-
-		orderitem.setSkuCost(pricehook.resolveProductCost(product, cart.getCurrency()));
-		orderitem.setSkuPrice(pricehook.resolveProductPrice(product, cart.getCurrency()));
-		discounthook.applyItemDiscount(orderitem);
+		orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
+		orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
+		discountHook.applyItemDiscount(orderitem);
 
 		orderitem.setOrder(cart);
 		cart.getOrderitems().add(orderitem);
@@ -83,9 +91,6 @@ public class CartServiceImpl extends AbstractService implements CartService {
 	@Transactional
 	public void cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
-		DiscountHook discounthook = (DiscountHook) getHook("discountHook");
-		PriceHook pricehook = (PriceHook) getHook("priceHook");
-		CommerceHook commerceHook = (CommerceHook) getHook("commerceHook");
 
 		Orderitem orderitem = new Orderitem();
 
@@ -101,10 +106,10 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		if (merge)
 			orderitem = mergeCart(cart, orderitem);
 
-		orderitem.setSkuCost(pricehook.resolveProductCost(product, cart.getCurrency()));
-		orderitem.setSkuPrice(pricehook.resolveProductPrice(product, cart.getCurrency()));
+		orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
+		orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
 
-		discounthook.applyItemDiscount(orderitem);
+		discountHook.applyItemDiscount(orderitem);
 		orderitem.setOrder(cart);
 		cart.getOrderitems().add(orderitem);
 
@@ -148,7 +153,6 @@ public class CartServiceImpl extends AbstractService implements CartService {
 	@Transactional
 	public void cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
 			ProductNotFoundException {
-		ProductHook productHook = (ProductHook) getHook("productHook");
 		Product product = productHook.resolveSKU(sku);
 		this.cartAdd(product, quantity, merge);
 	}
@@ -180,32 +184,27 @@ public class CartServiceImpl extends AbstractService implements CartService {
 	@Transactional
 	public void prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
 			ProductNotFoundException {
-		DiscountHook discounthook = (DiscountHook) getHook("discountHook");
-		PriceHook pricehook = (PriceHook) getHook("priceHook");
-		ProductHook producthook = (ProductHook) getHook("productHook");
-		InventoryHook inventoryHook = (InventoryHook) getHook("inventoryHook");
-		CommerceHook commerceHook = (CommerceHook) getHook("commerceHook");
 
 		cart.setOrderAmount(new BigDecimal(0));
 		cart.setTotalProduct(new BigDecimal(0));
 		cart.setTotalShipping(new BigDecimal(0));
 		cart.setTotalTax(new BigDecimal(0));
 		for (Orderitem orderitem : cart.getOrderitems()) {
-			Product product = producthook.resolveSKU(orderitem.getSku());
+			Product product = productHook.resolveSKU(orderitem.getSku());
 			if (updateInventory)
 				inventoryHook.updateInventory(product);
 			else
 				inventoryHook.checkInventory(product);
-			orderitem.setSkuCost(pricehook.resolveProductCost(product, cart.getCurrency()));
-			orderitem.setSkuPrice(pricehook.resolveProductPrice(product, cart.getCurrency()));
+			orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
+			orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
 
-			discounthook.applyItemDiscount(orderitem);
+			discountHook.applyItemDiscount(orderitem);
 			commerceHook.calculateShipping(orderitem);
 		}
 
 		commerceHook.calculateProductTotal(cart);
 
-		discounthook.applyOrderDiscount(cart);
+		discountHook.applyOrderDiscount(cart);
 
 		commerceHook.calculateShiping(cart);
 		commerceHook.calculateTax(cart);

@@ -4,7 +4,7 @@ import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.core.hook.Hook;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
-@Hook("inventory")
+@Hook("inventoryHook")
 public interface InventoryHook {
 	public boolean checkInventory(AbstractProduct product);
 

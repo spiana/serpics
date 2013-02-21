@@ -2,15 +2,12 @@ package com.serpics.commerce.hooks;
 
 import java.math.BigDecimal;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.serpics.commerce.persistence.AbstractOrder;
 import com.serpics.commerce.persistence.Orderitem;
 import com.serpics.core.hook.AbstractHook;
+import com.serpics.core.hook.HookImplementation;
 
-@Component("discountHook")
-@Scope("prototype")
+@HookImplementation(value = "discountHook")
 public class DiscountHookImpl extends AbstractHook implements DiscountHook {
 
 	@Override

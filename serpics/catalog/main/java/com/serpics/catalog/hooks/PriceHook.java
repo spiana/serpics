@@ -3,7 +3,7 @@ package com.serpics.catalog.hooks;
 import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.core.hook.Hook;
 
-@Hook("price")
+@Hook("priceHook")
 public interface PriceHook {
 
 	Double resolveProductPrice(AbstractProduct product, String Currency);
