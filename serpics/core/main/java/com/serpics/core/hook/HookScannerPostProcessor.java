@@ -18,14 +18,16 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import com.impetus.annovention.ClasspathDiscoverer;
 import com.impetus.annovention.Discoverer;
 import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
+import com.serpics.core.scope.StoreScope;
 import com.serpics.membership.hooks.MembershipHookImpl;
 
 public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProcessor {
 	
 	private static Logger logger = LoggerFactory.getLogger(HookScannerPostProcessor.class);
 	
-	abstract class SerpicsClassAnnotationListener implements ClassAnnotationDiscoveryListener {
-			
+	abstract class SerpicsClassAnnotationListener implements ClassAnnotationDiscoveryListener {				
+		
+		@SuppressWarnings("unchecked")
 		@Override
 		public void discovered(String clazz, String annotation) throws BeansException{
 			final String hookClass =  Hook.class.getName();
@@ -34,6 +36,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 			if (clazz.equals(hookClass) || clazz.equals(hookImplClass)) return;
 //			logger.info("Discovered Class(" + clazz + ") " +
 //					"with Annotation(" + annotation + ")");
+
 			
 			if (annotation.equals(hookClass)){
 				
@@ -71,19 +74,22 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 						throw new FatalBeanException("Class " + clazz + " claims to implement unknown HOOK named " + hook);
 					}
 					
-					if (c.getAnnotation(hookInterface) == null){
-						
+					if (!hookInterface.isAssignableFrom(c)){
+						throw new FatalBeanException("Class " + clazz + " claims to implement HOOK " + hook + " but doesn't implement its interface!");
 					}
 					
 					logger.info("Discovered implementation for HOOK {} and STORE {} : class " + clazz,  hook, store);
-					
-					Map hookImpls = hookImplementationMap.get(hook);
+										
+					Map<String, Class<?>> hookImpls = hookImplementationMap.get(hook);
 					if (hookImpls == null) {
 						hookImpls = new TreeMap<String, Class<?>>();
 						hookImplementationMap.put(hook, hookImpls);
+						hookImpls.put(store, Class.forName(clazz));
+					} else {
+						if (hookImpls.containsKey(store)) throw new FatalBeanException("Duplicate implementation found for HOOK " + hook + ". Found classes: " + clazz + ", " + hookImpls.get(store).getName());
+						hookImpls.put(store, Class.forName(clazz));					
 					}
-					
-					hookImpls.put(store, Class.forName(clazz));
+										
 					
 				} catch (ClassNotFoundException e) {
 					logger.error("Should not happen: ", e);
@@ -94,9 +100,6 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 
 	}
 
-	
-//	@SuppressWarnings("rawtypes")
-//	Map<String, Map> storeMap = new HashMap<String, Map>();
 	
 	@SuppressWarnings("rawtypes")
 	Map<String, Class<?>> hookInterfaceMap = new TreeMap<String, Class<?>>();
@@ -132,9 +135,6 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 		});
 		discoverer.discover(true, false, false, true, false);
 		
-		Map<String, Class<?>> storeHooks = new HashMap<String, Class<?>>();
-		storeHooks.put("membershipHook", MembershipHookImpl.class);
-//		storeMap.put("default-store", storeHooks);
 	}
 	
 	public Class<?> getHookImplementation(String storeName, String hookName){
@@ -146,20 +146,24 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 		doHookScan();
 		
-		Class<?> type = MembershipHookImpl.class;
-		String interfaceName = getImplementedHookInterface(type);
-		if (interfaceName == null)
-			throw new FatalBeanException("No Hook interface found for class " + type.getName());
+		for (String hook : hookInterfaceMap.keySet()){
+			Class<?> type = hookInterfaceMap.get(hook);
+			
+//			@SuppressWarnings({ "rawtypes", "unchecked" })
+//			GenericHookFactory f = new GenericHookFactory(type, hookImplementationMap.get(hook)); 
+			
+			BeanDefinition definition = new RootBeanDefinition(GenericHookFactory.class);
+			definition.getConstructorArgumentValues().addGenericArgumentValue(type);
+			definition.getConstructorArgumentValues().addGenericArgumentValue(hookImplementationMap.get(hook));
+			definition.setScope("store");
+			registry.registerBeanDefinition(hook, definition);
+			logger.info("Registered factory {} for Class {}", hook, type.getName());
+		}
 			
 		
 			
 		
-		GenericHookFactory f = new GenericHookFactory(type); 
-		BeanDefinition definition = new RootBeanDefinition(GenericHookFactory.class);
-		definition.getConstructorArgumentValues().addGenericArgumentValue(type);
-//		definition.setScope(scope)
-		registry.registerBeanDefinition(interfaceName, definition);
-		logger.info("Registered factory {} for Class {}", interfaceName, type.getName());
+		
 		
 	}
 

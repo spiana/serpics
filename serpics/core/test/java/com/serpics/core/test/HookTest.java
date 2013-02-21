@@ -27,20 +27,21 @@ public class HookTest extends AbstractTest {
 
 	@Test
 	public void test() throws SerpicsException {
-		baseService.createStore("store1");
+		baseService.createStore("my-store");
 		MembershipHook membershipHook;
 
 		CommerceSessionContext context = commerceEngine.connect("default-store");
 
-		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("MembershipHook");
+		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("membership");
+		System.out.println(membershipHook.getClass().getName());
 
 		UserPrincipal u = membershipHook.login((Store) context.getStoreRealm(), "superuser", "admin".toCharArray());
 		Assert.assertNotNull(u);
 		Assert.assertEquals("superuser", u.getName());
 
-		// context = commerceEngine.connect("store1");
-		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("MembershipHook");
-
+		 context = commerceEngine.connect("my-store");
+		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("membership");
+		System.out.println(membershipHook.getClass().getName());
 
 		u = membershipHook.login((Store) context.getStoreRealm(), "superuser", "admin".toCharArray());
 		Assert.assertNotNull(u);
