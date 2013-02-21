@@ -47,6 +47,7 @@ public class ContextSessionManager implements SessionManager {
 		String sessionId = generateSessionID();
 		CommerceScopeAttributes commerceScopeAttributes = new CommerceScopeAttributes();
 		commerceScopeAttributes.setConversationId(sessionId);
+		CommerceScopeContextHolder.setThreadScopeAttributes(commerceScopeAttributes);
 		context.setStoreRealm(realm);
 		context.setSessionId(sessionId);
 		context.setLastAccess(new Date());
