@@ -56,18 +56,18 @@ public class CommerceScopeTest {
 	@Test
 	public void test() throws SerpicsException {
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
-		TestScopebean b = (TestScopebean) ce.getApplicationContext().getBean("test");
+		TestScopebean b = (TestScopebean) ce.getApplicationContext().getBean("testScope");
 		Assert.assertEquals(context, getContext());
 
 		CommerceSessionContext context1 = ce.connect("default-store", "test", "password".toCharArray());
-		TestScopebean b1 = (TestScopebean) ce.getApplicationContext().getBean("test");
+		TestScopebean b1 = (TestScopebean) ce.getApplicationContext().getBean("testScope");
 		Assert.assertEquals(context1, getContext());
 
-		TestScopebean b2 = (TestScopebean) ce.getApplicationContext().getBean("test");
+		TestScopebean b2 = (TestScopebean) ce.getApplicationContext().getBean("testScope");
 		Assert.assertEquals(b1, b2);
 
 		context = ce.bind(context.getSessionId());
-		TestScopebean b3 = (TestScopebean) ce.getApplicationContext().getBean("test");
+		TestScopebean b3 = (TestScopebean) ce.getApplicationContext().getBean("testScope");
 		Assert.assertEquals(b, b3);
 	}
 

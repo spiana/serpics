@@ -16,5 +16,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
 	<import resource="applicationContext-database-schema.xml" />
 	<import resource="applicationContext-hooks.xml" />
-     
+
+	<bean id="sessionContext" class="com.serpics.core.session.CommerceSessionContext"  scope="commercesession" >
+		<aop:scoped-proxy/>
+	</bean>
+
+	
  </beans>    

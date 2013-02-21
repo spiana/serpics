@@ -2,9 +2,10 @@ package com.serpics.core;
 
 import java.util.Date;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.serpics.core.scope.CommerceScopeContextHolder;
@@ -20,7 +21,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 
 	private static final ThreadLocal<SessionContext> threadLocal = new ThreadLocal<SessionContext>();
 
-	@Autowired(required = true)
+	@Resource
 	SessionManager sessionManager;
 
 	public SessionManager getSessionManager() {

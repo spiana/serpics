@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -27,6 +28,7 @@ import com.serpics.core.service.AbstractService;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 @Service("cartService")
+@Scope("store")
 public class CartServiceImpl extends AbstractService implements CartService {
 
 	@Resource

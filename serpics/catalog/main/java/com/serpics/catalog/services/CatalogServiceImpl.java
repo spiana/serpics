@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.core.service.AbstractService;
 
 @Service("catalogService")
+@Scope("store")
 public class CatalogServiceImpl extends AbstractService implements CatalogService {
 
 	@Resource

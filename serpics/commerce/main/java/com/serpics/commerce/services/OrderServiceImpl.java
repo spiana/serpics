@@ -2,6 +2,7 @@ package com.serpics.commerce.services;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import com.serpics.commerce.repositories.OrderRepository;
 import com.serpics.core.service.AbstractService;
 
 @Service("orderService")
+@Scope("store")
 public class OrderServiceImpl extends AbstractService implements OrderService {
 
 	@Resource

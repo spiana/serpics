@@ -1,5 +1,7 @@
 package com.serpics.base.services;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,8 +31,8 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 	@Autowired
 	MembershipService m;
 
-	@Autowired
-	CommerceEngine ce;
+	@Resource
+	CommerceEngine commerceEngine;
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -45,7 +47,7 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 		memberFactory.saveAndFlush(anonymous);
 
 		try {
-			ce.connect("default-store");
+			commerceEngine.connect("default-store");
 			User u = new User();
 			u.setLastname("Superuser");
 			u.setUserType(UserType.ADMINISTRATOR);
