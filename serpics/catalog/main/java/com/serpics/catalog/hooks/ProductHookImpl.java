@@ -1,14 +1,11 @@
 package com.serpics.catalog.hooks;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.core.hook.AbstractHook;
+import com.serpics.core.hook.Hook;
 
-@Component("productHook")
-@Scope("prototype")
+@Hook(type = "productHook")
 public class ProductHookImpl extends AbstractHook implements ProductHook {
 
 	@Override
