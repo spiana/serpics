@@ -21,7 +21,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
    <context:component-scan base-package="com.serpics.membership.services" />
 
-   <!--  <context:component-scan base-package="com.serpics.membership.hooks" /> -->
+	<context:component-scan base-package="com.serpics.membership.hooks" /> 
 
      
  </beans>   

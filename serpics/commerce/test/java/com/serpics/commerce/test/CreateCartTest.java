@@ -27,7 +27,7 @@ import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.membership.services.MembershipService;
 
-@ContextConfiguration({ "classpath:resources/applicationContext.xml" })
+@ContextConfiguration({ "classpath:com/serpics/commerce/test/resources/applicationContext.xml" })
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)

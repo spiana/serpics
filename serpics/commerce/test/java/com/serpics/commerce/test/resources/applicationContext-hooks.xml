@@ -17,6 +17,7 @@
 			<entry key="discountHook" value = "discountHook"	/>
 			<entry key="priceHook" value = "priceHook"	/>
 			<entry key="productHook" value = "productHook"	/>
+			<entry key="commerceHook" value = "commerceHook"	/>
 		</map>
 		</constructor-arg>
 	</bean>
@@ -25,4 +26,5 @@
 	<bean id="discountHook" class="com.serpics.commerce.hooks.DiscountHookImpl" scope="prototype" />
 	<bean id="priceHook" class="com.serpics.catalog.hooks.PriceHookImpl" scope="prototype" />
 	<bean id="productHook" class="com.serpics.catalog.hooks.ProductHookImpl" scope="prototype" />
+	<bean id="commerceHook" class="com.serpics.commerce.hooks.CommerceHookImpl" scope="prototype" />
 </beans>

@@ -49,7 +49,7 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 	@Column(name = "shipping_address_id")
 	private Long shippingAddressId;
 
-	@Column(name = "product_id", nullable = false)
+	@Column(name = "product_id", nullable = true)
 	AbstractProduct product;
 
 	@Column(nullable = false, length = 250)

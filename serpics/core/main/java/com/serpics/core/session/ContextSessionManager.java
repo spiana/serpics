@@ -9,15 +9,18 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.serpics.core.scope.CommerceScopeAttributes;
 import com.serpics.core.scope.CommerceScopeContextHolder;
 import com.serpics.core.security.StoreRealm;
 
-public class ContextSessionManager implements SessionManager, InitializingBean {
+public class ContextSessionManager implements SessionManager, InitializingBean, DisposableBean {
 	private static transient Logger logger = LoggerFactory.getLogger(ContextSessionManager.class);
 	long sessionTimeout = 1800; // session timeout in seconds
+
+	ClearSessionExpired se;
 
 	private class ClearSessionExpired extends Thread {
 
@@ -29,21 +32,24 @@ public class ContextSessionManager implements SessionManager, InitializingBean {
 		public void run() {
 			logger.info("started !");
 			while (!isInterrupted()) {
-				synchronized (sessionList) {
-					Iterator<String> i = sessionList.keySet().iterator();
-					while (i.hasNext()) {
-						getSessionContext(i.next());
-					}
-				}
 				try {
 					sleep(60000);
 				} catch (InterruptedException e) {
+					break;
+				}
+
+				synchronized (sessionList) {
+					Iterator<String> i = sessionList.keySet().iterator();
+					while (i.hasNext()) {
+						SessionContext sessionContext = sessionList.get(i.next());
+						if ((new Date().getTime() - sessionContext.getLastAccess().getTime()) / 1000 > sessionTimeout)
+							i.remove();
+					}
 				}
 
 			}
-			logger.info("stooped !");
+			logger.info("stopped !");
 		}
-
 	}
 
 	@Resource(name = "sessionContext")
@@ -104,9 +110,15 @@ public class ContextSessionManager implements SessionManager, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		ClearSessionExpired se = new ClearSessionExpired();
+		se = new ClearSessionExpired();
 		se.start();
 
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		se.interrupt();
+		se.join();
 	}
 
 }
