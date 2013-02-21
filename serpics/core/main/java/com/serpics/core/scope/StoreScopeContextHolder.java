@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class StoreScopeContextHolder {
 
+	private static transient String DEFAULT_STORE_REALM = "default-store";
+
 	private static final ThreadLocal<String> currentStoreRealm = new ThreadLocal<String>();
 
 	private static final Map<ClassLoader, StoreScopeAttribute> currentContextPerThread = new ConcurrentHashMap<ClassLoader, StoreScopeAttribute>(
@@ -18,11 +20,12 @@ public class StoreScopeContextHolder {
 		}
 		String storeRealm = currentStoreRealm.get();
 		if (storeRealm == null) {
-			storeRealm = "null-store";
+			storeRealm = DEFAULT_STORE_REALM;
 		}
 		CommerceScopeAttributes scopeAttribute = storeScope.get(storeRealm);
 		if (scopeAttribute == null) {
 			scopeAttribute = new CommerceScopeAttributes();
+			scopeAttribute.setConversationId(storeRealm);
 			storeScope.put(storeRealm, scopeAttribute);
 		}
 

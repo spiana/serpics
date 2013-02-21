@@ -29,6 +29,5 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     </property>
 </bean>
 
-<bean id="HookScannerPostProcessor" class="com.serpics.core.hook.HookScannerPostProcessor"/>
-
  </beans>    
+

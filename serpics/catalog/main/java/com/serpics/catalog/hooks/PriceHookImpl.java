@@ -1,13 +1,10 @@
 package com.serpics.catalog.hooks;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.core.hook.AbstractHook;
+import com.serpics.core.hook.Hook;
 
-@Component("priceHook")
-@Scope("prototype")
+@Hook(type = "priceHook")
 public class PriceHookImpl extends AbstractHook implements PriceHook {
 
 	@Override

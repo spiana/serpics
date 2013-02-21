@@ -11,10 +11,10 @@ import com.serpics.core.scope.CommerceScopeContextHolder;
 import com.serpics.core.scope.StoreScopeContextHolder;
 import com.serpics.core.security.StoreRealm;
 import com.serpics.core.security.UserPrincipal;
-import com.serpics.core.service.Membership;
 import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
 import com.serpics.core.session.SessionManager;
+import com.serpics.membership.services.MembershipService;
 
 public class CommerceEngineImpl implements CommerceEngine {
 
@@ -29,17 +29,6 @@ public class CommerceEngineImpl implements CommerceEngine {
 
 	public void setSessionManager(SessionManager sessionManager) {
 		this.sessionManager = sessionManager;
-	}
-
-	@Autowired(required = true)
-	Membership membershipService;
-
-	public Membership getMembershipService() {
-		return membershipService;
-	}
-
-	public void setMembershipService(Membership membershipService) {
-		this.membershipService = membershipService;
 	}
 
 	private BeanFactory beanFactory;
@@ -64,6 +53,9 @@ public class CommerceEngineImpl implements CommerceEngine {
 
 	@Override
 	public CommerceSessionContext connect(String storeUUID) throws SerpicsException {
+		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
+		MembershipService membershipService = beanFactory.getBean(MembershipService.class);
+
 		StoreRealm s = membershipService.fetchStoreByUUID(storeUUID);
 		SessionContext context = getSessionManager().createSessionContext(s);
 		UserPrincipal user = membershipService.createAnonymous();
@@ -77,11 +69,13 @@ public class CommerceEngineImpl implements CommerceEngine {
 
 	@Override
 	public CommerceSessionContext connect(String storeUUID, String loginId, char[] password) throws SerpicsException {
+		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
+		MembershipService membershipService = beanFactory.getBean(MembershipService.class);
+
 		StoreRealm s = membershipService.fetchStoreByUUID(storeUUID);
 		SessionContext context = getSessionManager().createSessionContext(s);
 		context.setLastAccess(new Date());
 		threadLocal.set(context);
-		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
 		CommerceScopeContextHolder.setThreadScopeAttributes(context.getCommerceScopeAttribute());
 		UserPrincipal user = membershipService.login(loginId, password);
 		context.setUserPrincipal(user);
@@ -96,6 +90,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 		threadLocal.set(context);
 		StoreScopeContextHolder.setCurrentStoreRealm(context.getRealm());
 		CommerceScopeContextHolder.setThreadScopeAttributes(context.getCommerceScopeAttribute());
+		MembershipService membershipService = beanFactory.getBean(MembershipService.class);
 		UserPrincipal user = membershipService.login(loginId, password);
 		context.setUserPrincipal(user);
 		return context;

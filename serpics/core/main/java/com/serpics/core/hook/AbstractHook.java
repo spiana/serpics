@@ -42,28 +42,5 @@ public abstract class AbstractHook {
 		}
 	}
 
-	private BeanDefinition scanClassLoader() {
-		Class returnType = null;
-		try {
-			Method m = getClass().getDeclaredMethod("getObject");
-			returnType = m.getReturnType();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-		scanner.addIncludeFilter(new AnnotationTypeFilter(Hook.class));
-		Set<BeanDefinition> beans = scanner.findCandidateComponents("");
-		for (BeanDefinition beanDefinition : beans) {
-			// beanDefinition.get
-			Hook c = beanDefinition.getClass().getAnnotation(Hook.class);
-			if (c.type().equals(returnType.getName()))
-				;
-		}
 
-		return null;
-	}
 }

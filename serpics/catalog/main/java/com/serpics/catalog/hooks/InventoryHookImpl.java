@@ -1,14 +1,11 @@
 package com.serpics.catalog.hooks;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.core.hook.AbstractHook;
+import com.serpics.core.hook.Hook;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
-@Component("inventoryHook")
-@Scope("prototype")
+@Hook(type = "inventoryHook")
 public class InventoryHookImpl extends AbstractHook implements InventoryHook {
 
 	@Override
