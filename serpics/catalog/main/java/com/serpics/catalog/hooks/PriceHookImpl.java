@@ -3,8 +3,9 @@ package com.serpics.catalog.hooks;
 import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.core.hook.AbstractHook;
 import com.serpics.core.hook.Hook;
+import com.serpics.core.hook.HookImplementation;
 
-@Hook(type = "priceHook")
+@HookImplementation("price")
 public class PriceHookImpl extends AbstractHook implements PriceHook {
 
 	@Override

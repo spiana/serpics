@@ -9,13 +9,14 @@ import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.core.datatype.UserType;
 import com.serpics.core.hook.AbstractHook;
 import com.serpics.core.hook.Hook;
+import com.serpics.core.hook.HookImplementation;
 import com.serpics.core.security.UserPrincipal;
 import com.serpics.membership.MembershipException;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.UserRegrepository;
 
-@Hook(type = "membershipHook")
+@HookImplementation(value="membership")
 public class MembershipHookImpl extends AbstractHook implements MembershipHook {
 	@Resource
 	UserRegrepository userRegRepository;
