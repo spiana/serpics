@@ -1,4 +1,4 @@
-package com.serpics.core.test;
+package com.serpics.core.test.hooks;
 
 import javax.annotation.Resource;
 
@@ -10,6 +10,7 @@ import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserPrincipal;
 import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.core.test.AbstractTest;
 import com.serpics.membership.hooks.MembershipHook;
 import com.serpics.membership.persistence.Store;
 
@@ -27,24 +28,20 @@ public class HookTest extends AbstractTest {
 
 	@Test
 	public void test() throws SerpicsException {
-		baseService.createStore("store1");
-		MembershipHook membershipHook;
+		baseService.createStore("test-store");
+		TestHook testHook;
 
 		CommerceSessionContext context = commerceEngine.connect("default-store");
 
-		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("MembershipHook");
-
-		UserPrincipal u = membershipHook.login((Store) context.getStoreRealm(), "superuser", "admin".toCharArray());
-		Assert.assertNotNull(u);
-		Assert.assertEquals("superuser", u.getName());
-
-		// context = commerceEngine.connect("store1");
-		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("MembershipHook");
+		testHook = (TestHook) commerceEngine.getApplicationContext().getBean("test");		
+		Assert.assertEquals(testHook.getClass(), TestHookImpl.class);
 
 
-		u = membershipHook.login((Store) context.getStoreRealm(), "superuser", "admin".toCharArray());
-		Assert.assertNotNull(u);
-		Assert.assertEquals("superuser", u.getName());
+		context = commerceEngine.connect("test-store");
+		testHook = (TestHook) commerceEngine.getApplicationContext().getBean("test");		
+		Assert.assertEquals(testHook.getClass(), AlternativeTestHookImpl.class);
+
+
 
 	}
 }

@@ -3,9 +3,10 @@ package com.serpics.catalog.hooks;
 import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.core.hook.AbstractHook;
 import com.serpics.core.hook.Hook;
+import com.serpics.core.hook.HookImplementation;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
-@Hook(type = "inventoryHook")
+@HookImplementation("inventory")
 public class InventoryHookImpl extends AbstractHook implements InventoryHook {
 
 	@Override

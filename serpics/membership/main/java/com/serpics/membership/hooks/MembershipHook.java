@@ -5,7 +5,7 @@ import com.serpics.core.hook.Hook;
 import com.serpics.core.security.UserPrincipal;
 import com.serpics.membership.persistence.Store;
 
-@Hook
+@Hook("membership")
 public interface MembershipHook {
 
 	public UserPrincipal login(Store store, String userName, char[] password) throws SerpicsException;

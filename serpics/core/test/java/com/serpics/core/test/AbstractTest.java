@@ -18,7 +18,7 @@ import com.serpics.core.SerpicsException;
 public abstract class AbstractTest {
 
 	@Resource
-	BaseService baseService;
+	protected BaseService baseService;
 
 	public void init() throws SerpicsException {
 		baseService.initIstance();

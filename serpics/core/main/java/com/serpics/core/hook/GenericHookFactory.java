@@ -4,13 +4,17 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.serpics.core.AbstractAutowiringFactoryBean;
 import com.serpics.core.CommerceEngine;
 
 public class GenericHookFactory<T> extends AbstractAutowiringFactoryBean<T> implements InitializingBean{
-
+	
+	static final Logger logger = LoggerFactory.getLogger("GenericHookFactory");
+	
 	@Resource
 	CommerceEngine commerceEngine;
 	
@@ -21,8 +25,10 @@ public class GenericHookFactory<T> extends AbstractAutowiringFactoryBean<T> impl
 	
 	Class<?> objectType;
 	
-	public GenericHookFactory(Class<?> objectType){
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public GenericHookFactory(Class<?> objectType, Map hookImpls){
 		this.objectType = objectType;
+		this.hookImpls = hookImpls;
 	}
 
 	@Override
@@ -34,9 +40,13 @@ public class GenericHookFactory<T> extends AbstractAutowiringFactoryBean<T> impl
 
 	public T createHookInstance(){
 		T ref = null;
+		final String store = commerceEngine.getCurrentContext().getStoreRealm().getName();
+		Class<?> impl = hookImpls.get(store);
 		try{
-			ref = (T) objectType.newInstance();
-		} catch (Exception e){};
+			ref = (T) impl.newInstance();
+		} catch (Exception e){
+			logger.error("error", e);
+		};
 		return ref;
 	}
 	
