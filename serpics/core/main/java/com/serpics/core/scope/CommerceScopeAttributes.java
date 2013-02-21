@@ -15,6 +15,8 @@ public class CommerceScopeAttributes {
 	protected final Map<String, Object> hBeans = new HashMap<String, Object>();
 	protected final Map<String, Runnable> hRequestDestructionCallbacks = new LinkedHashMap<String, Runnable>();
 
+	private String conversationId;
+
 	/**
 	 * Gets bean <code>Map</code>.
 	 */
@@ -60,6 +62,14 @@ public class CommerceScopeAttributes {
 		}
 
 		hRequestDestructionCallbacks.clear();
+	}
+
+	public String getConversationId() {
+		return conversationId;
+	}
+
+	public void setConversationId(String conversationId) {
+		this.conversationId = conversationId;
 	}
 
 }

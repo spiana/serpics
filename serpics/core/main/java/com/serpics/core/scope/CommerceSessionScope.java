@@ -5,8 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
-import com.serpics.core.CommerceEngineFactory;
-
 public class CommerceSessionScope implements Scope {
 
 	@SuppressWarnings("rawtypes")
@@ -52,7 +50,7 @@ public class CommerceSessionScope implements Scope {
 
 	@Override
 	public String getConversationId() {
-		return CommerceEngineFactory.getCommerceEngine().getCurrentContext().getSessionId();
+		return CommerceScopeContextHolder.getThreadScopeAttributes().getConversationId();
 	}
 
 	@Override

@@ -44,10 +44,9 @@ public class ContextSessionManager implements SessionManager {
 
 	@Override
 	public SessionContext createSessionContext(StoreRealm realm) {
-		CommerceScopeAttributes commerceScopeAttributes = new CommerceScopeAttributes();
-		CommerceScopeContextHolder.setThreadScopeAttributes(commerceScopeAttributes);
 		String sessionId = generateSessionID();
-
+		CommerceScopeAttributes commerceScopeAttributes = new CommerceScopeAttributes();
+		commerceScopeAttributes.setConversationId(sessionId);
 		context.setStoreRealm(realm);
 		context.setSessionId(sessionId);
 		context.setLastAccess(new Date());
