@@ -32,14 +32,14 @@ public class HookTest extends AbstractTest {
 
 		CommerceSessionContext context = commerceEngine.connect("default-store");
 
-		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("membershipHook");
+		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("MembershipHook");
 
 		UserPrincipal u = membershipHook.login((Store) context.getStoreRealm(), "superuser", "admin".toCharArray());
 		Assert.assertNotNull(u);
 		Assert.assertEquals("superuser", u.getName());
 
 		// context = commerceEngine.connect("store1");
-		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("membershipHook");
+		membershipHook = (MembershipHook) commerceEngine.getApplicationContext().getBean("MembershipHook");
 
 
 		u = membershipHook.login((Store) context.getStoreRealm(), "superuser", "admin".toCharArray());

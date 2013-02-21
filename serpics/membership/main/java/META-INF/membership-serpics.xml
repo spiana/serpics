@@ -20,10 +20,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
 
    <context:component-scan base-package="com.serpics.membership.services" />
-<<<<<<< HEAD
+
    <!--  <context:component-scan base-package="com.serpics.membership.hooks" /> -->
-=======
-   <context:component-scan base-package="com.serpics.membership.hooks" /> 
->>>>>>> branch 'master' of ssh://federicoaloi@git.code.sf.net/p/serpics/sources
+
      
- </beans>    
+ </beans>   
