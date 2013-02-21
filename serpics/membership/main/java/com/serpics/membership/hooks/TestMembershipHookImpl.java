@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Scope;
 import com.serpics.core.hook.Hook;
 import com.serpics.core.hook.HookImplementation;
 
-@HookImplementation(value="membership", store = "my-store")
-@Scope("store")
-public class MyMembershipHook extends MembershipHookImpl {
+@HookImplementation(value="membership", store = "test-store")
+public class TestMembershipHookImpl extends MembershipHookImpl {
 
 }
