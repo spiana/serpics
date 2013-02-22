@@ -81,8 +81,5 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.spri
 			<ref local="entityManagerFactory" />
 		</property>
 	</bean>	
-	
-  
-  	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /> 
 </beans>

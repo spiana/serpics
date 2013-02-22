@@ -2,6 +2,7 @@ package com.serpics.membership.test;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,13 @@ public class UserFactoryTest {
 	@Autowired
 	CommerceEngine c;
 
+	@Before
+	public void init() {
+		b.initIstance();
+	}
+
 	@Test
 	public void test() throws SerpicsException {
-		b.initIstance();
 
 		CommerceSessionContext ctx = c.connect("default-store");
 		assertNotNull(ctx);

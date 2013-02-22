@@ -1,7 +1,8 @@
 package com.serpics.membership.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,10 @@ import com.serpics.base.services.BaseService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
-import com.serpics.membership.services.MembershipService;
 
 @ContextConfiguration({ "classpath:resources/applicationContext.xml" })
 @Transactional
-@TransactionConfiguration(defaultRollback=false)
+@TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BaseServiceTest {
 
@@ -26,11 +26,16 @@ public class BaseServiceTest {
 	BaseService b;
 	@Autowired
 	CommerceEngine ce;
-	
+
+	@Before
+	public void init() {
+		b.initIstance();
+	}
+
 	@Test
-	public void test() throws SerpicsException{
-		 b.initIstance();
-		CommerceSessionContext context =  ce.connect("default-store");
+	public void test() throws SerpicsException {
+
+		CommerceSessionContext context = ce.connect("default-store");
 		assertNotNull(context);
 	}
 }

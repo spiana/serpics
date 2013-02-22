@@ -54,7 +54,6 @@ public class CatalogServiceTest {
 		catalog = catalogService.createCatalog(catalog);
 		context.setCatalogId(catalog.getCatalogId());
 		List<Catalog> l = catalogRepository.findAll();
-		catalogRepository.delete(catalog);
 
 		Assert.assertEquals(1, l.size());
 

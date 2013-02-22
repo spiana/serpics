@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,14 @@ public class MembershipTestCase {
 	@Autowired
 	CommerceEngine ce;
 
+	@Before
+	public void init() {
+		b.initIstance();
+	}
+
 	@Test
 	public void test() throws SerpicsException {
-		b.initIstance();
+
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		assertNotNull("not connect with context !", context);
 		context = ce.connect(context, "superuser", "admin".toCharArray());
