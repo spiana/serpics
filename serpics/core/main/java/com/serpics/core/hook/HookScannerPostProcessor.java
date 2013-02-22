@@ -1,5 +1,6 @@
 package com.serpics.core.hook;
 
+import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -13,9 +14,9 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 
-import com.impetus.annovention.ClasspathDiscoverer;
 import com.impetus.annovention.Discoverer;
 import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
+import com.serpics.core.ClasspathDiscoverer;
 
 public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
@@ -31,8 +32,6 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 
 			if (clazz.equals(hookClass) || clazz.equals(hookImplClass))
 				return;
-			// logger.info("Discovered Class(" + clazz + ") " +
-			// "with Annotation(" + annotation + ")");
 
 			if (annotation.equals(hookClass)) {
 
@@ -116,7 +115,15 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 
 	private void doHookScan() {
 
+		logger.info("start scanning !");
 		Discoverer discoverer = new ClasspathDiscoverer();
+		logger.info("discoveder {} URL", discoverer.findResources().length);
+		if (logger.isDebugEnabled()) {
+			for (URL url : discoverer.findResources()) {
+				logger.info("found URL [{}]", url.getPath());
+			}
+		}
+
 		discoverer.addAnnotationListener(new SerpicsClassAnnotationListener() {
 
 			@Override
@@ -147,6 +154,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+
 		doHookScan();
 
 		for (String hook : hookInterfaceMap.keySet()) {
@@ -177,7 +185,6 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		// TODO Auto-generated method stub
 
 	}
 
