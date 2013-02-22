@@ -21,7 +21,9 @@ public class StoreScopeContextHolder {
 		String storeRealm = currentStoreRealm.get();
 		if (storeRealm == null) {
 			storeRealm = DEFAULT_STORE_REALM;
+			currentStoreRealm.set(storeRealm);
 		}
+
 		CommerceScopeAttributes scopeAttribute = storeScope.get(storeRealm);
 		if (scopeAttribute == null) {
 			scopeAttribute = new CommerceScopeAttributes();
@@ -39,5 +41,9 @@ public class StoreScopeContextHolder {
 
 	public static void setCurrentStoreRealm(String storeRealm) {
 		currentStoreRealm.set(storeRealm);
+	}
+
+	public static String getCurrentStoreRealm() {
+		return currentStoreRealm.get();
 	}
 }

@@ -8,12 +8,11 @@ import org.junit.Test;
 
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.security.UserPrincipal;
 import com.serpics.core.session.CommerceSessionContext;
-import com.serpics.core.test.AbstractTest;
-import com.serpics.membership.hooks.MembershipHook;
-import com.serpics.membership.persistence.Store;
+import com.serpics.stereotype.SerpicsTest;
+import com.serpics.test.AbstractTest;
 
+@SerpicsTest("test-store")
 public class HookTest extends AbstractTest {
 
 	@Resource
@@ -25,23 +24,30 @@ public class HookTest extends AbstractTest {
 		super.init();
 	}
 
-
 	@Test
 	public void test() throws SerpicsException {
-		baseService.createStore("test-store");
 		TestHook testHook;
 
-		CommerceSessionContext context = commerceEngine.connect("default-store");
-
-		testHook = (TestHook) commerceEngine.getApplicationContext().getBean("test");		
-		Assert.assertEquals(testHook.getClass(), TestHookImpl.class);
-
-
-		context = commerceEngine.connect("test-store");
-		testHook = (TestHook) commerceEngine.getApplicationContext().getBean("test");		
+		testHook = (TestHook) commerceEngine.getApplicationContext().getBean("test");
 		Assert.assertEquals(testHook.getClass(), AlternativeTestHookImpl.class);
 
+		baseService.createStore("test-store");
+		baseService.createStore("test-1-store");
+		/*
+		 * CommerceSessionContext context =
+		 * commerceEngine.connect("default-store");
+		 * 
+		 * testHook = (TestHook)
+		 * commerceEngine.getApplicationContext().getBean("test");
+		 * Assert.assertEquals(testHook.getClass(), TestHookImpl.class);
+		 */
+		CommerceSessionContext context = context = commerceEngine.connect("test-store");
+		testHook = (TestHook) commerceEngine.getApplicationContext().getBean("test");
+		Assert.assertEquals(testHook.getClass(), AlternativeTestHookImpl.class);
 
+		context = commerceEngine.connect("test-1-store");
+		testHook = (TestHook) commerceEngine.getApplicationContext().getBean("test");
+		Assert.assertEquals(testHook.getClass(), TestHookImpl.class);
 
 	}
 }

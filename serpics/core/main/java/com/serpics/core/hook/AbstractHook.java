@@ -2,17 +2,15 @@ package com.serpics.core.hook;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Set;
 
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
+import javax.annotation.Resource;
 
 import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
 
 public abstract class AbstractHook {
 
+	@Resource
 	protected CommerceSessionContext sessionContext;
 
 	public CommerceSessionContext getSessionContext() {
@@ -41,6 +39,5 @@ public abstract class AbstractHook {
 		} catch (NoSuchMethodException e) {
 		}
 	}
-
 
 }

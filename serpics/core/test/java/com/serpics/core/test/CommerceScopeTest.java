@@ -21,18 +21,18 @@ import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.services.MembershipService;
+import com.serpics.stereotype.SerpicsTest;
+import com.serpics.test.AbstractTest;
 
 @ContextConfiguration({ "classpath:resources/applicationContext.xml" })
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class CommerceScopeTest {
+@SerpicsTest("test-store")
+public class CommerceScopeTest extends AbstractTest {
 
 	@Resource
 	BaseService baseService;
-
-	@Autowired
-	MembershipService m;
 
 	@Autowired
 	CommerceEngine ce;
@@ -40,9 +40,10 @@ public class CommerceScopeTest {
 	@Resource(name = "sessionContext")
 	CommerceSessionContext commerceSessionContext;
 
+	@Override
 	@Before
 	public void init() throws SerpicsException {
-		baseService.initIstance();
+		super.init();
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		registerTestUser(context);
 		Assert.assertEquals(context, ce.getApplicationContext().getBean("sessionContext"));
@@ -72,6 +73,7 @@ public class CommerceScopeTest {
 	}
 
 	private void registerTestUser(CommerceSessionContext context) {
+		MembershipService m = ce.getApplicationContext().getBean(MembershipService.class);
 
 		User u = new User();
 		u.setLastname("test");

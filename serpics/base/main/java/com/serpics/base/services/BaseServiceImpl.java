@@ -3,6 +3,7 @@ package com.serpics.base.services;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import com.serpics.membership.repositories.UserRepository;
 import com.serpics.membership.services.MembershipService;
 
 @Service("baseService")
+@Lazy(true)
 public class BaseServiceImpl extends AbstractService implements BaseService {
 	@Autowired
 	UserRepository memberFactory;

@@ -47,6 +47,9 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 	@Resource
 	private UserRegrepository userRegRepository;
 
+	@Resource
+	private MembershipHook membershipHook;
+
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public User createUser(User user) {
@@ -110,8 +113,8 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public UserPrincipal login(String username, char[] password) throws SerpicsException {
-		MembershipHook mh = (MembershipHook) getHook("membershipHook");
-		return mh.login((Store) getCurrentContext().getStoreRealm(), username, password);
+
+		return membershipHook.login((Store) getCurrentContext().getStoreRealm(), username, password);
 	}
 
 	@Override

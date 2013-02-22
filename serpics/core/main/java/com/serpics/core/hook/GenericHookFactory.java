@@ -10,23 +10,24 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.serpics.core.AbstractAutowiringFactoryBean;
 import com.serpics.core.CommerceEngine;
+import com.serpics.core.scope.StoreScopeContextHolder;
 
-public class GenericHookFactory<T> extends AbstractAutowiringFactoryBean<T> implements InitializingBean{
-	
+public class GenericHookFactory<T> extends AbstractAutowiringFactoryBean<T> implements InitializingBean {
+
 	static final Logger logger = LoggerFactory.getLogger("GenericHookFactory");
-	
+
 	@Resource
 	CommerceEngine commerceEngine;
-	
-	Map <String, Class<?>> hookImpls;
-	
+
+	Map<String, Class<?>> hookImpls;
+
 	@Resource
 	HookScannerPostProcessor hookScannerPostProcessor;
-	
+
 	Class<?> objectType;
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public GenericHookFactory(Class<?> objectType, Map hookImpls){
+	public GenericHookFactory(Class<?> objectType, Map hookImpls) {
 		this.objectType = objectType;
 		this.hookImpls = hookImpls;
 	}
@@ -34,26 +35,32 @@ public class GenericHookFactory<T> extends AbstractAutowiringFactoryBean<T> impl
 	@Override
 	protected T doCreateInstance() {
 		T hook = createHookInstance();
-		((AbstractHook) hook).setSessionContext(commerceEngine.getCurrentContext());
+		// ((AbstractHook)
+		// hook).setSessionContext(commerceEngine.getCurrentContext());
 		return hook;
 	}
 
-	public T createHookInstance(){
+	public T createHookInstance() {
 		T ref = null;
-		final String store = commerceEngine.getCurrentContext().getStoreRealm().getName();
+
+		final String store = StoreScopeContextHolder.getCurrentStoreRealm();
 		Class<?> impl = hookImpls.get(store);
-		try{
+		// if not found specific implementation use default
+		if (impl == null)
+			impl = hookImpls.get("default-store");
+
+		try {
 			ref = (T) impl.newInstance();
-		} catch (Exception e){
+		} catch (Exception e) {
 			logger.error("error", e);
-		};
+		}
+		;
 		return ref;
 	}
-	
+
 	@Override
-	public Class<?> getObjectType() {				
+	public Class<?> getObjectType() {
 		return objectType;
 	}
-	
 
 }
