@@ -2,29 +2,20 @@ package com.serpics.core.hook;
 
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.serpics.core.AbstractAutowiringFactoryBean;
-import com.serpics.core.CommerceEngine;
 import com.serpics.core.scope.StoreScopeContextHolder;
 
 public class GenericHookFactory<T> extends AbstractAutowiringFactoryBean<T> implements InitializingBean {
 
 	static final Logger logger = LoggerFactory.getLogger("GenericHookFactory");
 
-	@Resource
-	CommerceEngine commerceEngine;
+	private final Map<String, Class<?>> hookImpls;
 
-	Map<String, Class<?>> hookImpls;
-
-	@Resource
-	HookScannerPostProcessor hookScannerPostProcessor;
-
-	Class<?> objectType;
+	private final Class<?> objectType;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public GenericHookFactory(Class<?> objectType, Map hookImpls) {

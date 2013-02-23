@@ -28,7 +28,7 @@ import com.serpics.test.AbstractTest;
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
-@SerpicsTest("test-store")
+@SerpicsTest("default-store")
 public class CommerceScopeTest extends AbstractTest {
 
 	@Resource
@@ -44,9 +44,6 @@ public class CommerceScopeTest extends AbstractTest {
 	@Before
 	public void init() throws SerpicsException {
 		super.init();
-		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
-		registerTestUser(context);
-		Assert.assertEquals(context, ce.getApplicationContext().getBean("sessionContext"));
 
 	}
 
@@ -57,6 +54,10 @@ public class CommerceScopeTest extends AbstractTest {
 	@Test
 	public void test() throws SerpicsException {
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
+		registerTestUser(context);
+		Assert.assertEquals(context, ce.getApplicationContext().getBean("sessionContext"));
+
+		context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		TestScopebean b = (TestScopebean) ce.getApplicationContext().getBean("testScope");
 		Assert.assertEquals(context, getContext());
 

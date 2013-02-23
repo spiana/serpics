@@ -1,4 +1,4 @@
-package com.serpics.core.hook;
+package com.serpics.stereotype;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

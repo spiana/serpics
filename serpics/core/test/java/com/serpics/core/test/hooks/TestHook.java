@@ -1,6 +1,6 @@
 package com.serpics.core.test.hooks;
 
-import com.serpics.core.hook.Hook;
+import com.serpics.stereotype.Hook;
 
 @Hook("test")
 public interface TestHook {

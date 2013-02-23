@@ -1,9 +1,9 @@
 package com.serpics.membership.hooks;
 
 import com.serpics.core.SerpicsException;
-import com.serpics.core.hook.Hook;
 import com.serpics.core.security.UserPrincipal;
 import com.serpics.membership.persistence.Store;
+import com.serpics.stereotype.Hook;
 
 @Hook("membership")
 public interface MembershipHook {

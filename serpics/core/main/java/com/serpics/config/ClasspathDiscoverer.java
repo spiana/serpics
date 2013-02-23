@@ -1,4 +1,4 @@
-package com.serpics.core;
+package com.serpics.config;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;

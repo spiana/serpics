@@ -1,4 +1,4 @@
-package com.serpics.core.hook;
+package com.serpics.stereotype;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,5 +9,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HookImplementation {
 	String value();
+
 	String store() default "default-store";
+
+	boolean override() default false;
 }
