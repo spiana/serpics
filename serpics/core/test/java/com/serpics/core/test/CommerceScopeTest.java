@@ -3,7 +3,6 @@ package com.serpics.core.test;
 import javax.annotation.Resource;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +21,13 @@ import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.services.MembershipService;
 import com.serpics.stereotype.SerpicsTest;
-import com.serpics.test.AbstractTest;
 
 @ContextConfiguration({ "classpath:resources/applicationContext.xml" })
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 @SerpicsTest("default-store")
-public class CommerceScopeTest extends AbstractTest {
+public class CommerceScopeTest {
 
 	@Resource
 	BaseService baseService;
@@ -40,19 +38,14 @@ public class CommerceScopeTest extends AbstractTest {
 	@Resource(name = "sessionContext")
 	CommerceSessionContext commerceSessionContext;
 
-	@Override
-	@Before
-	public void init() throws SerpicsException {
-		super.init();
-
-	}
-
 	private CommerceSessionContext getContext() {
 		return commerceSessionContext;
 	}
 
 	@Test
+	@Transactional
 	public void test() throws SerpicsException {
+		baseService.initIstance();
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		registerTestUser(context);
 		Assert.assertEquals(context, ce.getApplicationContext().getBean("sessionContext"));
@@ -61,7 +54,7 @@ public class CommerceScopeTest extends AbstractTest {
 		TestScopebean b = (TestScopebean) ce.getApplicationContext().getBean("testScope");
 		Assert.assertEquals(context, getContext());
 
-		CommerceSessionContext context1 = ce.connect("default-store", "test", "password".toCharArray());
+		CommerceSessionContext context1 = ce.connect("default-store", "testscope", "password".toCharArray());
 		TestScopebean b1 = (TestScopebean) ce.getApplicationContext().getBean("testScope");
 		Assert.assertEquals(context1, getContext());
 
@@ -79,7 +72,7 @@ public class CommerceScopeTest extends AbstractTest {
 		User u = new User();
 		u.setLastname("test");
 		UsersReg ur = new UsersReg();
-		ur.setLogonid("test");
+		ur.setLogonid("testscope");
 		ur.setPassword("password");
 		ur.setStatus(UserRegisterType.ACTIVE);
 		PermanentAddress a = new PermanentAddress();

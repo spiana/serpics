@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="target/classes" path="core/main/java"/>
-	<classpathentry kind="src" path="catalog/test/java"/>
-	<classpathentry kind="src" path="commerce/test/java"/>
-	<classpathentry kind="src" path="membership/test/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="catalog/test/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="commerce/test/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="membership/test/java"/>
 	<classpathentry kind="src" path="warehouse/main/java"/>
 	<classpathentry kind="src" path="membership/main/java"/>
 	<classpathentry kind="src" path="commerce/main/java"/>

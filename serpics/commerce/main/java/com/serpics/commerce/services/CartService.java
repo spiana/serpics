@@ -12,28 +12,32 @@ public interface CartService {
 
 	public Cart findSessionCart();
 
-	public void cartUpdate(Orderitem orderitem, Cart cart) throws InventoryNotAvailableException,
+	public void cartDelete();
+
+	public void cartDelete(Cart cart);
+
+	public Cart cartUpdate(Orderitem orderitem, Cart cart) throws InventoryNotAvailableException,
 			ProductNotFoundException;
 
-	public void cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
+	public Cart cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException;
 
-	public void cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
+	public Cart cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
 			ProductNotFoundException;
 
-	public void cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
+	public Cart cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
 			ProductNotFoundException;
 
-	public void cartUpdate(Orderitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException;
+	public Cart cartUpdate(Orderitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException;
 
-	public void cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException,
+	public Cart cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException,
 			ProductNotFoundException;
 
-	public void prepareCart() throws InventoryNotAvailableException, ProductNotFoundException;
+	public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException;
 
-	public void prepareCart(Cart cart) throws InventoryNotAvailableException, ProductNotFoundException;
+	public Cart prepareCart(Cart cart) throws InventoryNotAvailableException, ProductNotFoundException;
 
-	public void prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
+	public Cart prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
 			ProductNotFoundException;
 
 }

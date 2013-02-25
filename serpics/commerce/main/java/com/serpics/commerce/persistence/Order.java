@@ -17,6 +17,10 @@ import javax.persistence.TemporalType;
 @DiscriminatorValue(value = "0")
 public class Order extends AbstractOrder {
 
+	public Order() {
+		super();
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "orderNumber", unique = true, nullable = true, length = 250)

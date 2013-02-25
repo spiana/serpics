@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +40,10 @@ public class CatalogServiceTest {
 	@Resource
 	CatalogRepository catalogRepository;
 
-	@Before
-	public void init() {
-		baseService.initIstance();
-	}
-
 	@Test
+	@Transactional
 	public void test() throws SerpicsException {
+		baseService.initIstance();
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		Catalog catalog = new Catalog();
 		catalog.setName("default-catalog");

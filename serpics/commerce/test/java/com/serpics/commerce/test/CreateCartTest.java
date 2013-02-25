@@ -10,11 +10,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.services.BaseService;
+import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.commerce.persistence.Cart;
 import com.serpics.commerce.persistence.Order;
 import com.serpics.commerce.persistence.Orderitem;
@@ -25,8 +28,11 @@ import com.serpics.commerce.services.OrderService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.test.ExecutionTestListener;
+import com.serpics.warehouse.InventoryNotAvailableException;
 
 @ContextConfiguration({ "classpath:resources/applicationContext.xml" })
+@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,6 +47,9 @@ public class CreateCartTest {
 	@Resource
 	OrderRepository orderRepository;
 
+	@Resource(name = "cartService")
+	CartService cs;
+
 	@Before
 	public void init() {
 		b.initIstance();
@@ -48,10 +57,10 @@ public class CreateCartTest {
 
 	@Test
 	public void test() throws SerpicsException {
+
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		assertNotNull("not connect with context !", context);
 
-		CartService cs = (CartService) ce.getApplicationContext().getBean("cartService");
 		OrderService orderService = ce.getApplicationContext().getBean(OrderService.class);
 
 		Cart cart = cs.createSessionCart();
@@ -65,7 +74,7 @@ public class CreateCartTest {
 		Orderitem o = cart.getOrderitems().iterator().next();
 		assertEquals(10.0, o.getQuantity(), 0);
 		o.setQuantity(11);
-		cs.cartUpdate(o);
+		cs.cartUpdate(o, cart);
 
 		cart = cs.createSessionCart();
 		assertEquals(1, cart.getOrderitems().size());
@@ -80,16 +89,22 @@ public class CreateCartTest {
 		assertEquals(21.0, o.getQuantity(), 0);
 		assertEquals(100, o.getSkuPrice(), 0);
 		cs.cartAdd("product", 10.0, false);
+		cart = cs.createSessionCart();
 		assertEquals(2, cart.getOrderitems().size());
 		cs.cartAdd("product1", 10.0, true);
+		cart = cs.createSessionCart();
 		assertEquals(3, cart.getOrderitems().size());
 
 		Order or = orderService.createOrder(cart);
 		assertNotNull("order not create", or);
-
 		assertEquals(0, cartRepository.findAll().size());
-
 		assertEquals(1, orderRepository.findAll().size());
+	}
 
+	@Test
+	public void cartDelete() throws InventoryNotAvailableException, ProductNotFoundException {
+		Cart cart = cs.createSessionCart();
+		cart = cs.cartAdd("product", 1, false);
+		cs.cartDelete(cart);
 	}
 }

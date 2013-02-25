@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.persistence.Cart;
 import com.serpics.commerce.persistence.Order;
-import com.serpics.commerce.persistence.Orderitem;
 import com.serpics.commerce.repositories.CartRepository;
 import com.serpics.commerce.repositories.OrderRepository;
 import com.serpics.core.service.AbstractService;
@@ -23,30 +22,38 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 	@Resource
 	OrderRepository orderRepository;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.serpics.commerce.services.OrderService#createOrder(com.serpics.commerce
+	 * .persistence.Cart)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Order createOrder(Cart cart) {
 
-		Order order = new Order();
-		order.setBillingAddress(cart.getBillingAddress());
-		order.setCookie(cart.getCookie());
-		order.setCurrency(cart.getCurrency());
-		order.setCustomerId(cart.getCustomerId());
-		order.setDiscountAmount(cart.getDiscountAmount());
-		order.setDiscountPerc(cart.getDiscountPerc());
-		order.setOrderitems(cart.getOrderitems());
-		order.setOrdersAttributes(cart.getOrdersAttributes());
-		order.setShipmode(cart.getShipmode());
-		order.setShippingAddress(cart.getShippingAddress());
-		order.setStoreId(cart.getStoreId());
-		order.setSuborders(cart.getSuborders());
-		order.setUserId(cart.getUserId());
-		for (Orderitem item : order.getOrderitems()) {
-			item.setOrder(order);
-		}
-		cartRepository.delete(cart);
+		return orderRepository.createOrderFromcart(cart);
 
-		return orderRepository.saveAndFlush(order);
-
+		//
+		// Order order = new Order(); order.setStatus("P");
+		// order.setBillingAddress(cart.getBillingAddress());
+		// order.setCookie(cart.getCookie());
+		// order.setCurrency(cart.getCurrency());
+		// order.setCustomerId(cart.getCustomerId());
+		// order.setDiscountAmount(cart.getDiscountAmount());
+		// order.setDiscountPerc(cart.getDiscountPerc());
+		// order.setOrderitems(cart.getOrderitems());
+		// order.setOrdersAttributes(cart.getOrdersAttributes());
+		// order.setShipmode(cart.getShipmode());
+		// order.setShippingAddress(cart.getShippingAddress());
+		// order.setStoreId(cart.getStoreId());
+		// order.setSuborders(cart.getSuborders());
+		// order.setUserId(cart.getUserId()); for (Orderitem item :
+		// order.getOrderitems()) { item.setOrder(order); } //
+		// cartRepository.delete(cart);
+		//
+		// return orderRepository.saveAndFlush(order);
+		//
 	}
 }

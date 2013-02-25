@@ -70,7 +70,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
 
 	@Override
 	@Transactional
-	public void cartUpdate(Orderitem orderitem, Cart cart) throws InventoryNotAvailableException,
+	public Cart cartUpdate(Orderitem orderitem, Cart cart) throws InventoryNotAvailableException,
 			ProductNotFoundException {
 		Product product = productHook.resolveSKU(orderitem.getSku());
 
@@ -83,13 +83,13 @@ public class CartServiceImpl extends AbstractService implements CartService {
 
 		commerceHook.calculateShipping(orderitem);
 
-		cartRepository.saveAndFlush(cart);
+		return cartRepository.saveAndFlush(cart);
 
 	}
 
 	@Override
 	@Transactional
-	public void cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
+	public Cart cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 
 		Orderitem orderitem = new Orderitem();
@@ -115,22 +115,22 @@ public class CartServiceImpl extends AbstractService implements CartService {
 
 		commerceHook.calculateShipping(orderitem);
 
-		cartRepository.saveAndFlush(cart);
+		return cartRepository.saveAndFlush(cart);
 	}
 
 	@Override
 	@Transactional
-	public void cartUpdate(Orderitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException {
+	public Cart cartUpdate(Orderitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException {
 		Cart cart = createSessionCart();
-		cartUpdate(orderitem, cart);
+		return cartUpdate(orderitem, cart);
 	}
 
 	@Override
 	@Transactional
-	public void cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException,
+	public Cart cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException,
 			ProductNotFoundException {
 		Cart cart = createSessionCart();
-		cartAdd(product, quantity, cart, merge);
+		return cartAdd(product, quantity, cart, merge);
 	}
 
 	private Orderitem mergeCart(Cart cart, Orderitem orderitem) {
@@ -151,38 +151,38 @@ public class CartServiceImpl extends AbstractService implements CartService {
 
 	@Override
 	@Transactional
-	public void cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
+	public Cart cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
 			ProductNotFoundException {
 		Product product = productHook.resolveSKU(sku);
-		this.cartAdd(product, quantity, merge);
+		return cartAdd(product, quantity, merge);
 	}
 
 	@Override
 	@Transactional
-	public void cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
+	public Cart cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
 			ProductNotFoundException {
 		Cart cart = createSessionCart();
-		cartAdd(sku, quantity, cart, merge);
+		return cartAdd(sku, quantity, cart, merge);
 
 	}
 
 	@Override
-	public void prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
+	public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
 		Cart cart = findSessionCart();
 		Assert.notNull(cart);
 
-		prepareCart(cart);
+		return prepareCart(cart);
 	}
 
 	@Override
 	@Transactional
-	public void prepareCart(Cart cart) throws InventoryNotAvailableException, ProductNotFoundException {
-		prepareCart(cart, false);
+	public Cart prepareCart(Cart cart) throws InventoryNotAvailableException, ProductNotFoundException {
+		return prepareCart(cart, false);
 	}
 
 	@Override
 	@Transactional
-	public void prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
+	public Cart prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
 			ProductNotFoundException {
 
 		cart.setOrderAmount(new BigDecimal(0));
@@ -210,7 +210,21 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		commerceHook.calculateTax(cart);
 		commerceHook.calculateOrderTotale(cart);
 
-		cartRepository.saveAndFlush(cart);
+		return cartRepository.saveAndFlush(cart);
 	}
 
+	@Override
+	@Transactional
+	public void cartDelete() {
+		Cart cart = findSessionCart();
+		cartDelete(cart);
+
+	}
+
+	@Override
+	@Transactional
+	public void cartDelete(Cart cart) {
+		cartRepository.delete(cart);
+
+	}
 }

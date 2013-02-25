@@ -9,6 +9,10 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "1")
 public class Cart extends AbstractOrder {
 
+	public Cart() {
+		super();
+	}
+
 	public Cart(Long user_id, Long store_id, String userCookie) {
 
 		this.userId = this.customerId = user_id;
