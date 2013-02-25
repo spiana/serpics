@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.serpics.base.persistence.Currency;
 import com.serpics.catalog.persistence.AbstractProduct;
 
 @Entity
@@ -25,8 +27,9 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 	@Column(name = "orderitems_id", unique = true, nullable = false)
 	private Long orderitemsId;
 
-	@Column(length = 3)
-	private String currency;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "currency_id")
+	private Currency currency;
 
 	@Column(name = "store_id", nullable = false)
 	private Long storeId;
@@ -95,10 +98,9 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 	public Orderitem() {
 	}
 
-	public Orderitem(String sku, String sku_description, double quantity, Double price, String currency) {
+	public Orderitem(String sku, String sku_description, double quantity, Double price) {
 		this.sku = sku;
 		this.skuDescription = sku_description;
-		this.currency = currency;
 		this.quantity = quantity;
 		this.skuCost = this.skuNetPrice = this.skuPrice = price;
 		this.status = AbstractOrder.PENDING;
@@ -118,14 +120,6 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	public void setStoreId(Long storeId) {
 		this.storeId = storeId;
-	}
-
-	public String getCurrency() {
-		return this.currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
 	}
 
 	public Long getCustomerId() {
@@ -266,6 +260,14 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	public void setShippingCost(Double shippingCost) {
 		this.shippingCost = shippingCost;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 
 }

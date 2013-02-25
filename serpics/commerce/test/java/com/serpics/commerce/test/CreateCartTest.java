@@ -81,7 +81,7 @@ public class CreateCartTest {
 		o = cart.getOrderitems().iterator().next();
 		assertEquals(11.0, o.getQuantity(), 0);
 
-		Orderitem o1 = new Orderitem("p", "prova", 10, new Double(200), "EUR");
+		Orderitem o1 = new Orderitem("p", "prova", 10, new Double(200));
 		cs.cartAdd("product", 10.0, true);
 		cart = cs.createSessionCart();
 		assertEquals(1, cart.getOrderitems().size());

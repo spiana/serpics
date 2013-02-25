@@ -25,6 +25,7 @@ import com.serpics.commerce.repositories.CartRepository;
 import com.serpics.commerce.repositories.OrderItemRepository;
 import com.serpics.core.security.UserPrincipal;
 import com.serpics.core.service.AbstractService;
+import com.serpics.membership.persistence.Store;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 @Service("cartService")
@@ -55,9 +56,11 @@ public class CartServiceImpl extends AbstractService implements CartService {
 	public Cart createSessionCart() {
 		Cart cart = cartRepository.findByCookie(getCurrentContext().getUserCookie());
 		if (cart == null) {
+
 			cart = new Cart(getCurrentContext().getUserPrincipal().getUserId(), getCurrentContext().getStoreId(),
 					getCurrentContext().getUserCookie());
-			cart.setCurrency("EUR");
+
+			cart.setCurrency(((Store) getCurrentContext().getStoreRealm()).getCurrency());
 			cartRepository.saveAndFlush(cart);
 		}
 		return cart;

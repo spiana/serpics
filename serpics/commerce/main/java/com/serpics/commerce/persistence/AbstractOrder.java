@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.serpics.base.persistence.Currency;
 import com.serpics.membership.persistence.AbstractAddress;
 
 /**
@@ -46,8 +47,9 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 	@Column(name = "cookie", length = 250, unique = false, nullable = false)
 	protected String cookie;
 
-	@Column(nullable = false, length = 3)
-	protected String currency;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "currency_id")
+	private Currency currency;
 
 	@Column(name = "customer_id", nullable = false)
 	protected Long customerId;
@@ -118,11 +120,11 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 		this.ordersId = ordersId;
 	}
 
-	public String getCurrency() {
-		return this.currency;
+	public Currency getCurrency() {
+		return currency;
 	}
 
-	public void setCurrency(String currency) {
+	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
 
