@@ -9,11 +9,14 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.serpics.base.persistence.Currency;
 import com.serpics.core.datatype.MemberType;
 import com.serpics.core.security.StoreRealm;
 
@@ -27,15 +30,12 @@ import com.serpics.core.security.StoreRealm;
 public class Store extends Member implements Serializable, StoreRealm {
 	private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false, length = 250, unique = true)
+	@Column(nullable = false, length = 250, unique = false)
 	private String name;
 
-	private int storeype;
-
-	private int traceable;
-
-	@Column(length = 200)
-	private String webcontext;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "currency_id")
+	private Currency currency;
 
 	// bi-directional many-to-one association to Membergroup
 
@@ -53,30 +53,6 @@ public class Store extends Member implements Serializable, StoreRealm {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getStoreype() {
-		return this.storeype;
-	}
-
-	public void setStoreype(int storeype) {
-		this.storeype = storeype;
-	}
-
-	public int getTraceable() {
-		return this.traceable;
-	}
-
-	public void setTraceable(int traceable) {
-		this.traceable = traceable;
-	}
-
-	public String getWebcontext() {
-		return this.webcontext;
-	}
-
-	public void setWebcontext(String webcontext) {
-		this.webcontext = webcontext;
 	}
 
 	public Set<Membergroup> getMembergroups() {
@@ -111,6 +87,14 @@ public class Store extends Member implements Serializable, StoreRealm {
 	@Override
 	public Long getStoreId() {
 		return getMemberId();
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 
 }

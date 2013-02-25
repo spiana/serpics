@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.persistence.Currency;
+import com.serpics.base.repositories.CurrencyRepository;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.MemberType;
@@ -28,6 +30,9 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 	@Autowired
 	StoreRepository storeFactory;
 
+	@Resource
+	CurrencyRepository currencyRepository;
+
 	@Autowired
 	MembershipService m;
 
@@ -39,9 +44,16 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 	public void initIstance() {
 		if (isInitialized())
 			return;
+
+		Currency currency = new Currency();
+		currency.setIsoCode("EUR");
+		currency.setDescriprion("Euro");
+		currency = currencyRepository.saveAndFlush(currency);
+
 		Store s = new Store();
 		s.setUuid("default-store");
 		s.setName("default-store");
+		s.setCurrency(currency);
 		s = m.createStore(s);
 		User anonymous = new User();
 		anonymous.setMemberType(MemberType.USER);

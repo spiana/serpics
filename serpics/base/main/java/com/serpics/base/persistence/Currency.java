@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "currency")
-public class Currency implements Serializable {
+public class Currency extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,7 +26,7 @@ public class Currency implements Serializable {
 	@Column(length = 1000)
 	private String descriprion;
 
-	@Column(name = "iso_code", nullable = false, length = 3, unique = true)
+	@Column(name = "iso_code", nullable = false, length = 3)
 	private String isoCode;
 
 	public Currency() {
