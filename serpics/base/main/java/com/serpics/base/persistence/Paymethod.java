@@ -1,40 +1,46 @@
 package com.serpics.base.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the paymethod database table.
  * 
  */
 @Entity
-@Table(name="paymethod")
+@Table(name = "paymethod")
 public class Paymethod implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="paymethod_id", unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "paymethod_id", unique = true, nullable = false)
 	private Long paymethodId;
 
-	@Column(length=1000)
+	@Column(length = 1000)
 	private String description;
 
-	@Column(nullable=false, length=100)
+	@Column(nullable = false, length = 100)
 	private String name;
 
-	//bi-directional many-to-one association to Paymethlookup
-	@OneToMany(mappedBy="paymethod")
+	// bi-directional many-to-one association to Paymethlookup
+	@OneToMany(mappedBy = "paymethod")
 	private Set<Paymethlookup> paymethlookups;
 
-	//bi-directional many-to-one association to PaymethodDescr
-	@OneToMany(mappedBy="paymethod")
+	// bi-directional many-to-one association to PaymethodDescr
+	@OneToMany(mappedBy = "paymethod")
 	private Set<PaymethodDescr> paymethodDescrs;
 
-    public Paymethod() {
-    }
+	public Paymethod() {
+	}
 
 	public Long getPaymethodId() {
 		return this.paymethodId;
@@ -67,7 +73,7 @@ public class Paymethod implements Serializable {
 	public void setPaymethlookups(Set<Paymethlookup> paymethlookups) {
 		this.paymethlookups = paymethlookups;
 	}
-	
+
 	public Set<PaymethodDescr> getPaymethodDescrs() {
 		return this.paymethodDescrs;
 	}
@@ -75,5 +81,5 @@ public class Paymethod implements Serializable {
 	public void setPaymethodDescrs(Set<PaymethodDescr> paymethodDescrs) {
 		this.paymethodDescrs = paymethodDescrs;
 	}
-	
+
 }

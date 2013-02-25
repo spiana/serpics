@@ -1,37 +1,43 @@
 package com.serpics.base.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the geocode database table.
  * 
  */
 @Entity
-@Table(name="geocode" )
+@Table(name = "geocode")
 public class Geocode implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="geocode_id", unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "geocode_id", unique = true, nullable = false)
 	private Long geocodeId;
 
-	@Column(nullable=false, length=100)
+	@Column(nullable = false, length = 100)
 	private String name;
 
-	//bi-directional many-to-one association to Country
-	@OneToMany(mappedBy="geocode")
+	// bi-directional many-to-one association to Country
+	@OneToMany(mappedBy = "geocode")
 	private Set<Country> countries;
 
-	//bi-directional many-to-one association to GeocodeDescr
-	@OneToMany(mappedBy="geocode")
+	// bi-directional many-to-one association to GeocodeDescr
+	@OneToMany(mappedBy = "geocode")
 	private Set<GeocodeDescr> geocodeDescrs;
 
-    public Geocode() {
-    }
+	public Geocode() {
+	}
 
 	public Long getGeocodeId() {
 		return this.geocodeId;
@@ -56,7 +62,7 @@ public class Geocode implements Serializable {
 	public void setCountries(Set<Country> countries) {
 		this.countries = countries;
 	}
-	
+
 	public Set<GeocodeDescr> getGeocodeDescrs() {
 		return this.geocodeDescrs;
 	}
@@ -64,5 +70,5 @@ public class Geocode implements Serializable {
 	public void setGeocodeDescrs(Set<GeocodeDescr> geocodeDescrs) {
 		this.geocodeDescrs = geocodeDescrs;
 	}
-	
+
 }

@@ -1,31 +1,36 @@
 package com.serpics.base.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the currency database table.
  * 
  */
 @Entity
-@Table(name="currency" )
+@Table(name = "currency")
 public class Currency implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="currency_id", unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "currency_id", unique = true, nullable = false)
 	private Long currencyId;
 
-	@Column(length=1000)
+	@Column(length = 1000)
 	private String descriprion;
 
-	@Column(name="iso_code", nullable=false, length=3)
+	@Column(name = "iso_code", nullable = false, length = 3, unique = true)
 	private String isoCode;
 
-    public Currency() {
-    }
+	public Currency() {
+	}
 
 	public Long getCurrencyId() {
 		return this.currencyId;
