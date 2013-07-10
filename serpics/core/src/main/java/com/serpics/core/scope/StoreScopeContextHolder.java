@@ -9,13 +9,13 @@ public class StoreScopeContextHolder {
 
 	private static final ThreadLocal<String> currentStoreRealm = new ThreadLocal<String>();
 
-	private static final Map<ClassLoader, StoreScopeAttribute> currentContextPerThread = new ConcurrentHashMap<ClassLoader, StoreScopeAttribute>(
+	private static final Map<ClassLoader, StoreScopeMap> currentContextPerThread = new ConcurrentHashMap<ClassLoader, StoreScopeMap>(
 			100);
 
-	public static CommerceScopeAttributes getCommerceScopeAttributes() {
-		StoreScopeAttribute storeScope = currentContextPerThread.get(Thread.currentThread().getContextClassLoader());
+	public static StoreScopeAttributes getCommerceScopeAttributes() {
+		StoreScopeMap storeScope = currentContextPerThread.get(Thread.currentThread().getContextClassLoader());
 		if (storeScope == null) {
-			storeScope = new StoreScopeAttribute();
+			storeScope = new StoreScopeMap();
 			setStoreScopeAttributes(storeScope);
 		}
 		String storeRealm = currentStoreRealm.get();
@@ -24,9 +24,9 @@ public class StoreScopeContextHolder {
 			currentStoreRealm.set(storeRealm);
 		}
 
-		CommerceScopeAttributes scopeAttribute = storeScope.get(storeRealm);
+		StoreScopeAttributes scopeAttribute = storeScope.get(storeRealm);
 		if (scopeAttribute == null) {
-			scopeAttribute = new CommerceScopeAttributes();
+			scopeAttribute = new StoreScopeAttributes();
 			scopeAttribute.setConversationId(storeRealm);
 			storeScope.put(storeRealm, scopeAttribute);
 		}
@@ -35,7 +35,7 @@ public class StoreScopeContextHolder {
 
 	}
 
-	public static void setStoreScopeAttributes(StoreScopeAttribute storeScopeAttributes) {
+	public static void setStoreScopeAttributes(StoreScopeMap storeScopeAttributes) {
 		currentContextPerThread.put(Thread.currentThread().getContextClassLoader(), storeScopeAttributes);
 	}
 

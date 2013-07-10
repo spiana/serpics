@@ -100,7 +100,7 @@ public class ContextSessionManager implements SessionManager, InitializingBean, 
 		context.setLastAccess(new Date());
 		context.setCommerceScopeAttribute(commerceScopeAttributes);
 		sessionList.put(sessionId, context);
-		logger.info("create new session with if [{}]", sessionId);
+		logger.info("create new session with id [{}]", sessionId);
 		return context;
 	}
 

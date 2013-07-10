@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/classes" path="core/main/java"/>
-	<classpathentry kind="src" output="target/test-classes" path="catalog/test/java"/>
-	<classpathentry kind="src" output="target/test-classes" path="commerce/test/java"/>
-	<classpathentry kind="src" output="target/test-classes" path="membership/test/java"/>
-	<classpathentry kind="src" path="warehouse/main/java"/>
-	<classpathentry kind="src" path="membership/main/java"/>
-	<classpathentry kind="src" path="commerce/main/java"/>
-	<classpathentry kind="src" path="catalog/main/java"/>
-	<classpathentry kind="src" path="base/main/java"/>
-	<classpathentry kind="src" output="target/test-classes" path="core/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.iam.jdt.core.mavenClasspathContainer"/>
 	<classpathentry kind="src" output="target/classes" path="src/main/java">
 		<attributes>
