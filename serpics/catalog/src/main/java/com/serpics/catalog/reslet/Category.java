@@ -5,17 +5,16 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.catalog.services.CatalogService;
 import com.serpics.core.restlet.AbstractServerResource;
-import com.serpics.membership.services.MembershipService;
 
-public class Category extends AbstractServerResource{
+public class Category extends AbstractServerResource {
 	@Autowired(required = true)
-	MembershipService catalogService;
-	
+	CatalogService catalogService;
+
 	@Get("xml")
-	public Representation rapresentHtml(String sessionId ){
-		
-		
+	public Representation rapresentHtml(String sessionId) {
+
 		return new StringRepresentation("");
 	}
 }

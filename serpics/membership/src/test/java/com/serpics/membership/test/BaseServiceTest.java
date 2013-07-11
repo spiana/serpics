@@ -10,12 +10,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.services.BaseService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.membership.services.BaseService;
 
-@ContextConfiguration({ "classpath:resources/applicationContext.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)

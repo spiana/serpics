@@ -15,7 +15,8 @@ import com.serpics.core.security.UserPrincipal;
 import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
 import com.serpics.core.session.SessionManager;
-import com.serpics.membership.services.MembershipService;
+import com.serpics.core.service.Membership;
+
 
 public class CommerceEngineImpl implements CommerceEngine {
 
@@ -55,7 +56,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 	@Override
 	public CommerceSessionContext connect(String storeUUID) throws SerpicsException {
 		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
-		MembershipService membershipService = beanFactory.getBean(MembershipService.class);
+		Membership membershipService = beanFactory.getBean(Membership.class);
 
 		StoreRealm s = membershipService.fetchStoreByUUID(storeUUID);
 		SessionContext context = getSessionManager().createSessionContext(s);
@@ -71,7 +72,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 	@Override
 	public CommerceSessionContext connect(String storeUUID, String loginId, char[] password) throws SerpicsException {
 		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
-		MembershipService membershipService = beanFactory.getBean(MembershipService.class);
+		Membership membershipService = beanFactory.getBean(Membership.class);
 
 		StoreRealm s = membershipService.fetchStoreByUUID(storeUUID);
 		SessionContext context = getSessionManager().createSessionContext(s);
@@ -91,7 +92,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 		threadLocal.set(context);
 		StoreScopeContextHolder.setCurrentStoreRealm(context.getRealm());
 		CommerceScopeContextHolder.setThreadScopeAttributes(context.getCommerceScopeAttribute());
-		MembershipService membershipService = beanFactory.getBean(MembershipService.class);
+		Membership membershipService = beanFactory.getBean(Membership.class);
 		UserPrincipal user = membershipService.login(loginId, password);
 		context.setUserPrincipal(user);
 		return context;

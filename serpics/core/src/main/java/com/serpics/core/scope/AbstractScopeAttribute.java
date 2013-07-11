@@ -55,7 +55,8 @@ public abstract class AbstractScopeAttribute {
 		for (String name : hRequestDestructionCallbacks.keySet()) {
 			Runnable callback = hRequestDestructionCallbacks.get(name);
 
-			logger.debug("Performing destruction callback for '" + name + "' bean from id :" + conversationId);
+			logger.debug("Performing destruction callback for '" + name + "' bean from conversation id :"
+					+ conversationId);
 			callback.run();
 		}
 

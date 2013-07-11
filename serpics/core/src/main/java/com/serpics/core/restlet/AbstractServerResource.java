@@ -12,6 +12,6 @@ public class AbstractServerResource extends ServerResource {
 	CommerceEngine commerceEngine;
 	
 	protected CommerceSessionContext getSessionContext(String sessionId){
-		return commerceEngine.bind(sessionId);
+	return commerceEngine.bind(sessionId);
 	}
 }

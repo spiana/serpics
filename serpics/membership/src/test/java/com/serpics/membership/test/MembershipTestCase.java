@@ -17,7 +17,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.services.BaseService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.UserRegisterType;
@@ -26,10 +25,11 @@ import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.MembershipService;
 import com.serpics.test.ExecutionTestListener;
 
-@ContextConfiguration({ "classpath:resources/applicationContext.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)

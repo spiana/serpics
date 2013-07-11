@@ -16,7 +16,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.services.BaseService;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.commerce.persistence.Cart;
 import com.serpics.commerce.persistence.Order;
@@ -28,10 +27,11 @@ import com.serpics.commerce.services.OrderService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.membership.services.BaseService;
 import com.serpics.test.ExecutionTestListener;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
-@ContextConfiguration({ "classpath:resources/applicationContext.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
 @Transactional
 @TransactionConfiguration(defaultRollback = true)

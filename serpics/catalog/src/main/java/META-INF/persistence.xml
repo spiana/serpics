@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!--  Catalog -->
+		<class>com.serpics.catalog.persistence.Brand</class>
+		<class>com.serpics.catalog.persistence.Catalog</class>
+		<class>com.serpics.catalog.persistence.Category</class>
+		<class>com.serpics.catalog.persistence.Ctentry</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueDatetime</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueDecimal</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueLong</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueText</class>
+		<class>com.serpics.catalog.persistence.CtentryAttributeValueVarchar</class>
+		<class>com.serpics.catalog.persistence.CtentryAttribute</class>
+		<class>com.serpics.catalog.persistence.CtentryDescr</class>
+		<class>com.serpics.catalog.persistence.CtentryDescrPK</class>
+		<class>com.serpics.catalog.persistence.CtentryRelationPK</class>
+		<class>com.serpics.catalog.persistence.Media</class>
+		<class>com.serpics.catalog.persistence.MediaDescr</class>
+		<class>com.serpics.catalog.persistence.MediaDescrPK</class>
+		<class>com.serpics.catalog.persistence.Pricelist</class>
+		<class>com.serpics.catalog.persistence.PricelistDescr</class>
+		<class>com.serpics.catalog.persistence.PricelistDescrPK</class>
+		<class>com.serpics.catalog.persistence.Price</class>
+		<class>com.serpics.catalog.persistence.Productffmt</class>
+		<class>com.serpics.catalog.persistence.ProductffmtPK</class>
+		<class>com.serpics.catalog.persistence.Product</class>
+		<class>com.serpics.catalog.persistence.CategoryRelation</class>
+		<class>com.serpics.catalog.persistence.CtentryRelation</class>
+		<class>com.serpics.catalog.persistence.CategoryProductRelation</class>
+	</persistence-unit>
+</persistence>	
+		

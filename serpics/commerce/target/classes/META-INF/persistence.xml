@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- Commerce  -->
+		<class>com.serpics.commerce.persistence.Orderitem</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttribute</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueDatetime</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueDecimal</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueLong</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueText</class>
+		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueVarchar</class>
+		<class>com.serpics.commerce.persistence.Orderpayment</class>
+		<class>com.serpics.commerce.persistence.Order</class>
+		<class>com.serpics.commerce.persistence.OrdersAttribute</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueDatetime</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueDecimal</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueLong</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueText</class>
+		<class>com.serpics.commerce.persistence.OrdersAttributeValueVarchar</class>
+		<class>com.serpics.commerce.persistence.Shipmode</class>
+		<class>com.serpics.commerce.persistence.ShipmodeDescr</class>
+		<class>com.serpics.commerce.persistence.ShipmodeDescrPK</class>
+		<class>com.serpics.commerce.persistence.Shipmodelookup</class>
+		<class>com.serpics.commerce.persistence.Shipping</class>
+		<class>com.serpics.commerce.persistence.Suborder</class>
+	</persistence-unit>
+</persistence>	
+		
