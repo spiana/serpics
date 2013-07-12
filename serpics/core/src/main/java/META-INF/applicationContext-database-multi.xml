@@ -27,8 +27,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.spri
  	-->
  		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    	<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-	
-	     	<property name="url" value="jdbc:hsqldb:file:./data/serpics1" />
+	     	<property name="url" value="jdbc:hsqldb:mem:serpics" />
 	    	<property name="username" value="sa" />
 	    	<property name="password" value="" />
 		</bean>         

@@ -1,7 +1,0 @@
-/Users/spiana/git/serpics-sources/serpics/warehouse/src/main/java/com/serpics/warehouse/persistence/Warehouse.java
-/Users/spiana/git/serpics-sources/serpics/warehouse/src/main/java/com/serpics/warehouse/InventoryNotAvailableException.java
-/Users/spiana/git/serpics-sources/serpics/warehouse/src/main/java/com/serpics/warehouse/service/WarehouseService.java
-/Users/spiana/git/serpics-sources/serpics/warehouse/src/main/java/com/serpics/warehouse/persistence/InventoryPK.java
-/Users/spiana/git/serpics-sources/serpics/warehouse/src/main/java/com/serpics/warehouse/persistence/Inventory.java
-/Users/spiana/git/serpics-sources/serpics/warehouse/src/main/java/com/serpics/warehouse/persistence/dao/jpa/WarehouseFactoryImpl.java
-/Users/spiana/git/serpics-sources/serpics/warehouse/src/main/java/com/serpics/warehouse/persistence/dao/WarehouseFactory.java
