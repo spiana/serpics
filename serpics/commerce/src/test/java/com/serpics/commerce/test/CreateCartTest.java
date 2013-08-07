@@ -50,6 +50,9 @@ public class CreateCartTest {
 	@Resource(name = "cartService")
 	CartService cs;
 
+	@Resource
+	OrderService orderService;
+
 	@Before
 	public void init() {
 		b.initIstance();
@@ -60,8 +63,6 @@ public class CreateCartTest {
 
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		assertNotNull("not connect with context !", context);
-
-		OrderService orderService = ce.getApplicationContext().getBean(OrderService.class);
 
 		Cart cart = cs.createSessionCart();
 		assertNotNull(cart);
@@ -94,6 +95,8 @@ public class CreateCartTest {
 		cs.cartAdd("product1", 10.0, true);
 		cart = cs.createSessionCart();
 		assertEquals(3, cart.getOrderitems().size());
+		cs.prepareCart(cart);
+		assertEquals(4100.0, cart.getOrderAmount().doubleValue(), 0.0);
 
 		Order or = orderService.createOrder(cart);
 		assertNotNull("order not create", or);

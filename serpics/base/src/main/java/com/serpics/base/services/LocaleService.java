@@ -6,7 +6,7 @@ import com.serpics.base.persistence.Locale;
 
 
 
-public interface LanguageService {
+public interface LocaleService {
 	
 	public Locale fetchLocaleByLanguage(String locale);
 	public Locale fetchLocaleById(String id);

@@ -18,7 +18,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "catalog")
-public class Catalog extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class Catalog extends com.serpics.core.persistence.jpa.Entity implements com.serpics.core.persistence.Catalog,
+		Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -41,6 +42,7 @@ public class Catalog extends com.serpics.core.persistence.jpa.Entity implements 
 	public Catalog() {
 	}
 
+	@Override
 	public Long getCatalogId() {
 		return this.catalogId;
 	}
@@ -49,6 +51,7 @@ public class Catalog extends com.serpics.core.persistence.jpa.Entity implements 
 		this.catalogId = catalogId;
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -57,6 +60,7 @@ public class Catalog extends com.serpics.core.persistence.jpa.Entity implements 
 		this.name = name;
 	}
 
+	@Override
 	public short getPublished() {
 		return this.published;
 	}

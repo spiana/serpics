@@ -15,7 +15,7 @@ public class StoreScope implements Scope {
 	public Object get(String name, ObjectFactory factory) {
 		Object result = null;
 
-		Map<String, Object> hBeans = StoreScopeContextHolder.getCommerceScopeAttributes().getBeanMap();
+		Map<String, Object> hBeans = StoreScopeContextHolder.getStoreScopeAttributes().getBeanMap();
 
 		if (!hBeans.containsKey(name)) {
 			result = factory.getObject();
@@ -35,7 +35,7 @@ public class StoreScope implements Scope {
 	public Object remove(String name) {
 		Object result = null;
 
-		Map<String, Object> hBeans = StoreScopeContextHolder.getCommerceScopeAttributes().getBeanMap();
+		Map<String, Object> hBeans = StoreScopeContextHolder.getStoreScopeAttributes().getBeanMap();
 
 		if (hBeans.containsKey(name)) {
 			result = hBeans.get(name);
@@ -48,18 +48,18 @@ public class StoreScope implements Scope {
 
 	@Override
 	public void registerDestructionCallback(String name, Runnable callback) {
-		StoreScopeContextHolder.getCommerceScopeAttributes().registerRequestDestructionCallback(name, callback);
+		StoreScopeContextHolder.getStoreScopeAttributes().registerRequestDestructionCallback(name, callback);
 	}
 
 	@Override
 	public String getConversationId() {
-		return StoreScopeContextHolder.getCommerceScopeAttributes().getConversationId();
+		return StoreScopeContextHolder.getStoreScopeAttributes().getConversationId();
 
 	}
 
 	@Override
 	public Object resolveContextualObject(String arg0) {
-		Map<String, Object> hBeans = StoreScopeContextHolder.getCommerceScopeAttributes().getBeanMap();
+		Map<String, Object> hBeans = StoreScopeContextHolder.getStoreScopeAttributes().getBeanMap();
 		return hBeans.get(arg0);
 	}
 

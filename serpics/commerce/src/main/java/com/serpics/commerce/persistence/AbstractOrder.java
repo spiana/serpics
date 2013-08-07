@@ -23,6 +23,8 @@ import javax.persistence.Table;
 
 import com.serpics.base.persistence.Currency;
 import com.serpics.membership.persistence.AbstractAddress;
+import com.serpics.membership.persistence.Store;
+import com.serpics.membership.persistence.User;
 
 /**
  * The persistent class for the orders database table.
@@ -51,8 +53,9 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 	@JoinColumn(name = "currency_id")
 	private Currency currency;
 
-	@Column(name = "customer_id", nullable = false)
-	protected Long customerId;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "customer_id")
+	protected User customer;
 
 	@Column(name = "discount_amount", precision = 10, scale = 4)
 	protected BigDecimal discountAmount = new BigDecimal(0);
@@ -69,11 +72,15 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 	@Column(nullable = false, length = 2)
 	protected String status;
 
-	@Column(name = "store_id", nullable = false)
-	protected Long storeId;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "sore_id")
+	protected Store store;
 
 	@Column(name = "total_product", precision = 10, scale = 4)
 	protected BigDecimal totalProduct = new BigDecimal(0);
+
+	@Column(name = "total_service", precision = 10, scale = 4)
+	protected BigDecimal totalService = new BigDecimal(0);
 
 	@Column(name = "total_shipping", precision = 10, scale = 4)
 	protected BigDecimal totalShipping = new BigDecimal(0);
@@ -81,11 +88,12 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 	@Column(name = "total_tax", precision = 10, scale = 4)
 	protected BigDecimal totalTax = new BigDecimal(0);
 
-	@Column(name = "user_id", nullable = false)
-	protected Long userId;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "user_id")
+	protected User user;
 
 	// bi-directional many-to-one association to Orderitem
-	@OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true)
 	protected Set<Orderitem> orderitems = new HashSet<Orderitem>(0);
 
 	// bi-directional many-to-one association to Shipmode
@@ -94,11 +102,11 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 	protected Shipmode shipmode;
 
 	// bi-directional many-to-one association to OrdersAttribute
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order", orphanRemoval = true)
 	protected Set<OrdersAttribute> ordersAttributes = new HashSet<OrdersAttribute>(0);
 
 	// bi-directional many-to-one association to Suborder
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order", orphanRemoval = true)
 	protected Set<Suborder> suborders = new HashSet<Suborder>(0);
 
 	@ManyToOne
@@ -126,14 +134,6 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
-	}
-
-	public Long getCustomerId() {
-		return this.customerId;
-	}
-
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
 	}
 
 	public BigDecimal getDiscountAmount() {
@@ -168,14 +168,6 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 		this.status = status;
 	}
 
-	public Long getStoreId() {
-		return this.storeId;
-	}
-
-	public void setStoreId(Long storeId) {
-		this.storeId = storeId;
-	}
-
 	public BigDecimal getTotalProduct() {
 		return this.totalProduct;
 	}
@@ -198,14 +190,6 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 
 	public void setTotalTax(BigDecimal totalTax) {
 		this.totalTax = totalTax;
-	}
-
-	public Long getUserId() {
-		return this.userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 	public Set<Orderitem> getOrderitems() {
@@ -262,6 +246,38 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 
 	public void setCookie(String cookie) {
 		this.cookie = cookie;
+	}
+
+	public User getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(User customer) {
+		this.customer = customer;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public BigDecimal getTotalService() {
+		return totalService;
+	}
+
+	public void setTotalService(BigDecimal totalService) {
+		this.totalService = totalService;
 	}
 
 }

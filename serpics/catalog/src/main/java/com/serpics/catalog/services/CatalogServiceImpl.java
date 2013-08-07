@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,13 +12,14 @@ import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.CategoryRelation;
 import com.serpics.catalog.persistence.CtentryRelationPK;
+import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.repositories.CatalogRepository;
 import com.serpics.catalog.repositories.CategoryRelationRepository;
 import com.serpics.catalog.repositories.CategoryRepository;
+import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.core.service.AbstractService;
 
 @Service("catalogService")
-@Scope("store")
 public class CatalogServiceImpl extends AbstractService implements CatalogService {
 
 	@Resource
@@ -31,10 +31,13 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 	@Resource
 	CategoryRelationRepository categoryRelationRepository;
 
+	@Resource
+	ProductRepository productRepository;
+
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public Category createCategory(Category category, Category parent) {
-		Catalog catalog = catalogRepository.findOne(getCurrentContext().getCatalogId());
+		Catalog catalog = (Catalog) getCurrentContext().getCatalog();
 		category.setCatalog(catalog);
 		category = categoryRepository.saveAndFlush(category);
 
@@ -50,7 +53,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 
 	@Override
 	public List<Category> findRootCategory() {
-		return categoryRepository.findRootCategory(getCurrentContext().getCatalogId());
+		return categoryRepository.findRootCategory((Catalog) getCurrentContext().getCatalog());
 	}
 
 	@Override
@@ -58,5 +61,11 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 	public Catalog createCatalog(Catalog catalog) {
 		return catalogRepository.saveAndFlush(catalog);
 
+	}
+
+	@Override
+	@Transactional
+	public Product createproduct(Product p) {
+		return productRepository.saveAndFlush(p);
 	}
 }

@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 
 import com.serpics.core.datatype.MemberType;
 import com.serpics.core.datatype.UserType;
-import com.serpics.core.security.UserPrincipal;
+import com.serpics.core.security.UserDetail;
 import com.serpics.util.gson.GsonTransient;
 
 /**
@@ -30,7 +30,7 @@ import com.serpics.util.gson.GsonTransient;
 @Entity
 @Table(name = "users")
 @DiscriminatorValue("U")
-public class User extends Member implements Serializable, UserPrincipal {
+public class User extends Member implements Serializable, UserDetail {
 	private static final long serialVersionUID = 1L;
 
 	@Column(length = 25)

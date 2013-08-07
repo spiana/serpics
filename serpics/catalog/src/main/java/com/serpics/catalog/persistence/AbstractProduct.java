@@ -13,6 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.serpics.core.datatype.CatalogEntryType;
@@ -22,51 +23,60 @@ import com.serpics.core.datatype.CatalogEntryType;
  * 
  */
 @Entity
-@Table(name = "abstractproduct")
+@Table(name = "product")
 @DiscriminatorValue("1")
-@Inheritance(strategy = InheritanceType.JOINED)
+@PrimaryKeyJoinColumn(name = "product_id")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class AbstractProduct extends Ctentry implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private short buyable;
+	public AbstractProduct(short buyable, String name, String sku) {
+		super();
+		this.buyable = buyable;
+		this.published = buyable;
+		this.name = name;
+		this.sku = sku;
+	}
 
-	private short isdownlodable;
+	protected short buyable;
+
+	protected short isdownlodable;
 
 	@Column(name = "name", nullable = false)
-	private String name;
+	protected String name;
 
 	@Column(name = "manufacturer_sku")
-	private String manufacturerSku;
+	protected String manufacturerSku;
 
 	@Column(name = "product_type", nullable = false, insertable = false, updatable = false)
-	private short productType;
+	protected short productType;
 
-	private short published;
+	protected short published;
 
 	@Column(name = "sku")
-	private String sku;
+	protected String sku;
 
 	@Column(name = "unit_meas")
-	private String unitMeas;
+	protected String unitMeas;
 
-	private float weight;
+	protected float weight;
 
 	@Column(name = "weight_meas")
-	private String weightMeas;
+	protected String weightMeas;
 
 	// bi-directional many-to-one association to Price
 	@OneToMany(mappedBy = "product")
-	private Set<Price> prices;
+	protected Set<Price> prices;
 
 	// bi-directional many-to-one association to Brand
 	@ManyToOne
 	@JoinColumn(name = "brands_id")
-	private Brand brand;
+	protected Brand brand;
 
 	// bi-directional many-to-one association to Productffmt
 	@OneToMany(mappedBy = "product")
-	private Set<Productffmt> productffmts;
+	protected Set<Productffmt> productffmts;
 
 	public AbstractProduct() {
 		super();

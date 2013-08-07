@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import com.serpics.base.persistence.Currency;
 import com.serpics.catalog.persistence.AbstractProduct;
+import com.serpics.membership.persistence.Store;
+import com.serpics.membership.persistence.User;
 
 @Entity
 @Table(name = "orderitems")
@@ -31,14 +33,17 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 	@JoinColumn(name = "currency_id")
 	private Currency currency;
 
-	@Column(name = "store_id", nullable = false)
-	private Long storeId;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "store")
+	private Store store;
 
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "user_id")
+	private User user;
 
-	@Column(name = "customer_id", nullable = false)
-	private Long customerId;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "customer_id")
+	private User customer;
 
 	@Column(name = "discount_amount", precision = 10, scale = 4)
 	private final Double discountAmount = new Double(0);
@@ -78,7 +83,7 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	// bi-directional many-to-one association to Order
 	@ManyToOne
-	@JoinColumn(name = "orders_id", nullable = true)
+	@JoinColumn(name = "orders_id", nullable = false)
 	private AbstractOrder order;
 
 	// bi-directional many-to-one association to Shipmode
@@ -112,22 +117,6 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	public void setOrderitemsId(Long orderitemsId) {
 		this.orderitemsId = orderitemsId;
-	}
-
-	public Long getStoreId() {
-		return storeId;
-	}
-
-	public void setStoreId(Long storeId) {
-		this.storeId = storeId;
-	}
-
-	public Long getCustomerId() {
-		return this.customerId;
-	}
-
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
 	}
 
 	public double getDiscountPerc() {
@@ -168,14 +157,6 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public Long getUserId() {
-		return this.userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 	public AbstractOrder getOrder() {
@@ -268,6 +249,30 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(User customer) {
+		this.customer = customer;
 	}
 
 }

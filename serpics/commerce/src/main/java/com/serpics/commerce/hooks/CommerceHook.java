@@ -14,6 +14,6 @@ public interface CommerceHook {
 
 	public void calculateProductTotal(AbstractOrder order);
 
-	public void calculateOrderTotale(AbstractOrder order);
+	public void calculateOrderTotal(AbstractOrder order);
 
 }

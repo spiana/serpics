@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.core.datatype.UserType;
-import com.serpics.core.security.UserPrincipal;
+import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.service.Membership;
 import com.serpics.membership.hooks.MembershipHook;
@@ -112,7 +112,7 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public UserPrincipal login(String username, char[] password) throws SerpicsException {
+	public UserDetail login(String username, char[] password) throws SerpicsException {
 
 		return membershipHook.login((Store) getCurrentContext().getStoreRealm(), username, password);
 	}
@@ -146,7 +146,7 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 	}
 
 	@Override
-	public UserPrincipal createAnonymous() {
+	public UserDetail createAnonymous() {
 		List<User> ulist = userRepository.findAll(where(userRepository.makeSpecification(new User())));
 		return ulist.get(0);
 	}

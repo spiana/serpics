@@ -23,9 +23,10 @@ import com.serpics.commerce.persistence.Cart;
 import com.serpics.commerce.persistence.Orderitem;
 import com.serpics.commerce.repositories.CartRepository;
 import com.serpics.commerce.repositories.OrderItemRepository;
-import com.serpics.core.security.UserPrincipal;
+import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.persistence.Store;
+import com.serpics.membership.persistence.User;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 @Service("cartService")
@@ -57,7 +58,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		Cart cart = cartRepository.findByCookie(getCurrentContext().getUserCookie());
 		if (cart == null) {
 
-			cart = new Cart(getCurrentContext().getUserPrincipal().getUserId(), getCurrentContext().getStoreId(),
+			cart = new Cart((User) getCurrentContext().getUserPrincipal(), (Store) getCurrentContext().getStoreRealm(),
 					getCurrentContext().getUserCookie());
 
 			cart.setCurrency(((Store) getCurrentContext().getStoreRealm()).getCurrency());
@@ -97,11 +98,11 @@ public class CartServiceImpl extends AbstractService implements CartService {
 
 		Orderitem orderitem = new Orderitem();
 
-		UserPrincipal user = getCurrentContext().getUserPrincipal();
+		UserDetail user = getCurrentContext().getUserPrincipal();
 		orderitem.setStatus(AbstractOrder.PENDING);
-		orderitem.setUserId(user.getUserId());
-		orderitem.setCustomerId(getCurrentContext().getCustomerId());
-		orderitem.setStoreId(getCurrentContext().getStoreId());
+		orderitem.setUser((User) user);
+		orderitem.setCustomer((User) user);
+		orderitem.setStore((Store) getCurrentContext().getStoreRealm());
 		orderitem.setCurrency(cart.getCurrency());
 		orderitem.setSku(product.getSku());
 		orderitem.setQuantity(quantity);
@@ -192,6 +193,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		cart.setTotalProduct(new BigDecimal(0));
 		cart.setTotalShipping(new BigDecimal(0));
 		cart.setTotalTax(new BigDecimal(0));
+
 		for (Orderitem orderitem : cart.getOrderitems()) {
 			Product product = productHook.resolveSKU(orderitem.getSku());
 			if (updateInventory)
@@ -211,7 +213,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
 
 		commerceHook.calculateShiping(cart);
 		commerceHook.calculateTax(cart);
-		commerceHook.calculateOrderTotale(cart);
+		commerceHook.calculateOrderTotal(cart);
 
 		return cartRepository.saveAndFlush(cart);
 	}

@@ -1,69 +1,46 @@
 package com.serpics.core.session;
 
+import com.serpics.core.persistence.Catalog;
+import com.serpics.core.persistence.Currency;
+import com.serpics.core.persistence.Locale;
 import com.serpics.core.security.StoreRealm;
-import com.serpics.core.security.UserPrincipal;
+import com.serpics.core.security.UserDetail;
 
 public class CommerceSessionContext extends SessionContext {
 	private static final long serialVersionUID = 1L;
 
-	private Long catalogId;
-	private Long customerId;
-	private String currency;
-	StoreRealm storeRealm;
-	String userCookie;
+	private Catalog catalog;
+	private UserDetail customer;
+	private Currency currency;
+	private Locale locale;
+	private StoreRealm storeRealm;
+	private String userCookie;
 
 	public CommerceSessionContext() {
 		super();
 	}
 
-	public CommerceSessionContext(StoreRealm realm) {
+	public CommerceSessionContext(final StoreRealm realm) {
 		super(realm.getRealm());
 		this.storeRealm = realm;
 
 	}
 
-	public Long getCatalogId() {
-		return catalogId;
-	}
-
-	public void setCatalogId(Long catalogId) {
-		this.catalogId = catalogId;
-	}
-
-	public Long getCustomerId() {
-		if (this.customerId != null)
-			return customerId;
-		else
-			return getUserPrincipal().getUserId();
-	}
-
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
-
 	@Override
-	public void setUserPrincipal(UserPrincipal user) {
+	public void setUserPrincipal(final UserDetail user) {
 		super.setUserPrincipal(user);
-		this.customerId = user.getUserId();
+		this.customer = user;
 	}
 
 	public Long getStoreId() {
 		return this.storeRealm.getStoreId();
 	}
 
-	public String getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
 	public StoreRealm getStoreRealm() {
 		return storeRealm;
 	}
 
-	public void setStoreRealm(StoreRealm storeRealm) {
+	public void setStoreRealm(final StoreRealm storeRealm) {
 		this.storeRealm = storeRealm;
 	}
 
@@ -74,8 +51,40 @@ public class CommerceSessionContext extends SessionContext {
 		return userCookie;
 	}
 
-	public void setUserCookie(String userCookie) {
+	public void setUserCookie(final String userCookie) {
 		this.userCookie = userCookie;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(final Currency currency) {
+		this.currency = currency;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(final Locale locale) {
+		this.locale = locale;
+	}
+
+	public Catalog getCatalog() {
+		return catalog;
+	}
+
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
+	}
+
+	public UserDetail getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(UserDetail customer) {
+		this.customer = customer;
 	}
 
 }

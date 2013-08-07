@@ -12,7 +12,7 @@ public class CommerceSessionScope implements Scope {
 	public Object get(String name, ObjectFactory factory) {
 		Object result = null;
 
-		Map<String, Object> hBeans = CommerceScopeContextHolder.getThreadScopeAttributes().getBeanMap();
+		Map<String, Object> hBeans = SessionScopeContextHolder.getSessionScopeAttributes().getBeanMap();
 
 		if (!hBeans.containsKey(name)) {
 			result = factory.getObject();
@@ -32,7 +32,7 @@ public class CommerceSessionScope implements Scope {
 	public Object remove(String name) {
 		Object result = null;
 
-		Map<String, Object> hBeans = CommerceScopeContextHolder.getThreadScopeAttributes().getBeanMap();
+		Map<String, Object> hBeans = SessionScopeContextHolder.getSessionScopeAttributes().getBeanMap();
 
 		if (hBeans.containsKey(name)) {
 			result = hBeans.get(name);
@@ -45,17 +45,17 @@ public class CommerceSessionScope implements Scope {
 
 	@Override
 	public void registerDestructionCallback(String name, Runnable callback) {
-		CommerceScopeContextHolder.getThreadScopeAttributes().registerRequestDestructionCallback(name, callback);
+		SessionScopeContextHolder.getSessionScopeAttributes().registerRequestDestructionCallback(name, callback);
 	}
 
 	@Override
 	public String getConversationId() {
-		return CommerceScopeContextHolder.getThreadScopeAttributes().getConversationId();
+		return SessionScopeContextHolder.getSessionScopeAttributes().getConversationId();
 	}
 
 	@Override
 	public Object resolveContextualObject(String arg0) {
-		Map<String, Object> hBeans = CommerceScopeContextHolder.getThreadScopeAttributes().getBeanMap();
+		Map<String, Object> hBeans = SessionScopeContextHolder.getSessionScopeAttributes().getBeanMap();
 		return hBeans.get(arg0);
 	}
 

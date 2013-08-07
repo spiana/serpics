@@ -10,7 +10,7 @@ import com.serpics.base.persistence.Locale;
 import com.serpics.base.persistence.dao.jpa.LocaleFactoryImpl;
 import com.serpics.core.service.AbstractService;
 
-public class LanguageServiceImpl extends AbstractService implements LanguageService {
+public class LocaleServiceImpl extends AbstractService implements LocaleService {
 	@Autowired(required=true)
 	LocaleFactoryImpl localeFactory;
 

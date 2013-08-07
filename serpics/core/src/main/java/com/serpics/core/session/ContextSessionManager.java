@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.serpics.core.scope.CommerceScopeAttributes;
-import com.serpics.core.scope.CommerceScopeContextHolder;
+import com.serpics.core.scope.SessionScopeAttributes;
+import com.serpics.core.scope.SessionScopeContextHolder;
 import com.serpics.core.security.StoreRealm;
 
 public class ContextSessionManager implements SessionManager, InitializingBean, DisposableBean {
@@ -84,7 +84,7 @@ public class ContextSessionManager implements SessionManager, InitializingBean, 
 			}
 		}
 		if (sessionContext != null)
-			CommerceScopeContextHolder.setThreadScopeAttributes(sessionContext.getCommerceScopeAttribute());
+			SessionScopeContextHolder.setSessionScopeAttributes(sessionContext.getCommerceScopeAttribute());
 
 		return sessionContext;
 	}
@@ -92,9 +92,9 @@ public class ContextSessionManager implements SessionManager, InitializingBean, 
 	@Override
 	public SessionContext createSessionContext(StoreRealm realm) {
 		String sessionId = generateSessionID();
-		CommerceScopeAttributes commerceScopeAttributes = new CommerceScopeAttributes();
+		SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
 		commerceScopeAttributes.setConversationId(sessionId);
-		CommerceScopeContextHolder.setThreadScopeAttributes(commerceScopeAttributes);
+		SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
 		context.setStoreRealm(realm);
 		context.setSessionId(sessionId);
 		context.setLastAccess(new Date());

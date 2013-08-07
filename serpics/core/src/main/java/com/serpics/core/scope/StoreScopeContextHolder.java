@@ -12,7 +12,7 @@ public class StoreScopeContextHolder {
 	private static final Map<ClassLoader, StoreScopeMap> currentContextPerThread = new ConcurrentHashMap<ClassLoader, StoreScopeMap>(
 			100);
 
-	public static StoreScopeAttributes getCommerceScopeAttributes() {
+	public static StoreScopeAttributes getStoreScopeAttributes() {
 		StoreScopeMap storeScope = currentContextPerThread.get(Thread.currentThread().getContextClassLoader());
 		if (storeScope == null) {
 			storeScope = new StoreScopeMap();

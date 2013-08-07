@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "locales")
-public class Locale implements Serializable {
+public class Locale implements com.serpics.core.persistence.Locale, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

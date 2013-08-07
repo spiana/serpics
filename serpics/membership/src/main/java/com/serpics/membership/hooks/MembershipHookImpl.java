@@ -9,7 +9,7 @@ import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.core.datatype.UserType;
 import com.serpics.core.hook.AbstractHook;
-import com.serpics.core.security.UserPrincipal;
+import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MembershipException;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.UsersReg;
@@ -22,7 +22,7 @@ public class MembershipHookImpl extends AbstractHook implements MembershipHook {
 	UserRegrepository userRegRepository;
 
 	@Override
-	public UserPrincipal login(final Store store, final String username, final char[] password) throws SerpicsException {
+	public UserDetail login(final Store store, final String username, final char[] password) throws SerpicsException {
 		UsersReg ur = userRegRepository.findBylogonid(username);
 		if (ur != null) {
 			if (ur.getUser().getUserType().equals(UserType.ADMINISTRATOR)

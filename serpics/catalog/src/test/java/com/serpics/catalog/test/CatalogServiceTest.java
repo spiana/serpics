@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Category;
+import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.repositories.CatalogRepository;
+import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
@@ -40,6 +42,9 @@ public class CatalogServiceTest {
 	@Resource
 	CatalogRepository catalogRepository;
 
+	@Resource
+	ProductRepository productRepository;
+
 	@Test
 	@Transactional
 	public void test() throws SerpicsException {
@@ -48,7 +53,7 @@ public class CatalogServiceTest {
 		Catalog catalog = new Catalog();
 		catalog.setName("default-catalog");
 		catalog = catalogService.createCatalog(catalog);
-		context.setCatalogId(catalog.getCatalogId());
+		context.setCatalog(catalog);
 		List<Catalog> l = catalogRepository.findAll();
 
 		Assert.assertEquals(1, l.size());
@@ -57,9 +62,24 @@ public class CatalogServiceTest {
 		category.setName("main");
 		category.setUrl("main");
 		catalogService.createCategory(category, null);
+		Product p = new Product();
+		p.setSku("test-sku");
+		p.setCatalog(catalog);
+		p.setName("test sku");
+		p.setUrl(catalog.getName() + "/" + p.getSku());
+		catalogService.createproduct(p);
+
+		Product p1 = new Product();
+		p1.setSku("test-sku");
+		p1.setCatalog(catalog);
+
+		Product p2 = productRepository.findOne(productRepository.makeSpecification(p1));
+		Assert.assertEquals("test sku", p2.getName());
+
 		catalogRepository.delete(catalog);
 		List<Category> l1 = catalogService.findRootCategory();
 		Assert.assertEquals(1, l1.size());
-
+		List<Product> l2 = productRepository.findAll();
+		Assert.assertEquals(0, l2.size());
 	}
 }

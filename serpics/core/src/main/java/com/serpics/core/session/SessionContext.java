@@ -4,28 +4,28 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.serpics.core.scope.CommerceScopeAttributes;
-import com.serpics.core.security.UserPrincipal;
+import com.serpics.core.scope.SessionScopeAttributes;
+import com.serpics.core.security.UserDetail;
 
 public abstract class SessionContext implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private UserPrincipal userPrincipal;
+	private UserDetail userDetail;
 	private String sessionId;
 	private String realm;
 	private Date lastAccess;
-	private CommerceScopeAttributes commerceScopeAttribute;
+	private SessionScopeAttributes sessionScopeAttribute;
 
 	public Date getLastAccess() {
 		return lastAccess;
 	}
 
-	public void setLastAccess(Date lastAccess) {
+	public void setLastAccess(final Date lastAccess) {
 		this.lastAccess = lastAccess;
 	}
 
-	public SessionContext(String realm) {
+	public SessionContext(final String realm) {
 		super();
 		this.realm = realm;
 
@@ -39,42 +39,42 @@ public abstract class SessionContext implements Serializable {
 		return realm;
 	}
 
-	public void setRealm(String realm) {
+	public void setRealm(final String realm) {
 		this.realm = realm;
 	}
 
 	private HashMap<String, Object> attribute;
 
-	public void setAttribute(String key, Object value) {
+	public void setAttribute(final String key, final Object value) {
 		attribute.put(key, value);
 	}
 
-	public Object getAttribute(String key) {
+	public Object getAttribute(final String key) {
 		return attribute.get(key);
 	}
 
-	public UserPrincipal getUserPrincipal() {
-		return userPrincipal;
+	public UserDetail getUserPrincipal() {
+		return userDetail;
 	}
 
-	public void setUserPrincipal(UserPrincipal user) {
-		this.userPrincipal = user;
+	public void setUserPrincipal(final UserDetail user) {
+		this.userDetail = user;
 	}
 
 	public String getSessionId() {
 		return sessionId;
 	}
 
-	public void setSessionId(String sessionId) {
+	public void setSessionId(final String sessionId) {
 		this.sessionId = sessionId;
 	}
 
-	public CommerceScopeAttributes getCommerceScopeAttribute() {
-		return commerceScopeAttribute;
+	public SessionScopeAttributes getCommerceScopeAttribute() {
+		return sessionScopeAttribute;
 	}
 
-	public void setCommerceScopeAttribute(CommerceScopeAttributes commerceScopeAttribute) {
-		this.commerceScopeAttribute = commerceScopeAttribute;
+	public void setCommerceScopeAttribute(final SessionScopeAttributes commerceScopeAttribute) {
+		this.sessionScopeAttribute = commerceScopeAttribute;
 	}
 
 }
