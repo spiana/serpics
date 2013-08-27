@@ -104,7 +104,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
 		orderitem.setCustomer((User) user);
 		orderitem.setStore((Store) getCurrentContext().getStoreRealm());
 		orderitem.setCurrency(cart.getCurrency());
-		orderitem.setSku(product.getSku());
+		orderitem.setSku(product.getCode());
 		orderitem.setQuantity(quantity);
 
 		if (merge)

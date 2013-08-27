@@ -74,10 +74,20 @@
   	<version>1.0-SNAPSHOT</version>
   </parent>
   <dependencies>
-  	<dependency>
-  		<groupId>com.serpics</groupId>
-  		<artifactId>membership</artifactId>
-  		<version>1.0-SNAPSHOT</version>
-  	</dependency>
+ 		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>core</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>base</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>	
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>membership</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
   </dependencies>
 </project>

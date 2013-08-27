@@ -25,9 +25,10 @@
 		<class>com.serpics.catalog.persistence.Price</class>
 		<class>com.serpics.catalog.persistence.Productffmt</class>
 		<class>com.serpics.catalog.persistence.ProductffmtPK</class>
+		<class>com.serpics.catalog.persistence.AbstractProduct</class>
 		<class>com.serpics.catalog.persistence.Product</class>
 		<class>com.serpics.catalog.persistence.CategoryRelation</class>
-		<class>com.serpics.catalog.persistence.CtentryRelation</class>
+		<!--  <class>com.serpics.catalog.persistence.CtentryRelation</class> -->
 		<class>com.serpics.catalog.persistence.CategoryProductRelation</class>
 	</persistence-unit>
 </persistence>	

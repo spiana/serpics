@@ -20,7 +20,7 @@ public class ProductHookImpl extends AbstractHook implements ProductHook {
 		Catalog catalog = (Catalog) getSessionContext().getCatalog();
 
 		Product p = new Product();
-		p.setSku(sku);
+		p.setCode(sku);
 		p.setCatalog(catalog);
 
 		Product product = productRepository.findOne(productRepository.makeSpecification(p));

@@ -13,11 +13,11 @@ import java.util.Date;
  * The persistent class for the ctentry_relation database table.
  * 
  */
-@Entity
-@Table(name="ctentry_relation" )
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn (name="relation_type" , discriminatorType=DiscriminatorType.INTEGER)
-@DiscriminatorOptions(force=true)
+//@Entity
+//@Table(name="ctentry_relation" )
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+//@DiscriminatorColumn (name="relation_type" , discriminatorType=DiscriminatorType.INTEGER)
+@MappedSuperclass
 public abstract class CtentryRelation implements Serializable {
 	private static final long serialVersionUID = 1L;
 

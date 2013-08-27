@@ -2,6 +2,8 @@ package com.serpics.membership.test;
 
 import static org.junit.Assert.assertNotNull;
 
+import javax.annotation.Resource;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +23,16 @@ import com.serpics.membership.services.BaseService;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BaseServiceTest {
 
-	@Autowired
-	BaseService b;
-	@Autowired
-	CommerceEngine ce;
+	@Resource(name="baseService")
+	BaseService baseService;
+	@Resource
+	CommerceEngine commerceEngine;
 
 	@Test
 	@Transactional
 	public void test() throws SerpicsException {
-		b.initIstance();
-		CommerceSessionContext context = ce.connect("default-store");
+		baseService.initIstance();
+		CommerceSessionContext context = commerceEngine.connect("default-store");
 		assertNotNull(context);
 	}
 }
