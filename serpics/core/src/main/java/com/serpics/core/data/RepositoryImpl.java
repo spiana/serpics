@@ -57,7 +57,6 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 						String name = a.getName();
 						String javaName = a.getJavaMember().getName();
 						String getter = "get" + javaName.substring(0, 1).toUpperCase() + javaName.substring(1);
-						logger.info ("the getter is {}" , getter);
 						Method m = example.getClass().getMethod(getter, (Class<?>[]) null);
 					//	if (m.getReturnType() != Set.class && m.getReturnType() != List.class) {
 							if (logger.isDebugEnabled())

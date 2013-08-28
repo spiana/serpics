@@ -30,7 +30,7 @@ import com.serpics.membership.services.BaseService;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @Transactional
-@TransactionConfiguration(defaultRollback = false)
+@TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CatalogServiceTest {
 
@@ -62,6 +62,7 @@ public class CatalogServiceTest {
 		Catalog catalog = new Catalog();
 		catalog.setCode("default-catalog");
 		catalog = catalogService.createCatalog(catalog);
+		
 		context.setCatalog(catalog);
 		List<Catalog> l = catalogRepository.findAll();
 

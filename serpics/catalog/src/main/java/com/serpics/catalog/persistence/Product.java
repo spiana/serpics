@@ -18,6 +18,7 @@ public class Product extends AbstractProduct {
 
 	public Product(Integer buyable, String sku) {
 		super(buyable, sku);
+		this.productType = ProductType.PRODUCT;
 	}
 
 }

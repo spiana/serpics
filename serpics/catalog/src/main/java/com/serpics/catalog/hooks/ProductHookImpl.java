@@ -20,11 +20,14 @@ public class ProductHookImpl extends AbstractHook implements ProductHook {
 		Catalog catalog = (Catalog) getSessionContext().getCatalog();
 
 		Product p = new Product();
+		p.setBuyable(1);
 		p.setCode(sku);
 		p.setCatalog(catalog);
 
 		Product product = productRepository.findOne(productRepository.makeSpecification(p));
-
+		if (product == null)
+			throw new ProductNotFoundException(String.format("product not found for SKU [%s] !", sku));
+		
 		return product;
 	}
 
