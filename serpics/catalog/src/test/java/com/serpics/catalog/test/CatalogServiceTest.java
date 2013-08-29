@@ -65,8 +65,11 @@ public class CatalogServiceTest {
 		
 		context.setCatalog(catalog);
 		List<Catalog> l = catalogRepository.findAll();
-
 		Assert.assertEquals(1, l.size());
+
+		List<Catalog> _l = catalogRepository.findPublished();
+		Assert.assertEquals(1, _l.size());
+
 
 		Category category = new Category();
 		category.setCode("main");

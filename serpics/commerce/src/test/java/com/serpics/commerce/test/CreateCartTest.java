@@ -94,7 +94,7 @@ public class CreateCartTest {
 		assertNotNull(cart);
 		// Assert.assertEquals(0, cart.getPending());
 
-		cs.cartAdd("product2", 10.0, false);
+		cs.cartAdd("product", 10.0, false);
 
 		cart = cs.createSessionCart();
 		assertEquals(1, cart.getOrderitems().size());

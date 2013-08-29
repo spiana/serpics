@@ -29,9 +29,7 @@ import com.serpics.core.datatype.CatalogEntryType;
 @Entity
 @Table(name = "abstractProducts")
 @DiscriminatorValue("1")
-// @Inheritance(strategy=InheritanceType.SINGLE_TABLE )
-// @DiscriminatorColumn(name = "product_type", discriminatorType =
-// DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.INTEGER)
 @PrimaryKeyJoinColumn(name = "product_id", referencedColumnName = "ctentry_id")
 public abstract class AbstractProduct extends Ctentry implements Serializable {
 	private static final long serialVersionUID = 1L;

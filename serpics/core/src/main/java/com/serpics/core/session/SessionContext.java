@@ -43,13 +43,13 @@ public abstract class SessionContext implements Serializable {
 		this.realm = realm;
 	}
 
-	private HashMap<String, Object> attribute;
+	private HashMap<String, Serializable> attribute;
 
-	public void setAttribute(final String key, final Object value) {
+	public void setAttribute(final String key, final Serializable value) {
 		attribute.put(key, value);
 	}
 
-	public Object getAttribute(final String key) {
+	public Serializable getAttribute(final String key) {
 		return attribute.get(key);
 	}
 

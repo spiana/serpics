@@ -12,10 +12,10 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
+	<context:annotation-config />
+	
 	<import resource="classpath*:META-INF/*-serpics.xml" />
-
 	<import resource="applicationContext-database-multi.xml" />
-	<import resource="applicationContext-hooks.xml" />
 
 	<bean id="sessionContext" class="com.serpics.core.session.CommerceSessionContext"  scope="commercesession" >
 		<aop:scoped-proxy/>

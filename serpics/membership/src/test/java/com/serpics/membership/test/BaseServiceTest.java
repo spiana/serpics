@@ -18,7 +18,7 @@ import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.ExecutionTestListener;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
+@ContextConfiguration({  "classpath*:META-INF/applicationContext.xml"})
 @TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,5 +36,13 @@ public class BaseServiceTest {
 		b.initIstance();
 		CommerceSessionContext context = commerceEngine.connect("default-store");
 		assertNotNull(context);
+	}
+
+	public void setB(BaseService b) {
+		this.b = b;
+	}
+
+	public void setCommerceEngine(CommerceEngine commerceEngine) {
+		this.commerceEngine = commerceEngine;
 	}
 }
