@@ -114,7 +114,8 @@
     <module>core</module>
     <module>membership</module>
     <module>warehouse</module>
-   	<module>system</module>  
+   	<module>system</module>
+    <module>admin</module>
   </modules>
   <version>1.0-SNAPSHOT</version>
 </project>

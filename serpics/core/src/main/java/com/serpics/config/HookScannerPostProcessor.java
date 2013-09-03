@@ -122,7 +122,10 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 		private void doHookScan() {
 
 			logger.info("start scanning !");
-			Discoverer discoverer = new ClasspathDiscoverer();
+//			Discoverer discoverer = new ClasspathDiscoverer();
+			
+			Discoverer discoverer = new com.impetus.annovention.ClasspathDiscoverer();
+			
 			logger.info("discoveder {} URL", discoverer.findResources().length);
 			if (logger.isDebugEnabled()) {
 				for (URL url : discoverer.findResources()) {
@@ -140,7 +143,10 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 			});
 			discoverer.discover(true, false, false, true, false);
 
-			discoverer = new ClasspathDiscoverer();
+//			discoverer = new ClasspathDiscoverer();
+			
+			discoverer = new com.impetus.annovention.ClasspathDiscoverer();
+			
 			discoverer.addAnnotationListener(new SerpicsClassAnnotationListener() {
 
 				@Override

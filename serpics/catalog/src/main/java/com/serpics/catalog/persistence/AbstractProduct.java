@@ -3,17 +3,21 @@ package com.serpics.catalog.persistence;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 import com.serpics.core.datatype.CatalogEntryType;
@@ -23,81 +27,69 @@ import com.serpics.core.datatype.CatalogEntryType;
  * 
  */
 @Entity
-@Table(name = "product")
+@Table(name = "abstractProducts")
 @DiscriminatorValue("1")
-@PrimaryKeyJoinColumn(name = "product_id")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.INTEGER)
+@PrimaryKeyJoinColumn(name = "product_id", referencedColumnName = "ctentry_id")
 public abstract class AbstractProduct extends Ctentry implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public AbstractProduct(short buyable, String name, String sku) {
+	public AbstractProduct(Integer buyable, String sku) {
 		super();
 		this.buyable = buyable;
 		this.published = buyable;
-		this.name = name;
-		this.sku = sku;
+		this.code = sku;
+		this.downlodable = 0;
+		this.ctentryType = (short) 1;
 	}
 
-	protected short buyable;
+	public AbstractProduct() {
+		super();
+		this.buyable = this.published = this.downlodable = 0;
+		this.ctentryType = CatalogEntryType.PRODUCT;
+	}
 
-	protected short isdownlodable;
+	@Column(name = "buyable", nullable = false)
+	protected Integer buyable;
 
-	@Column(name = "name", nullable = false)
-	protected String name;
+	@Column(name = "downlodable", nullable = false)
+	protected Integer downlodable;
 
 	@Column(name = "manufacturer_sku")
 	protected String manufacturerSku;
 
-	@Column(name = "product_type", nullable = false, insertable = false, updatable = false)
-	protected short productType;
+	@Column(name = "product_type", nullable = false)
+	protected Integer productType;
 
-	protected short published;
-
-	@Column(name = "sku")
-	protected String sku;
+	@Column(name = "published", nullable = false)
+	protected Integer published;
 
 	@Column(name = "unit_meas")
 	protected String unitMeas;
 
-	protected float weight;
+	@Column(name = "weight")
+	protected Double weight;
 
 	@Column(name = "weight_meas")
 	protected String weightMeas;
 
 	// bi-directional many-to-one association to Price
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	protected Set<Price> prices;
 
 	// bi-directional many-to-one association to Brand
-	@ManyToOne
-	@JoinColumn(name = "brands_id")
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "brand_id")
 	protected Brand brand;
 
 	// bi-directional many-to-one association to Productffmt
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	protected Set<Productffmt> productffmts;
 
-	public AbstractProduct() {
-		super();
-		this.setCtentryType(CatalogEntryType.PRODUCT);
-	}
-
-	public short getBuyable() {
-		return this.buyable;
-	}
-
-	public void setBuyable(short buyable) {
-		this.buyable = buyable;
-	}
-
-	public short getIsdownlodable() {
-		return this.isdownlodable;
-	}
-
-	public void setIsdownlodable(short isdownlodable) {
-		this.isdownlodable = isdownlodable;
-	}
+	// bi-directional many-to-one association to Catalog
+	@ManyToOne(optional = false  )
+	@JoinColumn(name = "catalog_id" )
+	protected Catalog catalog;
 
 	public String getManufacturerSku() {
 		return this.manufacturerSku;
@@ -105,40 +97,6 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
 
 	public void setManufacturerSku(String manufacturerSku) {
 		this.manufacturerSku = manufacturerSku;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public short getProductType() {
-		return this.productType;
-	}
-
-	public void setProductType(short productType) {
-		this.productType = productType;
-	}
-
-	public short getPublished() {
-		return this.published;
-	}
-
-	public void setPublished(short published) {
-		this.published = published;
-	}
-
-	public String getSku() {
-		return this.sku;
-	}
-
-	public void setSku(String sku) {
-		this.sku = sku;
 	}
 
 	public String getUnitMeas() {
@@ -149,11 +107,11 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
 		this.unitMeas = unitMeas;
 	}
 
-	public float getWeight() {
-		return this.weight;
+	public Double getWeight() {
+		return weight;
 	}
 
-	public void setWeight(float weight) {
+	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
 
@@ -189,4 +147,49 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
 		this.productffmts = productffmts;
 	}
 
+	public Integer getBuyable() {
+		return buyable;
+	}
+
+	public void setBuyable(Integer buyable) {
+		this.buyable = buyable;
+	}
+
+	public Integer getDownlodable() {
+		return downlodable;
+	}
+
+	public void setDownlodable(Integer downlodable) {
+		this.downlodable = downlodable;
+	}
+
+	public Integer getProductType() {
+		return productType;
+	}
+
+	public void setProductType(Integer productType) {
+		this.productType = productType;
+	}
+
+	public Integer getPublished() {
+		return published;
+	}
+
+	public void setPublished(Integer published) {
+		this.published = published;
+	}
+
+	public Catalog getCatalog() {
+		return catalog;
+	}
+
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
+	}
+
+	@PrePersist
+	public void prepersist(){
+		if (this.url == null)
+			this.url = "/" + getCatalog().getCode() + "/" + getCode();
+	}
 }

@@ -21,6 +21,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		query.setParameter("orderid", cart.getOrdersId());
 		int i = query.executeUpdate();
 		entityManager.flush();
+		entityManager.detach(cart);
 
 		return entityManager.find(Order.class, cart.getOrdersId());
 	}

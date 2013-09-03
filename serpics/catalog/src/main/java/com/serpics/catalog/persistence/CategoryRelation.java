@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 
 @Entity(name="CategoryRelation")
 @DiscriminatorValue("0")
-
 public class CategoryRelation extends CtentryRelation {
 
 	private static final long serialVersionUID = 1L;

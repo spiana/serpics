@@ -1,40 +1,45 @@
 package com.serpics.catalog.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the brands database table.
  * 
  */
 @Entity
-@Table(name="brands" )
+@Table(name = "brands")
 public class Brand implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="brands_id")
+	@Column(name = "brand_id")
 	private Long brandsId;
 
-	@Column(name="logo_src")
+	@Column(name = "logo_src")
 	private String logoSrc;
 
 	private String name;
 
-	@Temporal( TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 
-	//bi-directional many-to-one association to Product
-	@OneToMany(mappedBy="brand")
+	// bi-directional many-to-one association to Product
+	@OneToMany(mappedBy = "brand")
 	private Set<AbstractProduct> products;
 
-    public Brand() {
-    }
+	public Brand() {
+	}
 
 	public Long getBrandsId() {
 		return this.brandsId;
@@ -75,5 +80,5 @@ public class Brand implements Serializable {
 	public void setProducts(Set<AbstractProduct> products) {
 		this.products = products;
 	}
-	
+
 }

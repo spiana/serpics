@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -22,6 +23,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 /**
  * The persistent class for the ctentry database table.
@@ -31,7 +33,7 @@ import javax.persistence.TemporalType;
 @Table(name = "ctentry")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "ctenytry_type", discriminatorType = DiscriminatorType.INTEGER)
-public class Ctentry extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public abstract class Ctentry extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -42,8 +44,8 @@ public class Ctentry extends com.serpics.core.persistence.jpa.Entity implements 
 	@Column(name = "ctentry_type", nullable = false)
 	protected short ctentryType;
 
-	@Column(name = "Name", nullable = false)
-	protected String name;
+	@Column(name = "code", nullable = false)
+	protected String code;
 
 	protected String field1;
 
@@ -54,6 +56,7 @@ public class Ctentry extends com.serpics.core.persistence.jpa.Entity implements 
 	@Column(name = "url", nullable = false, unique = true)
 	protected String url;
 
+	@Column(name = "uuid", nullable = false, unique = true)
 	protected String uuid;
 
 	// bi-directional many-to-one association to CtentryAttribute
@@ -63,32 +66,13 @@ public class Ctentry extends com.serpics.core.persistence.jpa.Entity implements 
 	// bi-directional many-to-one association to CtentryDescr
 	@OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
 	protected Set<CtentryDescr> ctentryDescrs;
-	/*
-	 * //bi-directional many-to-one association to CtentryRelation
-	 * 
-	 * @OneToMany(mappedBy="ctentry_parent", fetch = FetchType.LAZY) private
-	 * Set<CtentryRelation> ctentryRelations1;
-	 * 
-	 * //bi-directional many-to-one association to CtentryRelation
-	 * 
-	 * @OneToMany(mappedBy="ctentry_child", fetch = FetchType.LAZY) private
-	 * Set<CtentryRelation> ctentryRelations2;
-	 */
+	
 	// bi-directional many-to-one association to Media
 	@OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
 	protected Set<Media> medias;
 
-	// bi-directional many-to-one association to Catalog
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "catalog_id")
-	protected Catalog catalog;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date created;
-
-	public Ctentry() {
-		this.uuid = UUID.randomUUID().toString();
-	}
 
 	public Long getCtentryId() {
 		return this.ctentryId;
@@ -104,14 +88,6 @@ public class Ctentry extends com.serpics.core.persistence.jpa.Entity implements 
 
 	public void setCtentryType(short ctentryType) {
 		this.ctentryType = ctentryType;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getField1() {
@@ -170,19 +146,6 @@ public class Ctentry extends com.serpics.core.persistence.jpa.Entity implements 
 		this.ctentryDescrs = ctentryDescrs;
 	}
 
-	/*
-	 * public Set<CtentryRelation> getCtentryRelations1() { return
-	 * this.ctentryRelations1; }
-	 * 
-	 * public void setCtentryRelations1(Set<CtentryRelation> ctentryRelations1)
-	 * { this.ctentryRelations1 = ctentryRelations1; }
-	 * 
-	 * public Set<CtentryRelation> getCtentryRelations2() { return
-	 * this.ctentryRelations2; }
-	 * 
-	 * public void setCtentryRelations2(Set<CtentryRelation> ctentryRelations2)
-	 * { this.ctentryRelations2 = ctentryRelations2; }
-	 */
 	public Set<Media> getMedias() {
 		return this.medias;
 	}
@@ -199,17 +162,21 @@ public class Ctentry extends com.serpics.core.persistence.jpa.Entity implements 
 		this.created = created;
 	}
 
+
 	@PrePersist
-	public void beforePersist() {
+	public void prePersist() {
 		this.created = new Date();
+		if (this.uuid == null)
+			this.uuid = UUID.randomUUID().toString();
+		
 	}
 
-	public Catalog getCatalog() {
-		return catalog;
+	public String getCode() {
+		return code;
 	}
 
-	public void setCatalog(Catalog catalog) {
-		this.catalog = catalog;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

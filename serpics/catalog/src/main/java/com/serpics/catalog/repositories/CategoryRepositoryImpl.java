@@ -17,12 +17,11 @@ public class CategoryRepositoryImpl implements BaseCategoryRepository {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Category> findRootCategory(Catalog catalog) {
-		String query = "SELECT * FROM ctentry c" + " join category g on c.ctentry_id=g.category_id"
-				+ " left outer join ctentry_relation r on r.ctentry_id_child = c.ctentry_id"
-				+ " where r.ctentry_id_parent is null and c.catalog_id=:catalogId";
+		String query = "select g from Category g"
+				+ " where g.catalog=:catalogId and g.ctentryId not in (select r.category_child.ctentryId from CategoryRelation as r) ";
 
-		Query q = entityManager.createNativeQuery(query, Category.class);
-		q.setParameter("catalogId", catalog.getCatalogId());
+		Query q = entityManager.createQuery(query, Category.class);
+		q.setParameter("catalogId", catalog);
 		return q.getResultList();
 	}
 

@@ -35,7 +35,6 @@ import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
 
 @Service("memberService")
-@Scope("store")
 public class MembershipServiceImpl extends AbstractService implements MembershipService, Membership {
 
 	@Resource

@@ -4,15 +4,22 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.catalog.persistence.AbstractProduct;
+import com.serpics.catalog.persistence.Bundle;
 import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.CategoryRelation;
+import com.serpics.catalog.persistence.Ctentry;
 import com.serpics.catalog.persistence.CtentryRelationPK;
 import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.repositories.AbstractProductRepository;
+import com.serpics.catalog.repositories.BundleRepository;
+import com.serpics.catalog.repositories.CatalogEntryRepository;
 import com.serpics.catalog.repositories.CatalogRepository;
 import com.serpics.catalog.repositories.CategoryRelationRepository;
 import com.serpics.catalog.repositories.CategoryRepository;
@@ -20,8 +27,12 @@ import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.core.service.AbstractService;
 
 @Service("catalogService")
+@Scope("store")
 public class CatalogServiceImpl extends AbstractService implements CatalogService {
 
+	@Resource
+	CatalogEntryRepository catalogEntryRepository;
+	
 	@Resource
 	CatalogRepository catalogRepository;
 
@@ -33,6 +44,12 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 
 	@Resource
 	ProductRepository productRepository;
+
+	@Resource
+	BundleRepository bundleRepository;
+	
+	@Resource
+	AbstractProductRepository abstractProductRepository;
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -65,7 +82,30 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 
 	@Override
 	@Transactional
-	public Product createproduct(Product p) {
-		return productRepository.saveAndFlush(p);
+	public Product createproduct(Product product) {
+		return productRepository.saveAndFlush(product);
+	}
+
+	@Override
+	public Bundle createproduct(Bundle b) {
+		return bundleRepository.saveAndFlush(b);
+	}
+
+	@Override
+	@Transactional
+	public void deleteCatalog(Catalog catalog) {
+			catalogRepository.delete(catalog);
+	}
+
+	@Override
+	public void deleteProduct(AbstractProduct product) {
+		abstractProductRepository.delete(product);
+		
+	}
+
+	@Override
+	public void deleteCatalogEntry(Ctentry ctentry) {
+		catalogEntryRepository.delete(ctentry);
+		
 	}
 }

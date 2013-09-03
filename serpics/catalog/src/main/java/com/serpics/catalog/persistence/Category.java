@@ -3,13 +3,19 @@ package com.serpics.catalog.persistence;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.serpics.core.datatype.CatalogEntryType;
 
 /**
  * The persistent class for the category database table.
@@ -32,7 +38,13 @@ public class Category extends Ctentry implements Serializable {
 	@OrderBy("sequence desc")
 	private Set<CategoryProductRelation> childProducts;
 
+	// bi-directional many-to-one association to Catalog
+	@ManyToOne(optional = false )
+	@JoinColumn(name = "catalog_id")
+	protected Catalog catalog;
+
 	public Category() {
+		this.ctentryType = CatalogEntryType.CATEGORY;
 	}
 
 	public Set<CategoryProductRelation> getChildProducts() {
@@ -49,6 +61,20 @@ public class Category extends Ctentry implements Serializable {
 
 	public void setChildCategories(Set<CategoryRelation> childCategories) {
 		this.childCategories = childCategories;
+	}
+
+	public Catalog getCatalog() {
+		return catalog;
+	}
+
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
+	}
+	
+	@PrePersist
+	public void prepersist(){
+		if (this.url == null)
+			this.url = "/" + getCatalog().getCode() + "/" + getCode();
 	}
 
 }

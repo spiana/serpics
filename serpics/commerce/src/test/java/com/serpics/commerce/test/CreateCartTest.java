@@ -17,6 +17,9 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.ProductNotFoundException;
+import com.serpics.catalog.persistence.Catalog;
+import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.persistence.Cart;
 import com.serpics.commerce.persistence.Order;
 import com.serpics.commerce.persistence.Orderitem;
@@ -40,6 +43,9 @@ public class CreateCartTest {
 	@Autowired
 	BaseService b;
 
+	@Resource
+	CatalogService catalogService;
+	
 	@Autowired
 	CommerceEngine ce;
 	@Resource
@@ -56,14 +62,34 @@ public class CreateCartTest {
 	@Before
 	public void init() {
 		b.initIstance();
+		
+		
 	}
 
 	@Test
 	public void test() throws SerpicsException {
 
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
+		
+		
 		assertNotNull("not connect with context !", context);
 
+		Catalog c = new Catalog();
+		c.setCode("default-catalog");
+		c = catalogService.createCatalog(c);
+		context.setCatalog(c);
+		
+		Product p = new Product();
+		p.setCode("product");
+		p.setBuyable(1);
+		p.setCatalog(c);
+		catalogService.createproduct(p);
+		Product p1 = new Product();
+		p1.setCode("product1");
+		p1.setBuyable(1);
+		p1.setCatalog(c);
+		catalogService.createproduct(p1);
+		
 		Cart cart = cs.createSessionCart();
 		assertNotNull(cart);
 		// Assert.assertEquals(0, cart.getPending());
@@ -82,7 +108,6 @@ public class CreateCartTest {
 		o = cart.getOrderitems().iterator().next();
 		assertEquals(11.0, o.getQuantity(), 0);
 
-		Orderitem o1 = new Orderitem("p", "prova", 10, new Double(200));
 		cs.cartAdd("product", 10.0, true);
 		cart = cs.createSessionCart();
 		assertEquals(1, cart.getOrderitems().size());
