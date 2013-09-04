@@ -119,6 +119,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 
 		}
 
+		
 		private void doHookScan() {
 
 			logger.info("start scanning !");
