@@ -29,8 +29,8 @@ public abstract class CtentryRelation implements Serializable {
 
 	private String field1;
 
-	@Column(name="relation_type" ,insertable=false ,updatable=false)
-	protected int relationType;
+	@Column(name="relation_type" , nullable=false)
+	protected Integer relationType;
 
 	private double sequence;
 
@@ -71,11 +71,11 @@ public abstract class CtentryRelation implements Serializable {
 		this.field1 = field1;
 	}
 
-	public int getRelationType() {
+	public Integer getRelationType() {
 		return this.relationType;
 	}
 
-	public void setRelationType(int relationType) {
+	public void setRelationType(Integer relationType) {
 		this.relationType = relationType;
 	}
 
