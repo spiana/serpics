@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * The persistent class for the member_attribute database table.
  * 
@@ -34,6 +36,7 @@ public class MemberAttribute extends com.serpics.core.persistence.jpa.Entity imp
 
 	// bi-directional many-to-one association to Member
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "member_id", nullable = false)
 	private Member member;
 

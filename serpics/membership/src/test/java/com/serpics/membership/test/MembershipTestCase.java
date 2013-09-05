@@ -9,6 +9,9 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -30,7 +33,8 @@ import com.serpics.membership.services.MembershipService;
 import com.serpics.test.ExecutionTestListener;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
-@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
+@TestExecutionListeners({ ExecutionTestListener.class,
+		DependencyInjectionTestExecutionListener.class })
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext
@@ -49,17 +53,21 @@ public class MembershipTestCase {
 	public void test() throws SerpicsException {
 
 		b.initIstance();
-		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
+		CommerceSessionContext context = ce.connect("default-store",
+				"superuser", "admin".toCharArray());
 		assertNotNull("not connect with context !", context);
 		context = ce.connect(context, "superuser", "admin".toCharArray());
 		assertNotNull("not connect with context !", context);
 		registerTestUser(context);
-		context = ce.connect("default-store", "test1", "password".toCharArray());
+		context = ce
+				.connect("default-store", "test1", "password".toCharArray());
 		assertNotNull("not connect with context !", context);
 		User u = (User) context.getUserPrincipal();
-		assertArrayEquals("verify is test user", "test1".toCharArray(), u.getUserReg().getLogonid().toCharArray());
-		assertArrayEquals("primaryAddress nickname", "test-address".toCharArray(), u.getPrimaryAddress().getNickname()
-				.toCharArray());
+		assertArrayEquals("verify is test user", "test1".toCharArray(), u
+				.getUserReg().getLogonid().toCharArray());
+		assertArrayEquals("primaryAddress nickname",
+				"test-address".toCharArray(), u.getPrimaryAddress()
+						.getNickname().toCharArray());
 		User example = new User();
 		example.setUserType(UserType.REGISTERED);
 		example.setLastname("testmembership");
@@ -78,7 +86,6 @@ public class MembershipTestCase {
 
 		l1 = m.findAll();
 		assertEquals(2, l1.size());
-
 	}
 
 	private void registerTestUser(CommerceSessionContext context) {

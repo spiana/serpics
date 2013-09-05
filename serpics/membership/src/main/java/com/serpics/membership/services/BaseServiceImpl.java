@@ -51,7 +51,6 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 		currency = currencyRepository.saveAndFlush(currency);
 
 		Store s = new Store();
-		s.setUuid("default-store");
 		s.setName("default-store");
 		s.setCurrency(currency);
 		s = m.createStore(s);
@@ -82,7 +81,7 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 
 	@Override
 	public boolean isInitialized() {
-		Store s = storeFactory.findByuuid("default-store");
+		Store s = storeFactory.findByname("default-store");
 		return s == null ? false : true;
 	}
 

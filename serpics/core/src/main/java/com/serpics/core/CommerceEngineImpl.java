@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
 
 import com.serpics.core.scope.SessionScopeContextHolder;
 import com.serpics.core.scope.StoreScopeContextHolder;
@@ -54,27 +55,27 @@ public class CommerceEngineImpl implements CommerceEngine {
 	}
 
 	@Override
-	public CommerceSessionContext connect(String storeUUID) throws SerpicsException {
-		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
+	public CommerceSessionContext connect(String storeName) throws SerpicsException {
+		StoreScopeContextHolder.setCurrentStoreRealm(storeName);
 		Membership membershipService = beanFactory.getBean(Membership.class);
 
-		StoreRealm s = membershipService.fetchStoreByUUID(storeUUID);
+		StoreRealm s = membershipService.fetchStoreByName(storeName);
 		SessionContext context = getSessionManager().createSessionContext(s);
 		UserDetail user = membershipService.createAnonymous();
 		context.setUserPrincipal(user);
 		context.setLastAccess(new Date());
 		threadLocal.set(context);
-		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
+		StoreScopeContextHolder.setCurrentStoreRealm(storeName);
 		SessionScopeContextHolder.setSessionScopeAttributes(context.getCommerceScopeAttribute());
 		return (CommerceSessionContext) context;
 	}
 
 	@Override
-	public CommerceSessionContext connect(String storeUUID, String loginId, char[] password) throws SerpicsException {
-		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
+	public CommerceSessionContext connect(String storeName, String loginId, char[] password) throws SerpicsException {
+		StoreScopeContextHolder.setCurrentStoreRealm(storeName);
 		Membership membershipService = beanFactory.getBean(Membership.class);
 
-		StoreRealm s = membershipService.fetchStoreByUUID(storeUUID);
+		StoreRealm s = membershipService.fetchStoreByName(storeName);
 		SessionContext context = getSessionManager().createSessionContext(s);
 		context.setLastAccess(new Date());
 		threadLocal.set(context);
@@ -101,6 +102,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 	@Override
 	public CommerceSessionContext bind(String sessionId) {
 		SessionContext _s = this.sessionManager.getSessionContext(sessionId);
+		Assert.notNull(_s, "session expired !");
 		_s.setLastAccess(new Date());
 		threadLocal.set(_s);
 		StoreScopeContextHolder.setCurrentStoreRealm(_s.getRealm());
