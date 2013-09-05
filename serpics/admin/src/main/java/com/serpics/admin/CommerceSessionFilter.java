@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.catalog.persistence.Catalog;
+import com.serpics.catalog.services.CatalogService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
@@ -25,6 +26,9 @@ public class CommerceSessionFilter implements Filter {
 	
 	@Autowired
 	CommerceEngine ce;
+	
+	@Autowired
+	CatalogService catService;
 	
 	@Override
 	public void destroy() {
@@ -41,16 +45,16 @@ public class CommerceSessionFilter implements Filter {
 		
 		try {
 			CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
+			context.setCatalog(catService.getCatalog("default-catalog"));
 			
-			Catalog catalog = new Catalog();
-			catalog.setCode("default-catalog");
-			context.setCatalog(catalog);
 		} catch (SerpicsException e) {
 			logger.error("Error establishing commerceSession in servlet filter", e);
 			throw new ServletException(e);
 		}
 		
 		chain.doFilter(req, resp);
+		
+		
 	}
 
 	@Override

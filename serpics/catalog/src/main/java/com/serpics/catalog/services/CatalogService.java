@@ -13,6 +13,8 @@ public interface CatalogService {
 
 	public Catalog createCatalog(Catalog catalog);
 	
+	public Catalog getCatalog(String name);
+	
 	public void deleteCatalog(Catalog  catalog);
 
 	public void deleteProduct(AbstractProduct  product);

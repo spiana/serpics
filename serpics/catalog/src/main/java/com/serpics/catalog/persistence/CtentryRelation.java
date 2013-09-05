@@ -30,7 +30,7 @@ public abstract class CtentryRelation implements Serializable {
 	private String field1;
 
 	@Column(name="relation_type" ,insertable=false ,updatable=false)
-	private int relationType;
+	protected int relationType;
 
 	private double sequence;
 

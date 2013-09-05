@@ -14,9 +14,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Sort;
 
 import com.serpics.core.datatype.MemberType;
 import com.serpics.core.datatype.UserType;
@@ -63,6 +66,7 @@ public class User extends Member implements Serializable, UserDetail {
 	// bi-directional many-to-one association to MemberRelation
 	@GsonTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	@OrderBy("precedence DESC")
 	protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
 
 	public User() {

@@ -18,7 +18,7 @@ public class CategoryRepositoryImpl implements BaseCategoryRepository {
 	@SuppressWarnings("unchecked")
 	public List<Category> findRootCategory(Catalog catalog) {
 		String query = "select g from Category g"
-				+ " where g.catalog=:catalogId and g.ctentryId not in (select r.category_child.ctentryId from CategoryRelation as r) ";
+				+ " where g.catalog=:catalogId and g.ctentryId not in (select r.childCategory.ctentryId from CategoryRelation as r) ";
 
 		Query q = entityManager.createQuery(query, Category.class);
 		q.setParameter("catalogId", catalog);

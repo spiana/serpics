@@ -63,6 +63,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 		UserDetail user = membershipService.createAnonymous();
 		context.setUserPrincipal(user);
 		context.setLastAccess(new Date());
+		
 		threadLocal.set(context);
 		StoreScopeContextHolder.setCurrentStoreRealm(storeUUID);
 		SessionScopeContextHolder.setSessionScopeAttributes(context.getCommerceScopeAttribute());

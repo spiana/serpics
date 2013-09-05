@@ -1,9 +1,12 @@
 package com.serpics.catalog.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,6 +33,8 @@ import com.serpics.core.service.AbstractService;
 @Scope("store")
 public class CatalogServiceImpl extends AbstractService implements CatalogService {
 
+	private static final Logger logger = LoggerFactory.getLogger(CatalogServiceImpl.class);
+	
 	@Resource
 	CatalogEntryRepository catalogEntryRepository;
 	
@@ -68,6 +73,32 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 		return category;
 	}
 
+	
+	@Override
+	public List<Category> getChildCategories(Category parent) {
+		List<Category> res = new ArrayList<>(5);
+
+		try {
+			List<CategoryRelation> findByCategory_parent = categoryRelationRepository
+					.findByParentCategory(parent);
+			for (CategoryRelation rel : findByCategory_parent) {
+				res.add(rel.getChildCategory());
+			}
+		} catch (Exception e) {
+			logger.error("", e);
+		} finally {
+			return res;
+		}
+	}
+	
+	
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public Catalog getCatalog(String code) {
+		return catalogRepository.findByCode(code);
+	}
+	
+	
 	@Override
 	public List<Category> findRootCategory() {
 		return categoryRepository.findRootCategory((Catalog) getCurrentContext().getCatalog());
@@ -109,12 +140,6 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 		
 	}
 
-	@Override
-	public List<Category> getChildCategories(Category parent) {
-		List<CategoryRelation> findByCategory_parent = categoryRelationRepository.findByParentCategory(parent);
-		for (CategoryRelation rel : findByCategory_parent){
-			System.out.println(rel.getChildCategory().toString());
-		}
-		return null;
-	}
+
+
 }

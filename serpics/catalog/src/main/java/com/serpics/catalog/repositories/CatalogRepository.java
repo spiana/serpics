@@ -12,5 +12,6 @@ public interface CatalogRepository extends Repository<Catalog, Long> {
 	@Query("select c from Catalog c  where c.published=1") 
 	public List<Catalog> findPublished();
 
-
+	public Catalog findByCode(String code);
+	
 }

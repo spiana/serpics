@@ -10,6 +10,10 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("0")
 public class CategoryRelation extends CtentryRelation {
 
+	public CategoryRelation(){
+		this.relationType = 0;
+	}
+	
 	private static final long serialVersionUID = 1L;
 	
 	
