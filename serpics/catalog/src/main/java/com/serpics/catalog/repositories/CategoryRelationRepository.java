@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface CategoryRelationRepository extends Repository<CategoryRelation, CtentryRelationPK> {
 
-//	public List<CategoryRelation> findByCategory_parent(Category parent);
+	public List<CategoryRelation> findByParentCategory(Category parent);
 	
 }

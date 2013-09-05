@@ -14,7 +14,7 @@ public abstract class SessionContext implements Serializable {
 	private UserDetail userDetail;
 	private String sessionId;
 	private String realm;
-	private Date lastAccess;
+	private Date lastAccess = new Date();
 	private SessionScopeAttributes sessionScopeAttribute;
 
 	public Date getLastAccess() {

@@ -29,12 +29,12 @@ public class Category extends Ctentry implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// bi-directional many-to-one association to CtentryRelation
-	@OneToMany(mappedBy = "category_parent", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryRelation.class)
+	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryRelation.class)
 	@OrderBy("sequence desc")
 	private Set<CategoryRelation> childCategories;
 
 	// bi-directional many-to-one association to CtentryRelation
-	@OneToMany(mappedBy = "category_parent", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class)
+	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class)
 	@OrderBy("sequence desc")
 	private Set<CategoryProductRelation> childProducts;
 

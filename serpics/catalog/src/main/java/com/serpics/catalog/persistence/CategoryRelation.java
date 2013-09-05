@@ -16,28 +16,31 @@ public class CategoryRelation extends CtentryRelation {
 	//bi-directional many-to-one association to Ctentry
     @ManyToOne (fetch=FetchType.EAGER)
 	@JoinColumn(name="ctentry_id_parent" , insertable=false, updatable=false)
-	private Category category_parent;
+	private Category parentCategory;
 	
 	//bi-directional many-to-one association to Ctentry
     @ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
-	private Category category_child;
+	private Category childCategory;
+
+	public Category getParentCategory() {
+		return parentCategory;
+	}
+
+	public void setParentCategory(Category parentCategory) {
+		this.parentCategory = parentCategory;
+	}
+
+	public Category getChildCategory() {
+		return childCategory;
+	}
+
+	public void setChildCategory(Category childCategory) {
+		this.childCategory = childCategory;
+	}
 
  
-	public Category getCategory_parent() {
-		return category_parent;
-	}
 
-	public void setCategory_parent(Category category_parent) {
-		this.category_parent = category_parent;
-	}
 
-	public Category getCategory_child() {
-		return category_child;
-	}
-
-	public void setCategory_child(Category category_child) {
-		this.category_child = category_child;
-	}
 
 }

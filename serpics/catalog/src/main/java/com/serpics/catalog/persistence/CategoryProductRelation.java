@@ -16,28 +16,30 @@ public class CategoryProductRelation extends CtentryRelation {
 	//bi-directional many-to-one association to Ctentry
     @ManyToOne (fetch=FetchType.LAZY)
 	@JoinColumn(name="ctentry_id_parent" , insertable=false, updatable=false)
-	private Category category_parent;
+	private Category parentCategory;
 	
 	//bi-directional many-to-one association to Ctentry
     @ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
-	private AbstractProduct product_child;
+	private AbstractProduct childProduct;
+
+	public Category getParentCategory() {
+		return parentCategory;
+	}
+
+	public void setParentCategory(Category parentCategory) {
+		this.parentCategory = parentCategory;
+	}
+
+	public AbstractProduct getChildProduct() {
+		return childProduct;
+	}
+
+	public void setChildProduct(AbstractProduct childProduct) {
+		this.childProduct = childProduct;
+	}
 
  
-	public Category getCategory_parent() {
-		return category_parent;
-	}
 
-	public void setCategory_parent(Category category_parent) {
-		this.category_parent = category_parent;
-	}
-
-	public AbstractProduct getProduct_child() {
-		return product_child;
-	}
-
-	public void setProduct_child(AbstractProduct product_child) {
-		this.product_child = product_child;
-	}
 
 }

@@ -9,12 +9,20 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.catalog.persistence.Catalog;
 import com.serpics.core.CommerceEngine;
+import com.serpics.core.SerpicsException;
+import com.serpics.core.session.CommerceSessionContext;
+
 
 public class CommerceSessionFilter implements Filter {
 
+	private static final Logger logger = LoggerFactory.getLogger(CommerceSessionFilter.class);
+	
 	@Autowired
 	CommerceEngine ce;
 	
@@ -25,10 +33,24 @@ public class CommerceSessionFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1,
-			FilterChain arg2) throws IOException, ServletException {
+	public void doFilter(ServletRequest req, ServletResponse resp,
+			FilterChain chain) throws IOException, ServletException {
 		
+		if (logger.isDebugEnabled())
+			logger.debug("CommerceSessionFilter called");
 		
+		try {
+			CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
+			
+			Catalog catalog = new Catalog();
+			catalog.setCode("default-catalog");
+			context.setCatalog(catalog);
+		} catch (SerpicsException e) {
+			logger.error("Error establishing commerceSession in servlet filter", e);
+			throw new ServletException(e);
+		}
+		
+		chain.doFilter(req, resp);
 	}
 
 	@Override
