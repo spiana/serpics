@@ -20,6 +20,8 @@ public interface CatalogService {
 	public void deleteCatalogEntry(Ctentry ctentry);
 	
 	public List<Category> findRootCategory();
+	
+	public List<Category> getChildCategories(Category parent);
 
 	public Category createCategory(Category c, Category parent);
 

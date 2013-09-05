@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/project-name"/>
+<Context antiJARLocking="true" disableURLRewriting="true">
+	<!-- 
+	<Loader delegate="false" loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader" />
+	 -->	
+</Context>

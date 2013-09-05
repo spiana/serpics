@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 	<display-name>Serpics Admin</display-name>
@@ -9,28 +9,29 @@
 		<param-name>productionMode</param-name>
 		<param-value>false</param-value>
 	</context-param>
-
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:META-INF/admin-appContext.xml,
+		classpath*:META-INF/applicationContext.xml
+			
+		</param-value>
+	</context-param>
 	<servlet>
-		<servlet-name>vaadin-servlet</servlet-name>
-		<servlet-class>org.dellroad.stuff.vaadin7.SpringVaadinServlet</servlet-class>
+		<servlet-name>Test Application</servlet-name>
+		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
 		<init-param>
-			<param-name>UI</param-name>
-			<param-value>your.company.MyVaadinUI</param-value>
-		</init-param>
-		<init-param>
-			<param-name>configLocation</param-name>
-			<param-value>classpath:META-INF/admin-appContext.xml</param-value>
+			<param-name>beanName</param-name>
+			<param-value>categoryUI</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>vaadin-servlet</servlet-name>
+		<servlet-name>Test Application</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+	<display-name>admin</display-name>
 
 </web-app>
- 
- 
-
- 
- 
- 

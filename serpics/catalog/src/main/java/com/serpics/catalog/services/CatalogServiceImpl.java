@@ -108,4 +108,13 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 		catalogEntryRepository.delete(ctentry);
 		
 	}
+
+	@Override
+	public List<Category> getChildCategories(Category parent) {
+//		List<CategoryRelation> findByCategory_parent = categoryRelationRepository.findByCategory_parent(parent);
+//		for (CategoryRelation rel : findByCategory_parent){
+//			System.out.println(rel.getCategory_child().toString());
+//		}
+		return null;
+	}
 }

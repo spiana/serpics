@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 @MappedSuperclass
 public abstract class Entity {
 
-	@Column(name = "update")
+	@Column(name = "updated")
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date updated;
 
