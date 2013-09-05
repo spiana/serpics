@@ -2,8 +2,9 @@ package com.serpics.membership.persistence;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.util.gson.GsonTransient;
@@ -15,6 +16,7 @@ import java.sql.Timestamp;
  * The persistent class for the users_reg database table.
  * 
  */
+@XmlRootElement(name="usersreg")
 @Entity
 @Table(name = "users_reg")
 public class UsersReg implements Serializable {
@@ -62,8 +64,8 @@ public class UsersReg implements Serializable {
 	private String status;
 
 	private Timestamp updated;
-
-	@JsonIgnore
+	
+	
 	@OneToOne( fetch = FetchType.EAGER, optional = false )
 	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false )
 	private User user;
@@ -192,6 +194,7 @@ public class UsersReg implements Serializable {
 		this.updated = updated;
 	}
 
+	@XmlTransient
 	public User getUser() {
 		return user;
 	}

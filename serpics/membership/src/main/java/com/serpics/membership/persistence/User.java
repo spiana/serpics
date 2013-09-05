@@ -18,18 +18,19 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.core.datatype.MemberType;
 import com.serpics.core.datatype.UserType;
 import com.serpics.core.security.UserDetail;
-import com.serpics.util.gson.GsonTransient;
 
 /**
  * The persistent class for the users database table.
  * 
  */
+
+@XmlRootElement(name="user")
 @Entity
 @Table(name = "users")
 @DiscriminatorValue("U")
@@ -58,7 +59,8 @@ public class User extends Member implements Serializable, UserDetail {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "last_visit")
 	private Date lastVisit;
-
+	
+	
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL, orphanRemoval = true)
 	private UsersReg userReg;
 
@@ -66,7 +68,6 @@ public class User extends Member implements Serializable, UserDetail {
 	private Long storeId;
 
 	// bi-directional many-to-one association to MemberRelation
-	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
 	protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
 
@@ -157,6 +158,7 @@ public class User extends Member implements Serializable, UserDetail {
 		return false;
 	}
 
+	
 	public UsersReg getUserReg() {
 		return userReg;
 	}
@@ -166,7 +168,7 @@ public class User extends Member implements Serializable, UserDetail {
 	}
 
 	@Override
-	@JsonIgnore
+	@XmlTransient
 	public String getName() {
 		if (userReg != null)
 			return userReg.getLogonid();
@@ -194,6 +196,7 @@ public class User extends Member implements Serializable, UserDetail {
 		this.storeId = storeId;
 	}
 
+	@XmlTransient
 	public Set<UserStoreRelation> getStoreRelation() {
 		return storeRelation;
 	}

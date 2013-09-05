@@ -12,13 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * The persistent class for the member_attribute database table.
  * 
  */
+@XmlRootElement
 @Entity
 @Table(name = "member_attribute")
 public class MemberAttribute extends com.serpics.core.persistence.jpa.Entity implements Serializable {
@@ -36,7 +38,7 @@ public class MemberAttribute extends com.serpics.core.persistence.jpa.Entity imp
 
 	// bi-directional many-to-one association to Member
 	@ManyToOne
-	@JsonIgnore
+	@XmlTransient
 	@JoinColumn(name = "member_id", nullable = false)
 	private Member member;
 

@@ -2,6 +2,8 @@ package com.serpics.membership.persistence;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import java.util.Set;
 
 
@@ -11,6 +13,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name="roles")
+@XmlRootElement
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 

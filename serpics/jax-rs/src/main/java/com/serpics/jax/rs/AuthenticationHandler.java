@@ -1,4 +1,4 @@
-package com.serpics.membership.cxf;
+package com.serpics.jax.rs;
 
 import java.util.List;
 import java.util.Map;

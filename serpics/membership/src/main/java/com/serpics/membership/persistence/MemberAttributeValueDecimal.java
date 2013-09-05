@@ -2,6 +2,8 @@ package com.serpics.membership.persistence;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 
@@ -12,6 +14,7 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name="member_attribute_value_decimal")
+@XmlRootElement
 public class MemberAttributeValueDecimal implements Serializable {
 	private static final long serialVersionUID = 1L;
 

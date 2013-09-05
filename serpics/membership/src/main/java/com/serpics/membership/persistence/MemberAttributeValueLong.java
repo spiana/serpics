@@ -2,6 +2,8 @@ package com.serpics.membership.persistence;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import java.sql.Timestamp;
 
 
@@ -11,6 +13,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="member_attribute_value_long")
+@XmlRootElement
 public class MemberAttributeValueLong implements Serializable {
 	private static final long serialVersionUID = 1L;
 

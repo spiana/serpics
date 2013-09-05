@@ -25,6 +25,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.util.gson.GsonTransient;
 
@@ -32,6 +34,7 @@ import com.serpics.util.gson.GsonTransient;
  * The persistent class for the members database table.
  * 
  */
+@XmlRootElement(name="member")
 @Entity
 @Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = { "uuid" }))
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -168,6 +171,7 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements
 		return permanentAddresses;
 	}
 
+	@XmlTransient
 	public PermanentAddress getPrimaryAddress() {
 		for (PermanentAddress address : this.getPermanentAddresses()) {
 			if (address.getIsprimary() == 1)

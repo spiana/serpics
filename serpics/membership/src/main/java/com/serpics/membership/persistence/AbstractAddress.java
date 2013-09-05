@@ -22,8 +22,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.serpics.util.gson.GsonTransient;
 
@@ -35,6 +36,7 @@ import com.serpics.util.gson.GsonTransient;
 @Table(name = "addresses")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "flag", discriminatorType = DiscriminatorType.STRING)
+@XmlRootElement
 public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -110,7 +112,6 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 
 	// bi-directional many-to-one association to Member
 	@GsonTransient
-	@JsonIgnore
 	@ManyToOne(targetEntity = Member.class, fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "member_id", nullable = false)
 	protected Member member;
@@ -304,6 +305,7 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 		this.zipcode = zipcode;
 	}
 
+	@XmlTransient
 	public Member getMember() {
 		return this.member;
 	}

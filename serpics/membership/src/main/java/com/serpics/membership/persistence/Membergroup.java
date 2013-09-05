@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.sql.Timestamp;
 
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="membergroups")
+@XmlRootElement
 public class Membergroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 
