@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -112,7 +113,7 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 
 	// bi-directional many-to-one association to Member
 	@GsonTransient
-	@ManyToOne(targetEntity = Member.class, fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(targetEntity = Member.class, fetch = FetchType.EAGER, optional = false, cascade=CascadeType.PERSIST)
 	@JoinColumn(name = "member_id", nullable = false)
 	protected Member member;
 

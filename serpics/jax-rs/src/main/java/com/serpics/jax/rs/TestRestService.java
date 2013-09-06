@@ -19,4 +19,6 @@ public interface TestRestService {
 	@JsonSerialize(include=JsonSerialize.Inclusion.ALWAYS)
 	public User ping();
 	
+	public Long echo(Long id);
+	
 }

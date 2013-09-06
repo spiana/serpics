@@ -92,8 +92,8 @@ public class MembershipRestTest extends Assert {
 		UserRestService client = JAXRSClientFactory.create(ENDPOINT_ADDRESS,
 				UserRestService.class, providers);
 
-		Page<User> ul = client.findAll(null);
-		Assert.assertEquals(3, ul.getContent().size());
+//		Page<User> ul = client.findAll(null);
+	//	Assert.assertEquals(3, ul.getContent().size());
 	}
 
 	// @Test

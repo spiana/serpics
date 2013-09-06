@@ -67,7 +67,7 @@ public class UsersReg implements Serializable {
 	
 	
 	@OneToOne( fetch = FetchType.EAGER, optional = false )
-	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false )
+	@JoinColumn(name = "user_id", nullable = false , insertable = false, updatable = false )
 	private User user;
 
 	public UsersReg() {

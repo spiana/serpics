@@ -6,10 +6,12 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.DirtiesContext;
@@ -30,6 +32,7 @@ import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.MembershipService;
+import com.serpics.membership.services.UserService;
 import com.serpics.test.ExecutionTestListener;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
@@ -38,6 +41,7 @@ import com.serpics.test.ExecutionTestListener;
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext
+@Transactional
 public class MembershipTestCase {
 
 	@Autowired
@@ -48,14 +52,32 @@ public class MembershipTestCase {
 	@Autowired
 	CommerceEngine ce;
 
+	@Autowired
+	UserService userService;
+	
+	@Before
+	public void beforetest(){
+		b.initIstance();	
+	}
+	@Test
+	public void test0() throws SerpicsException{
+		CommerceSessionContext context = ce.connect("default-store",
+				"superuser", "admin".toCharArray());
+		Page p = userService.findAll(new PageRequest(0, 10));
+		assertEquals(2, p.getContent().size());
+		List<User> l = userService.findAll();
+		assertEquals(2, l.size());
+	}
 	@Test
 	@Transactional
 	public void test() throws SerpicsException {
 
-		b.initIstance();
+	
 		CommerceSessionContext context = ce.connect("default-store",
 				"superuser", "admin".toCharArray());
 		assertNotNull("not connect with context !", context);
+		assertNotNull("notstore in context !", context.getStoreRealm());
+		
 		context = ce.connect(context, "superuser", "admin".toCharArray());
 		assertNotNull("not connect with context !", context);
 		registerTestUser(context);

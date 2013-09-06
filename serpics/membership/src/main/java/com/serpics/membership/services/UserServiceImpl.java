@@ -33,7 +33,7 @@ import com.serpics.membership.repositories.UserRepository;
 
 @Service("userService")
 @Scope("store")
-@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
+@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 public class UserServiceImpl extends AbstractService implements UserService{
 
 	@Resource
@@ -72,13 +72,14 @@ public class UserServiceImpl extends AbstractService implements UserService{
 	@Override
 	@Transactional
 	public User update(User user) {
-		return userRepository.saveAndFlush(user);
+		return userRepository.save(user);
 	}
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public User registerUser(User user, UsersReg reg, PermanentAddress primaryAddress) {
-		user.setPrimaryAddress(primaryAddress);
+		if (primaryAddress != null)
+			user.setPrimaryAddress(primaryAddress);
 		create(user);
 		if (user.getUserType().equals(UserType.ANONYMOUS) || user.getUserType().equals(UserType.GUEST))
 			user.setUserType(UserType.REGISTERED);
@@ -91,7 +92,6 @@ public class UserServiceImpl extends AbstractService implements UserService{
 	}
 
 	@Override
-	@Transactional(propagation=Propagation.MANDATORY)
 	public List<User> findAll() {
 		return userRepository.findAll(isUserInStore((Store) getCurrentContext().getStoreRealm()));
 	}
