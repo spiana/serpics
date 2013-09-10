@@ -75,8 +75,14 @@ public class UserServiceImpl extends AbstractService implements UserService {
 		if (user.getUserType().equals(UserType.ANONYMOUS))
 			user.setUserType(UserType.GUEST);
 
+
+		for (PermanentAddress address : user.getPermanentAddresses()) {
+			address.setMember(user);
+		}	
+		
 		Set<MembersRole> roles = user.getMembersRoles();
 		user.setMembersRoles(new HashSet<MembersRole>());
+		
 		user = userRepository.saveAndFlush(user);
 		user = mergeUserRoles(user, roles);
 
@@ -104,6 +110,11 @@ public class UserServiceImpl extends AbstractService implements UserService {
 	@Transactional
 	public User update(User user) {
 		user = mergeUserRoles(user , user.getMembersRoles());
+		for (PermanentAddress address : user.getPermanentAddresses()) {
+			if (address.getMember() == null) address.setMember(user);
+		}	
+		if (user.getUserReg() != null)
+			user.getUserReg().setUser(user);
 		return userRepository.save(user);
 	}
 

@@ -38,11 +38,6 @@ public class UserRestServiceImpl  implements UserRestService {
 	@Path("create")
 	public Response create(User entity) {
 		Assert.notNull(entity);
-		
-		for (PermanentAddress address : entity.getPermanentAddresses()) {
-			address.setMember(entity);
-		}	
-		
 		if (entity.getUserReg() != null){
 			UsersReg reg = entity.getUserReg();
 			entity.setUserReg(null);
@@ -73,12 +68,6 @@ public class UserRestServiceImpl  implements UserRestService {
 	@PUT
 	@Path("update")
 	public Response update(User entity) {
-		for (PermanentAddress address : entity.getPermanentAddresses()) {
-			address.setMember(entity);
-		}	
-		if (entity.getUserReg() != null)
-			entity.getUserReg().setUser(entity);
-		
 		userService.update(entity);
 		return Response.ok().build();
 	}

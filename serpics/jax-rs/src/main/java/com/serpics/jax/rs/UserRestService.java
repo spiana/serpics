@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.persistence.User;
 
-@Path("/userService")
+
 public interface UserRestService extends AbstractRestService<User, Long> {
 
 
