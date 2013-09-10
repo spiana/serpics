@@ -114,36 +114,15 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>3.2.4.RELEASE</version>
 		</dependency>
-		
-		<!-- CFX SUPPORT -->
-		 <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-jaxrs</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
+
+
 
 		<dependency>
-		        <groupId>org.apache.cxf</groupId>
-		        <artifactId>cxf-rt-transports-http-jetty</artifactId>
-		        <version>${cxf.version}</version>
+			<groupId>javax.xml</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${jaxb.version}</version>
 		</dependency>
-        
-     </dependencies>
+	</dependencies>
 	
 <build>
   <resources>

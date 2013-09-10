@@ -3,8 +3,6 @@ package com.serpics.membership.persistence;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -19,11 +17,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.util.gson.GsonTransient;
 
@@ -110,17 +106,11 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 
 	// bi-directional many-to-one association to Member
 	@GsonTransient
-	@JsonIgnore
 	@ManyToOne(targetEntity = Member.class, fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "member_id", nullable = false)
+	@JoinColumn(name = "member_id", nullable = false ,updatable = false)
 	protected Member member;
 
-	@PrePersist
-	@PreUpdate
-	public void preUpdated() {
-		setUpdated(new Timestamp(new Date().getTime()));
-	}
-
+	
 	public AbstractAddress() {
 		this.nickname = UUID.randomUUID().toString();
 	}
@@ -304,6 +294,7 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 		this.zipcode = zipcode;
 	}
 
+	@XmlTransient
 	public Member getMember() {
 		return this.member;
 	}

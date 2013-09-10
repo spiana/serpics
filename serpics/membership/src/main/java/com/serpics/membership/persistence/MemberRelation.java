@@ -1,12 +1,13 @@
 package com.serpics.membership.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import org.hibernate.annotations.DiscriminatorOptions;
-
 import java.math.BigDecimal;
-import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.MappedSuperclass;
+
+import com.serpics.core.persistence.jpa.Entity;
 
 
 
@@ -15,7 +16,7 @@ import java.util.Date;
  * 
  */
 @MappedSuperclass
-public abstract class MemberRelation implements Serializable {
+public abstract class MemberRelation extends Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -32,9 +33,6 @@ public abstract class MemberRelation implements Serializable {
 
 	private double precedence;
 
-	@Column(nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updated;
 
 /*
 	//bi-directional many-to-one association to Member
@@ -89,15 +87,6 @@ public abstract class MemberRelation implements Serializable {
 	public void setPrecedence(double precedence) {
 		this.precedence = precedence;
 	}
-
-	public Date getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Date updated) {
-		this.updated = updated;
-	}
-
 		
 	
 }

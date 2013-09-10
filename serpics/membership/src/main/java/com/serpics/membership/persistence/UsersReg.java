@@ -2,8 +2,9 @@ package com.serpics.membership.persistence;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.util.gson.GsonTransient;
@@ -15,9 +16,10 @@ import java.sql.Timestamp;
  * The persistent class for the users_reg database table.
  * 
  */
+@XmlRootElement(name="usersreg")
 @Entity
 @Table(name = "users_reg")
-public class UsersReg implements Serializable {
+public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "user_id", unique = true, nullable = false)
@@ -61,11 +63,9 @@ public class UsersReg implements Serializable {
 	@Column(nullable = false, length = 1)
 	private String status;
 
-	private Timestamp updated;
-
-	@JsonIgnore
+	
 	@OneToOne( fetch = FetchType.EAGER, optional = false )
-	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false )
+	@JoinColumn(name = "user_id", nullable = false , insertable = true, updatable = false )
 	private User user;
 
 	public UsersReg() {
@@ -184,14 +184,7 @@ public class UsersReg implements Serializable {
 		this.status = status;
 	}
 
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
-	}
-
+	@XmlTransient
 	public User getUser() {
 		return user;
 	}

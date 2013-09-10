@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.sql.Timestamp;
 
@@ -14,7 +15,8 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="membergroups")
-public class Membergroup implements Serializable {
+@XmlRootElement
+public class Membergroup  extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,9 +29,6 @@ public class Membergroup implements Serializable {
 
 	@Column(nullable=false, length=40)
 	private String name;
-
-	@Column(nullable=false)
-	private Timestamp updated;
 
 
 	//bi-directional many-to-one association to Store
@@ -63,15 +62,6 @@ public class Membergroup implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
-	}
-
 	
 	public Store getStore() {
 		return this.store;

@@ -4,8 +4,9 @@ import static com.serpics.membership.repositories.UserSpecification.isUserInStor
 import static org.springframework.data.jpa.domain.Specifications.where;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -21,41 +22,70 @@ import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.core.datatype.UserType;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.session.SessionContext;
-
+import com.serpics.membership.persistence.MembersRole;
+import com.serpics.membership.persistence.MembersRolePK;
 import com.serpics.membership.persistence.PermanentAddress;
+import com.serpics.membership.persistence.Role;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UserStoreRelation;
 import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
 
-
 @Service("userService")
 @Scope("store")
-@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
-public class UserServiceImpl extends AbstractService implements UserService{
+@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+public class UserServiceImpl extends AbstractService implements UserService {
 
 	@Resource
 	UserRepository userRepository;
-	
+
 	@Resource
 	UserRegrepository userRegrepository;
-	
+
+	@Resource(name = "permanentAddressRepository")
+	PermanentAddressRepository addressRepository;
+
+	private User mergeUserRoles(User user, Set<MembersRole> roles) {
+		Store s = (Store) getCurrentContext().getStoreRealm();
+		for (MembersRole memberRole : roles) {
+			if (memberRole.getId() == null) {
+				if (memberRole.getStore() == null)
+					memberRole.setStore(s);
+
+				memberRole.setMember(user);
+				MembersRolePK pk = new MembersRolePK();
+				pk.setStoresStoreId(s.getStoreId());
+				pk.setMemberId(user.getMemberId());
+				pk.setRoleId(memberRole.getRole().getRoleId());
+				memberRole.setId(pk);
+			}
+			user.getMembersRoles().add(memberRole);
+		}
+
+		return user;
+	}
+
 	@Override
 	@Transactional
 	public User create(User user) {
-		
+
 		if (user.getUserType().equals(UserType.ANONYMOUS))
 			user.setUserType(UserType.GUEST);
-		if (user.getUuid() == null)
-			user.setUuid(UUID.randomUUID().toString());
+
+		Set<MembersRole> roles = user.getMembersRoles();
+		user.setMembersRoles(new HashSet<MembersRole>());
 		user = userRepository.saveAndFlush(user);
-		UserStoreRelation r = new UserStoreRelation((Store) getCurrentContext().getStoreRealm(), user);
+		user = mergeUserRoles(user, roles);
+
+		UserStoreRelation r = new UserStoreRelation((Store) getCurrentContext()
+				.getStoreRealm(), user);
 		r.setUpdated(new Date());
 		user.getStoreRelation().add(r);
 		return userRepository.saveAndFlush(user);
-		
+
 	}
 
 	@Override
@@ -66,21 +96,26 @@ public class UserServiceImpl extends AbstractService implements UserService{
 
 	@Override
 	public Page<User> findAll(Pageable page) {
-		return userRepository.findAll(isUserInStore((Store) getCurrentContext().getStoreRealm()),page);
+		return userRepository.findAll(isUserInStore((Store) getCurrentContext()
+				.getStoreRealm()), page);
 	}
 
 	@Override
 	@Transactional
 	public User update(User user) {
-		return userRepository.saveAndFlush(user);
+		user = mergeUserRoles(user , user.getMembersRoles());
+		return userRepository.save(user);
 	}
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public User registerUser(User user, UsersReg reg, PermanentAddress primaryAddress) {
-		user.setPrimaryAddress(primaryAddress);
+	public User registerUser(User user, UsersReg reg,
+			PermanentAddress primaryAddress) {
+		if (primaryAddress != null)
+			user.setPrimaryAddress(primaryAddress);
 		create(user);
-		if (user.getUserType().equals(UserType.ANONYMOUS) || user.getUserType().equals(UserType.GUEST))
+		if (user.getUserType().equals(UserType.ANONYMOUS)
+				|| user.getUserType().equals(UserType.GUEST))
 			user.setUserType(UserType.REGISTERED);
 		reg.setUserId(user.getMemberId());
 		if (reg.getStatus() == null)
@@ -91,26 +126,53 @@ public class UserServiceImpl extends AbstractService implements UserService{
 	}
 
 	@Override
-	@Transactional(propagation=Propagation.MANDATORY)
 	public List<User> findAll() {
-		return userRepository.findAll(isUserInStore((Store) getCurrentContext().getStoreRealm()));
+		return userRepository.findAll(isUserInStore((Store) getCurrentContext()
+				.getStoreRealm()));
 	}
-	
+
 	@Override
 	public List<User> findByexample(User example) {
-		return userRepository.findAll(where(userRepository.makeSpecification(example)));
+		return userRepository.findAll(where(userRepository
+				.makeSpecification(example)));
 	}
 
 	@Override
 	public List<UsersReg> findByexample(UsersReg example) {
-		return userRegrepository.findAll(where(userRegrepository.makeSpecification(example)));
+		return userRegrepository.findAll(where(userRegrepository
+				.makeSpecification(example)));
 	}
 
 	@Override
 	public User findOne(Long id) {
 		SessionContext c = getCurrentContext();
 		Assert.notNull(c, "no session context");
-	
+
 		return userRepository.findOne(id);
+	}
+
+	@Override
+	@Transactional
+	public User addAddress(PermanentAddress address, User user) {
+		Assert.notNull(user);
+		Assert.notNull(address);
+		address.setMember(user);
+		user.getPermanentAddresses().add(address);
+		return update(user);
+
+	}
+
+	@Override
+	@Transactional
+	public User addAddress(PermanentAddress address, Long userId) {
+		User user = userRepository.findOne(userId);
+		return addAddress(address, user);
+	}
+
+	@Override
+	public User addRole(Role role, User user) {
+		MembersRole membersRole = new MembersRole(user , role , (Store) getCurrentContext().getStoreRealm());
+		user.getMembersRoles().add(membersRole);
+		return userRepository.save(user);
 	}
 }

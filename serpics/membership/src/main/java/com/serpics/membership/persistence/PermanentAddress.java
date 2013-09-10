@@ -2,9 +2,11 @@ package com.serpics.membership.persistence;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.serpics.core.datatype.AddressType;
 
+@XmlRootElement(name="address")
 @Entity(name = "PermanentAddress")
 @DiscriminatorValue(AddressType.PERMANENT)
 public class PermanentAddress extends AbstractAddress {

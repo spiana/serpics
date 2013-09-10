@@ -60,6 +60,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 		Membership membershipService = beanFactory.getBean(Membership.class);
 
 		StoreRealm s = membershipService.fetchStoreByName(storeName);
+		Assert.notNull(s);
 		SessionContext context = getSessionManager().createSessionContext(s);
 		UserDetail user = membershipService.createAnonymous();
 		context.setUserPrincipal(user);

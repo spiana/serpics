@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * The persistent class for the member_attribute_value_datetime database table.
@@ -18,6 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "member_attribute_value_datetime")
+@XmlRootElement
 public class MemberAttributeValueDatetime extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
