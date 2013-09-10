@@ -36,7 +36,8 @@ import com.serpics.util.gson.GsonTransient;
 @Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = { "uuid" }))
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "member_type", discriminatorType = DiscriminatorType.STRING)
-public class Member extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class Member extends com.serpics.core.persistence.jpa.Entity implements
+		Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -56,7 +57,6 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements S
 	@Column(precision = 10, scale = 4)
 	protected BigDecimal field3;
 
-	@GsonTransient
 	@Column(name = "member_type", nullable = false, length = 3)
 	protected String memberType;
 
@@ -64,14 +64,16 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements S
 	protected String uuid;
 
 	@OneToMany(mappedBy = "member", targetEntity = AbstractAddress.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	protected Set<PermanentAddress> permanentAddresses = new HashSet<PermanentAddress>(0);
+	protected Set<PermanentAddress> permanentAddresses = new HashSet<PermanentAddress>(
+			0);
 
 	// bi-directional many-to-one association to MemberAttribute
-	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	protected Set<MemberAttribute> memberAttributes = new HashSet<MemberAttribute>(0);
+	@OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	protected Set<MemberAttribute> memberAttributes = new HashSet<MemberAttribute>(
+			0);
 
 	// bi-directional many-to-one association to MembersRole
-	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
 	protected Set<MembersRole> membersRoles = new HashSet<MembersRole>(0);
 
 	public Set<MemberAttribute> getMemberAttributes() {
@@ -175,9 +177,11 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements S
 	}
 
 	public void setPrimaryAddress(PermanentAddress newAddress) {
-		newAddress.setIsprimary(1);
-		newAddress.setMember(this);
-		this.getPermanentAddresses().add(newAddress);
+		if (newAddress != null) {
+			newAddress.setIsprimary(1);
+			newAddress.setMember(this);
+			this.getPermanentAddresses().add(newAddress);
+		}
 	}
 
 	public void addAdress(PermanentAddress newAddress) {
@@ -190,6 +194,10 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements S
 	public void setDefaultUUID() {
 		if (this.uuid == null)
 			this.uuid = UUID.randomUUID().toString();
+	}
+
+	public void setPermanentAddresses(Set<PermanentAddress> permanentAddresses) {
+		this.permanentAddresses = permanentAddresses;
 	}
 
 }

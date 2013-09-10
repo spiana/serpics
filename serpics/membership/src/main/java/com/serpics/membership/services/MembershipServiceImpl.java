@@ -40,11 +40,9 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 	@Resource
 	private StoreRepository storeRepository;
 
-	@Resource
-	private UserRepository userRepository;
 
-	@Resource
-	private UserRegrepository userRegRepository;
+	@Resource(name="userService")
+	private UserService userService;
 
 	@Resource
 	private MembershipHook membershipHook;
@@ -52,21 +50,13 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public User createUser(User user) {
-		if (user.getUserType().equals(UserType.ANONYMOUS))
-			user.setUserType(UserType.GUEST);
-		if (user.getUuid() == null)
-			user.setUuid(UUID.randomUUID().toString());
-		user = userRepository.saveAndFlush(user);
-		UserStoreRelation r = new UserStoreRelation((Store) getCurrentContext().getStoreRealm(), user);
-		r.setUpdated(new Date());
-		user.getStoreRelation().add(r);
-		return userRepository.saveAndFlush(user);
+		return userService.create(user);
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Page<User> fetchAllUser(Pageable pageable) {
-		return userRepository.findAll(pageable);
+		return userService.findAll(pageable);
 	}
 
 	@Override
@@ -79,28 +69,19 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public User updateUser(User user) {
-		return userRepository.saveAndFlush(user);
+		return userService.update(user);
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS, isolation = Isolation.READ_UNCOMMITTED)
-	public Store fetchStoreByUUID(String uuid) {
-		return storeRepository.findByuuid(uuid);
+	public Store fetchStoreByName(String name) {
+		return storeRepository.findByname(name);
 	}
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public User registerUser(User user, UsersReg reg, PermanentAddress primaryAddress) {
-		user = createUser(user, primaryAddress);
-		if (user.getUserType().equals(UserType.ANONYMOUS) || user.getUserType().equals(UserType.GUEST))
-			user.setUserType(UserType.REGISTERED);
-
-		reg.setUserId(user.getMemberId());
-		if (reg.getStatus() == null)
-			reg.setStatus(UserRegisterType.ACTIVE);
-		reg.setUser(user);
-		user.setUserReg(reg);
-		return userRepository.saveAndFlush(user);
+		return userService.registerUser(user, reg, primaryAddress);
 	}
 
 	@Override
@@ -119,34 +100,23 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<User> findbyexample(User example) {
-
-		try {
-			return userRepository.findAll(where(userRepository.makeSpecification(example)).and(
-					isUserInStore((Store) getCurrentContext().getStoreRealm())));
-		} catch (Exception e) {
-			return new ArrayList<User>(0);
-		}
-
+		return userService.findByexample(example);
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<UsersReg> findbyexample(UsersReg example) {
-		try {
-			return userRegRepository.findAll(where(userRegRepository.makeSpecification(example)));
-		} catch (Exception e) {
-			return new ArrayList<UsersReg>(0);
-		}
+		return userService.findByexample(example);
 	}
 
 	@Override
 	public List<User> findAll() {
-		return userRepository.findAll(isUserInStore((Store) getCurrentContext().getStoreRealm()));
+		return userService.findAll();
 	}
 
 	@Override
 	public UserDetail createAnonymous() {
-		List<User> ulist = userRepository.findAll(where(userRepository.makeSpecification(new User())));
+		List<User> ulist = userService.findByexample(new User());
 		return ulist.get(0);
 	}
 

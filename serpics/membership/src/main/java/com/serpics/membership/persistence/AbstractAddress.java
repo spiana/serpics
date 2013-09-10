@@ -23,6 +23,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.serpics.util.gson.GsonTransient;
 
 /**
@@ -108,6 +110,7 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 
 	// bi-directional many-to-one association to Member
 	@GsonTransient
+	@JsonIgnore
 	@ManyToOne(targetEntity = Member.class, fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "member_id", nullable = false)
 	protected Member member;

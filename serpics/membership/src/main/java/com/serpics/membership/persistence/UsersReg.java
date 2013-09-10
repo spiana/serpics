@@ -3,6 +3,8 @@ package com.serpics.membership.persistence;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.util.gson.GsonTransient;
 
@@ -61,7 +63,7 @@ public class UsersReg implements Serializable {
 
 	private Timestamp updated;
 
-	@GsonTransient
+	@JsonIgnore
 	@OneToOne( fetch = FetchType.EAGER, optional = false )
 	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false )
 	private User user;

@@ -10,5 +10,5 @@ public interface Membership {
 
 	public UserDetail createAnonymous();
 
-	public StoreRealm fetchStoreByUUID(String storeUUID);
+	public StoreRealm fetchStoreByName(String storeName);
 }

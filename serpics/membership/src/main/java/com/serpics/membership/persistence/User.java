@@ -14,12 +14,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Sort;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.serpics.core.datatype.MemberType;
 import com.serpics.core.datatype.UserType;
@@ -33,9 +33,11 @@ import com.serpics.util.gson.GsonTransient;
 @Entity
 @Table(name = "users")
 @DiscriminatorValue("U")
+@PrimaryKeyJoinColumn(name="user_id")
 public class User extends Member implements Serializable, UserDetail {
 	private static final long serialVersionUID = 1L;
 
+	
 	@Column(length = 25)
 	private String phone;
 
@@ -64,9 +66,8 @@ public class User extends Member implements Serializable, UserDetail {
 	private Long storeId;
 
 	// bi-directional many-to-one association to MemberRelation
-	@GsonTransient
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-	@OrderBy("precedence DESC")
 	protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
 
 	public User() {
@@ -165,6 +166,7 @@ public class User extends Member implements Serializable, UserDetail {
 	}
 
 	@Override
+	@JsonIgnore
 	public String getName() {
 		if (userReg != null)
 			return userReg.getLogonid();
@@ -178,6 +180,11 @@ public class User extends Member implements Serializable, UserDetail {
 		return getMemberId();
 	}
 
+	public void setUserId(Long userId) {
+
+		setMemberId(userId);
+	}
+	
 	@Override
 	public Long getStoreId() {
 		return storeId;

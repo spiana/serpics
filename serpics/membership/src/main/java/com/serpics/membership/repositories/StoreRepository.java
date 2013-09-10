@@ -5,5 +5,5 @@ import com.serpics.membership.persistence.Store;
 
 public interface StoreRepository extends Repository<Store, Long> {
 
-	public Store findByuuid(String uuid);
+	public Store findByname(String name);
 }

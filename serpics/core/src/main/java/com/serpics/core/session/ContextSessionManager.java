@@ -16,8 +16,10 @@ import com.serpics.core.scope.SessionScopeAttributes;
 import com.serpics.core.scope.SessionScopeContextHolder;
 import com.serpics.core.security.StoreRealm;
 
-public class ContextSessionManager implements SessionManager, InitializingBean, DisposableBean {
-	private static transient Logger logger = LoggerFactory.getLogger(ContextSessionManager.class);
+public class ContextSessionManager implements SessionManager, InitializingBean,
+		DisposableBean {
+	private static transient Logger logger = LoggerFactory
+			.getLogger(ContextSessionManager.class);
 	long sessionTimeout = 1800; // session timeout in seconds
 
 	ClearSessionExpired se;
@@ -41,8 +43,11 @@ public class ContextSessionManager implements SessionManager, InitializingBean, 
 				synchronized (sessionList) {
 					Iterator<String> i = sessionList.keySet().iterator();
 					while (i.hasNext()) {
-						SessionContext sessionContext = sessionList.get(i.next());
-						if ((new Date().getTime() - sessionContext.getLastAccess().getTime()) / 1000 > sessionTimeout)
+						SessionContext sessionContext = sessionList.get(i
+								.next());
+						if (sessionContext != null
+								&& (new Date().getTime() - sessionContext
+										.getLastAccess().getTime()) / 1000 > sessionTimeout)
 							i.remove();
 					}
 				}
@@ -69,22 +74,27 @@ public class ContextSessionManager implements SessionManager, InitializingBean, 
 	public SessionContext getSessionContext(String sessionId) {
 		SessionContext sessionContext = sessionList.get(sessionId);
 		if (sessionContext != null) {
-			if ((new Date().getTime() - sessionContext.getLastAccess().getTime()) / 1000 > sessionTimeout) {
+			if ((new Date().getTime() - sessionContext.getLastAccess()
+					.getTime()) / 1000 > sessionTimeout) {
 				logger.info("session [{}] expired !", sessionId);
 				sessionList.remove(sessionContext);
 				sessionContext = null;
 			} else {
 				logger.info("found session for sessionid [{}] !");
 				if (logger.isDebugEnabled()) {
-					logger.debug("session realm  [{}]", sessionContext.getRealm());
-					logger.debug("session user  [{}]", sessionContext.getUserPrincipal().getName());
-					logger.debug("session last access  [{}]", sessionContext.getLastAccess());
+					logger.debug("session realm  [{}]",
+							sessionContext.getRealm());
+					logger.debug("session user  [{}]", sessionContext
+							.getUserPrincipal().getName());
+					logger.debug("session last access  [{}]",
+							sessionContext.getLastAccess());
 				}
 				sessionContext.setLastAccess(new Date());
 			}
 		}
 		if (sessionContext != null)
-			SessionScopeContextHolder.setSessionScopeAttributes(sessionContext.getCommerceScopeAttribute());
+			SessionScopeContextHolder.setSessionScopeAttributes(sessionContext
+					.getCommerceScopeAttribute());
 
 		return sessionContext;
 	}
@@ -94,7 +104,8 @@ public class ContextSessionManager implements SessionManager, InitializingBean, 
 		String sessionId = generateSessionID();
 		SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
 		commerceScopeAttributes.setConversationId(sessionId);
-		SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
+		SessionScopeContextHolder
+				.setSessionScopeAttributes(commerceScopeAttributes);
 		context.setStoreRealm(realm);
 		context.setSessionId(sessionId);
 		context.setLastAccess(new Date());
