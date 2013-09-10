@@ -2,6 +2,7 @@ package com.serpics.admin;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -27,7 +28,7 @@ public class CommerceSessionFilter implements Filter {
 	@Autowired
 	CommerceEngine ce;
 	
-	@Autowired
+	@Resource(name="catalogService")
 	CatalogService catService;
 	
 	@Override

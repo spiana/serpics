@@ -56,9 +56,6 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.Entity im
 	@Column(name = "url", nullable = false, unique = true)
 	protected String url;
 
-	@Column(name = "uuid", nullable = false, unique = true)
-	protected String uuid;
-
 	// bi-directional many-to-one association to CtentryAttribute
 	@OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
 	protected Set<CtentryAttribute> ctentryAttributes;
@@ -122,14 +119,6 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.Entity im
 		this.url = url;
 	}
 
-	public String getUuid() {
-		return this.uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-
 	public Set<CtentryAttribute> getCtentryAttributes() {
 		return this.ctentryAttributes;
 	}
@@ -165,10 +154,7 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.Entity im
 
 	@PrePersist
 	public void prePersist() {
-		this.created = new Date();
-		if (this.uuid == null)
-			this.uuid = UUID.randomUUID().toString();
-		
+		this.created = new Date();				
 	}
 
 	public String getCode() {
