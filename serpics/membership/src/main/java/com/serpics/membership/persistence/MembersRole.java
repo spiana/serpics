@@ -11,32 +11,38 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="members_role" )
-public class MembersRole implements Serializable {
+public class MembersRole  extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private MembersRolePK id;
 
-	@Column(nullable=false)
-	private Timestamp updated;
-
 	//bi-directional many-to-one association to Member
-    @ManyToOne
+    @ManyToOne(optional =false)
 	@JoinColumn(name="member_id", nullable=false, insertable=false, updatable=false)
 	private Member member;
 
 	//bi-directional many-to-one association to Role
-    @ManyToOne
+     @ManyToOne (optional=false)
 	@JoinColumn(name="role_id", nullable=false, insertable=false, updatable=false)
 	private Role role;
 
 	//bi-directional many-to-one association to Store
-    @ManyToOne
+    @ManyToOne (optional= false)
 	@JoinColumn(name="store_id", nullable=false, insertable=false, updatable=false)
 	private Store store;
 
     public MembersRole() {
     }
+
+	public MembersRole(Member member, Role role, Store store) {
+		super();
+		this.member = member;
+		this.role = role;
+		this.store = store;
+		this.id= new MembersRolePK(role.getRoleId() ,member.getMemberId() , store.getStoreId());
+	
+	}
 
 	public MembersRolePK getId() {
 		return this.id;
@@ -44,14 +50,6 @@ public class MembersRole implements Serializable {
 
 	public void setId(MembersRolePK id) {
 		this.id = id;
-	}
-	
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
 	}
 
 	public Member getMember() {

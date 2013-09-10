@@ -88,7 +88,6 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 	@Override
 	public void createStore(String storeName) {
 		Store s = new Store();
-		s.setUuid(storeName);
 		s.setName(storeName);
 		s = m.createStore(s);
 

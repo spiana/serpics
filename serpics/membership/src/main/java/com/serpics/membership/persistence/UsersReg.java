@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @XmlRootElement(name="usersreg")
 @Entity
 @Table(name = "users_reg")
-public class UsersReg implements Serializable {
+public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "user_id", unique = true, nullable = false)
@@ -63,11 +63,9 @@ public class UsersReg implements Serializable {
 	@Column(nullable = false, length = 1)
 	private String status;
 
-	private Timestamp updated;
-	
 	
 	@OneToOne( fetch = FetchType.EAGER, optional = false )
-	@JoinColumn(name = "user_id", nullable = false , insertable = false, updatable = false )
+	@JoinColumn(name = "user_id", nullable = false , insertable = true, updatable = false )
 	private User user;
 
 	public UsersReg() {
@@ -184,14 +182,6 @@ public class UsersReg implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
 	}
 
 	@XmlTransient

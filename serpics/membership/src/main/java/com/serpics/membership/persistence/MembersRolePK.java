@@ -23,6 +23,12 @@ public class MembersRolePK implements Serializable {
 
     public MembersRolePK() {
     }
+	public MembersRolePK(Long roleId, Long memberId, Long storeId) {
+		super();
+		this.roleId = roleId;
+		this.memberId = memberId;
+		this.storeId = storeId;
+	}
 	public Long getRoleId() {
 		return this.roleId;
 	}

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
+
 import java.util.Set;
 
 
@@ -14,7 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name="roles")
 @XmlRootElement
-public class Role implements Serializable {
+public class Role extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,6 +36,11 @@ public class Role implements Serializable {
 
     public Role() {
     }
+
+	public Role( String name) {
+		super();
+		this.name = name;
+	}
 
 	public Long getRoleId() {
 		return this.roleId;

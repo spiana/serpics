@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="membgrouprel")
-public class Membgrouprel implements Serializable {
+public class Membgrouprel extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -20,9 +20,6 @@ public class Membgrouprel implements Serializable {
 
 	@Column(nullable=false, length=1)
 	private String status;
-
-	@Column(nullable=false)
-	private Timestamp updated;
 
     @Temporal( TemporalType.DATE)
 	@Column(name="valid_from", nullable=false)
@@ -49,14 +46,6 @@ public class Membgrouprel implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
 	}
 
 	public Date getValidFrom() {

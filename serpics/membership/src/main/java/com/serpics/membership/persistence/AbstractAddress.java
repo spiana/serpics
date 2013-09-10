@@ -3,11 +3,8 @@ package com.serpics.membership.persistence;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -20,12 +17,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
 
 import com.serpics.util.gson.GsonTransient;
 
@@ -37,7 +31,6 @@ import com.serpics.util.gson.GsonTransient;
 @Table(name = "addresses")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "flag", discriminatorType = DiscriminatorType.STRING)
-@XmlRootElement
 public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -113,16 +106,11 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 
 	// bi-directional many-to-one association to Member
 	@GsonTransient
-	@ManyToOne(targetEntity = Member.class, fetch = FetchType.EAGER, optional = false, cascade=CascadeType.PERSIST)
-	@JoinColumn(name = "member_id", nullable = false)
+	@ManyToOne(targetEntity = Member.class, fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "member_id", nullable = false ,updatable = false)
 	protected Member member;
 
-	@PrePersist
-	@PreUpdate
-	public void preUpdated() {
-		setUpdated(new Timestamp(new Date().getTime()));
-	}
-
+	
 	public AbstractAddress() {
 		this.nickname = UUID.randomUUID().toString();
 	}

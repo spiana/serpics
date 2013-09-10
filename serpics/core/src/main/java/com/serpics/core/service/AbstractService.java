@@ -38,5 +38,5 @@ public abstract class AbstractService {
 	protected CommerceSessionContext getCurrentContext() {
 		return commerceEngine.getCurrentContext();
 	}
-
+	
 }

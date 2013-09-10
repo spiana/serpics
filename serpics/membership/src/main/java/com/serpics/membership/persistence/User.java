@@ -84,7 +84,6 @@ public class User extends Member implements Serializable, UserDetail {
 		this.lastname = lastname;
 		this.phone = phone;
 		this.email = email;
-		this.updated = new Date();
 		this.memberType = MemberType.USER;
 	}
 
@@ -134,10 +133,6 @@ public class User extends Member implements Serializable, UserDetail {
 
 	public Date getLastVisit() {
 		return lastVisit;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
 	}
 
 	public String getUserType() {

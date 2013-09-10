@@ -10,10 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import com.serpics.base.persistence.BaseAttribute;
 
 
 /**
@@ -27,13 +30,13 @@ public class MemberAttribute extends com.serpics.core.persistence.jpa.Entity imp
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "attribute_id", unique = true, nullable = false)
 	private Long attributeId;
 
-	@Column(name = "base_attributes_id", nullable = false)
-	private BigInteger baseAttributesId;
-
+	@Column(name = "base_attributes_id", nullable=false)
+	BaseAttribute baseAttribute;
+	
 	private double sequence;
 
 	// bi-directional many-to-one association to Member
@@ -73,13 +76,6 @@ public class MemberAttribute extends com.serpics.core.persistence.jpa.Entity imp
 		this.attributeId = attributeId;
 	}
 
-	public BigInteger getBaseAttributesId() {
-		return this.baseAttributesId;
-	}
-
-	public void setBaseAttributesId(BigInteger baseAttributesId) {
-		this.baseAttributesId = baseAttributesId;
-	}
 
 	public double getSequence() {
 		return this.sequence;
@@ -135,6 +131,14 @@ public class MemberAttribute extends com.serpics.core.persistence.jpa.Entity imp
 
 	public void setMemberAttributeValueVarchar(MemberAttributeValueVarchar memberAttributeValueVarchar) {
 		this.memberAttributeValueVarchar = memberAttributeValueVarchar;
+	}
+
+	public BaseAttribute getBaseAttribute() {
+		return baseAttribute;
+	}
+
+	public void setBaseAttribute(BaseAttribute baseAttribute) {
+		this.baseAttribute = baseAttribute;
 	}
 
 }

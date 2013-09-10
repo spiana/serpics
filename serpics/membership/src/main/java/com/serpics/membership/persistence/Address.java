@@ -8,7 +8,7 @@ import com.serpics.core.datatype.AddressType;
 
 @Entity(name="Address")
 @DiscriminatorValue(AddressType.TEMPORARY)
-@XmlRootElement
+@XmlRootElement(name="address")
 public class Address extends AbstractAddress {
 
 	public Address() {
