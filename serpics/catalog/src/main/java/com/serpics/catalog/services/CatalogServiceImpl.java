@@ -1,5 +1,8 @@
 package com.serpics.catalog.services;
 
+import static com.serpics.catalog.repositories.CategorySpecification.isCategoryInCatalog;
+import static org.springframework.data.jpa.domain.Specifications.where;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,13 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +38,11 @@ import com.serpics.catalog.repositories.CategoryRelationRepository;
 import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.core.service.AbstractService;
+import com.serpics.core.service.EntityService;
 
 @Service("catalogService")
 @Scope("store")
-public class CatalogServiceImpl extends AbstractService implements CatalogService {
+public class CatalogServiceImpl extends AbstractService implements CatalogService, EntityService<Category, Long> {
 
 	private static final Logger logger = LoggerFactory.getLogger(CatalogServiceImpl.class);
 	
@@ -139,6 +150,81 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 		catalogEntryRepository.delete(ctentry);
 		
 	}
+
+	
+	
+	
+	
+
+	@Override
+	public Category create(Category entity) {
+		return createCategory(entity, null);
+	}
+
+
+	@Override
+	public void delete(Category entity) {
+		categoryRepository.delete(entity);		
+	}
+
+	private Specification currentCatalogCategory(){
+		return isCategoryInCatalog((Catalog) getCurrentContext().getCatalog());
+	}
+
+	@Override
+	public Page<Category> findAll(Pageable page) {
+		return categoryRepository.findAll(currentCatalogCategory(), page);
+	}
+
+
+	@Override
+	public List<Category> findAll() {
+		return categoryRepository.findAll(currentCatalogCategory());
+	}
+
+	@Override
+	public List<Category> findAll(Specification<Category> spec, Pageable page) {
+		Page<Category> res = categoryRepository.findAll( where(spec).and(currentCatalogCategory()), page);
+		return res.getContent();
+	}
+	
+	@Override
+	public List<Category> findAll(Specification<Category> spec, Sort sort) {
+		return categoryRepository.findAll( where(spec).and(currentCatalogCategory()), sort);
+	}
+
+
+	@Override
+	public Category update(Category entity) {
+		return categoryRepository.save(entity);
+	}
+
+
+	@Override
+	public List<Category> findByexample(Category example) {
+		return categoryRepository.findAll(where(categoryRepository
+				.makeSpecification(example)));
+	}
+
+
+	@Override
+	public Category findOne(Long id) {
+		return categoryRepository.findOne(id);
+	}
+
+
+
+	@Override
+	public Category findOne(Specification<Category> spec, Sort sort, int index) {
+		final PageRequest singleResultPage = new PageRequest(index, 1, sort);
+		List<Category> l = findAll(spec, singleResultPage);
+		if (!l.isEmpty())
+			return l.get(0);
+		else return null;
+	}
+
+
+
 
 
 

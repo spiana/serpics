@@ -12,7 +12,11 @@ import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -138,8 +142,19 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
 	@Override
 	public List<User> findAll() {
-		return userRepository.findAll(isUserInStore((Store) getCurrentContext()
-				.getStoreRealm()));
+		return userRepository.findAll(storeFilterSpec());
+	}
+	
+	@Override
+	public List<User> findAll(Specification<User> spec, Sort sort) {
+		return userRepository.findAll( where(spec).and(storeFilterSpec() ), 
+				sort);
+		
+	}
+	
+	private Specification storeFilterSpec(){
+		return isUserInStore((Store) getCurrentContext()
+				.getStoreRealm());
 	}
 
 	@Override
@@ -186,4 +201,23 @@ public class UserServiceImpl extends AbstractService implements UserService {
 		user.getMembersRoles().add(membersRole);
 		return userRepository.save(user);
 	}
+
+
+
+	@Override
+	public List<User> findAll(Specification<User> spec, Pageable page) {
+		Page<User> res = userRepository.findAll( where(spec).and(storeFilterSpec()) , page);
+		return res.getContent();
+	}
+
+	@Override
+	public User findOne(Specification<User> spec, Sort sort, int index) {
+		final PageRequest singleResultPage = new PageRequest(index, 1, sort);
+		List<User> l = findAll(spec, singleResultPage);
+		if (!l.isEmpty())
+			return l.get(0);
+		else return null;
+	}
+
+
 }

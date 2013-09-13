@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.serpics.core.service.AbstractService;
@@ -54,5 +56,24 @@ public class RoleServiceImpl extends AbstractService implements RoleService {
 	public Role findOne(Long id) {
 		return findOne(id);
 	}
+
+	@Override
+	public List<Role> findAll(Specification<Role> spec, Sort sort) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Role> findAll(Specification<Role> spec, Pageable page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Role findOne(Specification<Role> spec, Sort sort, int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

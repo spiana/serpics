@@ -10,6 +10,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
@@ -62,5 +63,28 @@ public class PermanentAddressServiceImpl extends AbstractAddressService implemen
 	public PermanentAddress findOne(Long id) {
 		return addressRepository.findOne(id);
 	}
+
+	@Override
+	public List<PermanentAddress> findAll(Specification<PermanentAddress> spec,
+			Sort sort) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PermanentAddress> findAll(Specification<PermanentAddress> spec,
+			Pageable page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PermanentAddress findOne(Specification<PermanentAddress> spec,
+			Sort sort, int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

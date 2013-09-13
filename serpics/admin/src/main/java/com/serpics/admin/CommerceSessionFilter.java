@@ -21,55 +21,68 @@ import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
 
-
 public class CommerceSessionFilter implements Filter {
 
-	private static final Logger logger = LoggerFactory.getLogger(CommerceSessionFilter.class);
-	
+	private static final Logger logger = LoggerFactory
+			.getLogger(CommerceSessionFilter.class);
+
 	@Autowired
 	CommerceEngine ce;
-	
-	@Resource(name="catalogService")
+
+	@Resource(name = "catalogService")
 	CatalogService catService;
-	
+
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain chain) throws IOException, ServletException {
-		
+
 		if (logger.isDebugEnabled())
 			logger.debug("CommerceSessionFilter called");
-		
+
 		HttpServletRequest httpReq = (HttpServletRequest) req;
-		String id = (String) httpReq.getSession().getAttribute("serpics-session");
+		String id = (String) httpReq.getSession().getAttribute(
+				"serpics-session");
+
 		try {
-			if (id != null && !id.isEmpty()){
+			if (id != null && !id.isEmpty()) {
+				if (logger.isDebugEnabled())
+					logger.debug("found CommerceSessionID " + id
+							+ " in HttpSession, trying to bind..");
 				CommerceSessionContext context = ce.bind(id);
+				if (context != null) {
+					if (logger.isDebugEnabled())
+						logger.debug("successfully bound commerce session");
+				} else {
+
+				}
 			} else {
-				CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
+				CommerceSessionContext context = ce.connect("default-store",
+						"superuser", "admin".toCharArray());
 				context.setCatalog(catService.getCatalog("default-catalog"));
-				httpReq.getSession().setAttribute("serpics-session", context.getSessionId());
+				httpReq.getSession().setAttribute("serpics-session",
+						context.getSessionId());
 			}
-			
+
 		} catch (SerpicsException e) {
-			logger.error("Error establishing commerceSession in servlet filter", e);
+			logger.error(
+					"Error establishing commerceSession in servlet filter", e);
 			throw new ServletException(e);
 		}
-		
+
 		chain.doFilter(req, resp);
-		
-		
+
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
