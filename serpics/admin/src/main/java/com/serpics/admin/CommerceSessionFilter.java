@@ -9,6 +9,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +45,16 @@ public class CommerceSessionFilter implements Filter {
 		if (logger.isDebugEnabled())
 			logger.debug("CommerceSessionFilter called");
 		
+		HttpServletRequest httpReq = (HttpServletRequest) req;
+		String id = (String) httpReq.getSession().getAttribute("serpics-session");
 		try {
-			CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
-			context.setCatalog(catService.getCatalog("default-catalog"));
+			if (id != null && !id.isEmpty()){
+				CommerceSessionContext context = ce.bind(id);
+			} else {
+				CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
+				context.setCatalog(catService.getCatalog("default-catalog"));
+				httpReq.getSession().setAttribute("serpics-session", context.getSessionId());
+			}
 			
 		} catch (SerpicsException e) {
 			logger.error("Error establishing commerceSession in servlet filter", e);

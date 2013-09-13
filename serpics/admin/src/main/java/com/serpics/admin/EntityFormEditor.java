@@ -42,10 +42,12 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
     private Button saveButton;
     private Button cancelButton;
     private Class<T> entityClass;
-    private EntityClassMetadata<T> entityClassMetadata;   
-    private PropertyList<T> propertyList;
     
-	BeanFieldGroup fieldGroup;
+    private transient EntityClassMetadata<T> entityClassMetadata;   
+    private transient PropertyList<T> propertyList;
+    
+	private BeanFieldGroup fieldGroup;
+	
 	private boolean initialized = false;
 	
 
