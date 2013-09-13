@@ -56,7 +56,7 @@ public class CategoryUI extends UI{
 	@Resource
 	OrderService orderService;
 
-	@Autowired CatTree tree;
+	@Autowired CatTree2 tree;
 	
 	@Autowired
 	private CategoryRelationRepository catRepo;
