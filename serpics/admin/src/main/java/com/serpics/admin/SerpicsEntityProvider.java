@@ -1,6 +1,7 @@
 package com.serpics.admin;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.google.gwt.http.client.RequestBuilder.Method;
 import com.serpics.core.service.EntityService;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
@@ -28,12 +30,29 @@ import com.vaadin.addon.jpacontainer.MutableEntityProvider;
 import com.vaadin.addon.jpacontainer.QueryModifierDelegate;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.filter.util.FilterConverter;
+import com.vaadin.addon.jpacontainer.metadata.EntityClassMetadata;
+import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
+import com.vaadin.addon.jpacontainer.metadata.PersistentPropertyMetadata.AccessType;
 import com.vaadin.data.Container.Filter;
 
 public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 
 	private EntityService service;
+	
+	private Class<T> entityClass;
+	private EntityClassMetadata<T> entityClassMetadata;
+	
 	private static final Logger logger = LoggerFactory.getLogger("SerpicsEntityProvider");
+	
+	
+	
+	public SerpicsEntityProvider(Class<T> entityClass){
+		this.entityClass = entityClass;
+		this.entityClassMetadata = MetadataFactory.getInstance()
+	            .getEntityClassMetadata(entityClass);
+	}
+
+	
 	
 	@Override
 	public T getEntity(EntityContainer<T> entityContainer, Object entityId) {
@@ -70,23 +89,16 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
         if (sortBy == null) {
             sortBy = Collections.emptyList();
         }
-//        TypedQuery<Object> query = createFilteredQuery(container,
-//                Arrays.asList(getEntityClassMetadata().getIdentifierProperty()
-//                        .getName()), filter, addPrimaryKeyToSortList(sortBy),
-//                false);
-//        query.setMaxResults(1);
-//        query.setFirstResult(index);
-//        List<?> result = query.getResultList();
-//        if (result.isEmpty()) {
-//            return null;
-//        } else {
-//            return result.get(0);
-//        }
         
      Object res = service.findOne(getSpecificationFromFilter(filter),
         		getSortFromSortBy(sortBy), index);
      
-        return new Object();
+     T entity = (T) res;
+     
+     
+     Object id = entityClassMetadata.getPropertyValue(entity, entityClassMetadata.getIdentifierProperty().getName());
+     
+     return id;
     }
     
     protected static Specification getSpecificationFromFilter(final Filter filter){
@@ -114,29 +126,90 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 	@Override
 	public Object getFirstEntityIdentifier(EntityContainer<T> entityContainer,
 			Filter filter, List<SortBy> sortBy) {
-		// TODO Auto-generated method stub
-		return null;
+		if (sortBy == null) {
+            sortBy = Collections.emptyList();
+        }
+        
+     Object res = service.findOne(getSpecificationFromFilter(filter),
+        		getSortFromSortBy(sortBy), 0);
+     
+     T entity = (T) res;
+     
+     
+     Object id = entityClassMetadata.getPropertyValue(entity, entityClassMetadata.getIdentifierProperty().getName());
+     
+     return id;
 	}
 
 	@Override
 	public Object getLastEntityIdentifier(EntityContainer<T> entityContainer,
 			Filter filter, List<SortBy> sortBy) {
-		// TODO Auto-generated method stub
-		return null;
+		if (sortBy == null) {
+            sortBy = Collections.emptyList();
+        }
+        
+		List<T> res = service.findAll(getSpecificationFromFilter(filter),
+        		getSortFromSortBy(sortBy));
+		
+		
+    
+     
+     T entity = (T) res.get(res.size() -1);
+     
+     
+     Object id = entityClassMetadata.getPropertyValue(entity, entityClassMetadata.getIdentifierProperty().getName());
+     
+     return id;
+		
 	}
 
 	@Override
 	public Object getNextEntityIdentifier(EntityContainer<T> entityContainer,
 			Object entityId, Filter filter, List<SortBy> sortBy) {
-		// TODO Auto-generated method stub
+		if (sortBy == null) {
+            sortBy = Collections.emptyList();
+        }
+        
+		List<T> res = service.findAll(getSpecificationFromFilter(filter),
+        		getSortFromSortBy(sortBy));
+		
+		boolean found = false;
+		for (T t : res){
+			Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty().getName());
+			if ( found )
+				 return id;
+			if (id.equals(entityId)) found = true;
+			
+		}
+    
 		return null;
+     
+     
+     
+
 	}
 
 	@Override
 	public Object getPreviousEntityIdentifier(
 			EntityContainer<T> entityContainer, Object entityId, Filter filter,
 			List<SortBy> sortBy) {
-		// TODO Auto-generated method stub
+		
+		if (sortBy == null) {
+            sortBy = Collections.emptyList();
+        }
+        
+		List<T> res = service.findAll(getSpecificationFromFilter(filter),
+        		getSortFromSortBy(sortBy));
+		
+		Object last = null;
+		for (T t : res){
+			Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty().getName());
+			
+			if (id.equals(entityId))  return last;
+			last = id;
+			
+		}
+    
 		return null;
 	}
 
@@ -144,21 +217,51 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 	public List<Object> getAllEntityIdentifiers(
 			EntityContainer<T> entityContainer, Filter filter,
 			List<SortBy> sortBy) {
-		// TODO Auto-generated method stub
-		return null;
+		if (sortBy == null) {
+            sortBy = Collections.emptyList();
+        }
+        
+		List<T> res = service.findAll(getSpecificationFromFilter(filter),
+        		getSortFromSortBy(sortBy));
+		
+		List<Object> ids = new ArrayList<Object>();
+		for (T t : res){
+			Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty().getName());
+			
+			ids.add(id);
+			
+		}
+		
+		return ids;
 	}
 
 	@Override
 	public boolean containsEntity(EntityContainer<T> entityContainer,
 			Object entityId, Filter filter) {
-		// TODO Auto-generated method stub
+		
+		
+		Sort s = new Sort(entityClassMetadata.getIdentifierProperty().getName());
+		List<T> res = service.findAll(getSpecificationFromFilter(filter),
+				s);
+		
+		
+		for (T t : res){
+			Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty().getName());
+			
+			if (id.equals(entityId))  return true;					
+		}
+    	
 		return false;
 	}
 
 	@Override
 	public int getEntityCount(EntityContainer<T> entityContainer, Filter filter) {
-		// TODO Auto-generated method stub
-		return 0;
+		Sort s = new Sort(entityClassMetadata.getIdentifierProperty().getName());
+		List<T> res = service.findAll(getSpecificationFromFilter(filter),
+				s);
+		
+		
+		return res.size();
 	}
 
 	@Override
@@ -175,8 +278,8 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 
 	@Override
 	public Object getIdentifier(T entity) {
-		// TODO Auto-generated method stub
-		return null;
+		Object id = entityClassMetadata.getPropertyValue(entity, entityClassMetadata.getIdentifierProperty().getName());
+		return id;
 	}
 
 	@Override
