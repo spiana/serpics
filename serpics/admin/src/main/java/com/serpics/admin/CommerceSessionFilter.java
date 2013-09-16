@@ -69,10 +69,26 @@ public class CommerceSessionFilter implements Filter {
 						context.getSessionId());
 			}
 
-		} catch (SerpicsException e) {
+		} catch (Exception e) {
 			logger.error(
 					"Error establishing commerceSession in servlet filter", e);
-			throw new ServletException(e);
+			
+//			httpReq.getSession().removeAttribute("serpics-session");
+			
+			CommerceSessionContext context;
+			try {
+				context = ce.connect("default-store",
+						"superuser", "admin".toCharArray());
+				context.setCatalog(catService.getCatalog("default-catalog"));
+				httpReq.getSession().setAttribute("serpics-session",
+						context.getSessionId());
+			} catch (Exception e1) {
+				logger.error(
+						"Error establishing commerceSession in servlet filter", e1);
+			}
+			
+			
+//			throw new ServletException(e);
 		}
 
 		chain.doFilter(req, resp);

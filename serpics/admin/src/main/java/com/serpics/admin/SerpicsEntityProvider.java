@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,12 +17,16 @@ import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
 import com.google.gwt.http.client.RequestBuilder.Method;
+import com.serpics.core.CommerceEngineFactory;
 import com.serpics.core.service.EntityService;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
@@ -35,12 +40,15 @@ import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PersistentPropertyMetadata.AccessType;
 import com.vaadin.data.Container.Filter;
 
-public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
+public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, EntityManagerProvider{
 
 	private EntityService service;
 	
 	private Class<T> entityClass;
 	private EntityClassMetadata<T> entityClassMetadata;
+	
+	private LazyLoadingDelegate lazyLoadingDelegate;
+	private EntityManagerFactory emf;
 	
 	private static final Logger logger = LoggerFactory.getLogger("SerpicsEntityProvider");
 	
@@ -80,19 +88,25 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 	@Override
 	public Object getEntityIdentifierAt(EntityContainer<T> entityContainer,
 			Filter filter, List<SortBy> sortBy, int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return doGetEntityIdentifierAt(entityContainer, filter, sortBy, index);
 	}
 	
     protected Object doGetEntityIdentifierAt(EntityContainer<T> container,
             Filter filter, List<SortBy> sortBy, int index) {
-        if (sortBy == null) {
-            sortBy = Collections.emptyList();
-        }
+    	Sort sort = null;
+        if (sortBy != null && !sortBy.isEmpty())
+        	sort = getSortFromSortBy(sortBy);
         
-     Object res = service.findOne(getSpecificationFromFilter(filter),
-        		getSortFromSortBy(sortBy), index);
+        Specification spec = null;
+        if (filter != null)
+        	spec = getSpecificationFromFilter(filter);
+           
+        	
+     Object res = service.findOne(spec, sort, index);
      
+     
+
+  
      T entity = (T) res;
      
      
@@ -257,8 +271,14 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 	@Override
 	public int getEntityCount(EntityContainer<T> entityContainer, Filter filter) {
 		Sort s = new Sort(entityClassMetadata.getIdentifierProperty().getName());
-		List<T> res = service.findAll(getSpecificationFromFilter(filter),
+		
+		List<T> res = null;
+		if (filter != null){
+			res = service.findAll(getSpecificationFromFilter(filter),
 				s);
+		} else {
+			res = service.findAll();
+		}
 		
 		
 		return res.size();
@@ -296,8 +316,7 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 
 	@Override
 	public EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
-		return null;
+		return emf.createEntityManager();
 	}
 
 	@Override
@@ -309,20 +328,17 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 
 	@Override
 	public EntityManagerProvider getEntityManagerProvider() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override
 	public void setLazyLoadingDelegate(LazyLoadingDelegate delegate) {
-		// TODO Auto-generated method stub
-		
+		this.lazyLoadingDelegate = delegate;		
 	}
 
 	@Override
 	public LazyLoadingDelegate getLazyLoadingDelegate() {
-		// TODO Auto-generated method stub
-		return null;
+		return lazyLoadingDelegate;
 	}
 
 	@Override
@@ -363,6 +379,11 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>{
 
 	public void setService(EntityService service) {
 		this.service = service;
+	}
+
+
+	public void setEmf(EntityManagerFactory emf) {
+		this.emf = emf;
 	}
 
 }

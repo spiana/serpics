@@ -29,6 +29,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -56,22 +57,26 @@ public class CategoryUI extends UI{
 	@Resource
 	OrderService orderService;
 
-	@Autowired CatTree2 tree;
+//	@Autowired CatTree2 tree;
 	
 	@Autowired
 	private CategoryRelationRepository catRepo;
 
-
+	@Autowired
+	private CatTable t;
 	
 	@Override
 	protected void init(VaadinRequest request) {
-		final VerticalLayout layout = new VerticalLayout();
-        layout.setMargin(true);
-        setContent(layout);
-       layout.addComponent(tree);
+		
+//		final VerticalLayout layout = new VerticalLayout();
+//        layout.setMargin(true);
+//        setContent(layout);
+//       layout.addComponent(tree);
         
-       
-        
+//       CatTable t = new CatTable();
+//       t.setCatalogService(catalogService);
+//       t.init();
+       setContent(t);        
 		
 	}
 

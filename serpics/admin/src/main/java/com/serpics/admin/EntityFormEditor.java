@@ -65,7 +65,6 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
         fieldGroup = new BeanFieldGroup<T>(entityClass);        
         fieldGroup.setFieldFactory(this);        
         
-        
 		setImmediate(false);
 		setWidth("100%");
 		setHeight("100%");

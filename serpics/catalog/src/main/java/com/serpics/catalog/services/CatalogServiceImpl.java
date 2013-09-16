@@ -184,16 +184,22 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 
 	@Override
 	public List<Category> findAll(Specification<Category> spec, Pageable page) {
+		if (spec == null)
+			return findAll(page).getContent();
+		
 		Page<Category> res = categoryRepository.findAll( where(spec).and(currentCatalogCategory()), page);
 		return res.getContent();
 	}
 	
 	@Override
 	public List<Category> findAll(Specification<Category> spec, Sort sort) {
+		if (spec == null && sort == null) return findAll();
+		if (sort == null)
+			return categoryRepository.findAll( where(spec).and(currentCatalogCategory()));
 		return categoryRepository.findAll( where(spec).and(currentCatalogCategory()), sort);
 	}
-
-
+	
+	
 	@Override
 	public Category update(Category entity) {
 		return categoryRepository.save(entity);
@@ -208,7 +214,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 
 
 	@Override
-	public Category findOne(Long id) {
+	public Category findOne(Long id) {		
 		return categoryRepository.findOne(id);
 	}
 
