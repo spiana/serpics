@@ -24,6 +24,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
+import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.ui.Button;
@@ -32,6 +33,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
 public class EntityFormEditor<T> extends FormLayout implements Button.ClickListener,
@@ -43,10 +46,10 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
     private Button cancelButton;
     private Class<T> entityClass;
     
-    private transient EntityClassMetadata<T> entityClassMetadata;   
-    private transient PropertyList<T> propertyList;
+//    private transient EntityClassMetadata<T> entityClassMetadata;   
+//    private transient PropertyList<T> propertyList;
     
-	private BeanFieldGroup fieldGroup;
+	private FieldGroup fieldGroup;
 	
 	private boolean initialized = false;
 	
@@ -55,14 +58,14 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
         this.entityClass = entityClass;
         
         
-        this.entityClassMetadata = MetadataFactory.getInstance()
-                .getEntityClassMetadata(entityClass);
-        this.propertyList = new PropertyList<T>(entityClassMetadata);
+//        this.entityClassMetadata = MetadataFactory.getInstance()
+//                .getEntityClassMetadata(entityClass);
+//        this.propertyList = new PropertyList<T>(entityClassMetadata);
        
         setSizeUndefined();        
         setCaption(buildCaption());
         
-        fieldGroup = new BeanFieldGroup<T>(entityClass);        
+        fieldGroup = new FieldGroup();        
         fieldGroup.setFieldFactory(this);        
         
 		setImmediate(false);
@@ -70,11 +73,11 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
 		setHeight("100%");
 		setMargin(true);
 		setSpacing(true);
-		
-		
+				
+		saveButton = new Button("Save", this);
+        cancelButton = new Button("Cancel", this);
 	    
-        
-		
+        		
     }
 
     /**
@@ -102,8 +105,9 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
 				e.printStackTrace();
 			}
             fireEvent(new EditorSavedEvent(this, entityItem));
+       
         } else if (event.getButton() == cancelButton) {
-        	fieldGroup.discard();
+        	fieldGroup.discard();        	
         }
 //        close();
     }
@@ -197,8 +201,7 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
 				
 			}
 			
-			saveButton = new Button("Save", this);
-	        cancelButton = new Button("Cancel", this);
+			
 			addComponent(saveButton);
 			addComponent(cancelButton);
 			
@@ -209,6 +212,12 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
 		
 			
 	}
+
+	public Button getCancelButton() {
+		return cancelButton;
+	}
+
+
 
 	
 

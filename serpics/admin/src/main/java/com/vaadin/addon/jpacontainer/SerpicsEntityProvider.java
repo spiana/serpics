@@ -2,6 +2,7 @@ package com.vaadin.addon.jpacontainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -266,10 +267,10 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 			Object entityId, Filter filter) {
 		
 		
-		Sort s = new Sort(entityClassMetadata.getIdentifierProperty().getName());
 		
-		List<T> res = service.findAll(getSpecificationFromFilter(filter),
-				s);
+		
+		SortBy sortBy = new SortBy(entityClassMetadata.getIdentifierProperty().getName(), true);
+		List<T> res = findAll(filter, Arrays.asList(sortBy));
 		
 		
 		for (T t : res){
