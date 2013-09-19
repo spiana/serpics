@@ -96,6 +96,7 @@ public class SerpicsEntityTableEditor<T> extends CustomComponent{
 	            
 	            editorWindow.setEntityItem(t.getItem(t.getValue()));	            
 	            UI.getCurrent().addWindow(editorWindow);
+	            editorWindow.focus();
 	          
 	          
 	        }
@@ -104,7 +105,6 @@ public class SerpicsEntityTableEditor<T> extends CustomComponent{
 //		editorWindow = new Window(caption, content);
 		
 		setCompositionRoot(t);
-		
 		
 	}
 
