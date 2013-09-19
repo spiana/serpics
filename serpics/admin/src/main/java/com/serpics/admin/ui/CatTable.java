@@ -5,16 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.serpics.admin.SerpicsCachingLocalEntityProvider;
-import com.serpics.admin.SerpicsEntityProvider;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.core.service.EntityService;
 import com.serpics.core.session.CommerceSessionContext;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
+import com.vaadin.addon.jpacontainer.SerpicsCachingLocalEntityProvider;
+import com.vaadin.addon.jpacontainer.SerpicsEntityProvider;
+import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 
@@ -33,8 +35,8 @@ public class CatTable extends CustomComponent implements InitializingBean {
 
 	private SerpicsCachingLocalEntityProvider<Category> provider;
 	
-	@Autowired
-	private LazyLoadingDelegate serpicsHibernateLazyLoadingDelegate;
+//	@Autowired
+//	private LazyLoadingDelegate serpicsHibernateLazyLoadingDelegate;
 	
 	public CatTable(){
 		
@@ -55,24 +57,35 @@ public class CatTable extends CustomComponent implements InitializingBean {
 		mainLayout.setImmediate(false);
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
-		mainLayout.setMargin(false);
+		mainLayout.setMargin(true);
+		setSizeFull();
 		
 		// top-level component properties
-		setWidth("100.0%");
-		setHeight("100.0%");
+//		setWidth("90.0%");
+//		setHeight("90.0%");
 		
-		JPAContainer<Category> cont = new JPAContainer<Category>(Category.class);
+		SerpicsPersistentContainer<Category> cont = new SerpicsPersistentContainer<Category>(Category.class);
 		
 		SerpicsEntityProvider<Category> serpicsEntityProvider = new SerpicsEntityProvider<Category>(Category.class);
 		serpicsEntityProvider.setService((EntityService) catalogService);
 		provider = new SerpicsCachingLocalEntityProvider<Category>(Category.class, serpicsEntityProvider);
+		provider.setCacheEnabled(true);
 		
 //		provider.setLazyLoadingDelegate(serpicsHibernateLazyLoadingDelegate);
 				
 		cont.setEntityProvider(provider);
 		
 		Table t = new Table("cat", cont);
+//		t.addGeneratedColumn("catalog", new Table.ColumnGenerator() {
+//			
+//			@Override
+//			public Object generateCell(Table source, Object itemId, Object columnId) {
+//				return new TextField("catalog");
+//			}
+//		});
 		
+		
+		t.setSizeFull();
 		mainLayout.addComponent(t);
 		
 		setCompositionRoot(mainLayout);

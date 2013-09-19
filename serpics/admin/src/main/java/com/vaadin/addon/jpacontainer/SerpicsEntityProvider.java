@@ -1,4 +1,4 @@
-package com.serpics.admin;
+package com.vaadin.addon.jpacontainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 	
 	public SerpicsEntityProvider(Class<T> entityClass){
 		super(entityClass);		
-		setEntityCacheMaxSize(5000);
+//		setEntityCacheMaxSize(5000);
 		this.entityClass = entityClass;
 		this.entityClassMetadata = MetadataFactory.getInstance()
 	            .getEntityClassMetadata(entityClass);
@@ -68,11 +68,6 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
     
 
 
-//	@Override
-//	public Object getEntityIdentifierAt(EntityContainer<T> entityContainer,
-//			Filter filter, List<SortBy> sortBy, int index) {
-//		return doGetEntityIdentifierAt(entityContainer, filter, sortBy, index);
-//	}
 	
     protected Object doGetEntityIdentifierAt(EntityContainer<T> container,
             Filter filter, List<SortBy> sortBy, int index) {
@@ -86,9 +81,6 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
            
         	
      Object res = service.findOne(spec, sort, index);
-     
-     
-
   
      T entity = (T) res;
      
@@ -98,6 +90,7 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
      return id;
     }
     
+
     protected static Specification getSpecificationFromFilter(final Filter filter){
     	
     	return new Specification() {
@@ -254,8 +247,9 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 		ArrayList<T> array = new ArrayList<T>(res);
 		
 		List<Object> ids = new ArrayList<Object>();
+//		logger.error("startFrom:" + startFrom + ", fetchMax:" + fetchMax);
 		
-		for (int i = startFrom; i < Math.min(startFrom + fetchMax, res.size() - 1); i++){
+		for (int i = startFrom; i < Math.min(startFrom + fetchMax, res.size()); i++){
 			T t = array.get(i);
 			Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty().getName());
 			
@@ -322,6 +316,10 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 		return null;
 	}
 
+	@Override
+	public EntityManager doGetEntityManager() {
+		return emf.createEntityManager();
+	}
 
 	@Override
 	public EntityManager getEntityManager() {

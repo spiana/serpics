@@ -1,4 +1,4 @@
-package com.serpics.admin;
+package com.vaadin.addon.jpacontainer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.admin.TransactionalLazyLoadingDelegate;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
 

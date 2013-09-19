@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.serpics.catalog.persistence.Category;
+import com.vaadin.addon.jpacontainer.SerpicsHibernateLazyLoadingDelegate;
 
 @Component
 @Scope("prototype")

@@ -1,4 +1,4 @@
-package com.serpics.admin;
+package com.vaadin.addon.jpacontainer;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -545,7 +545,7 @@ class SerpicsCachingSupport<T> implements Serializable {
      * A hash set that will remove the oldest items once its size reaches a
      * specified max size.
      * 
-     * @author Petter Holmstr��m (Vaadin Ltd)
+     * @author Petter  (Vaadin Ltd)
      * @since 1.0
      */
     protected static class CacheSet<V> extends HashSet<V> {

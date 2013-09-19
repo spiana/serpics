@@ -1,4 +1,4 @@
-package com.serpics.admin;
+package com.vaadin.addon.jpacontainer;
 
 import java.util.List;
 
