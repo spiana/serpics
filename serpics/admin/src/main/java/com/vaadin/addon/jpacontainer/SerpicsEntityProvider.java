@@ -49,9 +49,8 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 	public SerpicsEntityProvider(Class<T> entityClass){
 		super(entityClass);		
 //		setEntityCacheMaxSize(5000);
-		this.entityClass = entityClass;
-		this.entityClassMetadata = MetadataFactory.getInstance()
-	            .getEntityClassMetadata(entityClass);
+//		this.entityClass = entityClass;
+		this.entityClassMetadata = super.getEntityClassMetadata();
 		
 	}
 

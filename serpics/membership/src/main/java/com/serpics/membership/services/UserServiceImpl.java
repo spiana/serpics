@@ -25,6 +25,7 @@ import org.springframework.util.Assert;
 import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.core.datatype.UserType;
 import com.serpics.core.service.AbstractService;
+import com.serpics.core.service.EntityService;
 import com.serpics.core.session.SessionContext;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.MembersRolePK;
@@ -147,8 +148,17 @@ public class UserServiceImpl extends AbstractService implements UserService {
 	
 	@Override
 	public List<User> findAll(Specification<User> spec, Sort sort) {
-		return userRepository.findAll( where(spec).and(storeFilterSpec() ), 
-				sort);
+		
+		if (spec == null && sort == null) return findAll();
+		
+		if (sort == null)
+			return userRepository.findAll( where(spec).and(storeFilterSpec()));
+		
+		if (spec == null)
+			return userRepository.findAll( where(storeFilterSpec()), sort );
+		
+		return userRepository.findAll( where(spec).and(storeFilterSpec()), sort);
+		
 		
 	}
 	

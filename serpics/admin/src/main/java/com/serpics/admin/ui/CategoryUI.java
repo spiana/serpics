@@ -24,7 +24,9 @@ import com.serpics.commerce.services.OrderService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.membership.persistence.User;
 import com.serpics.membership.services.BaseService;
+import com.serpics.membership.services.UserService;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -44,6 +46,9 @@ public class CategoryUI extends UI{
 	@Resource
 	CatalogService catalogService;
 	
+	@Resource
+	UserService userService;
+	
 	@Autowired
 	CommerceEngine ce;
 	@Resource
@@ -62,21 +67,25 @@ public class CategoryUI extends UI{
 	@Autowired
 	private CategoryRelationRepository catRepo;
 
-	@Autowired
-	private CatTable t;
 	
 	@Override
 	protected void init(VaadinRequest request) {
 		
-//		final VerticalLayout layout = new VerticalLayout();
-//        layout.setMargin(true);
+		final VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(true);
 //        setContent(layout);
 //       layout.addComponent(tree);
         
 //       CatTable t = new CatTable();
 //       t.setCatalogService(catalogService);
 //       t.init();
-       setContent(t);        
+//       setContent(t);
+		SerpicsEntityTableEditor<User> t = new SerpicsEntityTableEditor<User>(User.class, userService);
+		t.init();
+		layout.addComponent(t);
+		layout.setSizeFull();
+		setContent(layout);
+		
 		
 	}
 

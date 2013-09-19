@@ -24,6 +24,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -89,7 +90,9 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements
 		return membersRoles;
 	}
 
-	public Set<MembersRole> getMembersRolesForStore(Long storeId) {
+	// l'underscore davanti serve a non far riconoscere il getter a JPAContainer
+	@Transient
+	public Set<MembersRole> _getMembersRolesForStore(Long storeId) {
 		Set<MembersRole> storeRoles = new HashSet<MembersRole>(0);
 		for (MembersRole mrole : getMembersRoles()) {
 			if (mrole.getStore().getMemberId().equals(storeId))

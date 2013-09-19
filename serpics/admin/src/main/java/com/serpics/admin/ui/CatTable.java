@@ -1,5 +1,7 @@
 package com.serpics.admin.ui;
 
+import javax.persistence.Transient;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -29,10 +31,7 @@ public class CatTable extends CustomComponent implements InitializingBean {
 	@Autowired
 	private CatalogService catalogService;
 	
-	@Autowired
-	private CommerceSessionContext ctx;
-	
-
+	@Transient	
 	private SerpicsCachingLocalEntityProvider<Category> provider;
 	
 //	@Autowired
@@ -87,7 +86,7 @@ public class CatTable extends CustomComponent implements InitializingBean {
 		
 		t.setSizeFull();
 		mainLayout.addComponent(t);
-		
+
 		setCompositionRoot(mainLayout);
 	}
 
