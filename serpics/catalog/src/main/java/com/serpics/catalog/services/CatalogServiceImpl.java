@@ -194,8 +194,13 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 	@Override
 	public List<Category> findAll(Specification<Category> spec, Sort sort) {
 		if (spec == null && sort == null) return findAll();
+		
 		if (sort == null)
 			return categoryRepository.findAll( where(spec).and(currentCatalogCategory()));
+		
+		if (spec == null)
+			return categoryRepository.findAll( sort );
+		
 		return categoryRepository.findAll( where(spec).and(currentCatalogCategory()), sort);
 	}
 	

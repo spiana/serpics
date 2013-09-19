@@ -1,15 +1,12 @@
 package com.serpics.admin;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -17,30 +14,25 @@ import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
 
-import com.google.gwt.http.client.RequestBuilder.Method;
-import com.serpics.core.CommerceEngineFactory;
 import com.serpics.core.service.EntityService;
+import com.vaadin.addon.jpacontainer.CachingEntityProvider;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
 import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
 import com.vaadin.addon.jpacontainer.MutableEntityProvider;
-import com.vaadin.addon.jpacontainer.QueryModifierDelegate;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.filter.util.FilterConverter;
 import com.vaadin.addon.jpacontainer.metadata.EntityClassMetadata;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
-import com.vaadin.addon.jpacontainer.metadata.PersistentPropertyMetadata.AccessType;
+import com.vaadin.addon.jpacontainer.provider.CachingLocalEntityProvider;
 import com.vaadin.data.Container.Filter;
 
-public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, EntityManagerProvider{
+public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> implements MutableEntityProvider<T>, CachingEntityProvider<T>, EntityManagerProvider{
 
 	private EntityService service;
 	
@@ -55,17 +47,17 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 	
 	
 	public SerpicsEntityProvider(Class<T> entityClass){
+		super(entityClass);		
+		setEntityCacheMaxSize(5000);
 		this.entityClass = entityClass;
 		this.entityClassMetadata = MetadataFactory.getInstance()
 	            .getEntityClassMetadata(entityClass);
+		
 	}
 
 	
 	
-	@Override
-	public T getEntity(EntityContainer<T> entityContainer, Object entityId) {
-		 return doGetEntity(entityId);
-	}
+
 
     protected T doGetEntity(Object entityId) {
         assert entityId != null : "entityId must not be null";
@@ -74,22 +66,13 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
         return (T) service.findOne((Serializable) entityId);
     }
     
-	@Override
-	public boolean isEntitiesDetached() {
-		return true;
-	}
 
-	@Override
-	public void setEntitiesDetached(boolean detached)
-			throws UnsupportedOperationException {		
-		
-	}
 
-	@Override
-	public Object getEntityIdentifierAt(EntityContainer<T> entityContainer,
-			Filter filter, List<SortBy> sortBy, int index) {
-		return doGetEntityIdentifierAt(entityContainer, filter, sortBy, index);
-	}
+//	@Override
+//	public Object getEntityIdentifierAt(EntityContainer<T> entityContainer,
+//			Filter filter, List<SortBy> sortBy, int index) {
+//		return doGetEntityIdentifierAt(entityContainer, filter, sortBy, index);
+//	}
 	
     protected Object doGetEntityIdentifierAt(EntityContainer<T> container,
             Filter filter, List<SortBy> sortBy, int index) {
@@ -138,14 +121,19 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
     }
 
 	@Override
-	public Object getFirstEntityIdentifier(EntityContainer<T> entityContainer,
+	public Object doGetFirstEntityIdentifier(EntityContainer<T> entityContainer,
 			Filter filter, List<SortBy> sortBy) {
-		if (sortBy == null) {
-            sortBy = Collections.emptyList();
-        }
         
-     Object res = service.findOne(getSpecificationFromFilter(filter),
-        		getSortFromSortBy(sortBy), 0);
+		Sort sort = null;
+        if (sortBy != null && !sortBy.isEmpty())
+        	sort = getSortFromSortBy(sortBy);
+        
+        Specification spec = null;
+        if (filter != null)
+        	spec = getSpecificationFromFilter(filter);
+        
+     Object res = service.findOne(spec,
+    		 sort, 0);
      
      T entity = (T) res;
      
@@ -155,18 +143,13 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
      return id;
 	}
 
+	
+	
 	@Override
-	public Object getLastEntityIdentifier(EntityContainer<T> entityContainer,
+	public Object doGetLastEntityIdentifier(EntityContainer<T> entityContainer,
 			Filter filter, List<SortBy> sortBy) {
-		if (sortBy == null) {
-            sortBy = Collections.emptyList();
-        }
         
-		List<T> res = service.findAll(getSpecificationFromFilter(filter),
-        		getSortFromSortBy(sortBy));
-		
-		
-    
+     List<T> res = findAll(filter, sortBy);
      
      T entity = (T) res.get(res.size() -1);
      
@@ -177,15 +160,13 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 		
 	}
 
+	
+	
 	@Override
-	public Object getNextEntityIdentifier(EntityContainer<T> entityContainer,
+	public Object doGetNextEntityIdentifier(EntityContainer<T> entityContainer,
 			Object entityId, Filter filter, List<SortBy> sortBy) {
-		if (sortBy == null) {
-            sortBy = Collections.emptyList();
-        }
         
-		List<T> res = service.findAll(getSpecificationFromFilter(filter),
-        		getSortFromSortBy(sortBy));
+		List<T> res = findAll(filter, sortBy);		
 		
 		boolean found = false;
 		for (T t : res){
@@ -203,17 +184,14 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 
 	}
 
+	
+	
 	@Override
-	public Object getPreviousEntityIdentifier(
+	public Object doGetPreviousEntityIdentifier(
 			EntityContainer<T> entityContainer, Object entityId, Filter filter,
 			List<SortBy> sortBy) {
 		
-		if (sortBy == null) {
-            sortBy = Collections.emptyList();
-        }
-        
-		List<T> res = service.findAll(getSpecificationFromFilter(filter),
-        		getSortFromSortBy(sortBy));
+		List<T> res = findAll(filter, sortBy);
 		
 		Object last = null;
 		for (T t : res){
@@ -227,16 +205,31 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 		return null;
 	}
 
+	
+	private List<T> findAll(Filter filter,
+			List<SortBy> sortBy){
+		
+		Sort sort = null;
+        if (sortBy != null && !sortBy.isEmpty())
+        	sort = getSortFromSortBy(sortBy);
+        
+        Specification spec = null;
+        if (filter != null)
+        	spec = getSpecificationFromFilter(filter);
+        
+		List<T> res = service.findAll(spec,
+        		sort);
+		return res;
+	}
+	
+	
+	
 	@Override
-	public List<Object> getAllEntityIdentifiers(
+	public List<Object> doGetAllEntityIdentifiers(
 			EntityContainer<T> entityContainer, Filter filter,
 			List<SortBy> sortBy) {
-		if (sortBy == null) {
-            sortBy = Collections.emptyList();
-        }
-        
-		List<T> res = service.findAll(getSpecificationFromFilter(filter),
-        		getSortFromSortBy(sortBy));
+		
+		List<T> res = findAll(filter, sortBy);
 		
 		List<Object> ids = new ArrayList<Object>();
 		for (T t : res){
@@ -249,12 +242,39 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 		return ids;
 	}
 
+	
+	
+	public List<Object> doGetAllEntityIdentifiers(
+			EntityContainer<T> entityContainer, Filter filter,
+			List<SortBy> sortBy, int startFrom, int fetchMax) {
+		
+		
+		List<T> res = findAll(filter, sortBy);
+		
+		ArrayList<T> array = new ArrayList<T>(res);
+		
+		List<Object> ids = new ArrayList<Object>();
+		
+		for (int i = startFrom; i < Math.min(startFrom + fetchMax, res.size() - 1); i++){
+			T t = array.get(i);
+			Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty().getName());
+			
+			ids.add(id);
+			
+		}
+		
+		return ids;
+	}
+	
+
+	
 	@Override
-	public boolean containsEntity(EntityContainer<T> entityContainer,
+	public boolean doContainsEntity(EntityContainer<T> entityContainer,
 			Object entityId, Filter filter) {
 		
 		
 		Sort s = new Sort(entityClassMetadata.getIdentifierProperty().getName());
+		
 		List<T> res = service.findAll(getSpecificationFromFilter(filter),
 				s);
 		
@@ -268,11 +288,14 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 		return false;
 	}
 
+	
+	
 	@Override
-	public int getEntityCount(EntityContainer<T> entityContainer, Filter filter) {
+	public int doGetEntityCount(EntityContainer<T> entityContainer, Filter filter) {
 		Sort s = new Sort(entityClassMetadata.getIdentifierProperty().getName());
 		
 		List<T> res = null;
+		
 		if (filter != null){
 			res = service.findAll(getSpecificationFromFilter(filter),
 				s);
@@ -284,17 +307,8 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 		return res.size();
 	}
 
-	@Override
-	public void setQueryModifierDelegate(QueryModifierDelegate delegate) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public QueryModifierDelegate getQueryModifierDelegate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	
 
 	@Override
 	public Object getIdentifier(T entity) {
@@ -308,11 +322,6 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 		return null;
 	}
 
-	@Override
-	public void setEntityManager(EntityManager entityManager) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public EntityManager getEntityManager() {
@@ -385,5 +394,25 @@ public class SerpicsEntityProvider<T> implements MutableEntityProvider<T>, Entit
 	public void setEmf(EntityManagerFactory emf) {
 		this.emf = emf;
 	}
+
+
+
+
+
+	public EntityClassMetadata<T> getEntityClassMetadata() {
+		return entityClassMetadata;
+	}
+
+
+
+
+
+	public void setEntityClassMetadata(EntityClassMetadata<T> entityClassMetadata) {
+		this.entityClassMetadata = entityClassMetadata;
+	}
+
+
+
+
 
 }
