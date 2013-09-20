@@ -1,12 +1,17 @@
-package com.vaadin.addon.jpacontainer;
+package com.vaadin.addon.jpacontainer.provider;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+
 import com.vaadin.addon.jpacontainer.CachingEntityProvider;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.SortBy;
+import com.vaadin.addon.jpacontainer.provider.CachingMutableLocalEntityProvider;
 import com.vaadin.addon.jpacontainer.provider.LocalEntityProvider;
 import com.vaadin.data.Container.Filter;
 
@@ -25,7 +30,7 @@ import com.vaadin.data.Container.Filter;
  * @author Petter Holmstr��m (Vaadin Ltd)
  * @since 1.0
  */
-public class SerpicsCachingLocalEntityProvider<T> extends LocalEntityProvider<T>
+public class SerpicsCachingLocalEntityProvider<T> extends SerpicsEntityProvider<T>
         implements CachingEntityProvider<T> {
 
     // TODO Check how well caching works with concurrent users
@@ -34,7 +39,7 @@ public class SerpicsCachingLocalEntityProvider<T> extends LocalEntityProvider<T>
 
     private static final long serialVersionUID = 302600441430870363L;
     private SerpicsCachingSupport<T> cachingSupport;
-
+    
     /**
      * Creates a new <code>CachingLocalEntityProvider</code>. The entity manager
      * must be set using
@@ -43,23 +48,26 @@ public class SerpicsCachingLocalEntityProvider<T> extends LocalEntityProvider<T>
      * @param entityClass
      *            the entity class (must not be null).
      */
-    public SerpicsCachingLocalEntityProvider(Class<T> entityClass, SerpicsEntityProvider<T> entityProvider) {
+    public SerpicsCachingLocalEntityProvider(Class<T> entityClass) {
         super(entityClass);
-        cachingSupport = new SerpicsCachingSupport<T>(entityProvider);
+        cachingSupport = new SerpicsCachingSupport<T>(this);
     }
 
-    /**
-     * Creates a new <code>CachingLocalEntityProvider</code>.
-     * 
-     * @param entityClass
-     *            the entity class (must not be null).
-     * @param entityManager
-     *            the entity manager to use (must not be null).
-     */
-    public SerpicsCachingLocalEntityProvider(Class<T> entityClass,
-            EntityManager entityManager) {
-        super(entityClass, entityManager);
+    
+    
+    
+    
+    @Override
+    public void updateEntityProperty(Object entityId, String propertyName,
+            Object propertyValue) throws IllegalArgumentException {
+    	super.updateEntityProperty(entityId, propertyName, propertyValue);
+        cachingSupport.invalidate(entityId, true);
     }
+
+    
+    
+    
+    
 
     public void flush() {
         cachingSupport.flush();
@@ -149,6 +157,15 @@ public class SerpicsCachingLocalEntityProvider<T> extends LocalEntityProvider<T>
                 sortBy);
     }
 
+    
+    
+
+	
+	
+	
+	
+	
+	
     /*
      * (non-Javadoc)
      * 

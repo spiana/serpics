@@ -10,10 +10,10 @@ import org.jsoup.nodes.Entities;
 import com.serpics.admin.EntityFormEditor;
 import com.serpics.admin.EntityFormEditorWindow;
 import com.serpics.core.service.EntityService;
-import com.vaadin.addon.jpacontainer.SerpicsCachingLocalEntityProvider;
-import com.vaadin.addon.jpacontainer.SerpicsEntityProvider;
 import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
+import com.vaadin.addon.jpacontainer.provider.SerpicsCachingLocalEntityProvider;
+import com.vaadin.addon.jpacontainer.provider.SerpicsEntityProvider;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItem;
@@ -44,9 +44,8 @@ public class SerpicsEntityTableEditor<T> extends CustomComponent{
 	public void init(){
 		SerpicsPersistentContainer<T> cont = new SerpicsPersistentContainer<T>(entityClass);
 		
-		SerpicsEntityProvider<T> serpicsEntityProvider = new SerpicsEntityProvider<T>(entityClass);
-		serpicsEntityProvider.setService((EntityService) service);
-		provider = new SerpicsCachingLocalEntityProvider<T>(entityClass, serpicsEntityProvider);
+		provider = new SerpicsCachingLocalEntityProvider<T>(entityClass);
+		provider.setService((EntityService) service);
 		provider.setCacheEnabled(true);
 		
 //		provider.setLazyLoadingDelegate(serpicsHibernateLazyLoadingDelegate);

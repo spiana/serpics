@@ -70,8 +70,8 @@ public class CategoryUI extends UI{
 	@Resource(name="categoryEntityService")	
 	private EntityService<Category,Long> categoryEntityService;
 	
-	@Resource(name="userEntityService")	
-	private EntityService<User,Long> userEntityService;
+//	@Resource(name="userEntityService")	
+//	private EntityService<User,Long> userEntityService;
 	
 	@Autowired
 	private CategoryRelationRepository catRepo;
@@ -90,7 +90,7 @@ public class CategoryUI extends UI{
 //       t.init();
 //       setContent(t);
 //		SerpicsEntityTableEditor<User> t = new SerpicsEntityTableEditor<User>(User.class, userService);
-        SerpicsEntityTableEditor<User> t = new SerpicsEntityTableEditor<User>(User.class, userEntityService);
+        SerpicsEntityTableEditor<User> t = new SerpicsEntityTableEditor<User>(User.class, userService);
 		t.init();
 		layout.addComponent(t);
 		layout.setSizeFull();

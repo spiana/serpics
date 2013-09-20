@@ -1,12 +1,10 @@
-package com.vaadin.addon.jpacontainer;
+package com.vaadin.addon.jpacontainer.provider;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,19 +19,16 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.core.service.EntityService;
-import com.vaadin.addon.jpacontainer.CachingEntityProvider;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
 import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
-import com.vaadin.addon.jpacontainer.MutableEntityProvider;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.filter.util.FilterConverter;
 import com.vaadin.addon.jpacontainer.metadata.EntityClassMetadata;
-import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
-import com.vaadin.addon.jpacontainer.provider.CachingLocalEntityProvider;
+import com.vaadin.addon.jpacontainer.provider.MutableLocalEntityProvider;
 import com.vaadin.data.Container.Filter;
 
-public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> implements MutableEntityProvider<T>, CachingEntityProvider<T>, EntityManagerProvider{
+public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> implements EntityManagerProvider{
 
 	private EntityService service;
 	
@@ -49,16 +44,65 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 	
 	public SerpicsEntityProvider(Class<T> entityClass){
 		super(entityClass);		
-//		setEntityCacheMaxSize(5000);
-//		this.entityClass = entityClass;
-		this.entityClassMetadata = super.getEntityClassMetadata();
-		
+		this.entityClassMetadata = super.getEntityClassMetadata();		
 	}
 
 	
 	
+	 protected static Specification getSpecificationFromFilter(final Filter filter){
+	    	
+	    	return new Specification() {
 
+				@Override
+				public Predicate toPredicate(Root root, CriteriaQuery query,
+						CriteriaBuilder cb) {
+					return FilterConverter.convertFilter(filter, cb, root);
+				}
+			};
+	    }
+	    
 
+	    protected static Sort getSortFromSortBy(final List<SortBy> sortBy){
+	    	List<Order> orders = new ArrayList<Sort.Order>();
+	    	for (SortBy in : sortBy){    		
+	    		Order order = new Order( in.isAscending() ? Direction.ASC : Direction.DESC, in.getPropertyId().toString());
+	    		orders.add(order);
+	    	}
+	    	Sort s = new Sort(orders);
+	    	return s;
+	    }
+	    
+	    
+	    
+	    
+		private List<T> findAll(Filter filter,
+				List<SortBy> sortBy){
+			
+			Sort sort = null;
+	        if (sortBy != null && !sortBy.isEmpty())
+	        	sort = getSortFromSortBy(sortBy);
+	        
+	        Specification spec = null;
+	        if (filter != null)
+	        	spec = getSpecificationFromFilter(filter);
+	        
+			List<T> res = service.findAll(spec,
+	        		sort);
+			return res;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	    
+	    // Override LocalEntityProvider
+
+	@Override
     protected T doGetEntity(Object entityId) {
         assert entityId != null : "entityId must not be null";
         assert  entityId.getClass().isAssignableFrom(Serializable.class) : "object IDs should be serializable";
@@ -68,7 +112,7 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
     
 
 
-	
+	@Override
     protected Object doGetEntityIdentifierAt(EntityContainer<T> container,
             Filter filter, List<SortBy> sortBy, int index) {
     	Sort sort = null;
@@ -90,28 +134,6 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
      return id;
     }
     
-
-    protected static Specification getSpecificationFromFilter(final Filter filter){
-    	
-    	return new Specification() {
-
-			@Override
-			public Predicate toPredicate(Root root, CriteriaQuery query,
-					CriteriaBuilder cb) {
-				return FilterConverter.convertFilter(filter, cb, root);
-			}
-		};
-    }
-    
-    protected static Sort getSortFromSortBy(final List<SortBy> sortBy){
-    	List<Order> orders = new ArrayList<Sort.Order>();
-    	for (SortBy in : sortBy){    		
-    		Order order = new Order( in.isAscending() ? Direction.ASC : Direction.DESC, in.getPropertyId().toString());
-    		orders.add(order);
-    	}
-    	Sort s = new Sort(orders);
-    	return s;
-    }
 
 	@Override
 	public Object doGetFirstEntityIdentifier(EntityContainer<T> entityContainer,
@@ -198,25 +220,7 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 		return null;
 	}
 
-	
-	private List<T> findAll(Filter filter,
-			List<SortBy> sortBy){
-		
-		Sort sort = null;
-        if (sortBy != null && !sortBy.isEmpty())
-        	sort = getSortFromSortBy(sortBy);
-        
-        Specification spec = null;
-        if (filter != null)
-        	spec = getSpecificationFromFilter(filter);
-        
-		List<T> res = service.findAll(spec,
-        		sort);
-		return res;
-	}
-	
-	
-	
+
 	@Override
 	public List<Object> doGetAllEntityIdentifiers(
 			EntityContainer<T> entityContainer, Filter filter,
@@ -234,7 +238,6 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 		
 		return ids;
 	}
-
 	
 	
 	public List<Object> doGetAllEntityIdentifiers(
@@ -260,7 +263,6 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 		return ids;
 	}
 	
-
 	
 	@Override
 	public boolean doContainsEntity(EntityContainer<T> entityContainer,
@@ -303,6 +305,7 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 
 	
 	
+	
 
 	@Override
 	public Object getIdentifier(T entity) {
@@ -310,21 +313,9 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 		return id;
 	}
 
-	@Override
-	public T refreshEntity(T entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public EntityManager doGetEntityManager() {
-		return emf.createEntityManager();
-	}
 
-	@Override
-	public EntityManager getEntityManager() {
-		return emf.createEntityManager();
-	}
+
 
 	@Override
 	public void setEntityManagerProvider(
@@ -338,47 +329,31 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 		return this;
 	}
 
-	@Override
-	public void setLazyLoadingDelegate(LazyLoadingDelegate delegate) {
-		this.lazyLoadingDelegate = delegate;		
-	}
 
-	@Override
-	public LazyLoadingDelegate getLazyLoadingDelegate() {
-		return lazyLoadingDelegate;
-	}
 
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public T addEntity(T entity) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public T updateEntity(T entity) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void updateEntityProperty(Object entityId, String propertyName,
 			Object propertyValue) throws IllegalArgumentException,
 			RuntimeException {
-		// TODO Auto-generated method stub
+	
+		T entity = (T) service.findOne((Serializable) entityId);
+		if (entity != null) {
+			getEntityClassMetadata().setPropertyValue(entity,
+                  propertyName, propertyValue);
+			service.update(entity);
+			
+			
+		} else {
+			logger.error("could not find entity to update!");
+		}
+
+            
+		fireEntityProviderChangeEvent(new EntitiesUpdatedEvent<T>(this, entity));
 		
 	}
 
-	@Override
-	public void removeEntity(Object entityId) throws RuntimeException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public EntityService getService() {
 		return service;
@@ -396,19 +371,14 @@ public class SerpicsEntityProvider<T> extends CachingLocalEntityProvider<T> impl
 
 
 
-
 	public EntityClassMetadata<T> getEntityClassMetadata() {
 		return entityClassMetadata;
 	}
 
 
-
-
-
 	public void setEntityClassMetadata(EntityClassMetadata<T> entityClassMetadata) {
 		this.entityClassMetadata = entityClassMetadata;
 	}
-
 
 
 

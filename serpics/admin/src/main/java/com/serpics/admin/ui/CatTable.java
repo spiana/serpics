@@ -13,9 +13,9 @@ import com.serpics.core.service.EntityService;
 import com.serpics.core.session.CommerceSessionContext;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
-import com.vaadin.addon.jpacontainer.SerpicsCachingLocalEntityProvider;
-import com.vaadin.addon.jpacontainer.SerpicsEntityProvider;
 import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
+import com.vaadin.addon.jpacontainer.provider.SerpicsCachingLocalEntityProvider;
+import com.vaadin.addon.jpacontainer.provider.SerpicsEntityProvider;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
@@ -65,9 +65,9 @@ public class CatTable extends CustomComponent implements InitializingBean {
 		
 		SerpicsPersistentContainer<Category> cont = new SerpicsPersistentContainer<Category>(Category.class);
 		
-		SerpicsEntityProvider<Category> serpicsEntityProvider = new SerpicsEntityProvider<Category>(Category.class);
-		serpicsEntityProvider.setService((EntityService) getCatService());
-		provider = new SerpicsCachingLocalEntityProvider<Category>(Category.class, serpicsEntityProvider);
+		
+		provider = new SerpicsCachingLocalEntityProvider<Category>(Category.class);
+		provider.setService((EntityService) getCatService());
 		provider.setCacheEnabled(true);
 		
 //		provider.setLazyLoadingDelegate(serpicsHibernateLazyLoadingDelegate);

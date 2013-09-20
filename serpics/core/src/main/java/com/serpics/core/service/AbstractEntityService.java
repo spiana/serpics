@@ -19,7 +19,15 @@ public abstract class AbstractEntityService<T, ID extends Serializable> extends 
 	public abstract Repository<T, ID> getEntityRepository();
 	public abstract Specification<T> getBaseSpec();
 	
-
+	@Override
+	public T create(T entity){
+		return getEntityRepository().saveAndFlush(entity);
+	}
+	
+	@Override
+	public T update(T entity){
+		return getEntityRepository().saveAndFlush(entity);
+	}
 	
 	@Override
 	public void delete(T entity) {
@@ -60,12 +68,6 @@ public abstract class AbstractEntityService<T, ID extends Serializable> extends 
 		
 		Page<T> res = getEntityRepository().findAll( where(spec).and(getBaseSpec()), page);
 		return res.getContent();
-	}
-
-	
-	@Override
-	public T update(T entity) {
-		return getEntityRepository().save(entity);
 	}
 
 	

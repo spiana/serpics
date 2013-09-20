@@ -22,8 +22,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.core.data.Repository;
 import com.serpics.core.datatype.UserRegisterType;
 import com.serpics.core.datatype.UserType;
+import com.serpics.core.service.AbstractEntityService;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.service.EntityService;
 import com.serpics.core.session.SessionContext;
@@ -42,7 +44,7 @@ import com.serpics.membership.repositories.UserRepository;
 @Service("userService")
 @Scope("store")
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-public class UserServiceImpl extends AbstractService implements UserService {
+public class UserServiceImpl extends AbstractEntityService<User, Long> implements UserService {
 
 	@Resource
 	UserRepository userRepository;
@@ -73,6 +75,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
 		return user;
 	}
 
+	
 	@Override
 	@Transactional
 	public User create(User user) {
@@ -99,17 +102,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
 	}
 
-	@Override
-	@Transactional
-	public void delete(User user) {
-		userRepository.delete(user);
-	}
 
-	@Override
-	public Page<User> findAll(Pageable page) {
-		return userRepository.findAll(isUserInStore((Store) getCurrentContext()
-				.getStoreRealm()), page);
-	}
 
 	@Override
 	@Transactional
@@ -120,7 +113,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
 		}	
 		if (user.getUserReg() != null)
 			user.getUserReg().setUser(user);
-		return userRepository.save(user);
+		return userRepository.saveAndFlush(user);
 	}
 
 	@Override
@@ -141,37 +134,12 @@ public class UserServiceImpl extends AbstractService implements UserService {
 		return userRepository.saveAndFlush(user);
 	}
 
-	@Override
-	public List<User> findAll() {
-		return userRepository.findAll(storeFilterSpec());
-	}
-	
-	@Override
-	public List<User> findAll(Specification<User> spec, Sort sort) {
-		
-		if (spec == null && sort == null) return findAll();
-		
-		if (sort == null)
-			return userRepository.findAll( where(spec).and(storeFilterSpec()));
-		
-		if (spec == null)
-			return userRepository.findAll( where(storeFilterSpec()), sort );
-		
-		return userRepository.findAll( where(spec).and(storeFilterSpec()), sort);
-		
-		
-	}
 	
 	private Specification storeFilterSpec(){
 		return isUserInStore((Store) getCurrentContext()
 				.getStoreRealm());
 	}
 
-	@Override
-	public List<User> findByexample(User example) {
-		return userRepository.findAll(where(userRepository
-				.makeSpecification(example)));
-	}
 
 	@Override
 	public List<UsersReg> findByexample(UsersReg example) {
@@ -179,13 +147,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
 				.makeSpecification(example)));
 	}
 
-	@Override
-	public User findOne(Long id) {
-		SessionContext c = getCurrentContext();
-		Assert.notNull(c, "no session context");
 
-		return userRepository.findOne(id);
-	}
 
 	@Override
 	@Transactional
@@ -214,19 +176,17 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
 
 
+
+
+	
 	@Override
-	public List<User> findAll(Specification<User> spec, Pageable page) {
-		Page<User> res = userRepository.findAll( where(spec).and(storeFilterSpec()) , page);
-		return res.getContent();
+	public Repository<User, Long> getEntityRepository() {
+		return userRepository;
 	}
 
 	@Override
-	public User findOne(Specification<User> spec, Sort sort, int index) {
-		final PageRequest singleResultPage = new PageRequest(index, 1, sort);
-		List<User> l = findAll(spec, singleResultPage);
-		if (!l.isEmpty())
-			return l.get(0);
-		else return null;
+	public Specification<User> getBaseSpec() {
+		return storeFilterSpec();
 	}
 
 
