@@ -29,7 +29,7 @@ public class CatTable extends CustomComponent implements InitializingBean {
 	private static final long serialVersionUID = -3438115317897580511L;
 
 	@Autowired
-	private CatalogService catalogService;
+	private CategoryEntityServiceImpl catService;
 	
 	@Transient	
 	private SerpicsCachingLocalEntityProvider<Category> provider;
@@ -66,7 +66,7 @@ public class CatTable extends CustomComponent implements InitializingBean {
 		SerpicsPersistentContainer<Category> cont = new SerpicsPersistentContainer<Category>(Category.class);
 		
 		SerpicsEntityProvider<Category> serpicsEntityProvider = new SerpicsEntityProvider<Category>(Category.class);
-		serpicsEntityProvider.setService((EntityService) catalogService);
+		serpicsEntityProvider.setService((EntityService) getCatService());
 		provider = new SerpicsCachingLocalEntityProvider<Category>(Category.class, serpicsEntityProvider);
 		provider.setCacheEnabled(true);
 		
@@ -91,15 +91,18 @@ public class CatTable extends CustomComponent implements InitializingBean {
 	}
 
 
-	public CatalogService getCatalogService() {
-		return catalogService;
+
+	public CategoryEntityServiceImpl getCatService() {
+		return catService;
 	}
 
 
 
-	public void setCatalogService(CatalogService catalogService) {
-		this.catalogService = catalogService;
+	public void setCatService(CategoryEntityServiceImpl catService) {
+		this.catService = catService;
 	}
+
+
 
 
 

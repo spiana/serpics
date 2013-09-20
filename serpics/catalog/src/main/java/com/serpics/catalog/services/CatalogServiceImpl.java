@@ -42,7 +42,7 @@ import com.serpics.core.service.EntityService;
 
 @Service("catalogService")
 @Scope("store")
-public class CatalogServiceImpl extends AbstractService implements CatalogService, EntityService<Category, Long> {
+public class CatalogServiceImpl extends AbstractService implements CatalogService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CatalogServiceImpl.class);
 	
@@ -152,91 +152,4 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 	}
 
 	
-	
-	
-	
-
-	@Override
-	public Category create(Category entity) {
-		return createCategory(entity, null);
-	}
-
-
-	@Override
-	public void delete(Category entity) {
-		categoryRepository.delete(entity);		
-	}
-
-	private Specification currentCatalogCategory(){
-		return isCategoryInCatalog((Catalog) getCurrentContext().getCatalog());
-	}
-
-	@Override
-	public Page<Category> findAll(Pageable page) {
-		return categoryRepository.findAll(currentCatalogCategory(), page);
-	}
-
-
-	@Override
-	public List<Category> findAll() {
-		return categoryRepository.findAll(currentCatalogCategory());
-	}
-
-	@Override
-	public List<Category> findAll(Specification<Category> spec, Pageable page) {
-		if (spec == null)
-			return findAll(page).getContent();
-		
-		Page<Category> res = categoryRepository.findAll( where(spec).and(currentCatalogCategory()), page);
-		return res.getContent();
-	}
-	
-	@Override
-	public List<Category> findAll(Specification<Category> spec, Sort sort) {
-		if (spec == null && sort == null) return findAll();
-		
-		if (sort == null)
-			return categoryRepository.findAll( where(spec).and(currentCatalogCategory()));
-		
-		if (spec == null)
-			return categoryRepository.findAll( sort );
-		
-		return categoryRepository.findAll( where(spec).and(currentCatalogCategory()), sort);
-	}
-	
-	
-	@Override
-	public Category update(Category entity) {
-		return categoryRepository.save(entity);
-	}
-
-
-	@Override
-	public List<Category> findByexample(Category example) {
-		return categoryRepository.findAll(where(categoryRepository
-				.makeSpecification(example)));
-	}
-
-
-	@Override
-	public Category findOne(Long id) {		
-		return categoryRepository.findOne(id);
-	}
-
-
-
-	@Override
-	public Category findOne(Specification<Category> spec, Sort sort, int index) {
-		final PageRequest singleResultPage = new PageRequest(index, 1, sort);
-		List<Category> l = findAll(spec, singleResultPage);
-		if (!l.isEmpty())
-			return l.get(0);
-		else return null;
-	}
-
-
-
-
-
-
 }
