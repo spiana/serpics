@@ -18,7 +18,13 @@ public class DiscountHookImpl extends AbstractHook implements DiscountHook {
 		if (orderitem.getDiscountPerc() > 0)
 			orderitem.setSkuNetPrice(orderitem.getSkuNetPrice().doubleValue()
 					- orderitem.getSkuNetPrice().doubleValue() * (orderitem.getDiscountPerc() / 100));
-
+		if (orderitem.getDiscountPerc1() > 0)
+			orderitem.setSkuNetPrice(orderitem.getSkuNetPrice().doubleValue()
+					- orderitem.getSkuNetPrice().doubleValue() * (orderitem.getDiscountPerc1() / 100));
+		if (orderitem.getDiscountPerc2() > 0)
+			orderitem.setSkuNetPrice(orderitem.getSkuNetPrice().doubleValue()
+					- orderitem.getSkuNetPrice().doubleValue() * (orderitem.getDiscountPerc2() / 100));
+		
 		return orderitem;
 	}
 

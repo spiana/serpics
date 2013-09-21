@@ -115,8 +115,11 @@ public class ContextSessionManager implements SessionManager, InitializingBean,
 		return context;
 	}
 
-	public void removeSessionContext(SessionContext context) {
-
+	@Override
+	public void removeSessionContext(String sessionId) {
+		synchronized(sessionList){
+			sessionList.remove(sessionId);
+		}
 	}
 
 	@Override

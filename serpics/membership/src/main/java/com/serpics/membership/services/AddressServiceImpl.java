@@ -11,22 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 
-import com.serpics.core.data.SpecificationUtis;
 import com.serpics.core.service.AbstractService;
-import com.serpics.membership.persistence.AbstractAddress;
-import com.serpics.membership.persistence.PermanentAddress;
+import com.serpics.core.service.EntityService;
+import com.serpics.membership.persistence.Address;
 import com.serpics.membership.persistence.User;
-import com.serpics.membership.repositories.PermanentAddressRepository;
+import com.serpics.membership.repositories.AddressRepository;
 
-public class PermanentAddressServiceImpl extends AbstractService implements PermanentAddressService {
+public class AddressServiceImpl extends AbstractService implements AddressService , EntityService<Address, Long> {
+
 
 	protected  static class AddressSpecification{
-		protected static Specification<PermanentAddress> isAddressUser(final User user){
-			return new Specification<PermanentAddress>() {
+		protected static Specification<Address> isAddressUser(final User user){
+			return new Specification<Address>() {
 				@Override
-				public Predicate toPredicate(Root<PermanentAddress> root,
+				public Predicate toPredicate(Root<Address> root,
 						CriteriaQuery<?> cq, CriteriaBuilder cb) {
 					return cb.equal(root.get("member") ,user);
 				}
@@ -36,44 +35,48 @@ public class PermanentAddressServiceImpl extends AbstractService implements Perm
 	}
 	
 	@Autowired
-	PermanentAddressRepository addressRepository;
+	AddressRepository addressRepository;
 
-	@Override
-	public PermanentAddress create(PermanentAddress entity) {
-		User user = (User) getCurrentContext().getCustomer();
+	public Address create(Address entity , User user) {
 		entity.setMember(user);
 		return addressRepository.saveAndFlush(entity);
 	}
+	
+	@Override
+	public Address create(Address entity) {
+		User user = (User) getCurrentContext().getCustomer();
+		return create(entity, user);
+	}
 
 	@Override
-	public void delete(PermanentAddress entity) {
+	public void delete(Address entity) {
 		 addressRepository.delete(entity);
 	}
 
 	@Override
-	public Page<PermanentAddress> findAll(Pageable page) {
+	public Page<Address> findAll(Pageable page) {
 		User user = (User) getCurrentContext().getCustomer();
 		return addressRepository.findAll(AddressSpecification.isAddressUser(user), page);
 	}
 
 	@Override
-	public List<PermanentAddress> findAll() {
+	public List<Address> findAll() {
 		User user = (User) getCurrentContext().getCustomer();
 		return addressRepository.findAll(AddressSpecification.isAddressUser(user));
 	}
 
 	@Override
-	public PermanentAddress update(PermanentAddress entity) {
+	public Address update(Address entity) {
 		return addressRepository.save(entity);
 	}
 
 	@Override
-	public List<PermanentAddress> findByexample(PermanentAddress example) {
+	public List<Address> findByexample(Address example) {
 		return addressRepository.findAll(addressRepository.makeSpecification(example));
 	}
 
 	@Override
-	public PermanentAddress findOne(Long id) {
+	public Address findOne(Long id) {
 		return addressRepository.findOne(id);
 	}
 

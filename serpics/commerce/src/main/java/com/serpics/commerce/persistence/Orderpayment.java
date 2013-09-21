@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * The persistent class for the orderpayment database table.
@@ -38,6 +39,7 @@ public class Orderpayment extends com.serpics.core.persistence.jpa.Entity implem
 	// bi-directional many-to-one association to Order
 	@ManyToOne
 	@JoinColumn(name = "orders_id", nullable = false)
+	@XmlTransient
 	private Order order;
 
 	public Orderpayment() {

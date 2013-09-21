@@ -5,9 +5,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -33,7 +35,7 @@ public class Order extends AbstractOrder {
 	private BigDecimal payAmount = new BigDecimal(0);
 
 	// bi-directional many-to-one association to Orderpayment
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order" , fetch=FetchType.EAGER , orphanRemoval=true , cascade= CascadeType.ALL)
 	private Set<Orderpayment> orderpayments = new HashSet<Orderpayment>(0);
 
 	public Set<Orderpayment> getOrderpayments() {

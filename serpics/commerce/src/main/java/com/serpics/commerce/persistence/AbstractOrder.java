@@ -23,6 +23,7 @@ import javax.persistence.Table;
 
 import com.serpics.base.persistence.Currency;
 import com.serpics.membership.persistence.AbstractAddress;
+import com.serpics.membership.persistence.Address;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
 
@@ -57,6 +58,10 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 	@JoinColumn(name = "customer_id")
 	protected User customer;
 
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "user_id")
+	protected User user;
+
 	@Column(name = "discount_amount", precision = 10, scale = 4)
 	protected BigDecimal discountAmount = new BigDecimal(0);
 
@@ -88,16 +93,12 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 	@Column(name = "total_tax", precision = 10, scale = 4)
 	protected BigDecimal totalTax = new BigDecimal(0);
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "user_id")
-	protected User user;
-
 	// bi-directional many-to-one association to Orderitem
 	@OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true)
 	protected Set<Orderitem> orderitems = new HashSet<Orderitem>(0);
 
 	// bi-directional many-to-one association to Shipmode
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER , optional=true)
 	@JoinColumn(name = "shipmode_id")
 	protected Shipmode shipmode;
 
@@ -109,13 +110,13 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 	@OneToMany(mappedBy = "order", orphanRemoval = true)
 	protected Set<Suborder> suborders = new HashSet<Suborder>(0);
 
-	@ManyToOne
-	@JoinColumn(name = "billing_address_id")
-	protected AbstractAddress billingAddress;
+	@ManyToOne(fetch=FetchType.EAGER )
+	@JoinColumn(name = "billing_address_id" )
+	protected Address billingAddress;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER )
 	@JoinColumn(name = "shipping_address_id")
-	protected AbstractAddress shippingAddress;
+	protected Address shippingAddress;
 
 	public AbstractOrder() {
 	}
@@ -228,7 +229,7 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 		return billingAddress;
 	}
 
-	public void setBillingAddress(AbstractAddress billingAddress) {
+	public void setBillingAddress(Address billingAddress) {
 		this.billingAddress = billingAddress;
 	}
 
@@ -236,7 +237,7 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Ent
 		return shippingAddress;
 	}
 
-	public void setShippingAddress(AbstractAddress shippingAddress) {
+	public void setShippingAddress(Address shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
 
