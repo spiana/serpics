@@ -16,7 +16,6 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 import com.impetus.annovention.Discoverer;
 import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
-import com.serpics.core.hook.GenericHookFactory;
 import com.serpics.stereotype.Hook;
 import com.serpics.stereotype.HookImplementation;
 
@@ -32,7 +31,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 		@SuppressWarnings("rawtypes")
 		Map<String, Map> hookImplementationMap = new TreeMap<String, Map>();
 
-		abstract class SerpicsClassAnnotationListener implements ClassAnnotationDiscoveryListener {
+		abstract private class HookClassAnnotationListener implements ClassAnnotationDiscoveryListener {
 
 			@SuppressWarnings("unchecked")
 			@Override
@@ -123,7 +122,6 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 		private void doHookScan() {
 
 			logger.info("start scanning !");
-//			Discoverer discoverer = new ClasspathDiscoverer();
 			
 			Discoverer discoverer = new com.impetus.annovention.ClasspathDiscoverer();
 			
@@ -134,7 +132,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 				}
 			}
 
-			discoverer.addAnnotationListener(new SerpicsClassAnnotationListener() {
+			discoverer.addAnnotationListener(new HookClassAnnotationListener() {
 
 				@Override
 				public String[] supportedAnnotations() {
@@ -144,11 +142,9 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 			});
 			discoverer.discover(true, false, false, true, false);
 
-//			discoverer = new ClasspathDiscoverer();
-			
 			discoverer = new com.impetus.annovention.ClasspathDiscoverer();
 			
-			discoverer.addAnnotationListener(new SerpicsClassAnnotationListener() {
+			discoverer.addAnnotationListener(new HookClassAnnotationListener() {
 
 				@Override
 				public String[] supportedAnnotations() {
@@ -167,7 +163,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 			for (String hook : hookInterfaceMap.keySet()) {
 				Class<?> type = hookInterfaceMap.get(hook);
 
-				BeanDefinition definition = new RootBeanDefinition(GenericHookFactory.class);
+				BeanDefinition definition = new RootBeanDefinition(GenericComponentFactory.class);
 				definition.getConstructorArgumentValues().addGenericArgumentValue(type);
 				definition.getConstructorArgumentValues().addGenericArgumentValue(hookImplementationMap.get(hook));
 				definition.setScope("store");

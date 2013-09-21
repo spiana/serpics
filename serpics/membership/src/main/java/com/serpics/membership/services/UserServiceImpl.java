@@ -10,10 +10,9 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -33,9 +32,9 @@ import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
+import com.serpics.stereotype.Service;
 
-@Service("userService")
-@Scope("store")
+@Service("userService" )
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class UserServiceImpl extends AbstractService implements UserService {
 

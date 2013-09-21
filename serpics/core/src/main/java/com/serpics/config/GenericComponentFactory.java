@@ -1,4 +1,4 @@
-package com.serpics.core.hook;
+package com.serpics.config;
 
 import java.util.Map;
 
@@ -9,36 +9,36 @@ import org.springframework.beans.factory.InitializingBean;
 import com.serpics.core.AbstractAutowiringFactoryBean;
 import com.serpics.core.scope.StoreScopeContextHolder;
 
-public class GenericHookFactory<T> extends AbstractAutowiringFactoryBean<T> implements InitializingBean {
+public class GenericComponentFactory<T> extends AbstractAutowiringFactoryBean<T> implements InitializingBean {
 
-	static final Logger logger = LoggerFactory.getLogger("GenericHookFactory");
+	static final Logger logger = LoggerFactory.getLogger(GenericComponentFactory.class);
 
-	private final Map<String, Class<?>> hookImpls;
+	private final Map<String, Class<?>> componetImpls;
 
 	private final Class<?> objectType;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public GenericHookFactory(Class<?> objectType, Map hookImpls) {
+	public GenericComponentFactory(Class<?> objectType, Map componentImpls) {
 		this.objectType = objectType;
-		this.hookImpls = hookImpls;
+		this.componetImpls = componentImpls;
 	}
 
 	@Override
 	protected T doCreateInstance() {
-		T hook = createHookInstance();
+		T hook = createComponentInstance();
 		// ((AbstractHook)
 		// hook).setSessionContext(commerceEngine.getCurrentContext());
 		return hook;
 	}
 
-	public T createHookInstance() {
+	public T createComponentInstance() {
 		T ref = null;
 
 		final String store = StoreScopeContextHolder.getCurrentStoreRealm();
-		Class<?> impl = hookImpls.get(store);
+		Class<?> impl = componetImpls.get(store);
 		// if not found specific implementation use default
 		if (impl == null)
-			impl = hookImpls.get("default-store");
+			impl = componetImpls.get("default-store");
 
 		try {
 			ref = (T) impl.newInstance();
