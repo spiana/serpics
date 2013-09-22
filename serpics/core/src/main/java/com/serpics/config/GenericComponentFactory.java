@@ -4,7 +4,10 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.beans.factory.BeanCreationNotAllowedException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.StringUtils;
 
 import com.serpics.core.AbstractAutowiringFactoryBean;
 import com.serpics.core.scope.StoreScopeContextHolder;
@@ -25,12 +28,11 @@ public class GenericComponentFactory<T> extends AbstractAutowiringFactoryBean<T>
 
 	@Override
 	protected T doCreateInstance() {
-		T hook = createComponentInstance();
-		// ((AbstractHook)
-		// hook).setSessionContext(commerceEngine.getCurrentContext());
-		return hook;
+		T component = createComponentInstance();
+		return component;
 	}
 
+	@SuppressWarnings("unchecked")
 	public T createComponentInstance() {
 		T ref = null;
 
@@ -39,13 +41,21 @@ public class GenericComponentFactory<T> extends AbstractAutowiringFactoryBean<T>
 		// if not found specific implementation use default
 		if (impl == null)
 			impl = componetImpls.get("default-store");
-
+	
+		if(impl == null){
+			// no service implementation for "default-store"
+			throw new BeanCreationException("default implementation not found  !" );
+		}
+		
 		try {
 			ref = (T) impl.newInstance();
-		} catch (Exception e) {
-			logger.error("error", e);
+		} catch (InstantiationException e) {
+			throw new BeanCreationException("Error creating service istance !", e);
+		} catch (IllegalAccessException e) {
+			throw new BeanCreationException("Error creating service istance !", e);
 		}
-		;
+	
+		
 		return ref;
 	}
 

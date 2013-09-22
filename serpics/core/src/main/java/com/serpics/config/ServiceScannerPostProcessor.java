@@ -65,7 +65,7 @@ public class ServiceScannerPostProcessor implements
 										"Adding discovered Service {} to serviceMap",
 										service);
 								
-							serviceMap.put(service, Class.forName(clazz));
+							serviceMap.put(service, getImplementedInterface(Class.forName(clazz) ) );
 						}
 
 						Map<String, Class<?>> serviceImpls = serviceImplementationMap
@@ -154,8 +154,7 @@ public class ServiceScannerPostProcessor implements
 								serviceImplementationMap.get(service));
 				definition.setScope("store");
 				registry.registerBeanDefinition(service, definition);
-				logger.info("Registered factory {} for Class {}", service,
-						type.getName());
+				logger.info("Registered factory {} for Class {}", service	, type.getName());
 			}
 		}
 	}
@@ -172,10 +171,10 @@ public class ServiceScannerPostProcessor implements
 		hookScanner.perfomScan(registry);
 	}
 
-	private String getImplementedHookInterface(Class<?> clazz) {
+	private Class<?> getImplementedInterface(Class<?> clazz) {
 		for (Class<?> c : clazz.getInterfaces()) {
-			if (c.getName().endsWith("Hook"))
-				return c.getSimpleName();
+			if (clazz.getSimpleName().contains(c.getSimpleName()))
+				return c;
 		}
 		return null;
 
