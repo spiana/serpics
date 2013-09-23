@@ -4,6 +4,9 @@ import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javassist.expr.Instanceof;
+
+import org.hamcrest.core.IsAnything;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -13,10 +16,11 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.util.comparator.InstanceComparator;
 
 import com.impetus.annovention.Discoverer;
 import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
-import com.serpics.stereotype.Service;
+import com.serpics.stereotype.StoreService;
 
 public class ServiceScannerPostProcessor implements
 		BeanDefinitionRegistryPostProcessor {
@@ -35,7 +39,7 @@ public class ServiceScannerPostProcessor implements
 			@Override
 			public void discovered(String clazz, String annotation)
 					throws BeansException {
-				final String serviceClass = Service.class.getName();
+				final String serviceClass = StoreService.class.getName();
 
 				if (clazz.equals(serviceClass))
 					return;
@@ -48,24 +52,45 @@ public class ServiceScannerPostProcessor implements
 							throw new FatalBeanException(
 									"Found ServiceImplementation annotation on Interface "
 											+ clazz
-											+ ". Only concrete classes should be annotated as ServiceImplementation.");
+											+ ". Only concrete classes should be annotated as StoreServiceImplementation.");
 						}
 
-						Service a = c.getAnnotation(Service.class);
+						StoreService a = c.getAnnotation(StoreService.class);
 						final String service = a.value();
-						final String[] stores = a.store();
+						final String[] stores = a.stores();
 
-						logger.info(
-								"Discovered implementation for SERVICE {} and STORE {} : class "
-										+ clazz, service, stores);
+						
 
 						if (!serviceMap.containsKey(service)) {
 							if (logger.isDebugEnabled())
 								logger.debug(
 										"Adding discovered Service {} to serviceMap",
 										service);
-								
-							serviceMap.put(service, getImplementedInterface(Class.forName(clazz) ) );
+
+							Class<?> serviceInterface = getImplementedInterface(Class
+									.forName(clazz));
+							if (serviceInterface != null)
+								serviceMap.put(service, serviceInterface);
+							else
+								throw new FatalBeanException(
+										String.format(
+												"the Storeservice class [%s] must implement at least an interface !",
+												clazz));
+
+						}
+						Class<?> serviceInterface = serviceMap.get(service);
+						Class<?> implementedClass = Class.forName(clazz);
+
+						logger.info(
+								"Discovered implementation for StoreService [{}] and store {{}] : class ["
+										+ clazz + "] inteface [" + serviceInterface.getName() +"]", service, stores);
+						
+						if (!isImplemented(implementedClass, serviceInterface)) {
+							throw new FatalBeanException(
+									String.format(
+											"the Storeservice class [%s] must implement interface [%s] !",
+											implementedClass.getName(),
+											serviceInterface.getName()));
 						}
 
 						Map<String, Class<?>> serviceImpls = serviceImplementationMap
@@ -73,36 +98,26 @@ public class ServiceScannerPostProcessor implements
 
 						if (serviceImpls == null) {
 							serviceImpls = new TreeMap<String, Class<?>>();
+
 							for (String store : stores) {
-								serviceImpls.put(store, Class.forName(clazz));
+								serviceImpls.put(store, implementedClass);
 							}
 							serviceImplementationMap.put(service, serviceImpls);
 						} else {
+
 							for (String store : stores) {
 								if (serviceImpls.containsKey(store))
-									if (clazz.equals(serviceImpls.get(store)
-											.getName()))
-										logger.warn(
-												"Ovveride implementation for SERVICE {} and STORE {} : class "
-														+ clazz, service, store);
-									else
-										throw new FatalBeanException(
-												"Duplicate implementation found for Service "
-														+ service
-														+ ". Found classes: "
-														+ clazz
-														+ ", "
-														+ serviceImpls.get(
-																store)
-																.getName());
-
-								serviceImpls.put(store, Class.forName(clazz));
+									logger.warn(
+											"Ovveride implementation for StoreService [{}] and store [{}] : class ["
+													+ clazz + "] was [" + serviceImpls.get(store).getName() +"]", service,
+											store);
+								serviceImpls.put(store, implementedClass);
 							}
 
 						}
 
 					} catch (ClassNotFoundException e) {
-						logger.error("Should not happen: ", e);
+						throw new FatalBeanException("Should not happen!", e);
 					}
 
 				}
@@ -129,13 +144,12 @@ public class ServiceScannerPostProcessor implements
 
 						@Override
 						public String[] supportedAnnotations() {
-							return new String[] { Service.class.getName() };
+							return new String[] { StoreService.class.getName() };
 						}
 
 					});
 			discoverer.discover(true, false, false, true, false);
 
-	
 		}
 
 		private void perfomScan(BeanDefinitionRegistry registry) {
@@ -146,7 +160,7 @@ public class ServiceScannerPostProcessor implements
 				Class<?> type = serviceMap.get(service);
 
 				BeanDefinition definition = new RootBeanDefinition(
-					GenericComponentFactory.class);
+						GenericComponentFactory.class);
 				definition.getConstructorArgumentValues()
 						.addGenericArgumentValue(type);
 				definition.getConstructorArgumentValues()
@@ -154,7 +168,8 @@ public class ServiceScannerPostProcessor implements
 								serviceImplementationMap.get(service));
 				definition.setScope("store");
 				registry.registerBeanDefinition(service, definition);
-				logger.info("Registered factory {} for Class {}", service	, type.getName());
+				logger.info("Registered factory {} for Class {}", service,
+						type.getName());
 			}
 		}
 	}
@@ -178,6 +193,14 @@ public class ServiceScannerPostProcessor implements
 		}
 		return null;
 
+	}
+
+	private boolean isImplemented(Class<?> clazz, Class<?> tobeImplement) {
+		for (Class<?> c : clazz.getInterfaces()) {
+			if (c.getName().contains(tobeImplement.getName()))
+				return true;
+		}
+		return false;
 	}
 
 	@Override

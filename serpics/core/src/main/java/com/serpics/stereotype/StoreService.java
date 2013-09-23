@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Service {
+public @interface StoreService {
 	String value() default "";
 	
-	String[] store() default {"default-store"}; 
+	String[] stores() default {"default-store"}; 
 }

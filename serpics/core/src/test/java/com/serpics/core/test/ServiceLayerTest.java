@@ -40,14 +40,14 @@ public class ServiceLayerTest extends Assert {
 		
 		StoreScopeContextHolder.setCurrentStoreRealm("store2");
 		TestService s2 = applicationContext.getBean(TestService.class);
-		assertEquals("TestService2", s2.getServiceClassName());
+		assertEquals("TestService4", s2.getServiceClassName());
 		
 		StoreScopeContextHolder.setCurrentStoreRealm("store3");
 		TestService s3 = applicationContext.getBean(TestService.class);
-		assertEquals("TestService2", s3.getServiceClassName());
+		assertEquals("TestService4", s3.getServiceClassName());
 		
 		// Test Autowired
-		assertEquals("TestService2", s.getServiceClassName());
+		assertEquals("TestService4", s.getServiceClassName());
 		
 	}
 	
@@ -57,7 +57,7 @@ public class ServiceLayerTest extends Assert {
 		
 		StoreScopeContextHolder.setCurrentStoreRealm("default-store");
 		TestService s4 = applicationContext.getBean(TestService.class);
-		assertEquals("TestService2", s4.getServiceClassName());
+		assertEquals("TestService4", s4.getServiceClassName());
 	}
 	
 }

@@ -32,9 +32,9 @@ import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
-import com.serpics.stereotype.Service;
+import com.serpics.stereotype.StoreService;
 
-@Service("userService" )
+@StoreService("userService" )
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class UserServiceImpl extends AbstractService implements UserService {
 
