@@ -17,9 +17,14 @@ package com.serpics.admin;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
+import com.vaadin.addon.jpacontainer.SerpicsStringToNumberConverter;
+import com.vaadin.addon.jpacontainer.StringToBigDecimalConverter;
 import com.vaadin.addon.jpacontainer.metadata.EntityClassMetadata;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
+import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
@@ -27,17 +32,20 @@ import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
+import com.vaadin.data.util.converter.StringToNumberConverter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
-public class EntityFormEditor<T> extends FormLayout implements Button.ClickListener,
+public class EntityFormEditor<T> extends TabSheet implements Button.ClickListener,
         FieldGroupFieldFactory {
 
     private Item entityItem;
@@ -45,9 +53,10 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
     private Button saveButton;
     private Button cancelButton;
     private Class<T> entityClass;
+    private FormLayout main = new FormLayout();  
     
-//    private transient EntityClassMetadata<T> entityClassMetadata;   
-//    private transient PropertyList<T> propertyList;
+    private transient EntityClassMetadata<T> entityClassMetadata;   
+    private transient PropertyList<T> propertyList;
     
 	private FieldGroup fieldGroup;
 	
@@ -58,21 +67,27 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
         this.entityClass = entityClass;
         
         
-//        this.entityClassMetadata = MetadataFactory.getInstance()
-//                .getEntityClassMetadata(entityClass);
-//        this.propertyList = new PropertyList<T>(entityClassMetadata);
+        this.entityClassMetadata = MetadataFactory.getInstance()
+                .getEntityClassMetadata(entityClass);
+        this.propertyList = new PropertyList<T>(entityClassMetadata);
        
-        setSizeUndefined();        
-        setCaption(buildCaption());
+        
+              
+        main.setSizeUndefined();        
+//        main.setCaption(buildCaption());
         
         fieldGroup = new FieldGroup();        
         fieldGroup.setFieldFactory(this);        
         
-		setImmediate(false);
-		setWidth("100%");
-		setHeight("100%");
-		setMargin(true);
-		setSpacing(true);
+        main.setImmediate(false);
+        main.setWidth("100%");
+        main.setHeight("100%");
+		main.setMargin(true);
+		main.setSpacing(true);
+		
+		VerticalLayout ml = new VerticalLayout();
+		ml.addComponent(main);
+		addTab(ml, buildCaption());
 				
 		saveButton = new Button("Save", this);
         cancelButton = new Button("Cancel", this);
@@ -191,19 +206,43 @@ public class EntityFormEditor<T> extends FormLayout implements Button.ClickListe
 
 	public void setEntityItem(Item entityItem) {
 		this.entityItem = entityItem;
-		fieldGroup.setItemDataSource(entityItem);	
+		fieldGroup.setItemDataSource(entityItem);
+		
+		
+		
 		if (!initialized){
 			for (Object pid : entityItem.getItemPropertyIds()){
-				Property p = entityItem.getItemProperty(pid);
-				if (p.getType() != String.class && p.getType() != Integer.class)
-					continue;
-				addComponent(fieldGroup.buildAndBind(pid));
+				Property p = entityItem.getItemProperty(pid);				
+				
+//				if (p.getType() != String.class && p.getType() != Integer.class)
+//					continue;
+				
+				if (propertyList.getPropertyKind((String) pid).equals(PropertyKind.SIMPLE)){
+					Field<?> f = fieldGroup.buildAndBind(p.getType().getCanonicalName(),pid);
+					
+					if (f instanceof TextField){
+						
+						if (Number.class.isAssignableFrom(p.getType()))
+							((TextField) f).setConverter(new SerpicsStringToNumberConverter());
+//						if (p.getType().equals(BigInteger.class))
+//							((TextField) f).setConverter(BigInteger.class);
+						
+//						if (p.getType().equals(BigDecimal.class))
+//							((TextField) f).setConverter(new StringToBigDecimalConverter());
+						
+					}
+					
+					
+					main.addComponent(f);
+				}
+					
+				
 				
 			}
 			
 			
-			addComponent(saveButton);
-			addComponent(cancelButton);
+			main.addComponent(saveButton);
+			main.addComponent(cancelButton);
 			
 			initialized = true;
 		}

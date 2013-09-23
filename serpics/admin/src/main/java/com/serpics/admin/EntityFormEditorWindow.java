@@ -7,6 +7,8 @@ import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 
@@ -17,8 +19,19 @@ public class EntityFormEditorWindow<T> extends Window implements Handler {
 	static final Action[] actions = new Action[] { esc };
 			
 	public EntityFormEditorWindow(Class entityClass){
+		
+		
+		
+		VerticalLayout vl = new VerticalLayout();
+		setContent(vl);
+		
+//		TabSheet tabSheet = new TabSheet();
+//		vl.addComponent(tabSheet);
+		
 		formEditor = new EntityFormEditor<T>(entityClass);
-		setContent(formEditor);
+//		tabSheet.addTab(formEditor);
+		vl.addComponent(formEditor);
+		
 		setModal(true);
 		setHeight("80.0%");
 		setWidth("50.0%");

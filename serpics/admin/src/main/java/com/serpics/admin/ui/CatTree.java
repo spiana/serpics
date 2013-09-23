@@ -174,8 +174,7 @@ public class CatTree extends CustomComponent implements InitializingBean {
 		form.setImmediate(false);
 		form.setWidth("-1px");
 		form.setHeight("-1px");
-		form.setMargin(false);
-		form.setSpacing(true);
+
 		verticalLayout_2.addComponent(form);
 		verticalLayout_2.setMargin(true);
 

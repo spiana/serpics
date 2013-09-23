@@ -25,7 +25,6 @@ import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.filter.util.FilterConverter;
 import com.vaadin.addon.jpacontainer.metadata.EntityClassMetadata;
-import com.vaadin.addon.jpacontainer.provider.MutableLocalEntityProvider;
 import com.vaadin.data.Container.Filter;
 
 public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> implements EntityManagerProvider{
