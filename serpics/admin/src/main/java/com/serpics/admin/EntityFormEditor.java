@@ -17,22 +17,17 @@ package com.serpics.admin;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import com.vaadin.addon.jpacontainer.SerpicsStringToNumberConverter;
-import com.vaadin.addon.jpacontainer.StringToBigDecimalConverter;
 import com.vaadin.addon.jpacontainer.metadata.EntityClassMetadata;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
-import com.vaadin.data.util.converter.StringToNumberConverter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -40,9 +35,7 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
 public class EntityFormEditor<T> extends TabSheet implements Button.ClickListener,
@@ -224,11 +217,6 @@ public class EntityFormEditor<T> extends TabSheet implements Button.ClickListene
 						
 						if (Number.class.isAssignableFrom(p.getType()))
 							((TextField) f).setConverter(new SerpicsStringToNumberConverter());
-//						if (p.getType().equals(BigInteger.class))
-//							((TextField) f).setConverter(BigInteger.class);
-						
-//						if (p.getType().equals(BigDecimal.class))
-//							((TextField) f).setConverter(new StringToBigDecimalConverter());
 						
 					}
 					
