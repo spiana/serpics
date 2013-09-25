@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -34,7 +35,8 @@ import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
 import com.serpics.stereotype.StoreService;
 
-@StoreService("userService" )
+//@StoreService("userService" )
+@Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class UserServiceImpl extends AbstractService implements UserService {
 

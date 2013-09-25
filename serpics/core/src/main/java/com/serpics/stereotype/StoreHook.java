@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface HookImplementation {
+public @interface StoreHook {
 	String value();
 
 	String store() default "default-store";

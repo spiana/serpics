@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 import com.serpics.commerce.persistence.AbstractOrder;
 import com.serpics.commerce.persistence.Orderitem;
 import com.serpics.core.hook.AbstractHook;
-import com.serpics.stereotype.HookImplementation;
+import com.serpics.stereotype.StoreHook;
 
-@HookImplementation(value = "commerceHook")
+@StoreHook(value = "commerceHook")
 public class CommerceHookImpl extends AbstractHook implements CommerceHook {
 
 	@Override

@@ -12,17 +12,16 @@ import org.springframework.util.StringUtils;
 import com.serpics.core.AbstractAutowiringFactoryBean;
 import com.serpics.core.scope.StoreScopeContextHolder;
 
-public class GenericComponentFactory<T> extends AbstractAutowiringFactoryBean<T> implements InitializingBean {
+public class StoreComponentFactory<T> extends AbstractAutowiringFactoryBean<T> implements InitializingBean {
 
-	static final Logger logger = LoggerFactory.getLogger(GenericComponentFactory.class);
+	static final Logger logger = LoggerFactory.getLogger(StoreComponentFactory.class);
 
 	private final Map<String, Class<?>> componetImpls;
 
-	private final Class<?> objectType;
+	
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public GenericComponentFactory(Class<?> objectType, Map componentImpls) {
-		this.objectType = objectType;
+	public StoreComponentFactory( Map componentImpls) {
 		this.componetImpls = componentImpls;
 	}
 
@@ -36,12 +35,8 @@ public class GenericComponentFactory<T> extends AbstractAutowiringFactoryBean<T>
 	public T createComponentInstance() {
 		T ref = null;
 
-		final String store = StoreScopeContextHolder.getCurrentStoreRealm();
-		Class<?> impl = componetImpls.get(store);
-		// if not found specific implementation use default
-		if (impl == null)
-			impl = componetImpls.get("default-store");
-	
+		Class<?> impl = getImplementedObject();
+		
 		if(impl == null){
 			// no service implementation for "default-store"
 			throw new BeanCreationException("default implementation not found  !" );
@@ -61,7 +56,19 @@ public class GenericComponentFactory<T> extends AbstractAutowiringFactoryBean<T>
 
 	@Override
 	public Class<?> getObjectType() {
-		return objectType;
+		Class<?> obj = getImplementedObject(); 
+		return obj != null ? obj :Object.class;
 	}
 
+	private Class<?> getImplementedObject(){
+		
+		final String store = StoreScopeContextHolder.getCurrentStoreRealm();
+		Class<?> impl = componetImpls.get(store);
+		// if not found specific implementation use default
+		if (impl == null)
+			impl = componetImpls.get("default-store");
+	
+		return impl;
+		
+	}
 }

@@ -15,8 +15,8 @@ http://www.springframework.org/schema/aop
     <bean name="commerceEngineFactory" class="com.serpics.core.CommerceEngineFactory" />
     <bean name="commerceEngine" class="com.serpics.core.CommerceEngineImpl"  lazy-init="true"/>
     <bean name="postprocessor" class="com.serpics.core.SerpicsPostProcessor"/>
-    <bean name="hookScanner" class="com.serpics.config.HookScannerPostProcessor"/>
-    <bean name="serviceScanner" class="com.serpics.config.ServiceScannerPostProcessor"/>
+  <!--   <bean name="hookScanner" class="com.serpics.config.HookScannerPostProcessor"/> -->
+    <bean name="storeComponetScanner" class="com.serpics.config.ComponentScannerPostProcessor"/>
      
      <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
     <property name="scopes">

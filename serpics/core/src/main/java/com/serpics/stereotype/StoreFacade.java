@@ -11,7 +11,7 @@ import com.serpics.config.StoreComponentFactory;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface StoreService{
+public @interface StoreFacade{
 	String value() default "";
 	
 	String[] stores() default {"default-store"}; 

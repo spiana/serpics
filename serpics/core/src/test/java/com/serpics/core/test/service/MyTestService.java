@@ -3,9 +3,9 @@ package com.serpics.core.test.service;
 import com.serpics.stereotype.StoreService;
 
 @StoreService
-public interface TestService {
+public interface MyTestService extends TestService {
 
 	
-	public String getServiceClassName();
-	public String sayGood();
+	public String sayHello();
+	
 }
