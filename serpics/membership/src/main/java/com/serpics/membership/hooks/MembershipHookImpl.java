@@ -14,9 +14,9 @@ import com.serpics.membership.MembershipException;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.UserRegrepository;
-import com.serpics.stereotype.HookImplementation;
+import com.serpics.stereotype.StoreHook;
 
-@HookImplementation(value="membership")
+@StoreHook(value="membership")
 public class MembershipHookImpl extends AbstractHook implements MembershipHook {
 	@Resource
 	UserRegrepository userRegRepository;

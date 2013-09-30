@@ -46,8 +46,9 @@ public class SessionManagerImpl implements SessionManager {
 		return context;
 	}
 
-	public void removeSessionContext(SessionContext context) {
-
+	@Override
+	public void removeSessionContext(String sessionId) {
+			sessionList.remove(sessionId);
 	}
 
 }

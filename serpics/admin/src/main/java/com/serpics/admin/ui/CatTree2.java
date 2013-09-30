@@ -25,7 +25,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
-@Scope("prototype")
+@Scope("store")
 public class CatTree2 extends CustomComponent implements InitializingBean {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */

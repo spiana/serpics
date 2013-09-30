@@ -16,9 +16,8 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 import com.impetus.annovention.Discoverer;
 import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
-import com.serpics.core.hook.GenericHookFactory;
 import com.serpics.stereotype.Hook;
-import com.serpics.stereotype.HookImplementation;
+import com.serpics.stereotype.StoreHook;
 
 public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
@@ -32,13 +31,13 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 		@SuppressWarnings("rawtypes")
 		Map<String, Map> hookImplementationMap = new TreeMap<String, Map>();
 
-		abstract class SerpicsClassAnnotationListener implements ClassAnnotationDiscoveryListener {
+		abstract private class HookClassAnnotationListener implements ClassAnnotationDiscoveryListener {
 
 			@SuppressWarnings("unchecked")
 			@Override
 			public void discovered(String clazz, String annotation) throws BeansException {
 				final String hookClass = Hook.class.getName();
-				final String hookImplClass = HookImplementation.class.getName();
+				final String hookImplClass = StoreHook.class.getName();
 
 				if (clazz.equals(hookClass) || clazz.equals(hookImplClass))
 					return;
@@ -74,7 +73,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 											+ ". Only concrete classes should be annotated as HookImplementation, please use Hook annotation for interfaces.");
 						}
 
-						HookImplementation a = c.getAnnotation(HookImplementation.class);
+						StoreHook a = c.getAnnotation(StoreHook.class);
 						final String hook = a.value();
 						final String store = a.store();
 						final boolean canOverride = a.override();
@@ -123,7 +122,6 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 		private void doHookScan() {
 
 			logger.info("start scanning !");
-//			Discoverer discoverer = new ClasspathDiscoverer();
 			
 			Discoverer discoverer = new com.impetus.annovention.ClasspathDiscoverer();
 			
@@ -134,7 +132,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 				}
 			}
 
-			discoverer.addAnnotationListener(new SerpicsClassAnnotationListener() {
+			discoverer.addAnnotationListener(new HookClassAnnotationListener() {
 
 				@Override
 				public String[] supportedAnnotations() {
@@ -144,15 +142,13 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 			});
 			discoverer.discover(true, false, false, true, false);
 
-//			discoverer = new ClasspathDiscoverer();
-			
 			discoverer = new com.impetus.annovention.ClasspathDiscoverer();
 			
-			discoverer.addAnnotationListener(new SerpicsClassAnnotationListener() {
+			discoverer.addAnnotationListener(new HookClassAnnotationListener() {
 
 				@Override
 				public String[] supportedAnnotations() {
-					return new String[] { HookImplementation.class.getName() };
+					return new String[] { StoreHook.class.getName() };
 				}
 
 			});
@@ -167,8 +163,7 @@ public class HookScannerPostProcessor implements BeanDefinitionRegistryPostProce
 			for (String hook : hookInterfaceMap.keySet()) {
 				Class<?> type = hookInterfaceMap.get(hook);
 
-				BeanDefinition definition = new RootBeanDefinition(GenericHookFactory.class);
-				definition.getConstructorArgumentValues().addGenericArgumentValue(type);
+				BeanDefinition definition = new RootBeanDefinition(StoreComponentFactory.class);
 				definition.getConstructorArgumentValues().addGenericArgumentValue(hookImplementationMap.get(hook));
 				definition.setScope("store");
 				registry.registerBeanDefinition(hook, definition);

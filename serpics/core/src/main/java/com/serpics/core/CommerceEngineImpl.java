@@ -122,10 +122,21 @@ public class CommerceEngineImpl implements CommerceEngine {
 		return (CommerceSessionContext) threadLocal.get();
 	}
 
-	@Override
-	public void setCurrentContext(CommerceSessionContext context) {
-		threadLocal.set(context);
 
+	@Override
+	public void disconnect(String sessionId) {
+		if (sessionId != null)
+			this.sessionManager.removeSessionContext(sessionId);
 	}
 
+	@Override
+	public void disconnect(CommerceSessionContext sessionContext) {
+		if (sessionContext != null)
+			disconnect(sessionContext.getSessionId());
+	}
+
+	@Override
+	public void unbind() {
+		threadLocal.remove();
+	}
 }

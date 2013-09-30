@@ -40,7 +40,9 @@ import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
+import com.serpics.stereotype.StoreService;
 
+//@StoreService("userService" )
 @Service("userService")
 @Scope("store")
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

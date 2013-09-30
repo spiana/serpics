@@ -7,9 +7,9 @@ import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.core.hook.AbstractHook;
-import com.serpics.stereotype.HookImplementation;
+import com.serpics.stereotype.StoreHook;
 
-@HookImplementation("productHook")
+@StoreHook("productHook")
 public class ProductHookImpl extends AbstractHook implements ProductHook {
 
 	@Autowired

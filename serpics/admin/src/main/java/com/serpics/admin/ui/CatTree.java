@@ -25,7 +25,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
-@Scope("prototype")
+@Scope("store")
 public class CatTree extends CustomComponent implements InitializingBean {
 
 

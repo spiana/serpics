@@ -16,12 +16,26 @@ import org.springframework.data.jpa.domain.Specifications;
 
 import com.serpics.core.data.SpecificationUtis;
 import com.serpics.core.service.AbstractService;
+import com.serpics.membership.persistence.AbstractAddress;
 import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 
-public class PermanentAddressServiceImpl extends AbstractAddressService implements AddressService {
+public class PermanentAddressServiceImpl extends AbstractService implements PermanentAddressService {
 
+	protected  static class AddressSpecification{
+		protected static Specification<PermanentAddress> isAddressUser(final User user){
+			return new Specification<PermanentAddress>() {
+				@Override
+				public Predicate toPredicate(Root<PermanentAddress> root,
+						CriteriaQuery<?> cq, CriteriaBuilder cb) {
+					return cb.equal(root.get("member") ,user);
+				}
+			};
+			
+		}
+	}
+	
 	@Autowired
 	PermanentAddressRepository addressRepository;
 

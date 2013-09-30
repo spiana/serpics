@@ -10,7 +10,13 @@ import com.serpics.core.session.CommerceSessionContext;
 public interface CommerceEngine extends ApplicationContextAware, BeanFactoryAware {
 
 	public CommerceSessionContext bind(String sessionId);
+	
+	public void unbind();
+	
+	public void disconnect(String sessionId);
 
+	public void disconnect(CommerceSessionContext sessionContext);
+	
 	public CommerceSessionContext connect(String realm, String loginId, char[] password) throws SerpicsException;
 
 	public CommerceSessionContext connect(String realm) throws SerpicsException;
@@ -21,8 +27,6 @@ public interface CommerceEngine extends ApplicationContextAware, BeanFactoryAwar
 	public ApplicationContext getApplicationContext();
 
 	public CommerceSessionContext getCurrentContext();
-
-	public void setCurrentContext(CommerceSessionContext context);
 
 	public Object getService(String serviceName) throws BeansException;
 

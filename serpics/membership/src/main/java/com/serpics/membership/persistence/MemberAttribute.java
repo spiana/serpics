@@ -34,7 +34,8 @@ public class MemberAttribute extends com.serpics.core.persistence.jpa.Entity imp
 	@Column(name = "attribute_id", unique = true, nullable = false)
 	private Long attributeId;
 
-	@Column(name = "base_attributes_id", nullable=false)
+	@ManyToOne
+	@JoinColumn(name = "base_attributes_id", nullable=false)
 	BaseAttribute baseAttribute;
 	
 	private double sequence;

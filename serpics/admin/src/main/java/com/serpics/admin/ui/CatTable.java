@@ -23,7 +23,7 @@ import com.vaadin.ui.VerticalLayout;
 
 
 @Component
-@Scope("prototype")
+@Scope("store")
 public class CatTable extends CustomComponent implements InitializingBean {
 
 	private static final long serialVersionUID = -3438115317897580511L;

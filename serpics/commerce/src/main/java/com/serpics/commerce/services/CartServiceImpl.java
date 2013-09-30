@@ -97,13 +97,6 @@ public class CartServiceImpl extends AbstractService implements CartService {
 			throws InventoryNotAvailableException, ProductNotFoundException {
 
 		Orderitem orderitem = new Orderitem();
-
-		UserDetail user = getCurrentContext().getUserPrincipal();
-		orderitem.setStatus(AbstractOrder.PENDING);
-		orderitem.setUser((User) user);
-		orderitem.setCustomer((User) user);
-		orderitem.setStore((Store) getCurrentContext().getStoreRealm());
-		orderitem.setCurrency(cart.getCurrency());
 		orderitem.setSku(product.getCode());
 		orderitem.setQuantity(quantity);
 

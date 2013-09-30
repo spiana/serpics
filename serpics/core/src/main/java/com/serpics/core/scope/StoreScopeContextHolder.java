@@ -44,6 +44,9 @@ public class StoreScopeContextHolder {
 	}
 
 	public static String getCurrentStoreRealm() {
-		return currentStoreRealm.get();
+		String realm = currentStoreRealm.get();
+//		if (realm == null)
+//			realm = "default-store";
+		return realm;
 	}
 }

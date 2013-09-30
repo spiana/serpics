@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 import com.serpics.commerce.persistence.AbstractOrder;
 import com.serpics.commerce.persistence.Orderitem;
 import com.serpics.core.hook.AbstractHook;
-import com.serpics.stereotype.HookImplementation;
+import com.serpics.stereotype.StoreHook;
 
-@HookImplementation(value = "discountHook")
+@StoreHook(value = "discountHook")
 public class DiscountHookImpl extends AbstractHook implements DiscountHook {
 
 	@Override
@@ -18,7 +18,13 @@ public class DiscountHookImpl extends AbstractHook implements DiscountHook {
 		if (orderitem.getDiscountPerc() > 0)
 			orderitem.setSkuNetPrice(orderitem.getSkuNetPrice().doubleValue()
 					- orderitem.getSkuNetPrice().doubleValue() * (orderitem.getDiscountPerc() / 100));
-
+		if (orderitem.getDiscountPerc1() > 0)
+			orderitem.setSkuNetPrice(orderitem.getSkuNetPrice().doubleValue()
+					- orderitem.getSkuNetPrice().doubleValue() * (orderitem.getDiscountPerc1() / 100));
+		if (orderitem.getDiscountPerc2() > 0)
+			orderitem.setSkuNetPrice(orderitem.getSkuNetPrice().doubleValue()
+					- orderitem.getSkuNetPrice().doubleValue() * (orderitem.getDiscountPerc2() / 100));
+		
 		return orderitem;
 	}
 

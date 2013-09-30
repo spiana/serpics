@@ -163,7 +163,6 @@ public class User extends Member implements Serializable, UserDetail {
 	}
 
 	@Override
-	@XmlTransient
 	public String getName() {
 		if (userReg != null)
 			return userReg.getLogonid();
@@ -182,7 +181,6 @@ public class User extends Member implements Serializable, UserDetail {
 		setMemberId(userId);
 	}
 	
-	@Override
 	public Long getStoreId() {
 		return storeId;
 	}

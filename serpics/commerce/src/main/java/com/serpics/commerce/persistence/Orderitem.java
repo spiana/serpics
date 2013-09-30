@@ -29,28 +29,18 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 	@Column(name = "orderitems_id", unique = true, nullable = false)
 	private Long orderitemsId;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "currency_id")
-	private Currency currency;
-
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "store")
-	private Store store;
-
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "user_id")
-	private User user;
-
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "customer_id")
-	private User customer;
-
 	@Column(name = "discount_amount", precision = 10, scale = 4)
 	private final Double discountAmount = new Double(0);
 
 	@Column(name = "discount_perc", precision = 5, scale = 2)
 	private double discountPerc;
 
+	@Column(name = "discount_perc1", precision = 5, scale = 2)
+	private double discountPerc1;
+	
+	@Column(name = "discount_perc2", precision = 5, scale = 2)
+	private double discountPerc2;
+	
 	@Column(nullable = false, precision = 5, scale = 2)
 	private double quantity;
 
@@ -77,9 +67,6 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	@Column(name = "shipping_cost", nullable = false, precision = 10, scale = 4)
 	private Double shippingCost = new Double(0);
-
-	@Column(nullable = false, length = 2)
-	private String status;
 
 	// bi-directional many-to-one association to Order
 	@ManyToOne
@@ -108,7 +95,7 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 		this.skuDescription = sku_description;
 		this.quantity = quantity;
 		this.skuCost = this.skuNetPrice = this.skuPrice = price;
-		this.status = AbstractOrder.PENDING;
+
 	}
 
 	public Long getOrderitemsId() {
@@ -149,14 +136,6 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 
 	public void setSku(String sku) {
 		this.sku = sku;
-	}
-
-	public String getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public AbstractOrder getOrder() {
@@ -243,36 +222,21 @@ public class Orderitem extends com.serpics.core.persistence.jpa.Entity implement
 		this.shippingCost = shippingCost;
 	}
 
-	public Currency getCurrency() {
-		return currency;
+	public double getDiscountPerc1() {
+		return discountPerc1;
 	}
 
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
+	public void setDiscountPerc1(double discountPerc1) {
+		this.discountPerc1 = discountPerc1;
 	}
 
-	public Store getStore() {
-		return store;
+	public double getDiscountPerc2() {
+		return discountPerc2;
 	}
 
-	public void setStore(Store store) {
-		this.store = store;
+	public void setDiscountPerc2(double discountPerc2) {
+		this.discountPerc2 = discountPerc2;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public User getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(User customer) {
-		this.customer = customer;
-	}
 
 }

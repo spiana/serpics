@@ -6,15 +6,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-public class CommerceEngineFactory {
-
-	private static final Map<ClassLoader, ApplicationContext> currentContextPerThread = new ConcurrentHashMap<ClassLoader, ApplicationContext>(
-			1);
+public class CommerceEngineFactory implements ApplicationContextAware{
+	
+	private static final Map<ClassLoader, ApplicationContext> currentContextPerThread = new ConcurrentHashMap<ClassLoader, ApplicationContext>(1);
 
 	public static void init(String xmlConfigFile) {
-		setApplicationContext(new FileSystemXmlApplicationContext(xmlConfigFile));
+		new FileSystemXmlApplicationContext(xmlConfigFile);
 		// CommerceEngine ce = (CommerceEngine)
 		// getCurrentApplicationContext().getBean(CommerceEngine.class);
 		// ce.setApplicationContext(getCurrentApplicationContext());
@@ -32,10 +32,10 @@ public class CommerceEngineFactory {
 //		}
 	}
 
-	public final static void setApplicationContext(ApplicationContext appContext) {
+	public void setApplicationContext(ApplicationContext appContext) {
 		currentContextPerThread.put(Thread.currentThread().getContextClassLoader(), appContext);
 	}
-
+	
 	public final static ApplicationContext getCurrentApplicationContext() {
 		return currentContextPerThread.get(Thread.currentThread().getContextClassLoader());
 	}
