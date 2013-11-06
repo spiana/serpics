@@ -4,13 +4,15 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 
+
+
 /**
  * The persistent class for the geocode_descr database table.
  * 
  */
 @Entity
 @Table(name="geocode_descr" )
-public class GeocodeDescr implements Serializable {
+public class GeocodeDescr extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

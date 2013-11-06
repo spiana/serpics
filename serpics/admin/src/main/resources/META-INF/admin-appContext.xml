@@ -20,5 +20,19 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="commerceSessionFilter" class="com.serpics.admin.CommerceSessionFilter"/>
     
-	
+    
+    <!-- 
+  <bean class="com.serpics.admin.SerpicsEntityProviderFactory" id="categoryEntityProvider">
+  	<constructor-arg value="com.serpics.catalog.persistence.Category"/>
+  </bean>
+   -->
+       <!-- 
+   <bean class="com.serpics.admin.SerpicsEntityProviderFactory" id="serpicsEntityProviderFactoryGenerator">
+   <constructor-arg value="com.serpics.catalog.persistence.Category"/>
+   </bean>
+   
+   <bean class="com.serpics.admin.SerpicsEntityProvider" id="categoryEntityProvider" factory-bean="serpicsEntityProviderFactoryGenerator" factory-method="getObject">
+   	
+   </bean>
+     -->
  </beans>    

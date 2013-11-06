@@ -1,5 +1,8 @@
 package com.serpics.catalog.services;
 
+import static com.serpics.catalog.repositories.CategorySpecification.isCategoryInCatalog;
+import static org.springframework.data.jpa.domain.Specifications.where;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,13 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +38,7 @@ import com.serpics.catalog.repositories.CategoryRelationRepository;
 import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.core.service.AbstractService;
+import com.serpics.core.service.EntityService;
 
 @Service("catalogService")
 @Scope("store")
@@ -140,6 +151,5 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 		
 	}
 
-
-
+	
 }

@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="regions_descr" )
-public class RegionsDescr implements Serializable {
+public class RegionsDescr extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

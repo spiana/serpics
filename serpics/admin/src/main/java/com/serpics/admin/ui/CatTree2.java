@@ -25,7 +25,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
-@Scope("prototype")
+@Scope("store")
 public class CatTree2 extends CustomComponent implements InitializingBean {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -173,8 +173,7 @@ public class CatTree2 extends CustomComponent implements InitializingBean {
 		form.setImmediate(false);
 		form.setWidth("-1px");
 		form.setHeight("-1px");
-		form.setMargin(false);
-		form.setSpacing(true);
+
 		verticalLayout_2.addComponent(form);
 		verticalLayout_2.setMargin(true);
 

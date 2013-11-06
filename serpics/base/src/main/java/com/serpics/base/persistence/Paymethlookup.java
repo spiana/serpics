@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="paymethlookup" )
-public class Paymethlookup implements Serializable {
+public class Paymethlookup extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -20,7 +20,7 @@ public class Paymethlookup implements Serializable {
 	@Column(nullable=false)
 	private short active;
 
-	private Timestamp updated;
+
 
 	//bi-directional many-to-one association to Paymethod
     @ManyToOne
@@ -44,14 +44,6 @@ public class Paymethlookup implements Serializable {
 
 	public void setActive(short active) {
 		this.active = active;
-	}
-
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
 	}
 
 	public Paymethod getPaymethod() {

@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="paymethod_descr" )
-public class PaymethodDescr implements Serializable {
+public class PaymethodDescr extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

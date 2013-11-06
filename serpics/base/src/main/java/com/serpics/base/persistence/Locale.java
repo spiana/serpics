@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "locales")
-public class Locale implements com.serpics.core.persistence.Locale, Serializable {
+public class Locale extends com.serpics.core.persistence.jpa.Entity implements com.serpics.core.persistence.Locale, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,9 +32,6 @@ public class Locale implements com.serpics.core.persistence.Locale, Serializable
 
 	@Column(length = 40)
 	private String name;
-
-	@Column(nullable = false)
-	private Timestamp updated;
 
 	public Locale() {
 	}
@@ -71,12 +68,5 @@ public class Locale implements com.serpics.core.persistence.Locale, Serializable
 		this.name = name;
 	}
 
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
-	}
 
 }

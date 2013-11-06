@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.serpics.catalog.persistence.Catalog;
+import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.repositories.CategoryRelationRepository;
 import com.serpics.catalog.services.CatalogService;
@@ -23,12 +24,16 @@ import com.serpics.commerce.services.CartService;
 import com.serpics.commerce.services.OrderService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
+import com.serpics.core.service.EntityService;
 import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.membership.persistence.User;
 import com.serpics.membership.services.BaseService;
+import com.serpics.membership.services.UserService;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -43,6 +48,9 @@ public class CategoryUI extends UI{
 	@Resource
 	CatalogService catalogService;
 	
+	@Resource
+	UserService userService;
+	
 	@Autowired
 	CommerceEngine ce;
 	@Resource
@@ -56,22 +64,39 @@ public class CategoryUI extends UI{
 	@Resource
 	OrderService orderService;
 
-	@Autowired CatTree2 tree;
+//	@Autowired CatTree2 tree;
+	
+	 
+	@Resource(name="categoryEntityService")	
+	private EntityService<Category,Long> categoryEntityService;
+	
+//	@Resource(name="userEntityService")	
+//	private EntityService<User,Long> userEntityService;
 	
 	@Autowired
 	private CategoryRelationRepository catRepo;
 
-
 	
 	@Override
 	protected void init(VaadinRequest request) {
+		
 		final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
-        setContent(layout);
-       layout.addComponent(tree);
+//        setContent(layout);
+//       layout.addComponent(tree);
         
-       
-        
+//       CatTable t = new CatTable();
+//       t.setCatalogService(catalogService);
+//       t.init();
+//       setContent(t);
+//		SerpicsEntityTableEditor<User> t = new SerpicsEntityTableEditor<User>(User.class, userService);
+        SerpicsEntityTableEditor<User> t = new SerpicsEntityTableEditor<User>(User.class, userService);
+		t.init();
+		layout.addComponent(t);
+		layout.setSizeFull();
+		setContent(layout);
+		
+		
 		
 	}
 

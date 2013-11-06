@@ -94,9 +94,9 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 	protected String field2;
 
 	@Column(precision = 10, scale = 4)
-	protected BigDecimal field3;
+	protected Float field3;
 
-	protected BigInteger field4;
+	protected Long field4;
 
 	@Column(nullable = false, length = 1, updatable = false, insertable = false)
 	protected String flag;
@@ -214,19 +214,19 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 		this.field2 = field2;
 	}
 
-	public BigDecimal getField3() {
+	public Float getField3() {
 		return this.field3;
 	}
 
-	public void setField3(BigDecimal field3) {
+	public void setField3(Float field3) {
 		this.field3 = field3;
 	}
 
-	public BigInteger getField4() {
+	public Long getField4() {
 		return this.field4;
 	}
 
-	public void setField4(BigInteger field4) {
+	public void setField4(Long field4) {
 		this.field4 = field4;
 	}
 

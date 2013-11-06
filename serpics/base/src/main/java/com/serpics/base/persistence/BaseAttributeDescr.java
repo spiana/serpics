@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="base_attribute_descr" )
-public class BaseAttributeDescr implements Serializable {
+public class BaseAttributeDescr extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -19,9 +19,6 @@ public class BaseAttributeDescr implements Serializable {
 
 	@Column(nullable=false, length=1000)
 	private String description;
-
-	@Column(nullable=false)
-	private Timestamp updated;
 
 	//bi-directional many-to-one association to BaseAttribute
     @ManyToOne
@@ -50,14 +47,6 @@ public class BaseAttributeDescr implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
 	}
 
 	public BaseAttribute getBaseAttribute() {
