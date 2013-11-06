@@ -105,7 +105,7 @@ public class CommerceEngineImpl implements CommerceEngine {
 	public CommerceSessionContext bind(String sessionId) {
 		SessionContext _s = this.sessionManager.getSessionContext(sessionId);
 		Assert.notNull(_s, "session expired !");
-		_s.setLastAccess(new Date());
+//		_s.setLastAccess(new Date());
 		threadLocal.set(_s);
 		StoreScopeContextHolder.setCurrentStoreRealm(_s.getRealm());
 		SessionScopeContextHolder.setSessionScopeAttributes(_s.getCommerceScopeAttribute());

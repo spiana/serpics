@@ -63,6 +63,7 @@ public class StoreComponentFactory<T> extends AbstractAutowiringFactoryBean<T> i
 	private Class<?> getImplementedObject(){
 		
 		final String store = StoreScopeContextHolder.getCurrentStoreRealm();
+		if (store == null) return null;
 		Class<?> impl = componetImpls.get(store);
 		// if not found specific implementation use default
 		if (impl == null)

@@ -80,7 +80,7 @@ public class ContextSessionManager implements SessionManager, InitializingBean,
 				sessionList.remove(sessionContext);
 				sessionContext = null;
 			} else {
-				logger.info("found session for sessionid [{}] !");
+				logger.info("found session for sessionid [{}] !", sessionId);
 				if (logger.isDebugEnabled()) {
 					logger.debug("session realm  [{}]",
 							sessionContext.getRealm());

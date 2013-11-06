@@ -10,6 +10,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.core.service.AbstractService;
@@ -78,6 +79,24 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
 	@Override
 	public Address findOne(Long id) {
 		return addressRepository.findOne(id);
+	}
+
+	@Override
+	public List<Address> findAll(Specification<Address> spec, Sort sort) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Address> findAll(Specification<Address> spec, Pageable page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Address findOne(Specification<Address> spec, Sort sort, int index) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
