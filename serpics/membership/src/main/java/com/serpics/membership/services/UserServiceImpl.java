@@ -91,11 +91,15 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
 		}	
 		
 		Set<MembersRole> roles = user.getMembersRoles();
-		user.setMembersRoles(new HashSet<MembersRole>());
+		user.setMembersRoles(new HashSet<MembersRole>(0));
 		
-		user = userRepository.saveAndFlush(user);
-		user = mergeUserRoles(user, roles);
+		user.setCreated(new Date());
 
+		user = userRepository.saveAndFlush(user);
+	
+		if (!roles.isEmpty())
+			user = mergeUserRoles(user, roles);
+		
 		UserStoreRelation r = new UserStoreRelation((Store) getCurrentContext()
 				.getStoreRealm(), user);
 		r.setUpdated(new Date());

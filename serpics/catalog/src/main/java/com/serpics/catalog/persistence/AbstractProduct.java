@@ -1,6 +1,7 @@
 package com.serpics.catalog.persistence;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -28,7 +29,7 @@ import com.serpics.core.datatype.CatalogEntryType;
  */
 @Entity
 @Table(name = "abstractProducts")
-@DiscriminatorValue("1")
+@DiscriminatorValue("3")
 @DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.INTEGER)
 @PrimaryKeyJoinColumn(name = "product_id", referencedColumnName = "ctentry_id")
 public abstract class AbstractProduct extends Ctentry implements Serializable {
@@ -40,7 +41,7 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
 		this.published = buyable;
 		this.code = sku;
 		this.downlodable = 0;
-		this.ctentryType = (short) 1;
+		this.ctentryType = 1;
 	}
 
 	public AbstractProduct() {
@@ -91,6 +92,14 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
 	@JoinColumn(name = "catalog_id" )
 	protected Catalog catalog;
 
+	@ManyToOne(optional=true)
+	@JoinColumn(name="specification_id")
+	protected Specification specification;
+	
+	@OneToMany(mappedBy="product" , orphanRemoval=true , cascade=CascadeType.REMOVE , fetch=FetchType.LAZY)
+	Set<FeatureValues> featureValues = new HashSet<FeatureValues>(0);
+	
+	
 	public String getManufacturerSku() {
 		return this.manufacturerSku;
 	}
@@ -191,5 +200,21 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
 	public void prepersist(){
 		if (this.url == null)
 			this.url = "/" + getCatalog().getCode() + "/" + getCode();
+	}
+
+	public Specification getSpecification() {
+		return specification;
+	}
+
+	public void setSpecification(Specification specification) {
+		this.specification = specification;
+	}
+
+	public Set<FeatureValues> getFeatureValues() {
+		return featureValues;
+	}
+
+	public void setFeatureValues(Set<FeatureValues> featureValues) {
+		this.featureValues = featureValues;
 	}
 }

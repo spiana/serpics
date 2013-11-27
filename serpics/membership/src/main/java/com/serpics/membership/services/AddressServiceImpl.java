@@ -12,14 +12,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
+import com.serpics.core.data.Repository;
+import com.serpics.core.service.AbstractEntityService;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.Address;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.repositories.AddressRepository;
 
-public class AddressServiceImpl extends AbstractService implements AddressService , EntityService<Address, Long> {
+@Service("addressService")
+public class AddressServiceImpl extends AbstractEntityService<Address, Long> implements AddressService {
 
 
 	protected  static class AddressSpecification{
@@ -82,20 +86,14 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
 	}
 
 	@Override
-	public List<Address> findAll(Specification<Address> spec, Sort sort) {
-		// TODO Auto-generated method stub
-		return null;
+	public Repository<Address, Long> getEntityRepository() {
+		
+		return addressRepository;
 	}
 
 	@Override
-	public List<Address> findAll(Specification<Address> spec, Pageable page) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Address findOne(Specification<Address> spec, Sort sort, int index) {
-		// TODO Auto-generated method stub
+	public Specification<Address> getBaseSpec() {
+		
 		return null;
 	}
 

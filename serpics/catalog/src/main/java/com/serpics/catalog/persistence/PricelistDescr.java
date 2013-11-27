@@ -11,15 +11,13 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="pricelist_descr" )
-public class PricelistDescr implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class PricelistDescr extends com.serpics.core.persistence.jpa.Entity {
 
 	@EmbeddedId
 	private PricelistDescrPK id;
 
-	private String descriprion;
+	private String description;
 
-	private Timestamp updated;
 
 	//bi-directional many-to-one association to Pricelist
     @ManyToOne
@@ -37,28 +35,20 @@ public class PricelistDescr implements Serializable {
 		this.id = id;
 	}
 	
-	public String getDescriprion() {
-		return this.descriprion;
-	}
-
-	public void setDescriprion(String descriprion) {
-		this.descriprion = descriprion;
-	}
-
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
-	}
-
 	public Pricelist getPricelist() {
 		return this.pricelist;
 	}
 
 	public void setPricelist(Pricelist pricelist) {
 		this.pricelist = pricelist;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

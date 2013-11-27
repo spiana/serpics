@@ -329,14 +329,25 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 	}
 
 
+	 @Override
+	 public T addEntity(T entity) {
+		 return (T) service.create((T) entity);
+	
+	 }
 
 
-
+	 @Override
+	public T updateEntity(T entity) {
+		// TODO Auto-generated method stub
+		return (T) service.update(entity);
+	}
+	 
 	@Override
 	public void updateEntityProperty(Object entityId, String propertyName,
 			Object propertyValue) throws IllegalArgumentException,
 			RuntimeException {
-	
+		
+			
 		T entity = (T) service.findOne((Serializable) entityId);
 		if (entity != null) {
 			getEntityClassMetadata().setPropertyValue(entity,

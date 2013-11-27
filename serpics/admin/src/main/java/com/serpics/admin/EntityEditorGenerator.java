@@ -2,6 +2,7 @@ package com.serpics.admin;
 
 import java.util.List;
 
+import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.metadata.EntityClassMetadata;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;

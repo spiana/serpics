@@ -12,6 +12,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.serpics.catalog.CatalogEntryTypes;
 import com.serpics.core.datatype.CatalogEntryType;
 
 /**
@@ -20,7 +21,7 @@ import com.serpics.core.datatype.CatalogEntryType;
  */
 @Entity
 @Table(name = "catalog")
-@DiscriminatorValue("-1")
+@DiscriminatorValue("0")
 @PrimaryKeyJoinColumn(name = "catalog_id", referencedColumnName = "ctentry_id")
 public class Catalog extends Ctentry implements com.serpics.core.persistence.Catalog,
 		Serializable {

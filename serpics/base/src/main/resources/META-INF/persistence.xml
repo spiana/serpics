@@ -3,8 +3,8 @@
 	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!-- Base --> 
-		<class>com.serpics.base.persistence.AttributeLookup</class>
-		<class>com.serpics.base.persistence.AttributeLookupPK</class>
+<!-- 		<class>com.serpics.base.persistence.AttributeLookup</class> -->
+<!-- 		<class>com.serpics.base.persistence.AttributeLookupPK</class> -->
 		<class>com.serpics.base.persistence.BaseAttribute</class>
 		<class>com.serpics.base.persistence.Country</class>
 		<class>com.serpics.base.persistence.CountryDescr</class>

@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="ctentry_descr" )
-public class CtentryDescr implements Serializable {
+public class CtentryDescr extends com.serpics.core.persistence.jpa.Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -27,9 +27,6 @@ public class CtentryDescr implements Serializable {
 	private String metaKeyword;
 
 	private String name;
-
-    @Temporal( TemporalType.TIMESTAMP)
-	private Date updated;
 
   //bi-directional many-to-one association to Ctentry
     @ManyToOne
@@ -78,14 +75,6 @@ public class CtentryDescr implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Date getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Date updated) {
-		this.updated = updated;
 	}
 
 	

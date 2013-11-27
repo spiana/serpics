@@ -23,7 +23,7 @@ import com.serpics.core.datatype.CatalogEntryType;
  */
 @Entity
 @Table(name = "category")
-@DiscriminatorValue("0")
+@DiscriminatorValue("1")
 @PrimaryKeyJoinColumn(name = "category_id")
 public class Category extends Ctentry implements Serializable {
 	private static final long serialVersionUID = 1L;

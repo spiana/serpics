@@ -26,6 +26,8 @@ import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.RoleService;
+import com.serpics.membership.services.UserRegService;
+import com.serpics.membership.services.UserRegServiceImpl;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.ExecutionTestListener;
 
@@ -47,6 +49,9 @@ public class UserServiceTest {
 	UserService userService;
 	@Autowired
 	RoleService roleService;
+	@Autowired
+	UserRegService userRegService;
+	
 
 	@Before
 	public void init() {

@@ -1,4 +1,4 @@
-package com.serpics.admin;
+package com.serpics.vaadin.ui;
 
 /**
  * Copyright 2009-2013 Oy Vaadin Ltd
@@ -52,7 +52,7 @@ import com.vaadin.addon.jpacontainer.metadata.PropertyMetadata;
  * @author Petter Holmström (Vaadin Ltd)
  * @since 1.0
  */
-final class PropertyList<T> implements Serializable {
+public final class PropertyList<T> implements Serializable {
 
     private static final long serialVersionUID = 372287057799712177L;
     private ClassMetadata<T> metadata;
@@ -625,6 +625,7 @@ final class PropertyList<T> implements Serializable {
         }
     }
 
+ 
     /**
      * Checks if <code>propertyName</code> is writable. Nested properties are
      * supported. This method works with property names in the

@@ -1,5 +1,7 @@
 package com.vaadin.addon.jpacontainer;
 
+import com.vaadin.data.Validator.InvalidValueException;
+
 
 public class SerpicsPersistentContainer<T> extends JPAContainer<T> {
 
@@ -16,7 +18,11 @@ public class SerpicsPersistentContainer<T> extends JPAContainer<T> {
 	}
 
     
-	
+	@Override
+	public void commit() throws SourceException, InvalidValueException {
+		// TODO Auto-generated method stub
+		super.commit();
+	}
 	
 	
 }

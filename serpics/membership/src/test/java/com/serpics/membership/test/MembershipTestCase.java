@@ -6,6 +6,11 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -32,6 +38,7 @@ import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.MembershipService;
+import com.serpics.membership.services.UserRegService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.ExecutionTestListener;
 
@@ -54,6 +61,9 @@ public class MembershipTestCase {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	UserRegService userRegService;
 	
 	@Before
 	public void beforetest(){
@@ -84,7 +94,7 @@ public class MembershipTestCase {
 		context = ce
 				.connect("default-store", "test1", "password".toCharArray());
 		assertNotNull("not connect with context !", context);
-		User u = (User) context.getUserPrincipal();
+		final User u = (User) context.getUserPrincipal();
 		assertArrayEquals("verify is test user", "test1".toCharArray(), u
 				.getUserReg().getLogonid().toCharArray());
 		assertArrayEquals("primaryAddress nickname",
@@ -101,6 +111,19 @@ public class MembershipTestCase {
 		r.setLogonid("test1");
 		List<UsersReg> l = m.findbyexample(r);
 		assertEquals(1, l.size());
+		
+		l = userRegService.findAll(new Specification<UsersReg>() {
+			
+			@Override
+			public Predicate toPredicate(Root<UsersReg> arg0, CriteriaQuery<?> arg1,
+					CriteriaBuilder arg2) {
+				// TODO Auto-generated method stub
+				return arg2.equal(arg0.get("user"), u);
+			}
+		}, new PageRequest(0, 1));
+		
+		assertEquals(1, l.size());
+		
 		u.addAdress(new PermanentAddress());
 		m.updateUser(u);
 

@@ -20,6 +20,7 @@ import com.serpics.catalog.services.CatalogService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.membership.services.BaseService;
 
 public class CommerceSessionFilter implements Filter {
 
@@ -31,6 +32,9 @@ public class CommerceSessionFilter implements Filter {
 
 	@Resource(name = "catalogService")
 	CatalogService catService;
+
+	@Autowired
+	BaseService baseService;
 
 	@Override
 	public void destroy() {
@@ -44,6 +48,14 @@ public class CommerceSessionFilter implements Filter {
 
 		if (logger.isDebugEnabled())
 			logger.debug("CommerceSessionFilter called");
+
+		if (!baseService.isInitialized()){
+			baseService.initIstance();
+			Catalog catalog = new Catalog();
+			catalog.setCode("default-catalog");
+			catService.createCatalog(catalog);
+		}
+		
 
 		HttpServletRequest httpReq = (HttpServletRequest) req;
 		String id = (String) httpReq.getSession().getAttribute(
@@ -72,23 +84,23 @@ public class CommerceSessionFilter implements Filter {
 		} catch (Exception e) {
 			logger.error(
 					"Error establishing commerceSession in servlet filter", e);
-			
-//			httpReq.getSession().removeAttribute("serpics-session");
-			
+
+			// httpReq.getSession().removeAttribute("serpics-session");
+
 			CommerceSessionContext context;
 			try {
-				context = ce.connect("default-store",
-						"superuser", "admin".toCharArray());
+				context = ce.connect("default-store", "superuser",
+						"admin".toCharArray());
 				context.setCatalog(catService.getCatalog("default-catalog"));
 				httpReq.getSession().setAttribute("serpics-session",
 						context.getSessionId());
 			} catch (Exception e1) {
 				logger.error(
-						"Error establishing commerceSession in servlet filter", e1);
+						"Error establishing commerceSession in servlet filter",
+						e1);
 			}
-			
-			
-//			throw new ServletException(e);
+
+			// throw new ServletException(e);
 		}
 
 		chain.doFilter(req, resp);

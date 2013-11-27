@@ -25,6 +25,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import com.serpics.catalog.CatalogEntryTypes;
+
 /**
  * The persistent class for the ctentry database table.
  * 
@@ -42,7 +44,7 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.Entity im
 	protected Long ctentryId;
 
 	@Column(name = "ctentry_type", nullable = false)
-	protected short ctentryType;
+	protected Integer ctentryType;
 
 	@Column(name = "code", nullable = false)
 	protected String code;
@@ -79,11 +81,11 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.Entity im
 		this.ctentryId = ctentryId;
 	}
 
-	public short getCtentryType() {
+	public Integer getCtentryType() {
 		return this.ctentryType;
 	}
 
-	public void setCtentryType(short ctentryType) {
+	public void setCtentryType(Integer ctentryType) {
 		this.ctentryType = ctentryType;
 	}
 

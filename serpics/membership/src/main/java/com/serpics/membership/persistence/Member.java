@@ -192,5 +192,5 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements
 	public void setPermanentAddresses(Set<PermanentAddress> permanentAddresses) {
 		this.permanentAddresses = permanentAddresses;
 	}
-
+		
 }

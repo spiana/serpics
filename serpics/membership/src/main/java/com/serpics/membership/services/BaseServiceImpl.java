@@ -1,12 +1,18 @@
 package com.serpics.membership.services;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.serpics.base.persistence.Currency;
 import com.serpics.base.repositories.CurrencyRepository;
@@ -14,6 +20,7 @@ import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.MemberType;
 import com.serpics.core.datatype.UserType;
+import com.serpics.core.persistence.Catalog;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.Store;
@@ -73,6 +80,8 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 			ug.setUser(u);
 
 			m.registerUser(u, ug, new PermanentAddress());
+			
+		
 		} catch (SerpicsException e) {
 			e.printStackTrace();
 		}
@@ -87,8 +96,14 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 
 	@Override
 	public void createStore(String storeName) {
+		Currency example = new Currency();
+		example.setIsoCode("EUR");
+		Currency currency= currencyRepository.findOne(currencyRepository.makeSpecification(example));
+		Assert.notNull(currency);
+		
 		Store s = new Store();
 		s.setName(storeName);
+		s.setCurrency(currency);
 		s = m.createStore(s);
 
 	}

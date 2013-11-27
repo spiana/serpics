@@ -3,6 +3,9 @@ package com.serpics.base.persistence;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.serpics.core.security.StoreRealm;
+
+
 
 /**
  * The persistent class for the attribute_lookup database table.
@@ -24,6 +27,10 @@ public class AttributeLookup implements Serializable {
 	@JoinColumn(name="base_attributes_id", nullable=false, insertable=false, updatable=false)
 	private BaseAttribute baseAttribute;
 
+    
+//    @JoinColumn(name="store_id" , nullable=false , insertable=false , updatable=false )
+//    StoreRealm store;
+    
     public AttributeLookup() {
     }
 
@@ -50,5 +57,7 @@ public class AttributeLookup implements Serializable {
 	public void setBaseAttribute(BaseAttribute baseAttribute) {
 		this.baseAttribute = baseAttribute;
 	}
+
+	
 	
 }

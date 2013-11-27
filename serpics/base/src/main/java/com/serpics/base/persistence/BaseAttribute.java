@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.serpics.base.AvailableforType;
+
 /**
  * The persistent class for the base_attributes database table.
  * 
@@ -28,8 +30,8 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
 	@Column(name = "attribute_type", nullable = false)
 	private short attributeType;
 
-	@Column(nullable = false)
-	private short avalablefor;
+	@Column(nullable = false )
+	private String availablefor;
 
 	@Column(nullable = false)
 	private short displayas;
@@ -41,9 +43,12 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
 	private String name;
 
 	// bi-directional many-to-one association to AttributeLookup
-	@OneToMany(mappedBy = "baseAttribute")
-	private Set<AttributeLookup> attributeLookups;
+//	@OneToMany(mappedBy = "baseAttribute")
+//	private Set<AttributeLookup> attributeLookups;
 
+	@Column(name="store_id" , nullable=false)
+	private Long storeId;
+	
 	// bi-directional many-to-one association to BaseAttributeDescr
 	@OneToMany(mappedBy = "baseAttribute")
 	private Set<BaseAttributeDescr> baseAttributeDescrs;
@@ -67,14 +72,7 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
 		this.attributeType = attributeType;
 	}
 
-	public short getAvalablefor() {
-		return this.avalablefor;
-	}
-
-	public void setAvalablefor(short avalablefor) {
-		this.avalablefor = avalablefor;
-	}
-
+	
 	public short getDisplayas() {
 		return this.displayas;
 	}
@@ -99,14 +97,6 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
 		this.name = name;
 	}
 
-	public Set<AttributeLookup> getAttributeLookups() {
-		return this.attributeLookups;
-	}
-
-	public void setAttributeLookups(Set<AttributeLookup> attributeLookups) {
-		this.attributeLookups = attributeLookups;
-	}
-
 	public Set<BaseAttributeDescr> getBaseAttributeDescrs() {
 		return this.baseAttributeDescrs;
 	}
@@ -114,5 +104,23 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
 	public void setBaseAttributeDescrs(Set<BaseAttributeDescr> baseAttributeDescrs) {
 		this.baseAttributeDescrs = baseAttributeDescrs;
 	}
+
+	public Long getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(Long storeId) {
+		this.storeId = storeId;
+	}
+
+	public String getAvailablefor() {
+		return availablefor;
+	}
+
+	public void setAvailablefor(String availablefor) {
+		this.availablefor = availablefor;
+	}
+
+	
 
 }

@@ -30,6 +30,14 @@
 		<class>com.serpics.catalog.persistence.CategoryRelation</class>
 		<!--  <class>com.serpics.catalog.persistence.CtentryRelation</class> -->
 		<class>com.serpics.catalog.persistence.CategoryProductRelation</class>
+		<!-- specification -->
+		<class>com.serpics.catalog.persistence.Specification</class>
+		<class>com.serpics.catalog.persistence.SpecificationRelation</class>
+		<class>com.serpics.catalog.persistence.Feature</class>
+		<class>com.serpics.catalog.persistence.FeatureDescr</class>
+		<class>com.serpics.catalog.persistence.FeatureGroup</class>
+		<class>com.serpics.catalog.persistence.FeatureValues</class>
+	
 	</persistence-unit>
 </persistence>	
 		

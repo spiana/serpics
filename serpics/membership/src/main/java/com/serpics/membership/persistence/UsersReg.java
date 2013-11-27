@@ -65,7 +65,7 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
 
 	
 	@OneToOne( fetch = FetchType.EAGER, optional = false )
-	@JoinColumn(name = "user_id", nullable = false , insertable = true, updatable = false )
+	@JoinColumn(name = "member_id", nullable = false , insertable = true, updatable = false )
 	private User user;
 
 	public UsersReg() {

@@ -63,8 +63,8 @@ public class SerpicsStringToNumberConverter extends StringToNumberConverter impl
         if (targetType.equals(BigInteger.class))
         	return new BigInteger(parsedValue.toString());
         
-        if (targetType.equals(BigDecimal.class))
-        	return new BigDecimal(parsedValue.toString());
+        if (targetType.equals(Integer.class))
+        	return Integer.parseInt(parsedValue.toString());
         
         
         return parsedValue;

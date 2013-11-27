@@ -65,8 +65,12 @@ public class SerpicsCachingLocalEntityProvider<T> extends SerpicsEntityProvider<
     }
 
     
-    
-    
+    @Override
+    public T addEntity(T entity) {
+    	super.addEntity(entity);
+    	cachingSupport.entityAdded(entity);
+    	return entity;
+    }
     
 
     public void flush() {
@@ -158,7 +162,7 @@ public class SerpicsCachingLocalEntityProvider<T> extends SerpicsEntityProvider<
     }
 
     
-    
+   
 
 	
 	

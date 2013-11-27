@@ -12,7 +12,7 @@ public class CommerceSessionScope implements Scope {
 	public Object get(String name, ObjectFactory factory) {
 		Object result = null;
 
-		Map<String, Object> hBeans = SessionScopeContextHolder.getSessionScopeAttributes().getBeanMap();
+		Map<String, Object> hBeans = SessionScopeContextHolder.currentSessionScopeAttributes().getBeanMap();
 
 		if (!hBeans.containsKey(name)) {
 			result = factory.getObject();
@@ -32,7 +32,7 @@ public class CommerceSessionScope implements Scope {
 	public Object remove(String name) {
 		Object result = null;
 
-		Map<String, Object> hBeans = SessionScopeContextHolder.getSessionScopeAttributes().getBeanMap();
+		Map<String, Object> hBeans = SessionScopeContextHolder.currentSessionScopeAttributes().getBeanMap();
 
 		if (hBeans.containsKey(name)) {
 			result = hBeans.get(name);

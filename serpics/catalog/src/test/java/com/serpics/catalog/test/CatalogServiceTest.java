@@ -5,14 +5,19 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.AvailableforType;
+import com.serpics.base.persistence.BaseAttribute;
+import com.serpics.base.services.AttributeService;
 import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.catalog.persistence.Bundle;
 import com.serpics.catalog.persistence.Catalog;
@@ -25,6 +30,7 @@ import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
+import com.serpics.core.datatype.AttributeType;
 import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.membership.services.BaseService;
 
@@ -54,10 +60,54 @@ public class CatalogServiceTest {
 	@Resource
 	AbstractProductRepository abstractProductRepository;
 	
+	@Resource
+	AttributeService attributeService;
+	
+	@Before
+	public void beforeTest(){
+		baseService.initIstance();
+	}
+	
 	@Test
+	public void AttributeTest() throws SerpicsException{
+		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
+		
+		BaseAttribute attribute = new BaseAttribute();
+		attribute.setAttributeType(AttributeType.LONG);
+		attribute.setAvailablefor(AvailableforType.USER);
+		attribute.setName("test");
+		attributeService.create(attribute);
+		
+		List<BaseAttribute> al = attributeService.findAll();
+		Assert.assertEquals(1, al.size());
+		
+		baseService.createStore("test-store");
+		context = ce.connect("test-store");
+		
+		BaseAttribute attribute1 = new BaseAttribute();
+		attribute1.setAttributeType(AttributeType.TEXT);
+		attribute1.setAvailablefor(AvailableforType.USER);
+		attribute1.setName("test");
+		attributeService.create(attribute1);
+		
+		BaseAttribute attribute2 = new BaseAttribute();
+		attribute2.setAttributeType(AttributeType.TEXT);
+		attribute2.setAvailablefor(AvailableforType.FEATURE);
+		attribute2.setName("test1");
+		attributeService.create(attribute2);
+		
+		List<BaseAttribute> al1 = attributeService.findAll();
+		Assert.assertEquals(2, al1.size());
+		
+		List<BaseAttribute> al2 = attributeService.findbyAvailablefor(AvailableforType.FEATURE, new PageRequest(0, 10));
+		Assert.assertEquals(1, al2.size());
+	}
+	
+	
+	//@Test
 	@Transactional
 	public void test() throws SerpicsException {
-		baseService.initIstance();
+	
 		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 		Catalog catalog = new Catalog();
 		catalog.setCode("default-catalog");

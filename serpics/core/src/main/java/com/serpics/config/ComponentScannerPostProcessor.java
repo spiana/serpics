@@ -32,6 +32,7 @@ import com.serpics.core.service.AbstractService;
 import com.serpics.stereotype.StoreFacade;
 import com.serpics.stereotype.StoreHook;
 import com.serpics.stereotype.StoreService;
+import com.serpics.stereotype.VaadinComponent;
 
 public class ComponentScannerPostProcessor implements
 		BeanDefinitionRegistryPostProcessor {
@@ -41,8 +42,7 @@ public class ComponentScannerPostProcessor implements
 
 	private class ServiceScanner {
 
-		Map<String, Map<String, Class<?>>> componentImplementationMap = new TreeMap<String, Map<String, Class<?>>>();
-		
+		Map<String, Map<String, Class<?>>> componentImplementationMap = null;
 
 		abstract private class ServiceClassAnnotationListener implements
 				ClassAnnotationDiscoveryListener {
@@ -50,81 +50,97 @@ public class ComponentScannerPostProcessor implements
 			@Override
 			public void discovered(String clazz, String annotation)
 					throws BeansException {
-				
-					try {
-						Class<?> implementedClass = Class.forName(clazz);
-						
-						if (implementedClass.isInterface()) {
-							return;
+
+				try {
+					Class<?> implementedClass = Class.forName(clazz);
+
+					if (implementedClass.isInterface()) {
+						return;
+					}
+					String component = null;
+					String[] stores = {};
+
+					if (annotation.equals(StoreService.class.getName())) {
+						StoreService a = implementedClass
+								.getAnnotation(StoreService.class);
+						component = a.value();
+						stores = a.stores();
+						logger.info("Discovered implementation for service ["
+								+ component + "] and store {} : class ["
+								+ clazz + "] interfaces {}", stores,
+								getImplementedInterface(implementedClass));
+					} else if (annotation.equals(StoreHook.class.getName())) {
+						StoreHook a = implementedClass
+								.getAnnotation(StoreHook.class);
+						component = a.value();
+						stores = new String[] { a.store() };
+						logger.info("Discovered implementation for hook ["
+								+ component + "] and store {} : class ["
+								+ clazz + "] interfaces {}", stores,
+								getImplementedInterface(implementedClass));
+
+					} else if (annotation.equals(StoreFacade.class.getName())) {
+						StoreFacade a = implementedClass
+								.getAnnotation(StoreFacade.class);
+						component = a.value();
+						stores = a.stores();
+						logger.info("Discovered implementation for facade ["
+								+ component + "] and store {} : class ["
+								+ clazz + "] interfaces {}", stores,
+								getImplementedInterface(implementedClass));
+					} else if (annotation.equals(VaadinComponent.class
+							.getName())) {
+						VaadinComponent a = implementedClass
+								.getAnnotation(VaadinComponent.class);
+						component = a.value();
+						stores = a.stores();
+						logger.info(
+								"Discovered implementation for VaadinComponent ["
+										+ component
+										+ "] and store {} : class [" + clazz
+										+ "] interfaces {}", stores,
+								getImplementedInterface(implementedClass));
+
+					}
+					Assert.notNull(component);
+
+					Map<String, Class<?>> serviceImpls = componentImplementationMap
+							.get(component);
+
+					if (serviceImpls == null) {
+						serviceImpls = new TreeMap<String, Class<?>>();
+
+						for (String store : stores) {
+							serviceImpls.put(store, implementedClass);
 						}
-						String component = null; 
-						String[] stores= {};
-							
-						if (annotation.equals(StoreService.class.getName())){
-							StoreService a = implementedClass.getAnnotation(StoreService.class) ;
-							component =a.value();
-							stores = a.stores();
-							logger.info(
-									"Discovered implementation for service ["+ component +"] and store {} : class ["
-											+ clazz + "] interfaces {}",stores, getImplementedInterface(implementedClass));
-						}else if( annotation.equals(StoreHook.class.getName())){
-							StoreHook a = implementedClass.getAnnotation(StoreHook.class);
-							 component = a.value();
-							 stores = new String[] {a.store()};
-							 logger.info(
-										"Discovered implementation for hook ["+ component +"] and store {} : class ["
-												+ clazz + "] interfaces {}",stores, getImplementedInterface(implementedClass)); 
-							 
-						}else if( annotation.equals(StoreFacade.class.getName())){
-							StoreFacade a = implementedClass.getAnnotation(StoreFacade.class);
-							 component = a.value();
-							 stores = a.stores();
-							 logger.info(
-										"Discovered implementation for facade ["+ component +"] and store {} : class ["
-												+ clazz + "] interfaces {}",stores, getImplementedInterface(implementedClass)); 
-						}
-							
-						
-						Assert.notNull(component);
-					
-						Map<String, Class<?>> serviceImpls = componentImplementationMap
-								.get(component);
+						componentImplementationMap.put(component, serviceImpls);
+					} else {
 
-						if (serviceImpls == null) {
-							serviceImpls = new TreeMap<String, Class<?>>();
-
-							for (String store : stores) {
-								serviceImpls.put(store, implementedClass);
-							}
-							componentImplementationMap.put(component, serviceImpls);
-						} else {
-
-							for (String store : stores) {
-								if (serviceImpls.containsKey(store))
-									logger.warn(
-											"Ovveride implementation for Component [{}] and store [{}] : class ["
-													+ clazz
-													+ "] was ["
-													+ serviceImpls.get(store)
-															.getName() + "]",
-											component, store);
-								serviceImpls.put(store, implementedClass);
-							}
-
+						for (String store : stores) {
+							if (serviceImpls.containsKey(store))
+								logger.warn(
+										"Ovveride implementation for Component [{}] and store [{}] : class ["
+												+ clazz
+												+ "] was ["
+												+ serviceImpls.get(store)
+														.getName() + "]",
+										component, store);
+							serviceImpls.put(store, implementedClass);
 						}
 
-					} catch (ClassNotFoundException e) {
-						throw new FatalBeanException("Should not happen!", e);
 					}
 
-				
+				} catch (ClassNotFoundException e) {
+					throw new FatalBeanException("Should not happen!", e);
+				}
+
 			}
 
 		}
 
 		private void doServiceScan() {
 
-			logger.info("start scanning !");
+			logger.info("start Service scanning !");
 			// Discoverer discoverer = new ClasspathDiscoverer();
 
 			ClasspathDiscoverer discoverer = new com.impetus.annovention.ClasspathDiscoverer();
@@ -135,9 +151,9 @@ public class ComponentScannerPostProcessor implements
 					logger.debug("found URL [{}]", url.getPath());
 				}
 			}
-			
-				
-			discoverer.addAnnotationListener(new ServiceClassAnnotationListener() {
+
+			discoverer
+					.addAnnotationListener(new ServiceClassAnnotationListener() {
 
 						@Override
 						public String[] supportedAnnotations() {
@@ -145,33 +161,75 @@ public class ComponentScannerPostProcessor implements
 						}
 
 					});
-			
-			discoverer.addAnnotationListener(new ServiceClassAnnotationListener() {
 
-				@Override
-				public String[] supportedAnnotations() {
-					return new String[] { StoreHook.class.getName() };
-				}
+			discoverer
+					.addAnnotationListener(new ServiceClassAnnotationListener() {
 
-			});
-			
-			discoverer.addAnnotationListener(new ServiceClassAnnotationListener() {
+						@Override
+						public String[] supportedAnnotations() {
+							return new String[] { StoreHook.class.getName() };
+						}
 
-				@Override
-				public String[] supportedAnnotations() {
-					return new String[] { StoreFacade.class.getName() };
-				}
+					});
 
-			});
+			discoverer
+					.addAnnotationListener(new ServiceClassAnnotationListener() {
+
+						@Override
+						public String[] supportedAnnotations() {
+							return new String[] { StoreFacade.class.getName() };
+						}
+
+					});
 			discoverer.discover(true, false, false, true, false);
-			
+
+			discoverer
+					.addAnnotationListener(new ServiceClassAnnotationListener() {
+
+						@Override
+						public String[] supportedAnnotations() {
+							return new String[] { VaadinComponent.class
+									.getName() };
+						}
+
+					});
+			discoverer.discover(true, false, false, true, false);
+
 			logger.info("stop scanning !");
 
 		}
 
-		private void perfomScan(BeanDefinitionRegistry registry) {
+		private void doVaadinComponentScan() {
+			logger.info("start Service scanning !");
+			ClasspathDiscoverer discoverer = new com.impetus.annovention.ClasspathDiscoverer();
 
+			discoverer
+					.addAnnotationListener(new ServiceClassAnnotationListener() {
+
+						@Override
+						public String[] supportedAnnotations() {
+							return new String[] { VaadinComponent.class
+									.getName() };
+						}
+
+					});
+			discoverer.discover(true, false, false, true, false);
+		}
+
+		private void perfomScan(BeanDefinitionRegistry registry) {
+			// reset Service Map
+			componentImplementationMap = new TreeMap<String, Map<String, Class<?>>>();
 			doServiceScan();
+			registerFactory(registry, "store");
+			// reset Service Map
+			componentImplementationMap = new TreeMap<String, Map<String, Class<?>>>();
+			// Scan for Vaadin component
+			doVaadinComponentScan();
+			registerFactory(registry, "prototype");
+		}
+
+		private void registerFactory(BeanDefinitionRegistry registry,
+				String scope) {
 
 			for (String service : componentImplementationMap.keySet()) {
 				BeanDefinition definition = new RootBeanDefinition(
@@ -179,17 +237,12 @@ public class ComponentScannerPostProcessor implements
 				definition.getConstructorArgumentValues()
 						.addGenericArgumentValue(
 								componentImplementationMap.get(service));
-				definition.setScope("store");
+				definition.setScope(scope);
 				// definition.setBeanClassName);
 				registry.registerBeanDefinition(service, definition);
 				logger.info("Registered factory for component {} !", service);
 			}
 		}
-	}
-
-	public Class<?> getHookImplementation(String storeName, String hookName) {
-		// return (Class<?>) storeMap.get(storeName).get(hookName);
-		return null;
 	}
 
 	@Override
@@ -198,34 +251,12 @@ public class ComponentScannerPostProcessor implements
 		ServiceScanner hookScanner = new ServiceScanner();
 		hookScanner.perfomScan(registry);
 	}
-	
-	
-	private Class<?> geTopClass(Class<?> clazz , Class<?> current){
-		
-		for (Class<?> intf : clazz.getInterfaces()) {
-			if( intf.getName().equals(current.getName()))
-					return clazz;
-		} 
-		return current;
-	}
-
-	private Class<?> getDefaultImplementation(Class<?> clazz) {
-			Class<?> defaultInterface = null;
-			for (Class<?> c : clazz.getInterfaces()) {
-			if (c.getAnnotation(StoreService.class) != null )  {
-					defaultInterface = getDefaultImplementation(c);
-					if (defaultInterface == null)
-						defaultInterface = c;
-			}
-		}
-		return defaultInterface != null ? defaultInterface : clazz;
-	}
 
 	private List<String> getImplementedInterface(Class<?> clazz) {
 		List<String> clist = new ArrayList<String>(0);
 
 		for (Class<?> c : clazz.getInterfaces()) {
-				clist.add(c.getName());
+			clist.add(c.getName());
 		}
 		return clist;
 
