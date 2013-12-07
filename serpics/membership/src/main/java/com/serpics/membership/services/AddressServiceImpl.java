@@ -8,6 +8,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ import com.serpics.membership.persistence.User;
 import com.serpics.membership.repositories.AddressRepository;
 
 @Service("addressService")
+@Scope("store")
 public class AddressServiceImpl extends AbstractEntityService<Address, Long> implements AddressService {
 
 

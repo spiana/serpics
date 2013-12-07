@@ -3,6 +3,7 @@ package com.serpics.membership.services;
 import static com.serpics.membership.repositories.UserSpecification.isUserInStore;
 import static org.springframework.data.jpa.domain.Specifications.where;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +39,7 @@ import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UserStoreRelation;
 import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.repositories.MembersRoleRepository;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
@@ -56,6 +59,9 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
 
 	@Resource(name = "permanentAddressRepository")
 	PermanentAddressRepository addressRepository;
+	
+	@Autowired
+	MembersRoleRepository membersRoleRepository;
 
 	private User mergeUserRoles(User user, Set<MembersRole> roles) {
 		Store s = (Store) getCurrentContext().getStoreRealm();
@@ -193,6 +199,13 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
 	@Override
 	public Specification<User> getBaseSpec() {
 		return storeFilterSpec();
+	}
+
+
+	@Override
+	public Collection<Role> getUserRoles(User user, Store store) {
+		
+		return null;
 	}
 
 

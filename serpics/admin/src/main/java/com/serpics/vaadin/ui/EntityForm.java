@@ -1,5 +1,7 @@
 package com.serpics.vaadin.ui;
 
+import com.serpics.core.persistence.jpa.Entity;
+import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.SerpicsStringToNumberConverter;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
@@ -16,7 +18,7 @@ import com.vaadin.ui.TextField;
 
 @SuppressWarnings("serial")
 public class EntityForm<T> extends FormLayout implements
-		FieldGroupFieldFactory , EntityComponent{
+		FieldGroupFieldFactory, EntityFormComponent<T> {
 
 	private transient PropertyList<T> propertyList;
 
@@ -28,7 +30,13 @@ public class EntityForm<T> extends FormLayout implements
 
 	EntityItem<T> entityItem;
 
+	Entity parentEntity ;
+	
 	private String prefix;
+	
+	private boolean readOnly = true;
+	
+	
 
 	public EntityForm(Class<T> clazz) {
 
@@ -70,6 +78,7 @@ public class EntityForm<T> extends FormLayout implements
 		return entityItem;
 	}
 
+	@Override
 	public void setEntityItem(EntityItem<T> entityItem) {
 		this.entityItem = entityItem;
 		fieldGroup.setItemDataSource(entityItem);
@@ -79,7 +88,8 @@ public class EntityForm<T> extends FormLayout implements
 			if (displayProperties != null)
 				addField(displayProperties);
 			else
-				addField(propertyList.getPropertyNames().toArray( new String[] {} ));
+				addField(propertyList.getPropertyNames().toArray(
+						new String[] {}));
 			initialized = true;
 		}
 
@@ -87,30 +97,30 @@ public class EntityForm<T> extends FormLayout implements
 
 	private void addField(String[] propertyNames) {
 		for (String pid : propertyNames) {
-			createField(pid);
+			addComponent(createField(pid));
 		}
 
 	}
 
-	private void createField(String pid) {
+	protected Field<?> createField(String pid) {
 		Property p = entityItem.getItemProperty((prefix != null ? prefix : "")
 				+ pid);
-		if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)) {
-			Field<?> f = fieldGroup.buildAndBind((prefix != null ? prefix : "")
-					+ (String) pid, (prefix != null ? prefix : "") + pid);
-			f.setBuffered(true);
-			if (f instanceof TextField) {
-				if (Number.class.isAssignableFrom(p.getType()))
-					((TextField) f)
-							.setConverter(new SerpicsStringToNumberConverter());
-				((TextField) f).setNullRepresentation("");
-			}
 
-			addComponent(f);
+		Field<?> f = fieldGroup.buildAndBind((prefix != null ? prefix : "")
+				+ (String) pid, (prefix != null ? prefix : "") + pid);
+		f.setBuffered(true);
+		if (f instanceof TextField) {
+			if (Number.class.isAssignableFrom(p.getType()))
+				((TextField) f)
+						.setConverter(new SerpicsStringToNumberConverter());
+			((TextField) f).setNullRepresentation("");
 		}
+
+		return f;
 
 	}
 
+	
 	public void save() throws CommitException {
 
 		fieldGroup.commit();
@@ -126,7 +136,31 @@ public class EntityForm<T> extends FormLayout implements
 		this.prefix = prefix + ".";
 	}
 
+	
+	@Override
+	public void attach() {
+		if(readOnly){
+			fieldGroup.setEnabled(false);
+		}
+		super.attach();
+	}
 	public void setDisplayProperties(String[] displayProperties) {
 		this.displayProperties = displayProperties;
 	}
+
+	@Override
+	public void setParentEntity(Object entity) {
+		this.parentEntity = (Entity) entity;
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+	
+
+	
 }

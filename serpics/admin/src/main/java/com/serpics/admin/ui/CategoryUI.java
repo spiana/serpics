@@ -32,6 +32,7 @@ import com.serpics.membership.services.AddressService;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.vaadin.ui.EntityTable;
+import com.serpics.vaadin.ui.memeship.UserTableEditor;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -72,6 +73,8 @@ public class CategoryUI extends UI {
 	@Resource
 	OrderService orderService;
 
+	@Autowired
+	UserTableEditor userTableEditor;
 	// @Autowired CatTree2 tree;
 
 	@Resource(name = "categoryEntityService")
@@ -95,10 +98,12 @@ public class CategoryUI extends UI {
 		// t.setCatalogService(catalogService);
 		// t.init();
 		// setContent(t);
-		EntityTable<User> t = new EntityTable<User>(User.class, userService);
+		//UserTableEditor t = new UserTableEditor(); 
+		
+		userTableEditor.setService(userService);
 		//SerpicsEntityTableEditor<Product> t = new SerpicsEntityTableEditor<Product>(Product.class, productService);
-		t.init();
-		layout.addComponent(t);
+		userTableEditor.init();
+		layout.addComponent(userTableEditor);
 		layout.setSizeFull();
 		setContent(layout);
 

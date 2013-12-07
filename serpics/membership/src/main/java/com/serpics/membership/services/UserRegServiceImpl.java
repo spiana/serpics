@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractEntityService;
+import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.UserRegrepository;
 
@@ -38,10 +39,15 @@ public class UserRegServiceImpl extends AbstractEntityService<UsersReg, Long> im
 			@Override
 			public Predicate toPredicate(Root<UsersReg> root,
 					CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.isNotNull(root.get("userId"));
+				
+				return cb.equal(root.join("user").join("storeRelation").get("store") , (Store) getCurrentContext().getStoreRealm() );
 			}
-			
-		};
+			};
+	}
+
+	@Override
+	public UsersReg findByLoginid(String loginid) {
+		return userRegrepository.findBylogonid(loginid);
 	}
 
 	

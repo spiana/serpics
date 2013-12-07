@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import com.serpics.admin.UIUtil;
 import com.serpics.core.service.EntityService;
+import com.serpics.vaadin.ui.EntityComponent.EntityTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
@@ -26,6 +27,7 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -40,27 +42,29 @@ public class EntityFormWindow<T> extends Window implements Handler {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private EntityForm<T> formEditor;
 	private TabSheet tabSheet = new TabSheet();
 	static final Action esc = new ShortcutAction("Close window",
 			ShortcutAction.KeyCode.ESCAPE, null);
 	static final Action[] actions = new Action[] { esc };
-	
-	
-	private transient PropertyList<T> propertyList;
-	private List<EntityComponent> componentList = new ArrayList<EntityComponent>(0);
+
+	private boolean readOnly = true;
+	private boolean newItem = true;
+
+	private List<EntityComponent<?>> componentList = new ArrayList<EntityComponent<?>>(
+			0);
 
 	private Button saveButton;
 	private Button cancelButton;
 
-	public EntityFormWindow(Class entityClass) throws SecurityException {
+	public EntityFormWindow() throws SecurityException {
+		init();
+	}
 
-		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
-				.getEntityClassMetadata(entityClass));
+	public void init() {
 
 		VerticalLayout vl = new VerticalLayout();
 		setContent(vl);
-		
+
 		tabSheet.setWidth("100%");
 		tabSheet.setHeight("100%");
 
@@ -70,6 +74,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
 		cancelButton = new Button("Cancel");
 
 		HorizontalLayout hl = new HorizontalLayout();
+		hl.setWidth("100%");
+		hl.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		hl.addComponent(saveButton);
 		hl.addComponent(cancelButton);
 
@@ -108,15 +114,13 @@ public class EntityFormWindow<T> extends Window implements Handler {
 		});
 
 		addActionHandler(this);
-
 	}
 
-	public void addTab( EntityComponent component , String caption){
-		tabSheet.addTab(component,caption);
+	public void addTab(EntityComponent<?> component, String caption) {
+		tabSheet.addTab(component, caption);
 		componentList.add(component);
 	}
-	
-	
+
 	@Override
 	public Action[] getActions(Object target, Object sender) {
 		return actions;
@@ -130,7 +134,57 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
 	}
 
-	public EntityForm<T> getFormEditor() {
-		return formEditor;
+	@SuppressWarnings("unchecked")
+	public void setEntityItem(EntityItem entityItem) {
+		for (@SuppressWarnings("rawtypes")
+		EntityComponent c : componentList) {
+			if (c instanceof EntityTableComponent) {
+				if (!newItem)
+					c.setParentEntity(entityItem.getEntity());
+			} else
+				c.setEntityItem(entityItem);
+
+		}
+	}
+
+	@Override
+	public void attach() {
+
+		if (readOnly) {
+			saveButton.setEnabled(false);
+		}else
+			saveButton.setEnabled(true);
+		
+		for (@SuppressWarnings("rawtypes")
+		EntityComponent c : componentList) {
+			if (c instanceof EntityTableComponent) {
+				if (!newItem)
+					c.setEnabled(true);
+				else
+					c.setEnabled(false);
+			} else {
+				if (readOnly)
+					c.setEnabled(false);
+				else
+					c.setEnabled(true);
+			}
+		}
+		super.attach();
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+
+	public boolean isNewItem() {
+		return newItem;
+	}
+
+	public void setNewItem(boolean newItem) {
+		this.newItem = newItem;
 	}
 }
