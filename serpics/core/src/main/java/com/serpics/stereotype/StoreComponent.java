@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.serpics.config.StoreComponentFactory;
+
 
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
@@ -15,5 +15,6 @@ public @interface StoreComponent{
 	String value() default "";
 	
 	String[] stores() default {"default-store"}; 
+	String scope() default "store";
 
 }

@@ -13,4 +13,5 @@ public @interface StoreHook {
 	String store() default "default-store";
 
 	boolean override() default false;
+	String scope() default "store";
 }

@@ -17,7 +17,7 @@ http://www.springframework.org/schema/aop
     <bean name="postprocessor" class="com.serpics.core.SerpicsPostProcessor"/>
   <!--   <bean name="hookScanner" class="com.serpics.config.HookScannerPostProcessor"/> -->
     <bean name="storeComponetScanner" class="com.serpics.config.StoreComponentScannerPostProcessor" scope="prototype"/>
-    <bean name="vaadinComponetScanner" class="com.serpics.config.VaadinComponentScannerPostProcessor" scope="prototype"/>
+<!--     <bean name="vaadinComponetScanner" class="com.serpics.config.VaadinComponentScannerPostProcessor" scope="prototype"/> -->
       
      <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
     <property name="scopes">
