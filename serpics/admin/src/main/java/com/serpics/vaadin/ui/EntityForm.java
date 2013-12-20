@@ -5,7 +5,6 @@ import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.SerpicsStringToNumberConverter;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
-import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
@@ -16,151 +15,157 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 
-@SuppressWarnings("serial")
+
 public class EntityForm<T> extends FormLayout implements
-		FieldGroupFieldFactory, EntityFormComponent<T> {
+FieldGroupFieldFactory, EntityFormComponent<T> {
+    private static final long serialVersionUID = -7816433625437405000L;
 
-	private transient PropertyList<T> propertyList;
+    private transient PropertyList<T> propertyList;
 
-	private FieldGroup fieldGroup;
+    private final FieldGroup fieldGroup;
 
-	private boolean initialized = false;
+    private boolean initialized = false;
 
-	protected String[] displayProperties;
+    protected String[] displayProperties;
 
-	EntityItem<T> entityItem;
+    EntityItem<T> entityItem;
 
-	Entity parentEntity ;
-	
-	private String prefix;
-	
-	private boolean readOnly = true;
-	
-	
+    Entity parentEntity ;
 
-	public EntityForm(Class<T> clazz) {
+    private String prefix;
 
-		propertyList = new PropertyList<T>(MetadataFactory.getInstance()
-				.getEntityClassMetadata(clazz));
+    private boolean readOnly = true;
 
-		setSizeUndefined();
-		fieldGroup = new FieldGroup();
-		fieldGroup.setFieldFactory(this);
-		setImmediate(false);
-		setWidth("100%");
-		setHeight("100%");
-		setMargin(true);
-		setSpacing(true);
 
-	}
 
-	/**
-	 * @return the caption of the editor window
-	 */
-	private String buildCaption() {
-		// return String.format("%s %s", entityItem.getItemProperty("firstName")
-		// .getValue(), entityItem.getItemProperty("lastName").getValue());
-		return "main";
+    public EntityForm(final Class<T> clazz) {
 
-	}
+        propertyList = new PropertyList<T>(MetadataFactory.getInstance()
+                .getEntityClassMetadata(clazz));
 
-	@Override
-	public <T extends Field> T createField(Class<?> dataType, Class<T> fieldType) {
-		DefaultFieldGroupFieldFactory fa = new DefaultFieldGroupFieldFactory();
-		T f = fa.createField(dataType, fieldType);
-		if (f instanceof TextField)
-			f.setWidth("500px");
+        setSizeUndefined();
+        fieldGroup = new FieldGroup();
+        fieldGroup.setFieldFactory(this);
+        setImmediate(false);
+        setWidth("100%");
+        setHeight("100%");
+        setMargin(true);
+        setSpacing(true);
 
-		return f;
-	}
+    }
 
-	public Item getEntityItem() {
-		return entityItem;
-	}
+    /**
+     * @return the caption of the editor window
+     */
+    private String buildCaption() {
+        // return String.format("%s %s", entityItem.getItemProperty("firstName")
+        // .getValue(), entityItem.getItemProperty("lastName").getValue());
+        return "main";
 
-	@Override
-	public void setEntityItem(EntityItem<T> entityItem) {
-		this.entityItem = entityItem;
-		fieldGroup.setItemDataSource(entityItem);
-		fieldGroup.setBuffered(true);
+    }
 
-		if (!initialized) {
-			if (displayProperties != null)
-				addField(displayProperties);
-			else
-				addField(propertyList.getPropertyNames().toArray(
-						new String[] {}));
-			initialized = true;
-		}
+    @Override
+    public <T extends Field> T createField(final Class<?> dataType, final Class<T> fieldType) {
+        final DefaultFieldGroupFieldFactory fa = new DefaultFieldGroupFieldFactory();
+        final T f = fa.createField(dataType, fieldType);
+        if (f instanceof TextField)
+            f.setWidth("500px");
 
-	}
+        return f;
+    }
 
-	private void addField(String[] propertyNames) {
-		for (String pid : propertyNames) {
-			addComponent(createField(pid));
-		}
+    public Item getEntityItem() {
+        return entityItem;
+    }
 
-	}
+    @Override
+    public void setEntityItem(final EntityItem<T> entityItem) {
+        this.entityItem = entityItem;
+        fieldGroup.setItemDataSource(entityItem);
+        fieldGroup.setBuffered(true);
 
-	protected Field<?> createField(String pid) {
-		Property p = entityItem.getItemProperty((prefix != null ? prefix : "")
-				+ pid);
+        if (!initialized) {
+            if (displayProperties != null)
+                addField(displayProperties);
+            else
+                addField(propertyList.getPropertyNames().toArray(
+                        new String[] {}));
+            initialized = true;
+        }
 
-		Field<?> f = fieldGroup.buildAndBind((prefix != null ? prefix : "")
-				+ (String) pid, (prefix != null ? prefix : "") + pid);
-		f.setBuffered(true);
-		if (f instanceof TextField) {
-			if (Number.class.isAssignableFrom(p.getType()))
-				((TextField) f)
-						.setConverter(new SerpicsStringToNumberConverter());
-			((TextField) f).setNullRepresentation("");
-		}
+    }
 
-		return f;
+    private void addField(final String[] propertyNames) {
+        for (final String pid : propertyNames) {
+            addComponent(createField(pid));
+        }
 
-	}
+    }
 
-	
-	public void save() throws CommitException {
+    protected Field<?> createField(final String pid) {
+        final Property p = entityItem.getItemProperty((prefix != null ? prefix : "")
+                + pid);
 
-		fieldGroup.commit();
-		if (entityItem.getItemId() == null)
-			entityItem.getContainer().addEntity(entityItem.getEntity());
-	}
+        final Field<?> f = fieldGroup.buildAndBind((prefix != null ? prefix : "")
+                + pid, (prefix != null ? prefix : "") + pid);
+        f.setBuffered(true);
+        if (f instanceof TextField) {
+            if (Number.class.isAssignableFrom(p.getType()))
+                ((TextField) f)
+                .setConverter(new SerpicsStringToNumberConverter());
+            ((TextField) f).setNullRepresentation("");
+        }
 
-	public void discard() {
-		fieldGroup.discard();
-	}
+        return f;
 
-	public void setPrefix(String prefix) {
-		this.prefix = prefix + ".";
-	}
+    }
 
-	
-	@Override
-	public void attach() {
-		if(readOnly){
-			fieldGroup.setEnabled(false);
-		}
-		super.attach();
-	}
-	public void setDisplayProperties(String[] displayProperties) {
-		this.displayProperties = displayProperties;
-	}
 
-	@Override
-	public void setParentEntity(Object entity) {
-		this.parentEntity = (Entity) entity;
-	}
+    @Override
+    public void save() throws CommitException {
 
-	public boolean isReadOnly() {
-		return readOnly;
-	}
+        fieldGroup.commit();
+        if (entityItem.getItemId() == null)
+            entityItem.getContainer().addEntity(entityItem.getEntity());
+    }
 
-	public void setReadOnly(boolean readOnly) {
-		this.readOnly = readOnly;
-	}
-	
+    @Override
+    public void discard() {
+        fieldGroup.discard();
+    }
 
-	
+    public void setPrefix(final String prefix) {
+        this.prefix = prefix + ".";
+    }
+
+
+    @Override
+    public void attach() {
+        if(readOnly){
+            fieldGroup.setEnabled(false);
+        } else
+            fieldGroup.setEnabled(true);
+        super.attach();
+    }
+    public void setDisplayProperties(final String[] displayProperties) {
+        this.displayProperties = displayProperties;
+    }
+
+    @Override
+    public void setParentEntity(final Object entity) {
+        this.parentEntity = (Entity) entity;
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    @Override
+    public void setReadOnly(final boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
+
+
 }

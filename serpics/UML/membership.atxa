@@ -1,4 +1,4 @@
-<,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu> <http://www.architexa.com/rdf/core#creator> "true" .
+<,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu> <http://www.architexa.com/rdf/core#creator> "true" .
 
 @prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -12,654 +12,633 @@
 atxa:DetailNode atxa-core:detailLevel "1" .
 
 atxa-core:docRoot atxa-core:browseModel "com.architexa.diagrams.relo.jdt/com.architexa.diagrams.relo.jdt.browse.ClassStrucBrowseModel" ;
-	atxa-core:contains _:node17h4lot8gx1 .
+	atxa-core:contains _:node18c7rofhrx1 .
 
-_:node17h4lot8gx1 a atxa-core:node ;
+_:node18c7rofhrx1 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence> ;
 	atxa-core:posX "8" ;
-	atxa-core:posY "31" .
+	atxa-core:posY "59" .
 
-<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User2UserRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$UserStoreRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberRelationPK> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttribute> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Store> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$PermanentAddress> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Address> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$UsersReg> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembgrouprelPK> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRolePK> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueDatetime> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueText> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueDecimal> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueLong> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueVarchar> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Membgrouprel> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Membergroup> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress> .
+<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User2UserRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$UserStoreRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttribute> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Store> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$PermanentAddress> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Address> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueDatetime> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueText> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueDecimal> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueLong> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueVarchar> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Membgrouprel> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Membergroup> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$UsersReg> .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx2 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx2 .
 
-_:node17h4lot8gx2 a atxa-core:node ;
+_:node18c7rofhrx2 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User2UserRelation> ;
 	atxa-core:posX "213" ;
 	atxa-core:posY "169" .
 
-_:node17h4lot8gx3 a atxa-core:link ;
+_:node18c7rofhrx3 a atxa-core:link ;
 	atxa-core:model atxa-jdt:inherits ;
-	rdf:subject _:node17h4lot8gx2 ;
-	rdf:object _:node17h4lot8gx4 ;
-	atxa-core:bendpoint _:node17h47feojx7823 .
+	rdf:subject _:node18c7rofhrx2 ;
+	rdf:object _:node18c7rofhrx4 ;
+	atxa-core:bendpoint _:node18c7r0epox1883 .
 
-_:node17h47feojx7823 atxa-core:bpLocation "285,154" ;
+_:node18c7r0epox1883 atxa-core:bpLocation "285,154" ;
 	atxa-core:bpIndex "0" .
 
-_:node17h4lot8gx3 atxa-core:bendpoint _:node17h47feojx7824 .
+_:node18c7rofhrx3 atxa-core:bendpoint _:node18c7r0epox1884 .
 
-_:node17h47feojx7824 atxa-core:bpLocation "694,154" ;
+_:node18c7r0epox1884 atxa-core:bpLocation "694,154" ;
 	atxa-core:bpIndex "1" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx19 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx7 .
 
-_:node17h4lot8gx19 a atxa-core:node ;
+_:node18c7rofhrx7 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$UserStoreRelation> ;
 	atxa-core:posX "14" ;
 	atxa-core:posY "84" .
 
-_:node17h4lot8gx20 a atxa-core:link ;
+_:node18c7rofhrx8 a atxa-core:link ;
 	atxa-core:model atxa-jdt:inherits ;
-	rdf:subject _:node17h4lot8gx19 ;
-	rdf:object _:node17h4lot8gx4 ;
-	atxa-core:bendpoint _:node17h47feojx7825 .
+	rdf:subject _:node18c7rofhrx7 ;
+	rdf:object _:node18c7rofhrx4 ;
+	atxa-core:bendpoint _:node18c7r0epox1885 .
 
-_:node17h47feojx7825 atxa-core:bpLocation "84,154" ;
+_:node18c7r0epox1885 atxa-core:bpLocation "84,154" ;
 	atxa-core:bpIndex "0" .
 
-_:node17h4lot8gx20 atxa-core:bendpoint _:node17h47feojx7826 .
+_:node18c7rofhrx8 atxa-core:bendpoint _:node18c7r0epox1886 .
 
-_:node17h47feojx7826 atxa-core:bpLocation "694,154" ;
+_:node18c7r0epox1886 atxa-core:bpLocation "694,154" ;
 	atxa-core:bpIndex "1" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx25 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx4 .
 
-_:node17h4lot8gx25 a atxa-core:node ;
-	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberRelationPK> ;
-	atxa-core:posX "624" ;
-	atxa-core:posY "56" .
-
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx4 .
-
-_:node17h4lot8gx4 a atxa-core:node ;
+_:node18c7rofhrx4 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberRelation> ;
 	atxa-core:posX "628" ;
 	atxa-core:posY "102" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx26 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx12 .
 
-_:node17h4lot8gx26 a atxa-core:node ;
+_:node18c7rofhrx12 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttribute> ;
 	atxa-core:posX "894" ;
 	atxa-core:posY "92" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx14 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx13 .
 
-_:node17h4lot8gx14 a atxa-core:node ;
+_:node18c7rofhrx13 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member> ;
 	atxa-core:posX "469" ;
 	atxa-core:posY "176" .
 
 <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.memberId> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.uuid> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.memberType> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.updated> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.created> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.field1> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.field2> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.field3> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.memberAttributes> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.membersRoles> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.permanentAddresses> .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx39 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx14 .
 
-_:node17h4lot8gx39 a atxa-core:node ;
+_:node18c7rofhrx14 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.memberId> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "194" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx40 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx15 .
 
-_:node17h4lot8gx40 a atxa-core:node ;
+_:node18c7rofhrx15 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.uuid> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "210" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx41 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx16 .
 
-_:node17h4lot8gx41 a atxa-core:node ;
+_:node18c7rofhrx16 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.memberType> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "226" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx42 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx17 .
 
-_:node17h4lot8gx42 a atxa-core:node ;
+_:node18c7rofhrx17 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.updated> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "242" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx43 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx18 .
 
-_:node17h4lot8gx43 a atxa-core:node ;
+_:node18c7rofhrx18 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.created> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "258" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx44 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx19 .
 
-_:node17h4lot8gx44 a atxa-core:node ;
+_:node18c7rofhrx19 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.field1> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "274" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx45 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx20 .
 
-_:node17h4lot8gx45 a atxa-core:node ;
+_:node18c7rofhrx20 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.field2> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "290" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx46 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx21 .
 
-_:node17h4lot8gx46 a atxa-core:node ;
+_:node18c7rofhrx21 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.field3> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "306" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx47 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx22 .
 
-_:node17h4lot8gx47 a atxa-core:node ;
+_:node18c7rofhrx22 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.memberAttributes> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "322" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx48 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx23 .
 
-_:node17h4lot8gx48 a atxa-core:node ;
+_:node18c7rofhrx23 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.membersRoles> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "338" .
 
-_:node17h4lot8gx14 atxa-core:contains _:node17h4lot8gx49 .
+_:node18c7rofhrx13 atxa-core:contains _:node18c7rofhrx24 .
 
-_:node17h4lot8gx49 a atxa-core:node ;
+_:node18c7rofhrx24 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Member.permanentAddresses> ;
 	atxa-core:posX "470" ;
 	atxa-core:posY "354" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx84 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx25 .
 
-_:node17h4lot8gx84 a atxa-core:node ;
+_:node18c7rofhrx25 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User> ;
 	atxa-core:posX "380" ;
 	atxa-core:posY "423" .
 
 <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.userType> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.firstname> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.lastname> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.email> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.phone> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.field4> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.lastVisit> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.storeId> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.userReg> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.storeRelation> .
 
-_:node17h4lot8gx85 a atxa-core:link ;
+_:node18c7rofhrx26 a atxa-core:link ;
 	atxa-core:model atxa-jdt:inherits ;
-	rdf:subject _:node17h4lot8gx84 ;
-	rdf:object _:node17h4lot8gx14 ;
-	atxa-core:bendpoint _:node17h47feojx7827 .
+	rdf:subject _:node18c7rofhrx25 ;
+	rdf:object _:node18c7rofhrx13 ;
+	atxa-core:bendpoint _:node18c7r0epox1887 .
 
-_:node17h47feojx7827 atxa-core:bpLocation "454,391" ;
+_:node18c7r0epox1887 atxa-core:bpLocation "454,391" ;
 	atxa-core:bpIndex "0" .
 
-_:node17h4lot8gx85 atxa-core:bendpoint _:node17h47feojx7828 .
+_:node18c7rofhrx26 atxa-core:bendpoint _:node18c7r0epox1888 .
 
-_:node17h47feojx7828 atxa-core:bpLocation "562,391" ;
+_:node18c7r0epox1888 atxa-core:bpLocation "562,391" ;
 	atxa-core:bpIndex "1" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx88 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx29 .
 
-_:node17h4lot8gx88 a atxa-core:node ;
+_:node18c7rofhrx29 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.userType> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "441" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx89 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx30 .
 
-_:node17h4lot8gx89 a atxa-core:node ;
+_:node18c7rofhrx30 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.firstname> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "457" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx90 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx31 .
 
-_:node17h4lot8gx90 a atxa-core:node ;
+_:node18c7rofhrx31 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.lastname> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "473" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx91 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx32 .
 
-_:node17h4lot8gx91 a atxa-core:node ;
+_:node18c7rofhrx32 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.email> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "489" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx92 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx33 .
 
-_:node17h4lot8gx92 a atxa-core:node ;
+_:node18c7rofhrx33 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.phone> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "505" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx93 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx34 .
 
-_:node17h4lot8gx93 a atxa-core:node ;
+_:node18c7rofhrx34 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.field4> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "521" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx94 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx35 .
 
-_:node17h4lot8gx94 a atxa-core:node ;
+_:node18c7rofhrx35 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.lastVisit> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "537" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx95 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx36 .
 
-_:node17h4lot8gx95 a atxa-core:node ;
+_:node18c7rofhrx36 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.storeId> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "553" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx96 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx37 .
 
-_:node17h4lot8gx96 a atxa-core:node ;
+_:node18c7rofhrx37 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.userReg> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "569" .
 
-_:node17h4lot8gx84 atxa-core:contains _:node17h4lot8gx97 .
+_:node18c7rofhrx25 atxa-core:contains _:node18c7rofhrx38 .
 
-_:node17h4lot8gx97 a atxa-core:node ;
+_:node18c7rofhrx38 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$User.storeRelation> ;
 	atxa-core:posX "381" ;
 	atxa-core:posY "585" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx12 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx39 .
 
-_:node17h4lot8gx12 a atxa-core:node ;
+_:node18c7rofhrx39 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Store> ;
 	atxa-core:posX "635" ;
 	atxa-core:posY "508" .
 
-_:node17h4lot8gx13 a atxa-core:link ;
+_:node18c7rofhrx40 a atxa-core:link ;
 	atxa-core:model atxa-jdt:inherits ;
-	rdf:subject _:node17h4lot8gx12 ;
-	rdf:object _:node17h4lot8gx14 ;
-	atxa-core:bendpoint _:node17h47feojx7829 .
+	rdf:subject _:node18c7rofhrx39 ;
+	rdf:object _:node18c7rofhrx13 ;
+	atxa-core:bendpoint _:node18c7r0epox1889 .
 
-_:node17h47feojx7829 atxa-core:bpLocation "669,391" ;
+_:node18c7r0epox1889 atxa-core:bpLocation "669,391" ;
 	atxa-core:bpIndex "0" .
 
-_:node17h4lot8gx13 atxa-core:bendpoint _:node17h47feojx7830 .
+_:node18c7rofhrx40 atxa-core:bendpoint _:node18c7r0epox1890 .
 
-_:node17h47feojx7830 atxa-core:bpLocation "562,391" ;
+_:node18c7r0epox1890 atxa-core:bpLocation "562,391" ;
 	atxa-core:bpIndex "1" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx76 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx43 .
 
-_:node17h4lot8gx76 a atxa-core:node ;
+_:node18c7rofhrx43 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$PermanentAddress> ;
 	atxa-core:posX "18" ;
 	atxa-core:posY "772" .
 
-_:node17h4lot8gx77 a atxa-core:link ;
+_:node18c7rofhrx44 a atxa-core:link ;
 	atxa-core:model atxa-jdt:inherits ;
-	rdf:subject _:node17h4lot8gx76 ;
-	rdf:object _:node17h4lot8gx50 ;
-	atxa-core:bendpoint _:node17h47feojx7831 .
+	rdf:subject _:node18c7rofhrx43 ;
+	rdf:object _:node18c7rofhrx45 ;
+	atxa-core:bendpoint _:node18c7r0epox1891 .
 
-_:node17h47feojx7831 atxa-core:bpLocation "91,703" ;
+_:node18c7r0epox1891 atxa-core:bpLocation "91,703" ;
 	atxa-core:bpIndex "0" .
 
-_:node17h4lot8gx77 atxa-core:bendpoint _:node17h47feojx7832 .
+_:node18c7rofhrx44 atxa-core:bendpoint _:node18c7r0epox1892 .
 
-_:node17h47feojx7832 atxa-core:bpLocation "130,703" ;
+_:node18c7r0epox1892 atxa-core:bpLocation "129,703" ;
 	atxa-core:bpIndex "1" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx80 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx48 .
 
-_:node17h4lot8gx80 a atxa-core:node ;
+_:node18c7rofhrx48 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Address> ;
 	atxa-core:posX "264" ;
 	atxa-core:posY "764" .
 
-_:node17h4lot8gx81 a atxa-core:link ;
+_:node18c7rofhrx49 a atxa-core:link ;
 	atxa-core:model atxa-jdt:inherits ;
-	rdf:subject _:node17h4lot8gx80 ;
-	rdf:object _:node17h4lot8gx50 ;
-	atxa-core:bendpoint _:node17h47feojx7833 .
+	rdf:subject _:node18c7rofhrx48 ;
+	rdf:object _:node18c7rofhrx45 ;
+	atxa-core:bendpoint _:node18c7r0epox1893 .
 
-_:node17h47feojx7833 atxa-core:bpLocation "307,703" ;
+_:node18c7r0epox1893 atxa-core:bpLocation "307,703" ;
 	atxa-core:bpIndex "0" .
 
-_:node17h4lot8gx81 atxa-core:bendpoint _:node17h47feojx7834 .
+_:node18c7rofhrx49 atxa-core:bendpoint _:node18c7r0epox1894 .
 
-_:node17h47feojx7834 atxa-core:bpLocation "130,703" ;
+_:node18c7r0epox1894 atxa-core:bpLocation "129,703" ;
 	atxa-core:bpIndex "1" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx11 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx54 .
 
-_:node17h4lot8gx11 a atxa-core:node ;
-	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$UsersReg> ;
-	atxa-core:posX "591" ;
-	atxa-core:posY "613" .
-
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx24 .
-
-_:node17h4lot8gx24 a atxa-core:node ;
-	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembgrouprelPK> ;
-	atxa-core:posX "656" ;
-	atxa-core:posY "731" .
-
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx34 .
-
-_:node17h4lot8gx34 a atxa-core:node ;
+_:node18c7rofhrx54 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role> ;
 	atxa-core:posX "792" ;
 	atxa-core:posY "509" .
 
 <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role.name> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role.description> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role.membersRoles> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role.roleId> .
 
-_:node17h4lot8gx34 atxa-core:contains _:node17h4lot8gx36 .
+_:node18c7rofhrx54 atxa-core:contains _:node18c7rofhrx55 .
 
-_:node17h4lot8gx36 a atxa-core:node ;
+_:node18c7rofhrx55 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role.name> ;
 	atxa-core:posX "793" ;
 	atxa-core:posY "527" .
 
-_:node17h4lot8gx34 atxa-core:contains _:node17h4lot8gx37 .
+_:node18c7rofhrx54 atxa-core:contains _:node18c7rofhrx56 .
 
-_:node17h4lot8gx37 a atxa-core:node ;
+_:node18c7rofhrx56 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role.description> ;
 	atxa-core:posX "793" ;
 	atxa-core:posY "543" .
 
-_:node17h4lot8gx34 atxa-core:contains _:node17h4lot8gx38 .
+_:node18c7rofhrx54 atxa-core:contains _:node18c7rofhrx57 .
 
-_:node17h4lot8gx38 a atxa-core:node ;
+_:node18c7rofhrx57 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role.membersRoles> ;
 	atxa-core:posX "793" ;
 	atxa-core:posY "559" .
 
-_:node17h4lot8gx34 atxa-core:contains _:node17h4lot8gx35 .
+_:node18c7rofhrx54 atxa-core:contains _:node18c7rofhrx58 .
 
-_:node17h4lot8gx35 a atxa-core:node ;
+_:node18c7rofhrx58 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Role.roleId> ;
 	atxa-core:posX "793" ;
 	atxa-core:posY "575" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx33 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx60 .
 
-_:node17h4lot8gx33 a atxa-core:node ;
-	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRolePK> ;
-	atxa-core:posX "951" ;
-	atxa-core:posY "167" .
-
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx10 .
-
-_:node17h4lot8gx10 a atxa-core:node ;
+_:node18c7rofhrx60 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueDatetime> ;
 	atxa-core:posX "926" ;
 	atxa-core:posY "216" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx7 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx61 .
 
-_:node17h4lot8gx7 a atxa-core:node ;
+_:node18c7rofhrx61 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueText> ;
 	atxa-core:posX "935" ;
 	atxa-core:posY "273" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx9 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx62 .
 
-_:node17h4lot8gx9 a atxa-core:node ;
+_:node18c7rofhrx62 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueDecimal> ;
 	atxa-core:posX "934" ;
 	atxa-core:posY "419" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx17 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx63 .
 
-_:node17h4lot8gx17 a atxa-core:node ;
+_:node18c7rofhrx63 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueLong> ;
 	atxa-core:posX "935" ;
 	atxa-core:posY "364" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx8 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx64 .
 
-_:node17h4lot8gx8 a atxa-core:node ;
+_:node18c7rofhrx64 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MemberAttributeValueVarchar> ;
 	atxa-core:posX "932" ;
 	atxa-core:posY "318" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx23 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx67 .
 
-_:node17h4lot8gx23 a atxa-core:node ;
-	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Membgrouprel> ;
-	atxa-core:posX "695" ;
-	atxa-core:posY "663" .
-
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx18 .
-
-_:node17h4lot8gx18 a atxa-core:node ;
-	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Membergroup> ;
-	atxa-core:posX "834" ;
-	atxa-core:posY "618" .
-
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx27 .
-
-_:node17h4lot8gx27 a atxa-core:node ;
+_:node18c7rofhrx67 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole> ;
 	atxa-core:posX "737" ;
 	atxa-core:posY "379" .
 
 <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.id> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.member> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.role> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.store> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.updated> .
 
-_:node17h4lot8gx27 atxa-core:contains _:node17h4lot8gx28 .
+_:node18c7rofhrx67 atxa-core:contains _:node18c7rofhrx68 .
 
-_:node17h4lot8gx28 a atxa-core:node ;
+_:node18c7rofhrx68 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.id> ;
 	atxa-core:posX "738" ;
 	atxa-core:posY "397" .
 
-_:node17h4lot8gx27 atxa-core:contains _:node17h4lot8gx29 .
+_:node18c7rofhrx67 atxa-core:contains _:node18c7rofhrx69 .
 
-_:node17h4lot8gx29 a atxa-core:node ;
+_:node18c7rofhrx69 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.member> ;
 	atxa-core:posX "738" ;
 	atxa-core:posY "413" .
 
-_:node17h4lot8gx27 atxa-core:contains _:node17h4lot8gx30 .
+_:node18c7rofhrx67 atxa-core:contains _:node18c7rofhrx70 .
 
-_:node17h4lot8gx30 a atxa-core:node ;
+_:node18c7rofhrx70 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.role> ;
 	atxa-core:posX "738" ;
 	atxa-core:posY "429" .
 
-_:node17h4lot8gx27 atxa-core:contains _:node17h4lot8gx31 .
+_:node18c7rofhrx67 atxa-core:contains _:node18c7rofhrx71 .
 
-_:node17h4lot8gx31 a atxa-core:node ;
+_:node18c7rofhrx71 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.store> ;
 	atxa-core:posX "738" ;
 	atxa-core:posY "445" .
 
-_:node17h4lot8gx27 atxa-core:contains _:node17h4lot8gx32 .
+_:node18c7rofhrx67 atxa-core:contains _:node18c7rofhrx72 .
 
-_:node17h4lot8gx32 a atxa-core:node ;
+_:node18c7rofhrx72 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$MembersRole.updated> ;
 	atxa-core:posX "738" ;
 	atxa-core:posY "461" .
 
-_:node17h4lot8gx1 atxa-core:contains _:node17h4lot8gx50 .
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx45 .
 
-_:node17h4lot8gx50 a atxa-core:node ;
+_:node18c7rofhrx45 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress> ;
 	atxa-core:posX "57" ;
 	atxa-core:posY "264" .
 
 <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.member> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.nickname> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.firstname> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.lastname> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.company> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.address1> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.address2> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.address3> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.addressId> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.zipcode> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.city> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.region> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.country> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.email> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.phone> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.fax> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.mobile> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.vatcode> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.field1> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.field2> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.field3> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.field4> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.flag> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.isprimary> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.updated> .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx51 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx73 .
 
-_:node17h4lot8gx51 a atxa-core:node ;
+_:node18c7rofhrx73 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.member> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "282" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx52 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx74 .
 
-_:node17h4lot8gx52 a atxa-core:node ;
+_:node18c7rofhrx74 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.nickname> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "298" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx53 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx75 .
 
-_:node17h4lot8gx53 a atxa-core:node ;
+_:node18c7rofhrx75 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.firstname> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "314" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx54 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx76 .
 
-_:node17h4lot8gx54 a atxa-core:node ;
+_:node18c7rofhrx76 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.lastname> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "330" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx55 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx77 .
 
-_:node17h4lot8gx55 a atxa-core:node ;
+_:node18c7rofhrx77 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.company> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "346" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx75 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx78 .
 
-_:node17h4lot8gx75 a atxa-core:node ;
+_:node18c7rofhrx78 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.address1> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "362" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx56 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx79 .
 
-_:node17h4lot8gx56 a atxa-core:node ;
+_:node18c7rofhrx79 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.address2> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "378" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx57 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx80 .
 
-_:node17h4lot8gx57 a atxa-core:node ;
+_:node18c7rofhrx80 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.address3> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "394" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx58 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx81 .
 
-_:node17h4lot8gx58 a atxa-core:node ;
+_:node18c7rofhrx81 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.addressId> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "410" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx59 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx82 .
 
-_:node17h4lot8gx59 a atxa-core:node ;
+_:node18c7rofhrx82 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.zipcode> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "426" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx60 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx83 .
 
-_:node17h4lot8gx60 a atxa-core:node ;
+_:node18c7rofhrx83 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.city> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "442" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx61 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx84 .
 
-_:node17h4lot8gx61 a atxa-core:node ;
+_:node18c7rofhrx84 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.region> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "458" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx62 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx85 .
 
-_:node17h4lot8gx62 a atxa-core:node ;
+_:node18c7rofhrx85 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.country> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "474" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx63 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx86 .
 
-_:node17h4lot8gx63 a atxa-core:node ;
+_:node18c7rofhrx86 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.email> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "490" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx64 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx87 .
 
-_:node17h4lot8gx64 a atxa-core:node ;
+_:node18c7rofhrx87 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.phone> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "506" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx65 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx88 .
 
-_:node17h4lot8gx65 a atxa-core:node ;
+_:node18c7rofhrx88 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.fax> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "522" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx66 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx89 .
 
-_:node17h4lot8gx66 a atxa-core:node ;
+_:node18c7rofhrx89 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.mobile> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "538" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx67 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx90 .
 
-_:node17h4lot8gx67 a atxa-core:node ;
+_:node18c7rofhrx90 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.vatcode> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "554" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx68 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx91 .
 
-_:node17h4lot8gx68 a atxa-core:node ;
+_:node18c7rofhrx91 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.field1> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "570" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx69 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx92 .
 
-_:node17h4lot8gx69 a atxa-core:node ;
+_:node18c7rofhrx92 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.field2> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "586" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx70 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx93 .
 
-_:node17h4lot8gx70 a atxa-core:node ;
+_:node18c7rofhrx93 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.field3> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "602" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx71 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx94 .
 
-_:node17h4lot8gx71 a atxa-core:node ;
+_:node18c7rofhrx94 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.field4> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "618" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx72 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx95 .
 
-_:node17h4lot8gx72 a atxa-core:node ;
+_:node18c7rofhrx95 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.flag> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "634" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx73 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx96 .
 
-_:node17h4lot8gx73 a atxa-core:node ;
+_:node18c7rofhrx96 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.isprimary> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "650" .
 
-_:node17h4lot8gx50 atxa-core:contains _:node17h4lot8gx74 .
+_:node18c7rofhrx45 atxa-core:contains _:node18c7rofhrx97 .
 
-_:node17h4lot8gx74 a atxa-core:node ;
+_:node18c7rofhrx97 a atxa-core:node ;
 	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$AbstractAddress.updated> ;
 	atxa-core:posX "58" ;
 	atxa-core:posY "666" .
+
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx65 .
+
+_:node18c7rofhrx65 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Membgrouprel> ;
+	atxa-core:posX "754" ;
+	atxa-core:posY "678" .
+
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx66 .
+
+_:node18c7rofhrx66 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$Membergroup> ;
+	atxa-core:posX "881" ;
+	atxa-core:posY "722" .
+
+_:node18c7rofhrx1 atxa-core:contains _:node18c7rofhrx52 .
+
+_:node18c7rofhrx52 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.persistence$UsersReg> ;
+	atxa-core:posX "278" ;
+	atxa-core:posY "448" .
 
 @prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -669,5 +648,5 @@ _:node17h4lot8gx74 a atxa-core:node ;
 @prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
 
 <http://www.architexa.com/rdf/rse-eclipse#UML_slmembership.atxa> a atxa-core:reloFile ;
-	atxa-core:contains _:node17h4lot8gx2 , _:node17h4lot8gx19 , _:node17h4lot8gx25 , _:node17h4lot8gx4 , _:node17h4lot8gx26 , _:node17h4lot8gx39 , _:node17h4lot8gx40 , _:node17h4lot8gx41 , _:node17h4lot8gx42 , _:node17h4lot8gx43 , _:node17h4lot8gx44 , _:node17h4lot8gx45 , _:node17h4lot8gx46 , _:node17h4lot8gx47 , _:node17h4lot8gx48 , _:node17h4lot8gx49 , _:node17h4lot8gx14 , _:node17h4lot8gx88 , _:node17h4lot8gx89 , _:node17h4lot8gx90 , _:node17h4lot8gx91 , _:node17h4lot8gx92 , _:node17h4lot8gx93 , _:node17h4lot8gx94 , _:node17h4lot8gx95 , _:node17h4lot8gx96 , _:node17h4lot8gx97 , _:node17h4lot8gx84 , _:node17h4lot8gx12 , _:node17h4lot8gx76 , _:node17h4lot8gx80 , _:node17h4lot8gx11 , _:node17h4lot8gx24 , _:node17h4lot8gx36 , _:node17h4lot8gx37 , _:node17h4lot8gx38 , _:node17h4lot8gx35 , _:node17h4lot8gx34 , _:node17h4lot8gx33 , _:node17h4lot8gx10 , _:node17h4lot8gx7 , _:node17h4lot8gx9 , _:node17h4lot8gx17 , _:node17h4lot8gx8 , _:node17h4lot8gx23 , _:node17h4lot8gx18 , _:node17h4lot8gx28 , _:node17h4lot8gx29 , _:node17h4lot8gx30 , _:node17h4lot8gx31 , _:node17h4lot8gx32 , _:node17h4lot8gx27 , _:node17h4lot8gx51 , _:node17h4lot8gx52 , _:node17h4lot8gx53 , _:node17h4lot8gx54 , _:node17h4lot8gx55 , _:node17h4lot8gx75 , _:node17h4lot8gx56 , _:node17h4lot8gx57 , _:node17h4lot8gx58 , _:node17h4lot8gx59 , _:node17h4lot8gx60 , _:node17h4lot8gx61 , _:node17h4lot8gx62 , _:node17h4lot8gx63 , _:node17h4lot8gx64 , _:node17h4lot8gx65 , _:node17h4lot8gx66 , _:node17h4lot8gx67 , _:node17h4lot8gx68 , _:node17h4lot8gx69 , _:node17h4lot8gx70 , _:node17h4lot8gx71 , _:node17h4lot8gx72 , _:node17h4lot8gx73 , _:node17h4lot8gx74 , _:node17h4lot8gx50 , _:node17h4lot8gx1 , atxa-core:docRoot , _:node17h4lot8gx2 , _:node17h4lot8gx19 , _:node17h4lot8gx25 , _:node17h4lot8gx4 , _:node17h4lot8gx26 , _:node17h4lot8gx39 , _:node17h4lot8gx40 , _:node17h4lot8gx41 , _:node17h4lot8gx42 , _:node17h4lot8gx43 , _:node17h4lot8gx44 , _:node17h4lot8gx45 , _:node17h4lot8gx46 , _:node17h4lot8gx47 , _:node17h4lot8gx48 , _:node17h4lot8gx49 , _:node17h4lot8gx14 , _:node17h4lot8gx88 , _:node17h4lot8gx89 , _:node17h4lot8gx90 , _:node17h4lot8gx91 , _:node17h4lot8gx92 , _:node17h4lot8gx93 , _:node17h4lot8gx94 , _:node17h4lot8gx95 , _:node17h4lot8gx96 , _:node17h4lot8gx97 , _:node17h4lot8gx84 , _:node17h4lot8gx12 , _:node17h4lot8gx76 , _:node17h4lot8gx80 , _:node17h4lot8gx11 , _:node17h4lot8gx24 , _:node17h4lot8gx36 , _:node17h4lot8gx37 , _:node17h4lot8gx38 , _:node17h4lot8gx35 , _:node17h4lot8gx34 , _:node17h4lot8gx33 , _:node17h4lot8gx10 , _:node17h4lot8gx7 , _:node17h4lot8gx9 , _:node17h4lot8gx17 , _:node17h4lot8gx8 , _:node17h4lot8gx23 , _:node17h4lot8gx18 , _:node17h4lot8gx28 , _:node17h4lot8gx29 , _:node17h4lot8gx30 , _:node17h4lot8gx31 , _:node17h4lot8gx32 , _:node17h4lot8gx27 , _:node17h4lot8gx51 , _:node17h4lot8gx52 , _:node17h4lot8gx53 , _:node17h4lot8gx54 , _:node17h4lot8gx55 , _:node17h4lot8gx75 , _:node17h4lot8gx56 , _:node17h4lot8gx57 , _:node17h4lot8gx58 , _:node17h4lot8gx59 , _:node17h4lot8gx60 , _:node17h4lot8gx61 , _:node17h4lot8gx62 , _:node17h4lot8gx63 , _:node17h4lot8gx64 , _:node17h4lot8gx65 , _:node17h4lot8gx66 , _:node17h4lot8gx67 , _:node17h4lot8gx68 , _:node17h4lot8gx69 , _:node17h4lot8gx70 , _:node17h4lot8gx71 , _:node17h4lot8gx72 , _:node17h4lot8gx73 , _:node17h4lot8gx74 , _:node17h4lot8gx50 , _:node17h4lot8gx1 , atxa-core:docRoot , _:node17h4lot8gx3 , _:node17h4lot8gx20 , _:node17h4lot8gx85 , _:node17h4lot8gx13 , _:node17h4lot8gx77 , _:node17h4lot8gx81 , _:node17h4lot8gx3 , _:node17h4lot8gx20 , _:node17h4lot8gx85 , _:node17h4lot8gx13 , _:node17h4lot8gx77 , _:node17h4lot8gx81 .
+	atxa-core:contains _:node18c7rofhrx2 , _:node18c7rofhrx7 , _:node18c7rofhrx4 , _:node18c7rofhrx12 , _:node18c7rofhrx14 , _:node18c7rofhrx15 , _:node18c7rofhrx16 , _:node18c7rofhrx17 , _:node18c7rofhrx18 , _:node18c7rofhrx19 , _:node18c7rofhrx20 , _:node18c7rofhrx21 , _:node18c7rofhrx22 , _:node18c7rofhrx23 , _:node18c7rofhrx24 , _:node18c7rofhrx13 , _:node18c7rofhrx29 , _:node18c7rofhrx30 , _:node18c7rofhrx31 , _:node18c7rofhrx32 , _:node18c7rofhrx33 , _:node18c7rofhrx34 , _:node18c7rofhrx35 , _:node18c7rofhrx36 , _:node18c7rofhrx37 , _:node18c7rofhrx38 , _:node18c7rofhrx25 , _:node18c7rofhrx39 , _:node18c7rofhrx43 , _:node18c7rofhrx48 , _:node18c7rofhrx55 , _:node18c7rofhrx56 , _:node18c7rofhrx57 , _:node18c7rofhrx58 , _:node18c7rofhrx54 , _:node18c7rofhrx60 , _:node18c7rofhrx61 , _:node18c7rofhrx62 , _:node18c7rofhrx63 , _:node18c7rofhrx64 , _:node18c7rofhrx68 , _:node18c7rofhrx69 , _:node18c7rofhrx70 , _:node18c7rofhrx71 , _:node18c7rofhrx72 , _:node18c7rofhrx67 , _:node18c7rofhrx73 , _:node18c7rofhrx74 , _:node18c7rofhrx75 , _:node18c7rofhrx76 , _:node18c7rofhrx77 , _:node18c7rofhrx78 , _:node18c7rofhrx79 , _:node18c7rofhrx80 , _:node18c7rofhrx81 , _:node18c7rofhrx82 , _:node18c7rofhrx83 , _:node18c7rofhrx84 , _:node18c7rofhrx85 , _:node18c7rofhrx86 , _:node18c7rofhrx87 , _:node18c7rofhrx88 , _:node18c7rofhrx89 , _:node18c7rofhrx90 , _:node18c7rofhrx91 , _:node18c7rofhrx92 , _:node18c7rofhrx93 , _:node18c7rofhrx94 , _:node18c7rofhrx95 , _:node18c7rofhrx96 , _:node18c7rofhrx97 , _:node18c7rofhrx45 , _:node18c7rofhrx65 , _:node18c7rofhrx66 , _:node18c7rofhrx52 , _:node18c7rofhrx1 , atxa-core:docRoot , _:node18c7rofhrx2 , _:node18c7rofhrx7 , _:node18c7rofhrx4 , _:node18c7rofhrx12 , _:node18c7rofhrx14 , _:node18c7rofhrx15 , _:node18c7rofhrx16 , _:node18c7rofhrx17 , _:node18c7rofhrx18 , _:node18c7rofhrx19 , _:node18c7rofhrx20 , _:node18c7rofhrx21 , _:node18c7rofhrx22 , _:node18c7rofhrx23 , _:node18c7rofhrx24 , _:node18c7rofhrx13 , _:node18c7rofhrx29 , _:node18c7rofhrx30 , _:node18c7rofhrx31 , _:node18c7rofhrx32 , _:node18c7rofhrx33 , _:node18c7rofhrx34 , _:node18c7rofhrx35 , _:node18c7rofhrx36 , _:node18c7rofhrx37 , _:node18c7rofhrx38 , _:node18c7rofhrx25 , _:node18c7rofhrx39 , _:node18c7rofhrx43 , _:node18c7rofhrx48 , _:node18c7rofhrx55 , _:node18c7rofhrx56 , _:node18c7rofhrx57 , _:node18c7rofhrx58 , _:node18c7rofhrx54 , _:node18c7rofhrx60 , _:node18c7rofhrx61 , _:node18c7rofhrx62 , _:node18c7rofhrx63 , _:node18c7rofhrx64 , _:node18c7rofhrx68 , _:node18c7rofhrx69 , _:node18c7rofhrx70 , _:node18c7rofhrx71 , _:node18c7rofhrx72 , _:node18c7rofhrx67 , _:node18c7rofhrx73 , _:node18c7rofhrx74 , _:node18c7rofhrx75 , _:node18c7rofhrx76 , _:node18c7rofhrx77 , _:node18c7rofhrx78 , _:node18c7rofhrx79 , _:node18c7rofhrx80 , _:node18c7rofhrx81 , _:node18c7rofhrx82 , _:node18c7rofhrx83 , _:node18c7rofhrx84 , _:node18c7rofhrx85 , _:node18c7rofhrx86 , _:node18c7rofhrx87 , _:node18c7rofhrx88 , _:node18c7rofhrx89 , _:node18c7rofhrx90 , _:node18c7rofhrx91 , _:node18c7rofhrx92 , _:node18c7rofhrx93 , _:node18c7rofhrx94 , _:node18c7rofhrx95 , _:node18c7rofhrx96 , _:node18c7rofhrx97 , _:node18c7rofhrx45 , _:node18c7rofhrx65 , _:node18c7rofhrx66 , _:node18c7rofhrx52 , _:node18c7rofhrx1 , atxa-core:docRoot , _:node18c7rofhrx3 , _:node18c7rofhrx8 , _:node18c7rofhrx26 , _:node18c7rofhrx40 , _:node18c7rofhrx44 , _:node18c7rofhrx49 , _:node18c7rofhrx3 , _:node18c7rofhrx8 , _:node18c7rofhrx26 , _:node18c7rofhrx40 , _:node18c7rofhrx44 , _:node18c7rofhrx49 .
 

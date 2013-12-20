@@ -10,6 +10,8 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-  <bean name="initApp" class="com.serpics.system.web.InitializeTestWebApplication"/>
+<!--   <bean name="initApp" class="com.serpics.system.web.InitializeTestWebApplication"/> -->
+     
+     <bean id="sessionManager" class="com.serpics.system.web.WebSessionManager"/>
      
  </beans>    

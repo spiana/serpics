@@ -8,7 +8,7 @@
 		<class>com.serpics.membership.persistence.Store</class>
 		<class>com.serpics.membership.persistence.Role</class>
 		<class>com.serpics.membership.persistence.MembgrouprelPK</class>
-		<class>com.serpics.membership.persistence.Membgrouprel</class>
+		<class>com.serpics.membership.persistence.Membergrouprel</class>
 		<class>com.serpics.membership.persistence.MembersRolePK</class>
 		<class>com.serpics.membership.persistence.MembersRole</class>
 		<class>com.serpics.membership.persistence.Membergroup</class>

@@ -25,156 +25,157 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public abstract class EntityTable<T> extends CustomComponent implements
-		EntityTableComponent<T> {
-	@Transient
-	private Class<T> entityClass;
+EntityTableComponent<T> {
+    @Transient
+    private final Class<T> entityClass;
 
-	private String[] propertyToShow;
+    private String[] propertyToShow;
 
-	protected EntityFormWindow<T> editorWindow;
-	
-	protected Table entityList;
+    protected EntityFormWindow<T> editorWindow;
 
-	@Transient
-	protected SerpicsPersistentContainer<T> cont;
+    protected Table entityList;
 
-	@Transient
-	protected SerpicsCachingLocalEntityProvider<T> provider;
+    @Transient
+    protected SerpicsPersistentContainer<T> cont;
 
-	public EntityTable(Class entityClass) {
-		super();
-		this.entityClass = entityClass;
-		cont = new SerpicsPersistentContainer<T>(entityClass);
-		provider = new SerpicsCachingLocalEntityProvider<T>(entityClass);
-		provider.setCacheEnabled(true);
-		cont.setEntityProvider(provider);
-	}
+    @Transient
+    protected SerpicsCachingLocalEntityProvider<T> provider;
 
-	public void init() {
-		Assert.notNull(editorWindow, "entitywindow must be set !");
+    public EntityTable(final Class entityClass) {
+        super();
+        this.entityClass = entityClass;
+        cont = new SerpicsPersistentContainer<T>(entityClass);
+        provider = new SerpicsCachingLocalEntityProvider<T>(entityClass);
+        provider.setCacheEnabled(true);
+        cont.setEntityProvider(provider);
+    }
 
-		entityList = new Table();
+    public void init() {
+        Assert.notNull(editorWindow, "entitywindow must be set !");
 
-		entityList.setContainerDataSource(cont);
-		entityList.setSelectable(true);
-		entityList.setImmediate(true);
-		entityList.setSizeFull();
-		entityList.setColumnCollapsingAllowed(true);
-		entityList.setColumnReorderingAllowed(true);
+        entityList = new Table();
 
-		if (propertyToShow == null) {
-			List<Object> propsToShow = new ArrayList<Object>();
-			for (String id : cont.getContainerPropertyIds()) {
-				if (cont.getPropertyKind(id) != PropertyKind.SIMPLE
-						&& cont.getPropertyKind(id) != PropertyKind.ELEMENT_COLLECTION)
-					continue;
-				propsToShow.add(id);
+        entityList.setContainerDataSource(cont);
+        entityList.setSelectable(true);
+        entityList.setImmediate(true);
+        entityList.setSizeFull();
+        entityList.setColumnCollapsingAllowed(true);
+        entityList.setColumnReorderingAllowed(true);
 
-			}
-			entityList.setVisibleColumns(propsToShow.toArray());
-		} else {
-			entityList.setVisibleColumns(propertyToShow);
-		}
+        if (propertyToShow == null) {
+            final List<Object> propsToShow = new ArrayList<Object>();
+            for (final String id : cont.getContainerPropertyIds()) {
+                if (cont.getPropertyKind(id) != PropertyKind.SIMPLE
+                        && cont.getPropertyKind(id) != PropertyKind.ELEMENT_COLLECTION)
+                    continue;
+                propsToShow.add(id);
 
-		
-
-		final VerticalLayout v = new VerticalLayout();
-		final HorizontalLayout buttons = new HorizontalLayout();
-		buttons.setWidth("100%");
-		buttons.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
-		v.addComponent(buttons);
-		v.addComponent(entityList);
+            }
+            entityList.setVisibleColumns(propsToShow.toArray());
+        } else {
+            entityList.setVisibleColumns(propertyToShow);
+        }
 
 
-		entityList.addValueChangeListener(new Property.ValueChangeListener() {
 
-			@Override
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
-				if (event.getProperty().getValue() == null)
-					return;
-				editorWindow.setReadOnly(true);
-				editorWindow.setNewItem(false);
-				editorWindow.setEntityItem(cont.getItem(entityList.getValue()));
-				
-				UI.getCurrent().addWindow(editorWindow);
-			}
-		});
-		
-		
-		
-		final Button _new = new Button("new");
-		buttons.addComponent(_new);
+        final VerticalLayout v = new VerticalLayout();
+        final HorizontalLayout buttons = new HorizontalLayout();
+        // buttons.setWidth("100%");
+        buttons.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+        v.addComponent(buttons);
+        v.addComponent(entityList);
 
-		_new.addClickListener(new Button.ClickListener() {
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				editorWindow.setNewItem(true);
-				editorWindow.setReadOnly(false);
-				editorWindow.setEntityItem(createEntityItem());
-				UI.getCurrent().addWindow(editorWindow);
-			}
-		});
-		
-		final Button _edit = new Button("edit");
-		buttons.addComponent(_edit);
 
-		_edit.addClickListener(new Button.ClickListener() {
+        entityList.addValueChangeListener(new Property.ValueChangeListener() {
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (entityList.getValue() == null)
-					return;
-				editorWindow.setNewItem(false);
-				editorWindow.setReadOnly(false);
-				editorWindow.setEntityItem(cont.getItem(entityList.getValue()));
-				UI.getCurrent().addWindow(editorWindow);
-			}
-		});
+            @Override
+            public void valueChange(
+                    final com.vaadin.data.Property.ValueChangeEvent event) {
+                if (event.getProperty().getValue() == null)
+                    return;
+                // editorWindow.setReadOnly(true);
+                // editorWindow.setNewItem(false);
+                // editorWindow.setEntityItem(cont.getItem(entityList.getValue()));
+                //
+                // UI.getCurrent().addWindow(editorWindow);
+            }
+        });
 
-		setCompositionRoot(v);
-	}
 
-	
-	public void setService(EntityService service) {
-		provider.setService(service);
-	}
 
-	public void setPropertyToShow(String[] propertyToShow) {
-		this.propertyToShow = propertyToShow;
-	}
+        final Button _new = new Button("new");
+        buttons.addComponent(_new);
 
-	public void setEditorWindow(EntityFormWindow<T> editorWindow) {
-		this.editorWindow = editorWindow;
-	}
+        _new.addClickListener(new Button.ClickListener() {
 
-	public EntityItem<T> createEntityItem (){
-	
-		EntityItem<T> entityItem = null;
-		try {
-			entityItem = cont.createEntityItem((T) entityClass.newInstance());
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return entityItem;
-	}
-	
-	public void addFilter(Filter filter){
-		cont.addContainerFilter(filter);
-	}
-	
-	public void removeFilter(Filter filter){
-		cont.removeContainerFilter(filter);
-	}
-	
-	public void removeAllFilter(){
-		cont.removeAllContainerFilters();
-	}
-	
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                editorWindow.setNewItem(true);
+                editorWindow.setReadOnly(false);
+                editorWindow.setEntityItem(createEntityItem());
+                UI.getCurrent().addWindow(editorWindow);
+            }
+        });
+
+        final Button _edit = new Button("edit");
+        buttons.addComponent(_edit);
+
+        _edit.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                if (entityList.getValue() == null)
+                    return;
+                editorWindow.setNewItem(false);
+                editorWindow.setReadOnly(false);
+                editorWindow.setEntityItem(cont.getItem(entityList.getValue()));
+                UI.getCurrent().addWindow(editorWindow);
+            }
+        });
+
+        setCompositionRoot(v);
+    }
+
+
+    public void setService(final EntityService service) {
+        provider.setService(service);
+    }
+
+    public void setPropertyToShow(final String[] propertyToShow) {
+        this.propertyToShow = propertyToShow;
+    }
+
+    public void setEditorWindow(final EntityFormWindow<T> editorWindow) {
+        this.editorWindow = editorWindow;
+    }
+
+    public EntityItem<T> createEntityItem (){
+
+        EntityItem<T> entityItem = null;
+        try {
+            entityItem = cont.createEntityItem(entityClass.newInstance());
+        } catch (final InstantiationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return entityItem;
+    }
+
+    public void addFilter(final Filter filter){
+        cont.addContainerFilter(filter);
+    }
+
+    public void removeFilter(final Filter filter){
+        cont.removeContainerFilter(filter);
+    }
+
+    public void removeAllFilter(){
+        cont.removeAllContainerFilters();
+    }
+
 }

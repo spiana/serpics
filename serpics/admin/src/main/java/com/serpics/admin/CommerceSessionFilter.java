@@ -2,7 +2,6 @@ package com.serpics.admin;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,102 +14,71 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.services.CatalogService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
-import com.serpics.membership.services.BaseService;
+import com.serpics.system.web.WebCostant;
 
 public class CommerceSessionFilter implements Filter {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(CommerceSessionFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommerceSessionFilter.class);
 
-	@Autowired
-	CommerceEngine ce;
+    @Autowired
+    CommerceEngine ce;
 
-	@Resource(name = "catalogService")
-	CatalogService catService;
 
-	@Autowired
-	BaseService baseService;
 
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
+    @Override
+    public void doFilter(final ServletRequest req, final ServletResponse resp,
+            final FilterChain chain) throws IOException, ServletException {
 
-	}
+        if (logger.isDebugEnabled())
+            logger.debug("CommerceSessionFilter called");
 
-	@Override
-	public void doFilter(ServletRequest req, ServletResponse resp,
-			FilterChain chain) throws IOException, ServletException {
+        final HttpServletRequest httpReq = (HttpServletRequest) req;
+        final String id = (String) httpReq.getSession().getAttribute(
+                WebCostant.SERPICS_SESSION);
 
-		if (logger.isDebugEnabled())
-			logger.debug("CommerceSessionFilter called");
+        CommerceSessionContext context = null;
+        if (id == null) {
 
-		if (!baseService.isInitialized()){
-			baseService.initIstance();
-			Catalog catalog = new Catalog();
-			catalog.setCode("default-catalog");
-			catService.createCatalog(catalog);
-		}
-		
+            try {
+                context = ce.connect("default-store");
 
-		HttpServletRequest httpReq = (HttpServletRequest) req;
-		String id = (String) httpReq.getSession().getAttribute(
-				"serpics-session");
+            } catch (final SerpicsException e) {
+                throw new ServletException(e);
+            }
+            httpReq.getSession().setAttribute(WebCostant.SERPICS_SESSION, context.getSessionId());
+        } else {
 
-		try {
-			if (id != null && !id.isEmpty()) {
-				if (logger.isDebugEnabled())
-					logger.debug("found CommerceSessionID " + id
-							+ " in HttpSession, trying to bind..");
-				CommerceSessionContext context = ce.bind(id);
-				if (context != null) {
-					if (logger.isDebugEnabled())
-						logger.debug("successfully bound commerce session");
-				} else {
+            if (logger.isDebugEnabled())
+                logger.debug("found CommerceSessionID " + id
+                        + " in HttpSession, trying to bind..");
 
-				}
-			} else {
-				CommerceSessionContext context = ce.connect("default-store",
-						"superuser", "admin".toCharArray());
-				context.setCatalog(catService.getCatalog("default-catalog"));
-				httpReq.getSession().setAttribute("serpics-session",
-						context.getSessionId());
-			}
+            context = ce.bind(id);
+        }
 
-		} catch (Exception e) {
-			logger.error(
-					"Error establishing commerceSession in servlet filter", e);
+        if (context != null) {
+            if (logger.isDebugEnabled())
+                logger.debug("successfully bound commerce session");
 
-			// httpReq.getSession().removeAttribute("serpics-session");
+        } else
+            throw new ServletException("bound commerce session failed !");
 
-			CommerceSessionContext context;
-			try {
-				context = ce.connect("default-store", "superuser",
-						"admin".toCharArray());
-				context.setCatalog(catService.getCatalog("default-catalog"));
-				httpReq.getSession().setAttribute("serpics-session",
-						context.getSessionId());
-			} catch (Exception e1) {
-				logger.error(
-						"Error establishing commerceSession in servlet filter",
-						e1);
-			}
+        chain.doFilter(req, resp);
+        ce.unbind(); // unbind from commerce Session
+    }
 
-			// throw new ServletException(e);
-		}
+    @Override
+    public void init(final FilterConfig arg0) throws ServletException {
+        // TODO Auto-generated method stub
 
-		chain.doFilter(req, resp);
+    }
 
-	}
+    @Override
+    public void destroy() {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
-
-	}
+    }
 
 }
