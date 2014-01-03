@@ -47,7 +47,7 @@ public class AddressTableEditor extends EntityTable<PermanentAddress>{
     }
     @Override
     public void save() throws CommitException {
-        entityList.commit();
+        // entityList.commit();
     }
 
     @Override

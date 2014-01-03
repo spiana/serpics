@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -21,6 +23,8 @@ import com.serpics.core.session.SessionManager;
 
 
 public class CommerceEngineImpl implements CommerceEngine {
+
+    Logger logger = LoggerFactory.getLogger(CommerceEngineImpl.class);
 
     private static final ThreadLocal<SessionContext> threadLocal = new ThreadLocal<SessionContext>();
 
@@ -109,10 +113,14 @@ public class CommerceEngineImpl implements CommerceEngine {
     @Override
     public CommerceSessionContext bind(final String sessionId) {
         final SessionContext _s = this.sessionManager.getSessionContext(sessionId);
-        Assert.notNull(_s, "session expired !");
-        //		_s.setLastAccess(new Date());
-        bind(_s);
-        return (CommerceSessionContext) _s;
+
+        if (_s != null) {
+            bind(_s);
+            return (CommerceSessionContext) _s;
+        } else {
+            logger.warn("session id [{}] is expired !");
+            return null;
+        }
     }
 
     private void bind(final SessionContext context) {

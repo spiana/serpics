@@ -1,4 +1,4 @@
-package com.serpics.admin;
+package com.serpics.system.web;
 
 import java.io.IOException;
 
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.session.CommerceSessionContext;
-import com.serpics.system.web.WebCostant;
 
 public class CommerceSessionFilter implements Filter {
 
@@ -39,11 +38,15 @@ public class CommerceSessionFilter implements Filter {
         final String id = (String) httpReq.getSession().getAttribute(
                 WebCostant.SERPICS_SESSION);
 
+        String realm = (String) httpReq.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
+        if (realm == null)
+            realm = "default-store";
+
         CommerceSessionContext context = null;
         if (id == null) {
 
             try {
-                context = ce.connect("default-store");
+                context = ce.connect(realm);
 
             } catch (final SerpicsException e) {
                 throw new ServletException(e);
@@ -63,8 +66,13 @@ public class CommerceSessionFilter implements Filter {
                 logger.debug("successfully bound commerce session");
 
         } else
-            throw new ServletException("bound commerce session failed !");
+        {
+            // FIXME: CommerceSession expire before httpsession why ?
+            httpReq.getSession().invalidate();
+            throw new ServletException("bind commerce session failed !");
 
+
+        }
         chain.doFilter(req, resp);
         ce.unbind(); // unbind from commerce Session
     }

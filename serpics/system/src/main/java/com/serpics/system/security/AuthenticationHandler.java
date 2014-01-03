@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.serpics.core.CommerceEngine;
@@ -35,15 +34,20 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
             final Authentication authentication)
                     throws IOException, ServletException {
         String selectedRealm = (String) request.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
+        final String sessionId = (String) request.getSession().getAttribute(WebCostant.SERPICS_SESSION);
+
         if (selectedRealm == null)
             selectedRealm = "default-store";
 
         try {
-            final UserDetails u = (UserDetails) authentication.getPrincipal();
+            // disconnect old session if exist !
+            if (sessionId != null)
+                commerceEngine.disconnect(sessionId);
+
             final SessionContext context = commerceEngine.connect(selectedRealm, (Principal) authentication);
             // setting credentials for selected store
             userDetailsService.setCredentials(authentication);
-            request.getSession().setAttribute("serpics-session", context.getSessionId());
+            request.getSession().setAttribute(WebCostant.SERPICS_SESSION, context.getSessionId());
 
         } catch (final SerpicsException e) {
             authentication.setAuthenticated(false);

@@ -37,11 +37,11 @@ public class Membergrouprel extends com.serpics.core.persistence.jpa.Entity impl
     @Column(name="valid_to", nullable=false)
     private Date validTo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "membergroups_id", nullable = false, insertable = false, updatable = false)
     private Membergroup membergroup;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", nullable = false, insertable = false, updatable = false)
     private Member member;
 

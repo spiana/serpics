@@ -22,13 +22,13 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
 
     private transient PropertyList<T> propertyList;
 
-    private final FieldGroup fieldGroup;
+    protected final FieldGroup fieldGroup;
 
     private boolean initialized = false;
 
     protected String[] displayProperties;
 
-    EntityItem<T> entityItem;
+    protected EntityItem<T> entityItem;
 
     Entity parentEntity ;
 
@@ -43,15 +43,20 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
         propertyList = new PropertyList<T>(MetadataFactory.getInstance()
                 .getEntityClassMetadata(clazz));
 
-        setSizeUndefined();
         fieldGroup = new FieldGroup();
+
+        init();
+    }
+
+    @Override
+    public void init() {
         fieldGroup.setFieldFactory(this);
+
+        setSizeUndefined();
         setImmediate(false);
-        setWidth("100%");
-        setHeight("100%");
+        setSizeFull();
         setMargin(true);
         setSpacing(true);
-
     }
 
     /**

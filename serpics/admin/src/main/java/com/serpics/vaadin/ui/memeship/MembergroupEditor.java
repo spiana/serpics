@@ -10,8 +10,8 @@ public class MembergroupEditor extends EntityForm<Membergroup> {
 
     public MembergroupEditor() {
         super(Membergroup.class);
-        // String[] displayProperties ={"firstname" , "lastname" , "phone" , "email" };
-        // this.displayProperties= displayProperties;
+        final String[] displayProperties = { "name", "description" };
+        this.displayProperties = displayProperties;
 
     }
 

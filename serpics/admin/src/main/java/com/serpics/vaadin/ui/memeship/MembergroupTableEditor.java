@@ -17,13 +17,12 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
 
 
     @Autowired
-    MembergroupService membergroupService;
+    transient MembergroupService membergroupService;
 
     @Autowired
     MembergroupEditor membergroupEditor;
 
     EntityItem<Membergroup> entityItem;
-
 
 
     public MembergroupTableEditor() {
@@ -35,8 +34,8 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
         editorWindow = new EntityFormWindow<Membergroup>();
         editorWindow.addTab(membergroupEditor, "main");
         //setEditorWindow(uw) ;
-        // final String[] p = {"firstname" , "lastname" };
-        // setPropertyToShow(p );
+        final String[] p = { "name", "description", "updated" };
+        setPropertyToShow(p);
         setService(membergroupService);
         super.init();
 

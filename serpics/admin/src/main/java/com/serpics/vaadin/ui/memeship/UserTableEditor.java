@@ -13,6 +13,8 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 @VaadinComponent(value = "userTableEditor")
 public class UserTableEditor extends EntityTable<User>{
 
+    private static final long serialVersionUID = -8370714049392595536L;
+
     @Autowired
     UserService userService;
 
@@ -21,6 +23,9 @@ public class UserTableEditor extends EntityTable<User>{
 
     @Autowired
     AddressTableEditor addressTableEditor;
+
+    @Autowired
+    MembergroupRelTable membergroupRelTable;
 
     EntityItem<User> entityItem;
 
@@ -33,10 +38,12 @@ public class UserTableEditor extends EntityTable<User>{
         this.cont.addNestedContainerProperty("userReg.*");
         editorWindow= new EntityFormWindow<User>();
         addressTableEditor.init();
+        membergroupRelTable.init();
 
         editorWindow.addTab(userEditorComponent, "main");
         editorWindow.addTab(addressTableEditor, "address");
-        editorWindow.addTab(addressTableEditor, "address1");
+        editorWindow.addTab(membergroupRelTable, "grouprelation");
+
 
         final String[] p = { "firstname", "lastname", "created", "userReg.logonid" };
         setPropertyToShow(p );

@@ -44,12 +44,13 @@ public class EntityFormWindow<T> extends Window implements Handler {
     public void init() {
 
         final VerticalLayout vl = new VerticalLayout();
+        vl.setSizeFull();
         setContent(vl);
 
-        tabSheet.setWidth("100%");
-        tabSheet.setHeight("100%");
+        tabSheet.setSizeFull();
 
         vl.addComponent(tabSheet);
+        vl.setExpandRatio(tabSheet, 1);
 
         saveButton = new Button("Save");
         cancelButton = new Button("Cancel");
@@ -62,6 +63,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
         vl.addComponent(hl);
         setModal(true);
+
         setHeight("80.0%");
         setWidth("50.0%");
         center();

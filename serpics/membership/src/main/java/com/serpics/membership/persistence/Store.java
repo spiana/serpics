@@ -28,73 +28,73 @@ import com.serpics.core.security.StoreRealm;
 @Table(name = "stores")
 @DiscriminatorValue("S")
 public class Store extends Member implements Serializable, StoreRealm {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false, length = 250, unique = false)
-	private String name;
+    @Column(nullable = false, length = 250, unique = false)
+    private String name;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "currency_id")
-	private Currency currency;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "currency_id")
+    private Currency currency;
 
-	// bi-directional many-to-one association to Membergroup
+    // bi-directional many-to-one association to Membergroup
 
-	@OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
-	private Set<Membergroup> membergroups;
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
+    private Set<Membergroup> membergroups;
 
-	public Store() {
-		this.memberType = MemberType.STORE;
-	}
+    public Store() {
+        this.memberType = MemberType.STORE;
+    }
 
-	@Override
-	public String getName() {
-		return this.name;
-	}
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public Set<Membergroup> getMembergroups() {
-		return this.membergroups;
-	}
+    public Set<Membergroup> getMembergroups() {
+        return this.membergroups;
+    }
 
-	public void setMembergroups(Set<Membergroup> membergroups) {
-		this.membergroups = membergroups;
-	}
+    public void setMembergroups(final Set<Membergroup> membergroups) {
+        this.membergroups = membergroups;
+    }
 
-	@Override
-	public Set<MembersRole> getMembersRoles() {
-		return this.membersRoles;
-	}
+    @Override
+    public Set<MembersRole> getMembersRoles() {
+        return this.membersRoles;
+    }
 
-	@Override
-	public void setMembersRoles(Set<MembersRole> membersRoles) {
-		this.membersRoles = membersRoles;
-	}
+    @Override
+    public void setMembersRoles(final Set<MembersRole> membersRoles) {
+        this.membersRoles = membersRoles;
+    }
 
-	@PrePersist
-	@PreUpdate
-	public void preUpdated() {
-		setUpdated(new Timestamp(new Date().getTime()));
-	}
+    @PrePersist
+    @PreUpdate
+    public void preUpdated() {
+        setUpdated(new Timestamp(new Date().getTime()));
+    }
 
-	@Override
-	public String getRealm() {
-		return getUuid();
-	}
+    // @Override
+    // public String getRealm() {
+    // return getName();
+    // }
 
-	@Override
-	public Long getStoreId() {
-		return getMemberId();
-	}
+    @Override
+    public Long getStoreId() {
+        return getMemberId();
+    }
 
-	public Currency getCurrency() {
-		return currency;
-	}
+    public Currency getCurrency() {
+        return currency;
+    }
 
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
-	}
+    public void setCurrency(final Currency currency) {
+        this.currency = currency;
+    }
 
 }

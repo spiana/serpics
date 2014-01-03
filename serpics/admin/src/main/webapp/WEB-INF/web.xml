@@ -32,6 +32,18 @@
 		<listener-class>com.serpics.system.web.SessionListener</listener-class>
 	</listener>
 	
+<!--  Serpics filters -->	
+	<filter>
+		<filter-name>commerceSessionFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>commerceSessionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
 <!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -44,15 +56,7 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<filter>
-		<filter-name>commerceSessionFilter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
 	
-	<filter-mapping>
-		<filter-name>commerceSessionFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 	
 
 <filter>
@@ -92,7 +96,7 @@
 		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
 		<init-param>
 			<param-name>beanName</param-name>
-			<param-value>categoryUI</param-value>
+			<param-value>serpicsStartApp</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

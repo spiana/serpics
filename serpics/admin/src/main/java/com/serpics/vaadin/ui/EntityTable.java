@@ -50,6 +50,7 @@ EntityTableComponent<T> {
         cont.setEntityProvider(provider);
     }
 
+    @Override
     public void init() {
         Assert.notNull(editorWindow, "entitywindow must be set !");
 
@@ -79,11 +80,16 @@ EntityTableComponent<T> {
 
 
         final VerticalLayout v = new VerticalLayout();
+        v.setSizeFull();
+
         final HorizontalLayout buttons = new HorizontalLayout();
         // buttons.setWidth("100%");
         buttons.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
         v.addComponent(buttons);
         v.addComponent(entityList);
+
+
+        v.setExpandRatio(entityList, 1);
 
 
 
@@ -135,6 +141,8 @@ EntityTableComponent<T> {
         });
 
         setCompositionRoot(v);
+
+        setSizeFull();
     }
 
 

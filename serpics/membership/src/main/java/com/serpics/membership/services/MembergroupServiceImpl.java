@@ -7,13 +7,15 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.persistence.Membergroup;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.persistence.Store;
 import com.serpics.membership.repositories.MemberGroupRepository;
 
+@Service("membergroupService")
 public class MembergroupServiceImpl extends AbstractEntityService<Membergroup, Long> implements MembergroupService {
 
     @Autowired
@@ -34,10 +36,15 @@ public class MembergroupServiceImpl extends AbstractEntityService<Membergroup, L
             public Predicate toPredicate(final Root<Membergroup> root, final CriteriaQuery<?> query,
                     final CriteriaBuilder cb) {
 
-                return cb.equal(root.get("store"), (User) getCurrentContext().getCustomer());
+                return cb.equal(root.get("store"), (Store) getCurrentContext().getStoreRealm());
             }
 
         };
     }
 
+    @Override
+    public Membergroup create(final Membergroup entity) {
+        entity.setStore((Store) getCurrentContext().getStoreRealm());
+        return super.create(entity);
+    }
 }

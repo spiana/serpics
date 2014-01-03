@@ -25,12 +25,16 @@ public abstract class AbstractSessionManager implements SessionManager {
         final String sessionId = generateSessionID();
         final SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
         commerceScopeAttributes.setConversationId(sessionId);
+
         SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
+
         final CommerceSessionContext context = new CommerceSessionContext();
         context.setStoreRealm(realm);
         context.setSessionId(sessionId);
         context.setLastAccess(new Date());
+
         context.setCommerceScopeAttribute(commerceScopeAttributes);
+
         sessionList.put(sessionId, context);
         logger.info("create new session with id [{}]", sessionId);
         return context;
@@ -52,11 +56,12 @@ public abstract class AbstractSessionManager implements SessionManager {
             logger.debug("session user  [{}]", sessionContext.getUserPrincipal().getName());
             logger.debug("session last access  [{}]", sessionContext.getLastAccess());
         }
-        sessionContext.setLastAccess(new Date());
 
-    if (sessionContext != null)
-        SessionScopeContextHolder.setSessionScopeAttributes(sessionContext.getCommerceScopeAttribute());
+        if (sessionContext != null) {
+            sessionContext.setLastAccess(new Date());
+            SessionScopeContextHolder.setSessionScopeAttributes(sessionContext.getCommerceScopeAttribute());
+        }
 
-    return sessionContext;
-}
+        return sessionContext;
+    }
 }
