@@ -1,10 +1,16 @@
 package com.serpics.vaadin.ui;
 
-import com.serpics.core.persistence.jpa.Entity;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Id;
+
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.SerpicsStringToNumberConverter;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
+import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
@@ -14,9 +20,10 @@ import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 
 
-public class EntityForm<T> extends FormLayout implements
+public abstract class EntityForm<T> extends FormLayout implements
 FieldGroupFieldFactory, EntityFormComponent<T> {
     private static final long serialVersionUID = -7816433625437405000L;
 
@@ -27,14 +34,16 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     private boolean initialized = false;
 
     protected String[] displayProperties;
+    protected Set<String> hideProperties = new HashSet<String>(0);
+    protected String[] readOnlyProperties = {};
 
     protected EntityItem<T> entityItem;
-
-    Entity parentEntity ;
 
     private String prefix;
 
     private boolean readOnly = true;
+
+    Class<T> entityClass;
 
 
 
@@ -43,38 +52,28 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
         propertyList = new PropertyList<T>(MetadataFactory.getInstance()
                 .getEntityClassMetadata(clazz));
 
+        this.entityClass = clazz;
         fieldGroup = new FieldGroup();
-
-        init();
-    }
-
-    @Override
-    public void init() {
         fieldGroup.setFieldFactory(this);
 
         setSizeUndefined();
         setImmediate(false);
-        setSizeFull();
+        // setSizeFull();
         setMargin(true);
         setSpacing(true);
+
     }
 
-    /**
-     * @return the caption of the editor window
-     */
-    private String buildCaption() {
-        // return String.format("%s %s", entityItem.getItemProperty("firstName")
-        // .getValue(), entityItem.getItemProperty("lastName").getValue());
-        return "main";
-
+    @Override
+    public void init() {
     }
 
     @Override
     public <T extends Field> T createField(final Class<?> dataType, final Class<T> fieldType) {
         final DefaultFieldGroupFieldFactory fa = new DefaultFieldGroupFieldFactory();
         final T f = fa.createField(dataType, fieldType);
-        if (f instanceof TextField)
-            f.setWidth("500px");
+        // if (f instanceof TextField)
+        // f.setWidth("500px");
 
         return f;
     }
@@ -92,13 +91,21 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
         if (!initialized) {
             if (displayProperties != null)
                 addField(displayProperties);
-            else
-                addField(propertyList.getPropertyNames().toArray(
-                        new String[] {}));
+            else{
+                for (final String pid : propertyList.getAllAvailablePropertyNames()) {
+                    if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE))
+                        // exclude field with @Id annotation
+                        if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null)
+                            if (!hideProperties.contains(pid))
+                                addComponent(createField(pid));
+                }
+            }
             initialized = true;
         }
 
     }
+
+
 
     private void addField(final String[] propertyNames) {
         for (final String pid : propertyNames) {
@@ -113,6 +120,7 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
 
         final Field<?> f = fieldGroup.buildAndBind((prefix != null ? prefix : "")
                 + pid, (prefix != null ? prefix : "") + pid);
+        // f.addValidator(new BeanValidator(entityClass, pid));
         f.setBuffered(true);
         if (f instanceof TextField) {
             if (Number.class.isAssignableFrom(p.getType()))
@@ -128,10 +136,13 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
 
     @Override
     public void save() throws CommitException {
-
-        fieldGroup.commit();
-        if (entityItem.getItemId() == null)
-            entityItem.getContainer().addEntity(entityItem.getEntity());
+        if (fieldGroup.isModified()) {
+            fieldGroup.commit();
+            // test if new item
+            if (!entityItem.isPersistent()) {
+                entityItem.getContainer().addEntity(entityItem.getEntity());
+            }
+        }
     }
 
     @Override
@@ -146,20 +157,25 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
 
     @Override
     public void attach() {
+        setLocale(UI.getCurrent().getSession().getLocale());
+
         if(readOnly){
             fieldGroup.setEnabled(false);
-        } else
+        } else {
             fieldGroup.setEnabled(true);
+            for (final String pid : readOnlyProperties) {
+                if (fieldGroup.getField(pid) != null)
+                    fieldGroup.getField(pid).setReadOnly(true);
+            }
+        }
         super.attach();
     }
     public void setDisplayProperties(final String[] displayProperties) {
         this.displayProperties = displayProperties;
     }
 
-    @Override
-    public void setParentEntity(final Object entity) {
-        this.parentEntity = (Entity) entity;
-    }
+
+
 
     @Override
     public boolean isReadOnly() {
@@ -171,6 +187,22 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
         this.readOnly = readOnly;
     }
 
+    public void setHideProperties(final String[] hideProperties) {
+        this.hideProperties.addAll(Arrays.asList(hideProperties));
+    }
 
+    public void setReadOnlyProperties(final String[] readOnlyProperties) {
+        this.readOnlyProperties = readOnlyProperties;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    @Override
+    public boolean isModifield() {
+        return fieldGroup.isModified();
+    }
 
 }

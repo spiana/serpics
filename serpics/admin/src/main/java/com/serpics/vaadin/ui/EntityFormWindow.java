@@ -3,6 +3,8 @@ package com.serpics.vaadin.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
+import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.EntityComponent.EntityTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -58,12 +60,11 @@ public class EntityFormWindow<T> extends Window implements Handler {
         final HorizontalLayout hl = new HorizontalLayout();
         hl.setWidth("100%");
         hl.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        hl.addComponent(saveButton);
         hl.addComponent(cancelButton);
+        hl.addComponent(saveButton);
 
         vl.addComponent(hl);
         setModal(true);
-
         setHeight("80.0%");
         setWidth("50.0%");
         center();
@@ -73,7 +74,11 @@ public class EntityFormWindow<T> extends Window implements Handler {
             @Override
             public void buttonClick(final ClickEvent event) {
                 for (final EntityComponent component : componentList) {
-                    component.discard();
+                    if (component instanceof EntityFormComponent) {
+                        if (component.isEnabled() && !component.isReadOnly())
+                            ((EntityFormComponent) component).discard();
+                    }
+
                 }
 
                 EntityFormWindow.this.close();
@@ -86,7 +91,10 @@ public class EntityFormWindow<T> extends Window implements Handler {
             public void buttonClick(final ClickEvent event) {
                 try {
                     for (final EntityComponent component : componentList) {
-                        component.save();
+                        if (component instanceof EntityFormComponent) {
+                            if (component.isEnabled() && !component.isReadOnly())
+                                ((EntityFormComponent) component).save();
+                        }
                     }
                 } catch (final CommitException e) {
                     // TODO Auto-generated catch block
@@ -100,6 +108,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
     }
 
     public void addTab(final EntityComponent<?> component, final String caption) {
+        if (!component.isInitialized())
+            component.init();
         tabSheet.addTab(component, caption);
         componentList.add(component);
     }
@@ -121,11 +131,11 @@ public class EntityFormWindow<T> extends Window implements Handler {
     public void setEntityItem(final EntityItem entityItem) {
         for (@SuppressWarnings("rawtypes") final
                 EntityComponent c : componentList) {
-            if (c instanceof EntityTableComponent) {
+            if (c instanceof EntityComponentChild) {
                 if (!newItem)
-                    c.setParentEntity(entityItem.getEntity());
-            } else
-                c.setEntityItem(entityItem);
+                    ((EntityComponentChild) c).setParentEntity(entityItem);
+            } else if (c instanceof EntityFormComponent)
+                ((EntityFormComponent) c).setEntityItem(entityItem);
 
         }
     }

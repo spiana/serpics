@@ -8,7 +8,6 @@ import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 
 @VaadinComponent(value = "userTableEditor")
 public class UserTableEditor extends EntityTable<User>{
@@ -16,7 +15,10 @@ public class UserTableEditor extends EntityTable<User>{
     private static final long serialVersionUID = -8370714049392595536L;
 
     @Autowired
-    UserService userService;
+    private transient UserService userService;
+
+    @Autowired
+    UserRegEditorComponent userRegEditorComponent;
 
     @Autowired
     UserEditorComponent userEditorComponent;
@@ -39,8 +41,10 @@ public class UserTableEditor extends EntityTable<User>{
         editorWindow= new EntityFormWindow<User>();
         addressTableEditor.init();
         membergroupRelTable.init();
+        userRegEditorComponent.init();
 
         editorWindow.addTab(userEditorComponent, "main");
+        editorWindow.addTab(userRegEditorComponent, "userReg");
         editorWindow.addTab(addressTableEditor, "address");
         editorWindow.addTab(membergroupRelTable, "grouprelation");
 
@@ -52,31 +56,4 @@ public class UserTableEditor extends EntityTable<User>{
 
 
     }
-    @Override
-    public void save() throws CommitException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void discard() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setEntityItem(final EntityItem<User> entityItem) {
-        this.entityItem = entityItem;		
-    }
-
-
-    @Override
-    public void setParentEntity(final Object entity) {
-        // TODO Auto-generated method stub
-
-    }
-
-
-
-
 }

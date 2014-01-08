@@ -42,7 +42,7 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
     @Override
     public void save() throws CommitException {
         fieldGroup.commit();
-        if (super.entityItem.getItemId() == null){
+        if (super.entityItem.getItemId() == null) {
             final Membergrouprel m = entityItem.getEntity();
             final MembgrouprelPK pk = new MembgrouprelPK();
             pk.setMembergroupsId(m.getMembergroup().getMembergroupsId());
@@ -52,13 +52,13 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
         }
     }
 
+
     @Override
     protected Field<?> createField(final String pid) {
 
         if (pid.equals("membergroup")) {
             final SerpicsPersistentContainer<Membergroup> memberGroups = SerpicsContainerFactory.make(
-                    Membergroup.class,
-                    membergroupService);
+                    Membergroup.class, membergroupService);
             final ComboBox combo = new ComboBox("membergroup");
             combo.setContainerDataSource(memberGroups);
             combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
@@ -67,16 +67,17 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
             combo.setImmediate(true);
             combo.setConverter(new SingleSelectConverter(combo));
             fieldGroup.bind(combo, "membergroup");
-            //          combo.addValueChangeListener(new ValueChangeListener() {
-            //
-            //                @Override
-            //                public void valueChange(final ValueChangeEvent event) {
-            //                    final EntityItem<Membergroup> item = memberGroups.getItem(event.getProperty().getValue());
-            //                    entityItem.getEntity().setMembergroup(item.getEntity());
-            //                }
-            //
-            //            });
             return combo;
+        } else if (pid.equals("status")) {
+            final ComboBox combo = new ComboBox("status");
+            combo.addItem("R");
+            combo.setItemCaption("R", "Request");
+            combo.addItem("E");
+            combo.setItemCaption("E", "Effective");
+            combo.setNullSelectionAllowed(false);
+            fieldGroup.bind(combo, "status");
+            return combo;
+
         } else
             return super.createField(pid);
 

@@ -1,16 +1,20 @@
 package com.serpics.membership.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlEnum;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.core.datatype.UserRegisterType;
-import com.serpics.util.gson.GsonTransient;
-
-import java.math.BigInteger;
-import java.sql.Timestamp;
 
 /**
  * The persistent class for the users_reg database table.
@@ -20,177 +24,178 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "users_reg")
 public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
-	@Column(name = "user_id", unique = true, nullable = false)
-	private Long userId;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "alternate_email", length = 100)
-	private String alternateEmail;
+    @Id
+    @Column(name = "user_id", unique = true, nullable = false)
+    private Long userId;
 
-	@Column(length = 254)
-	private String changeanswer;
+    @Column(name = "alternate_email", length = 100)
+    private String alternateEmail;
 
-	@Column(length = 254)
-	private String changequestion;
+    @Column(length = 254)
+    private String changeanswer;
 
-	private Timestamp created;
+    @Column(length = 254)
+    private String changequestion;
 
-	@Column(length = 500)
-	private String dn;
+    private Timestamp created;
 
-	@Column(length = 254)
-	private String field1;
+    @Column(length = 500)
+    private String dn;
 
-	@Column(length = 254)
-	private String field2;
+    @Column(length = 254)
+    private String field1;
 
-	@Column(name = "last_login")
-	private Timestamp lastLogin;
+    @Column(length = 254)
+    private String field2;
 
-	@Column(name = "locale_id")
-	private BigInteger localeId;
+    @Column(name = "last_login")
+    private Timestamp lastLogin;
 
-	@Column(nullable = false, length = 40 , unique=true)
-	private String logonid;
+    @Column(name = "locale_id")
+    private BigInteger localeId;
 
-	@Column(nullable = false, length = 254)
-	private String password;
+    @Column(nullable = false, length = 40 , unique=true)
+    private String logonid;
 
-	@Column(name = "password_change")
-	private Timestamp passwordChange;
+    @Column(nullable = false, length = 254)
+    private String password;
 
-	@Column(nullable = false, length = 1)
-	private String status;
+    @Column(name = "password_change")
+    private Timestamp passwordChange;
 
-	
-	@OneToOne( fetch = FetchType.EAGER, optional = false )
-	@JoinColumn(name = "member_id", nullable = false , insertable = true, updatable = false )
-	private User user;
+    @Column(nullable = false, length = 1)
+    private String status;
 
-	public UsersReg() {
-		this.status = UserRegisterType.ACTIVE;
-	}
 
-	public Long getUserId() {
-		return this.userId;
-	}
+    @OneToOne( fetch = FetchType.EAGER, optional = false )
+    @JoinColumn(name = "member_id", nullable = false , insertable = true, updatable = false )
+    private User user;
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public UsersReg() {
+        this.status = UserRegisterType.ACTIVE;
+    }
 
-	public String getAlternateEmail() {
-		return this.alternateEmail;
-	}
+    public Long getUserId() {
+        return this.userId;
+    }
 
-	public void setAlternateEmail(String alternateEmail) {
-		this.alternateEmail = alternateEmail;
-	}
+    public void setUserId(final Long userId) {
+        this.userId = userId;
+    }
 
-	public String getChangeanswer() {
-		return this.changeanswer;
-	}
+    public String getAlternateEmail() {
+        return this.alternateEmail;
+    }
 
-	public void setChangeanswer(String changeanswer) {
-		this.changeanswer = changeanswer;
-	}
+    public void setAlternateEmail(final String alternateEmail) {
+        this.alternateEmail = alternateEmail;
+    }
 
-	public String getChangequestion() {
-		return this.changequestion;
-	}
+    public String getChangeanswer() {
+        return this.changeanswer;
+    }
 
-	public void setChangequestion(String changequestion) {
-		this.changequestion = changequestion;
-	}
+    public void setChangeanswer(final String changeanswer) {
+        this.changeanswer = changeanswer;
+    }
 
-	public Timestamp getCreated() {
-		return this.created;
-	}
+    public String getChangequestion() {
+        return this.changequestion;
+    }
 
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
+    public void setChangequestion(final String changequestion) {
+        this.changequestion = changequestion;
+    }
 
-	public String getDn() {
-		return this.dn;
-	}
+    public Timestamp getCreated() {
+        return this.created;
+    }
 
-	public void setDn(String dn) {
-		this.dn = dn;
-	}
+    public void setCreated(final Timestamp created) {
+        this.created = created;
+    }
 
-	public String getField1() {
-		return this.field1;
-	}
+    public String getDn() {
+        return this.dn;
+    }
 
-	public void setField1(String field1) {
-		this.field1 = field1;
-	}
+    public void setDn(final String dn) {
+        this.dn = dn;
+    }
 
-	public String getField2() {
-		return this.field2;
-	}
+    public String getField1() {
+        return this.field1;
+    }
 
-	public void setField2(String field2) {
-		this.field2 = field2;
-	}
+    public void setField1(final String field1) {
+        this.field1 = field1;
+    }
 
-	public Timestamp getLastLogin() {
-		return this.lastLogin;
-	}
+    public String getField2() {
+        return this.field2;
+    }
 
-	public void setLastLogin(Timestamp lastLogin) {
-		this.lastLogin = lastLogin;
-	}
+    public void setField2(final String field2) {
+        this.field2 = field2;
+    }
 
-	public BigInteger getLocaleId() {
-		return this.localeId;
-	}
+    public Timestamp getLastLogin() {
+        return this.lastLogin;
+    }
 
-	public void setLocaleId(BigInteger localeId) {
-		this.localeId = localeId;
-	}
+    public void setLastLogin(final Timestamp lastLogin) {
+        this.lastLogin = lastLogin;
+    }
 
-	public String getLogonid() {
-		return this.logonid;
-	}
+    public BigInteger getLocaleId() {
+        return this.localeId;
+    }
 
-	public void setLogonid(String logonid) {
-		this.logonid = logonid;
-	}
+    public void setLocaleId(final BigInteger localeId) {
+        this.localeId = localeId;
+    }
 
-	public String getPassword() {
-		return this.password;
-	}
+    public String getLogonid() {
+        return this.logonid;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setLogonid(final String logonid) {
+        this.logonid = logonid;
+    }
 
-	public Timestamp getPasswordChange() {
-		return this.passwordChange;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public void setPasswordChange(Timestamp passwordChange) {
-		this.passwordChange = passwordChange;
-	}
+    public void setPassword(final String password) {
+        this.password = password;
+    }
 
-	public String getStatus() {
-		return this.status;
-	}
+    public Timestamp getPasswordChange() {
+        return this.passwordChange;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setPasswordChange(final Timestamp passwordChange) {
+        this.passwordChange = passwordChange;
+    }
 
-	@XmlTransient
-	public User getUser() {
-		return user;
-	}
+    public String getStatus() {
+        return this.status;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setStatus(final String status) {
+        this.status = status;
+    }
+
+    @XmlTransient
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
 }

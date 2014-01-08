@@ -2,7 +2,6 @@ package com.serpics.membership.persistence;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,166 +35,167 @@ import com.serpics.core.security.UserDetail;
 @DiscriminatorValue("U")
 @PrimaryKeyJoinColumn(name="user_id")
 public class User extends Member implements Serializable, UserDetail {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	
-	@Column(length = 25)
-	private String phone;
 
-	@Column(length = 100)
-	private String email;
+    @Column(length = 25)
+    private String phone;
 
-	private BigInteger field4;
 
-	@Column(length = 200)
-	private String firstname;
+    @Column(length = 100)
+    private String email;
 
-	@Column(length = 200)
-	private String lastname;
+    private BigInteger field4;
 
-	@Column(name = "user_type", nullable = false, length = 1)
-	private String userType;
+    @Column(length = 200)
+    private String firstname;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "last_visit")
-	private Date lastVisit;
-	
-	
-	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL, orphanRemoval = true)
-	private UsersReg userReg;
+    @Column(length = 200)
+    private String lastname;
 
-	@Column(name = "store_id")
-	private Long storeId;
+    @Column(name = "user_type", nullable = false, length = 1)
+    private String userType;
 
-	// bi-directional many-to-one association to MemberRelation
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-	protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_visit")
+    private Date lastVisit;
 
-	public User() {
-		this.userType = UserType.ANONYMOUS;
-		this.memberType = MemberType.USER;
-	}
 
-	public User(String userType, String firstname, String lastname, String phone, String email) {
-		super();
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL, orphanRemoval = true)
+    private UsersReg userReg;
 
-		this.userType = userType == null ? UserType.ANONYMOUS : userType;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.phone = phone;
-		this.email = email;
-		this.memberType = MemberType.USER;
-	}
+    @Column(name = "store_id")
+    private Long storeId;
 
-	public String getPhone() {
-		return this.phone;
-	}
+    // bi-directional many-to-one association to MemberRelation
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public User() {
+        this.userType = UserType.ANONYMOUS;
+        this.memberType = MemberType.USER;
+    }
 
-	public String getEmail() {
-		return this.email;
-	}
+    public User(final String userType, final String firstname, final String lastname, final String phone, final String email) {
+        super();
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+        this.userType = userType == null ? UserType.ANONYMOUS : userType;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.email = email;
+        this.memberType = MemberType.USER;
+    }
 
-	public BigInteger getField4() {
-		return this.field4;
-	}
+    public String getPhone() {
+        return this.phone;
+    }
 
-	public void setField4(BigInteger field4) {
-		this.field4 = field4;
-	}
+    public void setPhone(final String phone) {
+        this.phone = phone;
+    }
 
-	public String getFirstname() {
-		return this.firstname;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+    public void setEmail(final String email) {
+        this.email = email;
+    }
 
-	public String getLastname() {
-		return this.lastname;
-	}
+    public BigInteger getField4() {
+        return this.field4;
+    }
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
+    public void setField4(final BigInteger field4) {
+        this.field4 = field4;
+    }
 
-	public void setLastVisit(Date lastVisit) {
-		this.lastVisit = lastVisit;
-	}
+    public String getFirstname() {
+        return this.firstname;
+    }
 
-	public Date getLastVisit() {
-		return lastVisit;
-	}
+    public void setFirstname(final String firstname) {
+        this.firstname = firstname;
+    }
 
-	public String getUserType() {
-		return this.userType;
-	}
+    public String getLastname() {
+        return this.lastname;
+    }
 
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
+    public void setLastname(final String lastname) {
+        this.lastname = lastname;
+    }
 
-	public boolean hasRole(String role, Long storeId) {
+    public void setLastVisit(final Date lastVisit) {
+        this.lastVisit = lastVisit;
+    }
 
-		for (MembersRole mrole : membersRoles) {
-			if (mrole.getStore().getStoreId().equals(storeId) && mrole.getRole().getName().equals(role))
-				return true;
-		}
+    public Date getLastVisit() {
+        return lastVisit;
+    }
 
-		return false;
-	}
+    public String getUserType() {
+        return this.userType;
+    }
 
-	
-	public UsersReg getUserReg() {
-		return userReg;
-	}
+    public void setUserType(final String userType) {
+        this.userType = userType;
+    }
 
-	public void setUserReg(UsersReg userReg) {
-		this.userReg = userReg;
-	}
+    public boolean hasRole(final String role, final Long storeId) {
 
-	@Override
-	public String getName() {
-		if (userReg != null)
-			return userReg.getLogonid();
-		else
-			return "guest";
-	}
+        for (final MembersRole mrole : membersRoles) {
+            if (mrole.getStore().getStoreId().equals(storeId) && mrole.getRole().getName().equals(role))
+                return true;
+        }
 
-	@Override
-	public Long getUserId() {
+        return false;
+    }
 
-		return getMemberId();
-	}
 
-	public void setUserId(Long userId) {
+    public UsersReg getUserReg() {
+        return userReg;
+    }
 
-		setMemberId(userId);
-	}
-	
-	public Long getStoreId() {
-		return storeId;
-	}
+    public void setUserReg(final UsersReg userReg) {
+        this.userReg = userReg;
+    }
 
-	public void setStoreId(Long storeId) {
-		this.storeId = storeId;
-	}
+    @Override
+    public String getName() {
+        if (userReg != null)
+            return userReg.getLogonid();
+        else
+            return "guest";
+    }
 
-	@XmlTransient
-	public Set<UserStoreRelation> getStoreRelation() {
-		return storeRelation;
-	}
+    @Override
+    public Long getUserId() {
 
-	public void setStoreRelation(Set<UserStoreRelation> storeRelation) {
-		this.storeRelation = storeRelation;
-	}
+        return getMemberId();
+    }
+
+    public void setUserId(final Long userId) {
+
+        setMemberId(userId);
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(final Long storeId) {
+        this.storeId = storeId;
+    }
+
+    @XmlTransient
+    public Set<UserStoreRelation> getStoreRelation() {
+        return storeRelation;
+    }
+
+    public void setStoreRelation(final Set<UserStoreRelation> storeRelation) {
+        this.storeRelation = storeRelation;
+    }
 
 }

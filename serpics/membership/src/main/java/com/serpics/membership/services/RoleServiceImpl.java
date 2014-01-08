@@ -1,79 +1,41 @@
 package com.serpics.membership.services;
 
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
-import org.hibernate.transform.ToListResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.serpics.core.service.AbstractService;
+import com.serpics.core.data.Repository;
+import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.persistence.Role;
 import com.serpics.membership.repositories.RoleRepository;
 
 @Service("roleService")
 @Scope("store")
-public class RoleServiceImpl extends AbstractService implements RoleService {
+public class RoleServiceImpl extends AbstractEntityService<Role, Long> implements RoleService {
 
-	@Autowired
-	RoleRepository roleRepository;
-	
-	@Override
-	public Role create(Role entity) {
-		return roleRepository.saveAndFlush(entity);
-	}
+    @Autowired
+    RoleRepository roleRepository;
 
-	@Override
-	public void delete(Role entity) {
-		roleRepository.delete(entity);
-	}
+    @Override
+    public Repository<Role, Long> getEntityRepository() {
+        return roleRepository;
+    }
 
-	@Override
-	public Page<Role> findAll(Pageable page) {
-		return roleRepository.findAll(page);
-	}
+    @Override
+    public Specification<Role> getBaseSpec() {
 
-	@Override
-	public List<Role> findAll() {
-		return roleRepository.findAll();
-	}
-
-	@Override
-	public Role update(Role entity) {
-		return roleRepository.save(entity);
-	}
-
-	@Override
-	public List<Role> findByexample(Role example) {
-		return roleRepository.findAll(roleRepository.makeSpecification(example));
-	}
-
-	@Override
-	public Role findOne(Long id) {
-		return findOne(id);
-	}
-
-	@Override
-	public List<Role> findAll(Specification<Role> spec, Sort sort) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Role> findAll(Specification<Role> spec, Pageable page) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Role findOne(Specification<Role> spec, Sort sort, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+        return new Specification<Role>() {
+            @Override
+            public Predicate toPredicate(final Root<Role> arg0, final CriteriaQuery<?> arg1, final CriteriaBuilder arg2) {
+                return arg2.isNotNull(arg0.get("uuid"));
+            }
+        };
+    }
 
 }

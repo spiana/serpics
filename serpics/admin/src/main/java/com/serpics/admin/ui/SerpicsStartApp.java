@@ -1,6 +1,7 @@
 package com.serpics.admin.ui;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +47,13 @@ public class SerpicsStartApp extends UI {
         final HorizontalLayout content = new HorizontalLayout();
         content.setSizeFull();
 
+        getSession().setLocale(new Locale("it", "IT"));
 
         final Tree menu = new Tree();
         menu.setWidth("150px");
         populateMenu(menu);
         content.addComponent(menu);
+
 
         menu.addItemClickListener(new ItemClickListener() {
 
@@ -59,13 +62,14 @@ public class SerpicsStartApp extends UI {
                 final String itemid = (String) event.getItemId();
                 if (itemid == "users") {
                     addComponent("userTableEditor", "user");
-
                 } else if (itemid == "groups") {
                     addComponent("membergroupTableEditor", "groups");
                 } else if (itemid == "relation") {
                     addComponent("membergroupRelTable", "user2grouprelation");
-
+                } else if (itemid == "userReg") {
+                    addComponent("userRegTableEditor", "userReg");
                 }
+
             }
         });
 
@@ -87,6 +91,11 @@ public class SerpicsStartApp extends UI {
         menu.addItem("groups");
         menu.setParent("groups", "admin");
         menu.setChildrenAllowed("groups", false);
+
+        menu.addItem("userReg");
+        menu.setParent("userReg", "admin");
+        menu.setChildrenAllowed("userReg", false);
+
         menu.addItem("relation");
         menu.setParent("relation", "admin");
         menu.setChildrenAllowed("relation", false);

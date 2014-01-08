@@ -8,22 +8,17 @@ import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 
 @VaadinComponent(value = "membergroupTableEditor")
 public class MembergroupTableEditor extends EntityTable<Membergroup> {
 
     private static final long serialVersionUID = -1487550710132191348L;
 
-
     @Autowired
     transient MembergroupService membergroupService;
 
     @Autowired
     MembergroupEditor membergroupEditor;
-
-    EntityItem<Membergroup> entityItem;
-
 
     public MembergroupTableEditor() {
         super(Membergroup.class);
@@ -38,35 +33,12 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
         setPropertyToShow(p);
         setService(membergroupService);
         super.init();
-
-
-
-    }
-    @Override
-    public void save() throws CommitException {
-        entityList.commit();
     }
 
-    @Override
-    public void discard() {
-        entityList.discard();
-    }
-
-    @Override
-    public void setEntityItem(final EntityItem<Membergroup> entityItem) {
-        this.entityItem = entityItem;
-    } 
     @Override
     public EntityItem<Membergroup> createEntityItem() {
         final Membergroup a = new Membergroup();
         return cont.createEntityItem(a);
     }
-
-    @Override
-    public void setParentEntity(final Object entity) {
-        // TODO Auto-generated method stub
-
-    }
-
 
 }

@@ -1,27 +1,21 @@
 package com.serpics.vaadin.ui.memeship;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.session.SessionContext;
 import com.serpics.membership.persistence.Membergrouprel;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.services.MembergrouprelService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.EntityTable;
+import com.serpics.vaadin.ui.EntityTableChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.filter.Compare;
 
 @VaadinComponent("membergroupRelTable")
-public class MembergroupRelTable extends EntityTable<Membergrouprel> {
+public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User> {
     private static final long serialVersionUID = 5863975797848978227L;
-
-
-    private User user;
-
-    @Autowired
-    private transient SessionContext sessionContext;
 
     @Autowired
     private transient MembergrouprelService membergrouprelService;
@@ -38,7 +32,6 @@ public class MembergroupRelTable extends EntityTable<Membergrouprel> {
         cont.addNestedContainerProperty("membergroup.*");
         editorWindow = new EntityFormWindow<Membergrouprel>();
         editorWindow.addTab(membergroupRelEditor, "main");
-        // setEditorWindow(uw) ;
         final String[] p = { "membergroup.name", "status", "validFrom", "validTo" };
         setPropertyToShow(p);
         setService(membergrouprelService);
@@ -46,34 +39,22 @@ public class MembergroupRelTable extends EntityTable<Membergrouprel> {
 
     }
 
-    @Override
-    public void save() throws CommitException {
-        // TODO Auto-generated method stub
-
-    }
 
     @Override
-    public void discard() {
-        // TODO Auto-generated method stub
-
+    public void setParentEntity(final EntityItem<User> parent) {
+        super.setParentEntity(parent);
+        removeAllFilter();
+        addFilter(new Compare.Equal("member", parent.getEntity()));
     }
 
-    @Override
-    public void setEntityItem(final EntityItem<Membergrouprel> entityItem) {
-
-    }
-
-    @Override
-    public void setParentEntity(final Object entity) {
-        user = (User) entity;
-        addFilter(new Compare.Equal("member", this.user));
-
-    }
 
     @Override
     public EntityItem<Membergrouprel> createEntityItem() {
         final Membergrouprel membergrouprel = new Membergrouprel();
-        membergrouprel.setMember(user);
+        membergrouprel.setMember(parent.getEntity());
+        membergrouprel.setStatus("E");
+        membergrouprel.setValidFrom(new Date());
+        membergrouprel.setValidTo(new Date(new Double(4.071e+12 + 3.136e+10).longValue()));
         return cont.createEntityItem(membergrouprel);
     }
 

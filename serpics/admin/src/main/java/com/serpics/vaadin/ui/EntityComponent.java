@@ -7,15 +7,21 @@ import com.vaadin.ui.Component;
 public interface EntityComponent<T> extends Component{
 
     public void init();
-    public void save() throws CommitException;
-    public void discard();
-    public void setEntityItem(EntityItem<T> entityItem);
-    public void setParentEntity(Object entity);
+
+    public boolean isInitialized();
 
     public interface EntityTableComponent<T> extends EntityComponent<T>{
+    }
 
+    public interface EntityComponentChild<T, P> extends EntityComponent<T> {
+        public void setParentEntity(EntityItem<P> parent);
     }
     public interface EntityFormComponent<T> extends EntityComponent<T>{
+        public boolean isModifield();
+        public void discard();
+        public void save() throws CommitException;
+        public void setEntityItem(EntityItem<T> entityItem);
 
     }
+
 }
