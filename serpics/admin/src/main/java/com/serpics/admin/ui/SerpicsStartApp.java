@@ -108,9 +108,8 @@ public class SerpicsStartApp extends UI {
         if (t == null) {
             leftContentPanel.addTab(_component, caption);
             leftContentPanel.getTab(_component).setClosable(true);
-        } else
-            leftContentPanel.setTabIndex(leftContentPanel.getTabPosition(t));
-
+        }
+        leftContentPanel.setSelectedTab(_component);
     }
     private EntityComponent getComponent(final String name) {
 

@@ -1,7 +1,6 @@
 package com.serpics.membership.persistence;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,25 +20,27 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+
+import com.serpics.membership.MemberType;
 
 /**
  * The persistent class for the members database table.
  * 
  */
-@XmlRootElement(name="member")
+@XmlRootElement(name = "member")
 @Entity
 @Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = { "uuid" }))
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "member_type", discriminatorType = DiscriminatorType.STRING)
-public class Member extends com.serpics.core.persistence.jpa.Entity implements
-Serializable {
+public class Member extends com.serpics.core.persistence.jpa.Entity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -48,30 +51,33 @@ Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     protected Date created;
 
+    @Size(max = 1000)
     @Column(length = 1000)
     protected String field1;
 
-    @Column(length = 500)
+    @Size(max = 512)
+    @Column(length = 512)
     protected String field2;
 
     @Column(precision = 10, scale = 4)
-    protected BigDecimal field3;
+    protected Double field3;
 
-    @Column(name = "member_type", nullable = false, length = 3)
-    protected String memberType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "member_type", nullable = false)
+    protected MemberType memberType;
 
+    @OneToOne(mappedBy = "member", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL)
+    protected PrimaryAddress primaryAddress;
 
-    @OneToMany(mappedBy = "member", targetEntity = AbstractAddress.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    protected Set<PermanentAddress> permanentAddresses = new HashSet<PermanentAddress>(
-            0);
+    @OneToMany(mappedBy = "member", targetEntity = PermanentAddress.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    protected Set<PermanentAddress> permanentAddresses = new HashSet<PermanentAddress>(0);
 
     // bi-directional many-to-one association to MemberAttribute
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    protected Set<MemberAttribute> memberAttributes = new HashSet<MemberAttribute>(
-            0);
+    protected Set<MemberAttribute> memberAttributes = new HashSet<MemberAttribute>(0);
 
     // bi-directional many-to-one association to MembersRole
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     protected Set<MembersRole> membersRoles = new HashSet<MembersRole>(0);
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -143,19 +149,19 @@ Serializable {
         this.field2 = field2;
     }
 
-    public BigDecimal getField3() {
+    public Double getField3() {
         return this.field3;
     }
 
-    public void setField3(final BigDecimal field3) {
+    public void setField3(final Double field3) {
         this.field3 = field3;
     }
 
-    public String getMemberType() {
+    public MemberType getMemberType() {
         return this.memberType;
     }
 
-    public void setMemberType(final String memberType) {
+    public void setMemberType(final MemberType memberType) {
         this.memberType = memberType;
     }
 
@@ -163,30 +169,35 @@ Serializable {
         return permanentAddresses;
     }
 
-    @XmlTransient
-    public PermanentAddress getPrimaryAddress() {
-        for (final PermanentAddress address : this.getPermanentAddresses()) {
-            if (address.getIsprimary() == 1)
-                return address;
-        }
-        return null;
+    // @XmlTransient
+    // public PermanentAddress getPrimaryAddress() {
+    // for (final PermanentAddress address : this.getPermanentAddresses()) {
+    // if (address.getIsprimary() == 1)
+    // return address;
+    // }
+    // return null;
+    // }
+    //
+    // public void setPrimaryAddress(final PermanentAddress newAddress) {
+    // if (newAddress != null) {
+    // newAddress.setIsprimary(1);
+    // newAddress.setMember(this);
+    // this.getPermanentAddresses().add(newAddress);
+    // }
+    // }
+
+    public PrimaryAddress getPrimaryAddress() {
+        return primaryAddress;
     }
 
-    public void setPrimaryAddress(final PermanentAddress newAddress) {
-        if (newAddress != null) {
-            newAddress.setIsprimary(1);
-            newAddress.setMember(this);
-            this.getPermanentAddresses().add(newAddress);
-        }
+    public void setPrimaryAddress(final PrimaryAddress primaryAddress) {
+        this.primaryAddress = primaryAddress;
     }
 
     public void addAdress(final PermanentAddress newAddress) {
-        newAddress.setIsprimary(0);
         newAddress.setMember(this);
         this.getPermanentAddresses().add(newAddress);
     }
-
-
 
     public void setPermanentAddresses(final Set<PermanentAddress> permanentAddresses) {
         this.permanentAddresses = permanentAddresses;

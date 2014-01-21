@@ -13,27 +13,20 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.core.data.Repository;
-import com.serpics.core.datatype.UserRegisterType;
-import com.serpics.core.datatype.UserType;
 import com.serpics.core.service.AbstractEntityService;
-import com.serpics.core.service.AbstractService;
-import com.serpics.core.service.EntityService;
-import com.serpics.core.session.SessionContext;
+import com.serpics.membership.UserRegStatus;
+import com.serpics.membership.UserType;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.MembersRolePK;
 import com.serpics.membership.persistence.PermanentAddress;
+import com.serpics.membership.persistence.PrimaryAddress;
 import com.serpics.membership.persistence.Role;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
@@ -43,7 +36,6 @@ import com.serpics.membership.repositories.MembersRoleRepository;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
-import com.serpics.stereotype.StoreService;
 
 //@StoreService("userService" )
 @Service("userService")
@@ -51,162 +43,146 @@ import com.serpics.stereotype.StoreService;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class UserServiceImpl extends AbstractEntityService<User, Long> implements UserService {
 
-	@Resource
-	UserRepository userRepository;
+    @Resource
+    UserRepository userRepository;
 
-	@Resource
-	UserRegrepository userRegrepository;
+    @Resource
+    UserRegrepository userRegrepository;
 
-	@Resource(name = "permanentAddressRepository")
-	PermanentAddressRepository addressRepository;
-	
-	@Autowired
-	MembersRoleRepository membersRoleRepository;
+    @Resource(name = "permanentAddressRepository")
+    PermanentAddressRepository addressRepository;
 
-	private User mergeUserRoles(User user, Set<MembersRole> roles) {
-		Store s = (Store) getCurrentContext().getStoreRealm();
-		for (MembersRole memberRole : roles) {
-			if (memberRole.getId() == null) {
-				if (memberRole.getStore() == null)
-					memberRole.setStore(s);
+    @Autowired
+    MembersRoleRepository membersRoleRepository;
 
-				memberRole.setMember(user);
-				MembersRolePK pk = new MembersRolePK();
-				pk.setStoresStoreId(s.getStoreId());
-				pk.setMemberId(user.getMemberId());
-				pk.setRoleId(memberRole.getRole().getRoleId());
-				memberRole.setId(pk);
-			}
-			user.getMembersRoles().add(memberRole);
-		}
+    private User mergeUserRoles(final User user, final Set<MembersRole> roles) {
+        final Store s = (Store) getCurrentContext().getStoreRealm();
+        for (final MembersRole memberRole : roles) {
+            if (memberRole.getId() == null) {
+                if (memberRole.getStore() == null)
+                    memberRole.setStore(s);
 
-		return user;
-	}
+                memberRole.setMember(user);
+                final MembersRolePK pk = new MembersRolePK();
+                pk.setStoresStoreId(s.getStoreId());
+                pk.setMemberId(user.getMemberId());
+                pk.setRoleId(memberRole.getRole().getRoleId());
+                memberRole.setId(pk);
+            }
+            user.getMembersRoles().add(memberRole);
+        }
 
-	
-	@Override
-	@Transactional
-	public User create(User user) {
+        return user;
+    }
 
-		if (user.getUserType().equals(UserType.ANONYMOUS))
-			user.setUserType(UserType.GUEST);
+    @Override
+    @Transactional
+    public User create(User user) {
 
+        if (user.getUserType().equals(UserType.ANONYMOUS))
+            user.setUserType(UserType.GUEST);
 
-		for (PermanentAddress address : user.getPermanentAddresses()) {
-			address.setMember(user);
-		}	
-		
-		Set<MembersRole> roles = user.getMembersRoles();
-		user.setMembersRoles(new HashSet<MembersRole>(0));
-		
-		user.setCreated(new Date());
+        for (final PermanentAddress address : user.getPermanentAddresses()) {
+            address.setMember(user);
+        }
 
-		user = userRepository.saveAndFlush(user);
-	
-		if (!roles.isEmpty())
-			user = mergeUserRoles(user, roles);
-		
-		UserStoreRelation r = new UserStoreRelation((Store) getCurrentContext()
-				.getStoreRealm(), user);
-		r.setUpdated(new Date());
-		user.getStoreRelation().add(r);
-		return userRepository.saveAndFlush(user);
+        if (user.getPrimaryAddress() != null)
+            user.getPrimaryAddress().setMember(user);
 
-	}
+        final Set<MembersRole> roles = user.getMembersRoles();
+        user.setMembersRoles(new HashSet<MembersRole>(0));
 
+        user.setCreated(new Date());
 
+        user = userRepository.saveAndFlush(user);
 
-	@Override
-	@Transactional
-	public User update(User user) {
-		user = mergeUserRoles(user , user.getMembersRoles());
-		for (PermanentAddress address : user.getPermanentAddresses()) {
-			if (address.getMember() == null) address.setMember(user);
-		}	
-		if (user.getUserReg() != null)
-			user.getUserReg().setUser(user);
-		return userRepository.saveAndFlush(user);
-	}
+        if (!roles.isEmpty())
+            user = mergeUserRoles(user, roles);
 
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public User registerUser(User user, UsersReg reg,
-			PermanentAddress primaryAddress) {
-		if (primaryAddress != null)
-			user.setPrimaryAddress(primaryAddress);
-		create(user);
-		if (user.getUserType().equals(UserType.ANONYMOUS)
-				|| user.getUserType().equals(UserType.GUEST))
-			user.setUserType(UserType.REGISTERED);
-		reg.setUserId(user.getMemberId());
-		if (reg.getStatus() == null)
-			reg.setStatus(UserRegisterType.ACTIVE);
-		reg.setUser(user);
-		user.setUserReg(reg);
-		return userRepository.saveAndFlush(user);
-	}
+        final UserStoreRelation r = new UserStoreRelation((Store) getCurrentContext().getStoreRealm(), user);
+        r.setUpdated(new Date());
+        user.getStoreRelation().add(r);
+        return userRepository.saveAndFlush(user);
 
-	
-	private Specification storeFilterSpec(){
-		return isUserInStore((Store) getCurrentContext()
-				.getStoreRealm());
-	}
+    }
 
+    @Override
+    @Transactional
+    public User update(User user) {
+        user = mergeUserRoles(user, user.getMembersRoles());
+        for (final PermanentAddress address : user.getPermanentAddresses()) {
+            if (address.getMember() == null)
+                address.setMember(user);
+        }
+        if (user.getUserReg() != null)
+            user.getUserReg().setUser(user);
+        return userRepository.saveAndFlush(user);
+    }
 
-	@Override
-	public List<UsersReg> findByexample(UsersReg example) {
-		return userRegrepository.findAll(where(userRegrepository
-				.makeSpecification(example)));
-	}
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public User registerUser(final User user, final UsersReg reg, final PrimaryAddress primaryAddress) {
+        if (primaryAddress != null)
+            user.setPrimaryAddress(primaryAddress);
+        create(user);
+        if (user.getUserType().equals(UserType.ANONYMOUS) || user.getUserType().equals(UserType.GUEST))
+            user.setUserType(UserType.REGISTERED);
+        reg.setUserId(user.getMemberId());
+        if (reg.getStatus() == null)
+            reg.setStatus(UserRegStatus.ACTIVE);
+        reg.setUser(user);
+        user.setUserReg(reg);
+        return userRepository.saveAndFlush(user);
+    }
 
+    private Specification storeFilterSpec() {
+        return isUserInStore((Store) getCurrentContext().getStoreRealm());
+    }
 
+    @Override
+    public List<UsersReg> findByexample(final UsersReg example) {
+        return userRegrepository.findAll(where(userRegrepository.makeSpecification(example)));
+    }
 
-	@Override
-	@Transactional
-	public User addAddress(PermanentAddress address, User user) {
-		Assert.notNull(user);
-		Assert.notNull(address);
-		address.setMember(user);
-		user.getPermanentAddresses().add(address);
-		return update(user);
+    @Override
+    @Transactional
+    public User addAddress(final PermanentAddress address, final User user) {
+        Assert.notNull(user);
+        Assert.notNull(address);
+        address.setMember(user);
+        user.getPermanentAddresses().add(address);
+        return update(user);
 
-	}
+    }
 
-	@Override
-	@Transactional
-	public User addAddress(PermanentAddress address, Long userId) {
-		User user = userRepository.findOne(userId);
-		return addAddress(address, user);
-	}
+    @Override
+    @Transactional
+    public User addAddress(final PermanentAddress address, final Long userId) {
+        final User user = userRepository.findOne(userId);
+        return addAddress(address, user);
+    }
 
-	@Override
-	public User addRole(Role role, User user) {
-		MembersRole membersRole = new MembersRole(user , role , (Store) getCurrentContext().getStoreRealm());
-		user.getMembersRoles().add(membersRole);
-		return userRepository.save(user);
-	}
+    @Override
+    public User addRole(final Role role, final User user) {
+        final MembersRole membersRole = new MembersRole(user, role, (Store) getCurrentContext().getStoreRealm());
+        user.getMembersRoles().add(membersRole);
+        return userRepository.save(user);
+    }
 
+    @Override
+    public Repository<User, Long> getEntityRepository() {
+        return userRepository;
+    }
 
+    @Override
+    public Specification<User> getBaseSpec() {
+        return storeFilterSpec();
+    }
 
+    @Override
+    public Collection<Role> getUserRoles(final User user, final Store store) {
 
-
-	
-	@Override
-	public Repository<User, Long> getEntityRepository() {
-		return userRepository;
-	}
-
-	@Override
-	public Specification<User> getBaseSpec() {
-		return storeFilterSpec();
-	}
-
-
-	@Override
-	public Collection<Role> getUserRoles(User user, Store store) {
-		
-		return null;
-	}
-
+        return null;
+    }
 
 }

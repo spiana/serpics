@@ -19,22 +19,22 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import de.steinwedel.messagebox.ButtonId;
+import de.steinwedel.messagebox.Icon;
+import de.steinwedel.messagebox.MessageBox;
+import de.steinwedel.messagebox.MessageBoxListener;
+
 public class EntityFormWindow<T> extends Window implements Handler {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2590755708760150150L;
 
     private final TabSheet tabSheet = new TabSheet();
-    static final Action esc = new ShortcutAction("Close window",
-            ShortcutAction.KeyCode.ESCAPE, null);
+    static final Action esc = new ShortcutAction("Close window", ShortcutAction.KeyCode.ESCAPE, null);
     static final Action[] actions = new Action[] { esc };
 
     private boolean readOnly = true;
     private boolean newItem = true;
 
-    private final List<EntityComponent<?>> componentList = new ArrayList<EntityComponent<?>>(
-            0);
+    private final List<EntityComponent<?>> componentList = new ArrayList<EntityComponent<?>>(0);
 
     private Button saveButton;
     private Button cancelButton;
@@ -43,6 +43,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
         init();
     }
 
+    @SuppressWarnings("serial")
     public void init() {
 
         final VerticalLayout vl = new VerticalLayout();
@@ -73,15 +74,19 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                for (final EntityComponent component : componentList) {
-                    if (component instanceof EntityFormComponent) {
-                        if (component.isEnabled() && !component.isReadOnly())
-                            ((EntityFormComponent) component).discard();
+
+                MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "se sicuro di abbandonare tutte le modifiche ?",
+                        new MessageBoxListener() {
+                    @Override
+                    public void buttonClicked(final ButtonId buttonId) {
+                        if (buttonId.compareTo(ButtonId.YES) == 0) {
+                            discardAllComponent();
+                            close();
+                        }
                     }
 
-                }
+                }, ButtonId.NO, ButtonId.YES);
 
-                EntityFormWindow.this.close();
             }
         });
 
@@ -89,22 +94,86 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                try {
-                    for (final EntityComponent component : componentList) {
-                        if (component instanceof EntityFormComponent) {
-                            if (component.isEnabled() && !component.isReadOnly())
-                                ((EntityFormComponent) component).save();
-                        }
-                    }
-                } catch (final CommitException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+
+                if (validateAllFormComponent()) {
+                    saveAllComponent();
+                    close();
                 }
-                EntityFormWindow.this.close();
             }
         });
 
         addActionHandler(this);
+    }
+
+    @Override
+    public void close() {
+        if (isModified()) {
+            MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "se sicuro di abbandonare tutte le modifiche ?",
+                    new MessageBoxListener() {
+                @Override
+                public void buttonClicked(final ButtonId buttonId) {
+                    if (buttonId.compareTo(ButtonId.NO) == 0)
+                        return;
+                }
+
+            }, ButtonId.NO, ButtonId.YES);
+        }
+        discardAllComponent();
+        super.close();
+
+    }
+
+    private boolean isModified() {
+        for (final EntityComponent component : componentList) {
+            if (component instanceof EntityFormComponent) {
+                if (((EntityFormComponent) component).isModifield()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void discardAllComponent() {
+        for (final EntityComponent component : componentList) {
+            if (component instanceof EntityFormComponent) {
+                if (component.isEnabled() && !component.isReadOnly())
+                    ((EntityFormComponent) component).discard();
+            }
+
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void saveAllComponent() {
+        try {
+
+            for (final EntityComponent component : componentList) {
+                if (component instanceof EntityFormComponent) {
+                    if (component.isEnabled() && !component.isReadOnly())
+                        ((EntityFormComponent) component).save();
+                }
+            }
+        } catch (final CommitException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
+    @SuppressWarnings("rawtypes")
+    private boolean validateAllFormComponent() {
+        for (final EntityComponent component : componentList) {
+            if (component instanceof EntityFormComponent) {
+                if (((EntityFormComponent) component).isModifield() && !((EntityFormComponent) component).isValid()) {
+                    MessageBox.showPlain(Icon.ERROR, "Error", "sono presenti errori di validazione !", ButtonId.OK);
+                    tabSheet.setSelectedTab(component);
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void addTab(final EntityComponent<?> component, final String caption) {
@@ -127,10 +196,9 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void setEntityItem(final EntityItem entityItem) {
-        for (@SuppressWarnings("rawtypes") final
-                EntityComponent c : componentList) {
+        for (final EntityComponent c : componentList) {
             if (c instanceof EntityComponentChild) {
                 if (!newItem)
                     ((EntityComponentChild) c).setParentEntity(entityItem);
@@ -145,12 +213,12 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
         if (readOnly) {
             saveButton.setEnabled(false);
-        }else
+        } else
             saveButton.setEnabled(true);
 
         int position = 0;
-        for (@SuppressWarnings("rawtypes") final
-                EntityComponent c : componentList) {
+        for (@SuppressWarnings("rawtypes")
+        final EntityComponent c : componentList) {
             if (c instanceof EntityTableComponent) {
                 if (!newItem)
                     c.setEnabled(true);
@@ -188,4 +256,5 @@ public class EntityFormWindow<T> extends Window implements Handler {
     public void setNewItem(final boolean newItem) {
         this.newItem = newItem;
     }
+
 }

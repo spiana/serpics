@@ -59,6 +59,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         provider = new SerpicsCachingLocalEntityProvider<T>(entityClass);
         provider.setCacheEnabled(true);
         cont.setEntityProvider(provider);
+        editorWindow = new EntityFormWindow<T>();
     }
 
     @Override

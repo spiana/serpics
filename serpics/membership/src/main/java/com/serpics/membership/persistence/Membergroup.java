@@ -15,7 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
@@ -33,15 +37,18 @@ public class Membergroup  extends com.serpics.core.persistence.jpa.Entity implem
     @Column(name="membergroups_id", unique=true, nullable=false)
     private Long membergroupsId;
 
+    @NotEmpty
+    @NotNull
+    @Size(max = 100)
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @Size(max = 254)
     @Column(length=254)
     private String description;
 
-    @Column(nullable=false, length=40)
-    private String name;
-
-
     //bi-directional many-to-one association to Store
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="store_id", nullable=false)
     private Store store;
 

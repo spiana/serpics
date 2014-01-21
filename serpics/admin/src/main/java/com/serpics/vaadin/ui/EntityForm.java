@@ -17,6 +17,7 @@ import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
+import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
@@ -38,8 +39,6 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     protected String[] readOnlyProperties = {};
 
     protected EntityItem<T> entityItem;
-
-    private String prefix;
 
     private boolean readOnly = true;
 
@@ -72,9 +71,6 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     public <T extends Field> T createField(final Class<?> dataType, final Class<T> fieldType) {
         final DefaultFieldGroupFieldFactory fa = new DefaultFieldGroupFieldFactory();
         final T f = fa.createField(dataType, fieldType);
-        // if (f instanceof TextField)
-        // f.setWidth("500px");
-
         return f;
     }
 
@@ -115,12 +111,9 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     }
 
     protected Field<?> createField(final String pid) {
-        final Property p = entityItem.getItemProperty((prefix != null ? prefix : "")
-                + pid);
+        final Property p = entityItem.getItemProperty(pid);
 
-        final Field<?> f = fieldGroup.buildAndBind((prefix != null ? prefix : "")
-                + pid, (prefix != null ? prefix : "") + pid);
-        // f.addValidator(new BeanValidator(entityClass, pid));
+        final Field<?> f = fieldGroup.buildAndBind(pid);
         f.setBuffered(true);
         if (f instanceof TextField) {
             if (Number.class.isAssignableFrom(p.getType()))
@@ -128,9 +121,8 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
                 .setConverter(new SerpicsStringToNumberConverter());
             ((TextField) f).setNullRepresentation("");
         }
-
+        f.addValidator(new BeanValidator(entityClass, pid));
         return f;
-
     }
 
 
@@ -149,11 +141,6 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     public void discard() {
         fieldGroup.discard();
     }
-
-    public void setPrefix(final String prefix) {
-        this.prefix = prefix + ".";
-    }
-
 
     @Override
     public void attach() {
@@ -203,6 +190,11 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     @Override
     public boolean isModifield() {
         return fieldGroup.isModified();
+
     }
 
+    @Override
+    public boolean isValid() {
+        return fieldGroup.isValid();
+    }
 }

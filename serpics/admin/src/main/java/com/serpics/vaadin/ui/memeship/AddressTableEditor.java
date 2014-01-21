@@ -31,7 +31,8 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
         editorWindow = new EntityFormWindow<PermanentAddress>();
         editorWindow.addTab(addressEditorComponent, "main");
         //setEditorWindow(uw) ;
-        final String[] p = { "firstname", "lastname", "company", "address1", "zipcode", "city", "region", "country" };
+        final String[] p = { "isprimary", "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
+        "country" };
         setPropertyToShow(p );
         setService(addressService);
         super.init();
@@ -43,6 +44,7 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
     @Override
     public EntityItem<PermanentAddress> createEntityItem() {
         final PermanentAddress a = new PermanentAddress();
+        a.setIsprimary(0);
         a.setMember(parent.getEntity());
         return cont.createEntityItem(a);
     }

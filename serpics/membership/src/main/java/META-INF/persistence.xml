@@ -23,6 +23,9 @@
 		<class>com.serpics.membership.persistence.MemberAttributeValueDatetime</class>
 		<class>com.serpics.membership.persistence.MemberAttribute</class>
 		<class>com.serpics.membership.persistence.Member</class> 
+		<class>com.serpics.membership.persistence.AbstractAddress</class>
 		<class>com.serpics.membership.persistence.Address</class>
+		<class>com.serpics.membership.persistence.PrimaryAddress</class>
+		<class>com.serpics.membership.persistence.PermanentAddress</class>
 	</persistence-unit>
 </persistence>

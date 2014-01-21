@@ -6,15 +6,21 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.serpics.core.datatype.UserRegisterType;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.serpics.membership.UserRegStatus;
 
 /**
  * The persistent class for the users_reg database table.
@@ -56,17 +62,24 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
     @Column(name = "locale_id")
     private BigInteger localeId;
 
+    @NotNull
+    @NotEmpty
+    @Size(min = 5, max = 100)
     @Column(nullable = false, length = 40 , unique=true)
     private String logonid;
 
+    @NotNull()
+    @NotEmpty
     @Column(nullable = false, length = 254)
     private String password;
 
     @Column(name = "password_change")
     private Timestamp passwordChange;
 
-    @Column(nullable = false, length = 1)
-    private String status;
+    @NotNull
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRegStatus status;
 
 
     @OneToOne( fetch = FetchType.EAGER, optional = false )
@@ -74,7 +87,7 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
     private User user;
 
     public UsersReg() {
-        this.status = UserRegisterType.ACTIVE;
+        this.status = UserRegStatus.ACTIVE;
     }
 
     public Long getUserId() {
@@ -181,11 +194,11 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
         this.passwordChange = passwordChange;
     }
 
-    public String getStatus() {
+    public UserRegStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(final String status) {
+    public void setStatus(final UserRegStatus status) {
         this.status = status;
     }
 

@@ -18,6 +18,7 @@ public interface EntityComponent<T> extends Component{
     }
     public interface EntityFormComponent<T> extends EntityComponent<T>{
         public boolean isModifield();
+        public boolean isValid();
         public void discard();
         public void save() throws CommitException;
         public void setEntityItem(EntityItem<T> entityItem);

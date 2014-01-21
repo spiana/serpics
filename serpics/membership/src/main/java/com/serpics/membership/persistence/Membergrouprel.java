@@ -6,13 +6,17 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
+import com.serpics.membership.Member2GroupRelType;
 
 /**
  * The persistent class for the membgrouprel database table.
@@ -26,13 +30,16 @@ public class Membergrouprel extends com.serpics.core.persistence.jpa.Entity impl
     @EmbeddedId
     private MembgrouprelPK id;
 
-    @Column(nullable=false, length=1)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private Member2GroupRelType status;
 
+    @NotNull
     @Temporal( TemporalType.DATE)
     @Column(name="valid_from", nullable=false)
     private Date validFrom;
 
+    @NotNull
     @Temporal( TemporalType.DATE)
     @Column(name="valid_to", nullable=false)
     private Date validTo;
@@ -56,11 +63,11 @@ public class Membergrouprel extends com.serpics.core.persistence.jpa.Entity impl
         this.id = id;
     }
 
-    public String getStatus() {
+    public Member2GroupRelType getStatus() {
         return this.status;
     }
 
-    public void setStatus(final String status) {
+    public void setStatus(final Member2GroupRelType status) {
         this.status = status;
     }
 

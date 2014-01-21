@@ -13,10 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.serpics.core.datatype.AddressType;
-import com.serpics.core.datatype.MemberType;
-import com.serpics.core.datatype.UserType;
 import com.serpics.core.persistence.dao.jpa.AbstractFactory;
+import com.serpics.membership.AddressType;
+import com.serpics.membership.MemberType;
+import com.serpics.membership.UserType;
 import com.serpics.membership.persistence.AbstractAddress;
 import com.serpics.membership.persistence.Member;
 import com.serpics.membership.persistence.PermanentAddress;

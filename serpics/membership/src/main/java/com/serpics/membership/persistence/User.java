@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -17,12 +19,13 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.serpics.core.datatype.MemberType;
-import com.serpics.core.datatype.UserType;
 import com.serpics.core.security.UserDetail;
+import com.serpics.membership.MemberType;
+import com.serpics.membership.UserType;
 
 /**
  * The persistent class for the users database table.
@@ -32,20 +35,10 @@ import com.serpics.core.security.UserDetail;
 @XmlRootElement(name="user")
 @Entity
 @Table(name = "users")
-@DiscriminatorValue("U")
+@DiscriminatorValue("USER")
 @PrimaryKeyJoinColumn(name="user_id")
 public class User extends Member implements Serializable, UserDetail {
     private static final long serialVersionUID = 1L;
-
-
-    @Column(length = 25)
-    private String phone;
-
-
-    @Column(length = 100)
-    private String email;
-
-    private BigInteger field4;
 
     @Column(length = 200)
     private String firstname;
@@ -53,8 +46,19 @@ public class User extends Member implements Serializable, UserDetail {
     @Column(length = 200)
     private String lastname;
 
-    @Column(name = "user_type", nullable = false, length = 1)
-    private String userType;
+    @Size(max = 25)
+    @Column(length = 25)
+    private String phone;
+
+    @Size(max = 512)
+    @Column(length = 512)
+    private String email;
+
+    private BigInteger field4;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_type", nullable = false)
+    private UserType userType;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_visit")
@@ -76,7 +80,8 @@ public class User extends Member implements Serializable, UserDetail {
         this.memberType = MemberType.USER;
     }
 
-    public User(final String userType, final String firstname, final String lastname, final String phone, final String email) {
+    public User(final UserType userType, final String firstname, final String lastname, final String phone,
+            final String email) {
         super();
 
         this.userType = userType == null ? UserType.ANONYMOUS : userType;
@@ -135,11 +140,11 @@ public class User extends Member implements Serializable, UserDetail {
         return lastVisit;
     }
 
-    public String getUserType() {
+    public UserType getUserType() {
         return this.userType;
     }
 
-    public void setUserType(final String userType) {
+    public void setUserType(final UserType userType) {
         this.userType = userType;
     }
 

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.admin.SerpicsContainerFactory;
+import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.persistence.Membergroup;
 import com.serpics.membership.persistence.Membergrouprel;
 import com.serpics.membership.persistence.MembgrouprelPK;
@@ -70,10 +71,10 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
             return combo;
         } else if (pid.equals("status")) {
             final ComboBox combo = new ComboBox("status");
-            combo.addItem("R");
-            combo.setItemCaption("R", "Request");
-            combo.addItem("E");
-            combo.setItemCaption("E", "Effective");
+            combo.addItem(Member2GroupRelType.EFFECTIVE);
+            combo.setItemCaption(Member2GroupRelType.EFFECTIVE, "Effective");
+            combo.addItem(Member2GroupRelType.REQUEST);
+            combo.setItemCaption(Member2GroupRelType.REQUEST, "Request");
             combo.setNullSelectionAllowed(false);
             fieldGroup.bind(combo, "status");
             return combo;

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.persistence.Membergrouprel;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.services.MembergrouprelService;
@@ -52,7 +53,7 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
     public EntityItem<Membergrouprel> createEntityItem() {
         final Membergrouprel membergrouprel = new Membergrouprel();
         membergrouprel.setMember(parent.getEntity());
-        membergrouprel.setStatus("E");
+        membergrouprel.setStatus(Member2GroupRelType.EFFECTIVE);
         membergrouprel.setValidFrom(new Date());
         membergrouprel.setValidTo(new Date(new Double(4.071e+12 + 3.136e+10).longValue()));
         return cont.createEntityItem(membergrouprel);

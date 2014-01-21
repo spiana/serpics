@@ -17,8 +17,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.serpics.base.persistence.Currency;
-import com.serpics.core.datatype.MemberType;
 import com.serpics.core.security.StoreRealm;
+import com.serpics.membership.MemberType;
 
 /**
  * The persistent class for the stores database table.
@@ -26,7 +26,7 @@ import com.serpics.core.security.StoreRealm;
  */
 @Entity
 @Table(name = "stores")
-@DiscriminatorValue("S")
+@DiscriminatorValue("STORE")
 public class Store extends Member implements Serializable, StoreRealm {
     private static final long serialVersionUID = 1L;
 

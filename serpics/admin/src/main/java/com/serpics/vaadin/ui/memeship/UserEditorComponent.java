@@ -3,7 +3,6 @@ package com.serpics.vaadin.ui.memeship;
 import com.serpics.membership.persistence.User;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
-import com.vaadin.ui.Field;
 
 @VaadinComponent("userEditorComponent")
 public class UserEditorComponent extends EntityForm<User>{
@@ -15,17 +14,7 @@ public class UserEditorComponent extends EntityForm<User>{
 
         final String[] displayProperties ={"firstname" , "lastname" , "phone" , "email" , "created"};
         this.displayProperties = displayProperties;
-
-
+        this.readOnlyProperties = new String[] { "created" };
     }
 
-    @Override
-    protected Field<?> createField(final String pid) {
-        final Field<?> f = super.createField(pid);
-
-        if (pid.equals("created"))
-            f.setReadOnly(true);
-
-        return  f;
-    }
 }

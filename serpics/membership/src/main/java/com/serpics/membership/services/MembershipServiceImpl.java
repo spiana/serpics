@@ -19,7 +19,7 @@ import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.service.Membership;
 import com.serpics.membership.hooks.MembershipHook;
-import com.serpics.membership.persistence.PermanentAddress;
+import com.serpics.membership.persistence.PrimaryAddress;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
@@ -56,7 +56,7 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public User createUser(final User user, final PermanentAddress primaryAddress) {
+    public User createUser(final User user, final PrimaryAddress primaryAddress) {
         user.setPrimaryAddress(primaryAddress);
         return createUser(user);
     }
@@ -75,7 +75,7 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public User registerUser(final User user, final UsersReg reg, final PermanentAddress primaryAddress) {
+    public User registerUser(final User user, final UsersReg reg, final PrimaryAddress primaryAddress) {
         return userService.registerUser(user, reg, primaryAddress);
     }
 
