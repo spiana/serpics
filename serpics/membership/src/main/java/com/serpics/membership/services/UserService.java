@@ -15,7 +15,7 @@ import com.serpics.membership.persistence.UsersReg;
 
 public interface UserService extends EntityService<User , Long> {
 
-    public User registerUser(User user, UsersReg reg, PrimaryAddress primaryAddress);
+    public UsersReg registerUser(UsersReg reg, PrimaryAddress primaryAddress);
     public List<UsersReg> findByexample(UsersReg example);
 
     public User addAddress(PermanentAddress address , User user);

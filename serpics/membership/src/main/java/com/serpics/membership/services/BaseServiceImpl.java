@@ -17,6 +17,7 @@ import com.serpics.membership.MemberType;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
 import com.serpics.membership.persistence.PrimaryAddress;
+import com.serpics.membership.persistence.Role;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
@@ -40,6 +41,9 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
     @Resource
     CommerceEngine commerceEngine;
 
+    @Autowired
+    RoleService roleService;
+
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void initIstance() {
@@ -60,20 +64,19 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         anonymous.setLastname("Anonymous");
         memberFactory.saveAndFlush(anonymous);
 
+        createDefaultRoles();
+
         try {
             commerceEngine.connect("default-store");
-            final User u = new User();
-            u.setLastname("Superuser");
-            u.setUserType(UserType.ADMINISTRATOR);
 
             final UsersReg ug = new UsersReg();
-            ug.setUserId(u.getMemberId());
+            ug.setLastname("Superuser");
+            ug.setUserType(UserType.ADMINISTRATOR);
             ug.setLogonid("superuser");
             ug.setPassword("admin");
             ug.setStatus(UserRegStatus.ACTIVE);
-            ug.setUser(u);
 
-            m.registerUser(u, ug, new PrimaryAddress());
+            m.registerUser(ug, new PrimaryAddress());
 
 
         } catch (final SerpicsException e) {
@@ -100,6 +103,14 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         s.setCurrency(currency);
         s = m.createStore(s);
 
+    }
+
+    private void createDefaultRoles() {
+        final Role role = new Role("employee");
+        final Role role1 = new Role("administrator");
+
+        roleService.create(role);
+        roleService.create(role1);
     }
 
 }

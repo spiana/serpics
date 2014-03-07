@@ -148,7 +148,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
             public void buttonClick(final ClickEvent event) {
                 if (entityList.getValue() == null)
                     return;
-                MessageBox.showPlain(Icon.QUESTION, "delete ?", "vuoi cancellare l'oggetto selezionato ?",
+                MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "vuoi cancellare l'oggetto selezionato ?",
                         new MessageBoxListener() {
                     @Override
                     public void buttonClicked(final ButtonId buttonId) {

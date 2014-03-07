@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,17 +23,17 @@ public class MembersRole  extends com.serpics.core.persistence.jpa.Entity implem
     private MembersRolePK id;
 
     //bi-directional many-to-one association to Member
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id", nullable=false, insertable=false, updatable=false)
     private Member member;
 
     //bi-directional many-to-one association to Role
-    @ManyToOne (optional=false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="role_id", nullable=false, insertable=false, updatable=false)
     private Role role;
 
     //bi-directional many-to-one association to Store
-    @ManyToOne (optional= false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="store_id", nullable=false, insertable=false, updatable=false)
     private Store store;
 

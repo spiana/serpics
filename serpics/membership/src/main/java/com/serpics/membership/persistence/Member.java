@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -40,6 +42,7 @@ import com.serpics.membership.MemberType;
 @Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = { "uuid" }))
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "member_type", discriminatorType = DiscriminatorType.STRING)
+@Access(AccessType.FIELD)
 public class Member extends com.serpics.core.persistence.jpa.Entity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -80,6 +83,7 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements S
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     protected Set<MembersRole> membersRoles = new HashSet<MembersRole>(0);
 
+
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     protected Set<Membergrouprel> memberGroupRel = new HashSet<Membergrouprel>(0);
 
@@ -89,25 +93,6 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements S
 
     public void setMemberAttributes(final Set<MemberAttribute> memberAttributes) {
         this.memberAttributes = memberAttributes;
-    }
-
-    public Set<MembersRole> getMembersRoles() {
-        return membersRoles;
-    }
-
-    // l'underscore davanti serve a non far riconoscere il getter a JPAContainer
-    @Transient
-    public Set<MembersRole> _getMembersRolesForStore(final Long storeId) {
-        final Set<MembersRole> storeRoles = new HashSet<MembersRole>(0);
-        for (final MembersRole mrole : getMembersRoles()) {
-            if (mrole.getStore().getMemberId().equals(storeId))
-                storeRoles.add(mrole);
-        }
-        return storeRoles;
-    }
-
-    public void setMembersRoles(final Set<MembersRole> membersRoles) {
-        this.membersRoles = membersRoles;
     }
 
     public void setCreated(final Date created) {
@@ -211,4 +196,21 @@ public class Member extends com.serpics.core.persistence.jpa.Entity implements S
         this.memberGroupRel = memberGroupRel;
     }
 
+    public Set<MembersRole> getMembersRoles() {
+        return membersRoles;
+    }
+
+    @Transient
+    public Set<MembersRole> getMembersRolesForStore(final Long storeId) {
+        final Set<MembersRole> storeRoles = new HashSet<MembersRole>(0);
+        for (final MembersRole mrole : getMembersRoles()) {
+            if (mrole.getStore().getMemberId().equals(storeId))
+                storeRoles.add(mrole);
+        }
+        return storeRoles;
+    }
+
+    public void setMembersRoles(final Set<MembersRole> membersRoles) {
+        this.membersRoles = membersRoles;
+    }
 }

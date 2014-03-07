@@ -1,5 +1,8 @@
 package com.serpics.membership.test;
 
+import java.util.List;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +29,7 @@ import com.serpics.membership.persistence.Role;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.services.BaseService;
+import com.serpics.membership.services.MemberRoleService;
 import com.serpics.membership.services.RoleService;
 import com.serpics.membership.services.UserRegService;
 import com.serpics.membership.services.UserService;
@@ -52,6 +56,8 @@ public class UserServiceTest {
     @Autowired
     UserRegService userRegService;
 
+    @Autowired
+    MemberRoleService memberRoleService;
 
     @Before
     public void init() {
@@ -87,22 +93,20 @@ public class UserServiceTest {
                 UserType.GUEST, "test", null, null, null));
         Assert.assertEquals(1, u1.size());
         Assert.assertEquals(1, u1.get(0).getMembersRoles().size());
-        Assert.assertEquals("user", u1.get(0).getMembersRoles().iterator()
-                .next().getRole().getName());
+        Assert.assertEquals("user", u1.get(0).getMembersRoles().iterator().next().getRole().getName());
 
         // try add a new address
         final PermanentAddress address = new PermanentAddress();
         address.setCity("Napoli");
         u = userService.addAddress(address, u.getMemberId());
-        Assert.assertEquals(2, u.getPermanentAddresses().size());
+        Assert.assertEquals(1, u.getPermanentAddresses().size());
 
         // try add another address directly
         final PermanentAddress add1 = new PermanentAddress();
-        add1.setNickname("third");
         add1.setMember(u);
         u.getPermanentAddresses().add(add1);
         u = userService.update(u);
-        Assert.assertEquals(3, u.getPermanentAddresses().size());
+        Assert.assertEquals(2, u.getPermanentAddresses().size());
 
         // try add role
         final Role r1 = new Role();
@@ -126,11 +130,21 @@ public class UserServiceTest {
         r2 =roleService.create(r2);
 
         u = userService.addRole(r2, u);
-
         final java.util.List<User> l2 = userService.findByexample(new User(
                 UserType.GUEST, "test", null, null, null));
         Assert.assertEquals(1, l2.size());
         Assert.assertEquals(3, l2.get(0).getMembersRoles().size());
 
+        final Set<MembersRole> roles = l2.get(0).getMembersRoles();
+        final MembersRole mr = roles.iterator().next();
+
+        final MembersRole mr1 = memberRoleService.findOne(mr.getId());
+        Assert.assertNotNull(mr1);
+
+        final List<MembersRole> l3 = memberRoleService.findAll();
+        Assert.assertEquals(3, l3.size());
+        memberRoleService.delete(l3.get(0).getId());
+        final List<MembersRole> l4 = memberRoleService.findAll();
+        Assert.assertEquals(2, l4.size());
     }
 }

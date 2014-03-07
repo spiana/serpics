@@ -11,7 +11,7 @@ import com.serpics.vaadin.ui.EntityTableChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.util.filter.Compare;
 
-@VaadinComponent(value="addressTableEditor")
+@VaadinComponent(value = "addressTableEditor")
 public class AddressTableEditor extends EntityTableChild<PermanentAddress, User> {
 
     private static final long serialVersionUID = -1487550710132191348L;
@@ -31,7 +31,7 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
         editorWindow = new EntityFormWindow<PermanentAddress>();
         editorWindow.addTab(addressEditorComponent, "main");
         //setEditorWindow(uw) ;
-        final String[] p = { "isprimary", "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
+        final String[] p = { "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
         "country" };
         setPropertyToShow(p );
         setService(addressService);
@@ -44,7 +44,6 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
     @Override
     public EntityItem<PermanentAddress> createEntityItem() {
         final PermanentAddress a = new PermanentAddress();
-        a.setIsprimary(0);
         a.setMember(parent.getEntity());
         return cont.createEntityItem(a);
     }

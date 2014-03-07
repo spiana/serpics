@@ -13,8 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,6 +38,7 @@ import com.serpics.membership.UserType;
 @Table(name = "users")
 @DiscriminatorValue("USER")
 @PrimaryKeyJoinColumn(name="user_id")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User extends Member implements Serializable, UserDetail {
     private static final long serialVersionUID = 1L;
 
@@ -64,9 +66,10 @@ public class User extends Member implements Serializable, UserDetail {
     @Column(name = "last_visit")
     private Date lastVisit;
 
-
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL, orphanRemoval = true)
-    private UsersReg userReg;
+    //
+    // @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL, orphanRemoval =
+    // true)
+    // private UsersReg userReg;
 
     @Column(name = "store_id")
     private Long storeId;
@@ -74,6 +77,7 @@ public class User extends Member implements Serializable, UserDetail {
     // bi-directional many-to-one association to MemberRelation
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
+
 
     public User() {
         this.userType = UserType.ANONYMOUS;
@@ -159,21 +163,21 @@ public class User extends Member implements Serializable, UserDetail {
     }
 
 
-    public UsersReg getUserReg() {
-        return userReg;
-    }
-
-    public void setUserReg(final UsersReg userReg) {
-        this.userReg = userReg;
-    }
-
-    @Override
-    public String getName() {
-        if (userReg != null)
-            return userReg.getLogonid();
-        else
-            return "guest";
-    }
+    // public UsersReg getUserReg() {
+    // return userReg;
+    // }
+    //
+    // public void setUserReg(final UsersReg userReg) {
+    // this.userReg = userReg;
+    // }
+    //
+    // @Override
+    // public String getName() {
+    // if (userReg != null)
+    // return userReg.getLogonid();
+    // else
+    // return "guest";
+    // }
 
     @Override
     public Long getUserId() {
@@ -201,6 +205,11 @@ public class User extends Member implements Serializable, UserDetail {
 
     public void setStoreRelation(final Set<UserStoreRelation> storeRelation) {
         this.storeRelation = storeRelation;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
 }

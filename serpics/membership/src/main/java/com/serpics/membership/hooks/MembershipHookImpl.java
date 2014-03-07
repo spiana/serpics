@@ -25,12 +25,11 @@ public class MembershipHookImpl extends AbstractHook implements MembershipHook {
     public UserDetail login(final Store store, final String username, final char[] password) throws SerpicsException {
         UsersReg ur = userRegRepository.findBylogonid(username);
         if (ur != null) {
-            if (ur.getUser().getUserType().equals(UserType.ADMINISTRATOR)
-                    || ur.getUser().getUserType().equals(UserType.REGISTERED))
+            if (ur.getUserType().equals(UserType.ADMINISTRATOR) || ur.getUserType().equals(UserType.REGISTERED))
                 ur = login(ur, password);
             else
-                throw new MembershipException(String.format("invalid type %s for userId [%d] !", ur.getUser()
-                        .getUserType(), ur.getUserId()));
+                throw new MembershipException(String.format("invalid type %s for userId [%d] !", ur.getUserType(),
+                        ur.getUserId()));
             /*
              * don't test if user is connect to store
              * 
@@ -47,7 +46,7 @@ public class MembershipHookImpl extends AbstractHook implements MembershipHook {
             throw new MembershipException("no user found for loginid [" + username + "] !");
         }
 
-        return ur.getUser();
+        return ur;
     }
 
     protected UsersReg login(final UsersReg ur, final char[] password) throws MembershipException {
@@ -61,8 +60,8 @@ public class MembershipHookImpl extends AbstractHook implements MembershipHook {
                     + "] !");
         }
         if (ur.getPassword().equals(new String(password))) {
-            ur.getUser().setLastVisit(new Date());
-            ur.setLastLogin(new Timestamp(ur.getUser().getLastVisit().getTime()));
+            ur.setLastVisit(new Date());
+            ur.setLastLogin(new Timestamp(ur.getLastVisit().getTime()));
         } else {
             throw new MembershipException("wrong password for loginid [" + ur.getLogonid() + "] !");
         }

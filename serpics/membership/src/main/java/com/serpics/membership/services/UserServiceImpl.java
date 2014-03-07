@@ -49,6 +49,7 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     @Resource
     UserRegrepository userRegrepository;
 
+
     @Resource(name = "permanentAddressRepository")
     PermanentAddressRepository addressRepository;
 
@@ -114,25 +115,22 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
             if (address.getMember() == null)
                 address.setMember(user);
         }
-        if (user.getUserReg() != null)
-            user.getUserReg().setUser(user);
+
         return userRepository.saveAndFlush(user);
     }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public User registerUser(final User user, final UsersReg reg, final PrimaryAddress primaryAddress) {
+    public UsersReg registerUser(final UsersReg reg, final PrimaryAddress primaryAddress) {
         if (primaryAddress != null)
-            user.setPrimaryAddress(primaryAddress);
-        create(user);
-        if (user.getUserType().equals(UserType.ANONYMOUS) || user.getUserType().equals(UserType.GUEST))
-            user.setUserType(UserType.REGISTERED);
-        reg.setUserId(user.getMemberId());
+            reg.setPrimaryAddress(primaryAddress);
+        create(reg);
+        if (reg.getUserType().equals(UserType.ANONYMOUS) || reg.getUserType().equals(UserType.GUEST))
+            reg.setUserType(UserType.REGISTERED);
+        reg.setUserId(reg.getMemberId());
         if (reg.getStatus() == null)
             reg.setStatus(UserRegStatus.ACTIVE);
-        reg.setUser(user);
-        user.setUserReg(reg);
-        return userRepository.saveAndFlush(user);
+        return userRegrepository.saveAndFlush(reg);
     }
 
     private Specification storeFilterSpec() {

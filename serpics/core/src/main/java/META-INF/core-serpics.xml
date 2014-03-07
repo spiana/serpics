@@ -34,8 +34,8 @@ http://www.springframework.org/schema/aop
 
 
 
-	<bean id="sessionContext" class="com.serpics.core.session.CommerceSessionContext"  scope="commercesession" >
-		<aop:scoped-proxy/>
-	</bean>
+<!-- 	<bean id="sessionContext" class="com.serpics.core.session.CommerceSessionContext"  scope="commercesession" > -->
+<!-- 		<aop:scoped-proxy/> -->
+<!-- 	</bean> -->
  </beans>    
 

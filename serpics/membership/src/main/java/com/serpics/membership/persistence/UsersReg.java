@@ -8,33 +8,23 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
+import com.serpics.core.security.UserDetail;
 import com.serpics.membership.UserRegStatus;
+import com.serpics.membership.UserType;
 
 /**
  * The persistent class for the users_reg database table.
  * 
  */
-@XmlRootElement(name="usersreg")
+
 @Entity
 @Table(name = "users_reg")
-public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class UsersReg extends User implements Serializable, UserDetail {
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @Column(name = "user_id", unique = true, nullable = false)
-    private Long userId;
 
     @Column(name = "alternate_email", length = 100)
     private String alternateEmail;
@@ -62,15 +52,11 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
     @Column(name = "locale_id")
     private BigInteger localeId;
 
-    @NotNull
-    @NotEmpty
     @Size(min = 5, max = 100)
-    @Column(nullable = false, length = 40 , unique=true)
+    @Column(nullable = true, length = 40, unique = true)
     private String logonid;
 
-    @NotNull()
-    @NotEmpty
-    @Column(nullable = false, length = 254)
+    @Column(nullable = true, length = 254)
     private String password;
 
     @Column(name = "password_change")
@@ -82,21 +68,12 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
     private UserRegStatus status;
 
 
-    @OneToOne( fetch = FetchType.EAGER, optional = false )
-    @JoinColumn(name = "member_id", nullable = false , insertable = true, updatable = false )
-    private User user;
-
     public UsersReg() {
+        super();
         this.status = UserRegStatus.ACTIVE;
+        setUserType(UserType.REGISTERED);
     }
 
-    public Long getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(final Long userId) {
-        this.userId = userId;
-    }
 
     public String getAlternateEmail() {
         return this.alternateEmail;
@@ -122,10 +99,12 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
         this.changequestion = changequestion;
     }
 
+    @Override
     public Timestamp getCreated() {
         return this.created;
     }
 
+    @Override
     public void setCreated(final Timestamp created) {
         this.created = created;
     }
@@ -138,18 +117,22 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
         this.dn = dn;
     }
 
+    @Override
     public String getField1() {
         return this.field1;
     }
 
+    @Override
     public void setField1(final String field1) {
         this.field1 = field1;
     }
 
+    @Override
     public String getField2() {
         return this.field2;
     }
 
+    @Override
     public void setField2(final String field2) {
         this.field2 = field2;
     }
@@ -202,13 +185,9 @@ public class UsersReg extends com.serpics.core.persistence.jpa.Entity implements
         this.status = status;
     }
 
-    @XmlTransient
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(final User user) {
-        this.user = user;
+    @Override
+    public String getName() {
+        return logonid;
     }
 
 }

@@ -10,7 +10,8 @@ import com.serpics.membership.UserRegStatus;
 
 
 
-public class User extends com.serpics.membership.persistence.User implements UserDetails , com.serpics.core.security.UserDetail{
+public class User extends com.serpics.membership.persistence.UsersReg implements UserDetails,
+com.serpics.core.security.UserDetail {
 
     Collection<? extends GrantedAuthority> authorities = new HashSet<GrantedAuthority>(0);
     Collection<? extends String>  groups = new HashSet<String>(0); 
@@ -22,27 +23,27 @@ public class User extends com.serpics.membership.persistence.User implements Use
 
     @Override
     public String getPassword() {
-        return getUserReg().getPassword();
+        return getPassword();
     }
 
     @Override
     public String getUsername() {
-        return getUserReg().getLogonid();
+        return getLogonid();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return getUserReg().getStatus().equals(UserRegStatus.ACTIVE);
+        return getStatus().equals(UserRegStatus.ACTIVE);
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return getUserReg().getStatus().equals(UserRegStatus.ACTIVE);
+        return getStatus().equals(UserRegStatus.ACTIVE);
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return getUserReg().getStatus().equals(UserRegStatus.ACTIVE);
+        return getStatus().equals(UserRegStatus.ACTIVE);
     }
 
     @Override

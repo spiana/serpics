@@ -1,12 +1,13 @@
 package com.serpics.membership.persistence;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DiscriminatorOptions;
+
+import com.serpics.membership.AddressType;
 
 /**
  * The persistent class for the addresses database table.
@@ -33,9 +36,6 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "address_id", unique = true, nullable = false)
     protected Long addressId;
-
-    @Column(nullable = false, length = 40)
-    protected String nickname;
 
     @Column(nullable = true, length = 50)
     protected String firstname;
@@ -108,23 +108,19 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
 
     protected Long field4;
 
-    // @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, updatable = false, insertable = false)
-    protected String flag;
-
-    @Column(nullable = false)
-    protected int isprimary;
+    protected AddressType flag;
 
     public AbstractAddress() {
-        this.nickname = UUID.randomUUID().toString();
-        this.isprimary = 0;
+
     }
 
-    public AbstractAddress(final String nickname, final String firstname, final String lastname, final String company, final String email,
+    public AbstractAddress(final String firstname, final String lastname, final String company, final String email,
             final String address1, final String address2, final String address3, final String zipcode, final String city, final String region,
             final String country, final String vatcode) {
         super();
-        this.nickname = nickname != null ? nickname : UUID.randomUUID().toString();
+
         this.firstname = firstname;
         this.lastname = lastname;
         this.company = company;
@@ -137,7 +133,6 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
         this.region = region;
         this.country = country;
         this.vatcode = vatcode;
-        this.isprimary = 0;
     }
 
     public Long getAddressId() {
@@ -244,21 +239,14 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
         this.firstname = firstname;
     }
 
-    public String getFlag() {
+    public AddressType getFlag() {
         return this.flag;
     }
 
-    public void setFlag(final String flag) {
+    public void setFlag(final AddressType flag) {
         this.flag = flag;
     }
 
-    public int getIsprimary() {
-        return this.isprimary;
-    }
-
-    public void setIsprimary(final int isprimary) {
-        this.isprimary = isprimary;
-    }
 
     public String getLastname() {
         return this.lastname;
@@ -268,13 +256,6 @@ public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.E
         this.lastname = lastname;
     }
 
-    public String getNickname() {
-        return this.nickname;
-    }
-
-    public void setNickname(final String nickname) {
-        this.nickname = nickname;
-    }
 
     public String getRegion() {
         return this.region;

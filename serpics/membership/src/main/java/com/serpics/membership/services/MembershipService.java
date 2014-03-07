@@ -19,7 +19,7 @@ public interface MembershipService extends Membership {
 
     public User createUser(User user, PrimaryAddress primaryAddress);
 
-    public User registerUser(User user, UsersReg reg, PrimaryAddress primaryAddress);
+    public UsersReg registerUser(UsersReg reg, PrimaryAddress primaryAddress);
 
     public User updateUser(User user);
 

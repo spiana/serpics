@@ -20,11 +20,11 @@ public class Address extends AbstractAddress {
 
     }
 
-    public Address(final String nickname, final String firstname, final String lastname,
+    public Address(final String firstname, final String lastname,
             final String company, final String email, final String address1, final String address2,
             final String address3, final String zipcode, final String city, final String region,
             final String country, final String vatcode) {
-        super(nickname, firstname, lastname, company, email, address1, address2,
+        super(firstname, lastname, company, email, address1, address2,
                 address3, zipcode, city, region, country, vatcode);
 
     }

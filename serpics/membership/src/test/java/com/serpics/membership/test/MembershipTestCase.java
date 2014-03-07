@@ -93,12 +93,10 @@ public class MembershipTestCase {
         context = ce
                 .connect("default-store", "test1", "password".toCharArray());
         assertNotNull("not connect with context !", context);
-        final User u = (User) context.getUserPrincipal();
-        assertArrayEquals("verify is test user", "test1".toCharArray(), u
-                .getUserReg().getLogonid().toCharArray());
-        assertArrayEquals("primaryAddress nickname",
-                "test-address".toCharArray(), u.getPrimaryAddress()
-                .getNickname().toCharArray());
+        final UsersReg u = (UsersReg) context.getUserPrincipal();
+        assertArrayEquals("verify is test user", "test1".toCharArray(), u.getLogonid().toCharArray());
+        assertArrayEquals("primaryAddress lastName", "testmembership".toCharArray(), u.getPrimaryAddress()
+                .getLastname().toCharArray());
         final User example = new User();
         example.setUserType(UserType.REGISTERED);
         example.setLastname("testmembership");
@@ -117,8 +115,9 @@ public class MembershipTestCase {
             public Predicate toPredicate(final Root<UsersReg> arg0, final CriteriaQuery<?> arg1,
                     final CriteriaBuilder arg2) {
                 // TODO Auto-generated method stub
-                return arg2.equal(arg0.get("user"), u);
+                return arg2.equal(arg0.get("logonid"), "test1");
             }
+
         }, new PageRequest(0, 1));
 
         assertEquals(1, l.size());
@@ -139,16 +138,15 @@ public class MembershipTestCase {
 
     private void registerTestUser(final CommerceSessionContext context) {
 
-        User u = new User();
-        u.setLastname("testmembership");
-        final UsersReg ur = new UsersReg();
+
+        UsersReg ur = new UsersReg();
+        ur.setLastname("testmembership");
         ur.setLogonid("test1");
         ur.setPassword("password");
         ur.setStatus(UserRegStatus.ACTIVE);
         final PrimaryAddress a = new PrimaryAddress();
-        a.setNickname("test-address");
-
-        u = m.registerUser(u, ur, a);
+        a.setLastname("testmembership");
+        ur = m.registerUser(ur, a);
 
     }
 

@@ -63,7 +63,6 @@ public class CommerceEngineImpl implements CommerceEngine {
     public CommerceSessionContext connect(final String storeName) throws SerpicsException {
         StoreScopeContextHolder.setCurrentStoreRealm(storeName);
         final Membership membershipService = beanFactory.getBean(Membership.class);
-
         final StoreRealm s = membershipService.fetchStoreByName(storeName);
         Assert.notNull(s);
         final SessionContext context = getSessionManager().createSessionContext(s);
@@ -113,7 +112,6 @@ public class CommerceEngineImpl implements CommerceEngine {
     @Override
     public CommerceSessionContext bind(final String sessionId) {
         final SessionContext _s = this.sessionManager.getSessionContext(sessionId);
-
         if (_s != null) {
             bind(_s);
             return (CommerceSessionContext) _s;

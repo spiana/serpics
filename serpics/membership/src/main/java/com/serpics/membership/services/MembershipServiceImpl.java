@@ -75,8 +75,8 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public User registerUser(final User user, final UsersReg reg, final PrimaryAddress primaryAddress) {
-        return userService.registerUser(user, reg, primaryAddress);
+    public UsersReg registerUser(final UsersReg reg, final PrimaryAddress primaryAddress) {
+        return userService.registerUser(reg, primaryAddress);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class MembershipServiceImpl extends AbstractService implements Membership
     public UserDetail connect(final Principal principal) {
         final UsersReg ur = userRegService.findByLoginid(principal.getName());
         Assert.notNull(ur);
-        return ur.getUser();
+        return ur;
     }
 
     @Override
