@@ -34,7 +34,7 @@ import com.serpics.membership.UserType;
  */
 
 @XmlRootElement(name="user")
-@Entity
+@Entity(name = "User")
 @Table(name = "users")
 @DiscriminatorValue("USER")
 @PrimaryKeyJoinColumn(name="user_id")

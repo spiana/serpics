@@ -36,249 +36,250 @@ import com.serpics.membership.persistence.User;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "pending", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Entity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static transient final String PENDING = "P";
-	public static transient final String WAITING = "W"; // Waiting Payment
-	public static transient final String COMPLETE = "C";
+    public static transient final String PENDING = "P";
+    public static transient final String WAITING = "W"; // Waiting Payment
+    public static transient final String COMPLETE = "C";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "orders_id", unique = true, nullable = false)
-	protected Long ordersId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "orders_id", unique = true, nullable = false)
+    protected Long ordersId;
 
-	@Column(name = "cookie", length = 250, unique = false, nullable = false)
-	protected String cookie;
+    @Column(name = "cookie", length = 250, unique = false, nullable = false)
+    protected String cookie;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "currency_id")
-	private Currency currency;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "customer_id")
-	protected User customer;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, targetEntity = Currency.class)
+    @JoinColumn(name = "currency_id")
+    private Currency currency;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "user_id")
-	protected User user;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "customer_id")
+    protected User customer;
 
-	@Column(name = "discount_amount", precision = 10, scale = 4)
-	protected BigDecimal discountAmount = new BigDecimal(0);
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id")
+    protected User user;
 
-	@Column(name = "discount_perc", precision = 10, scale = 4)
-	protected double discountPerc = 0;
+    @Column(name = "discount_amount", precision = 10, scale = 4)
+    protected BigDecimal discountAmount = new BigDecimal(0);
 
-	@Column(name = "order_amount", nullable = false, precision = 10, scale = 4)
-	protected BigDecimal orderAmount = new BigDecimal(0);
+    @Column(name = "discount_perc", precision = 10, scale = 4)
+    protected double discountPerc = 0;
 
-	// @Column(name="shipping_address_id")
-	// private Long shippingAddressId;
+    @Column(name = "order_amount", nullable = false, precision = 10, scale = 4)
+    protected BigDecimal orderAmount = new BigDecimal(0);
 
-	@Column(nullable = false, length = 2)
-	protected String status;
+    // @Column(name="shipping_address_id")
+    // private Long shippingAddressId;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "sore_id")
-	protected Store store;
+    @Column(nullable = false, length = 2)
+    protected String status;
 
-	@Column(name = "total_product", precision = 10, scale = 4)
-	protected BigDecimal totalProduct = new BigDecimal(0);
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "store_id")
+    protected Store store;
 
-	@Column(name = "total_service", precision = 10, scale = 4)
-	protected BigDecimal totalService = new BigDecimal(0);
+    @Column(name = "total_product", precision = 10, scale = 4)
+    protected BigDecimal totalProduct = new BigDecimal(0);
 
-	@Column(name = "total_shipping", precision = 10, scale = 4)
-	protected BigDecimal totalShipping = new BigDecimal(0);
+    @Column(name = "total_service", precision = 10, scale = 4)
+    protected BigDecimal totalService = new BigDecimal(0);
 
-	@Column(name = "total_tax", precision = 10, scale = 4)
-	protected BigDecimal totalTax = new BigDecimal(0);
+    @Column(name = "total_shipping", precision = 10, scale = 4)
+    protected BigDecimal totalShipping = new BigDecimal(0);
 
-	// bi-directional many-to-one association to Orderitem
-	@OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true)
-	protected Set<Orderitem> orderitems = new HashSet<Orderitem>(0);
+    @Column(name = "total_tax", precision = 10, scale = 4)
+    protected BigDecimal totalTax = new BigDecimal(0);
 
-	// bi-directional many-to-one association to Shipmode
-	@ManyToOne(fetch=FetchType.EAGER , optional=true)
-	@JoinColumn(name = "shipmode_id")
-	protected Shipmode shipmode;
+    // bi-directional many-to-one association to Orderitem
+    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true)
+    protected Set<Orderitem> orderitems = new HashSet<Orderitem>(0);
 
-	// bi-directional many-to-one association to OrdersAttribute
-	@OneToMany(mappedBy = "order", orphanRemoval = true)
-	protected Set<OrdersAttribute> ordersAttributes = new HashSet<OrdersAttribute>(0);
+    // bi-directional many-to-one association to Shipmode
+    @ManyToOne(fetch=FetchType.EAGER , optional=true)
+    @JoinColumn(name = "shipmode_id")
+    protected Shipmode shipmode;
 
-	// bi-directional many-to-one association to Suborder
-	@OneToMany(mappedBy = "order", orphanRemoval = true)
-	protected Set<Suborder> suborders = new HashSet<Suborder>(0);
+    // bi-directional many-to-one association to OrdersAttribute
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    protected Set<OrdersAttribute> ordersAttributes = new HashSet<OrdersAttribute>(0);
 
-	@ManyToOne(fetch=FetchType.EAGER )
-	@JoinColumn(name = "billing_address_id" )
-	protected Address billingAddress;
+    // bi-directional many-to-one association to Suborder
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    protected Set<Suborder> suborders = new HashSet<Suborder>(0);
 
-	@ManyToOne(fetch=FetchType.EAGER )
-	@JoinColumn(name = "shipping_address_id")
-	protected Address shippingAddress;
+    @ManyToOne(fetch=FetchType.EAGER )
+    @JoinColumn(name = "billing_address_id" )
+    protected Address billingAddress;
 
-	public AbstractOrder() {
-	}
+    @ManyToOne(fetch=FetchType.EAGER )
+    @JoinColumn(name = "shipping_address_id")
+    protected Address shippingAddress;
 
-	public Long getOrdersId() {
-		return this.ordersId;
-	}
+    public AbstractOrder() {
+    }
 
-	public void setOrdersId(Long ordersId) {
-		this.ordersId = ordersId;
-	}
+    public Long getOrdersId() {
+        return this.ordersId;
+    }
 
-	public Currency getCurrency() {
-		return currency;
-	}
+    public void setOrdersId(final Long ordersId) {
+        this.ordersId = ordersId;
+    }
 
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
-	}
+    public Currency getCurrency() {
+        return currency;
+    }
 
-	public BigDecimal getDiscountAmount() {
-		return this.discountAmount;
-	}
+    public void setCurrency(final Currency currency) {
+        this.currency = currency;
+    }
 
-	public void setDiscountAmount(BigDecimal discountAmount) {
-		this.discountAmount = discountAmount;
-	}
+    public BigDecimal getDiscountAmount() {
+        return this.discountAmount;
+    }
 
-	public double getDiscountPerc() {
-		return this.discountPerc;
-	}
+    public void setDiscountAmount(final BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
 
-	public void setDiscountPerc(double discountPerc) {
-		this.discountPerc = discountPerc;
-	}
+    public double getDiscountPerc() {
+        return this.discountPerc;
+    }
 
-	public BigDecimal getOrderAmount() {
-		return this.orderAmount;
-	}
+    public void setDiscountPerc(final double discountPerc) {
+        this.discountPerc = discountPerc;
+    }
 
-	public void setOrderAmount(BigDecimal orderAmount) {
-		this.orderAmount = orderAmount;
-	}
+    public BigDecimal getOrderAmount() {
+        return this.orderAmount;
+    }
 
-	public String getStatus() {
-		return this.status;
-	}
+    public void setOrderAmount(final BigDecimal orderAmount) {
+        this.orderAmount = orderAmount;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getStatus() {
+        return this.status;
+    }
 
-	public BigDecimal getTotalProduct() {
-		return this.totalProduct;
-	}
+    public void setStatus(final String status) {
+        this.status = status;
+    }
 
-	public void setTotalProduct(BigDecimal totalProduct) {
-		this.totalProduct = totalProduct;
-	}
+    public BigDecimal getTotalProduct() {
+        return this.totalProduct;
+    }
 
-	public BigDecimal getTotalShipping() {
-		return this.totalShipping;
-	}
+    public void setTotalProduct(final BigDecimal totalProduct) {
+        this.totalProduct = totalProduct;
+    }
 
-	public void setTotalShipping(BigDecimal totalShipping) {
-		this.totalShipping = totalShipping;
-	}
+    public BigDecimal getTotalShipping() {
+        return this.totalShipping;
+    }
 
-	public BigDecimal getTotalTax() {
-		return this.totalTax;
-	}
+    public void setTotalShipping(final BigDecimal totalShipping) {
+        this.totalShipping = totalShipping;
+    }
 
-	public void setTotalTax(BigDecimal totalTax) {
-		this.totalTax = totalTax;
-	}
+    public BigDecimal getTotalTax() {
+        return this.totalTax;
+    }
 
-	public Set<Orderitem> getOrderitems() {
-		return this.orderitems;
-	}
+    public void setTotalTax(final BigDecimal totalTax) {
+        this.totalTax = totalTax;
+    }
 
-	public void setOrderitems(Set<Orderitem> orderitems) {
-		this.orderitems = orderitems;
-	}
+    public Set<Orderitem> getOrderitems() {
+        return this.orderitems;
+    }
 
-	public Shipmode getShipmode() {
-		return this.shipmode;
-	}
+    public void setOrderitems(final Set<Orderitem> orderitems) {
+        this.orderitems = orderitems;
+    }
 
-	public void setShipmode(Shipmode shipmode) {
-		this.shipmode = shipmode;
-	}
+    public Shipmode getShipmode() {
+        return this.shipmode;
+    }
 
-	public Set<OrdersAttribute> getOrdersAttributes() {
-		return this.ordersAttributes;
-	}
+    public void setShipmode(final Shipmode shipmode) {
+        this.shipmode = shipmode;
+    }
 
-	public void setOrdersAttributes(Set<OrdersAttribute> ordersAttributes) {
-		this.ordersAttributes = ordersAttributes;
-	}
+    public Set<OrdersAttribute> getOrdersAttributes() {
+        return this.ordersAttributes;
+    }
 
-	public Set<Suborder> getSuborders() {
-		return this.suborders;
-	}
+    public void setOrdersAttributes(final Set<OrdersAttribute> ordersAttributes) {
+        this.ordersAttributes = ordersAttributes;
+    }
 
-	public void setSuborders(Set<Suborder> suborders) {
-		this.suborders = suborders;
-	}
+    public Set<Suborder> getSuborders() {
+        return this.suborders;
+    }
 
-	public AbstractAddress getBillingAddress() {
-		return billingAddress;
-	}
+    public void setSuborders(final Set<Suborder> suborders) {
+        this.suborders = suborders;
+    }
 
-	public void setBillingAddress(Address billingAddress) {
-		this.billingAddress = billingAddress;
-	}
+    public AbstractAddress getBillingAddress() {
+        return billingAddress;
+    }
 
-	public AbstractAddress getShippingAddress() {
-		return shippingAddress;
-	}
+    public void setBillingAddress(final Address billingAddress) {
+        this.billingAddress = billingAddress;
+    }
 
-	public void setShippingAddress(Address shippingAddress) {
-		this.shippingAddress = shippingAddress;
-	}
+    public AbstractAddress getShippingAddress() {
+        return shippingAddress;
+    }
 
-	public String getCookie() {
-		return cookie;
-	}
+    public void setShippingAddress(final Address shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
 
-	public void setCookie(String cookie) {
-		this.cookie = cookie;
-	}
+    public String getCookie() {
+        return cookie;
+    }
 
-	public User getCustomer() {
-		return customer;
-	}
+    public void setCookie(final String cookie) {
+        this.cookie = cookie;
+    }
 
-	public void setCustomer(User customer) {
-		this.customer = customer;
-	}
+    public User getCustomer() {
+        return customer;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setCustomer(final User customer) {
+        this.customer = customer;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public Store getStore() {
-		return store;
-	}
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
-	public void setStore(Store store) {
-		this.store = store;
-	}
+    public Store getStore() {
+        return store;
+    }
 
-	public BigDecimal getTotalService() {
-		return totalService;
-	}
+    public void setStore(final Store store) {
+        this.store = store;
+    }
 
-	public void setTotalService(BigDecimal totalService) {
-		this.totalService = totalService;
-	}
+    public BigDecimal getTotalService() {
+        return totalService;
+    }
+
+    public void setTotalService(final BigDecimal totalService) {
+        this.totalService = totalService;
+    }
 
 }

@@ -11,116 +11,115 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.serpics.base.AvailableforType;
-
 /**
  * The persistent class for the base_attributes database table.
  * 
  */
 @Entity
 @Table(name = "base_attributes")
+
 public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "base_attributes_id", unique = true, nullable = false)
-	private Long baseAttributesId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "base_attributes_id", unique = true, nullable = false)
+    private Long baseAttributesId;
 
-	@Column(name = "attribute_type", nullable = false)
-	private short attributeType;
+    @Column(name = "attribute_type", nullable = false)
+    private short attributeType;
 
-	@Column(nullable = false )
-	private String availablefor;
+    @Column(nullable = false )
+    private String availablefor;
 
-	@Column(nullable = false)
-	private short displayas;
+    @Column(nullable = false)
+    private short displayas;
 
-	@Column(nullable = false)
-	private short issearchable;
+    @Column(nullable = false)
+    private short issearchable;
 
-	@Column(nullable = false, length = 100)
-	private String name;
+    @Column(nullable = false, length = 100)
+    private String name;
 
-	// bi-directional many-to-one association to AttributeLookup
-//	@OneToMany(mappedBy = "baseAttribute")
-//	private Set<AttributeLookup> attributeLookups;
+    // bi-directional many-to-one association to AttributeLookup
+    //	@OneToMany(mappedBy = "baseAttribute")
+    //	private Set<AttributeLookup> attributeLookups;
 
-	@Column(name="store_id" , nullable=false)
-	private Long storeId;
-	
-	// bi-directional many-to-one association to BaseAttributeDescr
-	@OneToMany(mappedBy = "baseAttribute")
-	private Set<BaseAttributeDescr> baseAttributeDescrs;
+    @Column(name="store_id" , nullable=false)
+    private Long storeId;
 
-	public BaseAttribute() {
-	}
+    // bi-directional many-to-one association to BaseAttributeDescr
+    @OneToMany(mappedBy = "baseAttribute")
+    private Set<BaseAttributeDescr> baseAttributeDescrs;
 
-	public Long getBaseAttributesId() {
-		return this.baseAttributesId;
-	}
+    public BaseAttribute() {
+    }
 
-	public void setBaseAttributesId(Long baseAttributesId) {
-		this.baseAttributesId = baseAttributesId;
-	}
+    public Long getBaseAttributesId() {
+        return this.baseAttributesId;
+    }
 
-	public short getAttributeType() {
-		return this.attributeType;
-	}
+    public void setBaseAttributesId(final Long baseAttributesId) {
+        this.baseAttributesId = baseAttributesId;
+    }
 
-	public void setAttributeType(short attributeType) {
-		this.attributeType = attributeType;
-	}
+    public short getAttributeType() {
+        return this.attributeType;
+    }
 
-	
-	public short getDisplayas() {
-		return this.displayas;
-	}
+    public void setAttributeType(final short attributeType) {
+        this.attributeType = attributeType;
+    }
 
-	public void setDisplayas(short displayas) {
-		this.displayas = displayas;
-	}
 
-	public short getIssearchable() {
-		return this.issearchable;
-	}
+    public short getDisplayas() {
+        return this.displayas;
+    }
 
-	public void setIssearchable(short issearchable) {
-		this.issearchable = issearchable;
-	}
+    public void setDisplayas(final short displayas) {
+        this.displayas = displayas;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public short getIssearchable() {
+        return this.issearchable;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setIssearchable(final short issearchable) {
+        this.issearchable = issearchable;
+    }
 
-	public Set<BaseAttributeDescr> getBaseAttributeDescrs() {
-		return this.baseAttributeDescrs;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setBaseAttributeDescrs(Set<BaseAttributeDescr> baseAttributeDescrs) {
-		this.baseAttributeDescrs = baseAttributeDescrs;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public Long getStoreId() {
-		return storeId;
-	}
+    public Set<BaseAttributeDescr> getBaseAttributeDescrs() {
+        return this.baseAttributeDescrs;
+    }
 
-	public void setStoreId(Long storeId) {
-		this.storeId = storeId;
-	}
+    public void setBaseAttributeDescrs(final Set<BaseAttributeDescr> baseAttributeDescrs) {
+        this.baseAttributeDescrs = baseAttributeDescrs;
+    }
 
-	public String getAvailablefor() {
-		return availablefor;
-	}
+    public Long getStoreId() {
+        return storeId;
+    }
 
-	public void setAvailablefor(String availablefor) {
-		this.availablefor = availablefor;
-	}
+    public void setStoreId(final Long storeId) {
+        this.storeId = storeId;
+    }
 
-	
+    public String getAvailablefor() {
+        return availablefor;
+    }
+
+    public void setAvailablefor(final String availablefor) {
+        this.availablefor = availablefor;
+    }
+
+
 
 }
