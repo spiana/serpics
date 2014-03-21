@@ -17,64 +17,63 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.JpaAccessor;
-import org.springframework.orm.jpa.JpaTemplate;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.serpics.core.persistence.dao.BaseFactory;
 
 @Repository
+@Deprecated
 public abstract class BaseFactoryImpl  implements BaseFactory {
 
-	@PersistenceContext(unitName="serpics")
-	protected EntityManager em ;
-	
-	public EntityManager getEntityManager(){
-		return em;
-	}
-	
-	@Override
-	public void delete(Object entity) throws DataAccessException {
-		em.remove(entity);
-	}
+    @PersistenceContext(unitName="serpics")
+    protected EntityManager em ;
 
-	@Override
-	public Object merge(Object entity) throws DataAccessException {
-		return em.merge(entity);
-	}
-	@Override
-	public Object persist(Object entity) throws DataAccessException {
-		em.persist(entity);
-		 return  entity;
-	}
+    public EntityManager getEntityManager(){
+        return em;
+    }
 
-	@Override
-	public <T> Object find(Class<T> entityClass, Object id) {
-		return em.find(entityClass , id);
-	}
-	public <T> List<T> findByExample(Class<T> clazz , T example) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchMethodException, InvocationTargetException {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<T> cq = cb.createQuery(clazz);
-        Root<T> r = cq.from(clazz);
+    @Override
+    public void delete(final Object entity) throws DataAccessException {
+        em.remove(entity);
+    }
+
+    @Override
+    public Object merge(final Object entity) throws DataAccessException {
+        return em.merge(entity);
+    }
+    @Override
+    public Object persist(final Object entity) throws DataAccessException {
+        em.persist(entity);
+        return  entity;
+    }
+
+    @Override
+    public <T> Object find(final Class<T> entityClass, final Object id) {
+        return em.find(entityClass , id);
+    }
+    @Override
+    public <T> List<T> findByExample(final Class<T> clazz , final T example) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchMethodException, InvocationTargetException {
+        final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        final CriteriaQuery<T> cq = cb.createQuery(clazz);
+        final Root<T> r = cq.from(clazz);
         Predicate p = cb.conjunction();
-        Metamodel mm = getEntityManager().getMetamodel();
-        EntityType<T> et = mm.entity(clazz);
-        Set<Attribute<? super T, ?>> attrs = et.getAttributes();
-        for (Attribute<? super T, ?> a: attrs) {
-            String name = a.getName();
-            String javaName = a.getJavaMember().getName();
-            String getter = "get" + javaName.substring(0,1).toUpperCase() + javaName.substring(1);
-            Method m = clazz.getMethod(getter, (Class<?>[]) null);
+        final Metamodel mm = getEntityManager().getMetamodel();
+        final EntityType<T> et = mm.entity(clazz);
+        final Set<Attribute<? super T, ?>> attrs = et.getAttributes();
+        for (final Attribute<? super T, ?> a: attrs) {
+            final String name = a.getName();
+            final String javaName = a.getJavaMember().getName();
+            final String getter = "get" + javaName.substring(0,1).toUpperCase() + javaName.substring(1);
+            final Method m = clazz.getMethod(getter, (Class<?>[]) null);
             if (m.invoke(example, (Object[]) null) !=  null)
                 p = cb.and(p, cb.equal(r.get(name), m.invoke(example, (Object[]) null)));
         }
         cq.select(r).where(p);
-        TypedQuery<T> query = getEntityManager().createQuery(cq);
+        final TypedQuery<T> query = getEntityManager().createQuery(cq);
         return query.getResultList();
     }
 
-	
-	
-	
+
+
+
 }

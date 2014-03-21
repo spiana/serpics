@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.serpics.core.CommerceEngine;
 import com.serpics.vaadin.ui.EntityComponent;
+import com.vaadin.annotations.Theme;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.VaadinRequest;
@@ -21,6 +22,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Theme("runo")
 @Component
 @Scope("prototype")
 public class SerpicsStartApp extends UI {
@@ -68,8 +70,9 @@ public class SerpicsStartApp extends UI {
                     addComponent("membergroupRelTable", "user2grouprelation");
                 } else if (itemid == "userReg") {
                     addComponent("userRegTableEditor", "userReg");
+                } else if (itemid == "category") {
+                    addComponent("categoryTable", "category");
                 }
-
             }
         });
 
@@ -99,6 +102,12 @@ public class SerpicsStartApp extends UI {
         menu.addItem("relation");
         menu.setParent("relation", "admin");
         menu.setChildrenAllowed("relation", false);
+
+        menu.addItem("catalog");
+        menu.addItem("category");
+        menu.setParent("category", "catalog");
+        menu.setChildrenAllowed("category", false);
+
     }
 
     private void addComponent(final String id, final String caption) {

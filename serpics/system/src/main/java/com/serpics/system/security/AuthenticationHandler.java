@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.serpics.catalog.services.CatalogService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.session.SessionContext;
+import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.membership.repositories.MembersRoleRepository;
 import com.serpics.system.services.UserDetailsService;
 import com.serpics.system.web.WebCostant;
@@ -28,6 +29,9 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
     MembersRoleRepository membersRoleRepository;
     @Autowired
     UserDetailsService userDetailsService;
+
+    @Autowired
+    CatalogService catalogService;
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
@@ -44,10 +48,11 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
             if (sessionId != null)
                 commerceEngine.disconnect(sessionId);
 
-            final SessionContext context = commerceEngine.connect(selectedRealm, (Principal) authentication);
+            final CommerceSessionContext context = commerceEngine.connect(selectedRealm, (Principal) authentication);
             // setting credentials for selected store
             userDetailsService.setCredentials(authentication);
             request.getSession().setAttribute(WebCostant.SERPICS_SESSION, context.getSessionId());
+            context.setCatalog(catalogService.findByCode("default-catalog"));
 
         } catch (final SerpicsException e) {
             authentication.setAuthenticated(false);

@@ -28,7 +28,7 @@ public class WebappInitializeListener implements ServletContextListener {
             baseService.initIstance();
             final Catalog catalog = new Catalog();
             catalog.setCode("default-catalog");
-            catalogService.createCatalog(catalog);
+            catalogService.create(catalog);
         }
     }
 

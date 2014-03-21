@@ -3,12 +3,15 @@ package com.serpics.membership.persistence;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -47,7 +50,8 @@ public class UsersReg extends User implements Serializable, UserDetail {
     private String field2;
 
     @Column(name = "last_login")
-    private Timestamp lastLogin;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastLogin;
 
     @Column(name = "locale_id")
     private BigInteger localeId;
@@ -60,7 +64,8 @@ public class UsersReg extends User implements Serializable, UserDetail {
     private String password;
 
     @Column(name = "password_change")
-    private Timestamp passwordChange;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date passwordChange;
 
     @NotNull
     @Column(nullable = false)
@@ -137,11 +142,11 @@ public class UsersReg extends User implements Serializable, UserDetail {
         this.field2 = field2;
     }
 
-    public Timestamp getLastLogin() {
+    public Date getLastLogin() {
         return this.lastLogin;
     }
 
-    public void setLastLogin(final Timestamp lastLogin) {
+    public void setLastLogin(final Date lastLogin) {
         this.lastLogin = lastLogin;
     }
 
@@ -169,11 +174,11 @@ public class UsersReg extends User implements Serializable, UserDetail {
         this.password = password;
     }
 
-    public Timestamp getPasswordChange() {
+    public Date getPasswordChange() {
         return this.passwordChange;
     }
 
-    public void setPasswordChange(final Timestamp passwordChange) {
+    public void setPasswordChange(final Date passwordChange) {
         this.passwordChange = passwordChange;
     }
 

@@ -20,6 +20,7 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.services.CatalogService;
+import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.persistence.Cart;
 import com.serpics.commerce.persistence.Order;
 import com.serpics.commerce.persistence.Orderitem;
@@ -40,99 +41,101 @@ import com.serpics.warehouse.InventoryNotAvailableException;
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CreateCartTest {
-	@Autowired
-	BaseService b;
+    @Autowired
+    BaseService b;
 
-	@Resource
-	CatalogService catalogService;
-	
-	@Autowired
-	CommerceEngine ce;
-	@Resource
-	CartRepository cartRepository;
-	@Resource
-	OrderRepository orderRepository;
+    @Resource
+    CatalogService catalogService;
 
-	@Resource(name = "cartService")
-	CartService cs;
+    @Autowired
+    CommerceEngine ce;
+    @Resource
+    CartRepository cartRepository;
+    @Resource
+    OrderRepository orderRepository;
+    @Resource
+    ProductService productService;
 
-	@Resource
-	OrderService orderService;
+    @Resource(name = "cartService")
+    CartService cs;
 
-	@Before
-	public void init() {
-		b.initIstance();
-		
-		
-	}
+    @Resource
+    OrderService orderService;
 
-	@Test
-	public void test() throws SerpicsException {
+    @Before
+    public void init() {
+        b.initIstance();
 
-		CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
-		
-		
-		assertNotNull("not connect with context !", context);
 
-		Catalog c = new Catalog();
-		c.setCode("default-catalog");
-		c = catalogService.createCatalog(c);
-		context.setCatalog(c);
-		
-		Product p = new Product();
-		p.setCode("product");
-		p.setBuyable(1);
-		p.setCatalog(c);
-		catalogService.createproduct(p);
-		Product p1 = new Product();
-		p1.setCode("product1");
-		p1.setBuyable(1);
-		p1.setCatalog(c);
-		catalogService.createproduct(p1);
-		
-		Cart cart = cs.createSessionCart();
-		assertNotNull(cart);
-		// Assert.assertEquals(0, cart.getPending());
+    }
 
-		cs.cartAdd("product", 10.0, false);
+    @Test
+    public void test() throws SerpicsException {
 
-		cart = cs.createSessionCart();
-		assertEquals(1, cart.getOrderitems().size());
-		Orderitem o = cart.getOrderitems().iterator().next();
-		assertEquals(10.0, o.getQuantity(), 0);
-		o.setQuantity(11);
-		cs.cartUpdate(o, cart);
+        final CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 
-		cart = cs.createSessionCart();
-		assertEquals(1, cart.getOrderitems().size());
-		o = cart.getOrderitems().iterator().next();
-		assertEquals(11.0, o.getQuantity(), 0);
 
-		cs.cartAdd("product", 10.0, true);
-		cart = cs.createSessionCart();
-		assertEquals(1, cart.getOrderitems().size());
-		o = cart.getOrderitems().iterator().next();
-		assertEquals(21.0, o.getQuantity(), 0);
-		assertEquals(100, o.getSkuPrice(), 0);
-		cs.cartAdd("product", 10.0, false);
-		cart = cs.createSessionCart();
-		assertEquals(2, cart.getOrderitems().size());
-		cs.cartAdd("product1", 10.0, true);
-		cart = cs.createSessionCart();
-		assertEquals(3, cart.getOrderitems().size());
-		cs.prepareCart(cart);
-		assertEquals(4100.0, cart.getOrderAmount().doubleValue(), 0.0);
+        assertNotNull("not connect with context !", context);
 
-		Order or = orderService.createOrder(cart);
-		assertNotNull("order not create", or);
-		assertEquals(0, cartRepository.findAll().size());
-		assertEquals(1, orderRepository.findAll().size());
-	}
+        Catalog c = new Catalog();
+        c.setCode("default-catalog");
+        c = catalogService.create(c);
+        context.setCatalog(c);
 
-	@Test
-	public void cartDelete() throws InventoryNotAvailableException, ProductNotFoundException {
-		Cart cart = cs.createSessionCart();
-		cart = cs.cartAdd("product", 1, false);
-		cs.cartDelete(cart);
-	}
+        final Product p = new Product();
+        p.setCode("product");
+        p.setBuyable(1);
+        p.setCatalog(c);
+        productService.create(p);
+        final Product p1 = new Product();
+        p1.setCode("product1");
+        p1.setBuyable(1);
+        p1.setCatalog(c);
+        productService.create(p1);
+
+        Cart cart = cs.createSessionCart();
+        assertNotNull(cart);
+        // Assert.assertEquals(0, cart.getPending());
+
+        cs.cartAdd("product", 10.0, false);
+
+        cart = cs.createSessionCart();
+        assertEquals(1, cart.getOrderitems().size());
+        Orderitem o = cart.getOrderitems().iterator().next();
+        assertEquals(10.0, o.getQuantity(), 0);
+        o.setQuantity(11);
+        cs.cartUpdate(o, cart);
+
+        cart = cs.createSessionCart();
+        assertEquals(1, cart.getOrderitems().size());
+        o = cart.getOrderitems().iterator().next();
+        assertEquals(11.0, o.getQuantity(), 0);
+
+        cs.cartAdd("product", 10.0, true);
+        cart = cs.createSessionCart();
+        assertEquals(1, cart.getOrderitems().size());
+        o = cart.getOrderitems().iterator().next();
+        assertEquals(21.0, o.getQuantity(), 0);
+        assertEquals(100, o.getSkuPrice(), 0);
+        cs.cartAdd("product", 10.0, false);
+        cart = cs.createSessionCart();
+        assertEquals(2, cart.getOrderitems().size());
+        cs.cartAdd("product1", 10.0, true);
+        cart = cs.createSessionCart();
+        assertEquals(3, cart.getOrderitems().size());
+        cs.prepareCart(cart);
+        assertEquals(4100.0, cart.getOrderAmount().doubleValue(), 0.0);
+
+        final Order or = orderService.createOrder(cart);
+        assertNotNull("order not create", or);
+        assertEquals(0, cartRepository.findAll().size());
+        assertEquals(1, orderRepository.findAll().size());
+    }
+
+    @Test
+    public void cartDelete() throws InventoryNotAvailableException, ProductNotFoundException {
+        Cart cart = cs.createSessionCart();
+        cart = cs.cartAdd("product", 1, false);
+        cs.cartDelete(cart);
+    }
 }
