@@ -1,11 +1,11 @@
 package com.serpics.core.persistence;
 
 public interface Locale {
-	public Long getLocaleId();
+    public Long getLocaleId();
 
-	public String getCountry();
+    public String getCountry();
 
-	public String getLocale();
+    public String getLonguage();
 
-	public String getName();
+    public String getName();
 }

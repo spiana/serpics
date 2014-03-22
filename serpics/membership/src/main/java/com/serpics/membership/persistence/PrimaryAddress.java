@@ -2,7 +2,9 @@ package com.serpics.membership.persistence;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -32,7 +34,8 @@ public class PrimaryAddress extends AbstractAddress {
 
     // bi-directional many-to-one association to Member
     @GsonTransient
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "member_id", nullable = false, updatable = false)
     private Member member;
 
     @XmlTransient

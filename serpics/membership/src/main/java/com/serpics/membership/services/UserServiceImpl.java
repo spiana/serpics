@@ -122,14 +122,19 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public UsersReg registerUser(final UsersReg reg, final PrimaryAddress primaryAddress) {
-        if (primaryAddress != null)
-            reg.setPrimaryAddress(primaryAddress);
-        create(reg);
+
+        final User u = create(reg);
+
         if (reg.getUserType().equals(UserType.ANONYMOUS) || reg.getUserType().equals(UserType.GUEST))
             reg.setUserType(UserType.REGISTERED);
-        reg.setUserId(reg.getMemberId());
+
         if (reg.getStatus() == null)
             reg.setStatus(UserRegStatus.ACTIVE);
+
+        if (primaryAddress != null) {
+            primaryAddress.setMember(u);
+            reg.setPrimaryAddress(primaryAddress);
+        }
         return userRegrepository.saveAndFlush(reg);
     }
 

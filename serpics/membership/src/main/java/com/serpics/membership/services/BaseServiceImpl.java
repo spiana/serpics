@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.persistence.Currency;
+import com.serpics.base.persistence.Locale;
 import com.serpics.base.repositories.CurrencyRepository;
+import com.serpics.base.services.LocaleService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
@@ -44,6 +46,9 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    LocaleService localeService;
+
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void initIstance() {
@@ -54,6 +59,12 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         currency.setIsoCode("EUR");
         currency.setDescriprion("Euro");
         currency = currencyRepository.saveAndFlush(currency);
+
+        final Locale locale = new Locale();
+        locale.setCountry("IT");
+        locale.setlanguage("it");
+        locale.setName("Italiano");
+        localeService.create(locale);
 
         Store s = new Store();
         s.setName("default-store");
@@ -78,7 +89,6 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 
             m.registerUser(ug, new PrimaryAddress());
 
-
         } catch (final SerpicsException e) {
             e.printStackTrace();
         }
@@ -95,7 +105,7 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
     public void createStore(final String storeName) {
         final Currency example = new Currency();
         example.setIsoCode("EUR");
-        final Currency currency= currencyRepository.findOne(currencyRepository.makeSpecification(example));
+        final Currency currency = currencyRepository.findOne(currencyRepository.makeSpecification(example));
         Assert.notNull(currency);
 
         Store s = new Store();

@@ -1,7 +1,6 @@
 package com.serpics.base.persistence;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,56 +16,60 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "locales")
 public class Locale extends com.serpics.core.persistence.jpa.Entity implements com.serpics.core.persistence.Locale, Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "locale_id", unique = true, nullable = false)
-	private Long localeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "locale_id", unique = true, nullable = false)
+    private Long localeId;
 
-	@Column(nullable = false, length = 2)
-	private String country;
+    @Column(nullable = false, length = 2)
+    private String country;
 
-	@Column(nullable = false, length = 2)
-	private String locale;
+    @Column(nullable = false, length = 2)
+    private String language;
 
-	@Column(length = 40)
-	private String name;
+    @Column(length = 40)
+    private String name;
 
-	public Locale() {
-	}
+    public Locale() {
+    }
 
-	public Long getLocaleId() {
-		return this.localeId;
-	}
+    @Override
+    public Long getLocaleId() {
+        return this.localeId;
+    }
 
-	public void setLocaleId(Long localeId) {
-		this.localeId = localeId;
-	}
+    public void setLocaleId(final Long localeId) {
+        this.localeId = localeId;
+    }
 
-	public String getCountry() {
-		return this.country;
-	}
+    @Override
+    public String getCountry() {
+        return this.country;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setCountry(final String country) {
+        this.country = country;
+    }
 
-	public String getLocale() {
-		return this.locale;
-	}
+    @Override
+    public String getLonguage() {
+        return this.language;
+    }
 
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
+    public void setlanguage(final String language) {
+        this.language = language;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
 
 }

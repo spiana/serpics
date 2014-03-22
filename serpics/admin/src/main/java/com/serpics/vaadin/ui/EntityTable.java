@@ -21,6 +21,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -171,6 +172,11 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         this.initialized = true;
     }
 
+    @Override
+    public void setTableFieldFactory(final TableFieldFactory factory) {
+        entityList.setTableFieldFactory(factory);
+    }
+
     public void setService(final EntityService service) {
         provider.setService(service);
     }
@@ -225,4 +231,5 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     public boolean isInitialized() {
         return initialized;
     }
+
 }
