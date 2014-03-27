@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.serpics.catalog.persistence.CtentryDescr;
+import com.serpics.catalog.persistence.CtentryDescrPK;
 import com.serpics.catalog.repositories.CtentryDescrRepository;
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractEntityService;
@@ -39,4 +41,13 @@ public class CtentryDescServiceImpl extends AbstractEntityService<CtentryDescr, 
         };
     }
 
+    @Override
+    public CtentryDescr create(final CtentryDescr entity) {
+        if (entity.getId() == null) {
+            Assert.notNull(entity.getLocale());
+            Assert.notNull(entity.getCtentry());
+            entity.setId(new CtentryDescrPK(entity.getCtentry().getCtentryId(), entity.getLocale().getLocaleId()));
+        }
+        return super.create(entity);
+    }
 }

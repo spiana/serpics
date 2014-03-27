@@ -188,4 +188,11 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
         return null;
     }
 
+    @Override
+    public User findAnonymous() {
+        final List<User> users = userRepository.findAnonymous();
+        Assert.notEmpty(users);
+        return users.get(0);
+    }
+
 }

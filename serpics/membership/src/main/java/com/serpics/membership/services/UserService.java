@@ -25,4 +25,5 @@ public interface UserService extends EntityService<User , Long> {
     public User addRole(Role role , User user );
     public Collection<Role> getUserRoles(User user , Store store);	
 
+    public User findAnonymous();
 }

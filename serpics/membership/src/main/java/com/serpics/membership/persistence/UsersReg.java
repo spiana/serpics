@@ -1,7 +1,6 @@
 package com.serpics.membership.persistence;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -29,6 +28,7 @@ import com.serpics.membership.UserType;
 public class UsersReg extends User implements Serializable, UserDetail {
     private static final long serialVersionUID = 1L;
 
+    @Size(max = 100)
     @Column(name = "alternate_email", length = 100)
     private String alternateEmail;
 
@@ -43,18 +43,12 @@ public class UsersReg extends User implements Serializable, UserDetail {
     @Column(length = 500)
     private String dn;
 
-    @Column(length = 254)
-    private String field1;
-
-    @Column(length = 254)
-    private String field2;
-
     @Column(name = "last_login")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLogin;
 
     @Column(name = "locale_id")
-    private BigInteger localeId;
+    private Long localeId;
 
     @Size(min = 5, max = 100)
     @Column(nullable = true, length = 40, unique = true)
@@ -122,25 +116,6 @@ public class UsersReg extends User implements Serializable, UserDetail {
         this.dn = dn;
     }
 
-    @Override
-    public String getField1() {
-        return this.field1;
-    }
-
-    @Override
-    public void setField1(final String field1) {
-        this.field1 = field1;
-    }
-
-    @Override
-    public String getField2() {
-        return this.field2;
-    }
-
-    @Override
-    public void setField2(final String field2) {
-        this.field2 = field2;
-    }
 
     public Date getLastLogin() {
         return this.lastLogin;
@@ -150,11 +125,11 @@ public class UsersReg extends User implements Serializable, UserDetail {
         this.lastLogin = lastLogin;
     }
 
-    public BigInteger getLocaleId() {
+    public Long getLocaleId() {
         return this.localeId;
     }
 
-    public void setLocaleId(final BigInteger localeId) {
+    public void setLocaleId(final Long localeId) {
         this.localeId = localeId;
     }
 

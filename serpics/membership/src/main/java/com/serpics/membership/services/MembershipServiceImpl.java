@@ -119,8 +119,7 @@ public class MembershipServiceImpl extends AbstractService implements Membership
 
     @Override
     public UserDetail createAnonymous() {
-        final List<User> ulist = userService.findByexample(new User());
-        return ulist.get(0);
+        return userService.findAnonymous();
     }
 
 }

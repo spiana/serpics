@@ -37,11 +37,11 @@ public class CtentryDescr extends com.serpics.core.persistence.jpa.Entity implem
 
     //bi-directional many-to-one association to Ctentry
     @ManyToOne
-    @JoinColumn(name="ctentry_id" , insertable=false , updatable=false)
+    @JoinColumn(name = "ctentry_id", nullable = false, insertable = false, updatable = false)
     private Ctentry ctentry;
 
     @ManyToOne
-    @JoinColumn(name = "locale_id", insertable = false, updatable = false)
+    @JoinColumn(name = "locale_id", nullable = false, insertable = false, updatable = false)
     private Locale locale;
 
     public CtentryDescr() {

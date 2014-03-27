@@ -5,14 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.AvailableforType;
@@ -27,35 +21,19 @@ import com.serpics.catalog.repositories.AbstractProductRepository;
 import com.serpics.catalog.repositories.BundleRepository;
 import com.serpics.catalog.repositories.CatalogRepository;
 import com.serpics.catalog.repositories.ProductRepository;
-import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.ProductService;
-import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.AttributeType;
-import com.serpics.core.session.CommerceSessionContext;
-import com.serpics.membership.services.BaseService;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
-@Transactional
-@TransactionConfiguration(defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-public class CatalogServiceTest {
 
-    @Resource
-    BaseService baseService;
-
-    @Resource
-    CatalogService catalogService;
+public class CatalogServiceTest extends CatalogBaseTest {
 
     @Resource
     CategoryService categoryService;
 
     @Resource
     ProductService productService;
-
-    @Autowired
-    CommerceEngine ce;
 
     @Resource
     CatalogRepository catalogRepository;
@@ -71,14 +49,9 @@ public class CatalogServiceTest {
     @Resource
     AttributeService attributeService;
 
-    @Before
-    public void beforeTest(){
-        baseService.initIstance();
-    }
 
     @Test
     public void AttributeTest() throws SerpicsException{
-        CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 
         final BaseAttribute attribute = new BaseAttribute();
         attribute.setAttributeType(AttributeType.LONG);
@@ -90,7 +63,7 @@ public class CatalogServiceTest {
         Assert.assertEquals(1, al.size());
 
         baseService.createStore("test-store");
-        context = ce.connect("test-store");
+        context = commerceEngine.connect("test-store");
 
         final BaseAttribute attribute1 = new BaseAttribute();
         attribute1.setAttributeType(AttributeType.TEXT);
@@ -116,12 +89,7 @@ public class CatalogServiceTest {
     @Transactional
     public void test() throws SerpicsException {
 
-        final CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
-        Catalog catalog = new Catalog();
-        catalog.setCode("default-catalog");
-        catalog = catalogService.create(catalog);
 
-        context.setCatalog(catalog);
         final List<Catalog> l = catalogRepository.findAll();
         Assert.assertEquals(1, l.size());
 
@@ -140,7 +108,7 @@ public class CatalogServiceTest {
 
         final Product p = new Product();
         p.setCode("test-sku");
-        p.setCatalog(catalog);
+        p.setCatalog((Catalog)context.getCatalog());
         p.setBuyable(1);
         productService.create(p);
         //
@@ -152,13 +120,13 @@ public class CatalogServiceTest {
 
         final Product p1 = new Product();
         p1.setCode("test-sku");
-        p1.setCatalog(catalog);
+        p1.setCatalog((Catalog)context.getCatalog());
         p1.setBuyable(1);
 
 
         final Bundle b1 = new Bundle();
         b1.setCode("bundle-sku");
-        b1.setCatalog(catalog);
+        b1.setCatalog((Catalog)context.getCatalog());
         b1.setBuyable(1);
         //	b1.setPublished(1);
 

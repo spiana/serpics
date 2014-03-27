@@ -46,4 +46,6 @@ public class UserRegServiceImpl extends AbstractEntityService<UsersReg, Long> im
     }
 
 
+
+
 }

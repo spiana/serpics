@@ -8,7 +8,6 @@ import com.serpics.base.persistence.Locale;
 import com.serpics.base.services.LocaleService;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.CtentryDescr;
-import com.serpics.catalog.persistence.CtentryDescrPK;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.CtentryDescrService;
 import com.serpics.stereotype.VaadinComponent;
@@ -82,8 +81,11 @@ public class CategoryTable extends EntityTable<Category> {
                     final Locale l = localeService.findByLanguage("it");
                     Assert.notNull(l);
                     final CtentryDescr ce = new CtentryDescr();
-                    ce.setId(new CtentryDescrPK(entityItem.getEntity().getCtentryId(), l.getLocaleId()));
+                    // ce.setId(new CtentryDescrPK(entityItem.getEntity().getCtentryId(), l.getLocaleId()));
                     ce.setName("test");
+                    ce.setLocale(l);
+                    ce.setCtentry(entityItem.getEntity());
+                    // c.createEntityItem(ce);
                     c.addEntity(ce);
                     c.refresh();
                 }
@@ -106,6 +108,8 @@ public class CategoryTable extends EntityTable<Category> {
                     t.setHeight("100px");
                     t.setWidth("250px");
                     t.setEditable(true);
+                    t.setImmediate(true);
+                    t.setBuffered(true);
                     return t;
 
                 } else {

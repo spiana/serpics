@@ -27,4 +27,6 @@ public interface  EntityService<T , ID extends Serializable> {
     public T findOne(Specification<T> spec, Sort sort, int index);
 
     public T findOne(Specification<T> spec);
+
+    public void detach(T entity);
 }

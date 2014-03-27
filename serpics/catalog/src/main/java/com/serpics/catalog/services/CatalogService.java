@@ -5,5 +5,7 @@ import com.serpics.core.service.EntityService;
 
 public interface CatalogService extends EntityService<Catalog, Long> {
 
+    public void initialize();
+
     public Catalog findByCode(String code);
 }

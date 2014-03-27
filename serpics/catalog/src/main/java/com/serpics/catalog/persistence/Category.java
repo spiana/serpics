@@ -3,7 +3,6 @@ package com.serpics.catalog.persistence;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,55 +25,58 @@ import com.serpics.core.datatype.CatalogEntryType;
 @DiscriminatorValue("1")
 @PrimaryKeyJoinColumn(name = "category_id")
 public class Category extends Ctentry implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// bi-directional many-to-one association to CtentryRelation
-	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryRelation.class)
-	@OrderBy("sequence desc")
-	private Set<CategoryRelation> childCategories;
+    // bi-directional many-to-one association to CtentryRelation
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryRelation.class)
+    @OrderBy("sequence desc")
+    private Set<CategoryRelation> childCategories;
 
-	// bi-directional many-to-one association to CtentryRelation
-	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class)
-	@OrderBy("sequence desc")
-	private Set<CategoryProductRelation> childProducts;
+    // bi-directional many-to-one association to CtentryRelation
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class)
+    @OrderBy("sequence desc")
+    private Set<CategoryProductRelation> childProducts;
 
-	// bi-directional many-to-one association to Catalog
-	@ManyToOne(optional = false )
-	@JoinColumn(name = "catalog_id")
-	protected Catalog catalog;
+    // bi-directional many-to-one association to Catalog
+    @ManyToOne(optional = false )
+    @JoinColumn(name = "catalog_id")
+    protected Catalog catalog;
 
-	public Category() {
-		this.ctentryType = CatalogEntryType.CATEGORY;
-	}
+    public Category() {
+        this.ctentryType = CatalogEntryType.CATEGORY;
+    }
 
-	public Set<CategoryProductRelation> getChildProducts() {
-		return childProducts;
-	}
+    public Set<CategoryProductRelation> getChildProducts() {
+        return childProducts;
+    }
 
-	public void setChildProducts(Set<CategoryProductRelation> childProducts) {
-		this.childProducts = childProducts;
-	}
+    public void setChildProducts(final Set<CategoryProductRelation> childProducts) {
+        this.childProducts = childProducts;
+    }
 
-	public Set<CategoryRelation> getChildCategories() {
-		return childCategories;
-	}
+    public Set<CategoryRelation> getChildCategories() {
+        return childCategories;
+    }
 
-	public void setChildCategories(Set<CategoryRelation> childCategories) {
-		this.childCategories = childCategories;
-	}
+    public void setChildCategories(final Set<CategoryRelation> childCategories) {
+        this.childCategories = childCategories;
+    }
 
-	public Catalog getCatalog() {
-		return catalog;
-	}
+    public Catalog getCatalog() {
+        return catalog;
+    }
 
-	public void setCatalog(Catalog catalog) {
-		this.catalog = catalog;
-	}
-	
-	@PrePersist
-	public void prepersist(){
-		if (this.url == null)
-			this.url = "/" + getCatalog().getCode() + "/" + getCode();
-	}
+    public void setCatalog(final Catalog catalog) {
+        this.catalog = catalog;
+    }
+
+
+    @PrePersist
+    @Override
+    public void beforePersist() {
+        if (this.url == null)
+            this.url = "/" + getCatalog().getCode() + "/" + getCode();
+        super.beforePersist();
+    }
 
 }

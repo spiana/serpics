@@ -46,4 +46,17 @@ public class CatalogServiceImpl extends AbstractEntityService<Catalog, Long> imp
         return catalogRepository.findByCode(code);
     }
 
+    @Override
+    public void initialize() {
+        Catalog catalog = catalogRepository.findByCode("default-catalog");
+
+        if (catalog == null) {
+            catalog = new Catalog();
+            catalog.setCode("default-catalog");
+            catalog = catalogRepository.saveAndFlush(catalog);
+        }
+
+        getCurrentContext().setCatalog(catalog);
+    }
+
 }
