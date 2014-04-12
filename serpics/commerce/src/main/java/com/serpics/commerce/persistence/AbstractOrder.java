@@ -35,7 +35,7 @@ import com.serpics.membership.persistence.User;
 @Table(name = "orders")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "pending", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static transient final String PENDING = "P";

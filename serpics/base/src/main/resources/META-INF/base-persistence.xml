@@ -7,23 +7,14 @@
 <!-- 		<class>com.serpics.base.persistence.AttributeLookupPK</class> -->
 		<class>com.serpics.base.persistence.BaseAttribute</class>
 		<class>com.serpics.base.persistence.Country</class>
-		<class>com.serpics.base.persistence.CountryDescr</class>
-		<class>com.serpics.base.persistence.CountryDescrPK</class>
 		<class>com.serpics.base.persistence.Geocode</class>
-		<class>com.serpics.base.persistence.GeocodeDescr</class>
-		<class>com.serpics.base.persistence.GeocodeDescrPK</class>
 		<class>com.serpics.base.persistence.Paymethlookup</class>
 		<class>com.serpics.base.persistence.PaymethlookupPK</class>
 		<class>com.serpics.base.persistence.Paymethod</class>
-		<class>com.serpics.base.persistence.PaymethodDescr</class>
-		<class>com.serpics.base.persistence.PaymethodDescrPK</class>
 		<class>com.serpics.base.persistence.Region</class>
-		<class>com.serpics.base.persistence.RegionsDescr</class>
-		<class>com.serpics.base.persistence.RegionsDescrPK</class>
 		<class>com.serpics.base.persistence.Currency</class>
-		<class>com.serpics.base.persistence.BaseAttributeDescr</class>
-		<class>com.serpics.base.persistence.BaseAttributeDescrPK</class>
 		<class>com.serpics.base.persistence.Locale</class>
+		<class>com.serpics.base.persistence.MultilingualString</class>
 	</persistence-unit>
 </persistence>	
 		

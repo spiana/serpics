@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="inventory")
-public class Inventory extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class Inventory extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

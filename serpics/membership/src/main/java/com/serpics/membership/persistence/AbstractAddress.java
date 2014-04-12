@@ -29,7 +29,7 @@ import com.serpics.membership.AddressType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "flag", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorOptions(force = true)
-public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public abstract class AbstractAddress extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

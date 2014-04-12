@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class FeatureGroup extends com.serpics.core.persistence.jpa.Entity {
+public class FeatureGroup extends com.serpics.core.persistence.jpa.AbstractEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long featureGroupId;

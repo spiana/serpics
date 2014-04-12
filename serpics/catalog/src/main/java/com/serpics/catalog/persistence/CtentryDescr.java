@@ -18,7 +18,7 @@ import com.serpics.base.persistence.Locale;
  */
 @Entity
 @Table(name="ctentry_descr" )
-public class CtentryDescr extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class CtentryDescr extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId

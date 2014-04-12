@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
 import com.serpics.base.persistence.BaseAttribute;
 import com.serpics.base.services.AttributeService;
@@ -24,7 +25,6 @@ import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.datatype.AttributeType;
 
 
 public class CatalogServiceTest extends CatalogBaseTest {
@@ -54,7 +54,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     public void AttributeTest() throws SerpicsException{
 
         final BaseAttribute attribute = new BaseAttribute();
-        attribute.setAttributeType(AttributeType.LONG);
+        attribute.setAttributeType(AttributeType.INTEGER);
         attribute.setAvailablefor(AvailableforType.USER);
         attribute.setName("test");
         attributeService.create(attribute);

@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "shipmode_descr")
-public class ShipmodeDescr extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class ShipmodeDescr extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

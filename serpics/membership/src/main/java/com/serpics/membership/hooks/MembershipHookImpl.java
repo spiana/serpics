@@ -25,23 +25,23 @@ public class MembershipHookImpl extends AbstractHook implements MembershipHook {
     public UserDetail login(final Store store, final String username, final char[] password) throws SerpicsException {
         UsersReg ur = userRegRepository.findBylogonid(username);
         if (ur != null) {
-            if (ur.getUserType().equals(UserType.ADMINISTRATOR) || ur.getUserType().equals(UserType.REGISTERED))
+            if (ur.getUserType().equals(UserType.ADMINISTRATOR) || ur.getUserType().equals(UserType.REGISTERED)
+                    || ur.getUserType().equals(UserType.SUPERSUSER))
                 ur = login(ur, password);
             else
                 throw new MembershipException(String.format("invalid type %s for userId [%d] !", ur.getUserType(),
                         ur.getUserId()));
-            /*
-             * don't test if user is connect to store
-             * 
-             * @deprecate
-             * 
-             * UserStoreRelation userStorerel = (UserStoreRelation)
-             * memberFactory.find(UserStoreRelation.class, new
-             * MemberRelationPK(store.getStoreId() , u.getUserId()) ); if
-             * (userStorerel == null) throw new
-             * MembershipException("invalid store association  for userId [" +
-             * u.getUserId() + "] !");
-             */
+
+            // if not superuser test store
+            // if (!ur.getUserType().equals(UserType.SUPERSUSER)) {
+            // boolean found = false;
+            //
+            // }
+            // if (! ur.getStores().contains((Store)getSessionContext().getStoreRealm()) {
+            // throw new MembershipException(String.format("Invalid store relation for userId %d and store %s",
+            // ur.getUserId(), getSessionContext().getStoreRealm().getName()));
+            // }
+            // }
         } else {
             throw new MembershipException("no user found for loginid [" + username + "] !");
         }

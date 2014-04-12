@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name="membergroups")
 @XmlRootElement
-public class Membergroup  extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class Membergroup  extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import com.serpics.base.persistence.BaseAttribute;
 
 @Entity
-public class Feature  extends com.serpics.core.persistence.jpa.Entity{
+public class Feature  extends com.serpics.core.persistence.jpa.AbstractEntity{
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)

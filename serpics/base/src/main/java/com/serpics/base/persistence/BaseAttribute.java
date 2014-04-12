@@ -1,15 +1,22 @@
 package com.serpics.base.persistence;
 
 import java.io.Serializable;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.serpics.base.AttributeType;
+import com.serpics.base.AvailableforType;
+import com.serpics.core.persistence.jpa.AbstractEntity;
 
 /**
  * The persistent class for the base_attributes database table.
@@ -17,8 +24,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "base_attributes")
-
-public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class BaseAttribute extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -27,10 +33,12 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
     private Long baseAttributesId;
 
     @Column(name = "attribute_type", nullable = false)
-    private short attributeType;
+    @Enumerated(EnumType.ORDINAL)
+    private AttributeType attributeType;
 
     @Column(nullable = false )
-    private String availablefor;
+    @Enumerated(EnumType.STRING)
+    private AvailableforType availablefor;
 
     @Column(nullable = false)
     private short displayas;
@@ -48,9 +56,9 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
     @Column(name="store_id" , nullable=false)
     private Long storeId;
 
-    // bi-directional many-to-one association to BaseAttributeDescr
-    @OneToMany(mappedBy = "baseAttribute")
-    private Set<BaseAttributeDescr> baseAttributeDescrs;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "description_stringid")
+    private MultilingualString description;
 
     public BaseAttribute() {
     }
@@ -63,11 +71,11 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
         this.baseAttributesId = baseAttributesId;
     }
 
-    public short getAttributeType() {
+    public AttributeType getAttributeType() {
         return this.attributeType;
     }
 
-    public void setAttributeType(final short attributeType) {
+    public void setAttributeType(final AttributeType attributeType) {
         this.attributeType = attributeType;
     }
 
@@ -96,13 +104,6 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
         this.name = name;
     }
 
-    public Set<BaseAttributeDescr> getBaseAttributeDescrs() {
-        return this.baseAttributeDescrs;
-    }
-
-    public void setBaseAttributeDescrs(final Set<BaseAttributeDescr> baseAttributeDescrs) {
-        this.baseAttributeDescrs = baseAttributeDescrs;
-    }
 
     public Long getStoreId() {
         return storeId;
@@ -112,14 +113,21 @@ public class BaseAttribute extends com.serpics.core.persistence.jpa.Entity imple
         this.storeId = storeId;
     }
 
-    public String getAvailablefor() {
+    public AvailableforType getAvailablefor() {
         return availablefor;
     }
 
-    public void setAvailablefor(final String availablefor) {
+    public void setAvailablefor(final AvailableforType availablefor) {
         this.availablefor = availablefor;
     }
 
+    public MultilingualString getDescription() {
+        return description;
+    }
+
+    public void setDescription(final MultilingualString description) {
+        this.description = description;
+    }
 
 
 }

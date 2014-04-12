@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "currency")
-public class Currency extends com.serpics.core.persistence.jpa.Entity implements com.serpics.core.persistence.Currency,
+public class Currency extends com.serpics.core.persistence.jpa.AbstractEntity implements com.serpics.core.persistence.Currency,
 		Serializable {
 	private static final long serialVersionUID = 1L;
 

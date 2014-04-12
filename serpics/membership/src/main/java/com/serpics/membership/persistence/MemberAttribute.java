@@ -24,7 +24,7 @@ import com.serpics.base.persistence.BaseAttribute;
 @XmlRootElement
 @Entity
 @Table(name = "member_attribute")
-public class MemberAttribute extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class MemberAttribute extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

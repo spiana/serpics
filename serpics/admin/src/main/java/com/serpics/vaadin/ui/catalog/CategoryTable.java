@@ -119,13 +119,13 @@ public class CategoryTable extends EntityTable<Category> {
 
             @Override
             public void discard() {
-                c.discard();
+                t.discard();
                 super.discard();
             }
 
             @Override
             public void save() throws CommitException {
-                c.commit();
+                t.commit();
                 super.save();
             }
 

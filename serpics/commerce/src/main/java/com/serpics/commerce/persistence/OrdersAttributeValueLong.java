@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "orders_attribute_value_long")
-public class OrdersAttributeValueLong extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class OrdersAttributeValueLong extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

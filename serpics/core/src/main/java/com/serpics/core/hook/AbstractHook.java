@@ -3,19 +3,26 @@ package com.serpics.core.hook;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.serpics.core.CommerceEngine;
 import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
 
 public abstract class AbstractHook {
 
+    @Autowired
+    CommerceEngine commerceEngine;
+
     protected CommerceSessionContext sessionContext;
 
     public CommerceSessionContext getSessionContext() {
-        return sessionContext;
+        return sessionContext != null ? sessionContext : commerceEngine.getCurrentContext();
     }
 
     public void setSessionContext(final SessionContext sessionContext) {
         this.sessionContext = (CommerceSessionContext) sessionContext;
+
     }
 
     public void performAction(final String action, final Object[] args) {

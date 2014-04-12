@@ -1,5 +1,7 @@
 package com.serpics.membership.services;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.serpics.base.services.LocaleService;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
+import com.serpics.core.session.SessionContext;
 import com.serpics.membership.MemberType;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
@@ -60,10 +63,16 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         currency.setDescriprion("Euro");
         currency = currencyRepository.saveAndFlush(currency);
 
-        final Locale locale = new Locale();
+        Locale locale = new Locale();
         locale.setCountry("IT");
         locale.setlanguage("it");
         locale.setName("Italiano");
+        localeService.create(locale);
+
+        locale = new Locale();
+        locale.setCountry("US");
+        locale.setlanguage("en");
+        locale.setName("English");
         localeService.create(locale);
 
         Store s = new Store();
@@ -78,15 +87,17 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         createDefaultRoles();
 
         try {
-            commerceEngine.connect("default-store");
+
+            final List<Role> roles = roleService.findByexample(new Role("administrator"));
+            Assert.notEmpty(roles);
+            final SessionContext c = commerceEngine.connect("default-store");
 
             final UsersReg ug = new UsersReg();
             ug.setLastname("Superuser");
-            ug.setUserType(UserType.ADMINISTRATOR);
+            ug.setUserType(UserType.SUPERSUSER);
             ug.setLogonid("superuser");
             ug.setPassword("admin");
             ug.setStatus(UserRegStatus.ACTIVE);
-
             m.registerUser(ug, new PrimaryAddress());
 
         } catch (final SerpicsException e) {

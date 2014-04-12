@@ -19,7 +19,7 @@ import org.restlet.resource.Get;
 import com.serpics.base.persistence.Locale;
 
 @Entity
-public class FeatureValues extends com.serpics.core.persistence.jpa.Entity {
+public class FeatureValues extends com.serpics.core.persistence.jpa.AbstractEntity {
 
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)

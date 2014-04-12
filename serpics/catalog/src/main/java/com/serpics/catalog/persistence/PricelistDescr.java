@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="pricelist_descr" )
-public class PricelistDescr extends com.serpics.core.persistence.jpa.Entity {
+public class PricelistDescr extends com.serpics.core.persistence.jpa.AbstractEntity {
 
 	@EmbeddedId
 	private PricelistDescrPK id;

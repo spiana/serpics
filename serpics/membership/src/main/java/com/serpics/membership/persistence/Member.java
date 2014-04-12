@@ -43,7 +43,7 @@ import com.serpics.membership.MemberType;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "member_type", discriminatorType = DiscriminatorType.STRING)
 @Access(AccessType.FIELD)
-public class Member extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class Member extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

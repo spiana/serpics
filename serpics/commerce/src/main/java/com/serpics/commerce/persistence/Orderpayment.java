@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "orderpayment")
-public class Orderpayment extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class Orderpayment extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

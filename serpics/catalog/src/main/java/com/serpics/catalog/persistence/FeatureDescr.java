@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="feature_descr" )
-public class FeatureDescr extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class FeatureDescr extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

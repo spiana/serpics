@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="paymethlookup" )
-public class Paymethlookup extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class Paymethlookup extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

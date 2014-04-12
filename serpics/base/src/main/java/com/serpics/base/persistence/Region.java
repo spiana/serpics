@@ -1,8 +1,8 @@
 package com.serpics.base.persistence;
 
 import java.io.Serializable;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,70 +19,61 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "regions")
-public class Region extends com.serpics.core.persistence.jpa.Entity implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Region extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "regions_id", unique = true, nullable = false)
-	private Long regionsId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "regions_id", unique = true, nullable = false)
+    private Long regionsId;
 
-	@Column(nullable = false, length = 100)
-	private String description;
+    @Column(nullable = false, length = 100)
+    private String name;
 
-	@Column(nullable = false, length = 100)
-	private String name;
+    // bi-directional many-to-one association to Country
+    @ManyToOne
+    @JoinColumn(name = "countries_id", nullable = false)
+    private Country country;
 
-	// bi-directional many-to-one association to Country
-	@ManyToOne
-	@JoinColumn(name = "countries_id", nullable = false)
-	private Country country;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "description_stringid")
+    private MultilingualString description;
 
-	// bi-directional many-to-one association to RegionsDescr
-	@OneToMany(mappedBy = "region")
-	private Set<RegionsDescr> regionsDescrs;
+    public Region() {
+    }
 
-	public Region() {
-	}
+    public Long getRegionsId() {
+        return this.regionsId;
+    }
 
-	public Long getRegionsId() {
-		return this.regionsId;
-	}
+    public void setRegionsId(final Long regionsId) {
+        this.regionsId = regionsId;
+    }
 
-	public void setRegionsId(Long regionsId) {
-		this.regionsId = regionsId;
-	}
+    public MultilingualString getDescription() {
+        return this.description;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public void setDescription(final MultilingualString description) {
+        this.description = description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Country getCountry() {
+        return this.country;
+    }
 
-	public Country getCountry() {
-		return this.country;
-	}
+    public void setCountry(final Country country) {
+        this.country = country;
+    }
 
-	public void setCountry(Country country) {
-		this.country = country;
-	}
 
-	public Set<RegionsDescr> getRegionsDescrs() {
-		return this.regionsDescrs;
-	}
-
-	public void setRegionsDescrs(Set<RegionsDescr> regionsDescrs) {
-		this.regionsDescrs = regionsDescrs;
-	}
 
 }

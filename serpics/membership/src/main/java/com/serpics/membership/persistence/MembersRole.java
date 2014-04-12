@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="members_role" )
-public class MembersRole  extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class MembersRole  extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId

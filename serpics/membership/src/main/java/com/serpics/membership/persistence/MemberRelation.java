@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
 
-import com.serpics.core.persistence.jpa.Entity;
+import com.serpics.core.persistence.jpa.AbstractEntity;
 
 
 
@@ -16,7 +16,7 @@ import com.serpics.core.persistence.jpa.Entity;
  * 
  */
 @MappedSuperclass
-public abstract class MemberRelation extends Entity implements Serializable {
+public abstract class MemberRelation extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

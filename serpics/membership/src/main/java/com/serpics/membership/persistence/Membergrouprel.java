@@ -24,7 +24,7 @@ import com.serpics.membership.Member2GroupRelType;
  */
 @Entity
 @Table(name="membgrouprel")
-public class Membergrouprel extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class Membergrouprel extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId

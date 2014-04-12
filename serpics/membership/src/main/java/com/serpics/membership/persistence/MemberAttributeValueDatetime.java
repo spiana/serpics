@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "member_attribute_value_datetime")
 @XmlRootElement
-public class MemberAttributeValueDatetime extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public class MemberAttributeValueDatetime extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

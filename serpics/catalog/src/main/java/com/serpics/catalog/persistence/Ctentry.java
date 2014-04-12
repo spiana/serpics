@@ -30,7 +30,7 @@ import javax.persistence.TemporalType;
 @Table(name = "ctentry")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "ctenytry_type", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class Ctentry extends com.serpics.core.persistence.jpa.Entity implements Serializable {
+public abstract class Ctentry extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
