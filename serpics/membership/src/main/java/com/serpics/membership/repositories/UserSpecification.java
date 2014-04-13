@@ -12,18 +12,18 @@ import com.serpics.membership.persistence.User;
 
 
 public class UserSpecification {
-	
-	
-	public static Specification<User> isUserInStore(final Store store){
-		return new Specification<User>() {
-		@Override
-		public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query,
-				CriteriaBuilder cb) {
-			
-			return cb.equal(root.join("storeRelation").get("store"), store);
-		}
-		};
-	}
 
-	
+
+    public static Specification<User> isUserInStore(final Store store){
+        return new Specification<User>() {
+            @Override
+            public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
+                    final CriteriaBuilder cb) {
+
+                return cb.equal(root.join("stores").as(Store.class), store);
+            }
+        };
+    }
+
+
 }

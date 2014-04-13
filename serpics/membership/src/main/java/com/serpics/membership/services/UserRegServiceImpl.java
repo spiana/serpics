@@ -34,8 +34,10 @@ public class UserRegServiceImpl extends AbstractEntityService<UsersReg, Long> im
             @Override
             public Predicate toPredicate(final Root<UsersReg> root,
                     final CriteriaQuery<?> query, final CriteriaBuilder cb) {
+                // return cb.equal(root.join("storeRelation").get("store"), (Store)
+                // getCurrentContext().getStoreRealm());
 
-                return cb.equal(root.join("storeRelation").get("store"), (Store) getCurrentContext().getStoreRealm());
+                return cb.equal(root.join("stores").as(Store.class), (Store) getCurrentContext().getStoreRealm());
             }
         };
     }

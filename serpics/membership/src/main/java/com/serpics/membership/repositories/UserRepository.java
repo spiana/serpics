@@ -14,7 +14,7 @@ import com.serpics.membership.persistence.User;
 @Transactional(readOnly=true)
 public interface UserRepository extends Repository<User, Long> {
 
-    @Query("select u from User u join u.storeRelation r where r.store = ?1")
+    @Query("select u from User u  join u.stores s where s =?1")
     List<User> findAllByStore(Store store);
 
     @Query("select u from User u where u.userType='ANONYMOUS'")

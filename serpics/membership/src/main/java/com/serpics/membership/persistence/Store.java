@@ -31,7 +31,8 @@ public class Store extends Member implements Serializable, StoreRealm {
     @JoinColumn(name = "currency_id")
     private Currency currency;
 
-    // bi-directional many-to-one association to Membergroup
+    // @ManyToMany(fetch = FetchType.LAZY, mappedBy = "stores")
+    // private final Set<User> users = new HashSet<User>(0);
 
     public Store() {
         this.memberType = MemberType.STORE;
@@ -63,6 +64,32 @@ public class Store extends Member implements Serializable, StoreRealm {
 
     public void setCurrency(final Currency currency) {
         this.currency = currency;
+    }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Store other = (Store) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
     }
 
 }

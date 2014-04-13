@@ -30,10 +30,10 @@ import com.serpics.membership.persistence.PrimaryAddress;
 import com.serpics.membership.persistence.Role;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
-import com.serpics.membership.persistence.UserStoreRelation;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.MembersRoleRepository;
 import com.serpics.membership.repositories.PermanentAddressRepository;
+import com.serpics.membership.repositories.StoreRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.repositories.UserRepository;
 
@@ -48,6 +48,9 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
 
     @Resource
     UserRegrepository userRegrepository;
+
+    @Resource
+    StoreRepository storeRepository;
 
 
     @Resource(name = "permanentAddressRepository")
@@ -100,9 +103,13 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
         if (!roles.isEmpty())
             user = mergeUserRoles(user, roles);
 
-        final UserStoreRelation r = new UserStoreRelation((Store) getCurrentContext().getStoreRealm(), user);
-        r.setUpdated(new Date());
-        user.getStoreRelation().add(r);
+        // final UserStoreRelation r = new UserStoreRelation((Store) getCurrentContext().getStoreRealm(), user);
+        // r.setUpdated(new Date());
+        // user.getStoreRelation().add(r);
+        final Store currentStore = (Store) getCurrentContext().getStoreRealm();
+        // currentStore.getUsers().add(user);
+        user.getStores().add(currentStore);
+
         return userRepository.saveAndFlush(user);
 
     }

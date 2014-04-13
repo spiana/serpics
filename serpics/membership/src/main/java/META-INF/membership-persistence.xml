@@ -15,7 +15,7 @@
 		<class>com.serpics.membership.persistence.MemberRelationPK</class>
 		<!-- <class>com.serpics.membership.persistence.MemberRelation</class> -->
 		<class>com.serpics.membership.persistence.User2UserRelation</class>
-		<class>com.serpics.membership.persistence.UserStoreRelation</class>
+<!-- 		<class>com.serpics.membership.persistence.UserStoreRelation</class> -->
 		<class>com.serpics.membership.persistence.MemberAttributeValueVarchar</class>
 		<class>com.serpics.membership.persistence.MemberAttributeValueText</class>
 		<class>com.serpics.membership.persistence.MemberAttributeValueLong</class>

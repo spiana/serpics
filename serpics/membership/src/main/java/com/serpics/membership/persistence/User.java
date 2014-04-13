@@ -15,14 +15,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MemberType;
@@ -66,18 +67,13 @@ public class User extends Member implements Serializable, UserDetail {
     @Column(name = "last_visit")
     private Date lastVisit;
 
-    //
-    // @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL, orphanRemoval =
-    // true)
-    // private UsersReg userReg;
-
-    @Column(name = "store_id")
-    private Long storeId;
-
     // bi-directional many-to-one association to MemberRelation
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
+    //   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    //   protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user2storerel", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "store_id"))
+    protected Set<Store> stores = new HashSet<Store>(0);
 
     public User() {
         this.userType = UserType.ANONYMOUS;
@@ -190,26 +186,26 @@ public class User extends Member implements Serializable, UserDetail {
         setMemberId(userId);
     }
 
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(final Long storeId) {
-        this.storeId = storeId;
-    }
-
-    @XmlTransient
-    public Set<UserStoreRelation> getStoreRelation() {
-        return storeRelation;
-    }
-
-    public void setStoreRelation(final Set<UserStoreRelation> storeRelation) {
-        this.storeRelation = storeRelation;
-    }
+    // @XmlTransient
+    // public Set<UserStoreRelation> getStoreRelation() {
+    // return storeRelation;
+    // }
+    //
+    // public void setStoreRelation(final Set<UserStoreRelation> storeRelation) {
+    // this.storeRelation = storeRelation;
+    // }
 
     @Override
     public String getName() {
         return null;
+    }
+
+    public Set<Store> getStores() {
+        return stores;
+    }
+
+    public void setStores(final Set<Store> stores) {
+        this.stores = stores;
     }
 
 }

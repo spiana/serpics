@@ -72,7 +72,7 @@ public class Member extends com.serpics.core.persistence.jpa.AbstractEntity impl
     @OneToOne(mappedBy = "member", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL)
     protected PrimaryAddress primaryAddress;
 
-    @OneToMany(mappedBy = "member", targetEntity = PermanentAddress.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", targetEntity = PermanentAddress.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     protected Set<PermanentAddress> permanentAddresses = new HashSet<PermanentAddress>(0);
 
     // bi-directional many-to-one association to MemberAttribute
