@@ -33,11 +33,22 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
 
     }
 
+
+    private SerpicsPersistentContainer<Membergroup> memberGroups;
+
+    @Override
+    public void attach() {
+        memberGroups.refresh();
+        super.attach();
+    }
+
     @Override
     public void init() {
         super.init();
         final String[] displayProperties = { "membergroup", "status", "validFrom", "validTo" };
         this.displayProperties = displayProperties;
+        memberGroups = SerpicsContainerFactory.make(Membergroup.class,
+                membergroupService);
     }
 
     @Override
@@ -58,8 +69,6 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
     protected Field<?> createField(final String pid) {
 
         if (pid.equals("membergroup")) {
-            final SerpicsPersistentContainer<Membergroup> memberGroups = SerpicsContainerFactory.make(
-                    Membergroup.class, membergroupService);
             final ComboBox combo = new ComboBox("membergroup");
             combo.setContainerDataSource(memberGroups);
             combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);

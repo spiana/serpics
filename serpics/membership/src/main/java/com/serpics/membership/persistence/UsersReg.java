@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.serpics.base.persistence.Locale;
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
@@ -48,7 +49,7 @@ public class UsersReg extends User implements Serializable, UserDetail {
     private Date lastLogin;
 
     @Column(name = "locale_id")
-    private Long localeId;
+    private Locale locale;
 
     @Size(min = 5, max = 100)
     @Column(nullable = true, length = 40, unique = true)
@@ -125,13 +126,7 @@ public class UsersReg extends User implements Serializable, UserDetail {
         this.lastLogin = lastLogin;
     }
 
-    public Long getLocaleId() {
-        return this.localeId;
-    }
 
-    public void setLocaleId(final Long localeId) {
-        this.localeId = localeId;
-    }
 
     public String getLogonid() {
         return this.logonid;
@@ -168,6 +163,14 @@ public class UsersReg extends User implements Serializable, UserDetail {
     @Override
     public String getName() {
         return logonid;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(final Locale locale) {
+        this.locale = locale;
     }
 
 }

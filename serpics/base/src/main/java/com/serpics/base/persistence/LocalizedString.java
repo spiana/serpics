@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 @Embeddable
 public class LocalizedString {
     @JoinColumn(name = "locale_id")
-    private Locale locale;
+    private String language;
 
     @Column(name = "text")
     private String text;
@@ -15,18 +15,10 @@ public class LocalizedString {
     public LocalizedString() {
     }
 
-    public LocalizedString(final Locale locale, final String text) {
+    public LocalizedString(final String language, final String text) {
         super();
-        this.locale = locale;
+        this.language = language;
         this.text = text;
-    }
-
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(final Locale locale) {
-        this.locale = locale;
     }
 
     public String getText() {
@@ -35,5 +27,13 @@ public class LocalizedString {
 
     public void setText(final String text) {
         this.text = text;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(final String language) {
+        this.language = language;
     }
 }

@@ -2,7 +2,6 @@ package com.serpics.catalog.persistence;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,11 +15,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.serpics.base.persistence.MultilingualString;
 
 /**
  * The persistent class for the ctentry database table.
@@ -53,13 +56,13 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.AbstractE
     @Column(name = "url", nullable = false, unique = true)
     protected String url;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "description_string_id")
+    private MultilingualString description = new MultilingualString();
+
     // bi-directional many-to-one association to CtentryAttribute
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
     protected Set<CtentryAttribute> ctentryAttributes;
-
-    // bi-directional many-to-one association to CtentryDescr
-    @OneToMany(mappedBy = "ctentry", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, targetEntity = CtentryDescr.class)
-    protected Set<CtentryDescr> ctentryDescrs = new HashSet<CtentryDescr>(0);
 
     // bi-directional many-to-one association to Media
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
@@ -124,13 +127,6 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.AbstractE
         this.ctentryAttributes = ctentryAttributes;
     }
 
-    public Set<CtentryDescr> getCtentryDescrs() {
-        return this.ctentryDescrs;
-    }
-
-    public void setCtentryDescrs(final Set<CtentryDescr> ctentryDescrs) {
-        this.ctentryDescrs = ctentryDescrs;
-    }
 
     public Set<Media> getMedias() {
         return this.medias;
@@ -162,6 +158,14 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.AbstractE
 
     public void setCode(final String code) {
         this.code = code;
+    }
+
+    public MultilingualString getDescription() {
+        return description;
+    }
+
+    public void setDescription(final MultilingualString description) {
+        this.description = description;
     }
 
 }

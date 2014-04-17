@@ -49,7 +49,14 @@ public class SerpicsStartApp extends UI {
         final HorizontalLayout content = new HorizontalLayout();
         content.setSizeFull();
 
-        getSession().setLocale(new Locale("it", "IT"));
+        final com.serpics.base.persistence.Locale locale = (com.serpics.base.persistence.Locale) commerceEngine
+                .getCurrentContext().getLocale();
+        Locale _locale = new Locale("it", "IT");
+        if (locale != null) {
+            _locale = new Locale(locale.getLanguage(), locale.getCountry());
+        }
+
+        getSession().setLocale(_locale);
 
         final Tree menu = new Tree();
         menu.setWidth("150px");

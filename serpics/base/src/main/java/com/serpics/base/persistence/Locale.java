@@ -54,7 +54,7 @@ public class Locale extends com.serpics.core.persistence.jpa.AbstractEntity impl
     }
 
     @Override
-    public String getLonguage() {
+    public String getLanguage() {
         return this.language;
     }
 

@@ -3,6 +3,7 @@ package com.serpics.catalog.persistence;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,6 +42,12 @@ public class Category extends Ctentry implements Serializable {
     @ManyToOne(optional = false )
     @JoinColumn(name = "catalog_id")
     protected Catalog catalog;
+
+    @Column(name = "meta_description")
+    private String metaDescription;
+
+    @Column(name = "meta_keyword")
+    private String metaKeyword;
 
     public Category() {
         this.ctentryType = CatalogEntryType.CATEGORY;

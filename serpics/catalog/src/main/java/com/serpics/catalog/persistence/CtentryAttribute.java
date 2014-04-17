@@ -1,8 +1,19 @@
 package com.serpics.catalog.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.serpics.base.persistence.BaseAttribute;
+import com.serpics.core.persistence.jpa.AbstractEntity;
 
 
 /**
@@ -11,137 +22,130 @@ import java.util.Date;
  */
 @Entity
 @Table(name="ctentry_attributes" )
-public class CtentryAttribute implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class CtentryAttribute extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="attribute_id")
-	private Long attributeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="attribute_id")
+    private Long attributeId;
 
-	@Column(name="base_attributes_id")
-	private Long baseAttributesId;
+    @Column(name = "base_attributes_id")
+    private BaseAttribute baseAttribute;
 
-	private short islogical;
+    private short islogical;
 
-	private double sequence;
+    private double sequence;
 
-    @Temporal( TemporalType.TIMESTAMP)
-	private Date updated;
 
-	//bi-directional one-to-one association to CtentryAttributeValueDatetime
-	@OneToOne(mappedBy="ctentryAttribute")
-	private CtentryAttributeValueDatetime ctentryAttributeValueDatetime;
+    //bi-directional one-to-one association to CtentryAttributeValueDatetime
+    @OneToOne(mappedBy="ctentryAttribute")
+    private CtentryAttributeValueDatetime ctentryAttributeValueDatetime;
 
-	//bi-directional one-to-one association to CtentryAttributeValueDecimal
-	@OneToOne(mappedBy="ctentryAttribute")
-	private CtentryAttributeValueDecimal ctentryAttributeValueDecimal;
+    //bi-directional one-to-one association to CtentryAttributeValueDecimal
+    @OneToOne(mappedBy="ctentryAttribute")
+    private CtentryAttributeValueDecimal ctentryAttributeValueDecimal;
 
-	//bi-directional one-to-one association to CtentryAttributeValueLong
-	@OneToOne(mappedBy="ctentryAttribute")
-	private CtentryAttributeValueLong ctentryAttributeValueLong;
+    //bi-directional one-to-one association to CtentryAttributeValueLong
+    @OneToOne(mappedBy="ctentryAttribute")
+    private CtentryAttributeValueLong ctentryAttributeValueLong;
 
-	//bi-directional one-to-one association to CtentryAttributeValueText
-	@OneToOne(mappedBy="ctentryAttribute")
-	private CtentryAttributeValueText ctentryAttributeValueText;
+    //bi-directional one-to-one association to CtentryAttributeValueText
+    @OneToOne(mappedBy="ctentryAttribute")
+    private CtentryAttributeValueText ctentryAttributeValueText;
 
-	//bi-directional one-to-one association to CtentryAttributeValueVarchar
-	@OneToOne(mappedBy="ctentryAttribute")
-	private CtentryAttributeValueVarchar ctentryAttributeValueVarchar;
+    //bi-directional one-to-one association to CtentryAttributeValueVarchar
+    @OneToOne(mappedBy="ctentryAttribute")
+    private CtentryAttributeValueVarchar ctentryAttributeValueVarchar;
 
-	//bi-directional many-to-one association to Ctentry
+    //bi-directional many-to-one association to Ctentry
     @ManyToOne
-	@JoinColumn(name="ctentry_id")
-	private Ctentry ctentry;
+    @JoinColumn(name="ctentry_id")
+    private Ctentry ctentry;
 
     public CtentryAttribute() {
     }
 
-	public Long getAttributeId() {
-		return this.attributeId;
-	}
+    public Long getAttributeId() {
+        return this.attributeId;
+    }
 
-	public void setAttributeId(Long attributeId) {
-		this.attributeId = attributeId;
-	}
+    public void setAttributeId(final Long attributeId) {
+        this.attributeId = attributeId;
+    }
 
-	public Long getBaseAttributesId() {
-		return this.baseAttributesId;
-	}
 
-	public void setBaseAttributesId(Long baseAttributesId) {
-		this.baseAttributesId = baseAttributesId;
-	}
+    public short getIslogical() {
+        return this.islogical;
+    }
 
-	public short getIslogical() {
-		return this.islogical;
-	}
+    public void setIslogical(final short islogical) {
+        this.islogical = islogical;
+    }
 
-	public void setIslogical(short islogical) {
-		this.islogical = islogical;
-	}
+    public double getSequence() {
+        return this.sequence;
+    }
 
-	public double getSequence() {
-		return this.sequence;
-	}
+    public void setSequence(final double sequence) {
+        this.sequence = sequence;
+    }
 
-	public void setSequence(double sequence) {
-		this.sequence = sequence;
-	}
 
-	public Date getUpdated() {
-		return this.updated;
-	}
+    public CtentryAttributeValueDatetime getCtentryAttributeValueDatetime() {
+        return this.ctentryAttributeValueDatetime;
+    }
 
-	public void setUpdated(Date updated) {
-		this.updated = updated;
-	}
+    public void setCtentryAttributeValueDatetime(final CtentryAttributeValueDatetime ctentryAttributeValueDatetime) {
+        this.ctentryAttributeValueDatetime = ctentryAttributeValueDatetime;
+    }
 
-	public CtentryAttributeValueDatetime getCtentryAttributeValueDatetime() {
-		return this.ctentryAttributeValueDatetime;
-	}
+    public CtentryAttributeValueDecimal getCtentryAttributeValueDecimal() {
+        return this.ctentryAttributeValueDecimal;
+    }
 
-	public void setCtentryAttributeValueDatetime(CtentryAttributeValueDatetime ctentryAttributeValueDatetime) {
-		this.ctentryAttributeValueDatetime = ctentryAttributeValueDatetime;
-	}
-	
-	public CtentryAttributeValueDecimal getCtentryAttributeValueDecimal() {
-		return this.ctentryAttributeValueDecimal;
-	}
+    public void setCtentryAttributeValueDecimal(final CtentryAttributeValueDecimal ctentryAttributeValueDecimal) {
+        this.ctentryAttributeValueDecimal = ctentryAttributeValueDecimal;
+    }
 
-	public void setCtentryAttributeValueDecimal(CtentryAttributeValueDecimal ctentryAttributeValueDecimal) {
-		this.ctentryAttributeValueDecimal = ctentryAttributeValueDecimal;
-	}
-	
-	public CtentryAttributeValueLong getCtentryAttributeValueLong() {
-		return this.ctentryAttributeValueLong;
-	}
+    public CtentryAttributeValueLong getCtentryAttributeValueLong() {
+        return this.ctentryAttributeValueLong;
+    }
 
-	public void setCtentryAttributeValueLong(CtentryAttributeValueLong ctentryAttributeValueLong) {
-		this.ctentryAttributeValueLong = ctentryAttributeValueLong;
-	}
-	
-	public CtentryAttributeValueText getCtentryAttributeValueText() {
-		return this.ctentryAttributeValueText;
-	}
+    public void setCtentryAttributeValueLong(final CtentryAttributeValueLong ctentryAttributeValueLong) {
+        this.ctentryAttributeValueLong = ctentryAttributeValueLong;
+    }
 
-	public void setCtentryAttributeValueText(CtentryAttributeValueText ctentryAttributeValueText) {
-		this.ctentryAttributeValueText = ctentryAttributeValueText;
-	}
-	
-	public CtentryAttributeValueVarchar getCtentryAttributeValueVarchar() {
-		return this.ctentryAttributeValueVarchar;
-	}
+    public CtentryAttributeValueText getCtentryAttributeValueText() {
+        return this.ctentryAttributeValueText;
+    }
 
-	public void setCtentryAttributeValueVarchar(CtentryAttributeValueVarchar ctentryAttributeValueVarchar) {
-		this.ctentryAttributeValueVarchar = ctentryAttributeValueVarchar;
-	}
-	
-	public Ctentry getCtentry() {
-		return this.ctentry;
-	}
+    public void setCtentryAttributeValueText(final CtentryAttributeValueText ctentryAttributeValueText) {
+        this.ctentryAttributeValueText = ctentryAttributeValueText;
+    }
 
-	public void setCtentry(Ctentry ctentry) {
-		this.ctentry = ctentry;
-	}
-	
+    public CtentryAttributeValueVarchar getCtentryAttributeValueVarchar() {
+        return this.ctentryAttributeValueVarchar;
+    }
+
+    public void setCtentryAttributeValueVarchar(final CtentryAttributeValueVarchar ctentryAttributeValueVarchar) {
+        this.ctentryAttributeValueVarchar = ctentryAttributeValueVarchar;
+    }
+
+    public Ctentry getCtentry() {
+        return this.ctentry;
+    }
+
+    public void setCtentry(final Ctentry ctentry) {
+        this.ctentry = ctentry;
+    }
+
+    public BaseAttribute getBaseAttribute() {
+        return baseAttribute;
+    }
+
+    public void setBaseAttribute(final BaseAttribute baseAttribute) {
+        this.baseAttribute = baseAttribute;
+    }
+
 }

@@ -26,37 +26,44 @@ public class MultilingualString extends AbstractEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "locale")
     @CollectionTable(name = "locale_string_map", joinColumns = @JoinColumn(name = "string_id"))
-    private final Map<Locale, LocalizedString> map = new HashMap<Locale, LocalizedString>();
+    private final Map<String, LocalizedString> map = new HashMap<String, LocalizedString>();
 
     public MultilingualString() {
     }
 
-    public MultilingualString(final Locale lang, final String text) {
+    public MultilingualString(final String lang, final String text) {
         addText(lang, text);
     }
 
-    public void addText(final Locale locale, final String text) {
-        map.put(locale, new LocalizedString(locale, text));
+    public void addText(final String language, final String text) {
+        map.put(language, new LocalizedString(language, text));
     }
 
-    public String getText(final Locale locale) {
-        if (map.containsKey(locale)) {
-            return map.get(locale).getText();
+    public String getText(final java.util.Locale locale) {
+        if (map.containsKey(locale.getLanguage())) {
+            return map.get(locale.getLanguage()).getText();
         }
         return null;
     }
 
-    public LocalizedString getLocalizedString(final Locale locale) {
-        if (map.get(locale) == null)
-            map.put(locale, new LocalizedString(locale, null));
-        return map.get(locale);
+    public String getText(final String language) {
+        if (map.containsKey(language)) {
+            return map.get(language).getText();
+        }
+        return null;
+    }
+
+    public LocalizedString getLocalizedString(final String language) {
+        if (map.get(language) == null)
+            map.put(language, new LocalizedString(language, null));
+        return map.get(language);
     }
 
     @Override
     public MultilingualString clone() {
         final MultilingualString ms = new MultilingualString();
         for (final LocalizedString s : map.values())
-            ms.addText(s.getLocale(), s.getText());
+            ms.addText(s.getLanguage(), s.getText());
         return ms;
     }
 
@@ -66,6 +73,10 @@ public class MultilingualString extends AbstractEntity {
 
     public void setId(final Long id) {
         Id = id;
+    }
+
+    public Map<String, LocalizedString> getMap() {
+        return map;
     }
 
 }

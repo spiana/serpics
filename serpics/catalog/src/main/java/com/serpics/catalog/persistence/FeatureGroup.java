@@ -3,6 +3,7 @@ package com.serpics.catalog.persistence;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,71 +11,86 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.serpics.base.persistence.MultilingualString;
 
 @Entity
 public class FeatureGroup extends com.serpics.core.persistence.jpa.AbstractEntity {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long featureGroupId;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long featureGroupId;
 
-	private String code;
-	
-	private String name;
-	
-	private double sequence;
-	
-	@ManyToOne
-	@JoinColumn(name="specification_id" , nullable=false)
-	Specification specification;
-	
-	@OneToMany(mappedBy="featureGroup")
-	Set<Feature> features = new HashSet<Feature>(0);
+    private String code;
 
-	public Long getFeatureGroupId() {
-		return featureGroupId;
-	}
+    private String name;
 
-	public void setFeatureGroupId(Long featureGroupId) {
-		this.featureGroupId = featureGroupId;
-	}
+    private double sequence;
 
-	public String getCode() {
-		return code;
-	}
+    @ManyToOne
+    @JoinColumn(name="specification_id" , nullable=false)
+    Specification specification;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "description_string_id")
+    private MultilingualString description;
 
-	public String getName() {
-		return name;
-	}
+    @OneToMany(mappedBy="featureGroup")
+    Set<Feature> features = new HashSet<Feature>(0);
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Long getFeatureGroupId() {
+        return featureGroupId;
+    }
 
-	public double getSequence() {
-		return sequence;
-	}
+    public void setFeatureGroupId(final Long featureGroupId) {
+        this.featureGroupId = featureGroupId;
+    }
 
-	public void setSequence(double sequence) {
-		this.sequence = sequence;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public Specification getSpecification() {
-		return specification;
-	}
+    public void setCode(final String code) {
+        this.code = code;
+    }
 
-	public void setSpecification(Specification specification) {
-		this.specification = specification;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Set<Feature> getFeatures() {
-		return features;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public void setFeatures(Set<Feature> features) {
-		this.features = features;
-	}
+    public double getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(final double sequence) {
+        this.sequence = sequence;
+    }
+
+    public Specification getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(final Specification specification) {
+        this.specification = specification;
+    }
+
+    public Set<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(final Set<Feature> features) {
+        this.features = features;
+    }
+
+    public MultilingualString getDescription() {
+        return description;
+    }
+
+    public void setDescription(final MultilingualString description) {
+        this.description = description;
+    }
 }

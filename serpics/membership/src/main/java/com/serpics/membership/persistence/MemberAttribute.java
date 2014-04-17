@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.base.persistence.BaseAttribute;
+import com.serpics.core.persistence.jpa.AbstractEntity;
 
 
 /**
@@ -24,7 +25,7 @@ import com.serpics.base.persistence.BaseAttribute;
 @XmlRootElement
 @Entity
 @Table(name = "member_attribute")
-public class MemberAttribute extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
+public class MemberAttribute extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

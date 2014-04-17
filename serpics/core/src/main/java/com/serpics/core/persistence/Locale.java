@@ -5,7 +5,7 @@ public interface Locale {
 
     public String getCountry();
 
-    public String getLonguage();
+    public String getLanguage();
 
     public String getName();
 }

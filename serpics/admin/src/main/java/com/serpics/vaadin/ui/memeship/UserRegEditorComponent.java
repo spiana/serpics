@@ -2,11 +2,18 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.admin.SerpicsContainerFactory;
+import com.serpics.base.persistence.Locale;
+import com.serpics.base.services.LocaleService;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.services.UserRegService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
+import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
+import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 
@@ -17,16 +24,20 @@ public class UserRegEditorComponent extends EntityForm<UsersReg> {
     @Autowired
     private transient UserRegService userRegService;
 
+    @Autowired
+    private transient LocaleService localeService;
+
 
 
     public UserRegEditorComponent() {
         super(UsersReg.class);
-        final String[] p = { "logonid", "password", "alternateEmail" };
+        final String[] p = { "logonid", "password", "alternateEmail", "locale", "lastLogin", "created", "updated",
+        "passwordChange" };
         // setDisplayProperties(p);
-        final String[] readonlyProps = { "lastLogin", "created", "updated", "passwordChange", "lastLogin" };
+        final String[] readonlyProps = { "lastLogin", "created", "updated", "passwordChange" };
         setDisplayProperties(p);
-        // setReadOnlyProperties(readonlyProps);
-        setHideProperties(new String[] { "localeId", "uuid" });
+        setReadOnlyProperties(readonlyProps);
+        setHideProperties(new String[] { "uuid" });
 
     }
 
@@ -40,9 +51,20 @@ public class UserRegEditorComponent extends EntityForm<UsersReg> {
             combo.addItem(UserRegStatus.WAITING);
             fieldGroup.bind(combo, "status");
             return combo;
-        }
-
-        return super.createField(pid);
+        } else if (pid.equals("locale")) {
+            final SerpicsPersistentContainer<Locale> locales = SerpicsContainerFactory
+                    .make(Locale.class, localeService);
+            final ComboBox combo = new ComboBox("locale");
+            combo.setContainerDataSource(locales);
+            combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+            combo.setItemCaptionPropertyId("language");
+            combo.setFilteringMode(FilteringMode.CONTAINS);
+            combo.setImmediate(true);
+            combo.setConverter(new SingleSelectConverter(combo));
+            fieldGroup.bind(combo, "locale");
+            return combo;
+        } else
+            return super.createField(pid);
     }
 
 }

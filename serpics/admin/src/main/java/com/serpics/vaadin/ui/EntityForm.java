@@ -53,6 +53,7 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
 
         this.entityClass = clazz;
         fieldGroup = new FieldGroup();
+
         fieldGroup.setFieldFactory(this);
 
         setSizeUndefined();

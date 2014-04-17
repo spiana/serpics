@@ -13,8 +13,8 @@
 		<class>com.serpics.catalog.persistence.CtentryAttributeValueText</class>
 		<class>com.serpics.catalog.persistence.CtentryAttributeValueVarchar</class>
 		<class>com.serpics.catalog.persistence.CtentryAttribute</class>
-		<class>com.serpics.catalog.persistence.CtentryDescr</class>
-		<class>com.serpics.catalog.persistence.CtentryDescrPK</class>
+<!-- 		<class>com.serpics.catalog.persistence.CtentryDescr</class> -->
+<!-- 		<class>com.serpics.catalog.persistence.CtentryDescrPK</class> -->
 		<class>com.serpics.catalog.persistence.CtentryRelationPK</class>
 		<class>com.serpics.catalog.persistence.Media</class>
 		<class>com.serpics.catalog.persistence.MediaDescr</class>
@@ -34,7 +34,7 @@
 		<class>com.serpics.catalog.persistence.Specification</class>
 		<class>com.serpics.catalog.persistence.SpecificationRelation</class>
 		<class>com.serpics.catalog.persistence.Feature</class>
-		<class>com.serpics.catalog.persistence.FeatureDescr</class>
+<!-- 		<class>com.serpics.catalog.persistence.FeatureDescr</class> -->
 		<class>com.serpics.catalog.persistence.FeatureGroup</class>
 		<class>com.serpics.catalog.persistence.FeatureValues</class>
 	
