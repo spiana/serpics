@@ -34,9 +34,9 @@ public class MembershipHookImpl extends AbstractHook implements MembershipHook {
 
             // if not superuser test store
             if (!ur.getUserType().equals(UserType.SUPERSUSER)) {
-                if (!ur.getStores().contains((Store) getSessionContext().getStoreRealm())) {
+                if (!ur.getStores().contains((Store) getCurrentContext().getStoreRealm())) {
                     throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
-                            ur.getLogonid(), getSessionContext().getStoreRealm().getName()));
+                            ur.getLogonid(), getCurrentContext().getStoreRealm().getName()));
                 }
             }
         } else {

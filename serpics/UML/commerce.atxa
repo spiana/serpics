@@ -1,0 +1,138 @@
+<,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu> <http://www.architexa.com/rdf/core#creator> "true" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#UML_slcommerce.atxa> a atxa-core:reloFile .
+
+atxa:DetailNode atxa-core:detailLevel "1" .
+
+atxa-core:docRoot atxa-core:browseModel "com.architexa.diagrams.relo.jdt/com.architexa.diagrams.relo.jdt.browse.ClassStrucBrowseModel" ;
+	atxa-core:contains _:node18lqh8gufx27204 .
+
+_:node18lqh8gufx27204 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence> ;
+	atxa-core:posX "278" ;
+	atxa-core:posY "235" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Shipping> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Shipmode> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$AbstractOrder> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Cart> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Order> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Shipmodelookup> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Suborder> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Orderpayment> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$OrdersAttribute> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Orderitem> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$OrderitemsAttribute> .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27220 .
+
+_:node18lqh8gufx27220 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Shipping> ;
+	atxa-core:posX "284" ;
+	atxa-core:posY "442" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27221 .
+
+_:node18lqh8gufx27221 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Shipmode> ;
+	atxa-core:posX "360" ;
+	atxa-core:posY "394" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27213 .
+
+_:node18lqh8gufx27213 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$AbstractOrder> ;
+	atxa-core:posX "665" ;
+	atxa-core:posY "306" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27217 .
+
+_:node18lqh8gufx27217 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Cart> ;
+	atxa-core:posX "652" ;
+	atxa-core:posY "378" .
+
+_:node18lqh8gufx25280 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx27217 ;
+	rdf:object _:node18lqh8gufx27213 ;
+	atxa-core:bendpoint _:node18lqh8gufx27503 .
+
+_:node18lqh8gufx27503 atxa-core:bpLocation "684,358" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx25280 atxa-core:bendpoint _:node18lqh8gufx27504 .
+
+_:node18lqh8gufx27504 atxa-core:bpLocation "725,358" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27212 .
+
+_:node18lqh8gufx27212 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Order> ;
+	atxa-core:posX "495" ;
+	atxa-core:posY "360" .
+
+_:node18lqh8gufx25281 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx27212 ;
+	rdf:object _:node18lqh8gufx27213 ;
+	atxa-core:bendpoint _:node18lqh8gufx27505 .
+
+_:node18lqh8gufx27505 atxa-core:bpLocation "531,358" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx25281 atxa-core:bendpoint _:node18lqh8gufx27506 .
+
+_:node18lqh8gufx27506 atxa-core:bpLocation "725,358" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27206 .
+
+_:node18lqh8gufx27206 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Shipmodelookup> ;
+	atxa-core:posX "313" ;
+	atxa-core:posY "350" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27222 .
+
+_:node18lqh8gufx27222 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Suborder> ;
+	atxa-core:posX "361" ;
+	atxa-core:posY "272" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27209 .
+
+_:node18lqh8gufx27209 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Orderpayment> ;
+	atxa-core:posX "505" ;
+	atxa-core:posY "429" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27211 .
+
+_:node18lqh8gufx27211 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$OrdersAttribute> ;
+	atxa-core:posX "661" ;
+	atxa-core:posY "260" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27207 .
+
+_:node18lqh8gufx27207 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$Orderitem> ;
+	atxa-core:posX "777" ;
+	atxa-core:posY "357" .
+
+_:node18lqh8gufx27204 atxa-core:contains _:node18lqh8gufx27208 .
+
+_:node18lqh8gufx27208 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.persistence$OrderitemsAttribute> ;
+	atxa-core:posX "878" ;
+	atxa-core:posY "353" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#UML_slcommerce.atxa> a atxa-core:reloFile ;
+	atxa-core:contains _:node18lqh8gufx27220 , _:node18lqh8gufx27221 , _:node18lqh8gufx27213 , _:node18lqh8gufx27217 , _:node18lqh8gufx27212 , _:node18lqh8gufx27206 , _:node18lqh8gufx27222 , _:node18lqh8gufx27209 , _:node18lqh8gufx27211 , _:node18lqh8gufx27207 , _:node18lqh8gufx27208 , _:node18lqh8gufx27204 , atxa-core:docRoot , _:node18lqh8gufx27220 , _:node18lqh8gufx27221 , _:node18lqh8gufx27213 , _:node18lqh8gufx27217 , _:node18lqh8gufx27212 , _:node18lqh8gufx27206 , _:node18lqh8gufx27222 , _:node18lqh8gufx27209 , _:node18lqh8gufx27211 , _:node18lqh8gufx27207 , _:node18lqh8gufx27208 , _:node18lqh8gufx27204 , atxa-core:docRoot , _:node18lqh8gufx25280 , _:node18lqh8gufx25281 , _:node18lqh8gufx25280 , _:node18lqh8gufx25281 .
+

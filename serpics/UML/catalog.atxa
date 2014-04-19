@@ -1,0 +1,319 @@
+<,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu,sergio.piana@purpleocean.eu> <http://www.architexa.com/rdf/core#creator> "true" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#UML_slcatalog.atxa> a atxa-core:reloFile .
+
+atxa:DetailNode atxa-core:detailLevel "1" .
+
+atxa-core:docRoot atxa-core:browseModel "com.architexa.diagrams.relo.jdt/com.architexa.diagrams.relo.jdt.browse.ClassStrucBrowseModel" ;
+	atxa-core:contains _:node18lqh8gufx24650 .
+
+_:node18lqh8gufx24650 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence> ;
+	atxa-core:posX "97" ;
+	atxa-core:posY "253" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Category> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$AbstractProduct> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Bundle> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$CtentryRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Price> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Brand> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$CtentryAttribute> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$FeatureGroup> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Ctentry> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Specification> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Feature> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$FeatureValues> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Productffmt> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Media> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$CategoryProductRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$SpecificationRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$CategoryRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Product> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Pricelist> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Catalog> .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24651 .
+
+_:node18lqh8gufx24651 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Category> ;
+	atxa-core:posX "140" ;
+	atxa-core:posY "370" .
+
+_:node18lqh8gufx15389 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24651 ;
+	rdf:object _:node18lqh8gufx24652 ;
+	atxa-core:bendpoint _:node18lqh8gufx24653 .
+
+_:node18lqh8gufx24653 atxa-core:bpLocation "185,337" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15389 atxa-core:bendpoint _:node18lqh8gufx24654 .
+
+_:node18lqh8gufx24654 atxa-core:bpLocation "477,337" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx24306 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node18lqh8gufx24651 ;
+	rdf:object _:node18lqh8gufx24655 .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24656 .
+
+_:node18lqh8gufx24656 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$AbstractProduct> ;
+	atxa-core:posX "298" ;
+	atxa-core:posY "373" .
+
+_:node18lqh8gufx15385 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24656 ;
+	rdf:object _:node18lqh8gufx24652 ;
+	atxa-core:bendpoint _:node18lqh8gufx24657 .
+
+_:node18lqh8gufx24657 atxa-core:bpLocation "363,337" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15385 atxa-core:bendpoint _:node18lqh8gufx24658 .
+
+_:node18lqh8gufx24658 atxa-core:bpLocation "477,337" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx24089 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node18lqh8gufx24656 ;
+	rdf:object _:node18lqh8gufx24655 .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24659 .
+
+_:node18lqh8gufx24659 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Bundle> ;
+	atxa-core:posX "294" ;
+	atxa-core:posY "443" .
+
+_:node18lqh8gufx15386 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24659 ;
+	rdf:object _:node18lqh8gufx24656 ;
+	atxa-core:bendpoint _:node18lqh8gufx24660 .
+
+_:node18lqh8gufx24660 atxa-core:bpLocation "333,425" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15386 atxa-core:bendpoint _:node18lqh8gufx24661 .
+
+_:node18lqh8gufx24661 atxa-core:bpLocation "363,425" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24662 .
+
+_:node18lqh8gufx24662 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$CtentryRelation> ;
+	atxa-core:posX "753" ;
+	atxa-core:posY "367" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24663 .
+
+_:node18lqh8gufx24663 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Price> ;
+	atxa-core:posX "969" ;
+	atxa-core:posY "419" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24664 .
+
+_:node18lqh8gufx24664 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Brand> ;
+	atxa-core:posX "606" ;
+	atxa-core:posY "282" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24665 .
+
+_:node18lqh8gufx24665 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$CtentryAttribute> ;
+	atxa-core:posX "875" ;
+	atxa-core:posY "328" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24666 .
+
+_:node18lqh8gufx24666 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$FeatureGroup> ;
+	atxa-core:posX "849" ;
+	atxa-core:posY "517" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24652 .
+
+_:node18lqh8gufx24652 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Ctentry> ;
+	atxa-core:posX "436" ;
+	atxa-core:posY "285" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24667 .
+
+_:node18lqh8gufx24667 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Specification> ;
+	atxa-core:posX "598" ;
+	atxa-core:posY "354" .
+
+_:node18lqh8gufx15391 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24667 ;
+	rdf:object _:node18lqh8gufx24652 ;
+	atxa-core:bendpoint _:node18lqh8gufx24668 .
+
+_:node18lqh8gufx24668 atxa-core:bpLocation "653,337" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15391 atxa-core:bendpoint _:node18lqh8gufx24669 .
+
+_:node18lqh8gufx24669 atxa-core:bpLocation "477,337" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx24505 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node18lqh8gufx24667 ;
+	rdf:object _:node18lqh8gufx24655 .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24670 .
+
+_:node18lqh8gufx24670 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Feature> ;
+	atxa-core:posX "970" ;
+	atxa-core:posY "516" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24671 .
+
+_:node18lqh8gufx24671 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$FeatureValues> ;
+	atxa-core:posX "935" ;
+	atxa-core:posY "578" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24672 .
+
+_:node18lqh8gufx24672 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Productffmt> ;
+	atxa-core:posX "684" ;
+	atxa-core:posY "465" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24673 .
+
+_:node18lqh8gufx24673 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Media> ;
+	atxa-core:posX "764" ;
+	atxa-core:posY "591" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24674 .
+
+_:node18lqh8gufx24674 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$CategoryProductRelation> ;
+	atxa-core:posX "120" ;
+	atxa-core:posY "546" .
+
+_:node18lqh8gufx15392 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24674 ;
+	rdf:object _:node18lqh8gufx24662 ;
+	atxa-core:bendpoint _:node18lqh8gufx24675 .
+
+_:node18lqh8gufx24675 atxa-core:bpLocation "210,419" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15392 atxa-core:bendpoint _:node18lqh8gufx24676 .
+
+_:node18lqh8gufx24676 atxa-core:bpLocation "817,419" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24677 .
+
+_:node18lqh8gufx24677 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$SpecificationRelation> ;
+	atxa-core:posX "338" ;
+	atxa-core:posY "543" .
+
+_:node18lqh8gufx15393 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24677 ;
+	rdf:object _:node18lqh8gufx24662 ;
+	atxa-core:bendpoint _:node18lqh8gufx24678 .
+
+_:node18lqh8gufx24678 atxa-core:bpLocation "417,419" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15393 atxa-core:bendpoint _:node18lqh8gufx24679 .
+
+_:node18lqh8gufx24679 atxa-core:bpLocation "817,419" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24680 .
+
+_:node18lqh8gufx24680 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$CategoryRelation> ;
+	atxa-core:posX "516" ;
+	atxa-core:posY "549" .
+
+_:node18lqh8gufx15388 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24680 ;
+	rdf:object _:node18lqh8gufx24662 ;
+	atxa-core:bendpoint _:node18lqh8gufx24681 .
+
+_:node18lqh8gufx24681 atxa-core:bpLocation "584,419" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15388 atxa-core:bendpoint _:node18lqh8gufx24682 .
+
+_:node18lqh8gufx24682 atxa-core:bpLocation "817,419" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24683 .
+
+_:node18lqh8gufx24683 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Product> ;
+	atxa-core:posX "439" ;
+	atxa-core:posY "449" .
+
+_:node18lqh8gufx15387 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24683 ;
+	rdf:object _:node18lqh8gufx24656 ;
+	atxa-core:bendpoint _:node18lqh8gufx24684 .
+
+_:node18lqh8gufx24684 atxa-core:bpLocation "480,425" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15387 atxa-core:bendpoint _:node18lqh8gufx24685 .
+
+_:node18lqh8gufx24685 atxa-core:bpLocation "363,425" ;
+	atxa-core:bpIndex "1" .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24686 .
+
+_:node18lqh8gufx24686 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Pricelist> ;
+	atxa-core:posX "832" ;
+	atxa-core:posY "442" .
+
+_:node18lqh8gufx23890 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node18lqh8gufx24686 ;
+	rdf:object _:node18lqh8gufx24655 .
+
+_:node18lqh8gufx24650 atxa-core:contains _:node18lqh8gufx24655 .
+
+_:node18lqh8gufx24655 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.catalog.persistence$Catalog> ;
+	atxa-core:posX "103" ;
+	atxa-core:posY "278" .
+
+_:node18lqh8gufx15390 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18lqh8gufx24655 ;
+	rdf:object _:node18lqh8gufx24652 ;
+	atxa-core:bendpoint _:node18lqh8gufx24687 .
+
+_:node18lqh8gufx24687 atxa-core:bpLocation "144,337" ;
+	atxa-core:bpIndex "0" .
+
+_:node18lqh8gufx15390 atxa-core:bendpoint _:node18lqh8gufx24688 .
+
+_:node18lqh8gufx24688 atxa-core:bpLocation "477,337" ;
+	atxa-core:bpIndex "1" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#UML_slcatalog.atxa> a atxa-core:reloFile ;
+	atxa-core:contains _:node18lqh8gufx24651 , _:node18lqh8gufx24656 , _:node18lqh8gufx24659 , _:node18lqh8gufx24662 , _:node18lqh8gufx24663 , _:node18lqh8gufx24664 , _:node18lqh8gufx24665 , _:node18lqh8gufx24666 , _:node18lqh8gufx24652 , _:node18lqh8gufx24667 , _:node18lqh8gufx24670 , _:node18lqh8gufx24671 , _:node18lqh8gufx24672 , _:node18lqh8gufx24673 , _:node18lqh8gufx24674 , _:node18lqh8gufx24677 , _:node18lqh8gufx24680 , _:node18lqh8gufx24683 , _:node18lqh8gufx24686 , _:node18lqh8gufx24655 , _:node18lqh8gufx24650 , atxa-core:docRoot , _:node18lqh8gufx24651 , _:node18lqh8gufx24656 , _:node18lqh8gufx24659 , _:node18lqh8gufx24662 , _:node18lqh8gufx24663 , _:node18lqh8gufx24664 , _:node18lqh8gufx24665 , _:node18lqh8gufx24666 , _:node18lqh8gufx24652 , _:node18lqh8gufx24667 , _:node18lqh8gufx24670 , _:node18lqh8gufx24671 , _:node18lqh8gufx24672 , _:node18lqh8gufx24673 , _:node18lqh8gufx24674 , _:node18lqh8gufx24677 , _:node18lqh8gufx24680 , _:node18lqh8gufx24683 , _:node18lqh8gufx24686 , _:node18lqh8gufx24655 , _:node18lqh8gufx24650 , atxa-core:docRoot , _:node18lqh8gufx15389 , _:node18lqh8gufx24306 , _:node18lqh8gufx15385 , _:node18lqh8gufx24089 , _:node18lqh8gufx15386 , _:node18lqh8gufx15391 , _:node18lqh8gufx24505 , _:node18lqh8gufx15392 , _:node18lqh8gufx15393 , _:node18lqh8gufx15388 , _:node18lqh8gufx15387 , _:node18lqh8gufx23890 , _:node18lqh8gufx15390 , _:node18lqh8gufx15389 , _:node18lqh8gufx24306 , _:node18lqh8gufx15385 , _:node18lqh8gufx24089 , _:node18lqh8gufx15386 , _:node18lqh8gufx15391 , _:node18lqh8gufx24505 , _:node18lqh8gufx15392 , _:node18lqh8gufx15393 , _:node18lqh8gufx15388 , _:node18lqh8gufx15387 , _:node18lqh8gufx23890 , _:node18lqh8gufx15390 .
+

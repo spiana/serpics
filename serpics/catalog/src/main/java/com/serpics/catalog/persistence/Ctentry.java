@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -22,8 +23,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 import com.serpics.base.persistence.MultilingualString;
+import com.serpics.core.persistence.jpa.AbstractEntity;
 
 /**
  * The persistent class for the ctentry database table.
@@ -33,7 +36,7 @@ import com.serpics.base.persistence.MultilingualString;
 @Table(name = "ctentry")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "ctenytry_type", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class Ctentry extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
+public abstract class Ctentry extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -44,6 +47,8 @@ public abstract class Ctentry extends com.serpics.core.persistence.jpa.AbstractE
     @Column(name = "ctentry_type", nullable = false)
     protected Integer ctentryType;
 
+    @Nonnull
+    @Size(max = 10)
     @Column(name = "code", nullable = false)
     protected String code;
 

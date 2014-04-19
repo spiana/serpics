@@ -10,41 +10,37 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("0")
 public class CategoryRelation extends CtentryRelation {
 
-	public CategoryRelation(){
-		this.relationType = 0;
-	}
-	
-	private static final long serialVersionUID = 1L;
-	
-	
-	//bi-directional many-to-one association to Ctentry
-    @ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumn(name="ctentry_id_parent" , insertable=false, updatable=false)
-	private Category parentCategory;
-	
-	//bi-directional many-to-one association to Ctentry
-    @ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
-	private Category childCategory;
+    public CategoryRelation(){
+        this.relationType = 0;
+    }
 
-	public Category getParentCategory() {
-		return parentCategory;
-	}
-
-	public void setParentCategory(Category parentCategory) {
-		this.parentCategory = parentCategory;
-	}
-
-	public Category getChildCategory() {
-		return childCategory;
-	}
-
-	public void setChildCategory(Category childCategory) {
-		this.childCategory = childCategory;
-	}
-
- 
+    private static final long serialVersionUID = 1L;
 
 
+    //bi-directional many-to-one association to Ctentry
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="ctentry_id_parent" , insertable=false, updatable=false)
+    private Category parentCategory;
+
+    //bi-directional many-to-one association to Ctentry
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
+    private Category childCategory;
+
+    public Category getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(final Category parentCategory) {
+        this.parentCategory = parentCategory;
+    }
+
+    public Category getChildCategory() {
+        return childCategory;
+    }
+
+    public void setChildCategory(final Category childCategory) {
+        this.childCategory = childCategory;
+    }
 
 }

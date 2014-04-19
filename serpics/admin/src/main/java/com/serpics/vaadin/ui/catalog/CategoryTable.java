@@ -12,6 +12,7 @@ import com.serpics.vaadin.ui.EntityTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.MultilingualTextField;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.TextArea;
 
 @VaadinComponent("categoryTable")
 public class CategoryTable extends EntityTable<Category> {
@@ -26,23 +27,23 @@ public class CategoryTable extends EntityTable<Category> {
     @Autowired
     LocaleService localeService;
 
+    @Autowired
+    ChildCategoryRelationTable childCategoryRelatcionTable;
+
+    @Autowired
+    ParentCategoryRelationTable parentCategoryRelationTable;
+
+    @Autowired
+    CategoryRelationTreeTable categoryRelationTreeTable;
+
     public CategoryTable() {
         super(Category.class);
 
     }
 
-
-    @Override
-    public void attach() {
-        entityList.setConverter("description", new MultilingualStringConvert());
-        super.attach();
-    }
-
     @Override
     public void init() {
         setPropertyToShow(new String[] { "code", "url", "description" });
-
-
 
         editorWindow.addTab(new EntityForm<Category>(Category.class) {
 
@@ -50,7 +51,8 @@ public class CategoryTable extends EntityTable<Category> {
 
             @Override
             public void init() {
-                displayProperties = new String[] { "code", "url", "description", "field1", "field2",
+
+                displayProperties = new String[] { "code", "url", "description", "field1",
                         "updated", "created" };
                 this.setReadOnlyProperties(new String[] { "updated", "created" });
                 super.init();
@@ -73,9 +75,39 @@ public class CategoryTable extends EntityTable<Category> {
 
         }, "main");
 
+        editorWindow.addTab(new EntityForm<Category>(Category.class) {
+            private static final long serialVersionUID = -7154962966506074107L;
+
+            @Override
+            public void init() {
+                displayProperties = new String[] { "metaKeyword", "metaDescription" };
+            }
+
+            @Override
+            protected Field<?> createField(final String pid) {
+
+                if (pid.equals("metaDescription")) {
+                    final TextArea f = new TextArea();
+                    f.setRows(5);
+                    f.setNullRepresentation("");
+                    f.setWidth("80%");
+
+                    fieldGroup.bind(f, pid);
+
+                    return f;
+                }
+                return super.createField(pid);
+            }
+        }, "seo");
+        editorWindow.addTab(childCategoryRelatcionTable, "childCategories");
+        editorWindow.addTab(parentCategoryRelationTable, "parentCategories");
+
+        // editorWindow.addTab(categoryRelationTreeTable, "tree");
+
         editorWindow.setCaption("category.title");
         setService(categoryService);
         super.init();
+        entityList.setConverter("description", new MultilingualStringConvert());
     }
 
 }

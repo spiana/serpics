@@ -17,7 +17,7 @@ public class ProductHookImpl extends AbstractHook implements ProductHook {
 
 	@Override
 	public Product resolveSKU(String sku) throws ProductNotFoundException {
-		Catalog catalog = (Catalog) getSessionContext().getCatalog();
+		Catalog catalog = (Catalog) getCurrentContext().getCatalog();
 
 		Product p = new Product();
 		p.setBuyable(1);

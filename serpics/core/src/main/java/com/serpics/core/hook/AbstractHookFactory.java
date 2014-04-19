@@ -13,7 +13,7 @@ public abstract class AbstractHookFactory<T> extends AbstractAutowiringFactoryBe
 	@Override
 	protected T doCreateInstance() {
 		T hook = createHookInstance();
-		((AbstractHook) hook).setSessionContext(commerceEngine.getCurrentContext());
+		((AbstractHook) hook).setCurrentContext(commerceEngine.getCurrentContext());
 		return hook;
 	}
 

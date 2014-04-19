@@ -16,4 +16,10 @@ public abstract class EntityTableChild<T, P> extends EntityTable<T> implements E
     public void setParentEntity(final EntityItem<P> parent) {
         this.parent = parent;
     }
+
+    @Override
+    public void attach() {
+        cont.refresh();
+        super.attach();
+    }
 }

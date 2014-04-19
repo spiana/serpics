@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javax.persistence.Id;
 
+import com.serpics.base.persistence.MultilingualString;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.SerpicsStringToNumberConverter;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Item;
@@ -23,9 +23,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
-
-public abstract class EntityForm<T> extends FormLayout implements
-FieldGroupFieldFactory, EntityFormComponent<T> {
+public abstract class EntityForm<T> extends FormLayout implements FieldGroupFieldFactory, EntityFormComponent<T> {
     private static final long serialVersionUID = -7816433625437405000L;
 
     private transient PropertyList<T> propertyList;
@@ -45,18 +43,16 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     Class<T> entityClass;
 
 
-
     public EntityForm(final Class<T> clazz) {
 
-        propertyList = new PropertyList<T>(MetadataFactory.getInstance()
-                .getEntityClassMetadata(clazz));
+        propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(clazz));
 
         this.entityClass = clazz;
         fieldGroup = new FieldGroup();
 
         fieldGroup.setFieldFactory(this);
 
-        setSizeUndefined();
+        setWidth("100%");
         setImmediate(false);
         // setSizeFull();
         setMargin(true);
@@ -88,7 +84,7 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
         if (!initialized) {
             if (displayProperties != null)
                 addField(displayProperties);
-            else{
+            else {
                 for (final String pid : propertyList.getAllAvailablePropertyNames()) {
                     if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE))
                         // exclude field with @Id annotation
@@ -103,7 +99,6 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     }
 
 
-
     private void addField(final String[] propertyNames) {
         for (final String pid : propertyNames) {
             addComponent(createField(pid));
@@ -111,18 +106,44 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
 
     }
 
+    @SuppressWarnings("unchecked")
     protected Field<?> createField(final String pid) {
         final Property p = entityItem.getItemProperty(pid);
 
         final Field<?> f = fieldGroup.buildAndBind(pid);
         f.setBuffered(true);
+
         if (f instanceof TextField) {
-            if (Number.class.isAssignableFrom(p.getType()))
-                ((TextField) f)
-                .setConverter(new SerpicsStringToNumberConverter());
+            // if (Number.class.isAssignableFrom(p.getType()))
+            // ((TextField) f)
+            // .setConverter(new StringToNumberConverter());
+            // else
+            if (MultilingualString.class.isAssignableFrom(p.getType()))
+                ((TextField) f).setConverter(new MultilingualStringConvert());
+
             ((TextField) f).setNullRepresentation("");
+
         }
         f.addValidator(new BeanValidator(entityClass, pid));
+        if (String.class.isAssignableFrom(p.getType())) {
+            f.setWidth("80%");
+        }
+
+        try {
+            if (p.getType().getField(pid).isAnnotationPresent(javax.validation.constraints.Size.class)) {
+                final javax.validation.constraints.Size s = (javax.validation.constraints.Size) p.getType()
+                        .getField(pid).getAnnotation(javax.validation.constraints.Size.class);
+                if (s.max() > 0)
+                    f.setWidth(s.max() * 10, Unit.PIXELS);
+            }
+        } catch (final SecurityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final NoSuchFieldException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         return f;
     }
 
@@ -147,7 +168,7 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     public void attach() {
         setLocale(UI.getCurrent().getSession().getLocale());
 
-        if(readOnly){
+        if (readOnly) {
             fieldGroup.setEnabled(false);
         } else {
             fieldGroup.setEnabled(true);
@@ -161,8 +182,6 @@ FieldGroupFieldFactory, EntityFormComponent<T> {
     public void setDisplayProperties(final String[] displayProperties) {
         this.displayProperties = displayProperties;
     }
-
-
 
 
     @Override

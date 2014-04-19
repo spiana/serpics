@@ -61,13 +61,14 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         provider.setCacheEnabled(true);
         cont.setEntityProvider(provider);
         editorWindow = new EntityFormWindow<T>();
+        entityList = new Table();
     }
 
     @Override
     public void init() {
         if (initialized)
             return;
-        entityList = new Table();
+
         entityList.setContainerDataSource(cont);
         entityList.setSelectable(true);
         entityList.setImmediate(true);
@@ -223,7 +224,10 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
     @Override
     public void attach() {
+        if (!initialized)
+            init();
         editButtonPanel.setEnabled(isEditable());
+
         super.attach();
     }
 

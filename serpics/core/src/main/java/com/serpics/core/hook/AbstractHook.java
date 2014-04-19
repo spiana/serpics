@@ -14,14 +14,14 @@ public abstract class AbstractHook {
     @Autowired
     CommerceEngine commerceEngine;
 
-    protected CommerceSessionContext sessionContext;
+    protected CommerceSessionContext currentContext;
 
-    public CommerceSessionContext getSessionContext() {
-        return sessionContext != null ? sessionContext : commerceEngine.getCurrentContext();
+    public CommerceSessionContext getCurrentContext() {
+        return currentContext != null ? currentContext : commerceEngine.getCurrentContext();
     }
 
-    public void setSessionContext(final SessionContext sessionContext) {
-        this.sessionContext = (CommerceSessionContext) sessionContext;
+    public void setCurrentContext(final SessionContext sessionContext) {
+        this.currentContext = (CommerceSessionContext) sessionContext;
 
     }
 
