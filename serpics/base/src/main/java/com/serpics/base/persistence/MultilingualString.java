@@ -1,5 +1,6 @@
 package com.serpics.base.persistence;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +17,8 @@ import com.serpics.core.persistence.jpa.AbstractEntity;
 
 @javax.persistence.Entity
 @Table(name = "multilingual_string")
-public class MultilingualString extends AbstractEntity {
-
+public class MultilingualString extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 7728685826544128982L;
 
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.AUTO)

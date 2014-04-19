@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.admin.SerpicsContainerFactory;
 import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.persistence.Membergroup;
 import com.serpics.membership.persistence.Membergrouprel;
@@ -12,8 +11,9 @@ import com.serpics.membership.persistence.MembgrouprelPK;
 import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
-import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -34,7 +34,7 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
     }
 
 
-    private SerpicsPersistentContainer<Membergroup> memberGroups;
+    private transient JPAContainer<Membergroup> memberGroups;
 
     @Override
     public void attach() {
@@ -46,9 +46,9 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
     public void init() {
         super.init();
         final String[] displayProperties = { "membergroup", "status", "validFrom", "validTo" };
-        this.displayProperties = displayProperties;
-        memberGroups = SerpicsContainerFactory.make(Membergroup.class,
+        memberGroups = ServiceContainerFactory.make(Membergroup.class,
                 membergroupService);
+        setDisplayProperties(displayProperties);
     }
 
     @Override
@@ -67,7 +67,6 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
 
     @Override
     protected Field<?> createField(final String pid) {
-
         if (pid.equals("membergroup")) {
             final ComboBox combo = new ComboBox("membergroup");
             combo.setContainerDataSource(memberGroups);
@@ -90,7 +89,6 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
 
         } else
             return super.createField(pid);
-
     }
 
 }

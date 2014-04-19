@@ -2,7 +2,6 @@ package com.vaadin.addon.jpacontainer.provider;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,8 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.persistence.TypedQuery;
 
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityProvider;
@@ -21,16 +18,15 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 
 /**
- * Delegate class that implements caching for {@link LocalEntityProvider}s and
- * their subclasses. This class is internal and should never be used outside of
- * JPAContainer.
+ * Delegate class that implements caching for {@link LocalEntityProvider}s and their subclasses. This class is internal
+ * and should never be used outside of JPAContainer.
  * 
  * @author Petter Holmstr��m (Vaadin Ltd)
  * @since 1.0
  */
-class SerpicsCachingSupport<T> implements Serializable {
+class CachingServiceSupport<T> implements Serializable {
 
-    private final SerpicsEntityProvider<T> entityProvider;
+    private final EntityServiceProvider<T> entityProvider;
     private int maxCacheSize = 1000;
     private boolean cacheEnabled = true;
     private boolean cloneCachedEntities = false;
@@ -46,12 +42,14 @@ class SerpicsCachingSupport<T> implements Serializable {
 
         private static final long serialVersionUID = 6142104349424102387L;
 
-        public boolean passesFilter(Object itemId, Item item)
+        @Override
+        public boolean passesFilter(final Object itemId, final Item item)
                 throws UnsupportedOperationException {
             return true;
         }
 
-        public boolean appliesToProperty(Object propertyId) {
+        @Override
+        public boolean appliesToProperty(final Object propertyId) {
             return false;
         }
     };
@@ -79,14 +77,13 @@ class SerpicsCachingSupport<T> implements Serializable {
      * @param entityProvider
      *            the entity provider (never null).
      */
-    public SerpicsCachingSupport(SerpicsEntityProvider<T> entityProvider) {
+    public CachingServiceSupport(final EntityServiceProvider<T> entityProvider) {
         assert entityProvider != null : "entityProvider should not be null";
         this.entityProvider = entityProvider;
     }
 
     /**
-     * Data structure used by {@link FilterCacheEntry} to store entityId lists
-     * sorted in different ways.
+     * Data structure used by {@link FilterCacheEntry} to store entityId lists sorted in different ways.
      * 
      * @author Petter Holmstr��m (Vaadin Ltd)
      * @since 1.0
@@ -100,9 +97,8 @@ class SerpicsCachingSupport<T> implements Serializable {
     }
 
     /**
-     * This class represents a cache for a specific {@link Filter}. The class
-     * contains counterparts of most of the methods defined in
-     * {@link EntityProvider}.
+     * This class represents a cache for a specific {@link Filter}. The class contains counterparts of most of the
+     * methods defined in {@link EntityProvider}.
      * 
      * @author Petter Holmstr��m (Vaadin Ltd)
      * @since 1.0
@@ -111,7 +107,7 @@ class SerpicsCachingSupport<T> implements Serializable {
 
         // TODO Optimize the use of lists
         private static final long serialVersionUID = -2978864194978758736L;
-        private Filter filter;
+        private final Filter filter;
         private Integer entityCount;
         public Map<List<SortBy>, IdListEntry> idListMap = new CacheMap<List<SortBy>, IdListEntry>(
                 MAX_SORTBY_CACHE_SIZE);
@@ -123,7 +119,7 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @param filter
          *            the filter for which this cache should be created.
          */
-        public FilterCacheEntry(Filter filter) {
+        public FilterCacheEntry(final Filter filter) {
             this.filter = filter;
         }
 
@@ -132,7 +128,7 @@ class SerpicsCachingSupport<T> implements Serializable {
          * 
          * @return the number of entities.
          */
-        public synchronized int getEntityCount(EntityContainer<T> container) {
+        public synchronized int getEntityCount(final EntityContainer<T> container) {
             if(!isCachingPossible(container)) {
                 return entityProvider.doGetEntityCount(container, getFilter());
             }
@@ -146,8 +142,8 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @see EntityProvider#containsEntity(java.lang.Object,
          *      com.vaadin.addons.jpacontainer.Filter)
          */
-        public synchronized boolean containsId(EntityContainer<T> container,
-                Object entityId) {
+        public synchronized boolean containsId(final EntityContainer<T> container,
+                final Object entityId) {
             if (!idSet.contains(entityId)) {
                 if (entityProvider.doContainsEntity(container, entityId,
                         getFilter())) {
@@ -165,8 +161,8 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @see EntityProvider#getFirstEntityIdentifier(com.vaadin.addons.jpacontainer.Filter,
          *      java.util.List)
          */
-        public Object getFirstId(EntityContainer<T> container,
-                List<SortBy> sortBy) {
+        public Object getFirstId(final EntityContainer<T> container,
+                final List<SortBy> sortBy) {
             return getIdAt(container, sortBy, 0);
         }
 
@@ -174,8 +170,8 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @see EntityProvider#getNextEntityIdentifier(java.lang.Object,
          *      com.vaadin.addons.jpacontainer.Filter, java.util.List)
          */
-        public synchronized Object getNextId(EntityContainer<T> container,
-                Object entityId, List<SortBy> sortBy) {
+        public synchronized Object getNextId(final EntityContainer<T> container,
+                final Object entityId, final List<SortBy> sortBy) {
             IdListEntry entry = idListMap.get(sortBy);
             if (entry == null) {
                 entry = new IdListEntry();
@@ -220,8 +216,8 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @see EntityProvider#getPreviousEntityIdentifier(java.lang.Object,
          *      com.vaadin.addons.jpacontainer.Filter, java.util.List)
          */
-        public synchronized Object getPreviousId(EntityContainer<T> container,
-                Object entityId, List<SortBy> sortBy) {
+        public synchronized Object getPreviousId(final EntityContainer<T> container,
+                final Object entityId, final List<SortBy> sortBy) {
             IdListEntry entry = idListMap.get(sortBy);
             if (entry == null) {
                 entry = new IdListEntry();
@@ -229,9 +225,9 @@ class SerpicsCachingSupport<T> implements Serializable {
                 entry.listOffset = -1;
                 idListMap.put(sortBy, entry);
             }
-            int index = entry.idList.indexOf(entityId);
+            final int index = entry.idList.indexOf(entityId);
             if (index == -1) {
-                List<Object> objects = getPreviousIds(container, getFilter(),
+                final List<Object> objects = getPreviousIds(container, getFilter(),
                         sortBy, entityId, CHUNK_SIZE);
                 // We have to reverse the list
                 entry.idList = new ArrayList<Object>(objects.size());
@@ -245,15 +241,15 @@ class SerpicsCachingSupport<T> implements Serializable {
                 }
             } else {
                 if (index == 0) {
-                    List<Object> objects = getPreviousIds(container,
+                    final List<Object> objects = getPreviousIds(container,
                             getFilter(), sortBy, entityId, CHUNK_SIZE);
                     if (objects.isEmpty()) {
                         return null;
                     }
                     // Store the ID we are looking for
-                    Object theId = objects.get(0);
+                    final Object theId = objects.get(0);
                     // Save the rest of the IDs in the cache for future use
-                    ArrayList<Object> l = new ArrayList<Object>();
+                    final ArrayList<Object> l = new ArrayList<Object>();
                     for (int i = objects.size() - 1; i >= 0; i--) {
                         l.add(objects.get(i));
                     }
@@ -279,8 +275,8 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @see EntityProvider#getLastEntityIdentifier(com.vaadin.addons.jpacontainer.Filter,
          *      java.util.List)
          */
-        public Object getLastId(EntityContainer<T> container,
-                List<SortBy> sortBy) {
+        public Object getLastId(final EntityContainer<T> container,
+                final List<SortBy> sortBy) {
             return getIdAt(container, sortBy, getEntityCount(container) - 1);
         }
 
@@ -293,7 +289,7 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @param entityId
          *            the entityId to invalidate.
          */
-        public synchronized void invalidate(Object entityId) {
+        public synchronized void invalidate(final Object entityId) {
             // Clear the caches to force the data to be re-fetched from the
             // database
             // in case the ordering has changed
@@ -306,8 +302,8 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @see EntityProvider#getEntityIdentifierAt(com.vaadin.addons.jpacontainer.Filter,
          *      java.util.List, int)
          */
-        public synchronized Object getIdAt(EntityContainer<T> container,
-                List<SortBy> sortBy, int index) {
+        public synchronized Object getIdAt(final EntityContainer<T> container,
+                final List<SortBy> sortBy, final int index) {
             IdListEntry entry = idListMap.get(sortBy);
             if (entry == null) {
                 entry = new IdListEntry();
@@ -319,7 +315,7 @@ class SerpicsCachingSupport<T> implements Serializable {
             // to getNextId() or getPreviousId()
             if (!entry.containsAll
                     && (entry.idList.isEmpty() || index < entry.listOffset || index >= entry.listOffset
-                            + entry.idList.size())) {
+                    + entry.idList.size())) {
 
                 // Check if we can concatenate the index lists
                 if (entry.listOffset > -1 && index == entry.listOffset - 1) {
@@ -334,7 +330,7 @@ class SerpicsCachingSupport<T> implements Serializable {
                                     entry.idList.size()).clear();
                         }
                     }
-                    ArrayList<Object> l = new ArrayList<Object>(CHUNK_SIZE
+                    final ArrayList<Object> l = new ArrayList<Object>(CHUNK_SIZE
                             + entry.idList.size());
                     int startFrom = index - CHUNK_SIZE;
                     if (startFrom < 0) {
@@ -370,7 +366,7 @@ class SerpicsCachingSupport<T> implements Serializable {
                     entry.listOffset = index;
                 }
             }
-            int i = index - entry.listOffset;
+            final int i = index - entry.listOffset;
             if (entry.idList.size() <= i) {
                 return null;
             }
@@ -381,7 +377,7 @@ class SerpicsCachingSupport<T> implements Serializable {
          * @see EntityProvider#getAllEntityIdentifiers(com.vaadin.addons.jpacontainer.Filter,
          *      java.util.List)
          */
-        public synchronized List<Object> getAllIds(EntityContainer<T> container, List<SortBy> sortBy) {
+        public synchronized List<Object> getAllIds(final EntityContainer<T> container, final List<SortBy> sortBy) {
             IdListEntry entry = idListMap.get(sortBy);
             if (entry == null) {
                 entry = new IdListEntry();
@@ -412,13 +408,13 @@ class SerpicsCachingSupport<T> implements Serializable {
      * @param entityId
      * @param updated
      */
-    public synchronized void invalidate(Object entityId, boolean updated) {
+    public synchronized void invalidate(final Object entityId, final boolean updated) {
         getEntityCache().remove(entityId);
         if (updated) {
             // TODO Do something smarter than flushing the entire cache!
             getFilterCache().clear();
         } else {
-            for (FilterCacheEntry fce : getFilterCache().values()) {
+            for (final FilterCacheEntry fce : getFilterCache().values()) {
                 fce.invalidate(entityId);
             }
         }
@@ -429,7 +425,7 @@ class SerpicsCachingSupport<T> implements Serializable {
      * 
      * @param entity
      */
-    public synchronized void entityAdded(T entity) {
+    public synchronized void entityAdded(final T entity) {
         // TODO Do something smarter than flushing the entire cache!
         flush();
         // This is currently obsolete, but when above todo is implemented,
@@ -455,10 +451,10 @@ class SerpicsCachingSupport<T> implements Serializable {
      *            retrieve all.
      * @return a list of identifiers.
      */
-    protected List<Object> getIds(EntityContainer<T> container, Filter filter,
-            List<SortBy> sortBy, int startFrom, int fetchMax) {
-    	
-       return entityProvider.doGetAllEntityIdentifiers(container, filter, sortBy, startFrom, fetchMax);
+    protected List<Object> getIds(final EntityContainer<T> container, final Filter filter,
+            final List<SortBy> sortBy, final int startFrom, final int fetchMax) {
+
+        return entityProvider.doGetAllEntityIdentifiers(container, filter, sortBy, startFrom, fetchMax);
     }
 
     /**
@@ -480,8 +476,8 @@ class SerpicsCachingSupport<T> implements Serializable {
      *            retrieve all.
      * @return a list of identifiers.
      */
-    protected List<Object> getNextIds(EntityContainer<T> container,
-            Filter filter, List<SortBy> sortBy, Object startFrom, int fetchMax) {
+    protected List<Object> getNextIds(final EntityContainer<T> container,
+            final Filter filter, final List<SortBy> sortBy, final Object startFrom, final int fetchMax) {
         return null;
     }
 
@@ -504,8 +500,8 @@ class SerpicsCachingSupport<T> implements Serializable {
      *            retrieve all.
      * @return a list of identifiers.
      */
-    protected List<Object> getPreviousIds(EntityContainer<T> container,
-            Filter filter, List<SortBy> sortBy, Object startFrom, int fetchMax) {
+    protected List<Object> getPreviousIds(final EntityContainer<T> container,
+            final Filter filter, final List<SortBy> sortBy, final Object startFrom, final int fetchMax) {
         return null;
     }
 
@@ -513,8 +509,7 @@ class SerpicsCachingSupport<T> implements Serializable {
     private Map<Filter, FilterCacheEntry> filterCache;
 
     /**
-     * A hash map that will remove the oldest items once its size reaches a
-     * specified max size.
+     * A hash map that will remove the oldest items once its size reaches a specified max size.
      * 
      * @author Petter Holmstr��m (Vaadin Ltd)
      * @since 1.0
@@ -522,16 +517,16 @@ class SerpicsCachingSupport<T> implements Serializable {
     protected static class CacheMap<K, V> extends HashMap<K, V> {
 
         private static final long serialVersionUID = 2900939583997256189L;
-        private LinkedList<K> addOrder = new LinkedList<K>();
-        private int maxSize;
+        private final LinkedList<K> addOrder = new LinkedList<K>();
+        private final int maxSize;
 
-        public CacheMap(int maxSize) {
+        public CacheMap(final int maxSize) {
             super(maxSize);
             this.maxSize = maxSize;
         }
 
         @Override
-        public synchronized V put(K key, V value) {
+        public synchronized V put(final K key, final V value) {
             if (size() == maxSize) {
                 // remove oldest item
                 remove(addOrder.removeFirst());
@@ -551,16 +546,16 @@ class SerpicsCachingSupport<T> implements Serializable {
     protected static class CacheSet<V> extends HashSet<V> {
 
         private static final long serialVersionUID = 2900939583997256189L;
-        private LinkedList<V> addOrder = new LinkedList<V>();
-        private int maxSize;
+        private final LinkedList<V> addOrder = new LinkedList<V>();
+        private final int maxSize;
 
-        public CacheSet(int maxSize) {
+        public CacheSet(final int maxSize) {
             super(maxSize);
             this.maxSize = maxSize;
         }
 
         @Override
-        public synchronized boolean add(V e) {
+        public synchronized boolean add(final V e) {
             if (size() == maxSize) {
                 // remove oldest item
                 remove(addOrder.removeFirst());
@@ -637,11 +632,11 @@ class SerpicsCachingSupport<T> implements Serializable {
      * 
      * @return true if caching is possible
      */
-    public boolean isCachingPossible(EntityContainer<T> container) {
+    public boolean isCachingPossible(final EntityContainer<T> container) {
         if (container != null && container.getQueryModifierDelegate() != null) {
             return false;
         }
-        QueryModifierDelegate d = entityProvider.getQueryModifierDelegate();
+        final QueryModifierDelegate d = entityProvider.getQueryModifierDelegate();
         if (d != null) {
             // Try to tell the delegate that filters will be added and pass in
             // all nulls. If the delegate throws an NPE it most probably
@@ -649,7 +644,7 @@ class SerpicsCachingSupport<T> implements Serializable {
             // anything at this level.
             try {
                 d.filtersWillBeAdded(null, null, null);
-            } catch (NullPointerException npe) {
+            } catch (final NullPointerException npe) {
                 // The delegate modifies filters
                 return false;
             }
@@ -663,7 +658,7 @@ class SerpicsCachingSupport<T> implements Serializable {
      * 
      * @return true if the caching mechanism is actually used.
      */
-    public boolean usesCache(EntityContainer<T> container) {
+    public boolean usesCache(final EntityContainer<T> container) {
         return isCacheEnabled() && isCachingPossible(container);
     }
 
@@ -677,7 +672,7 @@ class SerpicsCachingSupport<T> implements Serializable {
      * @param cacheEnabled
      *            true to turn on the cache, false to turn it off.
      */
-    public void setCacheEnabled(boolean cacheEnabled) {
+    public void setCacheEnabled(final boolean cacheEnabled) {
         this.cacheEnabled = cacheEnabled;
         if (!cacheEnabled) {
             flush();
@@ -691,14 +686,14 @@ class SerpicsCachingSupport<T> implements Serializable {
      * @param maxSize
      *            the maximum cache size to set.
      */
-    public void setMaxCacheSize(int maxSize) {
+    public void setMaxCacheSize(final int maxSize) {
         this.maxCacheSize = maxSize;
         entityCache = null;
         filterCache = null;
     }
 
-    public boolean containsEntity(EntityContainer<T> container,
-            Object entityId, Filter filter) {
+    public boolean containsEntity(final EntityContainer<T> container,
+            final Object entityId, final Filter filter) {
         if (usesCache(container)) {
             return getFilterCacheEntry(filter).containsId(container, entityId);
         } else {
@@ -706,8 +701,8 @@ class SerpicsCachingSupport<T> implements Serializable {
         }
     }
 
-    public List<Object> getAllEntityIdentifiers(EntityContainer<T> container,
-            Filter filter, List<SortBy> sortBy) {
+    public List<Object> getAllEntityIdentifiers(final EntityContainer<T> container,
+            final Filter filter, List<SortBy> sortBy) {
         if (sortBy == null) {
             sortBy = Collections.emptyList();
         }
@@ -719,8 +714,8 @@ class SerpicsCachingSupport<T> implements Serializable {
         }
     }
 
-    public synchronized T getEntity(EntityContainer<T> container,
-            Object entityId) {
+    public synchronized T getEntity(final EntityContainer<T> container,
+            final Object entityId) {
         if (usesCache(container)) {
             T entity = getEntityCache().get(entityId);
             if (entity == null) {
@@ -747,17 +742,17 @@ class SerpicsCachingSupport<T> implements Serializable {
      * @return the cloned entity.
      */
     @SuppressWarnings("unchecked")
-    protected T cloneEntityIfNeeded(T entity) {
+    protected T cloneEntityIfNeeded(final T entity) {
         if (isCloneCachedEntities()) {
             assert entity instanceof Cloneable : "entity is not cloneable";
-            try {
-                Method m = entity.getClass().getMethod("clone");
-                T copy = (T) m.invoke(entity);
-                return copy;
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(
-                        "Could not clone entity", e);
-            }
+        try {
+            final Method m = entity.getClass().getMethod("clone");
+            final T copy = (T) m.invoke(entity);
+            return copy;
+        } catch (final Exception e) {
+            throw new UnsupportedOperationException(
+                    "Could not clone entity", e);
+        }
         } else {
             return entity;
         }
@@ -771,7 +766,7 @@ class SerpicsCachingSupport<T> implements Serializable {
         return cloneCachedEntities;
     }
 
-    public void setCloneCachedEntities(boolean clone)
+    public void setCloneCachedEntities(final boolean clone)
             throws UnsupportedOperationException {
         if (!clone) {
             this.cloneCachedEntities = false;
@@ -786,7 +781,7 @@ class SerpicsCachingSupport<T> implements Serializable {
         }
     }
 
-    public int getEntityCount(EntityContainer<T> container, Filter filter) {
+    public int getEntityCount(final EntityContainer<T> container, final Filter filter) {
         if (usesCache(container)) {
             return getFilterCacheEntry(filter).getEntityCount(container);
         } else {
@@ -794,8 +789,8 @@ class SerpicsCachingSupport<T> implements Serializable {
         }
     }
 
-    public Object getEntityIdentifierAt(EntityContainer<T> container,
-            Filter filter, List<SortBy> sortBy, int index) {
+    public Object getEntityIdentifierAt(final EntityContainer<T> container,
+            final Filter filter, List<SortBy> sortBy, final int index) {
         if (sortBy == null) {
             sortBy = Collections.emptyList();
         }
@@ -807,8 +802,8 @@ class SerpicsCachingSupport<T> implements Serializable {
         }
     }
 
-    public Object getFirstEntityIdentifier(EntityContainer<T> container,
-            Filter filter, List<SortBy> sortBy) {
+    public Object getFirstEntityIdentifier(final EntityContainer<T> container,
+            final Filter filter, List<SortBy> sortBy) {
         if (sortBy == null) {
             sortBy = Collections.emptyList();
         }
@@ -820,8 +815,8 @@ class SerpicsCachingSupport<T> implements Serializable {
         }
     }
 
-    public Object getLastEntityIdentifier(EntityContainer<T> container,
-            Filter filter, List<SortBy> sortBy) {
+    public Object getLastEntityIdentifier(final EntityContainer<T> container,
+            final Filter filter, List<SortBy> sortBy) {
         if (sortBy == null) {
             sortBy = Collections.emptyList();
         }
@@ -833,8 +828,8 @@ class SerpicsCachingSupport<T> implements Serializable {
         }
     }
 
-    public Object getNextEntityIdentifier(EntityContainer<T> container,
-            Object entityId, Filter filter, List<SortBy> sortBy) {
+    public Object getNextEntityIdentifier(final EntityContainer<T> container,
+            final Object entityId, final Filter filter, List<SortBy> sortBy) {
         if (sortBy == null) {
             sortBy = Collections.emptyList();
         }
@@ -847,8 +842,8 @@ class SerpicsCachingSupport<T> implements Serializable {
         }
     }
 
-    public Object getPreviousEntityIdentifier(EntityContainer<T> container,
-            Object entityId, Filter filter, List<SortBy> sortBy) {
+    public Object getPreviousEntityIdentifier(final EntityContainer<T> container,
+            final Object entityId, final Filter filter, List<SortBy> sortBy) {
         if (sortBy == null) {
             sortBy = Collections.emptyList();
         }
@@ -863,9 +858,9 @@ class SerpicsCachingSupport<T> implements Serializable {
 
     public void invalidateSize() {
         // TODO review synchronization of this whole class
-        Object[] array = filterCache.keySet().toArray();
-        for (Object filter : array) {
-            FilterCacheEntry filterCacheEntry = filterCache.get(filter);
+        final Object[] array = filterCache.keySet().toArray();
+        for (final Object filter : array) {
+            final FilterCacheEntry filterCacheEntry = filterCache.get(filter);
             if (filterCacheEntry.entityCount != null) {
                 synchronized (filterCacheEntry.entityCount) {
                     filterCacheEntry.entityCount = null;
@@ -875,7 +870,7 @@ class SerpicsCachingSupport<T> implements Serializable {
 
     }
 
-    public void entityRemoved(Object entityId) {
+    public void entityRemoved(final Object entityId) {
         invalidate(entityId, false);
         invalidateSize();
     }

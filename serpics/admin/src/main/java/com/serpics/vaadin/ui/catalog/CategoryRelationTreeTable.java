@@ -2,14 +2,14 @@ package com.serpics.vaadin.ui.catalog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.admin.SerpicsContainerFactory;
 import com.serpics.catalog.persistence.CategoryRelation;
 import com.serpics.catalog.services.CategoryRelationService;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
@@ -25,7 +25,7 @@ public class CategoryRelationTreeTable extends CustomComponent implements Entity
     @Autowired
     private transient CategoryService categoryService;
 
-    private SerpicsPersistentContainer<CategoryRelation> cont;
+    private JPAContainer<CategoryRelation> cont;
 
     TreeTable treeTable = new TreeTable();
 
@@ -33,7 +33,7 @@ public class CategoryRelationTreeTable extends CustomComponent implements Entity
 
     @Override
     public void init() {
-        cont = SerpicsContainerFactory.make(CategoryRelation.class, categoryService);
+        cont = ServiceContainerFactory.make(CategoryRelation.class, categoryService);
         cont.addNestedContainerProperty("parentCategory.*");
         cont.addNestedContainerProperty("childCategory.*");
         // cont.setParentProperty("parentCategory");

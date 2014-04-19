@@ -1,11 +1,15 @@
 package com.serpics.base.persistence;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 
 @Embeddable
-public class LocalizedString {
+public class LocalizedString implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @JoinColumn(name = "locale_id")
     private String language;
 

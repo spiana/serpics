@@ -20,7 +20,7 @@ import com.vaadin.data.Container.Filter;
  * @author Petter Holmstr��m (Vaadin Ltd)
  * @since 1.0
  */
-public class SerpicsCachingLocalEntityProvider<T> extends SerpicsEntityProvider<T>
+class CachingLocalEntityServiceProvider<T> extends EntityServiceProvider<T>
 implements CachingEntityProvider<T> {
 
     // TODO Check how well caching works with concurrent users
@@ -28,7 +28,7 @@ implements CachingEntityProvider<T> {
     // concurrent implementations? What about synchronization?
 
     private static final long serialVersionUID = 302600441430870363L;
-    private final SerpicsCachingSupport<T> cachingSupport;
+    private final CachingServiceSupport<T> cachingSupport;
 
     /**
      * Creates a new <code>CachingLocalEntityProvider</code>. The entity manager
@@ -38,14 +38,10 @@ implements CachingEntityProvider<T> {
      * @param entityClass
      *            the entity class (must not be null).
      */
-    public SerpicsCachingLocalEntityProvider(final Class<T> entityClass) {
+    public CachingLocalEntityServiceProvider(final Class<T> entityClass) {
         super(entityClass);
-        cachingSupport = new SerpicsCachingSupport<T>(this);
+        cachingSupport = new CachingServiceSupport<T>(this);
     }
-
-
-
-
 
     @Override
     public void updateEntityProperty(final Object entityId, final String propertyName,

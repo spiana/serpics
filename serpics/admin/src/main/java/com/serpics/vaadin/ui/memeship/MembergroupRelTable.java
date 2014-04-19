@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.service.EntityService;
 import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.persistence.Membergrouprel;
 import com.serpics.membership.persistence.User;
@@ -29,17 +30,19 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
     }
 
     @Override
+    public EntityService getService() {
+        return membergrouprelService;
+    }
+
+    @Override
     public void init() {
+        super.init();
         cont.addNestedContainerProperty("membergroup.*");
         editorWindow = new EntityFormWindow<Membergrouprel>();
         editorWindow.addTab(membergroupRelEditor, "main");
         final String[] p = { "membergroup.name", "status", "validFrom", "validTo" };
         setPropertyToShow(p);
-        setService(membergrouprelService);
-        super.init();
-
     }
-
 
     @Override
     public void setParentEntity(final EntityItem<User> parent) {
@@ -47,7 +50,6 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
         removeAllFilter();
         addFilter(new Compare.Equal("member", parent.getEntity()));
     }
-
 
     @Override
     public EntityItem<Membergrouprel> createEntityItem() {

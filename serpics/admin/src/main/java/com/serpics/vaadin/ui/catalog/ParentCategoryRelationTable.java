@@ -2,18 +2,19 @@ package com.serpics.vaadin.ui.catalog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.admin.SerpicsContainerFactory;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.CategoryRelation;
 import com.serpics.catalog.services.CategoryRelationService;
 import com.serpics.catalog.services.CategoryService;
+import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -37,23 +38,27 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
     }
 
     @Override
+    public EntityService getService() {
+        return categoryRelationService;
+    }
+
+    @Override
     public void init() {
+        super.init();
         cont.addNestedContainerProperty("parentCategory.*");
         setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description", "sequence" });
-        setService(categoryRelationService);
 
 
         editorWindow.addTab(new EntityForm<CategoryRelation>(CategoryRelation.class) {
 
-            SerpicsPersistentContainer<Category> categories;
+            JPAContainer<Category> categories;
 
             @Override
             public void init() {
-                setDisplayProperties(new String[] { "parentCategory", "sequence" });
-                categories = SerpicsContainerFactory.make(Category.class,
-                        categoryService);
-
                 super.init();
+                setDisplayProperties(new String[] { "parentCategory", "sequence" });
+                categories = ServiceContainerFactory.make(Category.class,
+                        categoryService);
             }
 
             @Override
@@ -74,7 +79,7 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
             }
         }, "main");
 
-        super.init();
+
         entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
 
     }

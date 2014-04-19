@@ -7,12 +7,11 @@ import java.util.Set;
 
 import javax.persistence.Transient;
 
-import com.serpics.core.service.EntityService;
 import com.serpics.vaadin.ui.EntityComponent.EntityTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.addon.jpacontainer.provider.SerpicsCachingLocalEntityProvider;
+import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Alignment;
@@ -37,7 +36,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     private boolean initialized = false;
 
     @Transient
-    private final Class<T> entityClass;
+    private transient final Class<T> entityClass;
 
     private String[] displayProperties;
     private final Set<String> hideProperties = new HashSet<String>();
@@ -47,19 +46,13 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
     private final HorizontalLayout editButtonPanel = new HorizontalLayout();
 
-    @Transient
-    protected SerpicsPersistentContainer<T> cont;
+    protected transient JPAContainer<T> cont;
 
-    @Transient
-    protected SerpicsCachingLocalEntityProvider<T> provider;
+
 
     public EntityTable(final Class<T> entityClass) {
         super();
         this.entityClass = entityClass;
-        cont = new SerpicsPersistentContainer<T>(entityClass);
-        provider = new SerpicsCachingLocalEntityProvider<T>(entityClass);
-        provider.setCacheEnabled(true);
-        cont.setEntityProvider(provider);
         editorWindow = new EntityFormWindow<T>();
         entityList = new Table();
     }
@@ -68,7 +61,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     public void init() {
         if (initialized)
             return;
-
+        cont = ServiceContainerFactory.make(entityClass, getService());
         entityList.setContainerDataSource(cont);
         entityList.setSelectable(true);
         entityList.setImmediate(true);
@@ -178,12 +171,10 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         entityList.setTableFieldFactory(factory);
     }
 
-    public void setService(final EntityService service) {
-        provider.setService(service);
-    }
-
     public void setPropertyToShow(final String[] propertyToShow) {
         this.displayProperties = propertyToShow;
+        if (initialized)
+            entityList.setVisibleColumns(displayProperties);
     }
 
     public void setEditorWindow(final EntityFormWindow<T> editorWindow) {
@@ -219,7 +210,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     }
 
     public boolean isEditable() {
-        return editorWindow != null;
+        return editorWindow.getTabComponentCount() > 0;
     }
 
     @Override

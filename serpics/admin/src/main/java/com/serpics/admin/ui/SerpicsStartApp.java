@@ -79,6 +79,8 @@ public class SerpicsStartApp extends UI {
                     addComponent("userRegTableEditor", "userReg");
                 } else if (itemid == "category") {
                     addComponent("categoryTable", "category");
+                } else if (itemid == "product") {
+                    addComponent("productTable", "product");
                 }
             }
         });
@@ -114,6 +116,10 @@ public class SerpicsStartApp extends UI {
         menu.addItem("category");
         menu.setParent("category", "catalog");
         menu.setChildrenAllowed("category", false);
+
+        menu.addItem("product");
+        menu.setParent("product", "catalog");
+        menu.setChildrenAllowed("product", false);
 
     }
 

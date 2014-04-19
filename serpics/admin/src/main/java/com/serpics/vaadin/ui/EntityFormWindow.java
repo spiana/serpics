@@ -257,4 +257,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
         this.newItem = newItem;
     }
 
+    public int getTabComponentCount() {
+        return tabSheet.getComponentCount() ;
+    }
+
 }

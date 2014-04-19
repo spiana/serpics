@@ -10,10 +10,15 @@ public class MembergroupEditor extends EntityForm<Membergroup> {
 
     public MembergroupEditor() {
         super(Membergroup.class);
-        final String[] displayProperties = { "name", "description" };
-        this.displayProperties = displayProperties;
 
     }
 
+    @Override
+    public void init() {
+
+        super.init();
+        final String[] displayProperties = { "name", "description" };
+        setDisplayProperties(displayProperties);
+    }
 
 }

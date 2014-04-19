@@ -107,6 +107,7 @@ EntityService<T, ID> {
 
     @Override
     public void detach(final T entity) {
+
         getEntityRepository().detach(entity);
     }
 }

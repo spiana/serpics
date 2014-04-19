@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -21,37 +20,32 @@ import org.springframework.data.jpa.domain.Specification;
 import com.serpics.core.service.EntityService;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
-import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.filter.util.FilterConverter;
-import com.vaadin.addon.jpacontainer.metadata.EntityClassMetadata;
 import com.vaadin.data.Container.Filter;
 
-public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> implements EntityManagerProvider {
+public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> implements EntityManagerProvider {
 
-    private EntityService service;
+    private EntityService<T, Serializable> service;
 
-    private Class<T> entityClass;
-    private EntityClassMetadata<T> entityClassMetadata;
+    // private EntityClassMetadata<T> entityClassMetadata;
 
-    private LazyLoadingDelegate lazyLoadingDelegate;
-    private EntityManagerFactory emf;
 
     private static final Logger logger = LoggerFactory.getLogger("SerpicsEntityProvider");
 
-    public SerpicsEntityProvider(final Class<T> entityClass) {
+    public EntityServiceProvider(final Class<T> entityClass) {
         super(entityClass);
-        this.entityClassMetadata = super.getEntityClassMetadata();
+        // this.entityClassMetadata = super.getEntityClassMetadata();
     }
 
-    protected static Specification getSpecificationFromFilter(final Filter filter) {
+    protected Specification<T> getSpecificationFromFilter(final Filter filter) {
 
-        return new Specification() {
-
+        return new Specification<T>() {
             @Override
-            public Predicate toPredicate(final Root root, final CriteriaQuery query, final CriteriaBuilder cb) {
+            public Predicate toPredicate(final Root<T> root, final CriteriaQuery<?> query, final CriteriaBuilder cb) {
                 return FilterConverter.convertFilter(filter, cb, root);
             }
+
         };
     }
 
@@ -105,7 +99,8 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
         final T entity = (T) res;
 
-        final Object id = entityClassMetadata.getPropertyValue(entity, entityClassMetadata.getIdentifierProperty()
+        final Object id = getEntityClassMetadata().getPropertyValue(entity,
+                getEntityClassMetadata().getIdentifierProperty()
                 .getName());
 
         return id;
@@ -127,7 +122,8 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
         final T entity = (T) res;
 
-        final Object id = entityClassMetadata.getPropertyValue(entity, entityClassMetadata.getIdentifierProperty()
+        final Object id = getEntityClassMetadata().getPropertyValue(entity,
+                getEntityClassMetadata().getIdentifierProperty()
                 .getName());
 
         return id;
@@ -141,7 +137,8 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
         final T entity = (T) res.get(res.size() - 1);
 
-        final Object id = entityClassMetadata.getPropertyValue(entity, entityClassMetadata.getIdentifierProperty()
+        final Object id = getEntityClassMetadata().getPropertyValue(entity,
+                getEntityClassMetadata().getIdentifierProperty()
                 .getName());
 
         return id;
@@ -156,7 +153,8 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
         boolean found = false;
         for (final T t : res) {
-            final Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty()
+            final Object id = getEntityClassMetadata().getPropertyValue(t,
+                    getEntityClassMetadata().getIdentifierProperty()
                     .getName());
             if (found)
                 return id;
@@ -177,7 +175,8 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
         Object last = null;
         for (final T t : res) {
-            final Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty()
+            final Object id = getEntityClassMetadata().getPropertyValue(t,
+                    getEntityClassMetadata().getIdentifierProperty()
                     .getName());
 
             if (id.equals(entityId))
@@ -197,7 +196,8 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
         final List<Object> ids = new ArrayList<Object>();
         for (final T t : res) {
-            final Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty()
+            final Object id = getEntityClassMetadata().getPropertyValue(t,
+                    getEntityClassMetadata().getIdentifierProperty()
                     .getName());
 
             ids.add(id);
@@ -219,7 +219,8 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
         for (int i = startFrom; i < Math.min(startFrom + fetchMax, res.size()); i++) {
             final T t = array.get(i);
-            final Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty()
+            final Object id = getEntityClassMetadata().getPropertyValue(t,
+                    getEntityClassMetadata().getIdentifierProperty()
                     .getName());
 
             ids.add(id);
@@ -232,11 +233,12 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
     @Override
     public boolean doContainsEntity(final EntityContainer<T> entityContainer, final Object entityId, final Filter filter) {
 
-        final SortBy sortBy = new SortBy(entityClassMetadata.getIdentifierProperty().getName(), true);
+        final SortBy sortBy = new SortBy(getEntityClassMetadata().getIdentifierProperty().getName(), true);
         final List<T> res = findAll(filter, Arrays.asList(sortBy));
 
         for (final T t : res) {
-            final Object id = entityClassMetadata.getPropertyValue(t, entityClassMetadata.getIdentifierProperty()
+            final Object id = getEntityClassMetadata().getPropertyValue(t,
+                    getEntityClassMetadata().getIdentifierProperty()
                     .getName());
 
             if (id.equals(entityId))
@@ -248,7 +250,7 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
     @Override
     public int doGetEntityCount(final EntityContainer<T> entityContainer, final Filter filter) {
-        final Sort s = new Sort(entityClassMetadata.getIdentifierProperty().getName());
+        final Sort s = new Sort(getEntityClassMetadata().getIdentifierProperty().getName());
 
         List<T> res = null;
 
@@ -263,7 +265,7 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
     @Override
     public Object getIdentifier(final T entity) {
-        final Object id = entityClassMetadata.getPropertyValue(entity, entityClassMetadata.getIdentifierProperty()
+        final Object id = getEntityClassMetadata().getPropertyValue(entity, getEntityClassMetadata().getIdentifierProperty()
                 .getName());
         return id;
     }
@@ -281,37 +283,47 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
 
     @Override
     public T addEntity(final T entity) {
-        return (T) service.create((T) entity);
-
+        final T _entity = service.create(entity);
+        service.detach(_entity);
+        fireEntityProviderChangeEvent(new EntitiesAddedEvent<T>(this, (T) _entity));
+        return _entity;
     }
 
     @Override
     public T updateEntity(final T entity) {
-        // TODO Auto-generated method stub
-        return (T) service.update(entity);
+        final T _entity = service.update(entity);
+        service.detach(_entity);
+        fireEntityProviderChangeEvent(new EntitiesUpdatedEvent<T>(this, _entity));
+        return _entity;
     }
 
     @Override
     public void updateEntityProperty(final Object entityId, final String propertyName, final Object propertyValue)
             throws IllegalArgumentException, RuntimeException {
 
-        final T entity = (T) service.findOne((Serializable) entityId);
+        T entity = (T) service.findOne((Serializable) entityId);
         if (entity != null) {
             getEntityClassMetadata().setPropertyValue(entity, propertyName, propertyValue);
-            service.update(entity);
-
+            entity = service.update(entity);
+            service.detach(entity);
         } else {
             logger.error("could not find entity to update!");
         }
-
+        service.detach(entity);
         fireEntityProviderChangeEvent(new EntitiesUpdatedEvent<T>(this, entity));
 
     }
 
     @Override
     public void removeEntity(final Object entityId) {
-        getService().delete((Serializable) entityId);
-        refresh();
+        final T _entity = getService().findOne((Serializable) entityId);
+        if (_entity != null) {
+            getService().delete(_entity);
+            service.detach(_entity);
+            // fireEntityProviderChangeEvent(new EntitiesRemovedEvent<T>(this, _entity));
+            // FIXME : to fix firing event !
+            refresh();
+        }
     }
 
     @Override
@@ -320,25 +332,12 @@ public class SerpicsEntityProvider<T> extends MutableLocalEntityProvider<T> impl
         return arg0;
     }
 
-    public EntityService getService() {
+    public EntityService<T, Serializable> getService() {
         return service;
     }
 
-    public void setService(final EntityService service) {
+    public void setService(final EntityService<T, Serializable> service) {
         this.service = service;
-    }
-
-    public void setEmf(final EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
-    @Override
-    public EntityClassMetadata<T> getEntityClassMetadata() {
-        return entityClassMetadata;
-    }
-
-    public void setEntityClassMetadata(final EntityClassMetadata<T> entityClassMetadata) {
-        this.entityClassMetadata = entityClassMetadata;
     }
 
 

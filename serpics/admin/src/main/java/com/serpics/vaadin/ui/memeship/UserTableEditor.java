@@ -2,6 +2,7 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.VaadinComponent;
@@ -40,7 +41,13 @@ public class UserTableEditor extends EntityTable<UsersReg> {
     } 
 
     @Override
+    public EntityService getService() {
+        return userService;
+    }
+
+    @Override
     public void init() {
+        super.init();
         editorWindow = new EntityFormWindow<UsersReg>();
         editorWindow.addTab(userEditorComponent, "main");
         editorWindow.addTab(primaryAddressEditor, "contactAddress");
@@ -48,13 +55,7 @@ public class UserTableEditor extends EntityTable<UsersReg> {
         editorWindow.addTab(addressTableEditor, "address");
         editorWindow.addTab(membergroupRelTable, "grouprelation");
         editorWindow.addTab(memberRoleTable, "memberRole");
-
-
         final String[] p = { "firstname", "lastname", "created", "logonid" };
         setPropertyToShow(p );
-        setService(userService);
-        super.init();
-
-
     }
 }

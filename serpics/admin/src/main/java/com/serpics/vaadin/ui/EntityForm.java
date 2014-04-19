@@ -32,9 +32,9 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
     private boolean initialized = false;
 
-    protected String[] displayProperties;
-    protected Set<String> hideProperties = new HashSet<String>(0);
-    protected String[] readOnlyProperties = {};
+    private String[] displayProperties;
+    private final Set<String> hideProperties = new HashSet<String>(0);
+    private String[] readOnlyProperties = {};
 
     protected EntityItem<T> entityItem;
 
@@ -114,10 +114,6 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         f.setBuffered(true);
 
         if (f instanceof TextField) {
-            // if (Number.class.isAssignableFrom(p.getType()))
-            // ((TextField) f)
-            // .setConverter(new StringToNumberConverter());
-            // else
             if (MultilingualString.class.isAssignableFrom(p.getType()))
                 ((TextField) f).setConverter(new MultilingualStringConvert());
 
@@ -128,22 +124,6 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         if (String.class.isAssignableFrom(p.getType())) {
             f.setWidth("80%");
         }
-
-        try {
-            if (p.getType().getField(pid).isAnnotationPresent(javax.validation.constraints.Size.class)) {
-                final javax.validation.constraints.Size s = (javax.validation.constraints.Size) p.getType()
-                        .getField(pid).getAnnotation(javax.validation.constraints.Size.class);
-                if (s.max() > 0)
-                    f.setWidth(s.max() * 10, Unit.PIXELS);
-            }
-        } catch (final SecurityException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (final NoSuchFieldException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
         return f;
     }
 

@@ -2,12 +2,11 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.Membergroup;
 import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
-import com.vaadin.addon.jpacontainer.EntityItem;
 
 @VaadinComponent(value = "membergroupTableEditor")
 public class MembergroupTableEditor extends EntityTable<Membergroup> {
@@ -24,21 +23,19 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
         super(Membergroup.class);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
-    public void init() {
-        editorWindow = new EntityFormWindow<Membergroup>();
-        editorWindow.addTab(membergroupEditor, "main");
-        //setEditorWindow(uw) ;
-        final String[] p = { "name", "description", "updated" };
-        setPropertyToShow(p);
-        setService(membergroupService);
-        super.init();
+    public EntityService getService() {
+        return membergroupService;
     }
 
     @Override
-    public EntityItem<Membergroup> createEntityItem() {
-        final Membergroup a = new Membergroup();
-        return cont.createEntityItem(a);
+    public void init() {
+        super.init();
+        editorWindow.addTab(membergroupEditor, "main");
+        final String[] p = { "name", "description", "updated" };
+        setPropertyToShow(p);
+
     }
 
 }

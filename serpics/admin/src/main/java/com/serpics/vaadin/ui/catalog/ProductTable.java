@@ -1,0 +1,127 @@
+package com.serpics.vaadin.ui.catalog;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.serpics.catalog.persistence.AbstractProduct;
+import com.serpics.catalog.persistence.Category;
+import com.serpics.catalog.persistence.CategoryProductRelation;
+import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.services.Category2ProductService;
+import com.serpics.catalog.services.CategoryService;
+import com.serpics.catalog.services.ProductService;
+import com.serpics.core.service.EntityService;
+import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.EntityTable;
+import com.serpics.vaadin.ui.EntityTableChild;
+import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
+import com.vaadin.data.util.filter.Compare;
+import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Field;
+
+@VaadinComponent("productTable")
+public class ProductTable extends EntityTable<Product> {
+    private static final long serialVersionUID = 6586616418061870098L;
+
+    public ProductTable() {
+        super(Product.class);
+    }
+
+    @Autowired
+    private transient ProductService productService;
+
+    @Autowired
+    private transient Category2ProductService category2ProductService;
+
+    @Autowired
+    private transient CategoryService categoryService;
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public EntityService getService() {
+        return productService;
+    }
+
+    @Override
+    public void init() {
+        super.init();
+        setPropertyToShow(new String[] { "code", "description" });
+        entityList.setConverter("description", new MultilingualStringConvert());
+        editorWindow.addTab(new EntityForm<Product>(Product.class) {
+            @Override
+            public void init() {
+                super.init();
+                setHideProperties(new String[] { "uuid", "field2", "productType", "ctentryType" });
+                setReadOnlyProperties(new String[] { "created", "updated" });
+
+            }
+        }, "main");
+        editorWindow.addTab(new EntityTableChild<CategoryProductRelation, AbstractProduct>(
+                CategoryProductRelation.class) {
+            private static final long serialVersionUID = -2478612011226738573L;
+
+            private transient JPAContainer<Category> categories;
+            @SuppressWarnings("rawtypes")
+            @Override
+            public EntityService getService() {
+                return category2ProductService;
+            }
+            @Override
+            public void init() {
+                super.init();
+                cont.addNestedContainerProperty("parentCategory.*");
+                setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description" });
+                entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
+
+                editorWindow.addTab(new EntityForm<CategoryProductRelation>(CategoryProductRelation.class) {
+
+                    @Override
+                    public void init() {
+                        super.init();
+                        setDisplayProperties(new String[] { "parentCategory", "sequence" });
+                        categories = ServiceContainerFactory.make(Category.class, categoryService);
+                    }
+
+                    @Override
+                    protected Field<?> createField(final String pid) {
+                        if (pid.equals("parentCategory")) {
+                            final ComboBox combo = new ComboBox(pid);
+                            combo.setContainerDataSource(categories);
+                            combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+                            combo.setItemCaptionPropertyId("code");
+                            combo.setFilteringMode(FilteringMode.CONTAINS);
+                            combo.setImmediate(true);
+                            combo.setConverter(new SingleSelectConverter(combo));
+                            fieldGroup.bind(combo, pid);
+                            return combo;
+                        } else
+                            return super.createField(pid);
+                    }
+                }, "main");
+            }
+            @Override
+            public void setParentEntity(final EntityItem<AbstractProduct> parent) {
+                super.setParentEntity(parent);
+                removeAllFilter();
+                addFilter(new Compare.Equal("childProduct", (AbstractProduct) parent.getEntity()));
+            }
+
+            @Override
+            public EntityItem<CategoryProductRelation> createEntityItem() {
+                final CategoryProductRelation _entity = new CategoryProductRelation();
+                _entity.setChildProduct(parent.getEntity());
+                return cont.createEntityItem(_entity);
+            }
+        }, "categories");
+
+
+
+
+    }
+}

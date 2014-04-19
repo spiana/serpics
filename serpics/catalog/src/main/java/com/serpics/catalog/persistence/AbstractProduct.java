@@ -202,7 +202,7 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     @PrePersist
     public void prepersist(){
         if (this.url == null)
-            this.url = "/" + getCatalog().getCode() + "/" + getCode();
+            this.url = "/" + getCatalog().getCode() + "/product/" + getCode();
     }
 
     public Specification getSpecification() {

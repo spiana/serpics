@@ -10,36 +10,42 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("1")
 public class CategoryProductRelation extends CtentryRelation {
 
-	private static final long serialVersionUID = 1L;
-	
-	
-	//bi-directional many-to-one association to Ctentry
-    @ManyToOne (fetch=FetchType.LAZY)
-	@JoinColumn(name="ctentry_id_parent" , insertable=false, updatable=false)
-	private Category parentCategory;
-	
-	//bi-directional many-to-one association to Ctentry
-    @ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
-	private AbstractProduct childProduct;
+    public CategoryProductRelation() {
+        super();
+        relationType = 1;
 
-	public Category getParentCategory() {
-		return parentCategory;
-	}
+    }
 
-	public void setParentCategory(Category parentCategory) {
-		this.parentCategory = parentCategory;
-	}
+    private static final long serialVersionUID = 1L;
 
-	public AbstractProduct getChildProduct() {
-		return childProduct;
-	}
 
-	public void setChildProduct(AbstractProduct childProduct) {
-		this.childProduct = childProduct;
-	}
+    //bi-directional many-to-one association to Ctentry
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ctentry_id_parent" , insertable=false, updatable=false)
+    private Category parentCategory;
 
- 
+    //bi-directional many-to-one association to Ctentry
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
+    private AbstractProduct childProduct;
+
+    public Category getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(final Category parentCategory) {
+        this.parentCategory = parentCategory;
+    }
+
+    public AbstractProduct getChildProduct() {
+        return childProduct;
+    }
+
+    public void setChildProduct(final AbstractProduct childProduct) {
+        this.childProduct = childProduct;
+    }
+
+
 
 
 }

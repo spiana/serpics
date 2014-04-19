@@ -6,6 +6,7 @@ import com.serpics.base.services.LocaleService;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.CtentryDescrService;
+import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityTable;
@@ -19,22 +20,22 @@ public class CategoryTable extends EntityTable<Category> {
     private static final long serialVersionUID = -8891254200870608192L;
 
     @Autowired
-    private CategoryService categoryService;
+    private transient CategoryService categoryService;
 
     @Autowired
-    private CtentryDescrService ctentryDescrService;
+    private transient CtentryDescrService ctentryDescrService;
 
     @Autowired
-    LocaleService localeService;
+    private transient LocaleService localeService;
 
     @Autowired
-    ChildCategoryRelationTable childCategoryRelatcionTable;
+    private transient ChildCategoryRelationTable childCategoryRelatcionTable;
 
     @Autowired
-    ParentCategoryRelationTable parentCategoryRelationTable;
+    private transient ParentCategoryRelationTable parentCategoryRelationTable;
 
     @Autowired
-    CategoryRelationTreeTable categoryRelationTreeTable;
+    private transient CategoryRelationTreeTable categoryRelationTreeTable;
 
     public CategoryTable() {
         super(Category.class);
@@ -42,7 +43,13 @@ public class CategoryTable extends EntityTable<Category> {
     }
 
     @Override
+    public EntityService getService() {
+        return categoryService;
+    }
+
+    @Override
     public void init() {
+        super.init();
         setPropertyToShow(new String[] { "code", "url", "description" });
 
         editorWindow.addTab(new EntityForm<Category>(Category.class) {
@@ -51,11 +58,11 @@ public class CategoryTable extends EntityTable<Category> {
 
             @Override
             public void init() {
-
-                displayProperties = new String[] { "code", "url", "description", "field1",
+                super.init();
+                final String[] displayProperties = { "code", "url", "description", "field1",
                         "updated", "created" };
                 this.setReadOnlyProperties(new String[] { "updated", "created" });
-                super.init();
+                setDisplayProperties(displayProperties);
             }
 
 
@@ -80,7 +87,9 @@ public class CategoryTable extends EntityTable<Category> {
 
             @Override
             public void init() {
-                displayProperties = new String[] { "metaKeyword", "metaDescription" };
+                super.init();
+                final String[] displayProperties = { "metaKeyword", "metaDescription" };
+                setDisplayProperties(displayProperties);
             }
 
             @Override
@@ -99,14 +108,14 @@ public class CategoryTable extends EntityTable<Category> {
                 return super.createField(pid);
             }
         }, "seo");
+
         editorWindow.addTab(childCategoryRelatcionTable, "childCategories");
         editorWindow.addTab(parentCategoryRelationTable, "parentCategories");
 
         // editorWindow.addTab(categoryRelationTreeTable, "tree");
 
         editorWindow.setCaption("category.title");
-        setService(categoryService);
-        super.init();
+
         entityList.setConverter("description", new MultilingualStringConvert());
     }
 

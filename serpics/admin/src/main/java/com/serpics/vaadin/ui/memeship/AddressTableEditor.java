@@ -2,11 +2,11 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.util.filter.Compare;
@@ -20,7 +20,7 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
     private transient PermanentAddressService addressService;
 
     @Autowired
-    AddressEditorComponent addressEditorComponent;
+    private AddressEditorComponent addressEditorComponent;
 
     public AddressTableEditor() {
         super(PermanentAddress.class);
@@ -28,17 +28,11 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
 
     @Override
     public void init() {
-        editorWindow = new EntityFormWindow<PermanentAddress>();
+        super.init();
         editorWindow.addTab(addressEditorComponent, "main");
-        //setEditorWindow(uw) ;
         final String[] p = { "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
         "country" };
         setPropertyToShow(p );
-        setService(addressService);
-        super.init();
-
-
-
     }
 
     @Override
@@ -54,6 +48,12 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
         removeAllFilter();
         addFilter(new Compare.Equal("member", parent.getEntity()));
 
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public EntityService getService() {
+        return addressService;
     }
 
 }

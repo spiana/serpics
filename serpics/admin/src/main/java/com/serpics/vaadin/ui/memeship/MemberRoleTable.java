@@ -2,8 +2,8 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.admin.SerpicsContainerFactory;
 import com.serpics.core.CommerceEngine;
+import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.MembersRolePK;
 import com.serpics.membership.persistence.Role;
@@ -15,8 +15,9 @@ import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.SerpicsPersistentContainer;
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -29,10 +30,10 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
     private static final long serialVersionUID = -3391935047933834592L;
 
     @Autowired
-    CommerceEngine commerceEngine;
+    private transient CommerceEngine commerceEngine;
 
     @Autowired
-    private MemberRoleService memberRoleService;
+    private transient MemberRoleService memberRoleService;
 
     @Autowired
     private RoleService roleService;
@@ -41,16 +42,23 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
         super(MembersRole.class);
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public EntityService getService() {
+        return memberRoleService;
+    }
+
     @Override
     public void init() {
-        setService(memberRoleService);
+        super.init();
+
         final EntityForm<MembersRole> form = new EntityForm<MembersRole>(MembersRole.class) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void init() {
-                setDisplayProperties(new String[] { "role" });
                 super.init();
+                setDisplayProperties(new String[] { "role" });
             }
 
             @Override
@@ -74,7 +82,7 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
             protected Field<?> createField(final String pid) {
 
                 if (pid.equals("role")) {
-                    final SerpicsPersistentContainer<Role> roles = SerpicsContainerFactory
+                    final JPAContainer<Role> roles = ServiceContainerFactory
                             .make(Role.class, roleService);
                     final ComboBox combo = new ComboBox("role");
                     combo.setContainerDataSource(roles);
@@ -94,10 +102,9 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
             }
         };
         this.editorWindow.addTab(form, "main");
-
         cont.addNestedContainerProperty("role.*");
         setPropertyToShow(new String[] { "role.name" });
-        super.init();
+
     }
 
     @Override
@@ -114,5 +121,4 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
         addFilter(new Compare.Equal("store", (Store) commerceEngine.getCurrentContext().getStoreRealm()));
         super.setParentEntity(parent);
     }
-
 }
