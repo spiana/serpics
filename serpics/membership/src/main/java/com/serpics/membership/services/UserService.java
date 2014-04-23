@@ -2,8 +2,10 @@ package com.serpics.membership.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import com.serpics.core.service.EntityService;
+import com.serpics.membership.persistence.Membergroup;
 import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.PrimaryAddress;
 import com.serpics.membership.persistence.Role;
@@ -26,4 +28,8 @@ public interface UserService extends EntityService<User , Long> {
     public Collection<Role> getUserRoles(User user , Store store);	
 
     public User findAnonymous();
+
+    public Set<PermanentAddress> getUserAddress(User user);
+
+    public Set<Membergroup> getUserGroups(User user);
 }

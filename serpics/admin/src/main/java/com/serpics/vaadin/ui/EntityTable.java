@@ -1,8 +1,6 @@
 package com.serpics.vaadin.ui;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Transient;
@@ -10,7 +8,6 @@ import javax.persistence.Transient;
 import com.serpics.vaadin.ui.EntityComponent.EntityTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
@@ -46,40 +43,42 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
     private final HorizontalLayout editButtonPanel = new HorizontalLayout();
 
-    protected transient JPAContainer<T> cont;
-
-
+    protected transient JPAContainer<T> container;
 
     public EntityTable(final Class<T> entityClass) {
         super();
         this.entityClass = entityClass;
         editorWindow = new EntityFormWindow<T>();
         entityList = new Table();
+        build();
     }
 
     @Override
     public void init() {
-        if (initialized)
-            return;
-        cont = ServiceContainerFactory.make(entityClass, getService());
-        entityList.setContainerDataSource(cont);
+        if (container == null) {
+            container = ServiceContainerFactory.make(entityClass, getService());
+            entityList.setContainerDataSource(container);
+        }
+        // if (displayProperties == null) {
+        // final List<Object> propsToShow = new ArrayList<Object>();
+        // for (final String id : cont.getContainerPropertyIds()) {
+        // if (cont.getPropertyKind(id).equals(PropertyKind.SIMPLE))
+        // if (!hideProperties.contains(id))
+        // propsToShow.add(id);
+        // }
+        // entityList.setVisibleColumns(propsToShow.toArray());
+        // } else {
+        // entityList.setVisibleColumns(displayProperties);
+        // }
+    }
+
+    protected void build() {
+
         entityList.setSelectable(true);
         entityList.setImmediate(true);
         entityList.setSizeFull();
         entityList.setColumnCollapsingAllowed(true);
         entityList.setColumnReorderingAllowed(true);
-
-        if (displayProperties == null) {
-            final List<Object> propsToShow = new ArrayList<Object>();
-            for (final String id : cont.getContainerPropertyIds()) {
-                if (cont.getPropertyKind(id).equals(PropertyKind.SIMPLE))
-                    if (!hideProperties.contains(id))
-                        propsToShow.add(id);
-            }
-            entityList.setVisibleColumns(propsToShow.toArray());
-        } else {
-            entityList.setVisibleColumns(displayProperties);
-        }
 
         final VerticalLayout v = new VerticalLayout();
         v.setSizeFull();
@@ -130,7 +129,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
                     return;
                 editorWindow.setNewItem(false);
                 editorWindow.setReadOnly(false);
-                editorWindow.setEntityItem(cont.getItem(entityList.getValue()));
+                editorWindow.setEntityItem(container.getItem(entityList.getValue()));
                 UI.getCurrent().addWindow(editorWindow);
             }
         });
@@ -148,7 +147,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
                     @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.compareTo(ButtonId.YES) == 0) {
-                            if (!cont.removeItem(entityList.getValue()))
+                            if (!container.removeItem(entityList.getValue()))
                                 System.out.println("Errore !");
 
                         }
@@ -162,7 +161,6 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
         setCompositionRoot(v);
         setSizeFull();
-
         this.initialized = true;
     }
 
@@ -173,7 +171,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
     public void setPropertyToShow(final String[] propertyToShow) {
         this.displayProperties = propertyToShow;
-        if (initialized)
+        if (initialized && container != null)
             entityList.setVisibleColumns(displayProperties);
     }
 
@@ -185,7 +183,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
         EntityItem<T> entityItem = null;
         try {
-            entityItem = cont.createEntityItem(entityClass.newInstance());
+            entityItem = container.createEntityItem(entityClass.newInstance());
         } catch (final InstantiationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -198,15 +196,15 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     }
 
     public void addFilter(final Filter filter) {
-        cont.addContainerFilter(filter);
+        container.addContainerFilter(filter);
     }
 
     public void removeFilter(final Filter filter) {
-        cont.removeContainerFilter(filter);
+        container.removeContainerFilter(filter);
     }
 
     public void removeAllFilter() {
-        cont.removeAllContainerFilters();
+        container.removeAllContainerFilters();
     }
 
     public boolean isEditable() {
@@ -215,10 +213,8 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
     @Override
     public void attach() {
-        if (!initialized)
-            init();
+        init();
         editButtonPanel.setEnabled(isEditable());
-
         super.attach();
     }
 

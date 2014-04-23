@@ -17,11 +17,11 @@
 <!-- 		<class>com.serpics.catalog.persistence.CtentryDescrPK</class> -->
 		<class>com.serpics.catalog.persistence.CtentryRelationPK</class>
 		<class>com.serpics.catalog.persistence.Media</class>
-		<class>com.serpics.catalog.persistence.MediaDescr</class>
-		<class>com.serpics.catalog.persistence.MediaDescrPK</class>
+<!-- 		<class>com.serpics.catalog.persistence.MediaDescr</class> -->
+<!-- 		<class>com.serpics.catalog.persistence.MediaDescrPK</class> -->
 		<class>com.serpics.catalog.persistence.Pricelist</class>
-		<class>com.serpics.catalog.persistence.PricelistDescr</class>
-		<class>com.serpics.catalog.persistence.PricelistDescrPK</class>
+<!-- 		<class>com.serpics.catalog.persistence.PricelistDescr</class> -->
+<!-- 		<class>com.serpics.catalog.persistence.PricelistDescrPK</class> -->
 		<class>com.serpics.catalog.persistence.Price</class>
 		<class>com.serpics.catalog.persistence.Productffmt</class>
 		<class>com.serpics.catalog.persistence.ProductffmtPK</class>

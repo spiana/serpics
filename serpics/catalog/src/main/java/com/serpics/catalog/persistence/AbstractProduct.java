@@ -72,7 +72,7 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     protected String weightMeas;
 
     // bi-directional many-to-one association to Price
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     protected Set<Price> prices;
 
     // bi-directional many-to-one association to Brand

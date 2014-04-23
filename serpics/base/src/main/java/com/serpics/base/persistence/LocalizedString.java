@@ -13,7 +13,7 @@ public class LocalizedString implements Serializable {
     @JoinColumn(name = "locale_id")
     private String language;
 
-    @Column(name = "text")
+    @Column(name = "text", length = 200)
     private String text;
 
     public LocalizedString() {

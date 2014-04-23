@@ -29,7 +29,7 @@ public class SerpicsStartApp extends UI {
     private static final long serialVersionUID = -5966946454650068735L;
 
     @Autowired
-    CommerceEngine commerceEngine;
+    private transient CommerceEngine commerceEngine;
 
     private final TabSheet leftContentPanel = new TabSheet();
     private final Map<String, EntityComponent> activeComponent = new HashMap<String, EntityComponent>(0);
@@ -138,7 +138,7 @@ public class SerpicsStartApp extends UI {
         EntityComponent _component = activeComponent.get(name);
         if (_component == null) {
             _component = (EntityComponent) commerceEngine.getApplicationContext().getBean(name);
-            _component.init();
+            // _component.init();
 
             activeComponent.put(name, _component);
         }

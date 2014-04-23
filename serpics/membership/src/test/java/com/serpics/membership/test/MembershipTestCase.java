@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -47,7 +48,6 @@ import com.serpics.test.ExecutionTestListener;
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext
-@Transactional
 public class MembershipTestCase {
 
     @Autowired
@@ -80,7 +80,6 @@ public class MembershipTestCase {
     @Test
     @Transactional
     public void test() throws SerpicsException {
-
 
         CommerceSessionContext context = ce.connect("default-store",
                 "superuser", "admin".toCharArray());
@@ -121,16 +120,16 @@ public class MembershipTestCase {
         }, new PageRequest(0, 1));
 
         assertEquals(1, l.size());
+        userService.addAddress(new PermanentAddress(), u.getMemberId());
 
-        u.addAdress(new PermanentAddress());
-        m.updateUser(u);
-
-        assertEquals(0, l1.get(0).getPermanentAddresses().size());
+        // assertEquals(0, l1.get(0).getPermanentAddresses().size());
 
         final List<User> lu1 = userService.findByexample(example);
-
         assertEquals(1, lu1.size());
-        assertEquals(1, lu1.get(0).getPermanentAddresses().size());
+
+        final Set<PermanentAddress> addresses = userService.getUserAddress(lu1.get(0));
+        assertEquals(1, addresses.size());
+
 
         l1 = m.findAll();
         assertEquals(2, l1.size());

@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.base.services.LocaleService;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.services.CategoryService;
-import com.serpics.catalog.services.CtentryDescrService;
 import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.MultilingualTextField;
+import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
 
@@ -22,8 +22,6 @@ public class CategoryTable extends EntityTable<Category> {
     @Autowired
     private transient CategoryService categoryService;
 
-    @Autowired
-    private transient CtentryDescrService ctentryDescrService;
 
     @Autowired
     private transient LocaleService localeService;
@@ -58,11 +56,11 @@ public class CategoryTable extends EntityTable<Category> {
 
             @Override
             public void init() {
-                super.init();
                 final String[] displayProperties = { "code", "url", "description", "field1",
                         "updated", "created" };
                 this.setReadOnlyProperties(new String[] { "updated", "created" });
                 setDisplayProperties(displayProperties);
+                final FieldFactory fieldFactory = new FieldFactory();
             }
 
 
@@ -75,12 +73,19 @@ public class CategoryTable extends EntityTable<Category> {
                     t.setNullRepresentation("");
                     fieldGroup.bind(t, "description");
                     return t;
+
+                    // } else if (pid.equals("childCategories")) {
+                    // final ElementCollectionEditor e = new ElementCollectionEditor(new FieldFactory(), cont,
+                    // entityItem
+                    // .getItemId(), (Object) pid, (Component) this);
+                    // return e;
                 } else {
                     return super.createField(pid);
                 }
             }
 
         }, "main");
+
 
         editorWindow.addTab(new EntityForm<Category>(Category.class) {
             private static final long serialVersionUID = -7154962966506074107L;
@@ -112,7 +117,6 @@ public class CategoryTable extends EntityTable<Category> {
         editorWindow.addTab(childCategoryRelatcionTable, "childCategories");
         editorWindow.addTab(parentCategoryRelationTable, "parentCategories");
 
-        // editorWindow.addTab(categoryRelationTreeTable, "tree");
 
         editorWindow.setCaption("category.title");
 

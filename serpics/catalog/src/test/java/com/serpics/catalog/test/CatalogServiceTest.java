@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +18,14 @@ import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.catalog.persistence.Bundle;
 import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Category;
+import com.serpics.catalog.persistence.Price;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.repositories.AbstractProductRepository;
 import com.serpics.catalog.repositories.BundleRepository;
 import com.serpics.catalog.repositories.CatalogRepository;
 import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.catalog.services.CategoryService;
+import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.core.SerpicsException;
 
@@ -48,6 +51,9 @@ public class CatalogServiceTest extends CatalogBaseTest {
 
     @Resource
     AttributeService attributeService;
+
+    @Autowired
+    PriceService priceService;
 
 
     @Test
@@ -111,6 +117,14 @@ public class CatalogServiceTest extends CatalogBaseTest {
         p.setCatalog((Catalog)context.getCatalog());
         p.setBuyable(1);
         productService.create(p);
+
+        final Price price = new Price();
+        price.setProduct(p);
+        price.setCurrentPrice(10.0);
+        priceService.create(price);
+
+        productService.detach(p);
+
         //
         // final Bundle b = new Bundle();
         // b.setCode("bundle-sku");
@@ -130,9 +144,13 @@ public class CatalogServiceTest extends CatalogBaseTest {
         b1.setBuyable(1);
         //	b1.setPublished(1);
 
+
+
         final Product p2 = productRepository.findOne(productRepository.makeSpecification(p1));
         Assert.assertNotNull(p2);
         Assert.assertEquals("test-sku", p2.getCode());
+        final List<Price> prices = priceService.findValidPricesforProduct(p2);
+        Assert.assertEquals(1, prices.size());
 
         // final Bundle b2 = bundleRepository.findOne(bundleRepository.makeSpecification(b1));
         // Assert.assertNotNull(b2);
@@ -155,5 +173,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         Assert.assertEquals(1, l3.size());
         // catalogService.deleteCatalog(catalog);
 
+
     }
+
 }

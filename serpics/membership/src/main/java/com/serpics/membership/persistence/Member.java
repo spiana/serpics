@@ -26,7 +26,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -200,15 +199,16 @@ public class Member extends com.serpics.core.persistence.jpa.AbstractEntity impl
         return membersRoles;
     }
 
-    @Transient
-    public Set<MembersRole> getMembersRolesForStore(final Long storeId) {
-        final Set<MembersRole> storeRoles = new HashSet<MembersRole>(0);
-        for (final MembersRole mrole : getMembersRoles()) {
-            if (mrole.getStore().getMemberId().equals(storeId))
-                storeRoles.add(mrole);
-        }
-        return storeRoles;
-    }
+
+    // @Transient
+    // public Set<MembersRole> getMembersRolesForStore(final Long storeId) {
+    // final Set<MembersRole> storeRoles = new HashSet<MembersRole>(0);
+    // for (final MembersRole mrole : getMembersRoles()) {
+    // if (mrole.getStore().getMemberId().equals(storeId))
+    // storeRoles.add(mrole);
+    // }
+    // return storeRoles;
+    // }
 
     public void setMembersRoles(final Set<MembersRole> membersRoles) {
         this.membersRoles = membersRoles;

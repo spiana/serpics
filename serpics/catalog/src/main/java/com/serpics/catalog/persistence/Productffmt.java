@@ -1,91 +1,98 @@
 package com.serpics.catalog.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the productffmt database table.
  * 
  */
 @Entity
-@Table(name="productffmt" )
+@Table(name = "productffmt")
 public class Productffmt implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private ProductffmtPK id;
+    @EmbeddedId
+    private ProductffmtPK id;
 
-    @Temporal( TemporalType.DATE)
-	@Column(name="available_date")
-	private Date availableDate;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "available_date")
+    private Date availableDate;
 
-	@Column(name="available_in_order")
-	private Double availableInOrder;
+    @Column(name = "available_in_order")
+    private Double availableInOrder;
 
-    @Temporal( TemporalType.TIMESTAMP)
-	private Date updated;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updated;
 
-	//bi-directional many-to-one association to Pricelist
+    // bi-directional many-to-one association to Pricelist
     @ManyToOne
-	@JoinColumn(name="pricelist_id", insertable=false, updatable=false)
-	private Pricelist pricelist;
+    @JoinColumn(name = "pricelist_id", insertable = false, updatable = false)
+    private Pricelist pricelist;
 
-	//bi-directional many-to-one association to Product
+    // bi-directional many-to-one association to Product
     @ManyToOne
-	@JoinColumn(name="product_id" , insertable=false, updatable=false)
-	private AbstractProduct product;
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    private AbstractProduct product;
 
     public Productffmt() {
     }
 
-	public ProductffmtPK getId() {
-		return this.id;
-	}
+    public ProductffmtPK getId() {
+        return this.id;
+    }
 
-	public void setId(ProductffmtPK id) {
-		this.id = id;
-	}
-	
-	public Date getAvailableDate() {
-		return this.availableDate;
-	}
+    public void setId(final ProductffmtPK id) {
+        this.id = id;
+    }
 
-	public void setAvailableDate(Date availableDate) {
-		this.availableDate = availableDate;
-	}
+    public Date getAvailableDate() {
+        return this.availableDate;
+    }
 
-	public Double getAvailableInOrder() {
-		return this.availableInOrder;
-	}
+    public void setAvailableDate(final Date availableDate) {
+        this.availableDate = availableDate;
+    }
 
-	public void setAvailableInOrder(Double availableInOrder) {
-		this.availableInOrder = availableInOrder;
-	}
+    public Double getAvailableInOrder() {
+        return this.availableInOrder;
+    }
 
-	public Date getUpdated() {
-		return this.updated;
-	}
+    public void setAvailableInOrder(final Double availableInOrder) {
+        this.availableInOrder = availableInOrder;
+    }
 
-	public void setUpdated(Date updated) {
-		this.updated = updated;
-	}
+    public Date getUpdated() {
+        return this.updated;
+    }
 
-	public Pricelist getPricelist() {
-		return this.pricelist;
-	}
+    public void setUpdated(final Date updated) {
+        this.updated = updated;
+    }
 
-	public void setPricelist(Pricelist pricelist) {
-		this.pricelist = pricelist;
-	}
-	
-	public AbstractProduct getProduct() {
-		return this.product;
-	}
+    public Pricelist getPricelist() {
+        return this.pricelist;
+    }
 
-	public void setProduct(AbstractProduct product) {
-		this.product = product;
-	}
-	
+    public void setPricelist(final Pricelist pricelist) {
+        this.pricelist = pricelist;
+    }
+
+    public AbstractProduct getProduct() {
+        return this.product;
+    }
+
+    public void setProduct(final AbstractProduct product) {
+        this.product = product;
+    }
+
 }

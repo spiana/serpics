@@ -9,7 +9,6 @@ import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.util.filter.Compare;
 
 @VaadinComponent(value = "addressTableEditor")
 public class AddressTableEditor extends EntityTableChild<PermanentAddress, User> {
@@ -33,21 +32,14 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
         final String[] p = { "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
         "country" };
         setPropertyToShow(p );
+        setParentProperty("member");
     }
 
     @Override
     public EntityItem<PermanentAddress> createEntityItem() {
         final PermanentAddress a = new PermanentAddress();
         a.setMember(parent.getEntity());
-        return cont.createEntityItem(a);
-    }
-
-    @Override
-    public void setParentEntity(final EntityItem<User> parent) {
-        super.setParentEntity(parent);
-        removeAllFilter();
-        addFilter(new Compare.Equal("member", parent.getEntity()));
-
+        return container.createEntityItem(a);
     }
 
     @SuppressWarnings("rawtypes")

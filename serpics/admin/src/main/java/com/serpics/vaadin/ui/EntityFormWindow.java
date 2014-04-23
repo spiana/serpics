@@ -40,11 +40,11 @@ public class EntityFormWindow<T> extends Window implements Handler {
     private Button cancelButton;
 
     public EntityFormWindow() throws SecurityException {
-        init();
+        build();
     }
 
     @SuppressWarnings("serial")
-    public void init() {
+    protected void build() {
 
         final VerticalLayout vl = new VerticalLayout();
         vl.setSizeFull();
@@ -148,7 +148,6 @@ public class EntityFormWindow<T> extends Window implements Handler {
     @SuppressWarnings("rawtypes")
     private void saveAllComponent() {
         try {
-
             for (final EntityComponent component : componentList) {
                 if (component instanceof EntityFormComponent) {
                     if (component.isEnabled() && !component.isReadOnly())
@@ -156,7 +155,6 @@ public class EntityFormWindow<T> extends Window implements Handler {
                 }
             }
         } catch (final CommitException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -177,8 +175,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
     }
 
     public void addTab(final EntityComponent<?> component, final String caption) {
-        if (!component.isInitialized())
-            component.init();
+        component.init();
         tabSheet.addTab(component, caption);
         componentList.add(component);
     }

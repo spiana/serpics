@@ -6,13 +6,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.persistence.MultilingualString;
 import com.serpics.catalog.persistence.Catalog;
+import com.serpics.catalog.persistence.Pricelist;
 import com.serpics.catalog.repositories.CatalogRepository;
+import com.serpics.catalog.repositories.PriceListRepository;
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractEntityService;
 
@@ -23,6 +27,9 @@ public class CatalogServiceImpl extends AbstractEntityService<Catalog, Long> imp
 
     @Resource
     CatalogRepository catalogRepository;
+
+    @Autowired
+    PriceListRepository priceListRepository;
 
     @Override
     public Repository<Catalog, Long> getEntityRepository() {
@@ -54,9 +61,21 @@ public class CatalogServiceImpl extends AbstractEntityService<Catalog, Long> imp
             catalog = new Catalog();
             catalog.setCode("default-catalog");
             catalog = catalogRepository.saveAndFlush(catalog);
+            initializeCatalog(catalog);
         }
 
         getCurrentContext().setCatalog(catalog);
     }
 
+    private void initializeCatalog(final Catalog catalog) {
+        final Pricelist pricelist = new Pricelist();
+        pricelist.setName("default-list");
+        pricelist.setCatalog(catalog);
+        pricelist.setDefaultList(true);
+        pricelist.setDescription(new MultilingualString());
+        pricelist.getDescription().addText("en", "public list");
+        pricelist.getDescription().addText("it", "listno al publico");
+        priceListRepository.saveAndFlush(pricelist);
+
+    }
 }

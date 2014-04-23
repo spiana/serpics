@@ -24,6 +24,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MemberType;
@@ -186,7 +187,7 @@ public class User extends Member implements Serializable, UserDetail {
         setMemberId(userId);
     }
 
-    // @XmlTransient
+
     // public Set<UserStoreRelation> getStoreRelation() {
     // return storeRelation;
     // }
@@ -200,6 +201,7 @@ public class User extends Member implements Serializable, UserDetail {
         return null;
     }
 
+    @XmlTransient
     public Set<Store> getStores() {
         return stores;
     }

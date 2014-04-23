@@ -22,6 +22,8 @@ public interface EntityComponent<T> extends Component{
     public interface EntityComponentChild<T, P> extends EntityComponent<T> {
         public void setParentEntity(EntityItem<P> parent);
 
+        public void setParentProperty(Object parentPropertyId);
+
         @SuppressWarnings("rawtypes")
         public EntityService getService();
     }

@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.CategoryProductRelation;
+import com.serpics.catalog.persistence.Price;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.services.Category2ProductService;
 import com.serpics.catalog.services.CategoryService;
+import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
@@ -19,7 +21,6 @@ import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
-import com.vaadin.data.util.filter.Compare;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.ComboBox;
@@ -42,6 +43,9 @@ public class ProductTable extends EntityTable<Product> {
     @Autowired
     private transient CategoryService categoryService;
 
+    @Autowired
+    private transient PriceService priceService;
+
     @SuppressWarnings("rawtypes")
     @Override
     public EntityService getService() {
@@ -53,6 +57,7 @@ public class ProductTable extends EntityTable<Product> {
         super.init();
         setPropertyToShow(new String[] { "code", "description" });
         entityList.setConverter("description", new MultilingualStringConvert());
+
         editorWindow.addTab(new EntityForm<Product>(Product.class) {
             @Override
             public void init() {
@@ -62,20 +67,23 @@ public class ProductTable extends EntityTable<Product> {
 
             }
         }, "main");
+
         editorWindow.addTab(new EntityTableChild<CategoryProductRelation, AbstractProduct>(
                 CategoryProductRelation.class) {
             private static final long serialVersionUID = -2478612011226738573L;
 
             private transient JPAContainer<Category> categories;
+
             @SuppressWarnings("rawtypes")
             @Override
             public EntityService getService() {
                 return category2ProductService;
             }
+
             @Override
             public void init() {
                 super.init();
-                cont.addNestedContainerProperty("parentCategory.*");
+                container.addNestedContainerProperty("parentCategory.*");
                 setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description" });
                 entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
 
@@ -105,23 +113,57 @@ public class ProductTable extends EntityTable<Product> {
                     }
                 }, "main");
             }
+
             @Override
-            public void setParentEntity(final EntityItem<AbstractProduct> parent) {
-                super.setParentEntity(parent);
-                removeAllFilter();
-                addFilter(new Compare.Equal("childProduct", (AbstractProduct) parent.getEntity()));
+            public void attach() {
+                super.attach();
             }
 
             @Override
             public EntityItem<CategoryProductRelation> createEntityItem() {
                 final CategoryProductRelation _entity = new CategoryProductRelation();
                 _entity.setChildProduct(parent.getEntity());
-                return cont.createEntityItem(_entity);
+                return container.createEntityItem(_entity);
             }
         }, "categories");
 
+        editorWindow.addTab(new EntityTableChild<Price, AbstractProduct>(Price.class) {
+            private static final long serialVersionUID = 7566839007224552531L;
+
+            @SuppressWarnings("rawtypes")
+            @Override
+            public EntityService getService() {
+                return priceService;
+            }
+
+            @Override
+            public void init() {
+                super.init();
+                container.addNestedContainerProperty("currency.*");
+
+                setPropertyToShow(new String[] { "currentPrice", "ctentryCost", "productPrice", "currency.isoCode",
+                        "validFrom", "validTo" });
+
+                editorWindow.addTab(new EntityForm<Price>(Price.class) {
+
+                    @Override
+                    public void init() {
+                        super.init();
+                        setDisplayProperties(new String[] { "currentPrice", "ctentryCost", "productPrice", "currency",
+                                "validFrom", "validTo" });
+                    }
+
+                }, "main");
+            }
 
 
+            @Override
+            public EntityItem<Price> createEntityItem() {
+                final Price _entity = new Price();
+                _entity.setProduct(parent.getEntity());
+                return container.createEntityItem(_entity);
+            }
+        }, "prices");
 
     }
 }

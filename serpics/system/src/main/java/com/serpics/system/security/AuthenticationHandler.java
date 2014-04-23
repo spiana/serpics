@@ -27,18 +27,18 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
 
 
     @Autowired
-    CommerceEngine commerceEngine;
+    private CommerceEngine commerceEngine;
 
     @Autowired
-    MembersRoleRepository membersRoleRepository;
+    private MembersRoleRepository membersRoleRepository;
     @Autowired
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    UserRegService userRegService;
+    private UserRegService userRegService;
 
     @Autowired
-    CatalogService catalogService;
+    private CatalogService catalogService;
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
@@ -62,9 +62,11 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
             context.setCatalog(catalogService.findByCode("default-catalog"));
             final UsersReg user = ((UsersReg) context.getUserPrincipal());
             final Locale locale = user.getLocale();
+
             if (locale != null) {
                 context.setLocale(locale);
             }
+
             user.setLastLogin(new Date());
             user.setLastVisit(user.getLastLogin());
             userRegService.update(user);

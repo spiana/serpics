@@ -23,6 +23,7 @@ import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
+import com.serpics.membership.persistence.Membergroup;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.MembersRolePK;
 import com.serpics.membership.persistence.PermanentAddress;
@@ -31,6 +32,7 @@ import com.serpics.membership.persistence.Role;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.repositories.MemberGroupRepository;
 import com.serpics.membership.repositories.MembersRoleRepository;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.StoreRepository;
@@ -40,7 +42,7 @@ import com.serpics.membership.repositories.UserRepository;
 //@StoreService("userService" )
 @Service("userService")
 @Scope("store")
-@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+@Transactional(readOnly = true)
 public class UserServiceImpl extends AbstractEntityService<User, Long> implements UserService {
 
     @Resource
@@ -52,6 +54,8 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     @Resource
     StoreRepository storeRepository;
 
+    @Autowired
+    MemberGroupRepository memberGroupRepository;
 
     @Resource(name = "permanentAddressRepository")
     PermanentAddressRepository addressRepository;
@@ -86,9 +90,10 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
         if (user.getUserType().equals(UserType.ANONYMOUS))
             user.setUserType(UserType.GUEST);
 
-        for (final PermanentAddress address : user.getPermanentAddresses()) {
-            address.setMember(user);
-        }
+        if (user.getPermanentAddresses() != null)
+            for (final PermanentAddress address : user.getPermanentAddresses()) {
+                address.setMember(user);
+            }
 
         if (user.getPrimaryAddress() != null)
             user.getPrimaryAddress().setMember(user);
@@ -200,6 +205,18 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
         final List<User> users = userRepository.findAnonymous();
         Assert.notEmpty(users);
         return users.get(0);
+    }
+
+    @Override
+    public Set<PermanentAddress> getUserAddress(final User user) {
+        final User _u = userRegrepository.findOne(user.getUserId());
+        _u.getPermanentAddresses().size();
+        return _u.getPermanentAddresses();
+    }
+
+    @Override
+    public Set<Membergroup> getUserGroups(final User user) {
+        return memberGroupRepository.findMembergroupByUser(user, (Store) getCurrentContext().getStoreRealm());
     }
 
 }

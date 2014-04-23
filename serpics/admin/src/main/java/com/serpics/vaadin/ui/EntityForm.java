@@ -40,8 +40,9 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
     private boolean readOnly = true;
 
-    Class<T> entityClass;
+    final DefaultFieldGroupFieldFactory fa = new DefaultFieldGroupFieldFactory();
 
+    Class<T> entityClass;
 
     public EntityForm(final Class<T> clazz) {
 
@@ -49,12 +50,9 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
         this.entityClass = clazz;
         fieldGroup = new FieldGroup();
-
         fieldGroup.setFieldFactory(this);
-
         setWidth("100%");
         setImmediate(false);
-        // setSizeFull();
         setMargin(true);
         setSpacing(true);
 
@@ -62,11 +60,11 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
     @Override
     public void init() {
+        // do nothing
     }
 
     @Override
     public <T extends Field> T createField(final Class<?> dataType, final Class<T> fieldType) {
-        final DefaultFieldGroupFieldFactory fa = new DefaultFieldGroupFieldFactory();
         final T f = fa.createField(dataType, fieldType);
         return f;
     }
@@ -82,6 +80,8 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         fieldGroup.setBuffered(true);
 
         if (!initialized) {
+            init();
+
             if (displayProperties != null)
                 addField(displayProperties);
             else {
@@ -95,9 +95,7 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
             }
             initialized = true;
         }
-
     }
-
 
     private void addField(final String[] propertyNames) {
         for (final String pid : propertyNames) {
@@ -127,7 +125,6 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         return f;
     }
 
-
     @Override
     public void save() throws CommitException {
         if (fieldGroup.isModified()) {
@@ -137,6 +134,10 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
                 entityItem.getContainer().addEntity(entityItem.getEntity());
             }
         }
+    }
+
+    public void setFieldFactory(final FieldGroupFieldFactory fieldFactory) {
+        fieldGroup.setFieldFactory(fieldFactory);
     }
 
     @Override
@@ -159,10 +160,10 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         }
         super.attach();
     }
+
     public void setDisplayProperties(final String[] displayProperties) {
         this.displayProperties = displayProperties;
     }
-
 
     @Override
     public boolean isReadOnly() {

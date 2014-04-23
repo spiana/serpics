@@ -51,6 +51,7 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
     @Override
     public void init() {
         super.init();
+        setParentProperty("member");
 
         final EntityForm<MembersRole> form = new EntityForm<MembersRole>(MembersRole.class) {
             private static final long serialVersionUID = 1L;
@@ -102,7 +103,7 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
             }
         };
         this.editorWindow.addTab(form, "main");
-        cont.addNestedContainerProperty("role.*");
+        container.addNestedContainerProperty("role.*");
         setPropertyToShow(new String[] { "role.name" });
 
     }
@@ -111,14 +112,16 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
     public EntityItem<MembersRole> createEntityItem() {
         final MembersRole m = new MembersRole();
         m.setMember(parent.getEntity());
-        return cont.createEntityItem(m);
+        return container.createEntityItem(m);
     }
 
     @Override
-    public void setParentEntity(final EntityItem<User> parent) {
-        removeAllFilter();
-        addFilter(new Compare.Equal("member", parent.getEntity()));
-        addFilter(new Compare.Equal("store", (Store) commerceEngine.getCurrentContext().getStoreRealm()));
-        super.setParentEntity(parent);
+    public void attach() {
+        if (container != null) {
+            container.removeContainerFilters("store");
+            addFilter(new Compare.Equal("store", (Store) commerceEngine.getCurrentContext().getStoreRealm()));
+        }
+        super.attach();
     }
+
 }

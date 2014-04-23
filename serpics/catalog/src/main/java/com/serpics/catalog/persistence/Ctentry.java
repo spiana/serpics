@@ -48,8 +48,8 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
     protected Integer ctentryType;
 
     @Nonnull
-    @Size(max = 10)
-    @Column(name = "code", nullable = false)
+    @Size(max = 250)
+    @Column(name = "code", nullable = false, length = 250)
     protected String code;
 
     protected String field1;
@@ -61,9 +61,9 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
     @Column(name = "url", nullable = false, unique = true)
     protected String url;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
-    private MultilingualString description = new MultilingualString();
+    private MultilingualString description;
 
     // bi-directional many-to-one association to CtentryAttribute
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)

@@ -46,6 +46,12 @@ public class Paymethod extends AbstractEntity implements Serializable {
     private MultilingualString description;
 
     public Paymethod() {
+        super();
+    }
+
+    public Paymethod(final String name) {
+        super();
+        this.name = name;
     }
 
     public Long getPaymethodId() {

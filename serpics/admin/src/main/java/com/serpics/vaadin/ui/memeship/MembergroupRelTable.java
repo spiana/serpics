@@ -13,7 +13,6 @@ import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.util.filter.Compare;
 
 @VaadinComponent("membergroupRelTable")
 public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User> {
@@ -37,19 +36,14 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
     @Override
     public void init() {
         super.init();
-        cont.addNestedContainerProperty("membergroup.*");
+        container.addNestedContainerProperty("membergroup.*");
         editorWindow = new EntityFormWindow<Membergrouprel>();
         editorWindow.addTab(membergroupRelEditor, "main");
         final String[] p = { "membergroup.name", "status", "validFrom", "validTo" };
         setPropertyToShow(p);
+        setParentProperty("member");
     }
 
-    @Override
-    public void setParentEntity(final EntityItem<User> parent) {
-        super.setParentEntity(parent);
-        removeAllFilter();
-        addFilter(new Compare.Equal("member", parent.getEntity()));
-    }
 
     @Override
     public EntityItem<Membergrouprel> createEntityItem() {
@@ -58,7 +52,7 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
         membergrouprel.setStatus(Member2GroupRelType.EFFECTIVE);
         membergrouprel.setValidFrom(new Date());
         membergrouprel.setValidTo(new Date(new Double(4.071e+12 + 3.136e+10).longValue()));
-        return cont.createEntityItem(membergrouprel);
+        return container.createEntityItem(membergrouprel);
     }
 
 }

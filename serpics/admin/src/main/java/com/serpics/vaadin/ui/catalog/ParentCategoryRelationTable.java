@@ -15,7 +15,6 @@ import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
-import com.vaadin.data.util.filter.Compare;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.ComboBox;
@@ -45,9 +44,10 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
     @Override
     public void init() {
         super.init();
-        cont.addNestedContainerProperty("parentCategory.*");
+        container.addNestedContainerProperty("parentCategory.*");
         setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description", "sequence" });
 
+        setParentProperty("childCategory");
 
         editorWindow.addTab(new EntityForm<CategoryRelation>(CategoryRelation.class) {
 
@@ -78,23 +78,15 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
                     return super.createField(pid);
             }
         }, "main");
-
-
         entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
-
     }
 
-    @Override
-    public void setParentEntity(final EntityItem<Category> parent) {
-        super.setParentEntity(parent);
-        cont.removeAllContainerFilters();
-        cont.addContainerFilter(new Compare.Equal("childCategory", parent.getEntity()));
-    }
+
 
     @Override
     public EntityItem<CategoryRelation> createEntityItem() {
         final CategoryRelation categoryRelation = new CategoryRelation();
         categoryRelation.setChildCategory(parent.getEntity());
-        return cont.createEntityItem(categoryRelation);
+        return container.createEntityItem(categoryRelation);
     }
 }

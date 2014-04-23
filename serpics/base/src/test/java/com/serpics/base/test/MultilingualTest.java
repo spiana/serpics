@@ -45,9 +45,13 @@ public class MultilingualTest extends BaseTest {
         paymethodRepository.detach(p);
 
         final Paymethod p1 = paymethodRepository.findOne(p.getPaymethodId());
-
         Assert.assertNotNull(p1);
         Assert.assertEquals("descrizione", p1.getDescription().getText(l.getLanguage()));
+
+        final Paymethod p2 = paymethodRepository.findOne(paymethodRepository.makeSpecification(new Paymethod("uno")));
+        Assert.assertNotNull(p1);
+        Assert.assertEquals("descrizione", p1.getDescription().getText(l.getLanguage()));
+
 
     }
 }

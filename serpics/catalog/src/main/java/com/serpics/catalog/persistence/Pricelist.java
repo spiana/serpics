@@ -1,17 +1,24 @@
 package com.serpics.catalog.persistence;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import com.serpics.base.persistence.MultilingualString;
+import com.serpics.core.persistence.jpa.AbstractEntity;
 
 /**
  * The persistent class for the pricelist database table.
@@ -19,25 +26,27 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="pricelist" )
-public class Pricelist implements Serializable {
+public class Pricelist extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="pricelist_id")
     private Long pricelistId;
 
+    @NotNull
+    @Size(max = 100)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    private Timestamp updated;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "description_string_id")
+    private MultilingualString description;
 
     //bi-directional many-to-one association to Catalog
-    @ManyToOne
-    @JoinColumn(name="catalog_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "catalog_id", nullable = false)
     private Catalog catalog;
-
-    //bi-directional many-to-one association to PricelistDescr
-    @OneToMany(mappedBy="pricelist")
-    private Set<PricelistDescr> pricelistDescrs;
 
     //bi-directional many-to-one association to Price
     @OneToMany(mappedBy="pricelist")
@@ -47,7 +56,16 @@ public class Pricelist implements Serializable {
     @OneToMany(mappedBy="pricelist")
     private Set<Productffmt> productffmts;
 
+    boolean defaultList;
+
     public Pricelist() {
+        super();
+    }
+
+    public Pricelist(final String name, final Catalog catalog) {
+        super();
+        this.name = name;
+        this.catalog = catalog;
     }
 
     public Long getPricelistId() {
@@ -66,28 +84,12 @@ public class Pricelist implements Serializable {
         this.name = name;
     }
 
-    public Timestamp getUpdated() {
-        return this.updated;
-    }
-
-    public void setUpdated(final Timestamp updated) {
-        this.updated = updated;
-    }
-
     public Catalog getCatalog() {
         return this.catalog;
     }
 
     public void setCatalog(final Catalog catalog) {
         this.catalog = catalog;
-    }
-
-    public Set<PricelistDescr> getPricelistDescrs() {
-        return this.pricelistDescrs;
-    }
-
-    public void setPricelistDescrs(final Set<PricelistDescr> pricelistDescrs) {
-        this.pricelistDescrs = pricelistDescrs;
     }
 
     public Set<Price> getPrices() {
@@ -104,6 +106,22 @@ public class Pricelist implements Serializable {
 
     public void setProductffmts(final Set<Productffmt> productffmts) {
         this.productffmts = productffmts;
+    }
+
+    public MultilingualString getDescription() {
+        return description;
+    }
+
+    public void setDescription(final MultilingualString description) {
+        this.description = description;
+    }
+
+    public boolean isDefaultList() {
+        return defaultList;
+    }
+
+    public void setDefaultList(final boolean defaultList) {
+        this.defaultList = defaultList;
     }
 
 }

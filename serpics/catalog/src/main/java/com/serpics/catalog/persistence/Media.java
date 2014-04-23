@@ -1,9 +1,18 @@
 package com.serpics.catalog.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.serpics.base.persistence.MultilingualString;
 
 
 /**
@@ -13,108 +22,106 @@ import java.util.Set;
 @Entity
 @Table(name="media")
 public class Media implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="media_id")
-	private Long mediaId;
+    @Id
+    @Column(name="media_id")
+    private Long mediaId;
 
-	@Column(name="content_type")
-	private String contentType;
+    @Column(name="content_type")
+    private String contentType;
 
-	@Column(name="media_type")
-	private short mediaType;
+    @Column(name="media_type")
+    private short mediaType;
 
-	private String name;
+    private String name;
 
-	private double sequence;
+    private double sequence;
 
-	private String src;
+    private String src;
 
-	private Timestamp updated;
+    private Timestamp updated;
 
-	//bi-directional many-to-one association to Ctentry
+    //bi-directional many-to-one association to Ctentry
     @ManyToOne
-	@JoinColumn(name="ctentry_id")
-	private Ctentry ctentry;
+    @JoinColumn(name="ctentry_id")
+    private Ctentry ctentry;
 
-	//bi-directional many-to-one association to MediaDescr
-	@OneToMany(mappedBy="media")
-	private Set<MediaDescr> mediaDescrs;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "description_string_id")
+    private final MultilingualString description = new MultilingualString();
 
     public Media() {
     }
 
-	public Long getMediaId() {
-		return this.mediaId;
-	}
+    public Long getMediaId() {
+        return this.mediaId;
+    }
 
-	public void setMediaId(Long mediaId) {
-		this.mediaId = mediaId;
-	}
+    public void setMediaId(final Long mediaId) {
+        this.mediaId = mediaId;
+    }
 
-	public String getContentType() {
-		return this.contentType;
-	}
+    public String getContentType() {
+        return this.contentType;
+    }
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
+    public void setContentType(final String contentType) {
+        this.contentType = contentType;
+    }
 
-	public short getMediaType() {
-		return this.mediaType;
-	}
+    public short getMediaType() {
+        return this.mediaType;
+    }
 
-	public void setMediaType(short mediaType) {
-		this.mediaType = mediaType;
-	}
+    public void setMediaType(final short mediaType) {
+        this.mediaType = mediaType;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public double getSequence() {
-		return this.sequence;
-	}
+    public double getSequence() {
+        return this.sequence;
+    }
 
-	public void setSequence(double sequence) {
-		this.sequence = sequence;
-	}
+    public void setSequence(final double sequence) {
+        this.sequence = sequence;
+    }
 
-	public String getSrc() {
-		return this.src;
-	}
+    public String getSrc() {
+        return this.src;
+    }
 
-	public void setSrc(String src) {
-		this.src = src;
-	}
+    public void setSrc(final String src) {
+        this.src = src;
+    }
 
-	public Timestamp getUpdated() {
-		return this.updated;
-	}
+    public Timestamp getUpdated() {
+        return this.updated;
+    }
 
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
-	}
+    public void setUpdated(final Timestamp updated) {
+        this.updated = updated;
+    }
 
-	public Ctentry getCtentry() {
-		return this.ctentry;
-	}
+    public Ctentry getCtentry() {
+        return this.ctentry;
+    }
 
-	public void setCtentry(Ctentry ctentry) {
-		this.ctentry = ctentry;
-	}
-	
-	public Set<MediaDescr> getMediaDescrs() {
-		return this.mediaDescrs;
-	}
+    public void setCtentry(final Ctentry ctentry) {
+        this.ctentry = ctentry;
+    }
 
-	public void setMediaDescrs(Set<MediaDescr> mediaDescrs) {
-		this.mediaDescrs = mediaDescrs;
-	}
-	
+    public MultilingualString getDescription() {
+        return description;
+    }
+
+
+
 }

@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.serpics.base.persistence.Currency;
 import com.serpics.core.persistence.jpa.AbstractEntity;
 
 /**
@@ -24,13 +27,16 @@ public class Price extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "prices_id")
-    private String pricesId;
+    private Long pricesId;
 
     @Column(name = "product_cost")
-    private Double ctentryCost;
+    private Double productCost;
 
-    private Long currency;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "currency_id", nullable = false)
+    private Currency currency;
 
     @Column(name = "current_price")
     private Double currentPrice;
@@ -53,8 +59,8 @@ public class Price extends AbstractEntity implements Serializable {
     private Date validTo;
 
     // bi-directional many-to-one association to Pricelist
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "pricelist_id", nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "pricelist_id", nullable = true)
     private Pricelist pricelist;
 
     // bi-directional many-to-one association to Product
@@ -65,27 +71,27 @@ public class Price extends AbstractEntity implements Serializable {
     public Price() {
     }
 
-    public String getPricesId() {
+    public Long getPricesId() {
         return pricesId;
     }
 
-    public void setPricesId(final String pricesId) {
+    public void setPricesId(final Long pricesId) {
         this.pricesId = pricesId;
     }
 
     public Double getCtentryCost() {
-        return ctentryCost;
+        return productCost;
     }
 
-    public void setCtentryCost(final Double ctentryCost) {
-        this.ctentryCost = ctentryCost;
+    public void setCtentryCost(final Double productCost) {
+        this.productCost = productCost;
     }
 
-    public Long getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(final Long currency) {
+    public void setCurrency(final Currency currency) {
         this.currency = currency;
     }
 
