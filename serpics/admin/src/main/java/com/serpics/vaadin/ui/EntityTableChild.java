@@ -28,7 +28,7 @@ public abstract class EntityTableChild<T, P> extends EntityTable<T> implements E
 
     @Override
     public void attach() {
-        if (container != null){
+        if (container != null && parent != null) {
             Assert.notNull(this.parentPropertyId);
             container.removeContainerFilters(parentPropertyId);
             container.addContainerFilter(new Compare.Equal(parentPropertyId, parent.getEntity()));
