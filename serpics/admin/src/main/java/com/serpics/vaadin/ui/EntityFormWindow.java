@@ -14,6 +14,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
@@ -43,6 +44,16 @@ public class EntityFormWindow<T> extends Window implements Handler {
         build();
     }
 
+    interface saveListener extends Listener {
+    }
+
+    public class saveEvent extends Event {
+        private static final long serialVersionUID = 8861261985522866553L;
+
+        public saveEvent(final Component source) {
+            super(source);
+        }
+    }
     @SuppressWarnings("serial")
     protected void build() {
 
@@ -147,11 +158,12 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     @SuppressWarnings("rawtypes")
     private void saveAllComponent() {
+        fireEvent(new saveEvent(this));
         try {
             for (final EntityComponent component : componentList) {
-                if (component instanceof EntityFormComponent) {
+                if (component instanceof EntityComponent) {
                     if (component.isEnabled() && !component.isReadOnly())
-                        ((EntityFormComponent) component).save();
+                        ((EntityComponent) component).save();
                 }
             }
         } catch (final CommitException e) {

@@ -110,4 +110,5 @@ EntityService<T, ID> {
 
         getEntityRepository().detach(entity);
     }
+
 }

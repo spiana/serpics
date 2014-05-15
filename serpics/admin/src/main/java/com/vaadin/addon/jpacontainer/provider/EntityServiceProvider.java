@@ -49,6 +49,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
         };
     }
 
+
     protected static Sort getSortFromSortBy(final List<SortBy> sortBy) {
         final List<Order> orders = new ArrayList<Sort.Order>();
         for (final SortBy in : sortBy) {
@@ -284,7 +285,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
     @Override
     public T addEntity(final T entity) {
         final T _entity = service.create(entity);
-        service.detach(_entity);
+        // service.detach(_entity);
         fireEntityProviderChangeEvent(new EntitiesAddedEvent<T>(this, (T) _entity));
         return _entity;
     }
@@ -292,7 +293,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
     @Override
     public T updateEntity(final T entity) {
         final T _entity = service.update(entity);
-        service.detach(_entity);
+        // service.detach(_entity);
         fireEntityProviderChangeEvent(new EntitiesUpdatedEvent<T>(this, _entity));
         return _entity;
     }
@@ -305,11 +306,10 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
         if (entity != null) {
             getEntityClassMetadata().setPropertyValue(entity, propertyName, propertyValue);
             entity = service.update(entity);
-            service.detach(entity);
+            // service.detach(entity);
         } else {
             logger.error("could not find entity to update!");
         }
-        service.detach(entity);
         fireEntityProviderChangeEvent(new EntitiesUpdatedEvent<T>(this, entity));
 
     }

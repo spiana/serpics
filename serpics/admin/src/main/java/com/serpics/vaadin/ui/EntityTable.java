@@ -11,6 +11,7 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -111,10 +112,15 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                editorWindow.setNewItem(true);
-                editorWindow.setReadOnly(false);
-                editorWindow.setEntityItem(createEntityItem());
-                UI.getCurrent().addWindow(editorWindow);
+                if(!entityList.isEditable()){
+                    editorWindow.setNewItem(true);
+                    editorWindow.setReadOnly(false);
+                    editorWindow.setEntityItem(createEntityItem());
+                    UI.getCurrent().addWindow(editorWindow);
+                }else{
+                    createEntityItem();
+                    entityList.refreshRowCache();
+                }
             }
         });
 
@@ -127,10 +133,12 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
             public void buttonClick(final ClickEvent event) {
                 if (entityList.getValue() == null)
                     return;
-                editorWindow.setNewItem(false);
-                editorWindow.setReadOnly(false);
-                editorWindow.setEntityItem(container.getItem(entityList.getValue()));
-                UI.getCurrent().addWindow(editorWindow);
+                if (!entityList.isEditable()) {
+                    editorWindow.setNewItem(false);
+                    editorWindow.setReadOnly(false);
+                    editorWindow.setEntityItem(container.getItem(entityList.getValue()));
+                    UI.getCurrent().addWindow(editorWindow);
+                }
             }
         });
         final Button _delete = new Button("delete");
@@ -167,6 +175,10 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     @Override
     public void setTableFieldFactory(final TableFieldFactory factory) {
         entityList.setTableFieldFactory(factory);
+        entityList.setEditable(true);
+        editButtonPanel.getComponent(1).setEnabled(false);
+        editButtonPanel.getComponent(1).setVisible(false);
+        entityList.setBuffered(true);
     }
 
     public void setPropertyToShow(final String[] propertyToShow) {
@@ -184,6 +196,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         EntityItem<T> entityItem = null;
         try {
             entityItem = container.createEntityItem(entityClass.newInstance());
+            container.refresh();
         } catch (final InstantiationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -223,4 +236,14 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         return initialized;
     }
 
+    @Override
+    public void save() throws CommitException {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void discard() {
+        // TODO Auto-generated method stub
+
+    }
 }

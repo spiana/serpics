@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.MembersRole;
-import com.serpics.membership.persistence.MembersRolePK;
 import com.serpics.membership.persistence.Role;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
@@ -52,6 +51,7 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
     public void init() {
         super.init();
         setParentProperty("member");
+        container.addNestedContainerProperty("role.*");
 
         final EntityForm<MembersRole> form = new EntityForm<MembersRole>(MembersRole.class) {
             private static final long serialVersionUID = 1L;
@@ -63,28 +63,10 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
             }
 
             @Override
-            public void save() throws CommitException {
-                fieldGroup.commit();
-
-                if (!entityItem.isPersistent()) {
-                    if (super.entityItem.getItemId() == null) {
-                        final MembersRole m = entityItem.getEntity();
-                        final MembersRolePK pk = new MembersRolePK(m.getRole().getRoleId(),
-                                m.getMember().getMemberId(), commerceEngine.getCurrentContext().getStoreId());
-                        m.setId(pk);
-                        entityItem.getContainer().addEntity(m);
-                    }
-                }
-
-                super.save();
-            }
-
-            @Override
             protected Field<?> createField(final String pid) {
 
                 if (pid.equals("role")) {
-                    final JPAContainer<Role> roles = ServiceContainerFactory
-                            .make(Role.class, roleService);
+                    final JPAContainer<Role> roles = ServiceContainerFactory.make(Role.class, roleService);
                     final ComboBox combo = new ComboBox("role");
                     combo.setContainerDataSource(roles);
                     combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
@@ -103,16 +85,41 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
             }
         };
         this.editorWindow.addTab(form, "main");
-        container.addNestedContainerProperty("role.*");
+
         setPropertyToShow(new String[] { "role.name" });
 
+        //
+        // setTableFieldFactory(new TableFieldFactory() {
+        //
+        // @Override
+        // public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
+        // final Component uiContext) {
+        // if (propertyId.equals("role")) {
+        // final JPAContainer<Role> roles = ServiceContainerFactory.make(Role.class, roleService);
+        // final ComboBox combo = new ComboBox("role");
+        // combo.setContainerDataSource(roles);
+        // combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+        // combo.setItemCaptionPropertyId("name");
+        // combo.setFilteringMode(FilteringMode.CONTAINS);
+        // combo.setImmediate(true);
+        // combo.setNullSelectionAllowed(false);
+        // combo.setConverter(new SingleSelectConverter(combo));
+        // combo.setWidth("80%");
+        // // uiContext.bind(combo, "role");
+        // return combo;
+        // } else {
+        // return DefaultFieldFactory.get().createField(container.getItem(itemId), itemId, uiContext);
+        // }
+        // }
+        // });
     }
 
     @Override
     public EntityItem<MembersRole> createEntityItem() {
         final MembersRole m = new MembersRole();
         m.setMember(parent.getEntity());
-        return container.createEntityItem(m);
+        final EntityItem<MembersRole> _m = container.createEntityItem(m);
+        return _m;
     }
 
     @Override
@@ -122,6 +129,11 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
             addFilter(new Compare.Equal("store", (Store) commerceEngine.getCurrentContext().getStoreRealm()));
         }
         super.attach();
+    }
+
+    @Override
+    public void save() throws CommitException {
+        entityList.commit();
     }
 
 }

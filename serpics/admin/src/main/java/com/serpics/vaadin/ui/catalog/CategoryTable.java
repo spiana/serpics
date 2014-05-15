@@ -54,6 +54,7 @@ public class CategoryTable extends EntityTable<Category> {
 
             private static final long serialVersionUID = 8129655459345393570L;
 
+
             @Override
             public void init() {
                 final String[] displayProperties = { "code", "url", "description", "field1",
@@ -74,11 +75,6 @@ public class CategoryTable extends EntityTable<Category> {
                     fieldGroup.bind(t, "description");
                     return t;
 
-                    // } else if (pid.equals("childCategories")) {
-                    // final ElementCollectionEditor e = new ElementCollectionEditor(new FieldFactory(), cont,
-                    // entityItem
-                    // .getItemId(), (Object) pid, (Component) this);
-                    // return e;
                 } else {
                     return super.createField(pid);
                 }

@@ -38,6 +38,17 @@ public class MemberRoleServiceImpl extends AbstractEntityService<MembersRole, Me
     }
 
     @Override
+    public MembersRole create(final MembersRole entity) {
+        if (entity.getId() == null && entity.getRole() != null && entity.getMember() != null) {
+            final MembersRolePK pk = new MembersRolePK(entity.getRole().getRoleId(),
+                    entity.getMember().getMemberId(), getCurrentContext().getStoreId());
+            entity.setId(pk);
+        }
+
+        return super.create(entity);
+    }
+
+    @Override
     public Specification<MembersRole> getBaseSpec() {
         return new Specification<MembersRole>() {
 

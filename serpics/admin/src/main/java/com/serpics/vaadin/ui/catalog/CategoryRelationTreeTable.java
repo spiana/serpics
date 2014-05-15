@@ -10,6 +10,7 @@ import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
@@ -63,5 +64,17 @@ public class CategoryRelationTreeTable extends CustomComponent implements Entity
     public boolean isInitialized() {
 
         return initialized;
+    }
+
+    @Override
+    public void save() throws CommitException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void discard() {
+        // TODO Auto-generated method stub
+
     }
 }

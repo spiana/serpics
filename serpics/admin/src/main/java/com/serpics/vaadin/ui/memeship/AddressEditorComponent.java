@@ -15,12 +15,11 @@ public class AddressEditorComponent extends EntityForm<AbstractAddress> {
 
     @Override
     public void init() {
-        super.init();
         final String[] displayProperties = { "firstname", "lastname", "phone", "email", "company",
                 "address1",
                 "zipcode", "city", "region", "country" };
         setDisplayProperties(displayProperties);
-
+        super.init();
     }
 
 }

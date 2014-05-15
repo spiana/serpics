@@ -12,6 +12,10 @@ public interface EntityComponent<T> extends Component{
 
     public boolean isInitialized();
 
+    public void discard();
+
+    public void save() throws CommitException;
+
     public interface EntityTableComponent<T> extends EntityComponent<T>{
         public void setTableFieldFactory(TableFieldFactory factory);
 
@@ -30,8 +34,7 @@ public interface EntityComponent<T> extends Component{
     public interface EntityFormComponent<T> extends EntityComponent<T>{
         public boolean isModifield();
         public boolean isValid();
-        public void discard();
-        public void save() throws CommitException;
+
         public void setEntityItem(EntityItem<T> entityItem);
 
     }

@@ -44,7 +44,7 @@ public class PriceServiceImpl extends AbstractEntityService<Price, Long> impleme
         }
         if (entity.getPricelist() == null) {
             final List<Pricelist> l = priceListRepository.findDefaultList((Catalog) getCurrentContext().getCatalog());
-            Assert.notEmpty(l);
+            Assert.notEmpty(l, "missing default price list !");
             entity.setPricelist(l.get(0));
         }
         return super.create(entity);

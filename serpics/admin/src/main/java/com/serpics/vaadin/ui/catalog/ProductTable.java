@@ -86,6 +86,7 @@ public class ProductTable extends EntityTable<Product> {
                 container.addNestedContainerProperty("parentCategory.*");
                 setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description" });
                 entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
+                setParentProperty("childProduct");
 
                 editorWindow.addTab(new EntityForm<CategoryProductRelation>(CategoryProductRelation.class) {
 
@@ -114,10 +115,7 @@ public class ProductTable extends EntityTable<Product> {
                 }, "main");
             }
 
-            @Override
-            public void attach() {
-                super.attach();
-            }
+
 
             @Override
             public EntityItem<CategoryProductRelation> createEntityItem() {
@@ -140,9 +138,9 @@ public class ProductTable extends EntityTable<Product> {
             public void init() {
                 super.init();
                 container.addNestedContainerProperty("currency.*");
-
                 setPropertyToShow(new String[] { "currentPrice", "ctentryCost", "productPrice", "currency.isoCode",
                         "validFrom", "validTo" });
+                setParentProperty("product");
 
                 editorWindow.addTab(new EntityForm<Price>(Price.class) {
 

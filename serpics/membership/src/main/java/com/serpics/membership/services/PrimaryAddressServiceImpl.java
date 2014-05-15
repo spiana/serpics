@@ -48,7 +48,6 @@ PrimaryAddressService {
             @Override
             public Predicate toPredicate(final Root<PrimaryAddress> root,
                     final CriteriaQuery<?> arg1, final CriteriaBuilder arg2) {
-                // TODO fix primary filter
                 return arg2.isNotNull(root.get("uuid"));
             }
         };

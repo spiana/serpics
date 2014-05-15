@@ -63,7 +63,6 @@ public class CatalogServiceImpl extends AbstractEntityService<Catalog, Long> imp
             catalog = catalogRepository.saveAndFlush(catalog);
             initializeCatalog(catalog);
         }
-
         getCurrentContext().setCatalog(catalog);
     }
 
@@ -74,7 +73,7 @@ public class CatalogServiceImpl extends AbstractEntityService<Catalog, Long> imp
         pricelist.setDefaultList(true);
         pricelist.setDescription(new MultilingualString());
         pricelist.getDescription().addText("en", "public list");
-        pricelist.getDescription().addText("it", "listno al publico");
+        pricelist.getDescription().addText("it", "listino al publico");
         priceListRepository.saveAndFlush(pricelist);
 
     }

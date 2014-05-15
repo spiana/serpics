@@ -25,7 +25,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
@@ -36,6 +35,7 @@ import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.PrimaryAddress;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.services.AddressService;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.MembershipService;
 import com.serpics.membership.services.UserRegService;
@@ -64,6 +64,9 @@ public class MembershipTestCase {
     @Autowired
     UserRegService userRegService;
 
+    @Autowired
+    AddressService addressService;
+
     @Before
     public void beforetest(){
         b.initIstance();	
@@ -78,7 +81,7 @@ public class MembershipTestCase {
         assertEquals(2, l.size());
     }
     @Test
-    @Transactional
+    // @Transactional
     public void test() throws SerpicsException {
 
         CommerceSessionContext context = ce.connect("default-store",
@@ -113,7 +116,6 @@ public class MembershipTestCase {
             @Override
             public Predicate toPredicate(final Root<UsersReg> arg0, final CriteriaQuery<?> arg1,
                     final CriteriaBuilder arg2) {
-                // TODO Auto-generated method stub
                 return arg2.equal(arg0.get("logonid"), "test1");
             }
 
@@ -121,6 +123,13 @@ public class MembershipTestCase {
 
         assertEquals(1, l.size());
         userService.addAddress(new PermanentAddress(), u.getMemberId());
+
+        userRegService.detach(u);
+
+        u.setEmail("aaaa");
+
+        final UsersReg u1 = userRegService.update(u);
+        assertEquals("aaaa", u1.getEmail());
 
         // assertEquals(0, l1.get(0).getPermanentAddresses().size());
 

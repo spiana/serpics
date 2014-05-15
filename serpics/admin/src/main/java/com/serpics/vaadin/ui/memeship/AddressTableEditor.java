@@ -31,8 +31,9 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
         editorWindow.addTab(addressEditorComponent, "main");
         final String[] p = { "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
         "country" };
-        setPropertyToShow(p );
         setParentProperty("member");
+        setPropertyToShow(p );
+
     }
 
     @Override
