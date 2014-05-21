@@ -21,179 +21,179 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "suborders")
 public class Suborder extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "suborders_id", unique = true, nullable = false)
-	private Long subordersId;
+    @Id
+    @Column(name = "suborders_id", unique = true, nullable = false)
+    private Long subordersId;
 
-	private Timestamp created;
+    private Timestamp created;
 
-	@Column(name = "customer_id", nullable = false)
-	private Long customerId;
+    @Column(name = "customer_id", nullable = false)
+    private Long customerId;
 
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-	@Column(name = "discount_amount", precision = 10, scale = 4)
-	private BigDecimal discountAmount;
+    @Column(name = "discount_amount", precision = 10, scale = 4)
+    private BigDecimal discountAmount;
 
-	@Column(name = "discount_perc", precision = 10, scale = 4)
-	private BigDecimal discountPerc;
+    @Column(name = "discount_perc", precision = 10, scale = 4)
+    private BigDecimal discountPerc;
 
-	@Column(name = "shipping_address_id", nullable = false)
-	private BigInteger shippingAddressId;
+    @Column(name = "shipping_address_id", nullable = false)
+    private BigInteger shippingAddressId;
 
-	@Column(nullable = false, length = 2)
-	private String status;
+    @Column(nullable = false, length = 2)
+    private String status;
 
-	@Column(name = "subtotal_amount", nullable = false, precision = 10, scale = 4)
-	private BigDecimal subtotalAmount;
+    @Column(name = "subtotal_amount", nullable = false, precision = 10, scale = 4)
+    private BigDecimal subtotalAmount;
 
-	@Column(name = "subtotal_product", nullable = false, precision = 10, scale = 4)
-	private BigDecimal subtotalProduct;
+    @Column(name = "subtotal_product", nullable = false, precision = 10, scale = 4)
+    private BigDecimal subtotalProduct;
 
-	@Column(name = "subtotal_shipping", precision = 10, scale = 4)
-	private BigDecimal subtotalShipping;
+    @Column(name = "subtotal_shipping", precision = 10, scale = 4)
+    private BigDecimal subtotalShipping;
 
-	@Column(name = "subtotal_tax", precision = 10, scale = 4)
-	private BigDecimal subtotalTax;
+    @Column(name = "subtotal_tax", precision = 10, scale = 4)
+    private BigDecimal subtotalTax;
 
-	// bi-directional many-to-one association to Orderitem
-	@OneToMany(mappedBy = "suborder")
-	private Set<Orderitem> orderitems;
+    // bi-directional many-to-one association to Orderitem
+    @OneToMany(mappedBy = "suborder")
+    private Set<AbstractOrderitem> orderitems;
 
-	// bi-directional many-to-one association to Order
-	@ManyToOne
-	@JoinColumn(name = "orders_id")
-	private AbstractOrder order;
+    // bi-directional many-to-one association to Order
+    @ManyToOne
+    @JoinColumn(name = "orders_id")
+    private AbstractOrder order;
 
-	// bi-directional many-to-one association to Shipmode
-	@ManyToOne
-	@JoinColumn(name = "shipmode_id")
-	private Shipmode shipmode;
+    // bi-directional many-to-one association to Shipmode
+    @ManyToOne
+    @JoinColumn(name = "shipmode_id")
+    private Shipmode shipmode;
 
-	public Suborder() {
-	}
+    public Suborder() {
+    }
 
-	public Long getSubordersId() {
-		return this.subordersId;
-	}
+    public Long getSubordersId() {
+        return this.subordersId;
+    }
 
-	public void setSubordersId(Long subordersId) {
-		this.subordersId = subordersId;
-	}
+    public void setSubordersId(final Long subordersId) {
+        this.subordersId = subordersId;
+    }
 
-	public Timestamp getCreated() {
-		return this.created;
-	}
+    public Timestamp getCreated() {
+        return this.created;
+    }
 
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
+    public void setCreated(final Timestamp created) {
+        this.created = created;
+    }
 
-	public BigDecimal getDiscountAmount() {
-		return this.discountAmount;
-	}
+    public BigDecimal getDiscountAmount() {
+        return this.discountAmount;
+    }
 
-	public void setDiscountAmount(BigDecimal discountAmount) {
-		this.discountAmount = discountAmount;
-	}
+    public void setDiscountAmount(final BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
 
-	public BigDecimal getDiscountPerc() {
-		return this.discountPerc;
-	}
+    public BigDecimal getDiscountPerc() {
+        return this.discountPerc;
+    }
 
-	public void setDiscountPerc(BigDecimal discountPerc) {
-		this.discountPerc = discountPerc;
-	}
+    public void setDiscountPerc(final BigDecimal discountPerc) {
+        this.discountPerc = discountPerc;
+    }
 
-	public BigInteger getShippingAddressId() {
-		return this.shippingAddressId;
-	}
+    public BigInteger getShippingAddressId() {
+        return this.shippingAddressId;
+    }
 
-	public void setShippingAddressId(BigInteger shippingAddressId) {
-		this.shippingAddressId = shippingAddressId;
-	}
+    public void setShippingAddressId(final BigInteger shippingAddressId) {
+        this.shippingAddressId = shippingAddressId;
+    }
 
-	public String getStatus() {
-		return this.status;
-	}
+    public String getStatus() {
+        return this.status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setStatus(final String status) {
+        this.status = status;
+    }
 
-	public BigDecimal getSubtotalAmount() {
-		return this.subtotalAmount;
-	}
+    public BigDecimal getSubtotalAmount() {
+        return this.subtotalAmount;
+    }
 
-	public void setSubtotalAmount(BigDecimal subtotalAmount) {
-		this.subtotalAmount = subtotalAmount;
-	}
+    public void setSubtotalAmount(final BigDecimal subtotalAmount) {
+        this.subtotalAmount = subtotalAmount;
+    }
 
-	public BigDecimal getSubtotalProduct() {
-		return this.subtotalProduct;
-	}
+    public BigDecimal getSubtotalProduct() {
+        return this.subtotalProduct;
+    }
 
-	public void setSubtotalProduct(BigDecimal subtotalProduct) {
-		this.subtotalProduct = subtotalProduct;
-	}
+    public void setSubtotalProduct(final BigDecimal subtotalProduct) {
+        this.subtotalProduct = subtotalProduct;
+    }
 
-	public BigDecimal getSubtotalShipping() {
-		return this.subtotalShipping;
-	}
+    public BigDecimal getSubtotalShipping() {
+        return this.subtotalShipping;
+    }
 
-	public void setSubtotalShipping(BigDecimal subtotalShipping) {
-		this.subtotalShipping = subtotalShipping;
-	}
+    public void setSubtotalShipping(final BigDecimal subtotalShipping) {
+        this.subtotalShipping = subtotalShipping;
+    }
 
-	public BigDecimal getSubtotalTax() {
-		return this.subtotalTax;
-	}
+    public BigDecimal getSubtotalTax() {
+        return this.subtotalTax;
+    }
 
-	public void setSubtotalTax(BigDecimal subtotalTax) {
-		this.subtotalTax = subtotalTax;
-	}
+    public void setSubtotalTax(final BigDecimal subtotalTax) {
+        this.subtotalTax = subtotalTax;
+    }
 
-	public Set<Orderitem> getOrderitems() {
-		return this.orderitems;
-	}
+    public Set<AbstractOrderitem> getOrderitems() {
+        return this.orderitems;
+    }
 
-	public void setOrderitems(Set<Orderitem> orderitems) {
-		this.orderitems = orderitems;
-	}
+    public void setOrderitems(final Set<AbstractOrderitem> orderitems) {
+        this.orderitems = orderitems;
+    }
 
-	public AbstractOrder getOrder() {
-		return this.order;
-	}
+    public AbstractOrder getOrder() {
+        return this.order;
+    }
 
-	public void setOrder(AbstractOrder order) {
-		this.order = order;
-	}
+    public void setOrder(final AbstractOrder order) {
+        this.order = order;
+    }
 
-	public Shipmode getShipmode() {
-		return this.shipmode;
-	}
+    public Shipmode getShipmode() {
+        return this.shipmode;
+    }
 
-	public void setShipmode(Shipmode shipmode) {
-		this.shipmode = shipmode;
-	}
+    public void setShipmode(final Shipmode shipmode) {
+        this.shipmode = shipmode;
+    }
 
-	public Long getCustomerId() {
-		return customerId;
-	}
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
+    public void setCustomerId(final Long customerId) {
+        this.customerId = customerId;
+    }
 
-	public Long getUserId() {
-		return userId;
-	}
+    public Long getUserId() {
+        return userId;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public void setUserId(final Long userId) {
+        this.userId = userId;
+    }
 
 }

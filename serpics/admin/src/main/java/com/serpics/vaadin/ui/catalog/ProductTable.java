@@ -147,7 +147,7 @@ public class ProductTable extends EntityTable<Product> {
                     @Override
                     public void init() {
                         super.init();
-                        setDisplayProperties(new String[] { "currentPrice", "ctentryCost", "productPrice", "currency",
+                        setDisplayProperties(new String[] { "currentPrice", "ctentryCost", "productPrice",
                                 "validFrom", "validTo" });
                     }
 

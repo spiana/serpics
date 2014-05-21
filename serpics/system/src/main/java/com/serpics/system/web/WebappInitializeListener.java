@@ -6,7 +6,6 @@ import javax.servlet.ServletContextListener;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.membership.services.BaseService;
 
@@ -26,9 +25,7 @@ public class WebappInitializeListener implements ServletContextListener {
         final CatalogService catalogService = applicationContext.getBean(CatalogService.class);
         if (!baseService.isInitialized()) {
             baseService.initIstance();
-            final Catalog catalog = new Catalog();
-            catalog.setCode("default-catalog");
-            catalogService.create(catalog);
+            catalogService.initialize();
         }
     }
 

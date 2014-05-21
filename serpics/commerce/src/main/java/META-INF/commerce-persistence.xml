@@ -3,6 +3,9 @@
 	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!-- Commerce  -->
+		<class>com.serpics.commerce.persistence.AbstractOrderitem</class>
+		<class>com.serpics.commerce.persistence.AbstractOrder</class>
+		<class>com.serpics.commerce.persistence.Cartitem</class>
 		<class>com.serpics.commerce.persistence.Orderitem</class>
 		<class>com.serpics.commerce.persistence.OrderitemsAttribute</class>
 		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueDatetime</class>

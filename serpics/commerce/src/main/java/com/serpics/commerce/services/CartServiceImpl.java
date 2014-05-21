@@ -18,12 +18,10 @@ import com.serpics.catalog.persistence.AbstractProduct;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.commerce.hooks.CommerceHook;
 import com.serpics.commerce.hooks.DiscountHook;
-import com.serpics.commerce.persistence.AbstractOrder;
 import com.serpics.commerce.persistence.Cart;
-import com.serpics.commerce.persistence.Orderitem;
+import com.serpics.commerce.persistence.Cartitem;
 import com.serpics.commerce.repositories.CartRepository;
 import com.serpics.commerce.repositories.OrderItemRepository;
-import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
@@ -33,196 +31,196 @@ import com.serpics.warehouse.InventoryNotAvailableException;
 @Scope("store")
 public class CartServiceImpl extends AbstractService implements CartService {
 
-	@Resource
-	CartRepository cartRepository;
+    @Resource
+    CartRepository cartRepository;
 
-	@Resource
-	OrderItemRepository orderitemrepository;
+    @Resource
+    OrderItemRepository orderitemrepository;
 
-	@Resource
-	DiscountHook discountHook;
-	@Resource
-	PriceHook priceHook;
+    @Resource
+    DiscountHook discountHook;
+    @Resource
+    PriceHook priceHook;
 
-	@Resource
-	ProductHook productHook;
-	@Resource
-	CommerceHook commerceHook;
+    @Resource
+    ProductHook productHook;
+    @Resource
+    CommerceHook commerceHook;
 
-	@Resource
-	InventoryHook inventoryHook;
+    @Resource
+    InventoryHook inventoryHook;
 
-	@Override
-	@Transactional
-	public Cart createSessionCart() {
-		Cart cart = cartRepository.findByCookie(getCurrentContext().getUserCookie());
-		if (cart == null) {
+    @Override
+    @Transactional
+    public Cart createSessionCart() {
+        Cart cart = cartRepository.findByCookie(getCurrentContext().getUserCookie());
+        if (cart == null) {
 
-			cart = new Cart((User) getCurrentContext().getUserPrincipal(), (Store) getCurrentContext().getStoreRealm(),
-					getCurrentContext().getUserCookie());
+            cart = new Cart((User) getCurrentContext().getUserPrincipal(), (Store) getCurrentContext().getStoreRealm(),
+                    getCurrentContext().getUserCookie());
 
-			cart.setCurrency(((Store) getCurrentContext().getStoreRealm()).getCurrency());
-			cartRepository.saveAndFlush(cart);
-		}
-		return cart;
-	}
+            cart.setCurrency(((Store) getCurrentContext().getStoreRealm()).getCurrency());
+            cartRepository.saveAndFlush(cart);
+        }
+        return cart;
+    }
 
-	@Override
-	public Cart findSessionCart() {
-		return cartRepository.findByCookie(getCurrentContext().getUserCookie());
-	}
+    @Override
+    public Cart findSessionCart() {
+        return cartRepository.findByCookie(getCurrentContext().getUserCookie());
+    }
 
-	@Override
-	@Transactional
-	public Cart cartUpdate(Orderitem orderitem, Cart cart) throws InventoryNotAvailableException,
-			ProductNotFoundException {
-		Product product = productHook.resolveSKU(orderitem.getSku());
+    @Override
+    @Transactional
+    public Cart cartUpdate(final Cartitem orderitem, final Cart cart) throws InventoryNotAvailableException,
+    ProductNotFoundException {
+        final Product product = productHook.resolveSKU(orderitem.getSku());
 
-		orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
-		orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
-		discountHook.applyItemDiscount(orderitem);
+        orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
+        orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
+        discountHook.applyItemDiscount(orderitem);
 
-		orderitem.setOrder(cart);
-		cart.getOrderitems().add(orderitem);
+        orderitem.setOrder(cart);
+        cart.getCartitems().add(orderitem);
 
-		commerceHook.calculateShipping(orderitem);
+        commerceHook.calculateShipping(orderitem);
 
-		return cartRepository.saveAndFlush(cart);
+        return cartRepository.saveAndFlush(cart);
 
-	}
+    }
 
-	@Override
-	@Transactional
-	public Cart cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
-			throws InventoryNotAvailableException, ProductNotFoundException {
+    @Override
+    @Transactional
+    public Cart cartAdd(final AbstractProduct product, final double quantity, final Cart cart, final boolean merge)
+            throws InventoryNotAvailableException, ProductNotFoundException {
 
-		Orderitem orderitem = new Orderitem();
-		orderitem.setSku(product.getCode());
-		orderitem.setQuantity(quantity);
+        Cartitem cartItem = new Cartitem();
+        cartItem.setSku(product.getCode());
+        cartItem.setQuantity(quantity);
 
-		if (merge)
-			orderitem = mergeCart(cart, orderitem);
+        if (merge)
+            cartItem = mergeCart(cart, cartItem);
 
-		orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
-		orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
+        cartItem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
+        cartItem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
 
-		discountHook.applyItemDiscount(orderitem);
-		orderitem.setOrder(cart);
-		cart.getOrderitems().add(orderitem);
+        discountHook.applyItemDiscount(cartItem);
+        cartItem.setOrder(cart);
+        cart.getCartitems().add(cartItem);
 
-		commerceHook.calculateShipping(orderitem);
+        commerceHook.calculateShipping(cartItem);
 
-		return cartRepository.saveAndFlush(cart);
-	}
+        return cartRepository.saveAndFlush(cart);
+    }
 
-	@Override
-	@Transactional
-	public Cart cartUpdate(Orderitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException {
-		Cart cart = createSessionCart();
-		return cartUpdate(orderitem, cart);
-	}
+    @Override
+    @Transactional
+    public Cart cartUpdate(final Cartitem cartItem) throws InventoryNotAvailableException, ProductNotFoundException {
+        final Cart cart = createSessionCart();
+        return cartUpdate(cartItem, cart);
+    }
 
-	@Override
-	@Transactional
-	public Cart cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException,
-			ProductNotFoundException {
-		Cart cart = createSessionCart();
-		return cartAdd(product, quantity, cart, merge);
-	}
+    @Override
+    @Transactional
+    public Cart cartAdd(final AbstractProduct product, final double quantity, final boolean merge) throws InventoryNotAvailableException,
+    ProductNotFoundException {
+        final Cart cart = createSessionCart();
+        return cartAdd(product, quantity, cart, merge);
+    }
 
-	private Orderitem mergeCart(Cart cart, Orderitem orderitem) {
+    private Cartitem mergeCart(final Cart cart, final Cartitem cartItem) {
 
-		Iterator<Orderitem> items = cart.getOrderitems().iterator();
+        final Iterator<Cartitem> items = cart.getCartitems().iterator();
 
-		while (items.hasNext()) {
-			Orderitem oi = items.next();
-			if (oi.getSku().equals(orderitem.getSku())) {
-				orderitem.setQuantity(orderitem.getQuantity() + oi.getQuantity());
-				oi.setOrder(null);
-				items.remove();
-			}
-		}
+        while (items.hasNext()) {
+            final Cartitem oi = items.next();
+            if (oi.getSku().equals(cartItem.getSku())) {
+                cartItem.setQuantity(cartItem.getQuantity() + oi.getQuantity());
+                // oi.setOrder(null);
+                items.remove();
+            }
+        }
 
-		return orderitem;
-	}
+        return cartItem;
+    }
 
-	@Override
-	@Transactional
-	public Cart cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
-			ProductNotFoundException {
-		Product product = productHook.resolveSKU(sku);
-		return cartAdd(product, quantity, merge);
-	}
+    @Override
+    @Transactional
+    public Cart cartAdd(final String sku, final double quantity, final Cart cart, final boolean merge) throws InventoryNotAvailableException,
+    ProductNotFoundException {
+        final Product product = productHook.resolveSKU(sku);
+        return cartAdd(product, quantity, merge);
+    }
 
-	@Override
-	@Transactional
-	public Cart cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
-			ProductNotFoundException {
-		Cart cart = createSessionCart();
-		return cartAdd(sku, quantity, cart, merge);
+    @Override
+    @Transactional
+    public Cart cartAdd(final String sku, final double quantity, final boolean merge) throws InventoryNotAvailableException,
+    ProductNotFoundException {
+        final Cart cart = createSessionCart();
+        return cartAdd(sku, quantity, cart, merge);
 
-	}
+    }
 
-	@Override
-	public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
-		Cart cart = findSessionCart();
-		Assert.notNull(cart);
+    @Override
+    public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
+        final Cart cart = findSessionCart();
+        Assert.notNull(cart);
 
-		return prepareCart(cart);
-	}
+        return prepareCart(cart);
+    }
 
-	@Override
-	@Transactional
-	public Cart prepareCart(Cart cart) throws InventoryNotAvailableException, ProductNotFoundException {
-		return prepareCart(cart, false);
-	}
+    @Override
+    @Transactional
+    public Cart prepareCart(final Cart cart) throws InventoryNotAvailableException, ProductNotFoundException {
+        return prepareCart(cart, false);
+    }
 
-	@Override
-	@Transactional
-	public Cart prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
-			ProductNotFoundException {
+    @Override
+    @Transactional
+    public Cart prepareCart(final Cart cart, final boolean updateInventory) throws InventoryNotAvailableException,
+    ProductNotFoundException {
 
-		cart.setOrderAmount(new BigDecimal(0));
-		cart.setTotalProduct(new BigDecimal(0));
-		cart.setTotalShipping(new BigDecimal(0));
-		cart.setTotalTax(new BigDecimal(0));
+        cart.setOrderAmount(new BigDecimal(0));
+        cart.setTotalProduct(new BigDecimal(0));
+        cart.setTotalShipping(new BigDecimal(0));
+        cart.setTotalTax(new BigDecimal(0));
 
-		for (Orderitem orderitem : cart.getOrderitems()) {
-			Product product = productHook.resolveSKU(orderitem.getSku());
-			if (updateInventory)
-				inventoryHook.updateInventory(product);
-			else
-				inventoryHook.checkInventory(product);
-			orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
-			orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
+        for (final Cartitem orderitem : cart.getCartitems()) {
+            final Product product = productHook.resolveSKU(orderitem.getSku());
+            if (updateInventory)
+                inventoryHook.updateInventory(product);
+            else
+                inventoryHook.checkInventory(product);
+            orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
+            orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
 
-			discountHook.applyItemDiscount(orderitem);
-			commerceHook.calculateShipping(orderitem);
-		}
+            discountHook.applyItemDiscount(orderitem);
+            commerceHook.calculateShipping(orderitem);
+        }
 
-		commerceHook.calculateProductTotal(cart);
+        commerceHook.calculateProductTotal(cart);
 
-		discountHook.applyOrderDiscount(cart);
+        discountHook.applyOrderDiscount(cart);
 
-		commerceHook.calculateShiping(cart);
-		commerceHook.calculateTax(cart);
-		commerceHook.calculateOrderTotal(cart);
+        commerceHook.calculateShiping(cart);
+        commerceHook.calculateTax(cart);
+        commerceHook.calculateOrderTotal(cart);
 
-		return cartRepository.saveAndFlush(cart);
-	}
+        return cartRepository.saveAndFlush(cart);
+    }
 
-	@Override
-	@Transactional
-	public void cartDelete() {
-		Cart cart = findSessionCart();
-		cartDelete(cart);
+    @Override
+    @Transactional
+    public void cartDelete() {
+        final Cart cart = findSessionCart();
+        cartDelete(cart);
 
-	}
+    }
 
-	@Override
-	@Transactional
-	public void cartDelete(Cart cart) {
-		cartRepository.delete(cart);
+    @Override
+    @Transactional
+    public void cartDelete(final Cart cart) {
+        cartRepository.delete(cart);
 
-	}
+    }
 }

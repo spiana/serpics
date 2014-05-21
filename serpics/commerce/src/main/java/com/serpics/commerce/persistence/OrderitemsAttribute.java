@@ -18,115 +18,115 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "orderitems_attribute")
 public class OrderitemsAttribute extends com.serpics.core.persistence.jpa.AbstractEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "attribute_id", unique = true, nullable = false)
-	private Long attributeId;
+    @Id
+    @Column(name = "attribute_id", unique = true, nullable = false)
+    private Long attributeId;
 
-	@Column(name = "base_attributes_id", nullable = false)
-	private BigInteger baseAttributesId;
+    @Column(name = "base_attributes_id", nullable = false)
+    private BigInteger baseAttributesId;
 
-	private double sequence;
+    private double sequence;
 
-	// bi-directional many-to-one association to Orderitem
-	@ManyToOne
-	@JoinColumn(name = "orderitems_id", nullable = false)
-	private Orderitem orderitem;
+    // bi-directional many-to-one association to Orderitem
+    @ManyToOne
+    @JoinColumn(name = "orderitems_id", nullable = false)
+    private AbstractOrderitem orderitem;
 
-	// bi-directional one-to-one association to OrderitemsAttributeValueDatetime
-	@OneToOne(mappedBy = "orderitemsAttribute")
-	private OrderitemsAttributeValueDatetime orderitemsAttributeValueDatetime;
+    // bi-directional one-to-one association to OrderitemsAttributeValueDatetime
+    @OneToOne(mappedBy = "orderitemsAttribute")
+    private OrderitemsAttributeValueDatetime orderitemsAttributeValueDatetime;
 
-	// bi-directional one-to-one association to OrderitemsAttributeValueDecimal
-	@OneToOne(mappedBy = "orderitemsAttribute")
-	private OrderitemsAttributeValueDecimal orderitemsAttributeValueDecimal;
+    // bi-directional one-to-one association to OrderitemsAttributeValueDecimal
+    @OneToOne(mappedBy = "orderitemsAttribute")
+    private OrderitemsAttributeValueDecimal orderitemsAttributeValueDecimal;
 
-	// bi-directional one-to-one association to OrderitemsAttributeValueLong
-	@OneToOne(mappedBy = "orderitemsAttribute")
-	private OrderitemsAttributeValueLong orderitemsAttributeValueLong;
+    // bi-directional one-to-one association to OrderitemsAttributeValueLong
+    @OneToOne(mappedBy = "orderitemsAttribute")
+    private OrderitemsAttributeValueLong orderitemsAttributeValueLong;
 
-	// bi-directional one-to-one association to OrderitemsAttributeValueText
-	@OneToOne(mappedBy = "orderitemsAttribute")
-	private OrderitemsAttributeValueText orderitemsAttributeValueText;
+    // bi-directional one-to-one association to OrderitemsAttributeValueText
+    @OneToOne(mappedBy = "orderitemsAttribute")
+    private OrderitemsAttributeValueText orderitemsAttributeValueText;
 
-	// bi-directional one-to-one association to OrderitemsAttributeValueVarchar
-	@OneToOne(mappedBy = "orderitemsAttribute")
-	private OrderitemsAttributeValueVarchar orderitemsAttributeValueVarchar;
+    // bi-directional one-to-one association to OrderitemsAttributeValueVarchar
+    @OneToOne(mappedBy = "orderitemsAttribute")
+    private OrderitemsAttributeValueVarchar orderitemsAttributeValueVarchar;
 
-	public OrderitemsAttribute() {
-	}
+    public OrderitemsAttribute() {
+    }
 
-	public Long getAttributeId() {
-		return this.attributeId;
-	}
+    public Long getAttributeId() {
+        return this.attributeId;
+    }
 
-	public void setAttributeId(Long attributeId) {
-		this.attributeId = attributeId;
-	}
+    public void setAttributeId(final Long attributeId) {
+        this.attributeId = attributeId;
+    }
 
-	public BigInteger getBaseAttributesId() {
-		return this.baseAttributesId;
-	}
+    public BigInteger getBaseAttributesId() {
+        return this.baseAttributesId;
+    }
 
-	public void setBaseAttributesId(BigInteger baseAttributesId) {
-		this.baseAttributesId = baseAttributesId;
-	}
+    public void setBaseAttributesId(final BigInteger baseAttributesId) {
+        this.baseAttributesId = baseAttributesId;
+    }
 
-	public double getSequence() {
-		return this.sequence;
-	}
+    public double getSequence() {
+        return this.sequence;
+    }
 
-	public void setSequence(double sequence) {
-		this.sequence = sequence;
-	}
+    public void setSequence(final double sequence) {
+        this.sequence = sequence;
+    }
 
-	public Orderitem getOrderitem() {
-		return this.orderitem;
-	}
+    public AbstractOrderitem getOrderitem() {
+        return this.orderitem;
+    }
 
-	public void setOrderitem(Orderitem orderitem) {
-		this.orderitem = orderitem;
-	}
+    public void setOrderitem(final AbstractOrderitem orderitem) {
+        this.orderitem = orderitem;
+    }
 
-	public OrderitemsAttributeValueDatetime getOrderitemsAttributeValueDatetime() {
-		return this.orderitemsAttributeValueDatetime;
-	}
+    public OrderitemsAttributeValueDatetime getOrderitemsAttributeValueDatetime() {
+        return this.orderitemsAttributeValueDatetime;
+    }
 
-	public void setOrderitemsAttributeValueDatetime(OrderitemsAttributeValueDatetime orderitemsAttributeValueDatetime) {
-		this.orderitemsAttributeValueDatetime = orderitemsAttributeValueDatetime;
-	}
+    public void setOrderitemsAttributeValueDatetime(final OrderitemsAttributeValueDatetime orderitemsAttributeValueDatetime) {
+        this.orderitemsAttributeValueDatetime = orderitemsAttributeValueDatetime;
+    }
 
-	public OrderitemsAttributeValueDecimal getOrderitemsAttributeValueDecimal() {
-		return this.orderitemsAttributeValueDecimal;
-	}
+    public OrderitemsAttributeValueDecimal getOrderitemsAttributeValueDecimal() {
+        return this.orderitemsAttributeValueDecimal;
+    }
 
-	public void setOrderitemsAttributeValueDecimal(OrderitemsAttributeValueDecimal orderitemsAttributeValueDecimal) {
-		this.orderitemsAttributeValueDecimal = orderitemsAttributeValueDecimal;
-	}
+    public void setOrderitemsAttributeValueDecimal(final OrderitemsAttributeValueDecimal orderitemsAttributeValueDecimal) {
+        this.orderitemsAttributeValueDecimal = orderitemsAttributeValueDecimal;
+    }
 
-	public OrderitemsAttributeValueLong getOrderitemsAttributeValueLong() {
-		return this.orderitemsAttributeValueLong;
-	}
+    public OrderitemsAttributeValueLong getOrderitemsAttributeValueLong() {
+        return this.orderitemsAttributeValueLong;
+    }
 
-	public void setOrderitemsAttributeValueLong(OrderitemsAttributeValueLong orderitemsAttributeValueLong) {
-		this.orderitemsAttributeValueLong = orderitemsAttributeValueLong;
-	}
+    public void setOrderitemsAttributeValueLong(final OrderitemsAttributeValueLong orderitemsAttributeValueLong) {
+        this.orderitemsAttributeValueLong = orderitemsAttributeValueLong;
+    }
 
-	public OrderitemsAttributeValueText getOrderitemsAttributeValueText() {
-		return this.orderitemsAttributeValueText;
-	}
+    public OrderitemsAttributeValueText getOrderitemsAttributeValueText() {
+        return this.orderitemsAttributeValueText;
+    }
 
-	public void setOrderitemsAttributeValueText(OrderitemsAttributeValueText orderitemsAttributeValueText) {
-		this.orderitemsAttributeValueText = orderitemsAttributeValueText;
-	}
+    public void setOrderitemsAttributeValueText(final OrderitemsAttributeValueText orderitemsAttributeValueText) {
+        this.orderitemsAttributeValueText = orderitemsAttributeValueText;
+    }
 
-	public OrderitemsAttributeValueVarchar getOrderitemsAttributeValueVarchar() {
-		return this.orderitemsAttributeValueVarchar;
-	}
+    public OrderitemsAttributeValueVarchar getOrderitemsAttributeValueVarchar() {
+        return this.orderitemsAttributeValueVarchar;
+    }
 
-	public void setOrderitemsAttributeValueVarchar(OrderitemsAttributeValueVarchar orderitemsAttributeValueVarchar) {
-		this.orderitemsAttributeValueVarchar = orderitemsAttributeValueVarchar;
-	}
+    public void setOrderitemsAttributeValueVarchar(final OrderitemsAttributeValueVarchar orderitemsAttributeValueVarchar) {
+        this.orderitemsAttributeValueVarchar = orderitemsAttributeValueVarchar;
+    }
 
 }

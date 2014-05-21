@@ -22,8 +22,8 @@ import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.persistence.Cart;
+import com.serpics.commerce.persistence.Cartitem;
 import com.serpics.commerce.persistence.Order;
-import com.serpics.commerce.persistence.Orderitem;
 import com.serpics.commerce.repositories.CartRepository;
 import com.serpics.commerce.repositories.OrderRepository;
 import com.serpics.commerce.services.CartService;
@@ -101,20 +101,20 @@ public class CreateCartTest {
 
         cart = cs.createSessionCart();
         assertEquals(1, cart.getOrderitems().size());
-        Orderitem o = cart.getOrderitems().iterator().next();
+        Cartitem o = cart.getCartitems().iterator().next();
         assertEquals(10.0, o.getQuantity(), 0);
         o.setQuantity(11);
         cs.cartUpdate(o, cart);
 
         cart = cs.createSessionCart();
         assertEquals(1, cart.getOrderitems().size());
-        o = cart.getOrderitems().iterator().next();
+        o = cart.getCartitems().iterator().next();
         assertEquals(11.0, o.getQuantity(), 0);
 
         cs.cartAdd("product", 10.0, true);
         cart = cs.createSessionCart();
         assertEquals(1, cart.getOrderitems().size());
-        o = cart.getOrderitems().iterator().next();
+        o = cart.getCartitems().iterator().next();
         assertEquals(21.0, o.getQuantity(), 0);
         assertEquals(100, o.getSkuPrice(), 0);
         cs.cartAdd("product", 10.0, false);

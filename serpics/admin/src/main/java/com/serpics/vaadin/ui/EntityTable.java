@@ -60,6 +60,8 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
             container = ServiceContainerFactory.make(entityClass, getService());
             entityList.setContainerDataSource(container);
         }
+        this.initialized = true;
+
         // if (displayProperties == null) {
         // final List<Object> propsToShow = new ArrayList<Object>();
         // for (final String id : cont.getContainerPropertyIds()) {
@@ -169,7 +171,6 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
         setCompositionRoot(v);
         setSizeFull();
-        this.initialized = true;
     }
 
     @Override
@@ -226,7 +227,8 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
     @Override
     public void attach() {
-        init();
+        if (!isInitialized())
+            init();
         editButtonPanel.setEnabled(isEditable());
         super.attach();
     }

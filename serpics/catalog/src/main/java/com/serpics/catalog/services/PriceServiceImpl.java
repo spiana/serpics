@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import com.serpics.base.persistence.Currency;
 import com.serpics.catalog.persistence.AbstractProduct;
@@ -44,7 +43,9 @@ public class PriceServiceImpl extends AbstractEntityService<Price, Long> impleme
         }
         if (entity.getPricelist() == null) {
             final List<Pricelist> l = priceListRepository.findDefaultList((Catalog) getCurrentContext().getCatalog());
-            Assert.notEmpty(l, "missing default price list !");
+
+            assert !l.isEmpty() : "missing default price list !";
+
             entity.setPricelist(l.get(0));
         }
         return super.create(entity);
@@ -72,9 +73,9 @@ public class PriceServiceImpl extends AbstractEntityService<Price, Long> impleme
 
     @Override
     public List<Price> findValidPricesforProduct(final AbstractProduct product) {
-        final Pricelist defaultPricelist = priceListRepository.findOne(priceListRepository
-                .makeSpecification(new Pricelist("default-list", (Catalog) getCurrentContext().getCatalog())));
-        Assert.notNull(defaultPricelist);
-        return findValidPricesforProduct(product, defaultPricelist);
+        final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
+                .getCatalog());
+        assert !defaultPricelist.isEmpty() : "missing default price list !";
+        return findValidPricesforProduct(product, defaultPricelist.get(0));
     }
 }

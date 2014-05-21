@@ -1,6 +1,7 @@
 package com.serpics.commerce.persistence;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -12,17 +13,24 @@ import com.serpics.membership.persistence.User;
 @DiscriminatorValue(value = "1")
 public class Cart extends AbstractOrder {
 
-	public Cart() {
-		super();
-	}
+    public Cart() {
+        super();
+    }
 
-	public Cart(User user, Store store, String userCookie) {
+    public Cart(final User user, final Store store, final String userCookie) {
 
-		this.user = this.customer = user;
-		this.store = store;
-		this.orderAmount = new BigDecimal(0);
-		this.status = "P";
-		this.cookie = userCookie;
+        this.user = this.customer = user;
+        this.store = store;
+        this.orderAmount = new BigDecimal(0);
+        this.status = "P";
+        this.cookie = userCookie;
 
-	}
+    }
+
+
+    public Set<Cartitem> getCartitems() {
+        return (Set<Cartitem>) super.getOrderitems();
+    }
+
+
 }

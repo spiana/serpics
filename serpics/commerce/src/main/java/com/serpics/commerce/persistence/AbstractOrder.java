@@ -44,8 +44,8 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Abs
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "orders_id", unique = true, nullable = false)
-    protected Long ordersId;
+    @Column(name = "order_id", unique = true, nullable = false)
+    protected Long orderId;
 
     @Column(name = "cookie", length = 250, unique = false, nullable = false)
     protected String cookie;
@@ -94,10 +94,6 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Abs
     @Column(name = "total_tax", precision = 10, scale = 4)
     protected BigDecimal totalTax = new BigDecimal(0);
 
-    // bi-directional many-to-one association to Orderitem
-    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true)
-    protected Set<Orderitem> orderitems = new HashSet<Orderitem>(0);
-
     // bi-directional many-to-one association to Shipmode
     @ManyToOne(fetch=FetchType.EAGER , optional=true)
     @JoinColumn(name = "shipmode_id")
@@ -108,7 +104,7 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Abs
     protected Set<OrdersAttribute> ordersAttributes = new HashSet<OrdersAttribute>(0);
 
     // bi-directional many-to-one association to Suborder
-    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.LAZY)
     protected Set<Suborder> suborders = new HashSet<Suborder>(0);
 
     @ManyToOne(fetch=FetchType.EAGER )
@@ -119,15 +115,19 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Abs
     @JoinColumn(name = "shipping_address_id")
     protected Address shippingAddress;
 
+    // bi-directional many-to-one association to Orderitem
+    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true)
+    protected Set<AbstractOrderitem> orderitems = new HashSet<AbstractOrderitem>(0);
+
     public AbstractOrder() {
     }
 
-    public Long getOrdersId() {
-        return this.ordersId;
+    public Long getOrderId() {
+        return this.orderId;
     }
 
-    public void setOrdersId(final Long ordersId) {
-        this.ordersId = ordersId;
+    public void setOrderId(final Long orderId) {
+        this.orderId = orderId;
     }
 
     public Currency getCurrency() {
@@ -192,14 +192,6 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Abs
 
     public void setTotalTax(final BigDecimal totalTax) {
         this.totalTax = totalTax;
-    }
-
-    public Set<Orderitem> getOrderitems() {
-        return this.orderitems;
-    }
-
-    public void setOrderitems(final Set<Orderitem> orderitems) {
-        this.orderitems = orderitems;
     }
 
     public Shipmode getShipmode() {
@@ -280,6 +272,14 @@ public abstract class AbstractOrder extends com.serpics.core.persistence.jpa.Abs
 
     public void setTotalService(final BigDecimal totalService) {
         this.totalService = totalService;
+    }
+
+    public Set<? extends AbstractOrderitem> getOrderitems() {
+        return orderitems;
+    }
+
+    public void setOrderitems(final Set<? extends AbstractOrderitem> orderitems) {
+        this.orderitems = (Set<AbstractOrderitem>) orderitems;
     }
 
 }

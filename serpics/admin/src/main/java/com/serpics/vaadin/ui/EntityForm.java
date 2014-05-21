@@ -60,7 +60,7 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
     @Override
     public void init() {
-        // do nothing
+        // nothing to do ;
     }
 
     @Override
@@ -80,8 +80,7 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         fieldGroup.setBuffered(true);
 
         if (!initialized) {
-            init();
-
+            // init();
             if (displayProperties != null)
                 addField(displayProperties);
             else {
