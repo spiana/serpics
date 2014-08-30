@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.StoreRepository;
 
 @Service("memberService")
+@Scope("store")
 @Transactional(readOnly = true)
 public class MembershipServiceImpl extends AbstractService implements MembershipService, Membership {
 
