@@ -10,7 +10,7 @@ public interface CartService {
 
     public Cart createSessionCart();
 
-    public Cart findSessionCart();
+    public Cart getSessionCart();
 
     public void cartDelete();
 

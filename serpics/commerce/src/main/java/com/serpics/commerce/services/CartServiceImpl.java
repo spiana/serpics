@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +31,10 @@ import com.serpics.warehouse.InventoryNotAvailableException;
 
 @Service("cartService")
 @Scope("store")
+@Transactional(readOnly = true)
 public class CartServiceImpl extends AbstractService implements CartService {
+
+    Logger LOG = LoggerFactory.getLogger(CartServiceImpl.class);
 
     @Resource
     CartRepository cartRepository;
@@ -62,12 +67,23 @@ public class CartServiceImpl extends AbstractService implements CartService {
             cart.setCurrency(((Store) getCurrentContext().getStoreRealm()).getCurrency());
             cartRepository.saveAndFlush(cart);
         }
+        getCurrentContext().setAttribute("cart", cart);
         return cart;
     }
 
     @Override
-    public Cart findSessionCart() {
-        return cartRepository.findByCookie(getCurrentContext().getUserCookie());
+    public Cart getSessionCart() {
+        Cart currentCart = (Cart) getCurrentContext().getAttribute("cart");
+
+        if (currentCart == null) {
+            LOG.info("NOT found cart in commerce session for user {}",
+                    ((User) getCurrentContext().getUserPrincipal()).getUuid());
+            currentCart = createSessionCart();
+        } else {
+            LOG.info("found cart in commerce session for user {}", currentCart.getUser().getUuid());
+
+        }
+        return currentCart;
     }
 
     @Override
@@ -163,7 +179,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
 
     @Override
     public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
-        final Cart cart = findSessionCart();
+        final Cart cart = getSessionCart();
         Assert.notNull(cart);
 
         return prepareCart(cart);
@@ -212,7 +228,7 @@ public class CartServiceImpl extends AbstractService implements CartService {
     @Override
     @Transactional
     public void cartDelete() {
-        final Cart cart = findSessionCart();
+        final Cart cart = getSessionCart();
         cartDelete(cart);
 
     }

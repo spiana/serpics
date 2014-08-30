@@ -21,8 +21,6 @@
 		WEB-INF/config/admin.xml,
 		WEB-INF/config/local-datasource.xml
 		WEB-INF/config/security.xml,
-		WEB-INF/config/mvc-spring.xml
-		
 		</param-value>
 	</context-param>
 	<listener>
@@ -79,17 +77,17 @@
 	
 	
 <!-- Spring MVC -->
-<!-- 	<servlet> -->
-<!-- 		<servlet-name>mvc-dispatcher</servlet-name> -->
-<!-- 		<servlet-class> -->
-<!--                     org.springframework.web.servlet.DispatcherServlet -->
-<!--                 </servlet-class> -->
-<!-- 	</servlet> -->
-<!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>mvc-dispatcher</servlet-name> -->
-<!-- 		<url-pattern>/</url-pattern> -->
-<!-- 	</servlet-mapping> -->
-<!--  end MVC -->		
+	<servlet>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<servlet-class>
+                    org.springframework.web.servlet.DispatcherServlet
+                </servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+<!--  end MVC		 -->
 	
 	<servlet>
 		<servlet-name>Test Application</servlet-name>

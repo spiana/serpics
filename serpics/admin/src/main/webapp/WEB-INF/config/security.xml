@@ -6,12 +6,27 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
  
-	<http auto-config="true">
+<!-- <beans:bean id="authenticationEntryPoint" -->
+<!-- class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint"> -->
+<!-- <beans:property name="realmName" value="admin" /> -->
+<!-- </beans:bean> -->
+<!--  <beans:bean id="authFilter" class="com.serpics.system.security.AuthenticationFilter"> -->
+<!--  	<beans:constructor-arg name="authenticationManager" ref="authenticationManager"/> -->
+<!--  	<beans:constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" /> -->
+<!--  </beans:bean>	 -->
+ 	
+<!--  <http auto-config="false" entry-point-ref="authenticationEntryPoint"> -->
+<!-- 	 <intercept-url pattern="/**" access="ROLE_USER" /> -->
+<!-- 	<custom-filter ref="authFilter" position="BASIC_AUTH_FILTER"/> -->
+	
+<!--  </http> -->
+
+	<http auto-config="true" >
 		<intercept-url pattern="/**" access="ROLE_USER" />
 		<form-login authentication-success-handler-ref="successAuthenticationHandler"  />
 	</http>
  
-	<authentication-manager >
+	<authentication-manager alias="authenticationManager" >
 	  <authentication-provider user-service-ref="userDatailsService"  />
 	</authentication-manager>
  
