@@ -12,9 +12,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.core.CommerceEngine;
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.ExecutionTestListener;
 

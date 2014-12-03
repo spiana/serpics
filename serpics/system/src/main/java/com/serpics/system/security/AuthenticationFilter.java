@@ -16,9 +16,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.serpics.base.persistence.Locale;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.core.CommerceEngine;
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.services.UserRegService;
 import com.serpics.system.services.UserDetailsService;

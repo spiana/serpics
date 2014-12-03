@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import com.serpics.core.CommerceEngineFactory;
+import com.serpics.core.EngineFactory;
 import com.serpics.core.scope.StoreScopeContextHolder;
 import com.serpics.core.test.service.MySecondTestService;
 import com.serpics.core.test.service.TestService;
@@ -43,7 +43,7 @@ public class ServiceLayerTest extends Assert {
 	@Test
 	public void storeServiceSelect(){
 		
-		ApplicationContext applicationContext = CommerceEngineFactory.getCurrentApplicationContext();
+		ApplicationContext applicationContext = EngineFactory.getCurrentApplicationContext();
 		StoreScopeContextHolder.setCurrentStoreRealm("store4");
 		MyTestService s4 =  applicationContext.getBean(MyTestService.class);
 		assertEquals("hello", s4.sayHello());
@@ -87,7 +87,7 @@ public class ServiceLayerTest extends Assert {
 	
 	@Test(expected = BeanCreationException.class)
 	public void test2 (){
-		ApplicationContext applicationContext = CommerceEngineFactory.getCurrentApplicationContext();
+		ApplicationContext applicationContext = EngineFactory.getCurrentApplicationContext();
 		
 		StoreScopeContextHolder.setCurrentStoreRealm("default-store");
 		TestService s4 = applicationContext.getBean(TestService.class);
@@ -95,7 +95,7 @@ public class ServiceLayerTest extends Assert {
 	}
 	@Test(expected=BeanNotOfRequiredTypeException.class)
 	public void test3 (){
-		ApplicationContext applicationContext = CommerceEngineFactory.getCurrentApplicationContext();
+		ApplicationContext applicationContext = EngineFactory.getCurrentApplicationContext();
 		
 		StoreScopeContextHolder.setCurrentStoreRealm("store2");
 		MyTestService s4 = applicationContext.getBean(MyTestService.class);
@@ -103,7 +103,7 @@ public class ServiceLayerTest extends Assert {
 	}
 	@Test(expected=ClassCastException.class)
 	public void test4 (){
-		ApplicationContext applicationContext = CommerceEngineFactory.getCurrentApplicationContext();
+		ApplicationContext applicationContext = EngineFactory.getCurrentApplicationContext();
 		
 		StoreScopeContextHolder.setCurrentStoreRealm("store2");
 		MyTestService s4 = (MyTestService) applicationContext.getBean("testService");

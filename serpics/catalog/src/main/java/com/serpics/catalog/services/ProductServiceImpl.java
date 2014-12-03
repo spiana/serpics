@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.repositories.ProductRepository;
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 
 @Service("produtService")
 @Scope("store")
-public class ProductServiceImpl extends AbstractEntityService<Product, Long> implements ProductService{
+public class ProductServiceImpl extends AbstractCommerceEntityService<Product, Long> implements ProductService{
 	private static final long serialVersionUID = -3989192615962130810L;
 
 	@Autowired

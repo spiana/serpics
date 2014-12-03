@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.Store;
@@ -24,7 +25,7 @@ import com.serpics.membership.services.MembershipService;
 import com.serpics.membership.services.UserRegService;
 
 @Service("userDetailService")
-public class UserDetailsServiceImpl extends AbstractService implements UserDetailsService {
+public class UserDetailsServiceImpl extends AbstractService<CommerceSessionContext> implements UserDetailsService {
     @Autowired
     MembershipService membershipService;
 

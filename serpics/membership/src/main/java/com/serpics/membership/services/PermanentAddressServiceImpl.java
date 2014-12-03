@@ -16,10 +16,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 import com.serpics.core.data.SpecificationUtis;
-import com.serpics.core.service.AbstractEntityService;
 import com.serpics.core.service.AbstractService;
+import com.serpics.core.session.SessionContext;
 import com.serpics.membership.persistence.AbstractAddress;
 import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.User;
@@ -27,7 +28,7 @@ import com.serpics.membership.repositories.PermanentAddressRepository;
 
 @Service("permanentAddressService")
 @Scope("store")
-public class PermanentAddressServiceImpl extends AbstractEntityService<PermanentAddress, Long> implements PermanentAddressService {
+public class PermanentAddressServiceImpl extends AbstractCommerceEntityService<PermanentAddress, Long> implements PermanentAddressService {
 
 	protected  static class AddressSpecification{
 		protected static Specification<PermanentAddress> isAddressUser(final User user){

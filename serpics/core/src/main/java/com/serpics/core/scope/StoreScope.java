@@ -6,7 +6,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
 
-import com.serpics.core.CommerceEngineFactory;
+import com.serpics.core.EngineFactory;
 
 public class StoreScope implements Scope {
 

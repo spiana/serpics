@@ -3,40 +3,28 @@ package com.serpics.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.core.CommerceEngine;
-import com.serpics.core.hook.AbstractHook;
-import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.core.Engine;
+import com.serpics.core.session.SessionContext;
 
 @Transactional(readOnly = true)
-public abstract class AbstractService {
-//	@Autowired(required = true)
-//	HookLookup hookLookup;
-//
-//	public void setHookLookup(HookLookup hookLookup) {
-//		this.hookLookup = hookLookup;
-//	}
+public abstract class AbstractService<T extends SessionContext> implements SerpicsService<T>{
 
 	@Autowired(required = true)
-	CommerceEngine commerceEngine;
+	Engine<T> engine;
 
-	public CommerceEngine getCommerceEngine() {
-		return commerceEngine;
+	@Override
+	public Engine<T> getEngine() {
+		return engine;
 	}
 
-	public void setCommerceEngine(CommerceEngine commerceEngine) {
-		this.commerceEngine = commerceEngine;
+	@Override
+	public void setEngine(Engine<T> engine) {
+		this.engine = engine;
 	}
 
-//	protected AbstractHook getHook(String hookName, CommerceSessionContext context) {
-//		return hookLookup.fetchHook(context, hookName);
-//	}
-//
-//	protected AbstractHook getHook(String hookName) {
-//		return hookLookup.fetchHook(commerceEngine.getCurrentContext(), hookName);
-//	}
-
-	protected CommerceSessionContext getCurrentContext() {
-		return commerceEngine.getCurrentContext();
+	@Override
+	public T getCurrentContext() {
+		return engine.getCurrentContext();
 	}
 	
 }

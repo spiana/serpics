@@ -11,7 +11,7 @@ import org.apache.cxf.jaxrs.model.ClassResourceInfo;
 import org.apache.cxf.message.Message;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.core.CommerceEngine;
+import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 

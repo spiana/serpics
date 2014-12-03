@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.UUID;
 
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.security.StoreRealm;
 
 public class SessionManagerImpl implements SessionManager {

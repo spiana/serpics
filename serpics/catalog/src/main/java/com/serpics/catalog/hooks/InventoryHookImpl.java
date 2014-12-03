@@ -1,7 +1,7 @@
 package com.serpics.catalog.hooks;
 
 import com.serpics.catalog.persistence.AbstractProduct;
-import com.serpics.core.hook.AbstractHook;
+import com.serpics.commerce.hook.AbstractHook;
 import com.serpics.stereotype.StoreHook;
 import com.serpics.warehouse.InventoryNotAvailableException;
 

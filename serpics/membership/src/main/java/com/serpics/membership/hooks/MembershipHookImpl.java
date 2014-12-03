@@ -5,8 +5,8 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+
 import com.serpics.core.SerpicsException;
-import com.serpics.core.hook.AbstractHook;
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MembershipException;
 import com.serpics.membership.UserRegStatus;
@@ -17,7 +17,7 @@ import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.stereotype.StoreHook;
 
 @StoreHook(value="membership")
-public class MembershipHookImpl extends AbstractHook implements MembershipHook {
+public class MembershipHookImpl  implements MembershipHook {
     @Resource
     UserRegrepository userRegRepository;
 
@@ -33,16 +33,16 @@ public class MembershipHookImpl extends AbstractHook implements MembershipHook {
                         ur.getUserId()));
 
             // if not superuser test store
-            if (!ur.getUserType().equals(UserType.SUPERSUSER)) {
-                if (!ur.getStores().contains((Store) getCurrentContext().getStoreRealm())) {
-                    throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
-                            ur.getLogonid(), getCurrentContext().getStoreRealm().getName()));
-                }
-            }
+//            if (!ur.getUserType().equals(UserType.SUPERSUSER)) {
+//                if (!ur.getStores().contains((Store) getCurrentContext().getRealm())) {
+//                    throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
+//                            ur.getLogonid(), getCurrentContext().getRealm()));
+//                }
+//            }
         } else {
             throw new MembershipException("no user found for loginid [" + username + "] !");
         }
-
+        
         return ur;
     }
 

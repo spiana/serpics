@@ -17,13 +17,13 @@ import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Pricelist;
 import com.serpics.catalog.repositories.CatalogRepository;
 import com.serpics.catalog.repositories.PriceListRepository;
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 
 @Service("catalogService")
 @Scope("store")
 @Transactional(readOnly = true)
-public class CatalogServiceImpl extends AbstractEntityService<Catalog, Long> implements CatalogService {
+public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, Long> implements CatalogService {
 
     @Resource
     CatalogRepository catalogRepository;

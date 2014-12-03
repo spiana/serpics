@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.serpics.base.persistence.Locale;
 import com.serpics.base.repositories.LocaleRepository;
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 
 @Service("localeService")
 @Scope("store")
-public class LocaleServiceImpl extends AbstractEntityService<Locale, Long> implements LocaleService {
+public class LocaleServiceImpl extends AbstractCommerceEntityService<Locale, Long> implements LocaleService {
 
     @Autowired
     LocaleRepository localeRepository;

@@ -20,14 +20,14 @@ import com.serpics.catalog.persistence.Price;
 import com.serpics.catalog.persistence.Pricelist;
 import com.serpics.catalog.repositories.PriceListRepository;
 import com.serpics.catalog.repositories.PriceRepository;
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.persistence.Store;
 
 @Service("priceService")
 @Scope("store")
 @Transactional(readOnly = true)
-public class PriceServiceImpl extends AbstractEntityService<Price, Long> implements PriceService {
+public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long> implements PriceService {
 
     @Autowired
     PriceRepository priceRepository;

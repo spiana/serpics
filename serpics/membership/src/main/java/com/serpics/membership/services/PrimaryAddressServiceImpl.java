@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.persistence.PrimaryAddress;
 import com.serpics.membership.persistence.User;
 import com.serpics.membership.repositories.PrimaryAddressRepository;
 
 @Service("primaryAddressService")
 @Scope("store")
-public class PrimaryAddressServiceImpl extends AbstractEntityService<PrimaryAddress, Long> implements
+public class PrimaryAddressServiceImpl extends AbstractCommerceEntityService<PrimaryAddress, Long> implements
 PrimaryAddressService {
 
     protected  static class AddressSpecification{

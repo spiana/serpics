@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.AbstractService;
@@ -29,7 +30,7 @@ import com.serpics.membership.repositories.StoreRepository;
 @Service("memberService")
 @Scope("store")
 @Transactional(readOnly = true)
-public class MembershipServiceImpl extends AbstractService implements MembershipService, Membership {
+public class MembershipServiceImpl extends AbstractService<CommerceSessionContext> implements MembershipService, Membership {
 
     @Resource
     private StoreRepository storeRepository;

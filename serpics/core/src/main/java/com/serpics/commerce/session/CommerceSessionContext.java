@@ -1,10 +1,11 @@
-package com.serpics.core.session;
+package com.serpics.commerce.session;
 
 import com.serpics.core.persistence.Catalog;
 import com.serpics.core.persistence.Currency;
 import com.serpics.core.persistence.Locale;
 import com.serpics.core.security.StoreRealm;
 import com.serpics.core.security.UserDetail;
+import com.serpics.core.session.SessionContext;
 
 public class CommerceSessionContext extends SessionContext {
     private static final long serialVersionUID = 1L;

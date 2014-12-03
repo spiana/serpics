@@ -14,8 +14,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.MembersRolePK;
 import com.serpics.membership.repositories.MembersRoleRepository;
@@ -24,7 +24,7 @@ import com.serpics.membership.repositories.MembersRoleRepository;
 @Service("memberRoleService")
 @Scope("store")
 @Transactional(readOnly = true)
-public class MemberRoleServiceImpl extends AbstractEntityService<MembersRole, MembersRolePK> implements MemberRoleService {
+public class MemberRoleServiceImpl extends AbstractCommerceEntityService<MembersRole, MembersRolePK> implements MemberRoleService {
 
 
     @Autowired

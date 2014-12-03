@@ -26,9 +26,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import com.serpics.core.CommerceEngine;
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
 import com.serpics.membership.persistence.PermanentAddress;

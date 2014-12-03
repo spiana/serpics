@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.core.service.AbstractEntityService;
+import com.serpics.commerce.service.AbstractCommerceEntityService;
+import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.session.SessionContext;
 import com.serpics.membership.persistence.Member;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.MembersRolePK;
@@ -17,7 +19,7 @@ import com.serpics.membership.persistence.Store;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.StoreRepository;
 
-public abstract class AbstractMemberService<T extends Member, ID extends Serializable> extends AbstractEntityService<T, ID>
+public abstract class AbstractMemberService<T extends Member, ID extends Serializable> extends AbstractCommerceEntityService<T, ID>
 implements MemberService<T, ID> {
 
     @Autowired

@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.persistence.Role;
 import com.serpics.membership.repositories.RoleRepository;
 
 @Service("roleService")
 @Scope("store")
-public class RoleServiceImpl extends AbstractEntityService<Role, Long> implements RoleService {
+public class RoleServiceImpl extends AbstractCommerceEntityService<Role, Long> implements RoleService {
 
     @Autowired
     RoleRepository roleRepository;

@@ -24,6 +24,7 @@ import com.serpics.commerce.persistence.Cart;
 import com.serpics.commerce.persistence.Cartitem;
 import com.serpics.commerce.repositories.CartRepository;
 import com.serpics.commerce.repositories.OrderItemRepository;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
@@ -32,7 +33,7 @@ import com.serpics.warehouse.InventoryNotAvailableException;
 @Service("cartService")
 @Scope("store")
 @Transactional(readOnly = true)
-public class CartServiceImpl extends AbstractService implements CartService {
+public class CartServiceImpl extends AbstractService<CommerceSessionContext> implements CartService {
 
     Logger LOG = LoggerFactory.getLogger(CartServiceImpl.class);
 

@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 import com.serpics.catalog.persistence.CategoryRelation;
 import com.serpics.catalog.persistence.CtentryRelationPK;
 import com.serpics.catalog.repositories.CategoryRelationRepository;
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 
 @Service("categoryRelationService")
 @Scope("store")
-public class CategoryRelationServiceImpl extends AbstractEntityService<CategoryRelation, CtentryRelationPK> implements
+public class CategoryRelationServiceImpl extends AbstractCommerceEntityService<CategoryRelation, CtentryRelationPK> implements
 CategoryRelationService {
 
     @Autowired

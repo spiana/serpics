@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.serpics.commerce.service.AbstractCommerceEntityService;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.persistence.Membergrouprel;
 import com.serpics.membership.repositories.MembergrouprelRepository;
 
 @Service("membergrouprelService")
-public class MembergrouprelServiceImpl extends AbstractEntityService<Membergrouprel, Long> implements
+public class MembergrouprelServiceImpl extends AbstractCommerceEntityService<Membergrouprel, Long> implements
 MembergrouprelService {
 
     @Autowired

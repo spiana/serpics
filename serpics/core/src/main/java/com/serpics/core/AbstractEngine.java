@@ -17,14 +17,13 @@ import com.serpics.core.scope.StoreScopeContextHolder;
 import com.serpics.core.security.StoreRealm;
 import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.Membership;
-import com.serpics.core.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
 import com.serpics.core.session.SessionManager;
 
 
-public class CommerceEngineImpl implements CommerceEngine {
+public abstract class AbstractEngine<T extends SessionContext> implements Engine<SessionContext> {
 
-    Logger logger = LoggerFactory.getLogger(CommerceEngineImpl.class);
+    Logger logger = LoggerFactory.getLogger(AbstractEngine.class);
 
     private static final ThreadLocal<SessionContext> threadLocal = new ThreadLocal<SessionContext>();
 
@@ -60,7 +59,7 @@ public class CommerceEngineImpl implements CommerceEngine {
     }
 
     @Override
-    public CommerceSessionContext connect(final String storeName) throws SerpicsException {
+    public T connect(final String storeName) throws SerpicsException {
         StoreScopeContextHolder.setCurrentStoreRealm(storeName);
         final Membership membershipService = beanFactory.getBean(Membership.class);
 
@@ -72,11 +71,11 @@ public class CommerceEngineImpl implements CommerceEngine {
         context.setLastAccess(new Date());
 
         bind(context);
-        return (CommerceSessionContext) context;
+        return (T) context;
     }
 
     @Override
-    public CommerceSessionContext connect(final String storeName, final String loginId, final char[] password) throws SerpicsException {
+    public T connect(final String storeName, final String loginId, final char[] password) throws SerpicsException {
         StoreScopeContextHolder.setCurrentStoreRealm(storeName);
         final Membership membershipService = beanFactory.getBean(Membership.class);
         final StoreRealm s = membershipService.fetchStoreByName(storeName);
@@ -85,38 +84,38 @@ public class CommerceEngineImpl implements CommerceEngine {
         final UserDetail user = membershipService.login(loginId, password);
         context.setUserPrincipal(user);
         bind(context);
-        return (CommerceSessionContext) context;
+        return (T) context;
     }
 
     @Override
-    public CommerceSessionContext connect(final String storeName, final Principal principal) throws SerpicsException {
+    public T connect(final String storeName, final Principal principal) throws SerpicsException {
         final Membership membershipService = beanFactory.getBean(Membership.class);
         final StoreRealm s = membershipService.fetchStoreByName(storeName);
         final SessionContext context = getSessionManager().createSessionContext(s);
         final UserDetail user = membershipService.connect(principal);
         context.setUserPrincipal(user);
         bind(context);
-        return (CommerceSessionContext) context;
+        return (T) context;
     }
 
     @Override
-    public CommerceSessionContext connect(final CommerceSessionContext context, final String loginId, final char[] password)
+    public T connect(final SessionContext context, final String loginId, final char[] password)
             throws SerpicsException {
         context.setLastAccess(new Date());
         final Membership membershipService = beanFactory.getBean(Membership.class);
         final UserDetail user = membershipService.login(loginId, password);
         context.setUserPrincipal(user);
         bind(context);
-        return context;
+        return (T) context;
     }
 
     @Override
-    public CommerceSessionContext bind(final String sessionId) {
+    public T bind(final String sessionId) {
         final SessionContext _s = this.sessionManager.getSessionContext(sessionId);
 
         if (_s != null) {
             bind(_s);
-            return (CommerceSessionContext) _s;
+            return (T) _s;
         } else {
             logger.warn("session id [{}] is expired !");
             return null;
@@ -136,8 +135,8 @@ public class CommerceEngineImpl implements CommerceEngine {
     }
 
     @Override
-    public CommerceSessionContext getCurrentContext() {
-        return (CommerceSessionContext) threadLocal.get();
+    public T getCurrentContext() {
+        return (T) threadLocal.get();
     }
 
 
@@ -148,7 +147,7 @@ public class CommerceEngineImpl implements CommerceEngine {
     }
 
     @Override
-    public void disconnect(final CommerceSessionContext sessionContext) {
+    public void disconnect(final SessionContext sessionContext) {
         if (sessionContext != null)
             disconnect(sessionContext.getSessionId());
     }

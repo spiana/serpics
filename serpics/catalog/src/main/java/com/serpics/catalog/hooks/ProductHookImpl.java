@@ -6,7 +6,7 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.catalog.repositories.ProductRepository;
-import com.serpics.core.hook.AbstractHook;
+import com.serpics.commerce.hook.AbstractHook;
 import com.serpics.stereotype.StoreHook;
 
 @StoreHook("productHook")

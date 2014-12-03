@@ -23,13 +23,13 @@ import com.serpics.catalog.persistence.CategoryRelation;
 import com.serpics.catalog.persistence.CtentryRelationPK;
 import com.serpics.catalog.repositories.CategoryRelationRepository;
 import com.serpics.catalog.repositories.CategoryRepository;
+import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 
 @Service("categoryService")
 @Scope("store")
 @Transactional(readOnly = true)
-public class CategoryServiceImpl extends AbstractEntityService<Category, Long> implements CategoryService, Serializable {
+public class CategoryServiceImpl extends AbstractCommerceEntityService<Category, Long> implements CategoryService, Serializable {
 
     private static final long serialVersionUID = -7873992332620766909L;
 

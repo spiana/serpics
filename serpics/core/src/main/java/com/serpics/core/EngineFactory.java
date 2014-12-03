@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-public class CommerceEngineFactory implements ApplicationContextAware{
+public class EngineFactory implements ApplicationContextAware{
 	
 	private static final Map<ClassLoader, ApplicationContext> currentContextPerThread = new ConcurrentHashMap<ClassLoader, ApplicationContext>(1);
 
@@ -39,9 +39,4 @@ public class CommerceEngineFactory implements ApplicationContextAware{
 	public final static ApplicationContext getCurrentApplicationContext() {
 		return currentContextPerThread.get(Thread.currentThread().getContextClassLoader());
 	}
-
-	public final static CommerceEngine getCommerceEngine() {
-		return getCurrentApplicationContext().getBean(CommerceEngine.class);
-	}
-
 }

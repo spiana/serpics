@@ -13,10 +13,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.core.data.Repository;
+import com.serpics.core.session.SessionContext;
 
 @Transactional(readOnly = true)
-public abstract class AbstractEntityService<T, ID extends Serializable> extends AbstractService implements
-EntityService<T, ID> {
+public abstract class AbstractEntityService<T, ID extends Serializable , CONTEXT extends SessionContext> extends AbstractService<CONTEXT>  implements
+EntityService<T, ID> , SerpicsService<CONTEXT>{
 
     public abstract Repository<T, ID> getEntityRepository();
 

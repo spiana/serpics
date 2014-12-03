@@ -2,13 +2,13 @@ package com.serpics.commerce.hooks;
 
 import java.math.BigDecimal;
 
+
 import com.serpics.commerce.persistence.AbstractOrder;
 import com.serpics.commerce.persistence.AbstractOrderitem;
-import com.serpics.core.hook.AbstractHook;
 import com.serpics.stereotype.StoreHook;
 
 @StoreHook(value = "discountHook")
-public class DiscountHookImpl extends AbstractHook implements DiscountHook {
+public class DiscountHookImpl implements DiscountHook {
 
     @Override
     public AbstractOrderitem applyItemDiscount(final AbstractOrderitem orderitem) {

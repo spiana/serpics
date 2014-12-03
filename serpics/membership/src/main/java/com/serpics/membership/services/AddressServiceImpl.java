@@ -15,8 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.serpics.commerce.service.AbstractCommerceEntityService;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractEntityService;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.Address;
@@ -25,7 +26,7 @@ import com.serpics.membership.repositories.AddressRepository;
 
 @Service("addressService")
 @Scope("store")
-public class AddressServiceImpl extends AbstractEntityService<Address, Long> implements AddressService {
+public class AddressServiceImpl extends AbstractCommerceEntityService<Address, Long> implements AddressService {
 
 
 	protected  static class AddressSpecification{

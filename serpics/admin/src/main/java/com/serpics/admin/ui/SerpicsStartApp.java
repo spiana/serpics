@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.serpics.core.CommerceEngine;
+import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.vaadin.annotations.Theme;
 import com.vaadin.event.ItemClickEvent;

@@ -2,13 +2,13 @@ package com.serpics.commerce.hooks;
 
 import java.math.BigDecimal;
 
+
 import com.serpics.commerce.persistence.AbstractOrder;
 import com.serpics.commerce.persistence.AbstractOrderitem;
-import com.serpics.core.hook.AbstractHook;
 import com.serpics.stereotype.StoreHook;
 
 @StoreHook(value = "commerceHook")
-public class CommerceHookImpl extends AbstractHook implements CommerceHook {
+public class CommerceHookImpl  implements CommerceHook {
 
     @Override
     public void calculateTax(final AbstractOrder order) {

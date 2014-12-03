@@ -14,7 +14,7 @@ import com.serpics.base.persistence.Currency;
 import com.serpics.base.persistence.Locale;
 import com.serpics.base.repositories.CurrencyRepository;
 import com.serpics.base.services.LocaleService;
-import com.serpics.core.CommerceEngine;
+import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.session.SessionContext;

@@ -14,9 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.CommerceEngine;
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.session.CommerceSessionContext;
 
 public class CommerceSessionFilter implements Filter {
 

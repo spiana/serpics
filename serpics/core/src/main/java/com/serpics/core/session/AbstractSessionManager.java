@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.scope.SessionScopeAttributes;
 import com.serpics.core.scope.SessionScopeContextHolder;
 import com.serpics.core.security.StoreRealm;

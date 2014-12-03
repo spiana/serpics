@@ -2,8 +2,8 @@ package com.serpics.vaadin.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.CommerceEngine;
-import com.serpics.core.session.CommerceSessionContext;
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.session.CommerceSessionContext;
 
 public class AbstractComponent {
 

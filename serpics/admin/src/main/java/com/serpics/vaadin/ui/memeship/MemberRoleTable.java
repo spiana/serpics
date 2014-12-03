@@ -2,7 +2,7 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.CommerceEngine;
+import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.Role;
