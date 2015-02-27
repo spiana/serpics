@@ -1,8 +1,11 @@
 package com.serpics.core.data;
 
+import static org.springframework.data.jpa.domain.Specifications.where;
+
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -15,18 +18,25 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.data.repository.core.RepositoryMetadata;
 
 public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaRepository<Z, IT> implements Repository<Z, IT> {
 
     private static final Logger logger = LoggerFactory.getLogger(RepositoryImpl.class);
 
     private final EntityManager entityManager;
-
-    public RepositoryImpl(final Class<Z> domainClass, final EntityManager em) {
+   
+    private final InterceptorMapping<Z> interceptorMapping;
+    
+    public RepositoryImpl(final Class<Z> domainClass, final EntityManager em ) {
         super(domainClass, em);
         this.entityManager = em;
+        this.interceptorMapping = new InterceptorMapping<Z>();
     }
 
     @Override
@@ -80,5 +90,70 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 
         };
     }
+    
+    @Override
+    public Page<Z> findAll(final Pageable page) {
+    	if(getBaseSpecificatio() != null)
+    		return super.findAll(getBaseSpecificatio(), page);
+    	else
+    		return super.findAll(page);
+    }
 
+    @Override
+    public List<Z> findAll() {
+        return getBaseSpecificatio() != null? super.findAll(getBaseSpecificatio()): super.findAll();
+    }
+   
+    @Override
+    public List<Z> findAll(final Specification<Z> spec, final Sort sort) {
+         
+            return getBaseSpecificatio() == null ?super.findAll(where(spec), sort):
+            	findAll(where(spec).and(getBaseSpecificatio()), sort);
+    }
+
+    @Override
+    public List<Z> findAll(Specification<Z> spec) {
+    	return getBaseSpecificatio() == null ? super.findAll(spec) :
+    		super.findAll(where(spec).and(getBaseSpecificatio()));
+    }
+    
+    @Override
+    public List<Z> findAll(Sort sort) {
+    	
+    	return getBaseSpecificatio() ==  null ?super.findAll(sort) :
+    		super.findAll(getBaseSpecificatio() , sort);
+    }
+    
+    @Override
+    public Page<Z> findAll(Specification<Z> spec, Pageable pageable) {
+    	return  getBaseSpecificatio() == null ?super.findAll(spec, pageable) :
+    		super.findAll(where(spec).and(getBaseSpecificatio()), pageable);
+    }
+   
+    
+   @Override
+	public Z findOne(Specification<Z> arg0) {
+		return getBaseSpecificatio() == null ?super.findOne(arg0) : super.findOne(where(arg0).and(getBaseSpecificatio()));
+	}
+    
+    @Override
+	public Specification<Z> getBaseSpecificatio() {
+	        return null;
+	
+	}
+
+	@Override
+	public Z create(Z entity) {
+		interceptorMapping.performBeforeCreateInterceptor(entity);
+		entity =  saveAndFlush(entity);
+		interceptorMapping.performAfterCreateInterceptor(entity);
+		return entity;
+	}
+
+	@Override
+	public Z update(Z entity) {
+		return saveAndFlush(entity);
+		
+	}
+    
 }

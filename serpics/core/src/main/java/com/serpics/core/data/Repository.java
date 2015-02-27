@@ -14,4 +14,8 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	public <T> Specification<T> makeSpecification(final T example);
 	
 	public void detach(final T entity);
+    public T create(T entity);
+    public T update(T entity);
+	
+	public Specification<T> getBaseSpecificatio();
 }
