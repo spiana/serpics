@@ -4,10 +4,12 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.persistence.Membergrouprel;
 import com.serpics.membership.persistence.User;
+import com.serpics.membership.repositories.MembergrouprelRepository;
 import com.serpics.membership.services.MembergrouprelService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
@@ -19,7 +21,7 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
     private static final long serialVersionUID = 5863975797848978227L;
 
     @Autowired
-    private transient MembergrouprelService membergrouprelService;
+    private transient MembergrouprelRepository membergrouprelRepository;
 
     @Autowired
     MembergroupRelEditor membergroupRelEditor;
@@ -29,8 +31,9 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
     }
 
     @Override
-    public EntityService getService() {
-        return membergrouprelService;
+    public Repository getRepository() {
+    
+    	return membergrouprelRepository;
     }
 
     @Override

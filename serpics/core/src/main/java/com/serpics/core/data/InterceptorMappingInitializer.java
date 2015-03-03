@@ -13,21 +13,25 @@ public class InterceptorMappingInitializer implements InitializingBean , Applica
 	ApplicationContext applicationContext;
 	
 
-	InterceptorEntityMapping<BeforeCreateInterceptor> beforeCreateinterceptor= new InterceptorEntityMapping<BeforeCreateInterceptor>(); 
-	InterceptorEntityMapping<AfterCreateInterceptor> afterCreateinterceptor= new InterceptorEntityMapping<AfterCreateInterceptor>(); 
+	InterceptorEntityMapping createinterceptor= new InterceptorEntityMapping(); 
+	InterceptorEntityMapping updateinterceptor= new InterceptorEntityMapping(); 
 	
 	
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		
-		Map<String, BeforeCreateInterceptor> m =  applicationContext.getBeansOfType(BeforeCreateInterceptor.class);
+		Map<String, InterceptorMapping> m =  applicationContext.getBeansOfType(InterceptorMapping.class);
 		
 		for (String interceptor : m.keySet()) {
-			BeforeCreateInterceptor i = m.get(interceptor);
-			this.beforeCreateinterceptor.put(i.getEntityName() ,  i);
+			InterceptorMapping i = m.get(interceptor);
+			if (i.getInterceptor() instanceof CreateInterceptor){
+				this.createinterceptor.put(i.getTargetEntity() , i);
+			}else if(i.getInterceptor() instanceof UpdateInterceptor){
+				this.updateinterceptor.put(i.getTargetEntity(), i);
+			}else{
+				throw new RuntimeException(String.format("invalid interceptor type for entity %s", i.getTargetEntity()));
+			}
 		}
-		
 	}
 
 	@Override
@@ -37,13 +41,13 @@ public class InterceptorMappingInitializer implements InitializingBean , Applica
 	}
 
 
-	public InterceptorEntityMapping<BeforeCreateInterceptor> getBeforeCreateinterceptor() {
-		return beforeCreateinterceptor;
+	public InterceptorEntityMapping getCreateInterceptor() {
+		return createinterceptor;
 	}
 
 
-	public InterceptorEntityMapping<AfterCreateInterceptor> getAfterCreateinterceptor() {
-		return afterCreateinterceptor;
+	public InterceptorEntityMapping getUpdateInterceptor() {
+		return updateinterceptor;
 	}
 
 	

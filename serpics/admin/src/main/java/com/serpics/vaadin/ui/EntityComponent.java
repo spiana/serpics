@@ -1,5 +1,6 @@
 package com.serpics.vaadin.ui;
 
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -20,7 +21,7 @@ public interface EntityComponent<T> extends Component{
         public void setTableFieldFactory(TableFieldFactory factory);
 
         @SuppressWarnings("rawtypes")
-        public EntityService getService();
+        public Repository getRepository();
     }
 
     public interface EntityComponentChild<T, P> extends EntityComponent<T> {
@@ -29,7 +30,7 @@ public interface EntityComponent<T> extends Component{
         public void setParentProperty(Object parentPropertyId);
 
         @SuppressWarnings("rawtypes")
-        public EntityService getService();
+        public Repository getRepository();
     }
     public interface EntityFormComponent<T> extends EntityComponent<T>{
         public boolean isModifield();

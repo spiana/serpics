@@ -2,9 +2,11 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.PermanentAddress;
 import com.serpics.membership.persistence.User;
+import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityTableChild;
@@ -16,7 +18,7 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
     private static final long serialVersionUID = -1487550710132191348L;
 
     @Autowired
-    private transient PermanentAddressService addressService;
+    private transient PermanentAddressRepository addressRepository;
 
     @Autowired
     private AddressEditorComponent addressEditorComponent;
@@ -43,10 +45,11 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
         return container.createEntityItem(a);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public EntityService getService() {
-        return addressService;
-    }
+	@Override
+	public Repository getRepository() {
+		return this.addressRepository;
+	}
+
+    
 
 }

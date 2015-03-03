@@ -24,7 +24,7 @@ public abstract class EntityFormChild<T, P> extends EntityForm<T> implements Ent
 
     @Override
     public void init() {
-        container = ServiceContainerFactory.make(entityClass, getService());
+        container = ServiceContainerFactory.make(entityClass, getRepository());
         super.init();
     }
 

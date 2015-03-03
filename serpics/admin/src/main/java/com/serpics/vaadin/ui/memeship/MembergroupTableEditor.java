@@ -2,8 +2,10 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.Membergroup;
+import com.serpics.membership.repositories.MemberGroupRepository;
 import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityTable;
@@ -14,7 +16,7 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
     private static final long serialVersionUID = -1487550710132191348L;
 
     @Autowired
-    transient MembergroupService membergroupService;
+    transient MemberGroupRepository memberGroupRepository;
 
     @Autowired
     MembergroupEditor membergroupEditor;
@@ -23,12 +25,12 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
         super(Membergroup.class);
     }
 
-    @SuppressWarnings("rawtypes")
+   
     @Override
-    public EntityService getService() {
-        return membergroupService;
+    public Repository getRepository() {
+    	
+    	return memberGroupRepository;
     }
-
     @Override
     public void init() {
         super.init();

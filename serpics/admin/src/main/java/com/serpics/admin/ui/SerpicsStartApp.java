@@ -49,8 +49,8 @@ public class SerpicsStartApp extends UI {
         final HorizontalLayout content = new HorizontalLayout();
         content.setSizeFull();
 
-        final com.serpics.base.persistence.Locale locale = (com.serpics.base.persistence.Locale) commerceEngine
-                .getCurrentContext().getLocale();
+        final com.serpics.base.persistence.Locale locale = (com.serpics.base.persistence.Locale) commerceEngine.getCurrentContext().getLocale();
+        
         Locale _locale = new Locale("it", "IT");
         if (locale != null) {
             _locale = new Locale(locale.getLanguage(), locale.getCountry());

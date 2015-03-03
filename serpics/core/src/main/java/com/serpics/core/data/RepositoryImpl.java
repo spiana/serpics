@@ -19,24 +19,36 @@ import javax.persistence.metamodel.SingularAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.core.RepositoryMetadata;
+import org.springframework.util.Assert;
 
-public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaRepository<Z, IT> implements Repository<Z, IT> {
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.session.CommerceSessionContext;
+
+public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaRepository<Z, IT> 
+			implements Repository<Z, IT>{
 
     private static final Logger logger = LoggerFactory.getLogger(RepositoryImpl.class);
 
     private final EntityManager entityManager;
    
-    private final InterceptorMapping<Z> interceptorMapping;
+    private final InterceptorManager<Z> interceptorMapping;
+    
+    private  RepositoryInitializer initializer;
+    
+    private Class<Z> domainClass;
+   
     
     public RepositoryImpl(final Class<Z> domainClass, final EntityManager em ) {
         super(domainClass, em);
+        this.domainClass = domainClass;
         this.entityManager = em;
-        this.interceptorMapping = new InterceptorMapping<Z>();
+        this.interceptorMapping = new InterceptorManager<Z>();
     }
 
     @Override
@@ -93,56 +105,83 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
     
     @Override
     public Page<Z> findAll(final Pageable page) {
-    	if(getBaseSpecificatio() != null)
-    		return super.findAll(getBaseSpecificatio(), page);
+    	if(getBaseSpecification() != null)
+    		return super.findAll(getBaseSpecification(), page);
     	else
     		return super.findAll(page);
     }
 
     @Override
     public List<Z> findAll() {
-        return getBaseSpecificatio() != null? super.findAll(getBaseSpecificatio()): super.findAll();
+        return getBaseSpecification() != null? super.findAll(getBaseSpecification()): super.findAll();
     }
    
     @Override
     public List<Z> findAll(final Specification<Z> spec, final Sort sort) {
-         
-            return getBaseSpecificatio() == null ?super.findAll(where(spec), sort):
-            	findAll(where(spec).and(getBaseSpecificatio()), sort);
+    		if(spec == null && sort == null){
+    			return getBaseSpecification() == null ?super.findAll():
+                	findAll(getBaseSpecification());
+    		}
+    		if(sort== null){
+    			return getBaseSpecification() == null ?super.findAll(where(spec)):
+                	findAll(where(spec).and(getBaseSpecification()));
+    		}
+    		if (spec== null){
+    			return getBaseSpecification() == null ?super.findAll(sort):
+                	findAll(getBaseSpecification(), sort);
+    		}		
+    			
+            return getBaseSpecification() == null ?super.findAll(where(spec), sort):
+            	findAll(where(spec).and(getBaseSpecification()), sort);
+    	
     }
 
     @Override
     public List<Z> findAll(Specification<Z> spec) {
-    	return getBaseSpecificatio() == null ? super.findAll(spec) :
-    		super.findAll(where(spec).and(getBaseSpecificatio()));
+    	if (spec == null){
+    		return getBaseSpecification() == null ?super.findAll():
+            	findAll(getBaseSpecification());
+    	}
+    		
+    	return getBaseSpecification() == null ? super.findAll(spec) :
+    		super.findAll(where(spec).and(getBaseSpecification()));
     }
     
     @Override
     public List<Z> findAll(Sort sort) {
     	
-    	return getBaseSpecificatio() ==  null ?super.findAll(sort) :
-    		super.findAll(getBaseSpecificatio() , sort);
+    	return getBaseSpecification() ==  null ?super.findAll(sort) :
+    		super.findAll(getBaseSpecification() , sort);
     }
     
     @Override
     public Page<Z> findAll(Specification<Z> spec, Pageable pageable) {
-    	return  getBaseSpecificatio() == null ?super.findAll(spec, pageable) :
-    		super.findAll(where(spec).and(getBaseSpecificatio()), pageable);
+    	return  getBaseSpecification() == null ?super.findAll(spec, pageable) :
+    		super.findAll(where(spec).and(getBaseSpecification()), pageable);
     }
    
     
    @Override
 	public Z findOne(Specification<Z> arg0) {
-		return getBaseSpecificatio() == null ?super.findOne(arg0) : super.findOne(where(arg0).and(getBaseSpecificatio()));
+		return getBaseSpecification() == null ?super.findOne(arg0) : super.findOne(where(arg0).and(getBaseSpecification()));
 	}
-    
+   
+   @Override
+   public Z findOne(Specification<Z> spec , final Sort sort , int index ) {
+	   final PageRequest singleResultPage = new PageRequest(index, 1, sort);
+       final Page<Z> l = findAll(spec, singleResultPage);
+       if (!l.getContent().isEmpty())
+           return l.getContent().get(0);
+       else
+           return null;
+	}
+   
     @Override
-	public Specification<Z> getBaseSpecificatio() {
-	        return null;
-	
+	public Specification getBaseSpecification() {
+    		return initializer.getSpecificationForClass(this.domainClass);
 	}
 
-	@Override
+    @Override
 	public Z create(Z entity) {
 		interceptorMapping.performBeforeCreateInterceptor(entity);
 		entity =  saveAndFlush(entity);
@@ -155,5 +194,23 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 		return saveAndFlush(entity);
 		
 	}
+
+	
+	private CommerceEngine engine;
+	 
+	@Override
+	public void setEngine(CommerceEngine engine) {
+		this.engine = engine;
+	}
+
+	@Override
+	public CommerceSessionContext getCurrentContext() {
+		Assert.notNull(this.engine , "engine must be set in a repository !");
+		return engine.getCurrentContext();
+	}
     
+	@Override
+	public void setRepositoryIniziatializer(RepositoryInitializer inizializer) {
+		this.initializer = inizializer;
+	}
 }

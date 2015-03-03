@@ -8,23 +8,24 @@ import java.util.List;
 
 import com.serpics.core.persistence.jpa.AbstractEntity;
 
-public class InterceptorEntityMapping<T extends Interceptor> extends HashMap<String,  List<T>>  {
+public class InterceptorEntityMapping extends HashMap<String,  List<InterceptorMapping>>  {
 	
 	private static final long serialVersionUID = 2773330666126105679L;
 
-	private class Comparator implements java.util.Comparator<Interceptor>{
+	private class Comparator implements java.util.Comparator<InterceptorMapping>{
 		@Override
-		public int compare(Interceptor o1, Interceptor o2) {
+		public int compare(InterceptorMapping o1, InterceptorMapping o2) {
 			return o1.getOrder().compareTo(o2.getOrder());
 		}
 		
 	}
 	
-	public void put(String entityName, T interceptor){
+	public void put(String entityName, InterceptorMapping mapping){
 		if (super.get(entityName) == null){
-			super.put(entityName, new ArrayList<T>());
+			super.put(entityName, new ArrayList<InterceptorMapping>());
 		}	
-			super.get(entityName).add(interceptor);
+			super.get(entityName).add(mapping);
+			
 			Collections.sort(super.get(entityName), new Comparator());
 	}
 }

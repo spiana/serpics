@@ -32,6 +32,7 @@ http://www.springframework.org/schema/aop
 </bean>
 
  <bean name="interceptorMapping" class="com.serpics.core.data.InterceptorMappingInitializer"/>
+ <bean name="repositoryInitializer" class="com.serpics.core.data.RepositoryInitializer"/>
 
 
 <!-- 	<bean id="sessionContext" class="com.serpics.core.session.CommerceSessionContext"  scope="commercesession" > -->

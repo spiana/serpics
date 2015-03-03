@@ -2,8 +2,10 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.Role;
+import com.serpics.membership.repositories.RoleRepository;
 import com.serpics.membership.services.RoleService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
@@ -15,18 +17,14 @@ public class RolesTable extends EntityTable<Role> {
     private static final long serialVersionUID = -1487550710132191348L;
 
     @Autowired
-    private transient RoleService roleService;
+    private transient RoleRepository roleRepository
+    ;
 
     public RolesTable() {
         super(Role.class);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public EntityService getService() {
-        return roleService;
-    }
-
+    
     @Override
     public void init() {
         super.init();
@@ -47,5 +45,11 @@ public class RolesTable extends EntityTable<Role> {
         final String[] p = { "name", "description", "updated" };
         setPropertyToShow(p);
     }
+
+
+	@Override
+	public Repository getRepository() {
+		return roleRepository;
+	}
 
 }

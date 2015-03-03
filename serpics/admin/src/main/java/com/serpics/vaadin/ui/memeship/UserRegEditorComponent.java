@@ -3,6 +3,7 @@ package com.serpics.vaadin.ui.memeship;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.persistence.Locale;
+import com.serpics.base.repositories.LocaleRepository;
 import com.serpics.base.services.LocaleService;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.persistence.UsersReg;
@@ -21,7 +22,7 @@ public class UserRegEditorComponent extends EntityForm<UsersReg> {
     private static final long serialVersionUID = 8474927861483565203L;
 
     @Autowired
-    private transient LocaleService localeService;
+    private transient LocaleRepository localeRepository;
 
     public UserRegEditorComponent() {
         super(UsersReg.class);
@@ -45,7 +46,7 @@ public class UserRegEditorComponent extends EntityForm<UsersReg> {
             return combo;
         } else if (pid.equals("locale")) {
             final JPAContainer<Locale> locales = ServiceContainerFactory
-                    .make(Locale.class, localeService);
+                    .make(Locale.class, localeRepository);
             final ComboBox combo = new ComboBox("locale");
             combo.setContainerDataSource(locales);
             combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);

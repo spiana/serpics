@@ -2,9 +2,11 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.PrimaryAddress;
 import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.services.UserRegService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityTable;
@@ -16,7 +18,7 @@ public class UserTableEditor extends EntityTable<UsersReg> {
     private static final long serialVersionUID = -8370714049392595536L;
 
     @Autowired
-    private transient UserRegService userRegService;
+    private transient UserRegrepository userRegrepository;
 
     @Autowired
     UserRegEditorComponent userRegEditorComponent;
@@ -41,10 +43,11 @@ public class UserTableEditor extends EntityTable<UsersReg> {
         super(UsersReg.class);
     } 
 
-    @Override
-    public EntityService getService() {
-        return userRegService;
-    }
+   @Override
+	public Repository getRepository() {
+	
+		return userRegrepository;
+	}
 
     @Override
     public void init() {

@@ -3,11 +3,14 @@ package com.serpics.vaadin.ui.memeship;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.persistence.MembersRole;
 import com.serpics.membership.persistence.Role;
 import com.serpics.membership.persistence.Store;
 import com.serpics.membership.persistence.User;
+import com.serpics.membership.repositories.MembersRoleRepository;
+import com.serpics.membership.repositories.RoleRepository;
 import com.serpics.membership.services.MemberRoleService;
 import com.serpics.membership.services.RoleService;
 import com.serpics.stereotype.VaadinComponent;
@@ -32,20 +35,20 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
     private transient CommerceEngine commerceEngine;
 
     @Autowired
-    private transient MemberRoleService memberRoleService;
+    private transient MembersRoleRepository memberRoleRepository;
 
     @Autowired
-    private RoleService roleService;
+    private RoleRepository roleRepository;
 
     public MemberRoleTable() {
         super(MembersRole.class);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public EntityService getService() {
-        return memberRoleService;
-    }
+   @Override
+public Repository getRepository() {
+	
+	return memberRoleRepository;
+}
 
     @Override
     public void init() {
@@ -66,7 +69,7 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
             protected Field<?> createField(final String pid) {
 
                 if (pid.equals("role")) {
-                    final JPAContainer<Role> roles = ServiceContainerFactory.make(Role.class, roleService);
+                    final JPAContainer<Role> roles = ServiceContainerFactory.make(Role.class, roleRepository);
                     final ComboBox combo = new ComboBox("role");
                     combo.setContainerDataSource(roles);
                     combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);

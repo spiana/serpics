@@ -15,4 +15,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
      
      
+  <bean name="memberroleBeforeCreate" class="com.serpics.membership.interceptor.MemerRoleBeforeCreateInterceptor" >
+  <property name="targetClass" value="com.serpics.membership.persistence.MembersRole" />
+  <property name="order" value="100"/>
+  </bean>   
+     
  </beans>    

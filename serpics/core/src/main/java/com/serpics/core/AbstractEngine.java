@@ -21,7 +21,7 @@ import com.serpics.core.session.SessionContext;
 import com.serpics.core.session.SessionManager;
 
 
-public abstract class AbstractEngine<T extends SessionContext> implements Engine<SessionContext> {
+public abstract class AbstractEngine<T extends SessionContext> implements Engine<T> {
 
     Logger logger = LoggerFactory.getLogger(AbstractEngine.class);
 
@@ -134,7 +134,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return this.beanFactory.getBean(serviceName);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public T getCurrentContext() {
         return (T) threadLocal.get();
     }

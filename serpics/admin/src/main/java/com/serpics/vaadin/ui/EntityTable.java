@@ -57,7 +57,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     @Override
     public void init() {
         if (container == null) {
-            container = ServiceContainerFactory.make(entityClass, getService());
+            container = ServiceContainerFactory.make(entityClass, getRepository());
             entityList.setContainerDataSource(container);
         }
         this.initialized = true;

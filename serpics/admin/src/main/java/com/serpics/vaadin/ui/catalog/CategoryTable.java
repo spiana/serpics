@@ -2,9 +2,12 @@ package com.serpics.vaadin.ui.catalog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.repositories.LocaleRepository;
 import com.serpics.base.services.LocaleService;
 import com.serpics.catalog.persistence.Category;
+import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.catalog.services.CategoryService;
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
@@ -20,11 +23,11 @@ public class CategoryTable extends EntityTable<Category> {
     private static final long serialVersionUID = -8891254200870608192L;
 
     @Autowired
-    private transient CategoryService categoryService;
+    private transient CategoryRepository categoryRepository;
 
 
     @Autowired
-    private transient LocaleService localeService;
+    private transient LocaleRepository	localeRepository;
 
     @Autowired
     private transient ChildCategoryRelationTable childCategoryRelatcionTable;
@@ -40,10 +43,11 @@ public class CategoryTable extends EntityTable<Category> {
 
     }
 
-    @Override
-    public EntityService getService() {
-        return categoryService;
-    }
+   @Override
+	public Repository getRepository() {
+		// TODO Auto-generated method stub
+		return categoryRepository;
+	}
 
     @Override
     public void init() {

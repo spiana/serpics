@@ -1,5 +1,6 @@
 package com.serpics.vaadin.ui.catalog;
 
+import org.restlet.engine.http.header.ProductReader;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.catalog.persistence.AbstractProduct;
@@ -7,10 +8,15 @@ import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.CategoryProductRelation;
 import com.serpics.catalog.persistence.Price;
 import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.repositories.Category2ProductRepository;
+import com.serpics.catalog.repositories.CategoryRepository;
+import com.serpics.catalog.repositories.PriceRepository;
+import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.catalog.services.Category2ProductService;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
@@ -35,22 +41,18 @@ public class ProductTable extends EntityTable<Product> {
     }
 
     @Autowired
-    private transient ProductService productService;
+    private transient ProductRepository productRepository;
 
     @Autowired
-    private transient Category2ProductService category2ProductService;
+    private transient Category2ProductRepository category2ProductRepository;
 
     @Autowired
-    private transient CategoryService categoryService;
+    private transient CategoryRepository categoryRepository;
 
     @Autowired
-    private transient PriceService priceService;
+    private transient PriceRepository priceRepository;
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public EntityService getService() {
-        return productService;
-    }
+   
 
     @Override
     public void init() {
@@ -74,12 +76,11 @@ public class ProductTable extends EntityTable<Product> {
 
             private transient JPAContainer<Category> categories;
 
-            @SuppressWarnings("rawtypes")
             @Override
-            public EntityService getService() {
-                return category2ProductService;
+            public Repository getRepository() {
+            	return category2ProductRepository;
             }
-
+            
             @Override
             public void init() {
                 super.init();
@@ -94,7 +95,7 @@ public class ProductTable extends EntityTable<Product> {
                     public void init() {
                         super.init();
                         setDisplayProperties(new String[] { "parentCategory", "sequence" });
-                        categories = ServiceContainerFactory.make(Category.class, categoryService);
+                        categories = ServiceContainerFactory.make(Category.class, categoryRepository);
                     }
 
                     @Override
@@ -128,10 +129,10 @@ public class ProductTable extends EntityTable<Product> {
         editorWindow.addTab(new EntityTableChild<Price, AbstractProduct>(Price.class) {
             private static final long serialVersionUID = 7566839007224552531L;
 
-            @SuppressWarnings("rawtypes")
             @Override
-            public EntityService getService() {
-                return priceService;
+            public Repository getRepository() {
+            	
+            	return priceRepository;
             }
 
             @Override
@@ -164,4 +165,12 @@ public class ProductTable extends EntityTable<Product> {
         }, "prices");
 
     }
+
+
+
+	@Override
+	public Repository getRepository() {
+		
+		return productRepository;
+	}
 }

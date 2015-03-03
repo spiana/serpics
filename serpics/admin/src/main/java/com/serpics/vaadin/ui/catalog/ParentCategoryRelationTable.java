@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.CategoryRelation;
+import com.serpics.catalog.repositories.CategoryRelationRepository;
+import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.catalog.services.CategoryRelationService;
 import com.serpics.catalog.services.CategoryService;
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
@@ -26,10 +29,10 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
     private static final long serialVersionUID = -4806072716873321159L;
 
     @Autowired
-    private transient CategoryRelationService categoryRelationService;
+    private transient CategoryRelationRepository CategoryRelationRepository;
 
     @Autowired
-    private transient CategoryService categoryService;
+    private transient CategoryRepository categoryRepository;
 
     public ParentCategoryRelationTable() {
         super(CategoryRelation.class);
@@ -37,10 +40,11 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
     }
 
     @Override
-    public EntityService getService() {
-        return categoryRelationService;
+    public Repository getRepository() {
+    
+    	return CategoryRelationRepository;
     }
-
+   
     @Override
     public void init() {
         super.init();
@@ -58,7 +62,7 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
                 super.init();
                 setDisplayProperties(new String[] { "parentCategory", "sequence" });
                 categories = ServiceContainerFactory.make(Category.class,
-                        categoryService);
+                        categoryRepository);
             }
 
             @Override

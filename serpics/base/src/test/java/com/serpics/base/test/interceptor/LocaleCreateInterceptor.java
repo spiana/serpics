@@ -1,11 +1,11 @@
 package com.serpics.base.test.interceptor;
 
 import com.serpics.base.persistence.Locale;
-import com.serpics.core.data.AbstractInterceptor;
-import com.serpics.core.data.BeforeCreateInterceptor;
+import com.serpics.core.data.InterceptorMapping;
+import com.serpics.core.data.CreateInterceptor;
 import com.serpics.core.persistence.jpa.AbstractEntity;
 
-public class LocaleBeforeSaveInterceptor extends AbstractInterceptor implements BeforeCreateInterceptor<Locale> {
+public class LocaleCreateInterceptor implements CreateInterceptor<Locale> {
 
 	@Override
 	public void beforeCreate(Locale entity) {
@@ -15,6 +15,10 @@ public class LocaleBeforeSaveInterceptor extends AbstractInterceptor implements 
 		
 	}
 
-	
+	@Override
+	public void afterCreate(Locale entity) {
+		return ;
+	}
 
+	
 }

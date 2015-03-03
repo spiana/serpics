@@ -8,6 +8,7 @@ import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.persistence.Membergroup;
 import com.serpics.membership.persistence.Membergrouprel;
 import com.serpics.membership.persistence.MembgrouprelPK;
+import com.serpics.membership.repositories.MemberGroupRepository;
 import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
@@ -26,7 +27,7 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
     private static transient Logger logger = LoggerFactory.getLogger(MembergroupRelEditor.class);
 
     @Autowired
-    private transient MembergroupService membergroupService;
+    private transient MemberGroupRepository memberGroupRepository;
 
     public MembergroupRelEditor() {
         super(Membergrouprel.class);
@@ -47,7 +48,7 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
         super.init();
         final String[] displayProperties = { "membergroup", "status", "validFrom", "validTo" };
         memberGroups = ServiceContainerFactory.make(Membergroup.class,
-                membergroupService);
+                memberGroupRepository);
         setDisplayProperties(displayProperties);
     }
 

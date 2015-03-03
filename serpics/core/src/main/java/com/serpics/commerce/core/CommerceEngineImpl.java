@@ -11,6 +11,6 @@ import com.serpics.core.AbstractEngine;
 
 import com.serpics.core.SerpicsException;
 
-public class CommerceEngineImpl  extends AbstractEngine<CommerceSessionContext>{
+public class CommerceEngineImpl  extends AbstractEngine<CommerceSessionContext> implements CommerceEngine{
 
 }

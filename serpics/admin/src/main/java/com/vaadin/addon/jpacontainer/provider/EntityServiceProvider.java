@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
@@ -26,8 +27,10 @@ import com.vaadin.data.Container.Filter;
 
 public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> implements EntityManagerProvider {
 
-    private EntityService<T, Serializable> service;
+   // private EntityService<T, Serializable> service;
 
+    private Repository<T, Serializable> repository;
+    
     // private EntityClassMetadata<T> entityClassMetadata;
 
 
@@ -71,7 +74,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
         if (filter != null)
             spec = getSpecificationFromFilter(filter);
 
-        final List<T> res = service.findAll(spec, sort);
+        final List<T> res = repository.findAll(spec, sort);
         return res;
     }
 
@@ -82,7 +85,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
         assert entityId != null : "entityId must not be null";
         assert entityId.getClass().isAssignableFrom(Serializable.class) : "object IDs should be serializable";
 
-        return (T) service.findOne((Serializable) entityId);
+        return (T) repository.findOne((Serializable) entityId);
     }
 
     @Override
@@ -96,7 +99,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
         if (filter != null)
             spec = getSpecificationFromFilter(filter);
 
-        final Object res = service.findOne(spec, sort, index);
+        final Object res = repository.findOne(spec, sort, index);
 
         final T entity = (T) res;
 
@@ -119,7 +122,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
         if (filter != null)
             spec = getSpecificationFromFilter(filter);
 
-        final Object res = service.findOne(spec, sort, 0);
+        final Object res = repository.findOne(spec, sort, 0);
 
         final T entity = (T) res;
 
@@ -256,9 +259,9 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
         List<T> res = null;
 
         if (filter != null) {
-            res = service.findAll(getSpecificationFromFilter(filter), s);
+            res = repository.findAll(getSpecificationFromFilter(filter), s);
         } else {
-            res = service.findAll();
+            res = repository.findAll();
         }
 
         return res.size();
@@ -284,7 +287,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
 
     @Override
     public T addEntity(final T entity) {
-        final T _entity = service.create(entity);
+        final T _entity = repository.create(entity);
         // service.detach(_entity);
         fireEntityProviderChangeEvent(new EntitiesAddedEvent<T>(this, (T) _entity));
         return _entity;
@@ -292,7 +295,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
 
     @Override
     public T updateEntity(final T entity) {
-        final T _entity = service.update(entity);
+        final T _entity = repository.update(entity);
         // service.detach(_entity);
         fireEntityProviderChangeEvent(new EntitiesUpdatedEvent<T>(this, _entity));
         return _entity;
@@ -302,10 +305,10 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
     public void updateEntityProperty(final Object entityId, final String propertyName, final Object propertyValue)
             throws IllegalArgumentException, RuntimeException {
 
-        T entity = (T) service.findOne((Serializable) entityId);
+        T entity = (T) repository.findOne((Serializable) entityId);
         if (entity != null) {
             getEntityClassMetadata().setPropertyValue(entity, propertyName, propertyValue);
-            entity = service.update(entity);
+            entity = repository.update(entity);
             // service.detach(entity);
         } else {
             logger.error("could not find entity to update!");
@@ -316,10 +319,10 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
 
     @Override
     public void removeEntity(final Object entityId) {
-        final T _entity = getService().findOne((Serializable) entityId);
+        final T _entity = getRepository().findOne((Serializable) entityId);
         if (_entity != null) {
-            getService().delete(_entity);
-            service.detach(_entity);
+        	getRepository().delete(_entity);
+            repository.detach(_entity);
             // fireEntityProviderChangeEvent(new EntitiesRemovedEvent<T>(this, _entity));
             // FIXME : to fix firing event !
             refresh();
@@ -332,13 +335,16 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
         return arg0;
     }
 
-    public EntityService<T, Serializable> getService() {
-        return service;
-    }
+	public Repository<T, Serializable> getRepository() {
+		return repository;
+	}
 
-    public void setService(final EntityService<T, Serializable> service) {
-        this.service = service;
-    }
+	public void setRepository(Repository<T, Serializable> repository) {
+		this.repository = repository;
+	}
 
+   
+
+   
 
 }
