@@ -14,7 +14,7 @@ public  class  ConvertUtil{
 		return target;
 	}
 	
-	public static <TARGET, SOURCE>  List<TARGET> listCovert(List<SOURCE> source , AbstractObjectConverter<SOURCE, TARGET> converter ){
+	public static <TARGET, SOURCE>  List<TARGET> listCovert(List<SOURCE> source , AbstractConverter<SOURCE, TARGET> converter ){
 	
 		return null;
 	}
