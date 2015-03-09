@@ -38,16 +38,18 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 		for (String string : keys) {
 			Object _m = specs.get(string);	
 			Class<?>  c = _m.getClass().getAnnotation(BaseSpec.class).value();
-			if(LOG.isDebugEnabled())
+			
+			if(LOG.isInfoEnabled())
 				LOG.debug("Found Specification for class {}" , c.getName());
+			
 			if (_m instanceof  Specification){
 				if (!entitySpecifications.containsKey(c.getName())){
 					entitySpecifications.put(c.getName(), (Specification) _m);
 				}else{
-					LOG.warn("Specification for entity {} already vith value {}!", c.getName() , _m.getClass().getName() );
+					LOG.warn("Specification for entity {} already exist with value {}", c.getName() , _m.getClass().getName() );
 				}
 			}else{
-				LOG.error("Specification found for wntity {} is not instance of {}" , c.getClass(), Specification.class.getName());
+				LOG.error("Specification found for entity {} is not instance of {}" , c.getClass(), Specification.class.getName());
 			}
 		}
 		
@@ -76,10 +78,12 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	public Specification getSpecificationForClass(Class<?> clazz){
 		Assert.notNull(clazz);
 		Specification spec =entitySpecifications.get(clazz.getName());
-		if(spec != null){
-			LOG.info("found specification {} for entity {}" , spec.getClass().getName() , clazz.getName());
-		}else{
-			LOG.info("not found specification for entity {}", clazz.getName() );
+		if(LOG.isDebugEnabled()){
+			if(spec != null){
+				LOG.debug("found specification {} for entity {}" , spec.getClass().getName() , clazz.getName());
+			}else{
+				LOG.debug("not found specification for entity {}", clazz.getName() );
+			}
 		}
 		return spec;
 		

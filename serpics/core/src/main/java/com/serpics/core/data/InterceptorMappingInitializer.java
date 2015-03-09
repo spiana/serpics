@@ -2,14 +2,16 @@ package com.serpics.core.data;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-@SuppressWarnings("rawtypes")
 public class InterceptorMappingInitializer implements InitializingBean , ApplicationContextAware{
 
+	private static transient Logger LOG = LoggerFactory.getLogger(InterceptorMappingInitializer.class);
 	ApplicationContext applicationContext;
 	
 
@@ -25,8 +27,14 @@ public class InterceptorMappingInitializer implements InitializingBean , Applica
 		for (String interceptor : m.keySet()) {
 			InterceptorMapping i = m.get(interceptor);
 			if (i.getInterceptor() instanceof CreateInterceptor){
+				LOG.info(String.format("found create interceptor %s of type %s for entity %s with order %s" , interceptor , 
+						i.getInterceptor().getClass().getName(),
+						i.getTargetEntity() , i.getOrder()) );
 				this.createinterceptor.put(i.getTargetEntity() , i);
 			}else if(i.getInterceptor() instanceof UpdateInterceptor){
+				LOG.info(String.format("found update interceptor %s of type %s for entity %s with order %s" , interceptor , 
+						i.getInterceptor().getClass().getName(),
+						i.getTargetEntity() , i.getOrder()) );
 				this.updateinterceptor.put(i.getTargetEntity(), i);
 			}else{
 				throw new RuntimeException(String.format("invalid interceptor type for entity %s", i.getTargetEntity()));
