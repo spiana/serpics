@@ -18,9 +18,6 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
     private static final long serialVersionUID = -1487550710132191348L;
 
     @Autowired
-    private transient PermanentAddressRepository addressRepository;
-
-    @Autowired
     private AddressEditorComponent addressEditorComponent;
 
     public AddressTableEditor() {
@@ -45,10 +42,7 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
         return container.createEntityItem(a);
     }
 
-	@Override
-	public Repository getRepository() {
-		return this.addressRepository;
-	}
+	
 
     
 

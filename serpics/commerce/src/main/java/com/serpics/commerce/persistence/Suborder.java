@@ -27,8 +27,6 @@ public class Suborder extends com.serpics.core.persistence.jpa.AbstractEntity im
     @Column(name = "suborders_id", unique = true, nullable = false)
     private Long subordersId;
 
-    private Timestamp created;
-
     @Column(name = "customer_id", nullable = false)
     private Long customerId;
 
@@ -84,13 +82,7 @@ public class Suborder extends com.serpics.core.persistence.jpa.AbstractEntity im
         this.subordersId = subordersId;
     }
 
-    public Timestamp getCreated() {
-        return this.created;
-    }
-
-    public void setCreated(final Timestamp created) {
-        this.created = created;
-    }
+   
 
     public BigDecimal getDiscountAmount() {
         return this.discountAmount;

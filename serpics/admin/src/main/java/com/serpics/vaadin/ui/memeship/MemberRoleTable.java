@@ -35,20 +35,13 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
     private transient CommerceEngine commerceEngine;
 
     @Autowired
-    private transient MembersRoleRepository memberRoleRepository;
-
-    @Autowired
     private RoleRepository roleRepository;
-
+   
     public MemberRoleTable() {
         super(MembersRole.class);
     }
 
-   @Override
-public Repository getRepository() {
-	
-	return memberRoleRepository;
-}
+
 
     @Override
     public void init() {
@@ -69,7 +62,7 @@ public Repository getRepository() {
             protected Field<?> createField(final String pid) {
 
                 if (pid.equals("role")) {
-                    final JPAContainer<Role> roles = ServiceContainerFactory.make(Role.class, roleRepository);
+                    final JPAContainer<Role> roles = ServiceContainerFactory.make(Role.class);
                     final ComboBox combo = new ComboBox("role");
                     combo.setContainerDataSource(roles);
                     combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);

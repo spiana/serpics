@@ -20,23 +20,22 @@ import com.vaadin.ui.VerticalLayout;
 
 @VaadinComponent("categoryRelationTreeTable")
 public class CategoryRelationTreeTable extends CustomComponent implements EntityComponent<CategoryRelation> {
+	
     private static final long serialVersionUID = -4806072716873321159L;
 
-    @Autowired
-    private transient CategoryRelationRepository categoryRelationRepository;
-
-    @Autowired
-    private transient CategoryRepository categoryRepository;
-
+   
     private JPAContainer<CategoryRelation> cont;
-
+    
+    @Autowired
+    private CategoryRelationRepository categoryRelationRepository;
+   
     TreeTable treeTable = new TreeTable();
 
     private boolean initialized = false;
 
     @Override
     public void init() {
-        cont = ServiceContainerFactory.make(CategoryRelation.class, categoryRepository);
+        cont = ServiceContainerFactory.make(CategoryRelation.class);
         cont.addNestedContainerProperty("parentCategory.*");
         cont.addNestedContainerProperty("childCategory.*");
         // cont.setParentProperty("parentCategory");
@@ -79,4 +78,8 @@ public class CategoryRelationTreeTable extends CustomComponent implements Entity
         // TODO Auto-generated method stub
 
     }
+
+
+
+	
 }

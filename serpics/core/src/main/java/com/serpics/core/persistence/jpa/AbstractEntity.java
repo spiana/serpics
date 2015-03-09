@@ -17,12 +17,17 @@ public abstract class AbstractEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date updated;
 	
+	@Column(name = "created")
+	@Temporal(TemporalType.TIMESTAMP)
+	protected  Date created;
+	
 	@Column(name = "uuid", nullable = false, length = 100 , updatable=false)
 	protected String uuid;
 
 	@PrePersist
 	public void  beforePersist(){
 		setUpdated(new Date());
+		setCreated(getUpdated());
 		if (this.uuid == null)
 			this.uuid = UUID.randomUUID().toString();
 	}		
@@ -46,5 +51,13 @@ public abstract class AbstractEntity {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 }

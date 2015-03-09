@@ -15,8 +15,6 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
 
     private static final long serialVersionUID = -1487550710132191348L;
 
-    @Autowired
-    transient MemberGroupRepository memberGroupRepository;
 
     @Autowired
     MembergroupEditor membergroupEditor;
@@ -26,11 +24,6 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
     }
 
    
-    @Override
-    public Repository getRepository() {
-    	
-    	return memberGroupRepository;
-    }
     @Override
     public void init() {
         super.init();

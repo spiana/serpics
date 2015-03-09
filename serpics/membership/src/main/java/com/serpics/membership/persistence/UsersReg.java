@@ -99,16 +99,7 @@ public class UsersReg extends User implements Serializable, UserDetail {
         this.changequestion = changequestion;
     }
 
-    @Override
-    public Timestamp getCreated() {
-        return this.created;
-    }
-
-    @Override
-    public void setCreated(final Timestamp created) {
-        this.created = created;
-    }
-
+   
     public String getDn() {
         return this.dn;
     }

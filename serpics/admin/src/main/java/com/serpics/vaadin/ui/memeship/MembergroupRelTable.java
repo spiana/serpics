@@ -30,12 +30,7 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
         super(Membergrouprel.class);
     }
 
-    @Override
-    public Repository getRepository() {
-    
-    	return membergrouprelRepository;
-    }
-
+  
     @Override
     public void init() {
         super.init();

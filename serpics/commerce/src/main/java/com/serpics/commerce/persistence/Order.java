@@ -27,10 +27,7 @@ public class Order extends AbstractOrder {
     @Column(name = "orderNumber", unique = true, nullable = true, length = 100)
     protected String orderNumber;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date created;
-
-    @Column(name = "pay_amount", nullable = true, precision = 10, scale = 4)
+     @Column(name = "pay_amount", nullable = true, precision = 10, scale = 4)
     private Double payAmount = new Double(0);
 
     // bi-directional many-to-one association to Orderpayment
@@ -61,8 +58,6 @@ public class Order extends AbstractOrder {
         // if (this.orderNumber == null)
         // orderNumber = "1";
 
-        this.created = new Date();
-
     }
 
     public String getOrderNumber() {
@@ -73,14 +68,7 @@ public class Order extends AbstractOrder {
         this.orderNumber = orderNumber;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(final Date created) {
-        this.created = created;
-    }
-
+ 
     @Override
     public Set<Orderitem> getOrderitems() {
         return (Set<Orderitem>) super.getOrderitems();

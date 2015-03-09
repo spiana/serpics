@@ -22,7 +22,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("runo")
+@Theme("valo")
 @Component
 @Scope("prototype")
 public class SerpicsStartApp extends UI {
@@ -81,6 +81,8 @@ public class SerpicsStartApp extends UI {
                     addComponent("categoryTable", "category");
                 } else if (itemid == "product") {
                     addComponent("productTable", "product");
+                } else if (itemid == "country") {
+                    addComponent("countryTable", "country");
                 }
             }
         });
@@ -112,6 +114,10 @@ public class SerpicsStartApp extends UI {
         menu.setParent("relation", "admin");
         menu.setChildrenAllowed("relation", false);
 
+        menu.addItem("country");
+        menu.setParent("country", "admin");
+        menu.setChildrenAllowed("country", false);
+        
         menu.addItem("catalog");
         menu.addItem("category");
         menu.setParent("category", "catalog");

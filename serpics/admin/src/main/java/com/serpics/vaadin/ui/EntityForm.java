@@ -6,11 +6,15 @@ import java.util.Set;
 
 import javax.persistence.Id;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.serpics.base.persistence.MultilingualString;
+import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
+import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
@@ -25,7 +29,7 @@ import com.vaadin.ui.UI;
 
 public abstract class EntityForm<T> extends FormLayout implements FieldGroupFieldFactory, EntityFormComponent<T> {
     private static final long serialVersionUID = -7816433625437405000L;
-
+    
     private transient PropertyList<T> propertyList;
 
     protected final FieldGroup fieldGroup;
@@ -40,7 +44,7 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
     private boolean readOnly = true;
 
-    final DefaultFieldGroupFieldFactory fa = new DefaultFieldGroupFieldFactory();
+    final DefaultFieldGroupFieldFactory fa = DefaultFieldGroupFieldFactory.get();
 
     Class<T> entityClass;
 
@@ -57,10 +61,10 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         setSpacing(true);
 
     }
-
+  
     @Override
     public void init() {
-        // nothing to do ;
+    	
     }
 
     @Override
@@ -111,8 +115,10 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         f.setBuffered(true);
 
         if (f instanceof TextField) {
-            if (MultilingualString.class.isAssignableFrom(p.getType()))
+            if (MultilingualString.class.isAssignableFrom(p.getType())){
                 ((TextField) f).setConverter(new MultilingualStringConvert());
+                f.setWidth("80%");
+            }
 
             ((TextField) f).setNullRepresentation("");
 
@@ -197,4 +203,5 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
     public boolean isValid() {
         return fieldGroup.isValid();
     }
+   
 }

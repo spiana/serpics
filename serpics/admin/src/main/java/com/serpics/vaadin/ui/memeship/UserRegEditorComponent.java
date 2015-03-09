@@ -21,8 +21,8 @@ import com.vaadin.ui.Field;
 public class UserRegEditorComponent extends EntityForm<UsersReg> {
     private static final long serialVersionUID = 8474927861483565203L;
 
-    @Autowired
-    private transient LocaleRepository localeRepository;
+   @Autowired
+   private  transient LocaleRepository localeRepository;
 
     public UserRegEditorComponent() {
         super(UsersReg.class);
@@ -46,7 +46,7 @@ public class UserRegEditorComponent extends EntityForm<UsersReg> {
             return combo;
         } else if (pid.equals("locale")) {
             final JPAContainer<Locale> locales = ServiceContainerFactory
-                    .make(Locale.class, localeRepository);
+                    .make(Locale.class);
             final ComboBox combo = new ComboBox("locale");
             combo.setContainerDataSource(locales);
             combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);

@@ -5,6 +5,10 @@ import java.util.Set;
 
 import javax.persistence.Transient;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.serpics.core.data.Repository;
+import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.vaadin.ui.EntityComponent.EntityTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -32,7 +36,8 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     private static final long serialVersionUID = 8614651463123352933L;
 
     private boolean initialized = false;
-
+    
+   
     @Transient
     private transient final Class<T> entityClass;
 
@@ -45,7 +50,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     private final HorizontalLayout editButtonPanel = new HorizontalLayout();
 
     protected transient JPAContainer<T> container;
-
+    
     public EntityTable(final Class<T> entityClass) {
         super();
         this.entityClass = entityClass;
@@ -57,7 +62,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     @Override
     public void init() {
         if (container == null) {
-            container = ServiceContainerFactory.make(entityClass, getRepository());
+            container = ServiceContainerFactory.make(entityClass);
             entityList.setContainerDataSource(container);
         }
         this.initialized = true;
@@ -248,4 +253,5 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         // TODO Auto-generated method stub
 
     }
+   
 }

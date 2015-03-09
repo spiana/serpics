@@ -28,5 +28,7 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	public CommerceSessionContext getCurrentContext();
 	
 	public void setRepositoryIniziatializer(RepositoryInitializer inizializer);
+	
+	public Class<?> getDomainClass();
    
  }

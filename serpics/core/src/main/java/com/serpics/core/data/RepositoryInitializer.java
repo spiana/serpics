@@ -3,6 +3,7 @@ package com.serpics.core.data;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.Assert;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.stereotype.BaseSpec;
@@ -21,12 +23,16 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	
 	private static Logger LOG = LoggerFactory.getLogger(RepositoryInitializer.class);
 	
+	private static final Map<ClassLoader, RepositoryInitializer> currentContextPerThread = new ConcurrentHashMap<ClassLoader, RepositoryInitializer>(1);
+	
 	Map<String , Specification> entitySpecifications = new HashMap<String, Specification>();
+	Map<String , Repository> entityRepositoryMapping = new HashMap<String, Repository>();
 	
 	ApplicationContext applicationContext;
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		CommerceEngine engine = applicationContext.getBean(CommerceEngine.class);
+		
 		Map<String , Object> specs = applicationContext.getBeansWithAnnotation(BaseSpec.class);
 		Set<String> keys = specs.keySet();
 		for (String string : keys) {
@@ -51,6 +57,7 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 			Repository i = m.get(repository);
 			i.setEngine(engine);
 			i.setRepositoryIniziatializer(this);
+			entityRepositoryMapping.put(i.getDomainClass().getName() , i);
 		}
 		
 	}
@@ -59,6 +66,7 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {
 		this.applicationContext = arg0;
+		currentContextPerThread.put(Thread.currentThread().getContextClassLoader() , this);
 	}
 
 	public Map<String, Specification> getEntitySpecifications() {
@@ -66,6 +74,7 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	}
 	
 	public Specification getSpecificationForClass(Class<?> clazz){
+		Assert.notNull(clazz);
 		Specification spec =entitySpecifications.get(clazz.getName());
 		if(spec != null){
 			LOG.info("found specification {} for entity {}" , spec.getClass().getName() , clazz.getName());
@@ -76,5 +85,13 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 		
 	}
 	
+	public Repository getRepositoryForEntity(Class<?> clazz){
+			Assert.notNull(clazz);
+			return entityRepositoryMapping.get(clazz.getName());
+	}
+	
+	public static RepositoryInitializer getInstance(){
+		return currentContextPerThread.get(Thread.currentThread().getContextClassLoader());
+	}
 	
 }

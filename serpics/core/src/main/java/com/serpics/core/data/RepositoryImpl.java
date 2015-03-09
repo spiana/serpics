@@ -120,19 +120,19 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
     public List<Z> findAll(final Specification<Z> spec, final Sort sort) {
     		if(spec == null && sort == null){
     			return getBaseSpecification() == null ?super.findAll():
-                	findAll(getBaseSpecification());
+                	super.findAll(getBaseSpecification());
     		}
     		if(sort== null){
     			return getBaseSpecification() == null ?super.findAll(where(spec)):
-                	findAll(where(spec).and(getBaseSpecification()));
+                	super.findAll(where(spec).and(getBaseSpecification()));
     		}
     		if (spec== null){
     			return getBaseSpecification() == null ?super.findAll(sort):
-                	findAll(getBaseSpecification(), sort);
+                	super.findAll(getBaseSpecification(), sort);
     		}		
     			
             return getBaseSpecification() == null ?super.findAll(where(spec), sort):
-            	findAll(where(spec).and(getBaseSpecification()), sort);
+            	super.findAll(where(spec).and(getBaseSpecification()), sort);
     	
     }
 
@@ -140,7 +140,7 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
     public List<Z> findAll(Specification<Z> spec) {
     	if (spec == null){
     		return getBaseSpecification() == null ?super.findAll():
-            	findAll(getBaseSpecification());
+            	super.findAll(getBaseSpecification());
     	}
     		
     	return getBaseSpecification() == null ? super.findAll(spec) :
@@ -169,15 +169,16 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
    @Override
    public Z findOne(Specification<Z> spec , final Sort sort , int index ) {
 	   final PageRequest singleResultPage = new PageRequest(index, 1, sort);
-       final Page<Z> l = findAll(spec, singleResultPage);
+       final Page<Z> l = super.findAll(spec, singleResultPage);
        if (!l.getContent().isEmpty())
            return l.getContent().get(0);
        else
            return null;
 	}
    
-    @Override
-	public Specification getBaseSpecification() {
+    @SuppressWarnings("unchecked")
+	@Override
+	public Specification<Z> getBaseSpecification() {
     		return initializer.getSpecificationForClass(this.domainClass);
 	}
 
@@ -212,5 +213,10 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 	@Override
 	public void setRepositoryIniziatializer(RepositoryInitializer inizializer) {
 		this.initializer = inizializer;
+	}
+
+	@Override
+	public Class<?> getDomainClass() {
+		return this.domainClass;
 	}
 }

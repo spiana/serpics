@@ -36,22 +36,13 @@ import com.vaadin.ui.Field;
 public class ProductTable extends EntityTable<Product> {
     private static final long serialVersionUID = 6586616418061870098L;
 
+    private CategoryRepository categoryRepository;
+    
     public ProductTable() {
         super(Product.class);
     }
 
-    @Autowired
-    private transient ProductRepository productRepository;
-
-    @Autowired
-    private transient Category2ProductRepository category2ProductRepository;
-
-    @Autowired
-    private transient CategoryRepository categoryRepository;
-
-    @Autowired
-    private transient PriceRepository priceRepository;
-
+  
    
 
     @Override
@@ -76,10 +67,7 @@ public class ProductTable extends EntityTable<Product> {
 
             private transient JPAContainer<Category> categories;
 
-            @Override
-            public Repository getRepository() {
-            	return category2ProductRepository;
-            }
+            
             
             @Override
             public void init() {
@@ -95,7 +83,7 @@ public class ProductTable extends EntityTable<Product> {
                     public void init() {
                         super.init();
                         setDisplayProperties(new String[] { "parentCategory", "sequence" });
-                        categories = ServiceContainerFactory.make(Category.class, categoryRepository);
+                        categories = ServiceContainerFactory.make(Category.class);
                     }
 
                     @Override
@@ -129,12 +117,7 @@ public class ProductTable extends EntityTable<Product> {
         editorWindow.addTab(new EntityTableChild<Price, AbstractProduct>(Price.class) {
             private static final long serialVersionUID = 7566839007224552531L;
 
-            @Override
-            public Repository getRepository() {
-            	
-            	return priceRepository;
-            }
-
+          
             @Override
             public void init() {
                 super.init();
@@ -168,9 +151,5 @@ public class ProductTable extends EntityTable<Product> {
 
 
 
-	@Override
-	public Repository getRepository() {
-		
-		return productRepository;
-	}
+	
 }

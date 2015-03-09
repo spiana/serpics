@@ -1,7 +1,10 @@
 package com.serpics.vaadin.ui;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
+import com.serpics.core.data.Repository;
+import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -14,19 +17,14 @@ public abstract class EntityFormChild<T, P> extends EntityForm<T> implements Ent
     protected EntityItem<P> parent;
 
     protected Object parentPropertyId;
-
+  
+   
     protected JPAContainer<T> container;
 
     public EntityFormChild(final Class<T> clazz) {
         super(clazz);
     }
 
-
-    @Override
-    public void init() {
-        container = ServiceContainerFactory.make(entityClass, getRepository());
-        super.init();
-    }
 
     @Override
     public void setParentEntity(final EntityItem<P> parent) {
@@ -47,5 +45,6 @@ public abstract class EntityFormChild<T, P> extends EntityForm<T> implements Ent
         }
         super.attach();
     }
-
+    
+    
 }

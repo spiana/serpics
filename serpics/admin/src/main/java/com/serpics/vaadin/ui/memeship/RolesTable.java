@@ -16,10 +16,6 @@ public class RolesTable extends EntityTable<Role> {
 
     private static final long serialVersionUID = -1487550710132191348L;
 
-    @Autowired
-    private transient RoleRepository roleRepository
-    ;
-
     public RolesTable() {
         super(Role.class);
     }
@@ -46,10 +42,5 @@ public class RolesTable extends EntityTable<Role> {
         setPropertyToShow(p);
     }
 
-
-	@Override
-	public Repository getRepository() {
-		return roleRepository;
-	}
 
 }

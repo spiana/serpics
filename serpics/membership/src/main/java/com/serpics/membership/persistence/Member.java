@@ -50,9 +50,6 @@ public class Member extends com.serpics.core.persistence.jpa.AbstractEntity impl
     @Column(name = "member_id", unique = true, nullable = false)
     protected Long memberId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date created;
-
     @Size(max = 1000)
     @Column(length = 1000)
     protected String field1;
@@ -109,13 +106,6 @@ public class Member extends com.serpics.core.persistence.jpa.AbstractEntity impl
         this.memberId = memberId;
     }
 
-    public Date getCreated() {
-        return this.created;
-    }
-
-    public void setCreated(final Timestamp created) {
-        this.created = created;
-    }
 
     public String getField1() {
         return this.field1;

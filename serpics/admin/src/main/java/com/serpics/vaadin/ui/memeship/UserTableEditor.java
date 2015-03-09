@@ -17,8 +17,7 @@ public class UserTableEditor extends EntityTable<UsersReg> {
 
     private static final long serialVersionUID = -8370714049392595536L;
 
-    @Autowired
-    private transient UserRegrepository userRegrepository;
+  
 
     @Autowired
     UserRegEditorComponent userRegEditorComponent;
@@ -43,11 +42,7 @@ public class UserTableEditor extends EntityTable<UsersReg> {
         super(UsersReg.class);
     } 
 
-   @Override
-	public Repository getRepository() {
-	
-		return userRegrepository;
-	}
+   
 
     @Override
     public void init() {

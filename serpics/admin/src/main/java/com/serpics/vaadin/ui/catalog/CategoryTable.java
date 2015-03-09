@@ -22,13 +22,7 @@ import com.vaadin.ui.TextArea;
 public class CategoryTable extends EntityTable<Category> {
     private static final long serialVersionUID = -8891254200870608192L;
 
-    @Autowired
-    private transient CategoryRepository categoryRepository;
-
-
-    @Autowired
-    private transient LocaleRepository	localeRepository;
-
+  
     @Autowired
     private transient ChildCategoryRelationTable childCategoryRelatcionTable;
 
@@ -43,12 +37,7 @@ public class CategoryTable extends EntityTable<Category> {
 
     }
 
-   @Override
-	public Repository getRepository() {
-		// TODO Auto-generated method stub
-		return categoryRepository;
-	}
-
+  
     @Override
     public void init() {
         super.init();

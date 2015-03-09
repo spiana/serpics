@@ -73,9 +73,7 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
     protected Set<Media> medias;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date created;
-
+   
     public Long getCtentryId() {
         return this.ctentryId;
     }
@@ -141,23 +139,8 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
         this.medias = medias;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(final Date created) {
-        this.created = created;
-    }
-
-
-    @PrePersist
-    @Override
-    public void beforePersist() {
-        this.created = new Date();
-        super.beforePersist();
-    }
-
-    public String getCode() {
+  
+      public String getCode() {
         return code;
     }
 

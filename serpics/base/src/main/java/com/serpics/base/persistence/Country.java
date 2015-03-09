@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  * The persistent class for the countries database table.
@@ -33,6 +34,7 @@ public class Country extends com.serpics.core.persistence.jpa.AbstractEntity imp
     private String iso2Code;
 
     @Column(name = "iso3_code", nullable = false, length = 3)
+    @Size(min=1,max=3)
     private String iso3Code;
 
     // bi-directional many-to-one association to Geocode

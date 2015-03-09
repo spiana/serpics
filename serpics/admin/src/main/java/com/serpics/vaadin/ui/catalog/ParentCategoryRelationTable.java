@@ -29,20 +29,11 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
     private static final long serialVersionUID = -4806072716873321159L;
 
     @Autowired
-    private transient CategoryRelationRepository CategoryRelationRepository;
-
-    @Autowired
-    private transient CategoryRepository categoryRepository;
-
+    private CategoryRepository categoryRepository;
+  
     public ParentCategoryRelationTable() {
         super(CategoryRelation.class);
 
-    }
-
-    @Override
-    public Repository getRepository() {
-    
-    	return CategoryRelationRepository;
     }
    
     @Override
@@ -61,8 +52,7 @@ public class ParentCategoryRelationTable extends EntityTableChild<CategoryRelati
             public void init() {
                 super.init();
                 setDisplayProperties(new String[] { "parentCategory", "sequence" });
-                categories = ServiceContainerFactory.make(Category.class,
-                        categoryRepository);
+                categories = ServiceContainerFactory.make(Category.class );
             }
 
             @Override

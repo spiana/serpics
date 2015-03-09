@@ -15,9 +15,19 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
      
      
-  <bean name="memberroleBeforeCreate" class="com.serpics.membership.interceptor.MemerRoleBeforeCreateInterceptor" >
-  <property name="targetClass" value="com.serpics.membership.persistence.MembersRole" />
-  <property name="order" value="100"/>
-  </bean>   
+  <bean name="memberroleBeforeCreateInterceptor" class="com.serpics.membership.interceptor.MemberRoleCreateInterceptor" />
+  <bean name="membegroupCreateInterceptor" class="com.serpics.membership.interceptor.membergroupCreateInterceptor"/>
+  
+  <bean name="memberRoleMapping" class="com.serpics.core.data.InterceptorMapping" >
+	  <property name="targetEntity" value="com.serpics.membership.persistence.MembersRole" />
+	  <property name="order" value="100"/>
+	  <property name="interceptor" ref="memberroleBeforeCreateInterceptor" />
+ </bean>   
      
+  <bean name="memberGroupMapping" class="com.serpics.core.data.InterceptorMapping" >
+	  <property name="targetEntity" value="com.serpics.membership.persistence.Membergroup" />
+	  <property name="order" value="100"/>
+	  <property name="interceptor" ref="membegroupCreateInterceptor" />
+ </bean>  
+    
  </beans>    

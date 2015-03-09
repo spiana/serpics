@@ -26,15 +26,14 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
 
     private static transient Logger logger = LoggerFactory.getLogger(MembergroupRelEditor.class);
 
-    @Autowired
-    private transient MemberGroupRepository memberGroupRepository;
-
     public MembergroupRelEditor() {
         super(Membergrouprel.class);
 
     }
 
-
+    @Autowired
+    private transient MemberGroupRepository memberGroupRepository;
+    
     private transient JPAContainer<Membergroup> memberGroups;
 
     @Override
@@ -47,8 +46,7 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
     public void init() {
         super.init();
         final String[] displayProperties = { "membergroup", "status", "validFrom", "validTo" };
-        memberGroups = ServiceContainerFactory.make(Membergroup.class,
-                memberGroupRepository);
+        memberGroups = ServiceContainerFactory.make(Membergroup.class);
         setDisplayProperties(displayProperties);
     }
 

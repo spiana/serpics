@@ -15,5 +15,41 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
      	<data:repositories base-package="com.serpics.catalog.repositories" 
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
      
+   <!--  Interceptor  Mapping -->  
+  <bean name="productCreateInterceptor" class="com.serpics.catalog.repositories.interceptors.ProductCreateInterceptor"/>
+  <bean name="categoryCreateInterceptor" class="com.serpics.catalog.repositories.interceptors.CategoryCreateInterceptor"/>   
+  <bean name="categoryRelationCreateInterceptor" class="com.serpics.catalog.repositories.interceptors.CategoryRelationCreateInterceptor" />
+  <bean name="category2ProductCreateInterceptor" class="com.serpics.catalog.repositories.interceptors.Category2productCreateInterceptor" />
+  <bean name="priceInterceptor" class="com.serpics.catalog.repositories.interceptors.PriceCreateInterceptor" />
      
+	<bean name="productCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
+			 <property name="targetEntity" value="com.serpics.catalog.persistence.Product" />
+			 <property name="order" value="10" />
+			 <property name="interceptor" ref="productCreateInterceptor"/>
+	</bean>   
+	<bean name="categoryCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
+			 <property name="targetEntity" value="com.serpics.catalog.persistence.Category" />
+			 <property name="order" value="10" />
+			 <property name="interceptor" ref="categoryCreateInterceptor"/>
+	</bean>
+	<bean name="categoryRealationCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
+			 <property name="targetEntity" value="com.serpics.catalog.persistence.CategoryRelation" />
+			 <property name="order" value="10" />
+			 <property name="interceptor" ref="categoryRelationCreateInterceptor"/>
+	</bean>
+	<bean name="category2ProductCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
+			 <property name="targetEntity" value="com.serpics.catalog.persistence.CategoryProductRelation" />
+			 <property name="order" value="10" />
+			 <property name="interceptor" ref="category2ProductCreateInterceptor"/>
+	</bean>
+	<bean name="priceCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
+			 <property name="targetEntity" value="com.serpics.catalog.persistence.Price" />
+			 <property name="order" value="10" />
+			 <property name="interceptor" ref="priceInterceptor"/>
+	</bean>
+   
+   <!--  default specification  -->
+   	<bean name="categorySpecification" class="com.serpics.catalog.data.specification.DefaultCategorySpecification" />
+ 	<bean name="productSpecification" class="com.serpics.catalog.data.specification.DefaultProductSpecification" />
+ 
  </beans>    
