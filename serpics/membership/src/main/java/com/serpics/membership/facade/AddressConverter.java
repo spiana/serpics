@@ -1,9 +1,9 @@
 package com.serpics.membership.facade;
 
-import com.serpics.core.facade.AbstractObjectConverter;
+import com.serpics.core.facade.AbstractConverter;
 import com.serpics.membership.persistence.AbstractAddress;
 
-public class AddressConverter extends AbstractObjectConverter<AbstractAddress, AddressData> {
+public abstract class AddressConverter extends AbstractConverter<AbstractAddress, AddressData> {
 
 	@Override
 	public void populate(AbstractAddress source, AddressData target) {

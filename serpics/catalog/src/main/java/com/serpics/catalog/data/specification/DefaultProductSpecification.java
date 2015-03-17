@@ -12,9 +12,9 @@ import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.catalog.persistence.Product;
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.stereotype.BaseSpec;
+import com.serpics.stereotype.DefaultSpec;
 
-@BaseSpec(Product.class)
+@DefaultSpec(Product.class)
 public class DefaultProductSpecification implements Specification<Product>{
 	@Autowired
 	CommerceEngine engine;

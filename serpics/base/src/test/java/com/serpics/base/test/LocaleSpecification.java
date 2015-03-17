@@ -8,9 +8,9 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.base.persistence.Locale;
-import com.serpics.stereotype.BaseSpec;
+import com.serpics.stereotype.DefaultSpec;
 
-@BaseSpec(Locale.class)
+@DefaultSpec(Locale.class)
 public class LocaleSpecification implements Specification<Locale> {
 
 	@Override

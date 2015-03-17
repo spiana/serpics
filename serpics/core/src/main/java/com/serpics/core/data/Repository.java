@@ -22,7 +22,7 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
     public T create(T entity);
     public T update(T entity);
     
-    public Specification<T> getBaseSpecification();
+    public Specification<T> getDefaultSpecification();
   
     public void  setEngine(CommerceEngine engine);
 	public CommerceSessionContext getCurrentContext();

@@ -11,9 +11,9 @@ import org.springframework.data.jpa.domain.Specification;
 import com.serpics.catalog.persistence.Catalog;
 import com.serpics.catalog.persistence.Category;
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.stereotype.BaseSpec;
+import com.serpics.stereotype.DefaultSpec;
 
-@BaseSpec(Category.class)
+@DefaultSpec(Category.class)
 public class DefaultCategorySpecification implements Specification<Category>{
 	@Autowired
 	CommerceEngine engine;

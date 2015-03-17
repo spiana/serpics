@@ -105,65 +105,65 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
     
     @Override
     public Page<Z> findAll(final Pageable page) {
-    	if(getBaseSpecification() != null)
-    		return super.findAll(getBaseSpecification(), page);
+    	if(getDefaultSpecification() != null)
+    		return super.findAll(getDefaultSpecification(), page);
     	else
     		return super.findAll(page);
     }
 
     @Override
     public List<Z> findAll() {
-        return getBaseSpecification() != null? super.findAll(getBaseSpecification()): super.findAll();
+        return getDefaultSpecification() != null? super.findAll(getDefaultSpecification()): super.findAll();
     }
    
     @Override
     public List<Z> findAll(final Specification<Z> spec, final Sort sort) {
     		if(spec == null && sort == null){
-    			return getBaseSpecification() == null ?super.findAll():
-                	super.findAll(getBaseSpecification());
+    			return getDefaultSpecification() == null ?super.findAll():
+                	super.findAll(getDefaultSpecification());
     		}
     		if(sort== null){
-    			return getBaseSpecification() == null ?super.findAll(where(spec)):
-                	super.findAll(where(spec).and(getBaseSpecification()));
+    			return getDefaultSpecification() == null ?super.findAll(where(spec)):
+                	super.findAll(where(spec).and(getDefaultSpecification()));
     		}
     		if (spec== null){
-    			return getBaseSpecification() == null ?super.findAll(sort):
-                	super.findAll(getBaseSpecification(), sort);
+    			return getDefaultSpecification() == null ?super.findAll(sort):
+                	super.findAll(getDefaultSpecification(), sort);
     		}		
     			
-            return getBaseSpecification() == null ?super.findAll(where(spec), sort):
-            	super.findAll(where(spec).and(getBaseSpecification()), sort);
+            return getDefaultSpecification() == null ?super.findAll(where(spec), sort):
+            	super.findAll(where(spec).and(getDefaultSpecification()), sort);
     	
     }
 
     @Override
     public List<Z> findAll(Specification<Z> spec) {
     	if (spec == null){
-    		return getBaseSpecification() == null ?super.findAll():
-            	super.findAll(getBaseSpecification());
+    		return getDefaultSpecification() == null ?super.findAll():
+            	super.findAll(getDefaultSpecification());
     	}
     		
-    	return getBaseSpecification() == null ? super.findAll(spec) :
-    		super.findAll(where(spec).and(getBaseSpecification()));
+    	return getDefaultSpecification() == null ? super.findAll(spec) :
+    		super.findAll(where(spec).and(getDefaultSpecification()));
     }
     
     @Override
     public List<Z> findAll(Sort sort) {
     	
-    	return getBaseSpecification() ==  null ?super.findAll(sort) :
-    		super.findAll(getBaseSpecification() , sort);
+    	return getDefaultSpecification() ==  null ?super.findAll(sort) :
+    		super.findAll(getDefaultSpecification() , sort);
     }
     
     @Override
     public Page<Z> findAll(Specification<Z> spec, Pageable pageable) {
-    	return  getBaseSpecification() == null ?super.findAll(spec, pageable) :
-    		super.findAll(where(spec).and(getBaseSpecification()), pageable);
+    	return  getDefaultSpecification() == null ?super.findAll(spec, pageable) :
+    		super.findAll(where(spec).and(getDefaultSpecification()), pageable);
     }
    
     
    @Override
 	public Z findOne(Specification<Z> arg0) {
-		return getBaseSpecification() == null ?super.findOne(arg0) : super.findOne(where(arg0).and(getBaseSpecification()));
+		return getDefaultSpecification() == null ?super.findOne(arg0) : super.findOne(where(arg0).and(getDefaultSpecification()));
 	}
    
    @Override
@@ -178,7 +178,7 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
    
     @SuppressWarnings("unchecked")
 	@Override
-	public Specification<Z> getBaseSpecification() {
+	public Specification<Z> getDefaultSpecification() {
     		return initializer.getSpecificationForClass(this.domainClass);
 	}
 

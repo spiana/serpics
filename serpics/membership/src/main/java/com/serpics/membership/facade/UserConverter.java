@@ -1,10 +1,10 @@
 package com.serpics.membership.facade;
 
 
-import com.serpics.core.facade.AbstractObjectConverter;
+import com.serpics.core.facade.AbstractConverter;
 import com.serpics.membership.persistence.User;
 
-public class UserConverter extends AbstractObjectConverter<User, UserData> {
+public abstract class UserConverter extends AbstractConverter<User, UserData> {
 
 	@Override
 	public void populate(User source, UserData target) {

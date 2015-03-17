@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface BaseSpec {
+public @interface DefaultSpec {
 	Class<?> value() ;
 	
 }

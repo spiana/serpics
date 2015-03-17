@@ -15,7 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.stereotype.BaseSpec;
+import com.serpics.stereotype.DefaultSpec;
 
 
 @SuppressWarnings("rawtypes")
@@ -33,11 +33,11 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	public void afterPropertiesSet() throws Exception {
 		CommerceEngine engine = applicationContext.getBean(CommerceEngine.class);
 		
-		Map<String , Object> specs = applicationContext.getBeansWithAnnotation(BaseSpec.class);
+		Map<String , Object> specs = applicationContext.getBeansWithAnnotation(DefaultSpec.class);
 		Set<String> keys = specs.keySet();
 		for (String string : keys) {
 			Object _m = specs.get(string);	
-			Class<?>  c = _m.getClass().getAnnotation(BaseSpec.class).value();
+			Class<?>  c = _m.getClass().getAnnotation(DefaultSpec.class).value();
 			
 			if(LOG.isInfoEnabled())
 				LOG.debug("Found Specification for class {}" , c.getName());
