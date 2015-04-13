@@ -30,13 +30,17 @@ public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User>
         super(Membergrouprel.class);
     }
 
+    @Override
+    public EntityFormWindow<Membergrouprel> buildEntityWindow() {
+    	EntityFormWindow<Membergrouprel> _e = new EntityFormWindow<Membergrouprel>();
+    	_e.addTab(membergroupRelEditor, "main");
+    	return _e;
+    }
   
     @Override
     public void init() {
         super.init();
         container.addNestedContainerProperty("membergroup.*");
-        editorWindow = new EntityFormWindow<Membergrouprel>();
-        editorWindow.addTab(membergroupRelEditor, "main");
         final String[] p = { "membergroup.name", "status", "validFrom", "validTo" };
         setPropertyToShow(p);
         setParentProperty("member");

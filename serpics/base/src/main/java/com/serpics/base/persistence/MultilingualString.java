@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 
 import com.serpics.core.persistence.jpa.AbstractEntity;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "multilingual_string")
 public class MultilingualString extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 7728685826544128982L;
@@ -41,6 +42,7 @@ public class MultilingualString extends AbstractEntity implements Serializable {
     }
 
     public String getText(final java.util.Locale locale) {
+    	
         if (map.containsKey(locale.getLanguage())) {
             return map.get(locale.getLanguage()).getText();
         }

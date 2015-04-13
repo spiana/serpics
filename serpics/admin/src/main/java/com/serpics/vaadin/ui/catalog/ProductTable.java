@@ -20,6 +20,7 @@ import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
@@ -42,16 +43,8 @@ public class ProductTable extends EntityTable<Product> {
         super(Product.class);
     }
 
-  
-   
-
-    @Override
-    public void init() {
-        super.init();
-        setPropertyToShow(new String[] { "code", "description" });
-        entityList.setConverter("description", new MultilingualStringConvert());
-
-        editorWindow.addTab(new EntityForm<Product>(Product.class) {
+    private EntityForm<Product> buildMainTab(){
+    	return new EntityForm<Product>(Product.class) {
             @Override
             public void init() {
                 super.init();
@@ -59,73 +52,94 @@ public class ProductTable extends EntityTable<Product> {
                 setReadOnlyProperties(new String[] { "created", "updated" });
 
             }
-        }, "main");
+        };
+    }
+    
+    @Override
+    public EntityFormWindow<Product> buildEntityWindow() {
+    	 EntityFormWindow<Product> editorWindow = new EntityFormWindow<Product>();
+    	 
+    	 editorWindow.addTab(buildMainTab(), "main");
+    	 editorWindow.addTab(buildCategoriesTab(), "categories");
+    	 editorWindow.addTab(buildPriceTab(), "prices");
+    	 
+    	return editorWindow;
+    }
+   
+    private EntityTableChild<CategoryProductRelation, AbstractProduct> buildCategoriesTab(){
 
-        editorWindow.addTab(new EntityTableChild<CategoryProductRelation, AbstractProduct>(
-                CategoryProductRelation.class) {
-            private static final long serialVersionUID = -2478612011226738573L;
+    	return new EntityTableChild<CategoryProductRelation, AbstractProduct>(
+                CategoryProductRelation.class){
+    		
+        private static final long serialVersionUID = -2478612011226738573L;
 
-            private transient JPAContainer<Category> categories;
+        private transient JPAContainer<Category> categories;
 
-            
-            
-            @Override
-            public void init() {
-                super.init();
-                container.addNestedContainerProperty("parentCategory.*");
-                setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description" });
-                entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
-                setParentProperty("childProduct");
+        @Override
+		public EntityFormWindow<CategoryProductRelation> buildEntityWindow() {
+			
+        	EntityFormWindow<CategoryProductRelation> editorWindow = new EntityFormWindow<CategoryProductRelation>();
+        	
+        	editorWindow.addTab(new EntityForm<CategoryProductRelation>(CategoryProductRelation.class) {
 
-                editorWindow.addTab(new EntityForm<CategoryProductRelation>(CategoryProductRelation.class) {
+                 @Override
+                 public void init() {
+                     super.init();
+                     setDisplayProperties(new String[] { "parentCategory", "sequence" });
+                     categories = ServiceContainerFactory.make(Category.class);
+                 }
 
-                    @Override
-                    public void init() {
-                        super.init();
-                        setDisplayProperties(new String[] { "parentCategory", "sequence" });
-                        categories = ServiceContainerFactory.make(Category.class);
-                    }
+                 @Override
+                 protected Field<?> createField(final String pid) {
+                     if (pid.equals("parentCategory")) {
+                         final ComboBox combo = new ComboBox(pid);
+                         combo.setContainerDataSource(categories);
+                         combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+                         combo.setItemCaptionPropertyId("code");
+                         combo.setFilteringMode(FilteringMode.CONTAINS);
+                         combo.setImmediate(true);
+                         combo.setConverter(new SingleSelectConverter(combo));
+                         fieldGroup.bind(combo, pid);
+                         return combo;
+                     } else
+                         return super.createField(pid);
+                 }
+             }, "main");
+        	 
+		return editorWindow;
+        }
+        
+        @Override
+        public void init() {
+            super.init();
+            container.addNestedContainerProperty("parentCategory.*");
+            setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description" });
+            entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
+            setParentProperty("childProduct");
 
-                    @Override
-                    protected Field<?> createField(final String pid) {
-                        if (pid.equals("parentCategory")) {
-                            final ComboBox combo = new ComboBox(pid);
-                            combo.setContainerDataSource(categories);
-                            combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-                            combo.setItemCaptionPropertyId("code");
-                            combo.setFilteringMode(FilteringMode.CONTAINS);
-                            combo.setImmediate(true);
-                            combo.setConverter(new SingleSelectConverter(combo));
-                            fieldGroup.bind(combo, pid);
-                            return combo;
-                        } else
-                            return super.createField(pid);
-                    }
-                }, "main");
-            }
+           
+        }
 
 
 
-            @Override
-            public EntityItem<CategoryProductRelation> createEntityItem() {
-                final CategoryProductRelation _entity = new CategoryProductRelation();
-                _entity.setChildProduct(parent.getEntity());
-                return container.createEntityItem(_entity);
-            }
-        }, "categories");
+        @Override
+        public EntityItem<CategoryProductRelation> createEntityItem() {
+            final CategoryProductRelation _entity = new CategoryProductRelation();
+            _entity.setChildProduct(parent.getEntity());
+            return container.createEntityItem(_entity);
+        }
+    	};
+    
+    }
 
-        editorWindow.addTab(new EntityTableChild<Price, AbstractProduct>(Price.class) {
+    private  EntityTableChild<Price, AbstractProduct> buildPriceTab(){
+    	
+    	return new EntityTableChild<Price, AbstractProduct>(Price.class) {
             private static final long serialVersionUID = 7566839007224552531L;
 
-          
             @Override
-            public void init() {
-                super.init();
-                container.addNestedContainerProperty("currency.*");
-                setPropertyToShow(new String[] { "currentPrice", "ctentryCost", "productPrice", "currency.isoCode",
-                        "validFrom", "validTo" });
-                setParentProperty("product");
-
+            public EntityFormWindow<Price> buildEntityWindow() {
+            	EntityFormWindow<Price> editorWindow = new EntityFormWindow<Price>();
                 editorWindow.addTab(new EntityForm<Price>(Price.class) {
 
                     @Override
@@ -136,6 +150,15 @@ public class ProductTable extends EntityTable<Product> {
                     }
 
                 }, "main");
+            	return editorWindow;
+            }
+            @Override
+            public void init() {
+                super.init();
+                container.addNestedContainerProperty("currency.*");
+                setPropertyToShow(new String[] { "currentPrice", "ctentryCost", "productPrice", "currency.isoCode",
+                        "validFrom", "validTo" });
+                setParentProperty("product");
             }
 
 
@@ -145,11 +168,15 @@ public class ProductTable extends EntityTable<Product> {
                 _entity.setProduct(parent.getEntity());
                 return container.createEntityItem(_entity);
             }
-        }, "prices");
-
+        };
     }
-
-
+    
+    @Override
+    public void init() {
+        super.init();
+        setPropertyToShow(new String[] { "code", "description" });
+        entityList.setConverter("description", new MultilingualStringConvert());
+    }
 
 	
 }

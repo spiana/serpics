@@ -9,6 +9,7 @@ import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.services.UserRegService;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
 
@@ -42,7 +43,18 @@ public class UserTableEditor extends EntityTable<UsersReg> {
         super(UsersReg.class);
     } 
 
-   
+    @Override
+    public EntityFormWindow<UsersReg> buildEntityWindow() {
+    	EntityFormWindow<UsersReg> editorWindow = new EntityFormWindow<UsersReg>();
+    	editorWindow.addTab(userEditorComponent, "main");
+        editorWindow.addTab(primaryAddressEditor, "contactAddress");
+        editorWindow.addTab(userRegEditorComponent, "userReg");
+        editorWindow.addTab(addressTableEditor, "address");
+        editorWindow.addTab(membergroupRelTable, "grouprelation");
+        editorWindow.addTab(memberRoleTable, "memberRole");
+    	
+    	return editorWindow;
+    }
 
     @Override
     public void init() {
@@ -50,12 +62,7 @@ public class UserTableEditor extends EntityTable<UsersReg> {
         container.addNestedContainerProperty("primaryAddress.*");
         final String[] p = { "firstname", "lastname", "created" };
         setPropertyToShow(p);
-        editorWindow.addTab(userEditorComponent, "main");
-        editorWindow.addTab(primaryAddressEditor, "contactAddress");
-        editorWindow.addTab(userRegEditorComponent, "userReg");
-        editorWindow.addTab(addressTableEditor, "address");
-        editorWindow.addTab(membergroupRelTable, "grouprelation");
-        editorWindow.addTab(memberRoleTable, "memberRole");
+        
 
     }
 

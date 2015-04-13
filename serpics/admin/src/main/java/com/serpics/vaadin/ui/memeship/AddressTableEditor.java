@@ -9,6 +9,7 @@ import com.serpics.membership.persistence.User;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 
@@ -25,9 +26,15 @@ public class AddressTableEditor extends EntityTableChild<PermanentAddress, User>
     }
 
     @Override
+    public EntityFormWindow<PermanentAddress> buildEntityWindow() {
+    	EntityFormWindow<PermanentAddress> _e = new EntityFormWindow<PermanentAddress>();
+    	_e.addTab(addressEditorComponent, "main");
+    	return _e;
+    }
+    @Override
     public void init() {
         super.init();
-        editorWindow.addTab(addressEditorComponent, "main");
+      
         final String[] p = { "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
         "country" };
         setParentProperty("member");

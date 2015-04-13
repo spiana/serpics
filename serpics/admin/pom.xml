@@ -36,18 +36,18 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>vaadin-snapshots</id>
-			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+<!-- 	<pluginRepositories> -->
+<!-- 		<pluginRepository> -->
+<!-- 			<id>vaadin-snapshots</id> -->
+<!-- 			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url> -->
+<!-- 			<releases> -->
+<!-- 				<enabled>false</enabled> -->
+<!-- 			</releases> -->
+<!-- 			<snapshots> -->
+<!-- 				<enabled>true</enabled> -->
+<!-- 			</snapshots> -->
+<!-- 		</pluginRepository> -->
+<!-- 	</pluginRepositories> -->
 	<dependencies>
 		<dependency>
 			<groupId>com.vaadin</groupId>
@@ -146,10 +146,10 @@
 			<artifactId>spring-web</artifactId>
 			<version>3.2.4.RELEASE</version>
 		</dependency>
-		<dependency>
+	<dependency>
    <groupId>com.vaadin.addon</groupId>
    <artifactId>jpacontainer</artifactId>
-   <version>3.1.0</version>
+   <version>3.2.0</version>
 </dependency>
 
 
@@ -173,6 +173,12 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.3.1.Final</version>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.vaadin.spring</groupId> -->
+<!-- 			<artifactId>spring-vaadin</artifactId> -->
+<!-- 			<version>0.0.4.RELEASE</version> -->
+<!-- 		</dependency> -->
+
 	</dependencies>
 
 	<build>

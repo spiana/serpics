@@ -63,7 +63,7 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
 
     @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
-    private MultilingualString description;
+    private MultilingualString description = new MultilingualString();
 
     // bi-directional many-to-one association to CtentryAttribute
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)

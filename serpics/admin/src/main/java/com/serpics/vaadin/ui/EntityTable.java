@@ -43,8 +43,9 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
 
     private String[] displayProperties;
     private final Set<String> hideProperties = new HashSet<String>();
-
-    protected EntityFormWindow<T> editorWindow;
+    private boolean editable= true;
+    
+   // protected EntityFormWindow<T> editorWindow;
     protected Table entityList;
 
     private final HorizontalLayout editButtonPanel = new HorizontalLayout();
@@ -54,39 +55,32 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     public EntityTable(final Class<T> entityClass) {
         super();
         this.entityClass = entityClass;
-        editorWindow = new EntityFormWindow<T>();
-        entityList = new Table();
-        build();
     }
 
     @Override
     public void init() {
-        if (container == null) {
-            container = ServiceContainerFactory.make(entityClass);
-            entityList.setContainerDataSource(container);
-        }
-        this.initialized = true;
-
-        // if (displayProperties == null) {
-        // final List<Object> propsToShow = new ArrayList<Object>();
-        // for (final String id : cont.getContainerPropertyIds()) {
-        // if (cont.getPropertyKind(id).equals(PropertyKind.SIMPLE))
-        // if (!hideProperties.contains(id))
-        // propsToShow.add(id);
-        // }
-        // entityList.setVisibleColumns(propsToShow.toArray());
-        // } else {
-        // entityList.setVisibleColumns(displayProperties);
-        // }
+    	buildContainer();
+    	buildTable();
+   
     }
 
-    protected void build() {
-
+    protected void buildContainer(){
+    	if (container == null) {
+            container = ServiceContainerFactory.make(entityClass);
+        }
+        this.initialized = true;
+    }
+    
+    public abstract EntityFormWindow<T>  buildEntityWindow();
+    
+    protected void buildTable() {
+    	this.entityList = new Table();
         entityList.setSelectable(true);
         entityList.setImmediate(true);
         entityList.setSizeFull();
         entityList.setColumnCollapsingAllowed(true);
         entityList.setColumnReorderingAllowed(true);
+        entityList.setContainerDataSource(this.container);
 
         final VerticalLayout v = new VerticalLayout();
         v.setSizeFull();
@@ -120,6 +114,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
             @Override
             public void buttonClick(final ClickEvent event) {
                 if(!entityList.isEditable()){
+                	EntityFormWindow<T> editorWindow = buildEntityWindow();
                     editorWindow.setNewItem(true);
                     editorWindow.setReadOnly(false);
                     editorWindow.setEntityItem(createEntityItem());
@@ -141,6 +136,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
                 if (entityList.getValue() == null)
                     return;
                 if (!entityList.isEditable()) {
+                	EntityFormWindow<T> editorWindow = buildEntityWindow();
                     editorWindow.setNewItem(false);
                     editorWindow.setReadOnly(false);
                     editorWindow.setEntityItem(container.getItem(entityList.getValue()));
@@ -193,11 +189,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
             entityList.setVisibleColumns(displayProperties);
     }
 
-    public void setEditorWindow(final EntityFormWindow<T> editorWindow) {
-        this.editorWindow = editorWindow;
-    }
-
-    public EntityItem<T> createEntityItem() {
+     public EntityItem<T> createEntityItem() {
 
         EntityItem<T> entityItem = null;
         try {
@@ -227,10 +219,15 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     }
 
     public boolean isEditable() {
-        return editorWindow.getTabComponentCount() > 0;
+        return editable;
     }
 
-    @Override
+    
+    public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	@Override
     public void attach() {
         if (!isInitialized())
             init();

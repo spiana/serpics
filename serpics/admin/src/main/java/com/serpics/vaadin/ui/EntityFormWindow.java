@@ -131,6 +131,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
         }
         discardAllComponent();
         super.close();
+        
 
     }
 

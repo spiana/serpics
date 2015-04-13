@@ -6,11 +6,14 @@ import java.util.Set;
 
 import javax.persistence.Id;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.persistence.MultilingualString;
 import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
+import com.serpics.vaadin.ui.component.CustomFieldFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
@@ -29,6 +32,7 @@ import com.vaadin.ui.UI;
 
 public abstract class EntityForm<T> extends FormLayout implements FieldGroupFieldFactory, EntityFormComponent<T> {
     private static final long serialVersionUID = -7816433625437405000L;
+    private static final transient Logger LOG = LoggerFactory.getLogger(EntityForm.class);
     
     private transient PropertyList<T> propertyList;
 
@@ -44,7 +48,7 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
     private boolean readOnly = true;
 
-    final DefaultFieldGroupFieldFactory fa = DefaultFieldGroupFieldFactory.get();
+  
 
     Class<T> entityClass;
 
@@ -69,7 +73,7 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
     @Override
     public <T extends Field> T createField(final Class<?> dataType, final Class<T> fieldType) {
-        final T f = fa.createField(dataType, fieldType);
+        final T f = DefaultFieldGroupFieldFactory.get().createField(dataType, fieldType);
         return f;
     }
 
@@ -89,8 +93,9 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
                 addField(displayProperties);
             else {
                 for (final String pid : propertyList.getAllAvailablePropertyNames()) {
-                    if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE))
+                   // if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE))
                         // exclude field with @Id annotation
+                	if(!hideProperties.contains(pid))
                         if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null)
                             if (!hideProperties.contains(pid))
                                 addComponent(createField(pid));
@@ -110,8 +115,11 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
     @SuppressWarnings("unchecked")
     protected Field<?> createField(final String pid) {
         final Property p = entityItem.getItemProperty(pid);
-
-        final Field<?> f = fieldGroup.buildAndBind(pid);
+       LOG.info("create field : {}" , pid);
+        final Field<?> f = CustomFieldFactory.get().createField(entityItem, pid , this);
+        
+      //  final Field<?> f = fieldGroup.buildAndBind(pid);
+        fieldGroup.bind(f, pid);
         f.setBuffered(true);
 
         if (f instanceof TextField) {

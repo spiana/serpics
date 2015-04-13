@@ -13,7 +13,9 @@ import com.serpics.membership.UserRegStatus;
 public class User extends com.serpics.membership.persistence.UsersReg implements UserDetails,
 com.serpics.core.security.UserDetail {
 
-    Collection<? extends GrantedAuthority> authorities = new HashSet<GrantedAuthority>(0);
+	private static final long serialVersionUID = -5717668598546054329L;
+
+	Collection<? extends GrantedAuthority> authorities = new HashSet<GrantedAuthority>(0);
     Collection<? extends String>  groups = new HashSet<String>(0); 
 
     @Override

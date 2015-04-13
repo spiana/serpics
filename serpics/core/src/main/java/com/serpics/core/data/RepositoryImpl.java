@@ -25,11 +25,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.core.RepositoryMetadata;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 
+@Transactional(readOnly=true)
 public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaRepository<Z, IT> 
 			implements Repository<Z, IT>{
 
@@ -183,6 +185,7 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 	}
 
     @Override
+    @Transactional
 	public Z create(Z entity) {
 		interceptorMapping.performBeforeCreateInterceptor(entity);
 		entity =  saveAndFlush(entity);
@@ -191,6 +194,7 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 	}
 
 	@Override
+	@Transactional
 	public Z update(Z entity) {
 		return saveAndFlush(entity);
 		
@@ -218,5 +222,10 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 	@Override
 	public Class<?> getDomainClass() {
 		return this.domainClass;
+	}
+
+	@Override
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 }

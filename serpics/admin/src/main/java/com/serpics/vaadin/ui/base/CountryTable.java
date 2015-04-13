@@ -27,9 +27,16 @@ public class CountryTable extends EntityTable<Country> {
 		super.init();
 		setPropertyToShow(new String[]{"description", "geocode", "iso2Code" , "regions"});
 		
+		
+	}
+	
+	@Override
+	public EntityFormWindow<Country> buildEntityWindow() {
+		EntityFormWindow<Country> editorWindow = new EntityFormWindow<Country>();
+	
 		EntityForm<Country> main = new EntityForm<Country>(Country.class) {
 		};
-				
 		editorWindow.addTab(main, "main");
+		return editorWindow;
 	}
 }

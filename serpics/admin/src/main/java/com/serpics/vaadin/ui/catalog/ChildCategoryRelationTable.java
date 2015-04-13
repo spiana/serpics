@@ -13,6 +13,7 @@ import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -30,52 +31,53 @@ public class ChildCategoryRelationTable extends EntityTableChild<CategoryRelatio
 
     @Autowired
     private CategoryRepository categoryRepository;
-    
       public ChildCategoryRelationTable() {
         super(CategoryRelation.class);
-
     }
 
+     @Override
+    public EntityFormWindow<CategoryRelation> buildEntityWindow() {
+    	 EntityFormWindow<CategoryRelation> editorWindow = new EntityFormWindow<CategoryRelation>();
+    	 
+    	 editorWindow.addTab(new EntityForm<CategoryRelation>(CategoryRelation.class) {
+
+             JPAContainer<Category> categories;
+
+             @Override
+             public void init() {
+                 super.init();
+                 setDisplayProperties(new String[] { "childCategory", "sequence" });
+                 categories = ServiceContainerFactory.make(Category.class );
+             }
+
+             @Override
+             protected Field<?> createField(final String pid) {
+
+                 if (pid.equals("childCategory")) {
+                     final ComboBox combo = new ComboBox("childCategory");
+                     combo.setContainerDataSource(categories);
+                     combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+                     combo.setItemCaptionPropertyId("code");
+                     combo.setFilteringMode(FilteringMode.CONTAINS);
+                     combo.setImmediate(true);
+                     combo.setConverter(new SingleSelectConverter(combo));
+                     fieldGroup.bind(combo, "childCategory");
+                     return combo;
+                 } else
+                     return super.createField(pid);
+             }
+         }, "main");
+
+    	 return editorWindow;
+    }
+     
     @Override
     public void init() {
         super.init();
         container.addNestedContainerProperty("childCategory.*");
         setPropertyToShow(new String[] { "childCategory.code", "childCategory.description", "sequence" });
-
         setParentProperty("parentCategory");
-
-        editorWindow.addTab(new EntityForm<CategoryRelation>(CategoryRelation.class) {
-
-            JPAContainer<Category> categories;
-
-            @Override
-            public void init() {
-                super.init();
-                setDisplayProperties(new String[] { "childCategory", "sequence" });
-                categories = ServiceContainerFactory.make(Category.class );
-
-            }
-
-            @Override
-            protected Field<?> createField(final String pid) {
-
-                if (pid.equals("childCategory")) {
-                    final ComboBox combo = new ComboBox("childCategory");
-                    combo.setContainerDataSource(categories);
-                    combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-                    combo.setItemCaptionPropertyId("code");
-                    combo.setFilteringMode(FilteringMode.CONTAINS);
-                    combo.setImmediate(true);
-                    combo.setConverter(new SingleSelectConverter(combo));
-                    fieldGroup.bind(combo, "childCategory");
-                    return combo;
-                } else
-                    return super.createField(pid);
-            }
-        }, "main");
-
         entityList.setConverter("childCategory.description", new MultilingualStringConvert());
-
     }
 
     @Override

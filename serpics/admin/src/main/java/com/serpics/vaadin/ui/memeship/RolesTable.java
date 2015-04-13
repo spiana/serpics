@@ -9,6 +9,7 @@ import com.serpics.membership.repositories.RoleRepository;
 import com.serpics.membership.services.RoleService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
 
 @VaadinComponent(value = "roleTable")
@@ -20,6 +21,24 @@ public class RolesTable extends EntityTable<Role> {
         super(Role.class);
     }
 
+    @Override
+    public EntityFormWindow<Role> buildEntityWindow() {
+    	EntityFormWindow<Role> _e = new EntityFormWindow<Role>();
+    	
+    	final EntityForm<Role> editor = new EntityForm<Role>(Role.class) {
+            private static final long serialVersionUID = -8926571251656496441L;
+
+            @Override
+            public void init() {
+                super.init();
+                final String[] p = { "name", "description" };
+                setPropertyToShow(p);
+            }
+
+        };
+        _e.addTab(editor, "main");
+    	return _e;
+    }
     
     @Override
     public void init() {
@@ -36,7 +55,7 @@ public class RolesTable extends EntityTable<Role> {
             }
 
         };
-        editorWindow.addTab(editor, "main");
+       
 
         final String[] p = { "name", "description", "updated" };
         setPropertyToShow(p);

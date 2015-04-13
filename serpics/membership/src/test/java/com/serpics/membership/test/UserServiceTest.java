@@ -80,12 +80,14 @@ public class UserServiceTest {
         r.setDescription("User");
         roleService.create(r);
 
+        u = userService.create(u);
+        
         final MembersRole m = new MembersRole();
         m.setRole(r);
         m.setMember(u);
         m.setStore((Store) context.getStoreRealm());
         u.getMembersRoles().add(m);
-        u = userService.create(u);
+        u = userService.update(u);
 
         final java.util.List<User> l = userService.findAll();
         Assert.assertEquals(2, l.size());

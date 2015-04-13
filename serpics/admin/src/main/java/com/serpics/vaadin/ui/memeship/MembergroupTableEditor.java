@@ -8,6 +8,7 @@ import com.serpics.membership.persistence.Membergroup;
 import com.serpics.membership.repositories.MemberGroupRepository;
 import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
 
 @VaadinComponent(value = "membergroupTableEditor")
@@ -25,9 +26,14 @@ public class MembergroupTableEditor extends EntityTable<Membergroup> {
 
    
     @Override
+    public EntityFormWindow<Membergroup> buildEntityWindow() {
+    	EntityFormWindow<Membergroup> _e = new EntityFormWindow<Membergroup>();
+    	_e.addTab(membergroupEditor, "main");
+    	return _e;
+    }
+    @Override
     public void init() {
         super.init();
-        editorWindow.addTab(membergroupEditor, "main");
         final String[] p = { "name", "description", "updated" };
         setPropertyToShow(p);
 

@@ -15,6 +15,7 @@ import com.serpics.membership.services.MemberRoleService;
 import com.serpics.membership.services.RoleService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTableChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -41,15 +42,10 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
         super(MembersRole.class);
     }
 
-
-
-    @Override
-    public void init() {
-        super.init();
-        setParentProperty("member");
-        container.addNestedContainerProperty("role.*");
-
-        final EntityForm<MembersRole> form = new EntityForm<MembersRole>(MembersRole.class) {
+	@Override
+	public EntityFormWindow<MembersRole> buildEntityWindow() {
+		EntityFormWindow<MembersRole> _e = new EntityFormWindow<MembersRole>();
+		final EntityForm<MembersRole> form = new EntityForm<MembersRole>(MembersRole.class) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -80,8 +76,17 @@ public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
                 return super.createField(pid);
             }
         };
-        this.editorWindow.addTab(form, "main");
+		_e.addTab(form, "main");
+		return _e;
+	}
 
+    @Override
+    public void init() {
+        super.init();
+        setParentProperty("member");
+        container.addNestedContainerProperty("role.*");
+
+    
         setPropertyToShow(new String[] { "role.name" });
 
         //

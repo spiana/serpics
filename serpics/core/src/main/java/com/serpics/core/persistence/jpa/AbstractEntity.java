@@ -57,6 +57,7 @@ public abstract class AbstractEntity {
 		return created;
 	}
 
+
 	public void setCreated(Date created) {
 		this.created = created;
 	}

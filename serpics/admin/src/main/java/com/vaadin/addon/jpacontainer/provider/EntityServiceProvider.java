@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -38,9 +39,13 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
 
     public EntityServiceProvider(final Class<T> entityClass) {
         super(entityClass);
-        // this.entityClassMetadata = super.getEntityClassMetadata();
     }
 
+    @Override
+    public EntityManager getEntityManager() {
+    	return repository.getEntityManager();
+    }
+    
     protected Specification<T> getSpecificationFromFilter(final Filter filter) {
 
         return new Specification<T>() {
@@ -84,7 +89,6 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
     protected T doGetEntity(final Object entityId) {
         assert entityId != null : "entityId must not be null";
         assert entityId.getClass().isAssignableFrom(Serializable.class) : "object IDs should be serializable";
-
         return (T) repository.findOne((Serializable) entityId);
     }
 
