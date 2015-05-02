@@ -17,16 +17,10 @@ import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 
-/**
- * Delegate class that implements caching for {@link LocalEntityProvider}s and their subclasses. This class is internal
- * and should never be used outside of JPAContainer.
- * 
- * @author Petter Holmstr��m (Vaadin Ltd)
- * @since 1.0
- */
 class CachingServiceSupport<T> implements Serializable {
+	private static final long serialVersionUID = -7938390490825372160L;
 
-    private final EntityServiceProvider<T> entityProvider;
+	private final EntityServiceProvider<T> entityProvider;
     private int maxCacheSize = 1000;
     private boolean cacheEnabled = true;
     private boolean cloneCachedEntities = false;

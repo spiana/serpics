@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 
 import org.slf4j.Logger;
@@ -37,23 +38,15 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
     private transient PropertyList<T> propertyList;
 
     protected final FieldGroup fieldGroup;
-
     private boolean initialized = false;
-
     private String[] displayProperties;
     private final Set<String> hideProperties = new HashSet<String>(0);
     private String[] readOnlyProperties = {};
-
     protected EntityItem<T> entityItem;
-
     private boolean readOnly = true;
-
-  
-
-    Class<T> entityClass;
+    private Class<T> entityClass;
 
     public EntityForm(final Class<T> clazz) {
-
         propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(clazz));
 
         this.entityClass = clazz;
@@ -65,10 +58,25 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         setSpacing(true);
 
     }
-  
+ 
+    /*
+     * (non-Javadoc)
+     * @see com.serpics.vaadin.ui.EntityComponent#init()
+     * 
+     * To implements in extended class 
+     * define 
+     * 		1 - Display Properties 
+     * 		2 - read only properties
+     * 		3 -	hide properties
+     */
     @Override
     public void init() {
-    	
+    	 
+    }
+    
+    @Override
+    public Class<T> getEntityType() {
+    	return entityClass;
     }
 
     @Override
@@ -86,20 +94,11 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
         this.entityItem = entityItem;
         fieldGroup.setItemDataSource(entityItem);
         fieldGroup.setBuffered(true);
-
         if (!initialized) {
-            // init();
             if (displayProperties != null)
                 addField(displayProperties);
             else {
-                for (final String pid : propertyList.getAllAvailablePropertyNames()) {
-                   // if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE))
-                        // exclude field with @Id annotation
-                	if(!hideProperties.contains(pid))
-                        if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null)
-                            if (!hideProperties.contains(pid))
-                                addComponent(createField(pid));
-                }
+            	addField(propertyList.getAllAvailablePropertyNames().toArray(new String[]{}));
             }
             initialized = true;
         }
@@ -107,18 +106,26 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
 
     private void addField(final String[] propertyNames) {
         for (final String pid : propertyNames) {
-            addComponent(createField(pid));
+        	if(propertyList.getClassMetadata().getProperty(pid) == null)
+        		LOG.error("properity {} not found !" , pid);
+        	else	
+        	if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null)
+            	if(propertyList.getClassMetadata().getProperty(pid).getAnnotation(EmbeddedId.class) == null)
+            		if (!hideProperties.contains(pid))
+            			addComponent(createField(pid))	;
+//            			if(entityItem.isPersistent())
+//            				addComponent(createField(pid))	;
+//            			else if(propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE) )
+//            				addComponent(createField(pid))	;
         }
 
     }
 
-    @SuppressWarnings("unchecked")
     protected Field<?> createField(final String pid) {
-        final Property p = entityItem.getItemProperty(pid);
-       LOG.info("create field : {}" , pid);
+        @SuppressWarnings("rawtypes")
+		final Property p = entityItem.getItemProperty(pid);
+        LOG.info("create field : {}" , pid);
         final Field<?> f = CustomFieldFactory.get().createField(entityItem, pid , this);
-        
-      //  final Field<?> f = fieldGroup.buildAndBind(pid);
         fieldGroup.bind(f, pid);
         f.setBuffered(true);
 
@@ -127,9 +134,7 @@ public abstract class EntityForm<T> extends FormLayout implements FieldGroupFiel
                 ((TextField) f).setConverter(new MultilingualStringConvert());
                 f.setWidth("80%");
             }
-
             ((TextField) f).setNullRepresentation("");
-
         }
         f.addValidator(new BeanValidator(entityClass, pid));
         if (String.class.isAssignableFrom(p.getType())) {

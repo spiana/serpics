@@ -209,6 +209,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void setEntityItem(final EntityItem entityItem) {
+    	if(entityItem.isPersistent())
+    		entityItem.getContainer().getEntityProvider().refreshEntity(entityItem.getEntity());
         for (final EntityComponent c : componentList) {
             if (c instanceof EntityComponentChild) {
                 if (!newItem)

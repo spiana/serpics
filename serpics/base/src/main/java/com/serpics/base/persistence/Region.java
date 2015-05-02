@@ -37,7 +37,7 @@ public class Region extends com.serpics.core.persistence.jpa.AbstractEntity impl
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_stringid")
-    private MultilingualString description;
+    private MultilingualString description = new MultilingualString();
 
     public Region() {
     }

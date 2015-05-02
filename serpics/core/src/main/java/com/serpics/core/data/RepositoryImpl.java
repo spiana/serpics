@@ -196,10 +196,16 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 	@Override
 	@Transactional
 	public Z update(Z entity) {
+		
 		return saveAndFlush(entity);
+		
 		
 	}
 
+	@Override
+	public Z refresh(Z entity) {
+		 return getEntityManager().merge(entity);
+	}
 	
 	private CommerceEngine engine;
 	 

@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.serpics.vaadin.ui.EntityComponent;
+import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
@@ -19,16 +22,18 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.UI;
 
 public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
-
+	private static final long serialVersionUID = -7646209629067140150L;
 	private final Action add = new Action("Add");
+	private final Action modify = new Action("Modify");
 	private final Action remove = new Action("Remove");
-	private final Action[] actions = {this.add , this.remove};
+	private final Action[] actions = {this.add ,this.modify, this.remove};
 	
 	private EntityContainer<T> containerForProperty ;
 	private EntityContainer<X> container;
-	private Object itemId;
+	private EntityItem<T> entityItem;
 	private Object propertyId;
 	private Object backReferencePropertyId;
 	private T masterEntity;
@@ -41,13 +46,13 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 
 	public MasterDetailField(
 			EntityContainer<T> entityContainer,
-			Object itemId, Object propertyId ,String[] displayProperties) {
+			EntityItem<T> entityItem, Object propertyId ,String[] displayProperties) {
 		super();
 		setBuffered(true);
 		this.containerForProperty = entityContainer;
-		this.itemId = itemId;
+		this.entityItem	 = entityItem;
 		this.propertyId = propertyId;
-		this.masterEntity = entityContainer.getItem(itemId).getEntity();
+		this.masterEntity = entityItem.getEntity();
 		this.displayProperties = displayProperties;
 		buildcontainer();
 		
@@ -63,8 +68,13 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 				this.propertyId, masterEntityClass);
 		this.container= (EntityContainer<X>) ServiceContainerFactory.make(referencedType);
 		this.backReferencePropertyId = HibernateUtil.getMappedByProperty(this.masterEntity, this.propertyId.toString());
-		Container.Filter filter = new com.vaadin.data.util.filter.Compare.Equal(backReferencePropertyId, this.masterEntity);
-		 this.container.addContainerFilter(filter);
+		if (entityItem.isPersistent()){
+			Container.Filter filter = new com.vaadin.data.util.filter.Compare.Equal(backReferencePropertyId, this.masterEntity);
+		 	this.container.addContainerFilter(filter);
+		}else{
+			Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
+		 	this.container.addContainerFilter(filter);
+		}
 		 
 		 for (String pid : displayProperties) {
 			if (pid.contains(".")){
@@ -89,9 +99,10 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    getTable().setVisibleColumns(visibleProperties);
 	    getTable().addActionHandler(this);
 
-	    getTable().setTableFieldFactory(CustomFieldFactory.get());
-	    getTable().setEditable(true);
+	    getTable().setEditable(false);
 	    getTable().setSelectable(true);
+	  //  getTable().setSizeFull();
+	   getTable().setTableFieldFactory(new CustomFieldFactory());
 	  }
 	
 	@Override
@@ -104,7 +115,9 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 			Object target) {
 		if (action == this.add)
 		      addNew();
-		    else
+		   else if(action == this.modify)
+			   modify(target);
+		   else   
 		      remove(target);
 		
 	}
@@ -112,7 +125,6 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	private void remove(Object itemId) {
 	    if (itemId != null) {
 	      Collection collection = (Collection)getPropertyDataSource().getValue();
-
 	      EntityItem item = this.container.getItem(itemId);
 	      item.getItemProperty(this.backReferencePropertyId).setValue(null);
 	      this.container.removeItem(itemId);
@@ -121,34 +133,76 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    }
 	  }
 
+	  private EntityComponent<X> buildMainComponent(){
+		  EntityForm<X> form = new EntityForm<X>(this.container.getEntityClass()) {
+			  @Override
+			public void init() {
+				 setReadOnlyProperties(new String[] { "updated", "created" });
+	     	}
+		};
+		return form;
+	  }
+	  
 	  private void addNew()
 	  {
 	    try {
 	      X newInstance = this.container.getEntityClass().newInstance();
 	      BeanItem beanItem = new BeanItem(newInstance);
 	      beanItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity);
-
-	      this.container.addEntity(newInstance);
-	      if (!(isBuffered()));
+	      EntityItem<X> item = this.container.createEntityItem(newInstance);
+		      
+		  EntityFormWindow<X> editorWindow = new EntityFormWindow<X>();
+	      editorWindow.setNewItem(true);
+	      editorWindow.setReadOnly(false);
+	      editorWindow.addTab(buildMainComponent(), "main");
+	      editorWindow.setEntityItem(item);
+		      
+	      UI.getCurrent().addWindow(editorWindow);
+	   
 	    }
 	    catch (Exception e)
 	    {
+	    	e.printStackTrace();
 	      Logger.getLogger(super.getClass().getName()).warning("Could not instantiate detail instance " + this.container.getEntityClass().getName());
 	    }
 	  }
 	  
 	 
+	private void modify(Object item){
+		if(item != null){
+			 EntityFormWindow<X> editorWindow = new EntityFormWindow<X>();
+		      editorWindow.setNewItem(false);
+		      editorWindow.setReadOnly(false);
+		      editorWindow.addTab(buildMainComponent(), "main");
+		      editorWindow.setEntityItem(this.container.getItem(item));
+		      UI.getCurrent().addWindow(editorWindow);
+		}
+	}
+	
 	@Override
 	protected Component initContent() {
 		CssLayout vl = new CssLayout();
+		vl.setWidth("100%");
 	    buildTable();
+	    getTable().setWidth("100%");
 	    vl.addComponent(getTable());
 
 	    CssLayout buttons = new CssLayout();
+	    // disable buttons for new item
+	    if(!entityItem.isPersistent())
+	    	buttons.setEnabled(false);
+	    
 	    buttons.addComponent(new Button("Add", new Button.ClickListener()
 	    {
 	      public void buttonClick(Button.ClickEvent event) {
 	        addNew();
+	      }
+	    }));
+	    buttons.addComponent(new Button("Modify", new Button.ClickListener()
+	    {
+	      public void buttonClick(Button.ClickEvent event) {
+	    	  if (getTable().getValue() != null	)
+	    		  modify(getTable().getValue());
 	      }
 	    }));
 	    buttons.addComponent(new Button("Remove", new Button.ClickListener()
@@ -157,14 +211,14 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    	  remove(getTable().getValue());
 	      }
 	    }));
+	    
 	    vl.addComponent(buttons);
 	    return vl;
 	}
-
 	
 	@Override
 	public Class getType() {
-		return this.containerForProperty.getItem(itemId).getItemProperty(propertyId).getType();
+		return entityItem.getItemProperty(propertyId).getType();
 	}
 
 }

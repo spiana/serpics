@@ -16,6 +16,7 @@ import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.MultilingualTextField;
+import com.serpics.vaadin.ui.PropertiesUtils;
 import com.serpics.vaadin.ui.component.MasterDetailField;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
@@ -75,20 +76,10 @@ public class CategoryTable extends EntityTable<Category> {
             
             @Override
             protected Field<?> createField(final String pid) {
-
-//                if (pid.equals("description")) {
-//                    final MultilingualTextField t = new MultilingualTextField();
-//                    t.setCaption("descrizione");
-//                    t.setNullRepresentation("");
-//                    t.setConverter(new MultilingualStringConvert());
-//                    fieldGroup.bind(t, "description");
-//                    return t;
-
-//                } else
-                if (pid.equals("childCategories")) { 
+            	if (pid.equals("childCategories")) { 
                 	MasterDetailField<Category, CategoryRelation> t = 
-                			new MasterDetailField<Category, CategoryRelation>(this.entityItem.getContainer(), this.entityItem.getItemId(), pid, 
-                					new String[] {"childCategory.code" });
+                			new MasterDetailField<Category, CategoryRelation>(this.entityItem.getContainer(), this.entityItem, pid, 
+                					new String[] {"childCategory.code" , "sequence"});
                 	fieldGroup.bind(t, pid);
                 	return t;
                 	

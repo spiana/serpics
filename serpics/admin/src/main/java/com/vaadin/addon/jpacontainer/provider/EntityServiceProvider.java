@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
@@ -26,6 +28,7 @@ import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.filter.util.FilterConverter;
 import com.vaadin.data.Container.Filter;
 
+@Transactional(readOnly=true)
 public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> implements EntityManagerProvider {
 
    // private EntityService<T, Serializable> service;
@@ -335,7 +338,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
 
     @Override
     public T refreshEntity(final T arg0) {
-        // FIXME : this solution could be no good !
+        getRepository().refresh(arg0);
         return arg0;
     }
 
@@ -344,6 +347,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
 	}
 
 	public void setRepository(Repository<T, Serializable> repository) {
+		Assert.isNull(repository, "repository must non be null !");
 		this.repository = repository;
 	}
 

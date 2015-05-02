@@ -35,6 +35,10 @@ public class CountryTable extends EntityTable<Country> {
 		EntityFormWindow<Country> editorWindow = new EntityFormWindow<Country>();
 	
 		EntityForm<Country> main = new EntityForm<Country>(Country.class) {
+//			@Override
+//			public void init() {
+//				setHideProperties(new String[]{ "geocode"});
+//			}
 		};
 		editorWindow.addTab(main, "main");
 		return editorWindow;

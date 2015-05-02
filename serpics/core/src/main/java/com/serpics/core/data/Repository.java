@@ -18,7 +18,8 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	
 	public <T> Specification<T> makeSpecification(final T example);
 	public T findOne(Specification<T> spec , final Sort sort , int index );
-	 
+	public T refresh(T entity);
+	
 	public void detach(final T entity);
 	public T create(T entity);
 	public T update(T entity);

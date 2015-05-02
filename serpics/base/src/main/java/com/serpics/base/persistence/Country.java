@@ -44,7 +44,7 @@ public class Country extends com.serpics.core.persistence.jpa.AbstractEntity imp
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_stringid")
-    private MultilingualString description;
+    private MultilingualString description = new MultilingualString();
 
     // bi-directional many-to-one association to Region
     @OneToMany(mappedBy = "country")

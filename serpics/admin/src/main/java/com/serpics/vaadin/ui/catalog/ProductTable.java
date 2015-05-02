@@ -48,8 +48,8 @@ public class ProductTable extends EntityTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setHideProperties(new String[] { "uuid", "field2", "productType", "ctentryType" });
-                setReadOnlyProperties(new String[] { "created", "updated" });
+                setHideProperties(new String[] {  "field2", "productType", "ctentryType" , "ctentryAttributes"});
+                setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
 
             }
         };

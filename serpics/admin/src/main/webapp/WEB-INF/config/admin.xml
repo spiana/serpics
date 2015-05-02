@@ -22,4 +22,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id ="userDatailsService" class="com.serpics.system.services.UserDetailsServiceImpl"/>
   <bean id="successAuthenticationHandler" class="com.serpics.system.security.AuthenticationHandler"/> 
   
+  
+  <bean id="propertiesUtils" class="com.serpics.vaadin.ui.PropertiesUtils">
+  <property name="tableProperties">
+  	<map>
+  		<entry key="com.serpics.catalog.persistence.CategoryRelation" value="{childCategory.code, sequence}" />
+  	</map>
+  </property>
+  </bean>
  </beans>    

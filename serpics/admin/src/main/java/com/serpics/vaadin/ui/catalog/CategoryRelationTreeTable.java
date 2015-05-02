@@ -34,6 +34,10 @@ public class CategoryRelationTreeTable extends CustomComponent implements Entity
     private boolean initialized = false;
 
     @Override
+    public Class<CategoryRelation> getEntityType() {
+    	return CategoryRelation.class;
+    }
+    @Override
     public void init() {
         cont = ServiceContainerFactory.make(CategoryRelation.class);
         cont.addNestedContainerProperty("parentCategory.*");

@@ -1,5 +1,6 @@
 package com.serpics.core.data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -91,7 +92,9 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	
 	public Repository getRepositoryForEntity(Class<?> clazz){
 			Assert.notNull(clazz);
-			return entityRepositoryMapping.get(clazz.getName());
+			Repository repository = entityRepositoryMapping.get(clazz.getName());
+			Assert.isNull(repository , String.format("no repository found for class %s" , clazz.getName()));
+			return repository;
 	}
 	
 	public static RepositoryInitializer getInstance(){

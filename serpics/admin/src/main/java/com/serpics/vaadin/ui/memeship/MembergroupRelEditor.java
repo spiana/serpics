@@ -76,16 +76,6 @@ public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
             combo.setConverter(new SingleSelectConverter(combo));
             fieldGroup.bind(combo, "membergroup");
             return combo;
-        } else if (pid.equals("status")) {
-            final ComboBox combo = new ComboBox("status");
-            combo.addItem(Member2GroupRelType.EFFECTIVE);
-            combo.setItemCaption(Member2GroupRelType.EFFECTIVE, "Effective");
-            combo.addItem(Member2GroupRelType.REQUEST);
-            combo.setItemCaption(Member2GroupRelType.REQUEST, "Request");
-            combo.setNullSelectionAllowed(false);
-            fieldGroup.bind(combo, "status");
-            return combo;
-
         } else
             return super.createField(pid);
     }

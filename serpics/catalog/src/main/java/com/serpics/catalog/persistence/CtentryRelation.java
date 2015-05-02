@@ -14,10 +14,6 @@ import com.serpics.core.persistence.jpa.AbstractEntity;
  * The persistent class for the ctentry_relation database table.
  * 
  */
-//@Entity
-//@Table(name="ctentry_relation" )
-//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-//@DiscriminatorColumn (name="relation_type" , discriminatorType=DiscriminatorType.INTEGER)
 @MappedSuperclass
 public abstract class CtentryRelation extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -39,14 +35,7 @@ public abstract class CtentryRelation extends AbstractEntity implements Serializ
 
     public CtentryRelation() {
     }
-    /*
-	public CtentryRelation(CtentryRelationPK id, int relationType, double sequence) {
-		super();
-		this.id = id;
-		//this.relationType = relationType;
-		this.sequence = sequence;
-	}
-     */
+   
     public CtentryRelationPK getId() {
         return this.id;
     }

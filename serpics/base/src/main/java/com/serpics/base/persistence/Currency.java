@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * The persistent class for the currency database table.
  * 
@@ -28,6 +30,7 @@ public class Currency extends com.serpics.core.persistence.jpa.AbstractEntity im
 	private String descriprion;
 
 	@Column(name = "iso_code", nullable = false, length = 3)
+	@NotEmpty
 	private String isoCode;
 
 	public Currency() {

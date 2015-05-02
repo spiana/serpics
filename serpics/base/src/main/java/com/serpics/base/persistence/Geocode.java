@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 /**
  * The persistent class for the geocode database table.
@@ -28,8 +29,9 @@ public class Geocode extends com.serpics.core.persistence.jpa.AbstractEntity imp
     @Column(name = "geocode_id", unique = true, nullable = false)
     private Long geocodeId;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+    @Column(nullable = false, length = 100 , name="name" )
+    @Pattern(regexp="^[a-zA-Z0-9]",message="only letters and numbers allowed !")
+    private String code;
 
     // bi-directional many-to-one association to Country
     @OneToMany(mappedBy = "geocode")
@@ -50,12 +52,12 @@ public class Geocode extends com.serpics.core.persistence.jpa.AbstractEntity imp
         this.geocodeId = geocodeId;
     }
 
-    public String getName() {
-        return this.name;
+    public String getCode() {
+        return this.code;
     }
 
-    public void setName(final String name) {
-        this.name = name;
+    public void setCode(final String code) {
+        this.code = code;
     }
 
     public Set<Country> getCountries() {

@@ -57,6 +57,12 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         this.entityClass = entityClass;
     }
 
+
+    @Override
+    public Class<T> getEntityType() {
+    	return this.entityClass;
+    }
+    
     @Override
     public void init() {
     	buildContainer();
