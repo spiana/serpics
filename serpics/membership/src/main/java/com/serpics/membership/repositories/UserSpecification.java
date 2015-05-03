@@ -7,8 +7,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.User;
 
 
 public class UserSpecification {

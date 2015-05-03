@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.CreateInterceptor;
-import com.serpics.membership.persistence.Membergroup;
-import com.serpics.membership.persistence.Store;
+import com.serpics.membership.data.model.Membergroup;
+import com.serpics.membership.data.model.Store;
 
 public class membergroupCreateInterceptor implements CreateInterceptor<Membergroup> {
 

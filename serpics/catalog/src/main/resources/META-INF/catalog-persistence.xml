@@ -3,40 +3,40 @@
 	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!--  Catalog -->
-		<class>com.serpics.catalog.persistence.Brand</class>
-		<class>com.serpics.catalog.persistence.Catalog</class>
-		<class>com.serpics.catalog.persistence.Category</class>
-		<class>com.serpics.catalog.persistence.Ctentry</class>
-		<class>com.serpics.catalog.persistence.CtentryAttributeValueDatetime</class>
-		<class>com.serpics.catalog.persistence.CtentryAttributeValueDecimal</class>
-		<class>com.serpics.catalog.persistence.CtentryAttributeValueLong</class>
-		<class>com.serpics.catalog.persistence.CtentryAttributeValueText</class>
-		<class>com.serpics.catalog.persistence.CtentryAttributeValueVarchar</class>
-		<class>com.serpics.catalog.persistence.CtentryAttribute</class>
-<!-- 		<class>com.serpics.catalog.persistence.CtentryDescr</class> -->
-<!-- 		<class>com.serpics.catalog.persistence.CtentryDescrPK</class> -->
-		<class>com.serpics.catalog.persistence.CtentryRelationPK</class>
-		<class>com.serpics.catalog.persistence.Media</class>
-<!-- 		<class>com.serpics.catalog.persistence.MediaDescr</class> -->
-<!-- 		<class>com.serpics.catalog.persistence.MediaDescrPK</class> -->
-		<class>com.serpics.catalog.persistence.Pricelist</class>
-<!-- 		<class>com.serpics.catalog.persistence.PricelistDescr</class> -->
-<!-- 		<class>com.serpics.catalog.persistence.PricelistDescrPK</class> -->
-		<class>com.serpics.catalog.persistence.Price</class>
-		<class>com.serpics.catalog.persistence.Productffmt</class>
-		<class>com.serpics.catalog.persistence.ProductffmtPK</class>
-		<class>com.serpics.catalog.persistence.AbstractProduct</class>
-		<class>com.serpics.catalog.persistence.Product</class>
-		<class>com.serpics.catalog.persistence.CategoryRelation</class>
-		<!--  <class>com.serpics.catalog.persistence.CtentryRelation</class> -->
-		<class>com.serpics.catalog.persistence.CategoryProductRelation</class>
+		<class>com.serpics.catalog.data.model.Brand</class>
+		<class>com.serpics.catalog.data.model.Catalog</class>
+		<class>com.serpics.catalog.data.model.Category</class>
+		<class>com.serpics.catalog.data.model.Ctentry</class>
+		<class>com.serpics.catalog.data.model.CtentryAttributeValueDatetime</class>
+		<class>com.serpics.catalog.data.model.CtentryAttributeValueDecimal</class>
+		<class>com.serpics.catalog.data.model.CtentryAttributeValueLong</class>
+		<class>com.serpics.catalog.data.model.CtentryAttributeValueText</class>
+		<class>com.serpics.catalog.data.model.CtentryAttributeValueVarchar</class>
+		<class>com.serpics.catalog.data.model.CtentryAttribute</class>
+<!-- 		<class>com.serpics.catalog.data.model.CtentryDescr</class> -->
+<!-- 		<class>com.serpics.catalog.data.model.CtentryDescrPK</class> -->
+		<class>com.serpics.catalog.data.model.CtentryRelationPK</class>
+		<class>com.serpics.catalog.data.model.Media</class>
+<!-- 		<class>com.serpics.catalog.data.model.MediaDescr</class> -->
+<!-- 		<class>com.serpics.catalog.data.model.MediaDescrPK</class> -->
+		<class>com.serpics.catalog.data.model.Pricelist</class>
+<!-- 		<class>com.serpics.catalog.data.model.PricelistDescr</class> -->
+<!-- 		<class>com.serpics.catalog.data.model.PricelistDescrPK</class> -->
+		<class>com.serpics.catalog.data.model.Price</class>
+		<class>com.serpics.catalog.data.model.Productffmt</class>
+		<class>com.serpics.catalog.data.model.ProductffmtPK</class>
+		<class>com.serpics.catalog.data.model.AbstractProduct</class>
+		<class>com.serpics.catalog.data.model.Product</class>
+		<class>com.serpics.catalog.data.model.CategoryRelation</class>
+		<!--  <class>com.serpics.catalog.data.model.CtentryRelation</class> -->
+		<class>com.serpics.catalog.data.model.CategoryProductRelation</class>
 		<!-- specification -->
-		<class>com.serpics.catalog.persistence.Specification</class>
-		<class>com.serpics.catalog.persistence.SpecificationRelation</class>
-		<class>com.serpics.catalog.persistence.Feature</class>
-<!-- 		<class>com.serpics.catalog.persistence.FeatureDescr</class> -->
-		<class>com.serpics.catalog.persistence.FeatureGroup</class>
-		<class>com.serpics.catalog.persistence.FeatureValues</class>
+		<class>com.serpics.catalog.data.model.Specification</class>
+		<class>com.serpics.catalog.data.model.SpecificationRelation</class>
+		<class>com.serpics.catalog.data.model.Feature</class>
+<!-- 		<class>com.serpics.catalog.data.model.FeatureDescr</class> -->
+		<class>com.serpics.catalog.data.model.FeatureGroup</class>
+		<class>com.serpics.catalog.data.model.FeatureValues</class>
 	
 	</persistence-unit>
 </persistence>	

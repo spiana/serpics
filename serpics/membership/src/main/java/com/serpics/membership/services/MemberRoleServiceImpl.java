@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.membership.persistence.MembersRole;
-import com.serpics.membership.persistence.MembersRolePK;
+import com.serpics.membership.data.model.MembersRole;
+import com.serpics.membership.data.model.MembersRolePK;
 import com.serpics.membership.repositories.MembersRoleRepository;
 
 

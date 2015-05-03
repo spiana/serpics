@@ -2,8 +2,8 @@ package com.serpics.catalog.repositories.interceptors;
 
 import org.springframework.util.Assert;
 
-import com.serpics.catalog.persistence.CategoryRelation;
-import com.serpics.catalog.persistence.CtentryRelationPK;
+import com.serpics.catalog.data.model.CategoryRelation;
+import com.serpics.catalog.data.model.CtentryRelationPK;
 import com.serpics.core.data.CreateInterceptor;
 
 public class CategoryRelationCreateInterceptor implements CreateInterceptor<CategoryRelation> {

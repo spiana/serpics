@@ -2,7 +2,7 @@ package com.serpics.membership.facade;
 
 
 import com.serpics.core.facade.AbstractConverter;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.User;
 
 public abstract class UserConverter extends AbstractConverter<User, UserData> {
 

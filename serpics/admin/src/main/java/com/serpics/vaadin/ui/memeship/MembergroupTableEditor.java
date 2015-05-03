@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
-import com.serpics.membership.persistence.Membergroup;
+import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.repositories.MemberGroupRepository;
 import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;

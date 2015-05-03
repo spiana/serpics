@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.base.persistence.Currency;
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Price;
-import com.serpics.catalog.persistence.Pricelist;
+import com.serpics.base.data.model.Currency;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Price;
+import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.repositories.PriceListRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.CreateInterceptor;
-import com.serpics.membership.persistence.Store;
+import com.serpics.membership.data.model.Store;
 
 public class PriceCreateInterceptor implements CreateInterceptor<Price> {
 

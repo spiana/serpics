@@ -2,7 +2,7 @@ package com.serpics.membership.hooks;
 
 import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserDetail;
-import com.serpics.membership.persistence.Store;
+import com.serpics.membership.data.model.Store;
 import com.serpics.stereotype.Hook;
 
 @Hook("membership")

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.membership.persistence.Role;
+import com.serpics.membership.data.model.Role;
 import com.serpics.membership.repositories.RoleRepository;
 
 @Service("roleService")

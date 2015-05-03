@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
-import com.serpics.membership.persistence.Membergrouprel;
+import com.serpics.membership.data.model.Membergrouprel;
 import com.serpics.membership.repositories.MembergrouprelRepository;
 
 @Service("membergrouprelService")

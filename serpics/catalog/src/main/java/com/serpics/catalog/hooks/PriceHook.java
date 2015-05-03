@@ -1,7 +1,7 @@
 package com.serpics.catalog.hooks;
 
-import com.serpics.base.persistence.Currency;
-import com.serpics.catalog.persistence.AbstractProduct;
+import com.serpics.base.data.model.Currency;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.stereotype.Hook;
 
 @Hook("priceHook")

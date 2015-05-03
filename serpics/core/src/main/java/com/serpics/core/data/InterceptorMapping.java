@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.core.persistence.jpa.AbstractEntity;
+import com.serpics.core.data.jpa.AbstractEntity;
 
 
 

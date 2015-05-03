@@ -6,11 +6,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.base.persistence.Locale;
-import com.serpics.base.persistence.MultilingualString;
+import com.serpics.base.data.model.Locale;
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.services.LocaleService;
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Category;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.core.SerpicsException;
 

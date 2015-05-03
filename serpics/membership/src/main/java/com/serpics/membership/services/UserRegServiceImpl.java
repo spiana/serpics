@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.core.data.Repository;
 import com.serpics.membership.UserType;
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.repositories.StoreRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 

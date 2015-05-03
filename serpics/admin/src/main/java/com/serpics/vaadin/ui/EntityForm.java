@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.base.persistence.MultilingualString;
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.component.CustomFieldFactory;

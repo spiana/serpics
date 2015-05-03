@@ -2,7 +2,7 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.services.PrimaryAddressService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;

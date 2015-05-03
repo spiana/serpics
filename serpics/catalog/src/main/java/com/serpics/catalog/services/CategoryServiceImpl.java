@@ -17,10 +17,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Category;
-import com.serpics.catalog.persistence.CategoryRelation;
-import com.serpics.catalog.persistence.CtentryRelationPK;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Category;
+import com.serpics.catalog.data.model.CategoryRelation;
+import com.serpics.catalog.data.model.CtentryRelationPK;
 import com.serpics.catalog.repositories.CategoryRelationRepository;
 import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;

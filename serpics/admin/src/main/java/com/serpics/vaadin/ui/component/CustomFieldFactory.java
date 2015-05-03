@@ -7,7 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.persistence.MultilingualString;
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.membership.Member2GroupRelType;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityContainer;

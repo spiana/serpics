@@ -1,6 +1,6 @@
 package com.serpics.membership.services;
 
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.UsersReg;
 
 public interface UserRegService extends MemberService<UsersReg, Long> {
 

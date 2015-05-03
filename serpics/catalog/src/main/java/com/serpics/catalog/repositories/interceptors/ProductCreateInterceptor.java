@@ -2,8 +2,8 @@ package com.serpics.catalog.repositories.interceptors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.catalog.persistence.AbstractProduct;
-import com.serpics.catalog.persistence.Catalog;
+import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.Catalog;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.Engine;
 import com.serpics.core.data.CreateInterceptor;

@@ -1,9 +1,9 @@
 package com.serpics.commerce.services;
 
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.persistence.AbstractProduct;
-import com.serpics.commerce.persistence.Cart;
-import com.serpics.commerce.persistence.Cartitem;
+import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.commerce.data.model.Cart;
+import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 public interface CartService {

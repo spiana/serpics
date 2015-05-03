@@ -1,6 +1,6 @@
 package com.serpics.core.data;
 
-import com.serpics.core.persistence.jpa.AbstractEntity;
+import com.serpics.core.data.jpa.AbstractEntity;
 
 public interface UpdateInterceptor<T> extends Interceptor {
 

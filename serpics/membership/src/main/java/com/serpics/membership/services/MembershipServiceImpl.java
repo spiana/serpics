@@ -20,11 +20,11 @@ import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.service.Membership;
+import com.serpics.membership.data.model.PrimaryAddress;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.hooks.MembershipHook;
-import com.serpics.membership.persistence.PrimaryAddress;
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.User;
-import com.serpics.membership.persistence.UsersReg;
 import com.serpics.membership.repositories.StoreRepository;
 
 @Service("memberService")

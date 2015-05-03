@@ -2,11 +2,11 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.base.persistence.Locale;
+import com.serpics.base.data.model.Locale;
 import com.serpics.base.repositories.LocaleRepository;
 import com.serpics.base.services.LocaleService;
 import com.serpics.membership.UserRegStatus;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.vaadin.addon.jpacontainer.JPAContainer;

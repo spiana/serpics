@@ -13,21 +13,21 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.catalog.ProductNotFoundException;
+import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.hooks.InventoryHook;
 import com.serpics.catalog.hooks.PriceHook;
 import com.serpics.catalog.hooks.ProductHook;
-import com.serpics.catalog.persistence.AbstractProduct;
-import com.serpics.catalog.persistence.Product;
+import com.serpics.commerce.data.model.Cart;
+import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.hooks.CommerceHook;
 import com.serpics.commerce.hooks.DiscountHook;
-import com.serpics.commerce.persistence.Cart;
-import com.serpics.commerce.persistence.Cartitem;
 import com.serpics.commerce.repositories.CartRepository;
 import com.serpics.commerce.repositories.OrderItemRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.User;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 @Service("cartService")

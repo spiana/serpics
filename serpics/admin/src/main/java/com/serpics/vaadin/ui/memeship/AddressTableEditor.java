@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
-import com.serpics.membership.persistence.PermanentAddress;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.PermanentAddress;
+import com.serpics.membership.data.model.User;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.stereotype.VaadinComponent;

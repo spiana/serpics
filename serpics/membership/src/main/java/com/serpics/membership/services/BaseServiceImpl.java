@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.base.persistence.Currency;
-import com.serpics.base.persistence.Locale;
+import com.serpics.base.data.model.Currency;
+import com.serpics.base.data.model.Locale;
 import com.serpics.base.repositories.CurrencyRepository;
 import com.serpics.base.services.LocaleService;
 import com.serpics.commerce.core.CommerceEngine;
@@ -21,11 +21,11 @@ import com.serpics.core.session.SessionContext;
 import com.serpics.membership.MemberType;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
-import com.serpics.membership.persistence.PrimaryAddress;
-import com.serpics.membership.persistence.Role;
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.User;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.PrimaryAddress;
+import com.serpics.membership.data.model.Role;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.repositories.StoreRepository;
 import com.serpics.membership.repositories.UserRepository;
 

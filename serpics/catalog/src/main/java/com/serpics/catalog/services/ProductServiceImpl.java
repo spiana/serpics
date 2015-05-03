@@ -13,8 +13,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;

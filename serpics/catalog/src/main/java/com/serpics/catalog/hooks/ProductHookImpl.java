@@ -3,8 +3,8 @@ package com.serpics.catalog.hooks;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.commerce.hook.AbstractHook;
 import com.serpics.stereotype.StoreHook;

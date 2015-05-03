@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.membership.persistence.PrimaryAddress;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.PrimaryAddress;
+import com.serpics.membership.data.model.User;
 import com.serpics.membership.repositories.PrimaryAddressRepository;
 
 @Service("primaryAddressService")

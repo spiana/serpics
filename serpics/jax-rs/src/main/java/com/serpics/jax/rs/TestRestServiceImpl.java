@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.cxf.interceptor.OutInterceptors;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.User;
 
 public class TestRestServiceImpl implements TestRestService {
 

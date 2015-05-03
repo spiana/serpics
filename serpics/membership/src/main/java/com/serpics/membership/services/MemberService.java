@@ -3,9 +3,9 @@ package com.serpics.membership.services;
 import java.io.Serializable;
 
 import com.serpics.core.service.EntityService;
-import com.serpics.membership.persistence.Member;
-import com.serpics.membership.persistence.PermanentAddress;
-import com.serpics.membership.persistence.Role;
+import com.serpics.membership.data.model.Member;
+import com.serpics.membership.data.model.PermanentAddress;
+import com.serpics.membership.data.model.Role;
 
 public interface MemberService<T extends Member, ID extends Serializable> extends EntityService<T, ID> {
 

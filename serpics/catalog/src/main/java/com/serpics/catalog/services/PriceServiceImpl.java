@@ -13,16 +13,16 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.persistence.Currency;
-import com.serpics.catalog.persistence.AbstractProduct;
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Price;
-import com.serpics.catalog.persistence.Pricelist;
+import com.serpics.base.data.model.Currency;
+import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Price;
+import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.repositories.PriceListRepository;
 import com.serpics.catalog.repositories.PriceRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.membership.persistence.Store;
+import com.serpics.membership.data.model.Store;
 
 @Service("priceService")
 @Scope("store")

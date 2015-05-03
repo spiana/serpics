@@ -3,11 +3,11 @@ package com.serpics.vaadin.ui.catalog;
 import org.restlet.engine.http.header.ProductReader;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.catalog.persistence.AbstractProduct;
-import com.serpics.catalog.persistence.Category;
-import com.serpics.catalog.persistence.CategoryProductRelation;
-import com.serpics.catalog.persistence.Price;
-import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.Category;
+import com.serpics.catalog.data.model.CategoryProductRelation;
+import com.serpics.catalog.data.model.Price;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.repositories.Category2ProductRepository;
 import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.catalog.repositories.PriceRepository;

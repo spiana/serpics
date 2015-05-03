@@ -2,9 +2,8 @@ package com.serpics.commerce.hooks;
 
 import java.math.BigDecimal;
 
-
-import com.serpics.commerce.persistence.AbstractOrder;
-import com.serpics.commerce.persistence.AbstractOrderitem;
+import com.serpics.commerce.data.model.AbstractOrder;
+import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.stereotype.StoreHook;
 
 @StoreHook(value = "commerceHook")

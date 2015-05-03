@@ -1,7 +1,7 @@
 package com.serpics.catalog.hooks;
 
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.stereotype.Hook;
 
 @Hook("productHook")

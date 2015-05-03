@@ -8,9 +8,9 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Category;
-import com.serpics.catalog.persistence.Product;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Category;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.stereotype.DefaultSpec;
 

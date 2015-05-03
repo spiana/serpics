@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import com.serpics.core.persistence.jpa.AbstractEntity;
+import com.serpics.core.data.jpa.AbstractEntity;
 
 public class InterceptorEntityMapping extends HashMap<String,  List<InterceptorMapping>>  {
 	

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- Membership -->
+		<class>com.serpics.membership.data.model.UsersReg</class>
+		<class>com.serpics.membership.data.model.User</class>
+		<class>com.serpics.membership.data.model.Store</class>
+		<class>com.serpics.membership.data.model.Role</class>
+		<class>com.serpics.membership.data.model.MembgrouprelPK</class>
+		<class>com.serpics.membership.data.model.Membergrouprel</class>
+		<class>com.serpics.membership.data.model.MembersRolePK</class>
+		<class>com.serpics.membership.data.model.MembersRole</class>
+		<class>com.serpics.membership.data.model.Membergroup</class>
+		<class>com.serpics.membership.data.model.MemberRelationPK</class>
+		<!-- <class>com.serpics.membership.data.model.MemberRelation</class> -->
+		<class>com.serpics.membership.data.model.User2UserRelation</class>
+		<!-- <class>com.serpics.membership.data.model.UserStoreRelation</class> -->
+		<class>com.serpics.membership.data.model.MemberAttributeValueVarchar</class>
+		<class>com.serpics.membership.data.model.MemberAttributeValueText</class>
+		<class>com.serpics.membership.data.model.MemberAttributeValueLong</class>
+		<class>com.serpics.membership.data.model.MemberAttributeValueDecimal</class>
+		<class>com.serpics.membership.data.model.MemberAttributeValueDatetime</class>
+		<class>com.serpics.membership.data.model.MemberAttribute</class>
+		<!-- <class>com.serpics.membership.data.model.Member</class> -->
+		<class>com.serpics.membership.data.model.AbstractAddress</class>
+		<class>com.serpics.membership.data.model.Address</class>
+		<class>com.serpics.membership.data.model.PrimaryAddress</class>
+		<class>com.serpics.membership.data.model.PermanentAddress</class>
+	</persistence-unit>
+</persistence>

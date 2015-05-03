@@ -6,8 +6,8 @@ import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.commerce.persistence.Cart;
-import com.serpics.commerce.persistence.Order;
+import com.serpics.commerce.data.model.Cart;
+import com.serpics.commerce.data.model.Order;
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
 

@@ -1,8 +1,8 @@
 package com.serpics.commerce.session;
 
-import com.serpics.core.persistence.Catalog;
-import com.serpics.core.persistence.Currency;
-import com.serpics.core.persistence.Locale;
+import com.serpics.core.data.model.Catalog;
+import com.serpics.core.data.model.Currency;
+import com.serpics.core.data.model.Locale;
 import com.serpics.core.security.StoreRealm;
 import com.serpics.core.security.UserDetail;
 import com.serpics.core.session.SessionContext;

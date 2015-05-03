@@ -12,9 +12,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.persistence.MultilingualString;
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Pricelist;
+import com.serpics.base.data.model.MultilingualString;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.repositories.CatalogRepository;
 import com.serpics.catalog.repositories.PriceListRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;

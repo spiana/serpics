@@ -3,18 +3,18 @@
 	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!-- Base --> 
-<!-- 		<class>com.serpics.base.persistence.AttributeLookup</class> -->
-<!-- 		<class>com.serpics.base.persistence.AttributeLookupPK</class> -->
-		<class>com.serpics.base.persistence.BaseAttribute</class>
-		<class>com.serpics.base.persistence.Country</class>
-		<class>com.serpics.base.persistence.Geocode</class>
-		<class>com.serpics.base.persistence.Paymethlookup</class>
-		<class>com.serpics.base.persistence.PaymethlookupPK</class>
-		<class>com.serpics.base.persistence.Paymethod</class>
-		<class>com.serpics.base.persistence.Region</class>
-		<class>com.serpics.base.persistence.Currency</class>
-		<class>com.serpics.base.persistence.Locale</class>
-		<class>com.serpics.base.persistence.MultilingualString</class>
+<!-- 		<class>com.serpics.base.data.model.AttributeLookup</class> -->
+<!-- 		<class>com.serpics.base.data.model.AttributeLookupPK</class> -->
+		<class>com.serpics.base.data.model.BaseAttribute</class>
+		<class>com.serpics.base.data.model.Country</class>
+		<class>com.serpics.base.data.model.Geocode</class>
+		<class>com.serpics.base.data.model.Paymethlookup</class>
+		<class>com.serpics.base.data.model.PaymethlookupPK</class>
+		<class>com.serpics.base.data.model.Paymethod</class>
+		<class>com.serpics.base.data.model.Region</class>
+		<class>com.serpics.base.data.model.Currency</class>
+		<class>com.serpics.base.data.model.Locale</class>
+		<class>com.serpics.base.data.model.MultilingualString</class>
 	</persistence-unit>
 </persistence>	
 		

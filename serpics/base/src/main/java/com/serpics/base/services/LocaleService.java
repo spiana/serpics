@@ -1,6 +1,6 @@
 package com.serpics.base.services;
 
-import com.serpics.base.persistence.Locale;
+import com.serpics.base.data.model.Locale;
 import com.serpics.core.service.EntityService;
 
 

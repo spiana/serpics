@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.serpics.base.persistence.Locale;
+import com.serpics.base.data.model.Locale;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.repositories.MembersRoleRepository;
 import com.serpics.membership.services.UserRegService;
 import com.serpics.system.services.UserDetailsService;

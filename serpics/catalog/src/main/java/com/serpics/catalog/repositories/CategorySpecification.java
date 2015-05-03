@@ -7,8 +7,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Category;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Category;
 
 public class CategorySpecification {
 

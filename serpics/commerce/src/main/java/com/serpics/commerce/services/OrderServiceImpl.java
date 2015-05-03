@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.commerce.persistence.Cart;
-import com.serpics.commerce.persistence.Order;
+import com.serpics.commerce.data.model.Cart;
+import com.serpics.commerce.data.model.Order;
 import com.serpics.commerce.repositories.CartRepository;
 import com.serpics.commerce.repositories.OrderRepository;
 import com.serpics.core.service.AbstractService;

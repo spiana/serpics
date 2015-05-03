@@ -6,8 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.serpics.catalog.persistence.Catalog;
-import com.serpics.catalog.persistence.Category;
+import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Category;
 
 public class CategoryRepositoryImpl implements BaseCategoryRepository {
 

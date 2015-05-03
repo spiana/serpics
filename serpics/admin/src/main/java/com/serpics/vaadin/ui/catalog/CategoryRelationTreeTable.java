@@ -2,7 +2,7 @@ package com.serpics.vaadin.ui.catalog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.catalog.persistence.CategoryRelation;
+import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.repositories.CategoryRelationRepository;
 import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.catalog.services.CategoryRelationService;

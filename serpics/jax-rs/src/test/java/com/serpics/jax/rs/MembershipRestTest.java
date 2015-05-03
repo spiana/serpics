@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.springframework.data.domain.Page;
 
 import com.serpics.core.SerpicsException;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.User;
 import com.serpics.membership.services.BaseService;
 
 //@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })

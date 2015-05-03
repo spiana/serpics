@@ -10,12 +10,12 @@ import org.springframework.util.Assert;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
-import com.serpics.membership.persistence.Member;
-import com.serpics.membership.persistence.MembersRole;
-import com.serpics.membership.persistence.MembersRolePK;
-import com.serpics.membership.persistence.PermanentAddress;
-import com.serpics.membership.persistence.Role;
-import com.serpics.membership.persistence.Store;
+import com.serpics.membership.data.model.Member;
+import com.serpics.membership.data.model.MembersRole;
+import com.serpics.membership.data.model.MembersRolePK;
+import com.serpics.membership.data.model.PermanentAddress;
+import com.serpics.membership.data.model.Role;
+import com.serpics.membership.data.model.Store;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 import com.serpics.membership.repositories.StoreRepository;
 

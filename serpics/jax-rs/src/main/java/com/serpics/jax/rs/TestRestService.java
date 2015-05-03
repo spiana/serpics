@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.User;
 
 @Path("testService")
 public interface TestRestService {

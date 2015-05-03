@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.serpics.core.SerpicsException;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.User;
 
 
 public interface UserRestService extends AbstractRestService<User, Long> {

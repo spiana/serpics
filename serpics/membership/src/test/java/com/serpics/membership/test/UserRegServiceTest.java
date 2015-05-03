@@ -15,9 +15,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.User;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.repositories.StoreRepository;
 import com.serpics.membership.repositories.UserRepository;
 import com.serpics.membership.services.BaseService;

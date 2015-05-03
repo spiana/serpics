@@ -1,6 +1,6 @@
 package com.serpics.catalog.hooks;
 
-import com.serpics.catalog.persistence.AbstractProduct;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.stereotype.Hook;
 import com.serpics.warehouse.InventoryNotAvailableException;
 

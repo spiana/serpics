@@ -20,8 +20,8 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.service.EntityService;
-import com.serpics.membership.persistence.Address;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.Address;
+import com.serpics.membership.data.model.User;
 import com.serpics.membership.repositories.AddressRepository;
 
 @Service("addressService")

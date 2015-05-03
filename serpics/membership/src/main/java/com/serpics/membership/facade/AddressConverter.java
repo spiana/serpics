@@ -1,7 +1,7 @@
 package com.serpics.membership.facade;
 
 import com.serpics.core.facade.AbstractConverter;
-import com.serpics.membership.persistence.AbstractAddress;
+import com.serpics.membership.data.model.AbstractAddress;
 
 public abstract class AddressConverter extends AbstractConverter<AbstractAddress, AddressData> {
 

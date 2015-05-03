@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.CreateInterceptor;
-import com.serpics.membership.persistence.MembersRole;
-import com.serpics.membership.persistence.MembersRolePK;
+import com.serpics.membership.data.model.MembersRole;
+import com.serpics.membership.data.model.MembersRolePK;
 
 public class MemberRoleCreateInterceptor implements CreateInterceptor<MembersRole>{
 

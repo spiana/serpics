@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.serpics.core.data.Repository;
-import com.serpics.membership.persistence.Membergroup;
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.Membergroup;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.User;
 
 public interface MemberGroupRepository extends Repository<Membergroup, Long> {
 

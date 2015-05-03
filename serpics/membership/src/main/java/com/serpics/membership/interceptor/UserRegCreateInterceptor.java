@@ -2,7 +2,7 @@ package com.serpics.membership.interceptor;
 
 import com.serpics.core.data.InterceptorMapping;
 import com.serpics.core.data.CreateInterceptor;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.UsersReg;
 
 public class UserRegCreateInterceptor  implements CreateInterceptor<UsersReg> {
 

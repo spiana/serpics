@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 
-import com.serpics.catalog.persistence.Catalog;
+import com.serpics.catalog.data.model.Catalog;
 import com.serpics.core.data.Repository;
 
 public interface CatalogRepository extends Repository<Catalog, Long> {

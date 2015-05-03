@@ -1,6 +1,6 @@
 package com.serpics.vaadin.ui.memeship;
 
-import com.serpics.membership.persistence.Membergroup;
+import com.serpics.membership.data.model.Membergroup;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 

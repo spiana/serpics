@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
-import com.serpics.membership.persistence.MembersRole;
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.MembersRole;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.repositories.MembersRoleRepository;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.services.MembershipService;

@@ -10,7 +10,7 @@ import com.serpics.membership.UserRegStatus;
 
 
 
-public class User extends com.serpics.membership.persistence.UsersReg implements UserDetails,
+public class User extends com.serpics.membership.data.model.UsersReg implements UserDetails,
 com.serpics.core.security.UserDetail {
 
 	private static final long serialVersionUID = -5717668598546054329L;

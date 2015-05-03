@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
-import com.serpics.membership.persistence.Role;
+import com.serpics.membership.data.model.Role;
 import com.serpics.membership.repositories.RoleRepository;
 import com.serpics.membership.services.RoleService;
 import com.serpics.stereotype.VaadinComponent;

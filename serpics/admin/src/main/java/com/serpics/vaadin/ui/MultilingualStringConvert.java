@@ -1,6 +1,6 @@
 package com.serpics.vaadin.ui;
 
-import com.serpics.base.persistence.MultilingualString;
+import com.serpics.base.data.model.MultilingualString;
 import com.vaadin.data.util.converter.Converter;
 public class MultilingualStringConvert implements Converter<String, MultilingualString> {
     private static final long serialVersionUID = 1L;

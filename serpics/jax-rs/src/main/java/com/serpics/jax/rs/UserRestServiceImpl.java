@@ -20,7 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
 
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.User;
 import com.serpics.membership.services.UserService;
 
 

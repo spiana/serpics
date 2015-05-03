@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
-import com.serpics.membership.persistence.PrimaryAddress;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.PrimaryAddress;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.membership.services.UserRegService;
 import com.serpics.stereotype.VaadinComponent;

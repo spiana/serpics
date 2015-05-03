@@ -5,14 +5,13 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-
 import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MembershipException;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
-import com.serpics.membership.persistence.Store;
-import com.serpics.membership.persistence.UsersReg;
+import com.serpics.membership.data.model.Store;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.repositories.UserRegrepository;
 import com.serpics.stereotype.StoreHook;
 

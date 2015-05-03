@@ -21,9 +21,9 @@ import com.serpics.core.data.Repository;
 import com.serpics.core.data.SpecificationUtis;
 import com.serpics.core.service.AbstractService;
 import com.serpics.core.session.SessionContext;
-import com.serpics.membership.persistence.AbstractAddress;
-import com.serpics.membership.persistence.PermanentAddress;
-import com.serpics.membership.persistence.User;
+import com.serpics.membership.data.model.AbstractAddress;
+import com.serpics.membership.data.model.PermanentAddress;
+import com.serpics.membership.data.model.User;
 import com.serpics.membership.repositories.PermanentAddressRepository;
 
 @Service("permanentAddressService")

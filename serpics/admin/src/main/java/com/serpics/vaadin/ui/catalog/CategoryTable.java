@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.repositories.LocaleRepository;
 import com.serpics.base.services.LocaleService;
-import com.serpics.catalog.persistence.Category;
-import com.serpics.catalog.persistence.CategoryRelation;
+import com.serpics.catalog.data.model.Category;
+import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.repositories.CategoryRepository;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.core.data.Repository;
