@@ -1,4 +1,4 @@
-package com.serpics.catalog.hooks;
+package com.serpics.catalog.strategies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,7 +9,7 @@ import com.serpics.catalog.repositories.ProductRepository;
 import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 
-@StoreStrategy("productHook")
+@StoreStrategy("productStrategy")
 public class ProductStrategyImpl extends AbstractStrategy implements ProductStrategy {
 
 	@Autowired

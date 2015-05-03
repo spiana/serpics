@@ -1,55 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- xmlns:data="http://www.springframework.org/schema/data/jpa"
-xmlns:context="http://www.springframework.org/schema/context"
-xsi:schemaLocation="http://www.springframework.org/schema/beans 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:data="http://www.springframework.org/schema/data/jpa"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:component-scan base-package="com.serpics.catalog.services" />
-     	
-     	<data:repositories base-package="com.serpics.catalog.repositories" 
-  factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
-     
-   <!--  Interceptor  Mapping -->  
-  <bean name="productCreateInterceptor" class="com.serpics.catalog.repositories.interceptors.ProductCreateInterceptor"/>
-  <bean name="categoryCreateInterceptor" class="com.serpics.catalog.repositories.interceptors.CategoryCreateInterceptor"/>   
-  <bean name="categoryRelationCreateInterceptor" class="com.serpics.catalog.repositories.interceptors.CategoryRelationCreateInterceptor" />
-  <bean name="category2ProductCreateInterceptor" class="com.serpics.catalog.repositories.interceptors.Category2productCreateInterceptor" />
-  <bean name="priceInterceptor" class="com.serpics.catalog.repositories.interceptors.PriceCreateInterceptor" />
-     
-	<bean name="productCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
-			 <property name="targetEntity" value="com.serpics.catalog.persistence.Product" />
-			 <property name="order" value="10" />
-			 <property name="interceptor" ref="productCreateInterceptor"/>
-	</bean>   
-	<bean name="categoryCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
-			 <property name="targetEntity" value="com.serpics.catalog.persistence.Category" />
-			 <property name="order" value="10" />
-			 <property name="interceptor" ref="categoryCreateInterceptor"/>
+	<context:component-scan base-package="com.serpics.catalog.services" />
+
+	<data:repositories base-package="com.serpics.catalog.repositories"
+		factory-class="com.serpics.core.data.RepositoryFactoryBean" />
+
+	<!-- Interceptor Mapping -->
+	<bean name="productCreateInterceptor"
+		class="com.serpics.catalog.repositories.interceptors.ProductCreateInterceptor" />
+	<bean name="categoryCreateInterceptor"
+		class="com.serpics.catalog.repositories.interceptors.CategoryCreateInterceptor" />
+	<bean name="categoryRelationCreateInterceptor"
+		class="com.serpics.catalog.repositories.interceptors.CategoryRelationCreateInterceptor" />
+	<bean name="category2ProductCreateInterceptor"
+		class="com.serpics.catalog.repositories.interceptors.Category2productCreateInterceptor" />
+	<bean name="priceInterceptor"
+		class="com.serpics.catalog.repositories.interceptors.PriceCreateInterceptor" />
+
+	<bean name="productCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.catalog.data.model.Product" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="productCreateInterceptor" />
 	</bean>
-	<bean name="categoryRealationCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
-			 <property name="targetEntity" value="com.serpics.catalog.persistence.CategoryRelation" />
-			 <property name="order" value="10" />
-			 <property name="interceptor" ref="categoryRelationCreateInterceptor"/>
+	<bean name="categoryCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.catalog.data.model.Category" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="categoryCreateInterceptor" />
 	</bean>
-	<bean name="category2ProductCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
-			 <property name="targetEntity" value="com.serpics.catalog.persistence.CategoryProductRelation" />
-			 <property name="order" value="10" />
-			 <property name="interceptor" ref="category2ProductCreateInterceptor"/>
+	<bean name="categoryRealationCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity"
+			value="com.serpics.catalog.data.model.CategoryRelation" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="categoryRelationCreateInterceptor" />
 	</bean>
-	<bean name="priceCreateMapping" class="com.serpics.core.data.InterceptorMapping" >
-			 <property name="targetEntity" value="com.serpics.catalog.persistence.Price" />
-			 <property name="order" value="10" />
-			 <property name="interceptor" ref="priceInterceptor"/>
+	<bean name="category2ProductCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity"
+			value="com.serpics.catalog.data.model.CategoryProductRelation" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="category2ProductCreateInterceptor" />
 	</bean>
-   
-   <!--  default specification  -->
-   	<bean name="categorySpecification" class="com.serpics.catalog.data.specification.DefaultCategorySpecification" />
- 	<bean name="productSpecification" class="com.serpics.catalog.data.specification.DefaultProductSpecification" />
- 
- </beans>    
+	<bean name="priceCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.catalog.data.model.Price" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="priceInterceptor" />
+	</bean>
+
+	<!-- default specification -->
+	<bean name="categorySpecification"
+		class="com.serpics.catalog.data.specification.DefaultCategorySpecification" />
+	<bean name="productSpecification"
+		class="com.serpics.catalog.data.specification.DefaultProductSpecification" />
+
+</beans>    

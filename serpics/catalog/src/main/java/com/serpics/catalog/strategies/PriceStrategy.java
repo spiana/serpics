@@ -1,4 +1,4 @@
-package com.serpics.catalog.hooks;
+package com.serpics.catalog.strategies;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.data.model.AbstractProduct;

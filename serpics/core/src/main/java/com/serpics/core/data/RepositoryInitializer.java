@@ -93,7 +93,7 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	public Repository getRepositoryForEntity(Class<?> clazz){
 			Assert.notNull(clazz);
 			Repository repository = entityRepositoryMapping.get(clazz.getName());
-			Assert.isNull(repository , String.format("no repository found for class %s" , clazz.getName()));
+			Assert.notNull(repository , String.format("no repository found for class %s" , clazz.getName()));
 			return repository;
 	}
 	

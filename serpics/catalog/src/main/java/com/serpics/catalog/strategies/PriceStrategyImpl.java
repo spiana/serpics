@@ -1,11 +1,11 @@
-package com.serpics.catalog.hooks;
+package com.serpics.catalog.strategies;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 
-@StoreStrategy("priceHook")
+@StoreStrategy("priceStrategy")
 public class PriceStrategyImpl extends AbstractStrategy implements PriceStrategy {
 
 	@Override

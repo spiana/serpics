@@ -19,13 +19,13 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   <bean name="membegroupCreateInterceptor" class="com.serpics.membership.interceptor.membergroupCreateInterceptor"/>
   
   <bean name="memberRoleMapping" class="com.serpics.core.data.InterceptorMapping" >
-	  <property name="targetEntity" value="com.serpics.membership.persistence.MembersRole" />
+	  <property name="targetEntity" value="com.serpics.membership.data.model.MembersRole" />
 	  <property name="order" value="100"/>
 	  <property name="interceptor" ref="memberroleBeforeCreateInterceptor" />
  </bean>   
      
   <bean name="memberGroupMapping" class="com.serpics.core.data.InterceptorMapping" >
-	  <property name="targetEntity" value="com.serpics.membership.persistence.Membergroup" />
+	  <property name="targetEntity" value="com.serpics.membership.data.model.Membergroup" />
 	  <property name="order" value="100"/>
 	  <property name="interceptor" ref="membegroupCreateInterceptor" />
  </bean>  

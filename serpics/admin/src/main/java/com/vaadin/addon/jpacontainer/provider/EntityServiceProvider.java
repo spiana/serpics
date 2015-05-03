@@ -347,7 +347,7 @@ public class EntityServiceProvider<T> extends MutableLocalEntityProvider<T> impl
 	}
 
 	public void setRepository(Repository<T, Serializable> repository) {
-		Assert.isNull(repository, "repository must non be null !");
+		Assert.notNull(repository, "repository must non be null !");
 		this.repository = repository;
 	}
 

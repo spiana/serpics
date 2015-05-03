@@ -1,11 +1,11 @@
-package com.serpics.catalog.hooks;
+package com.serpics.catalog.strategies;
 
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
-@StoreStrategy("inventoryHook")
+@StoreStrategy("inventoryStrategy")
 public class InventoryStrategyImpl extends AbstractStrategy implements InventoryStrategy {
 
 	@Override

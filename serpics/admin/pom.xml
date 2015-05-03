@@ -123,11 +123,6 @@
         	<version>1.7.3</version>
     	</dependency>
 		<dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>commerce</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.6.6</version>
@@ -161,7 +156,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>3.2.4.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

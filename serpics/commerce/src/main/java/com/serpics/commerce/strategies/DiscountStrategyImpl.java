@@ -6,7 +6,7 @@ import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.stereotype.StoreStrategy;
 
-@StoreStrategy(value = "discountHook")
+@StoreStrategy(value = "discountStrategy")
 public class DiscountStrategyImpl implements DiscountStrategy {
 
     @Override

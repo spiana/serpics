@@ -1,4 +1,4 @@
-package com.serpics.catalog.hooks;
+package com.serpics.catalog.strategies;
 
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;

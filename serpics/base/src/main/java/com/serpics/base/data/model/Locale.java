@@ -9,13 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.serpics.core.data.jpa.AbstractEntity;
+
 /**
  * The persistent class for the locales database table.
  * 
  */
 @Entity
 @Table(name = "locale")
-public class Locale extends com.serpics.core.data.jpa.AbstractEntity implements com.serpics.core.data.model.Locale, Serializable {
+public class Locale extends AbstractEntity implements com.serpics.core.data.model.Locale, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

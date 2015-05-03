@@ -3,30 +3,30 @@
 	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!-- Commerce  -->
-		<class>com.serpics.commerce.persistence.AbstractOrderitem</class>
-		<class>com.serpics.commerce.persistence.AbstractOrder</class>
-		<class>com.serpics.commerce.persistence.Cartitem</class>
-		<class>com.serpics.commerce.persistence.Orderitem</class>
-		<class>com.serpics.commerce.persistence.OrderitemsAttribute</class>
-		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueDatetime</class>
-		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueDecimal</class>
-		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueLong</class>
-		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueText</class>
-		<class>com.serpics.commerce.persistence.OrderitemsAttributeValueVarchar</class>
-		<class>com.serpics.commerce.persistence.Orderpayment</class>
-		<class>com.serpics.commerce.persistence.Order</class>
-		<class>com.serpics.commerce.persistence.OrdersAttribute</class>
-		<class>com.serpics.commerce.persistence.OrdersAttributeValueDatetime</class>
-		<class>com.serpics.commerce.persistence.OrdersAttributeValueDecimal</class>
-		<class>com.serpics.commerce.persistence.OrdersAttributeValueLong</class>
-		<class>com.serpics.commerce.persistence.OrdersAttributeValueText</class>
-		<class>com.serpics.commerce.persistence.OrdersAttributeValueVarchar</class>
-		<class>com.serpics.commerce.persistence.Shipmode</class>
-		<class>com.serpics.commerce.persistence.ShipmodeDescr</class>
-		<class>com.serpics.commerce.persistence.ShipmodeDescrPK</class>
-		<class>com.serpics.commerce.persistence.Shipmodelookup</class>
-		<class>com.serpics.commerce.persistence.Shipping</class>
-		<class>com.serpics.commerce.persistence.Suborder</class>
+		<class>com.serpics.commerce.data.model.AbstractOrderitem</class>
+		<class>com.serpics.commerce.data.model.AbstractOrder</class>
+		<class>com.serpics.commerce.data.model.Cartitem</class>
+		<class>com.serpics.commerce.data.model.Orderitem</class>
+		<class>com.serpics.commerce.data.model.OrderitemsAttribute</class>
+		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueDatetime</class>
+		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueDecimal</class>
+		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueLong</class>
+		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueText</class>
+		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueVarchar</class>
+		<class>com.serpics.commerce.data.model.Orderpayment</class>
+		<class>com.serpics.commerce.data.model.Order</class>
+		<class>com.serpics.commerce.data.model.OrdersAttribute</class>
+		<class>com.serpics.commerce.data.model.OrdersAttributeValueDatetime</class>
+		<class>com.serpics.commerce.data.model.OrdersAttributeValueDecimal</class>
+		<class>com.serpics.commerce.data.model.OrdersAttributeValueLong</class>
+		<class>com.serpics.commerce.data.model.OrdersAttributeValueText</class>
+		<class>com.serpics.commerce.data.model.OrdersAttributeValueVarchar</class>
+		<class>com.serpics.commerce.data.model.Shipmode</class>
+		<class>com.serpics.commerce.data.model.ShipmodeDescr</class>
+		<class>com.serpics.commerce.data.model.ShipmodeDescrPK</class>
+		<class>com.serpics.commerce.data.model.Shipmodelookup</class>
+		<class>com.serpics.commerce.data.model.Shipping</class>
+		<class>com.serpics.commerce.data.model.Suborder</class>
 	</persistence-unit>
 </persistence>	
 		

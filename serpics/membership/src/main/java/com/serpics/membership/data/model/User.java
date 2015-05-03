@@ -41,10 +41,10 @@ import com.serpics.membership.UserType;
 @DiscriminatorValue("USER")
 @PrimaryKeyJoinColumn(name="user_id")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends Member implements Serializable, UserDetail {
-    private static final long serialVersionUID = 1L;
+public class User extends Member implements  UserDetail {
+ 	private static final long serialVersionUID = 545575485685613766L;
 
-    @Column(length = 200)
+	@Column(length = 200)
     private String firstname;
 
     @Column(length = 200)

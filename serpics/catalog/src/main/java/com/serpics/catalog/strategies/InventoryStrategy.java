@@ -1,4 +1,4 @@
-package com.serpics.catalog.hooks;
+package com.serpics.catalog.strategies;
 
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.warehouse.InventoryNotAvailableException;

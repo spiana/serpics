@@ -17,7 +17,6 @@ public abstract class EntityFormChild<T, P> extends EntityForm<T> implements Ent
     protected EntityItem<P> parent;
 
     protected Object parentPropertyId;
-  
    
     protected JPAContainer<T> container;
 

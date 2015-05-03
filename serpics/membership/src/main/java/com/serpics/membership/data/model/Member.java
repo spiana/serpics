@@ -30,6 +30,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.serpics.core.data.jpa.AbstractEntity;
 import com.serpics.membership.MemberType;
 
 /**
@@ -42,10 +43,10 @@ import com.serpics.membership.MemberType;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "member_type", discriminatorType = DiscriminatorType.STRING)
 @Access(AccessType.FIELD)
-public class Member extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Member extends AbstractEntity implements Serializable {
+  private static final long serialVersionUID = -8380078370041764459L;
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id", unique = true, nullable = false)
     protected Long memberId;
@@ -65,7 +66,7 @@ public class Member extends com.serpics.core.data.jpa.AbstractEntity implements 
     @Column(name = "member_type", nullable = false)
     protected MemberType memberType;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
     protected PrimaryAddress primaryAddress;
 
     @OneToMany(mappedBy = "member", targetEntity = PermanentAddress.class, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -89,10 +90,6 @@ public class Member extends com.serpics.core.data.jpa.AbstractEntity implements 
 
     public void setMemberAttributes(final Set<MemberAttribute> memberAttributes) {
         this.memberAttributes = memberAttributes;
-    }
-
-    public void setCreated(final Date created) {
-        this.created = created;
     }
 
     public Member() {
@@ -143,23 +140,7 @@ public class Member extends com.serpics.core.data.jpa.AbstractEntity implements 
         return permanentAddresses;
     }
 
-    // @XmlTransient
-    // public PermanentAddress getPrimaryAddress() {
-    // for (final PermanentAddress address : this.getPermanentAddresses()) {
-    // if (address.getIsprimary() == 1)
-    // return address;
-    // }
-    // return null;
-    // }
-    //
-    // public void setPrimaryAddress(final PermanentAddress newAddress) {
-    // if (newAddress != null) {
-    // newAddress.setIsprimary(1);
-    // newAddress.setMember(this);
-    // this.getPermanentAddresses().add(newAddress);
-    // }
-    // }
-
+  
     public PrimaryAddress getPrimaryAddress() {
         return primaryAddress;
     }
@@ -189,16 +170,7 @@ public class Member extends com.serpics.core.data.jpa.AbstractEntity implements 
         return membersRoles;
     }
 
-
-    // @Transient
-    // public Set<MembersRole> getMembersRolesForStore(final Long storeId) {
-    // final Set<MembersRole> storeRoles = new HashSet<MembersRole>(0);
-    // for (final MembersRole mrole : getMembersRoles()) {
-    // if (mrole.getStore().getMemberId().equals(storeId))
-    // storeRoles.add(mrole);
-    // }
-    // return storeRoles;
-    // }
+   
 
     public void setMembersRoles(final Set<MembersRole> membersRoles) {
         this.membersRoles = membersRoles;

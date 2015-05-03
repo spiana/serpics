@@ -57,7 +57,8 @@ public class UserRegServiceTest {
     public void first() {
         final List<UsersReg> l = userRegService.findAll();
         Assert.assertEquals(1, l.size());
-
+        UsersReg u = userRegService.findByLoginid("superuser");
+        Assert.assertNotNull(u);
     }
 
     @Test

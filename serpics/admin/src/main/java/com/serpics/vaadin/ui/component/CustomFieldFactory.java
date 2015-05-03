@@ -11,6 +11,7 @@ import com.serpics.base.data.model.MultilingualString;
 import com.serpics.membership.Member2GroupRelType;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityContainer;
+import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
@@ -81,6 +82,9 @@ public class CustomFieldFactory extends DefaultFieldFactory{
              if (LOG.isDebugEnabled())
             	 LOG.debug("create fiedl {} pf type {}" , propertyId , kind);
              switch (kind) {
+             case ONE_TO_ONE:
+            	 return createOne2OneForm(jpaitem, propertyId);
+            	 
 			case ONE_TO_MANY:
 				break;
 			
@@ -125,6 +129,9 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 
       }
     
+    private One2oneField createOne2OneForm(EntityItem item, Object pid){
+    	return new One2oneField(item , pid);
+    }
 	@SuppressWarnings("rawtypes")
 	private JPAContainer buildcontainer( EntityContainer containerForProperty , Object propertyId){
 		Class<?> masterEntityClass = containerForProperty.getEntityClass();

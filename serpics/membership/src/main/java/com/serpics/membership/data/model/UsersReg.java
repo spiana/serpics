@@ -1,6 +1,6 @@
 package com.serpics.membership.data.model;
 
-import java.io.Serializable;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -26,10 +26,10 @@ import com.serpics.membership.UserType;
 
 @Entity
 @Table(name = "users_reg")
-public class UsersReg extends User implements Serializable, UserDetail {
-    private static final long serialVersionUID = 1L;
+public class UsersReg extends User implements UserDetail {
+  private static final long serialVersionUID = 9178702090616745340L;
 
-    @Size(max = 100)
+	@Size(max = 100)
     @Column(name = "alternate_email", length = 100)
     private String alternateEmail;
 

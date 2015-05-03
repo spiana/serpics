@@ -40,13 +40,19 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
 
     @Override
     public UserDetails loadUserByUsername(final String userName) throws UsernameNotFoundException {
+      try{
         final UsersReg ur = userRegService.findByLoginid(userName);
         if (ur == null) {
             throw new UsernameNotFoundException("username :" + userName + " not found !");
         }
-
         return buildUser(ur);
-    }
+  
+
+      }catch(Throwable e){
+    	  e.printStackTrace();
+      }
+      return null;
+    }    
 
     private UserDetails buildUser(final UsersReg user) {
 

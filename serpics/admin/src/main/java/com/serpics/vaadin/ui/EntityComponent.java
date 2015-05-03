@@ -4,6 +4,7 @@ import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.TableFieldFactory;
 
 public interface EntityComponent<T> extends Component{
