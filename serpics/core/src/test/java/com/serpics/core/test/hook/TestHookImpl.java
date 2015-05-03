@@ -1,8 +1,8 @@
 package com.serpics.core.test.hook;
 
-import com.serpics.stereotype.StoreHook;
+import com.serpics.stereotype.StoreStrategy;
 
-@StoreHook(value="testHook" )
+@StoreStrategy(value="testHook" )
 public class TestHookImpl implements TestHook {
 
 	@Override

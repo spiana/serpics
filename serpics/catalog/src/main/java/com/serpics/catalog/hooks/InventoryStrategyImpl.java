@@ -1,12 +1,12 @@
 package com.serpics.catalog.hooks;
 
 import com.serpics.catalog.data.model.AbstractProduct;
-import com.serpics.commerce.hook.AbstractHook;
-import com.serpics.stereotype.StoreHook;
+import com.serpics.commerce.strategies.AbstractStrategy;
+import com.serpics.stereotype.StoreStrategy;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
-@StoreHook("inventoryHook")
-public class InventoryHookImpl extends AbstractHook implements InventoryHook {
+@StoreStrategy("inventoryHook")
+public class InventoryStrategyImpl extends AbstractStrategy implements InventoryStrategy {
 
 	@Override
 	public boolean checkInventory(AbstractProduct product) {

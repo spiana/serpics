@@ -15,6 +15,7 @@
 		<class>com.serpics.base.data.model.Currency</class>
 		<class>com.serpics.base.data.model.Locale</class>
 		<class>com.serpics.base.data.model.MultilingualString</class>
+		<class>com.serpics.base.data.model.MultilingualText</class>
 	</persistence-unit>
 </persistence>	
 		

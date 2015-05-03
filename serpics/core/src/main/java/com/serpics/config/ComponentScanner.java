@@ -17,7 +17,7 @@ import com.impetus.annovention.ClasspathDiscoverer;
 import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
 import com.serpics.stereotype.StoreComponent;
 import com.serpics.stereotype.StoreFacade;
-import com.serpics.stereotype.StoreHook;
+import com.serpics.stereotype.StoreStrategy;
 import com.serpics.stereotype.StoreService;
 import com.serpics.stereotype.VaadinComponent;
 
@@ -52,8 +52,8 @@ class ComponentScanner {
                 String[] stores = {};
                 String scope = null;
 
-                if (annotation.equals(StoreHook.class.getName())) {
-                    final StoreHook a = implementedClass.getAnnotation(StoreHook.class);
+                if (annotation.equals(StoreStrategy.class.getName())) {
+                    final StoreStrategy a = implementedClass.getAnnotation(StoreStrategy.class);
                     component = a.value();
                     stores = new String[] { a.store() };
                     scope = a.scope();

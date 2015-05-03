@@ -1,11 +1,9 @@
-package com.serpics.commerce.hooks;
+package com.serpics.commerce.strategies;
 
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
-import com.serpics.stereotype.Hook;
 
-@Hook("commerceHook")
-public interface CommerceHook {
+public interface CommerceStrategy {
     public void calculateTax(AbstractOrder order);
 
     public void calculateShipping(AbstractOrderitem orderitem);

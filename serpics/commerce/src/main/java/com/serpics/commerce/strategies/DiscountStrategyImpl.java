@@ -1,13 +1,13 @@
-package com.serpics.commerce.hooks;
+package com.serpics.commerce.strategies;
 
 import java.math.BigDecimal;
 
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
-import com.serpics.stereotype.StoreHook;
+import com.serpics.stereotype.StoreStrategy;
 
-@StoreHook(value = "discountHook")
-public class DiscountHookImpl implements DiscountHook {
+@StoreStrategy(value = "discountHook")
+public class DiscountStrategyImpl implements DiscountStrategy {
 
     @Override
     public AbstractOrderitem applyItemDiscount(final AbstractOrderitem orderitem) {

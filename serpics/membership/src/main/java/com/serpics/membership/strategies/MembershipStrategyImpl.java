@@ -1,4 +1,4 @@
-package com.serpics.membership.hooks;
+package com.serpics.membership.strategies;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -13,10 +13,10 @@ import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.repositories.UserRegrepository;
-import com.serpics.stereotype.StoreHook;
+import com.serpics.stereotype.StoreStrategy;
 
-@StoreHook(value="membership")
-public class MembershipHookImpl  implements MembershipHook {
+@StoreStrategy(value="membership")
+public class MembershipStrategyImpl  implements MembershipStrategy {
     @Resource
     UserRegrepository userRegRepository;
 

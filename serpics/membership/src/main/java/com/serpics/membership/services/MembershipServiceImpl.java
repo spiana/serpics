@@ -24,8 +24,8 @@ import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.hooks.MembershipHook;
 import com.serpics.membership.repositories.StoreRepository;
+import com.serpics.membership.strategies.MembershipStrategy;
 
 @Service("memberService")
 @Scope("store")
@@ -43,7 +43,7 @@ public class MembershipServiceImpl extends AbstractService<CommerceSessionContex
     private UserRegService userRegService;
 
     @Resource
-    private MembershipHook membershipHook;
+    private MembershipStrategy membershipHook;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)

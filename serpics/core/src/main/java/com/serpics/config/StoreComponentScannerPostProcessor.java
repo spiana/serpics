@@ -10,7 +10,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import com.impetus.annovention.ClasspathDiscoverer;
 import com.serpics.stereotype.StoreComponent;
 import com.serpics.stereotype.StoreFacade;
-import com.serpics.stereotype.StoreHook;
+import com.serpics.stereotype.StoreStrategy;
 import com.serpics.stereotype.StoreService;
 import com.serpics.stereotype.VaadinComponent;
 
@@ -25,7 +25,7 @@ public class StoreComponentScannerPostProcessor implements BeanDefinitionRegistr
         logger.info("start Service scanning scope store !");
         // Discoverer discoverer = new ClasspathDiscoverer();
 
-        final String[] annotations = { StoreService.class.getName(), StoreHook.class.getName(),
+        final String[] annotations = { StoreService.class.getName(), StoreStrategy.class.getName(),
                 StoreFacade.class.getName(), StoreComponent.class.getName(), VaadinComponent.class.getName() };
         componentScanner.doScan(annotations, new ClasspathDiscoverer());
 

@@ -6,11 +6,11 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.repositories.ProductRepository;
-import com.serpics.commerce.hook.AbstractHook;
-import com.serpics.stereotype.StoreHook;
+import com.serpics.commerce.strategies.AbstractStrategy;
+import com.serpics.stereotype.StoreStrategy;
 
-@StoreHook("productHook")
-public class ProductHookImpl extends AbstractHook implements ProductHook {
+@StoreStrategy("productHook")
+public class ProductStrategyImpl extends AbstractStrategy implements ProductStrategy {
 
 	@Autowired
 	ProductRepository productRepository;

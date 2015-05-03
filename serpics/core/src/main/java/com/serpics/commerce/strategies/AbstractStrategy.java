@@ -1,4 +1,4 @@
-package com.serpics.commerce.hook;
+package com.serpics.commerce.strategies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -6,7 +6,7 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 
 
-public abstract class AbstractHook {
+public abstract class AbstractStrategy {
 
     @Autowired
     CommerceEngine commerceEngine;

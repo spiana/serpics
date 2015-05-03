@@ -1,8 +1,8 @@
 package com.serpics.core.test.hook;
 
-import com.serpics.stereotype.StoreHook;
+import com.serpics.stereotype.StoreStrategy;
 
-@StoreHook(value="testHook"  , store="store1")
+@StoreStrategy(value="testHook"  , store="store1")
 public class TestHook1Impl extends TestHookImpl {
 	
 	

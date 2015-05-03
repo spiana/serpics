@@ -2,11 +2,11 @@ package com.serpics.catalog.hooks;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.data.model.AbstractProduct;
-import com.serpics.commerce.hook.AbstractHook;
-import com.serpics.stereotype.StoreHook;
+import com.serpics.commerce.strategies.AbstractStrategy;
+import com.serpics.stereotype.StoreStrategy;
 
-@StoreHook("priceHook")
-public class PriceHookImpl extends AbstractHook implements PriceHook {
+@StoreStrategy("priceHook")
+public class PriceStrategyImpl extends AbstractStrategy implements PriceStrategy {
 
 	@Override
 	public Double resolveProductPrice(AbstractProduct product, Currency currency) {
