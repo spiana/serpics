@@ -1,16 +1,26 @@
 package com.serpics.vaadin.ui.component;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
+import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
+import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.util.HibernateUtil;
 import com.vaadin.data.Container;
@@ -31,19 +41,31 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	private final Action remove = new Action("Remove");
 	private final Action[] actions = {this.add ,this.modify, this.remove};
 	
-	private EntityContainer<T> containerForProperty ;
-	private EntityContainer<X> container;
-	private EntityItem<T> entityItem;
-	private Object propertyId;
-	private Object backReferencePropertyId;
-	private T masterEntity;
-	private Table table;
-	private String[] displayProperties;
+	
+	private transient EntityContainer<T> containerForProperty ;
+	private transient EntityContainer<X> container;
+	private transient EntityItem<T> entityItem;
+	private transient Object propertyId;
+	private transient Object backReferencePropertyId;
+	private transient T masterEntity;
+	private  Table table;
+	private transient  String[] displayProperties;
 
 	public Table getTable() {
 		return table;
 	}
 
+	public MasterDetailField(
+			EntityContainer<T> entityContainer,
+			EntityItem<T> entityItem, Object propertyId) {
+		super();
+		setBuffered(true);
+		this.containerForProperty = entityContainer;
+		this.entityItem	 = entityItem;
+		this.propertyId = propertyId;
+		this.masterEntity = entityItem.getEntity();
+		buildcontainer();
+	}
 	public MasterDetailField(
 			EntityContainer<T> entityContainer,
 			EntityItem<T> entityItem, Object propertyId ,String[] displayProperties) {
@@ -67,7 +89,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 				containerForProperty.getEntityProvider().getEntityManagerProvider().getEntityManager().getEntityManagerFactory(),
 				this.propertyId, masterEntityClass);
 		this.container= (EntityContainer<X>) ServiceContainerFactory.make(referencedType);
-		this.backReferencePropertyId = HibernateUtil.getMappedByProperty(this.masterEntity, this.propertyId.toString());
+		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());//HibernateUtil.getMappedByProperty(this.masterEntity, this.propertyId.toString());
 		if (entityItem.isPersistent()){
 			Container.Filter filter = new com.vaadin.data.util.filter.Compare.Equal(backReferencePropertyId, this.masterEntity);
 		 	this.container.addContainerFilter(filter);
@@ -76,6 +98,10 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		 	this.container.addContainerFilter(filter);
 		}
 		 
+		if (displayProperties == null){
+			buildDisplayProperties(referencedType);
+		}
+		
 		 for (String pid : displayProperties) {
 			if (pid.contains(".")){
 				//String _pid = pid.split(".")[0]+".*";
@@ -84,6 +110,26 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		} 
 		
 	}
+	
+	private void buildDisplayProperties(Class<?> referencedType){
+		PropertyList<X> propertyList = new PropertyList<X>(MetadataFactory.getInstance()
+				.getEntityClassMetadata((Class<X>) referencedType));
+		List<String> properties = new ArrayList<String>();
+		for (Object pid : container.getContainerPropertyIds()) {
+			 if (propertyList.getClassMetadata().getProperty(pid.toString())
+					.getAnnotation(Id.class) == null)
+				if (propertyList.getClassMetadata().getProperty(pid.toString())
+						.getAnnotation(EmbeddedId.class) == null)
+					if (propertyList.getPropertyKind(pid.toString()).equals(
+							PropertyKind.SIMPLE))
+								properties.add(pid.toString());
+		}
+		
+		this.displayProperties = properties.toArray(new String[]{});
+		
+		
+	}
+	
 	private void buildTable() {
 	    this.table = new Table(null, this.container);
 	    Object[] visibleProperties = this.displayProperties;
@@ -181,6 +227,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	
 	@Override
 	protected Component initContent() {
+		
 		CssLayout vl = new CssLayout();
 		vl.setWidth("100%");
 	    buildTable();
@@ -213,6 +260,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    }));
 	    
 	    vl.addComponent(buttons);
+	    setCaption(this.propertyId.toString());
 	    return vl;
 	}
 	
@@ -221,4 +269,69 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		return entityItem.getItemProperty(propertyId).getType();
 	}
 
+	protected  String getMappedByProperty(String propertyName)
+	  {
+	    OneToMany otm = (OneToMany)getAnnotationForProperty(OneToMany.class, masterEntity.getClass(), propertyName);
+	    if ((otm != null) && (!("".equals(otm.mappedBy())))) {
+	      return otm.mappedBy();
+	    }
+	    return getType().getSimpleName().toLowerCase();
+	  }
+	
+	 private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)
+	  {
+	    Annotation annotation = getAnnotationFromPropertyGetter(annotationType, entityClass, propertyName);
+	    
+	    if (annotation == null) {
+	      annotation = getAnnotationFromField(annotationType, entityClass, propertyName);
+	    }
+	    return (A) annotation;
+	  }
+	 
+	 private  <A extends Annotation> A getAnnotationFromField(Class<A> annotationType, Class<?> entityClass, String propertyName)
+	  {
+	    java.lang.reflect.Field  field = null;
+	    try
+	    {
+	      field = entityClass.getDeclaredField(propertyName);
+	 
+	    }
+	    catch (Exception e)
+	    {
+	    }
+	    if ((field != null) && (field.isAnnotationPresent(annotationType))) {
+	      return field.getAnnotation(annotationType);
+	    }
+	    return null;
+	  }
+
+	  private  <A extends Annotation> A getAnnotationFromPropertyGetter(Class<A> annotationType, Class<?> entityClass, String propertyName)
+	  {
+	    Method getter = null;
+	    try {
+	      getter = entityClass.getMethod("get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1), new Class[0]);
+	    }
+	    catch (Exception e)
+	    {
+	      try
+	      {
+	        getter = entityClass.getMethod("is" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1), new Class[0]);
+	      }
+	      catch (Exception e1)
+	      {
+	      }
+	    }
+
+	    if ((getter != null) ) {
+	      if  (getter.isAnnotationPresent(annotationType))
+	    	  return getter.getAnnotation(annotationType);
+	      else{
+	    	  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
+	      }
+	    }
+	    return null;
+	  }
+
+	
+	
 }

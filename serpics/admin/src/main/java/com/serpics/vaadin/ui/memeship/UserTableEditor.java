@@ -69,8 +69,8 @@ public class UserTableEditor extends EntityTable<UsersReg> {
     @Override
     public EntityItem<UsersReg> createEntityItem() {
         final UsersReg u = new UsersReg();
-        u.setPrimaryAddress(new PrimaryAddress());
-        u.getPrimaryAddress().setMember(u);
+//        u.setPrimaryAddress(new PrimaryAddress());
+//        u.getPrimaryAddress().setMember(u);
         return container.createEntityItem(u);
     }
 }

@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.catalog.data.model.Category;
+import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.membership.Member2GroupRelType;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityContainer;
@@ -84,12 +86,10 @@ public class CustomFieldFactory extends DefaultFieldFactory{
              switch (kind) {
              case ONE_TO_ONE:
             	 return createOne2OneForm(jpaitem, propertyId);
-            	 
-			case ONE_TO_MANY:
-				break;
-			
+        	case ONE_TO_MANY:
+				return createOneToMany(propertyId, jpaitem);
 			case MANY_TO_ONE:
-				return createSelect(propertyId, (JPAContainerItem) item);
+				return createSelect(propertyId, jpaitem);
 			case MANY_TO_MANY:
 				break;
 			default:
@@ -112,6 +112,12 @@ public class CustomFieldFactory extends DefaultFieldFactory{
          combo.setConverter(new SingleSelectConverter(combo));
          return combo;
     	
+    }
+    
+    private MasterDetailField createOneToMany(Object propertyId , JPAContainerItem item){
+    	MasterDetailField<Category, CategoryRelation> t = 
+    			new MasterDetailField<Category, CategoryRelation>(item.getContainer(), item, propertyId);
+    	return t;
     }
     
     private Field<?> createEnumSelect(Class<?> type , Object pid){

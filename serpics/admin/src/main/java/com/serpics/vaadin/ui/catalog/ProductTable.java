@@ -48,7 +48,7 @@ public class ProductTable extends EntityTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setHideProperties(new String[] {  "field2", "productType", "ctentryType" , "ctentryAttributes"});
+                setHideProperties(new String[] {  "field2", "productType", "ctentryType" , "ctentryAttributes" , "productffmts","medias" , "ctentryid" });
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
 
             }
@@ -60,8 +60,8 @@ public class ProductTable extends EntityTable<Product> {
     	 EntityFormWindow<Product> editorWindow = new EntityFormWindow<Product>();
     	 
     	 editorWindow.addTab(buildMainTab(), "main");
-    	 editorWindow.addTab(buildCategoriesTab(), "categories");
-    	 editorWindow.addTab(buildPriceTab(), "prices");
+ //   	 editorWindow.addTab(buildCategoriesTab(), "categories");
+ //   	 editorWindow.addTab(buildPriceTab(), "prices");
     	 
     	return editorWindow;
     }

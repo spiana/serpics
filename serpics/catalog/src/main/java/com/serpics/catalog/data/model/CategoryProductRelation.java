@@ -25,7 +25,7 @@ public class CategoryProductRelation extends CtentryRelation {
     private Category parentCategory;
 
     //bi-directional many-to-one association to Ctentry
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
     private AbstractProduct childProduct;
 

@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -96,6 +97,10 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     @OneToMany(mappedBy="product" , orphanRemoval=true , cascade=CascadeType.REMOVE , fetch=FetchType.LAZY)
     Set<FeatureValues> featureValues = new HashSet<FeatureValues>(0);
 
+ // bi-directional many-to-one association to CtentryRelation
+    @OneToMany(mappedBy = "childProduct", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class)
+    @OrderBy("sequence desc")
+    private Set<CategoryProductRelation> categories;
 
     @Column(name = "meta_description")
     private String metaDescription;
@@ -236,4 +241,12 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     public void setMetaKeyword(final String metaKeyword) {
         this.metaKeyword = metaKeyword;
     }
+
+	public Set<CategoryProductRelation> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<CategoryProductRelation> categories) {
+		this.categories = categories;
+	}
 }

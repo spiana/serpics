@@ -2,22 +2,29 @@ package com.serpics.membership.data.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DiscriminatorOptions;
 
+import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.Geocode;
 import com.serpics.membership.AddressType;
 
 /**
@@ -75,9 +82,9 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @Column(length = 100)
     protected String region;
 
-    @Size(max = 50)
-    @Column(length = 50)
-    protected String country;
+    @ManyToOne
+    @JoinColumn(name = "country_id", nullable = true)
+    protected Country country;
 
     @Size(max = 30)
     @Column(length = 30)
@@ -118,7 +125,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
 
     public AbstractAddress(final String firstname, final String lastname, final String company, final String email,
             final String address1, final String address2, final String address3, final String zipcode, final String city, final String region,
-            final String country, final String vatcode) {
+          final String vatcode) {
         super();
 
         this.firstname = firstname;
@@ -131,7 +138,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
         this.zipcode = zipcode;
         this.city = city;
         this.region = region;
-        this.country = country;
+     
         this.vatcode = vatcode;
     }
 
@@ -183,11 +190,11 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
         this.company = company;
     }
 
-    public String getCountry() {
+    public Country getCountry() {
         return this.country;
     }
 
-    public void setCountry(final String country) {
+    public void setCountry(final Country country) {
         this.country = country;
     }
 

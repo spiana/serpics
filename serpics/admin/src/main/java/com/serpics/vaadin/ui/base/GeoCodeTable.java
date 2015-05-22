@@ -3,6 +3,7 @@ package com.serpics.vaadin.ui.base;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.Geocode;
 import com.serpics.base.repositories.CountryRepository;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Role;
@@ -12,11 +13,11 @@ import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.EntityTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 
-@VaadinComponent("countryTable")
-public class CountryTable extends EntityTable<Country> {
+@VaadinComponent("geocodeTable")
+public class GeoCodeTable extends EntityTable<Geocode> {
 
-	public CountryTable() {
-		super(Country.class);
+	public GeoCodeTable() {
+		super(Geocode.class);
 		
 	}
 	
@@ -26,20 +27,21 @@ public class CountryTable extends EntityTable<Country> {
 	@Override
 	public void init() {
 		super.init();
-		container.addNestedContainerProperty("geocode.*");
-		setPropertyToShow(new String[]{"description", "geocode.code", "iso2Code" });
+		setPropertyToShow(new String[]{"code","description" });
 		entityList.setConverter("description", new MultilingualStringConvert());
+		
 	}
 	
 	@Override
-	public EntityFormWindow<Country> buildEntityWindow() {
-		EntityFormWindow<Country> editorWindow = new EntityFormWindow<Country>();
+	public EntityFormWindow<Geocode> buildEntityWindow() {
+		EntityFormWindow<Geocode> editorWindow = new EntityFormWindow<Geocode>();
 	
-			EntityForm<Country> main = new EntityForm<Country>(Country.class) {
+			EntityForm<Geocode> main = new EntityForm<Geocode>(Geocode.class) {
 				@Override
 				public void init() {
 					super.init();
-					setHideProperties(new String[]{"regions"});
+					setDisplayProperties(new String[]{"code" , "description"});
+					
 				}
 			};
 			

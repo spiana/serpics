@@ -83,7 +83,9 @@ public class SerpicsStartApp extends UI {
                     addComponent("productTable", "product");
                 } else if (itemid == "country") {
                     addComponent("countryTable", "country");
-                }
+                } else if (itemid == "geocode") {
+                    addComponent("geocodeTable", "geocode");
+                }        
             }
         });
 
@@ -117,6 +119,10 @@ public class SerpicsStartApp extends UI {
         menu.addItem("country");
         menu.setParent("country", "admin");
         menu.setChildrenAllowed("country", false);
+        
+        menu.addItem("geocode");
+        menu.setParent("geocode", "admin");
+        menu.setChildrenAllowed("geocode", false);
         
         menu.addItem("catalog");
         menu.addItem("category");

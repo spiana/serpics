@@ -30,7 +30,8 @@ public class Geocode extends com.serpics.core.data.jpa.AbstractEntity implements
     private Long geocodeId;
 
     @Column(nullable = false, length = 100 , name="name" )
-    @Pattern(regexp="^[a-zA-Z0-9]",message="only letters and numbers allowed !")
+    
+    @Pattern(regexp="[a-zA-Z0-9]+",message="only letters and numbers allowed !")
     private String code;
 
     // bi-directional many-to-one association to Country

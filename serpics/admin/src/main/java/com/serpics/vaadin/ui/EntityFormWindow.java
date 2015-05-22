@@ -188,8 +188,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
     }
 
     public void addTab(final EntityComponent<?> component, final String caption) {
-        if (!component.isInitialized())
-            component.init();
+        component.init();
         tabSheet.addTab(component, caption);
         componentList.add(component);
     }

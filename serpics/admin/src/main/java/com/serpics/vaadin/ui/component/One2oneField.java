@@ -1,10 +1,15 @@
 package com.serpics.vaadin.ui.component;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +23,8 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
+import com.vaadin.addon.jpacontainer.util.HibernateUtil;
+import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -41,6 +48,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 	private transient EntityItem<T> entityItem;
 	private transient EntityItem<M> masterEntity;
 	private transient Object parentPropertyId;
+	private transient Object backReferencePropertyId;
 
 
 	private FieldGroup fieldGroup ;
@@ -52,16 +60,29 @@ public class One2oneField<M, T> extends CustomField<T> {
 		
 		this.masterEntity = item;
 		this.parentPropertyId = parentPropertyId;
-
-		T value = (T) item.getItemProperty(parentPropertyId).getValue();
-		JPAContainer<T> container = ServiceContainerFactory.make(item
-				.getItemProperty(parentPropertyId).getType());
-
-		this.entityItem = container.getItem(container.getEntityProvider()
-				.getIdentifier(value));
-
+		this.backReferencePropertyId = getMappedByProperty(this.parentPropertyId.toString());
+		
+	
 	}
 
+	@SuppressWarnings("unused")
+	private EntityItem<T> createEntityItem(JPAContainer<T> container) {
+
+        EntityItem<T> entityItem = null;
+        try {
+        	Class<? extends T> entityClass =getType();
+            entityItem = container.createEntityItem(entityClass.newInstance());
+        } catch (final InstantiationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return entityItem;
+    }
+	
 	private void buildContent(FormLayout layout) {
 		fieldGroup.setItemDataSource(entityItem);
 		fieldGroup.setBuffered(true);
@@ -127,19 +148,24 @@ public class One2oneField<M, T> extends CustomField<T> {
 		propertyList = new PropertyList<T>(MetadataFactory.getInstance()
 				.getEntityClassMetadata((Class<T>) getType()));
 		this.fieldGroup.setItemDataSource(entityItem);
-
-		if (this.entityItem.getEntity() == null) {
-			// JPAContainer<T> container = (JPAContainer<T>) this.entityItem
-			// .getContainer();
-			// container.createEntityItem(entity)
-
-		}
+		
+		T value = (T) masterEntity.getItemProperty(parentPropertyId).getValue();
+		EntityItem<?> a= masterEntity.getItemProperty(parentPropertyId).getItem();
+			JPAContainer<T> container = ServiceContainerFactory.make(masterEntity
+					.getItemProperty(parentPropertyId).getType());
+			if (value == null){
+				this.entityItem = createEntityItem(container);
+				 this.entityItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity.getEntity());
+			}else{
+				this.entityItem = container.getItem(container.getEntityProvider()
+					.getIdentifier(value));
+			}
 
 		buildContent(layout);
-		
+		setCaption(this.parentPropertyId.toString());
 		return layout;
 	}
-	
+
 	@Override
 	public boolean isModified() {
 		return fieldGroup.isModified();
@@ -148,10 +174,77 @@ public class One2oneField<M, T> extends CustomField<T> {
 	@Override
 	public void commit() throws SourceException, InvalidValueException {
 		try {
-			fieldGroup.commit();
+			 if (!entityItem.isPersistent()) {
+	                entityItem.getContainer().addEntity(entityItem.getEntity());
+			 }  
+			 fieldGroup.commit();
 		} catch (CommitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+	protected  String getMappedByProperty(String propertyName)
+	  {
+	    OneToOne otm = (OneToOne)getAnnotationForProperty(OneToOne.class, masterEntity.getEntity().getClass(), propertyName);
+	    if ((otm != null) && (!("".equals(otm.mappedBy())))) {
+	      return otm.mappedBy();
+	    }
+	    return getType().getSimpleName().toLowerCase();
+	  }
+	
+	 private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)
+	  {
+	    Annotation annotation = getAnnotationFromPropertyGetter(annotationType, entityClass, propertyName);
+	    
+	    if (annotation == null) {
+	      annotation = getAnnotationFromField(annotationType, entityClass, propertyName);
+	    }
+	    return (A) annotation;
+	  }
+	 
+	 private  <A extends Annotation> A getAnnotationFromField(Class<A> annotationType, Class<?> entityClass, String propertyName)
+	  {
+	    java.lang.reflect.Field  field = null;
+	    try
+	    {
+	      field = entityClass.getDeclaredField(propertyName);
+	 
+	    }
+	    catch (Exception e)
+	    {
+	    }
+	    if ((field != null) && (field.isAnnotationPresent(annotationType))) {
+	      return field.getAnnotation(annotationType);
+	    }
+	    return null;
+	  }
+
+	  private  <A extends Annotation> A getAnnotationFromPropertyGetter(Class<A> annotationType, Class<?> entityClass, String propertyName)
+	  {
+	    Method getter = null;
+	    try {
+	      getter = entityClass.getMethod("get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1), new Class[0]);
+	    }
+	    catch (Exception e)
+	    {
+	      try
+	      {
+	        getter = entityClass.getMethod("is" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1), new Class[0]);
+	      }
+	      catch (Exception e1)
+	      {
+	      }
+	    }
+
+	    if ((getter != null) ) {
+	      if  (getter.isAnnotationPresent(annotationType))
+	    	  return getter.getAnnotation(annotationType);
+	      else{
+	    	  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
+	      }
+	    }
+	    return null;
+	  }
+
 }

@@ -48,7 +48,8 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
    // protected EntityFormWindow<T> editorWindow;
     protected Table entityList;
 
-    private final HorizontalLayout editButtonPanel = new HorizontalLayout();
+    private  final HorizontalLayout editButtonPanel = new HorizontalLayout();
+    private  final HorizontalLayout searchPanel = new HorizontalLayout();
 
     protected transient JPAContainer<T> container;
     
@@ -65,8 +66,10 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     
     @Override
     public void init() {
-    	buildContainer();
-    	buildTable();
+    	if(!initialized){
+	    	buildContainer();
+	    	buildContent();
+    	}
    
     }
 
@@ -79,7 +82,7 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
     
     public abstract EntityFormWindow<T>  buildEntityWindow();
     
-    protected void buildTable() {
+    protected void buildContent() {
     	this.entityList = new Table();
         entityList.setSelectable(true);
         entityList.setImmediate(true);
@@ -91,9 +94,13 @@ public abstract class EntityTable<T> extends CustomComponent implements EntityTa
         final VerticalLayout v = new VerticalLayout();
         v.setSizeFull();
 
+        
         this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
         this.editButtonPanel.setEnabled(isEnabled());
 
+        this.searchPanel.setCaption("search");
+        v.addComponent(searchPanel);
+        
         v.addComponent(editButtonPanel);
         v.addComponent(entityList);
         v.setExpandRatio(entityList, 1);
