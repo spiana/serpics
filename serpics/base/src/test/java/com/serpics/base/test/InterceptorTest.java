@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.data.model.Locale;
-import com.serpics.base.repositories.LocaleRepository;
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;

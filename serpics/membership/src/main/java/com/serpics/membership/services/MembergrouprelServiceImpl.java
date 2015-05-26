@@ -13,7 +13,7 @@ import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Membergrouprel;
-import com.serpics.membership.repositories.MembergrouprelRepository;
+import com.serpics.membership.data.repositories.MembergrouprelRepository;
 
 @Service("membergrouprelService")
 public class MembergrouprelServiceImpl extends AbstractCommerceEntityService<Membergrouprel, Long> implements

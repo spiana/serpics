@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Role;
-import com.serpics.membership.repositories.RoleRepository;
+import com.serpics.membership.data.repositories.RoleRepository;
 
 @Service("roleService")
 @Scope("store")

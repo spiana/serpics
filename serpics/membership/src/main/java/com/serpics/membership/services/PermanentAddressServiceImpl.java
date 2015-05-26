@@ -24,7 +24,7 @@ import com.serpics.core.session.SessionContext;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.repositories.PermanentAddressRepository;
+import com.serpics.membership.data.repositories.PermanentAddressRepository;
 
 @Service("permanentAddressService")
 @Scope("store")

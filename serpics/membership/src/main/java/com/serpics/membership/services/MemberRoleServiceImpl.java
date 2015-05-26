@@ -18,7 +18,7 @@ import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.MembersRolePK;
-import com.serpics.membership.repositories.MembersRoleRepository;
+import com.serpics.membership.data.repositories.MembersRoleRepository;
 
 
 @Service("memberRoleService")

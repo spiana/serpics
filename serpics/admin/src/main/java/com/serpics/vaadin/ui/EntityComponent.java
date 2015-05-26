@@ -18,7 +18,7 @@ public interface EntityComponent<T> extends Component{
     public void save() throws CommitException;
     public Class<T> getEntityType();
   
-    public interface EntityTableComponent<T> extends EntityComponent<T>{
+    public interface MasterTableComponent<T> extends EntityComponent<T>{
         public void setTableFieldFactory(TableFieldFactory factory);
     }
 

@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.Membergroup;
-import com.serpics.membership.repositories.MemberGroupRepository;
+import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.EntityTable;
+import com.serpics.vaadin.ui.MasterTable;
 
 @VaadinComponent(value = "membergroupTableEditor")
-public class MembergroupTableEditor extends EntityTable<Membergroup> {
+public class MembergroupTableEditor extends MasterTable<Membergroup> {
 
     private static final long serialVersionUID = -1487550710132191348L;
 

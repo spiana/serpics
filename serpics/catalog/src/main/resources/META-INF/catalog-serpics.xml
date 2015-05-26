@@ -12,20 +12,20 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<context:component-scan base-package="com.serpics.catalog.services" />
 
-	<data:repositories base-package="com.serpics.catalog.repositories"
+	<data:repositories base-package="com.serpics.catalog.data.repositories"
 		factory-class="com.serpics.core.data.RepositoryFactoryBean" />
 
 	<!-- Interceptor Mapping -->
 	<bean name="productCreateInterceptor"
-		class="com.serpics.catalog.repositories.interceptors.ProductCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.ProductCreateInterceptor" />
 	<bean name="categoryCreateInterceptor"
-		class="com.serpics.catalog.repositories.interceptors.CategoryCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.CategoryCreateInterceptor" />
 	<bean name="categoryRelationCreateInterceptor"
-		class="com.serpics.catalog.repositories.interceptors.CategoryRelationCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.CategoryRelationCreateInterceptor" />
 	<bean name="category2ProductCreateInterceptor"
-		class="com.serpics.catalog.repositories.interceptors.Category2productCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.Category2productCreateInterceptor" />
 	<bean name="priceInterceptor"
-		class="com.serpics.catalog.repositories.interceptors.PriceCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.PriceCreateInterceptor" />
 
 	<bean name="productCreateMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.catalog.data.model.Product" />

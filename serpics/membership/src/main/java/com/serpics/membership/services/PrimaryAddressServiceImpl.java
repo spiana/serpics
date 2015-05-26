@@ -14,7 +14,7 @@ import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.repositories.PrimaryAddressRepository;
+import com.serpics.membership.data.repositories.PrimaryAddressRepository;
 
 @Service("primaryAddressService")
 @Scope("store")

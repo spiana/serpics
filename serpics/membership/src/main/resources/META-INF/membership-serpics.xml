@@ -11,12 +11,12 @@ http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:component-scan base-package="com.serpics.membership.services" />
-     	<data:repositories base-package="com.serpics.membership.repositories" 
+     	<data:repositories base-package="com.serpics.membership.data.repositories" 
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
      
      
-  <bean name="memberroleBeforeCreateInterceptor" class="com.serpics.membership.interceptor.MemberRoleCreateInterceptor" />
-  <bean name="membegroupCreateInterceptor" class="com.serpics.membership.interceptor.membergroupCreateInterceptor"/>
+  <bean name="memberroleBeforeCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberRoleCreateInterceptor" />
+  <bean name="membegroupCreateInterceptor" class="com.serpics.membership.data.interceptors.membergroupCreateInterceptor"/>
   
   <bean name="memberRoleMapping" class="com.serpics.core.data.InterceptorMapping" >
 	  <property name="targetEntity" value="com.serpics.membership.data.model.MembersRole" />

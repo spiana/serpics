@@ -18,7 +18,7 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.Store;
-import com.serpics.membership.repositories.MemberGroupRepository;
+import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.ExecutionTestListener;
 

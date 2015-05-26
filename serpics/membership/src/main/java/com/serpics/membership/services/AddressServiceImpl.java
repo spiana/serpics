@@ -22,7 +22,7 @@ import com.serpics.core.service.AbstractService;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.repositories.AddressRepository;
+import com.serpics.membership.data.repositories.AddressRepository;
 
 @Service("addressService")
 @Scope("store")

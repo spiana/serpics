@@ -16,8 +16,8 @@ import com.serpics.membership.data.model.MembersRolePK;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
-import com.serpics.membership.repositories.PermanentAddressRepository;
-import com.serpics.membership.repositories.StoreRepository;
+import com.serpics.membership.data.repositories.PermanentAddressRepository;
+import com.serpics.membership.data.repositories.StoreRepository;
 
 public abstract class AbstractMemberService<T extends Member, ID extends Serializable> extends AbstractCommerceEntityService<T, ID>
 implements MemberService<T, ID> {

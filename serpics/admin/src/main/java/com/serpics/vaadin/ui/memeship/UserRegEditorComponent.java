@@ -3,7 +3,7 @@ package com.serpics.vaadin.ui.memeship;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.data.model.Locale;
-import com.serpics.base.repositories.LocaleRepository;
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.base.services.LocaleService;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.data.model.UsersReg;

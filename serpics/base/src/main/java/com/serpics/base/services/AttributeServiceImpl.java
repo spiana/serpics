@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.serpics.base.AvailableforType;
 import com.serpics.base.data.model.BaseAttribute;
-import com.serpics.base.repositories.BaseAttributeRepository;
+import com.serpics.base.data.repositories.BaseAttributeRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 import com.serpics.core.session.SessionContext;

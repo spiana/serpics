@@ -82,7 +82,6 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	}
 
 	@SuppressWarnings("unchecked")
-	@org.springframework.transaction.annotation.Transactional
 	private void buildcontainer(){
 		Class<T> masterEntityClass = this.containerForProperty.getEntityClass();
 		Class<?> referencedType=  ServiceContainerFactory.detectReferencedType(

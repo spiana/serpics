@@ -14,7 +14,7 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.Store;
-import com.serpics.membership.repositories.MemberGroupRepository;
+import com.serpics.membership.data.repositories.MemberGroupRepository;
 
 @Service("membergroupService")
 public class MembergroupServiceImpl extends AbstractCommerceEntityService<Membergroup, Long> implements MembergroupService {

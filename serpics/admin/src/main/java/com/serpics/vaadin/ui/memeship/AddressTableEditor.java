@@ -6,15 +6,15 @@ import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.repositories.PermanentAddressRepository;
+import com.serpics.membership.data.repositories.PermanentAddressRepository;
 import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.EntityTableChild;
+import com.serpics.vaadin.ui.MasterDetailTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
 
 @VaadinComponent(value = "addressTableEditor")
-public class AddressTableEditor extends EntityTableChild<PermanentAddress, User> {
+public class AddressTableEditor extends MasterDetailTable<PermanentAddress, User> {
 
     private static final long serialVersionUID = -1487550710132191348L;
 

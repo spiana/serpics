@@ -19,8 +19,8 @@ import com.serpics.core.service.AbstractService;
 import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.repositories.MembersRoleRepository;
-import com.serpics.membership.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.MembersRoleRepository;
+import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.services.MembershipService;
 import com.serpics.membership.services.UserRegService;
 

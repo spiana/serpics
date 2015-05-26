@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Locale;
-import com.serpics.base.repositories.CurrencyRepository;
+import com.serpics.base.data.repositories.CurrencyRepository;
 import com.serpics.base.services.LocaleService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
@@ -26,8 +26,8 @@ import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.repositories.StoreRepository;
-import com.serpics.membership.repositories.UserRepository;
+import com.serpics.membership.data.repositories.StoreRepository;
+import com.serpics.membership.data.repositories.UserRepository;
 
 @Service("baseService")
 public class BaseServiceImpl extends AbstractService implements BaseService {

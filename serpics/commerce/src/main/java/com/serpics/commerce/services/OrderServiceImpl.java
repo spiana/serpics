@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Order;
-import com.serpics.commerce.repositories.CartRepository;
-import com.serpics.commerce.repositories.OrderRepository;
+import com.serpics.commerce.data.repositories.CartRepository;
+import com.serpics.commerce.data.repositories.OrderRepository;
 import com.serpics.core.service.AbstractService;
 
 @Service("orderService")

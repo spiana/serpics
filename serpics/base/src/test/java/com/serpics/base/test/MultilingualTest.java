@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Paymethod;
-import com.serpics.base.repositories.LocaleRepository;
-import com.serpics.base.repositories.PaymethodRepository;
+import com.serpics.base.data.repositories.LocaleRepository;
+import com.serpics.base.data.repositories.PaymethodRepository;
 
 public class MultilingualTest extends BaseTest {
 

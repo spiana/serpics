@@ -9,15 +9,15 @@ import com.serpics.core.service.EntityService;
 import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.data.model.Membergrouprel;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.repositories.MembergrouprelRepository;
+import com.serpics.membership.data.repositories.MembergrouprelRepository;
 import com.serpics.membership.services.MembergrouprelService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.EntityTableChild;
+import com.serpics.vaadin.ui.MasterDetailTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
 
 @VaadinComponent("membergroupRelTable")
-public class MembergroupRelTable extends EntityTableChild<Membergrouprel , User> {
+public class MembergroupRelTable extends MasterDetailTable<Membergrouprel , User> {
     private static final long serialVersionUID = 5863975797848978227L;
 
     @Autowired

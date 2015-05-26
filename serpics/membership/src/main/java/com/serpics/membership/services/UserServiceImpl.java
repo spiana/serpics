@@ -1,6 +1,6 @@
 package com.serpics.membership.services;
 
-import static com.serpics.membership.repositories.UserSpecification.isUserInStore;
+import static com.serpics.membership.data.repositories.UserSpecification.isUserInStore;
 import static org.springframework.data.jpa.domain.Specifications.where;
 
 import java.util.Collection;
@@ -27,12 +27,12 @@ import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.repositories.MemberGroupRepository;
-import com.serpics.membership.repositories.MembersRoleRepository;
-import com.serpics.membership.repositories.PermanentAddressRepository;
-import com.serpics.membership.repositories.StoreRepository;
-import com.serpics.membership.repositories.UserRegrepository;
-import com.serpics.membership.repositories.UserRepository;
+import com.serpics.membership.data.repositories.MemberGroupRepository;
+import com.serpics.membership.data.repositories.MembersRoleRepository;
+import com.serpics.membership.data.repositories.PermanentAddressRepository;
+import com.serpics.membership.data.repositories.StoreRepository;
+import com.serpics.membership.data.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.UserRepository;
 
 //@StoreService("userService" )
 @Service("userService")

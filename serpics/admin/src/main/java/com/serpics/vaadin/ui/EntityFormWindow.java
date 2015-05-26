@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
-import com.serpics.vaadin.ui.EntityComponent.EntityTableComponent;
+import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.event.Action;
@@ -231,7 +231,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
         int position = 0;
         for (@SuppressWarnings("rawtypes")
         final EntityComponent c : componentList) {
-            if (c instanceof EntityTableComponent) {
+            if (c instanceof MasterTableComponent) {
                 if (!newItem)
                     c.setEnabled(true);
                 else

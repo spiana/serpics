@@ -24,7 +24,7 @@ import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.repositories.StoreRepository;
+import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.strategies.MembershipStrategy;
 
 @Service("memberService")

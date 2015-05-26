@@ -11,7 +11,7 @@ http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:component-scan base-package="com.serpics.base.services" />
-     	<data:repositories base-package="com.serpics.base.repositories" 
+     	<data:repositories base-package="com.serpics.base.data.repositories" 
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
      
      

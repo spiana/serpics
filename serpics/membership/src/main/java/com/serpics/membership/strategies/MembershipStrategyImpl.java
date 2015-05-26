@@ -12,7 +12,7 @@ import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy(value="membershipStrategy")

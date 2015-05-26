@@ -9,14 +9,14 @@ import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.repositories.MembersRoleRepository;
-import com.serpics.membership.repositories.RoleRepository;
+import com.serpics.membership.data.repositories.MembersRoleRepository;
+import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.membership.services.MemberRoleService;
 import com.serpics.membership.services.RoleService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.EntityTableChild;
+import com.serpics.vaadin.ui.MasterDetailTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
@@ -29,7 +29,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 
 @VaadinComponent(value = "memberRoleTable")
-public class MemberRoleTable extends EntityTableChild<MembersRole, User> {
+public class MemberRoleTable extends MasterDetailTable<MembersRole, User> {
     private static final long serialVersionUID = -3391935047933834592L;
 
     @Autowired

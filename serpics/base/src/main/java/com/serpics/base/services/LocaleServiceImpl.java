@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.serpics.base.data.model.Locale;
-import com.serpics.base.repositories.LocaleRepository;
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 

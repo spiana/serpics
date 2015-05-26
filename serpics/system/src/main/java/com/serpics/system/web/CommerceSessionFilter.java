@@ -34,6 +34,7 @@ public class CommerceSessionFilter implements Filter {
         if (logger.isDebugEnabled())
             logger.debug("CommerceSessionFilter called");
 
+        
         final HttpServletRequest httpReq = (HttpServletRequest) req;
         final String id = (String) httpReq.getSession().getAttribute(
                 WebCostant.SERPICS_SESSION);

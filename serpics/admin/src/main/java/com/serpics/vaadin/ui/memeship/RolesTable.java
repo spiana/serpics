@@ -5,15 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.Role;
-import com.serpics.membership.repositories.RoleRepository;
+import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.membership.services.RoleService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.EntityTable;
+import com.serpics.vaadin.ui.MasterTable;
 
 @VaadinComponent(value = "roleTable")
-public class RolesTable extends EntityTable<Role> {
+public class RolesTable extends MasterTable<Role> {
 
     private static final long serialVersionUID = -1487550710132191348L;
 

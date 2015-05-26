@@ -17,8 +17,8 @@ import com.serpics.core.data.Repository;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.repositories.StoreRepository;
-import com.serpics.membership.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.StoreRepository;
+import com.serpics.membership.data.repositories.UserRegrepository;
 
 @Service("usersRegService")
 @Scope("store")

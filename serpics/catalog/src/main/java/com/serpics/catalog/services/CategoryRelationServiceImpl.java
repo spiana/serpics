@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.model.CtentryRelationPK;
-import com.serpics.catalog.repositories.CategoryRelationRepository;
+import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 

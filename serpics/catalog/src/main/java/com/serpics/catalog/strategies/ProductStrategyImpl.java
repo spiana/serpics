@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.repositories.ProductRepository;
+import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 

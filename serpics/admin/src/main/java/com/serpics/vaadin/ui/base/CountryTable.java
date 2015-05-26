@@ -3,17 +3,17 @@ package com.serpics.vaadin.ui.base;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.data.model.Country;
-import com.serpics.base.repositories.CountryRepository;
+import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Role;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.EntityTable;
+import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 
 @VaadinComponent("countryTable")
-public class CountryTable extends EntityTable<Country> {
+public class CountryTable extends MasterTable<Country> {
 
 	public CountryTable() {
 		super(Country.class);

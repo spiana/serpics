@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Pricelist;
-import com.serpics.catalog.repositories.CatalogRepository;
-import com.serpics.catalog.repositories.PriceListRepository;
+import com.serpics.catalog.data.repositories.CatalogRepository;
+import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 

@@ -35,7 +35,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
 public abstract class EntityForm<T> extends FormLayout implements
-		FieldGroupFieldFactory, EntityFormComponent<T> {
+		EntityFormComponent<T> {
 	private static final long serialVersionUID = -7816433625437405000L;
 	private static final transient Logger LOG = LoggerFactory
 			.getLogger(EntityForm.class);
@@ -82,13 +82,13 @@ public abstract class EntityForm<T> extends FormLayout implements
 		return entityClass;
 	}
 
-	@Override
-	public <T extends Field> T createField(final Class<?> dataType,
-			final Class<T> fieldType) {
-		final T f = DefaultFieldGroupFieldFactory.get().createField(dataType,
-				fieldType);
-		return f;
-	}
+//	@Override
+//	public <T extends Field> T createField(final Class<?> dataType,
+//			final Class<T> fieldType) {
+//		final T f = DefaultFieldGroupFieldFactory.get().createField(dataType,
+//				fieldType);
+//		return f;
+//	}
 
 	public Item getEntityItem() {
 		return entityItem;
@@ -99,7 +99,7 @@ public abstract class EntityForm<T> extends FormLayout implements
 		this.entityItem = entityItem;
 		removeAllComponents();
 		fieldGroup = new FieldGroup();
-		fieldGroup.setFieldFactory(this);
+		//fieldGroup.setFieldFactory(this);
 		fieldGroup.setItemDataSource(entityItem);
 		fieldGroup.setBuffered(true);
 		if (displayProperties != null)
@@ -121,12 +121,6 @@ public abstract class EntityForm<T> extends FormLayout implements
 						.getAnnotation(EmbeddedId.class) == null)
 					if (!hideProperties.contains(pid))
 						addComponent(createField(pid));
-			// if(entityItem.isPersistent())
-			// addComponent(createField(pid)) ;
-			// else
-			// if(propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)
-			// )
-			// addComponent(createField(pid)) ;
 		}
 
 	}

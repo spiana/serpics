@@ -8,10 +8,10 @@ import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.repositories.Category2ProductRepository;
-import com.serpics.catalog.repositories.CategoryRepository;
-import com.serpics.catalog.repositories.PriceRepository;
-import com.serpics.catalog.repositories.ProductRepository;
+import com.serpics.catalog.data.repositories.Category2ProductRepository;
+import com.serpics.catalog.data.repositories.CategoryRepository;
+import com.serpics.catalog.data.repositories.PriceRepository;
+import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.services.Category2ProductService;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
@@ -21,8 +21,8 @@ import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.EntityTable;
-import com.serpics.vaadin.ui.EntityTableChild;
+import com.serpics.vaadin.ui.MasterDetailTable;
+import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -34,7 +34,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 
 @VaadinComponent("productTable")
-public class ProductTable extends EntityTable<Product> {
+public class ProductTable extends MasterTable<Product> {
     private static final long serialVersionUID = 6586616418061870098L;
 
     private CategoryRepository categoryRepository;
@@ -48,27 +48,31 @@ public class ProductTable extends EntityTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setHideProperties(new String[] {  "field2", "productType", "ctentryType" , "ctentryAttributes" , "productffmts","medias" , "ctentryid" });
+                setDisplayProperties(new String[]{"code" ,"description","prices"});
+              //  setHideProperties(new String[] {  "field2", "productType", "ctentryType" , "ctentryAttributes" , "productffmts","medias" , "ctentryid" });
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
 
             }
         };
     }
     
+    
     @Override
     public EntityFormWindow<Product> buildEntityWindow() {
     	 EntityFormWindow<Product> editorWindow = new EntityFormWindow<Product>();
     	 
     	 editorWindow.addTab(buildMainTab(), "main");
+    	 editorWindow.addTab(buildPriceTab(), "prices");
+    	 
  //   	 editorWindow.addTab(buildCategoriesTab(), "categories");
  //   	 editorWindow.addTab(buildPriceTab(), "prices");
     	 
     	return editorWindow;
     }
    
-    private EntityTableChild<CategoryProductRelation, AbstractProduct> buildCategoriesTab(){
+    private MasterDetailTable<CategoryProductRelation, AbstractProduct> buildCategoriesTab(){
 
-    	return new EntityTableChild<CategoryProductRelation, AbstractProduct>(
+    	return new MasterDetailTable<CategoryProductRelation, AbstractProduct>(
                 CategoryProductRelation.class){
     		
         private static final long serialVersionUID = -2478612011226738573L;
@@ -132,9 +136,9 @@ public class ProductTable extends EntityTable<Product> {
     
     }
 
-    private  EntityTableChild<Price, AbstractProduct> buildPriceTab(){
+    private  MasterDetailTable<Price, AbstractProduct> buildPriceTab(){
     	
-    	return new EntityTableChild<Price, AbstractProduct>(Price.class) {
+    	return new MasterDetailTable<Price, AbstractProduct>(Price.class) {
             private static final long serialVersionUID = 7566839007224552531L;
 
             @Override
