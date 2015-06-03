@@ -16,19 +16,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.convert.ReadingConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.PermanentAddress;
@@ -43,12 +48,8 @@ import com.serpics.membership.services.UserService;
 import com.serpics.test.ExecutionTestListener;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
-@TestExecutionListeners({ ExecutionTestListener.class,
-    DependencyInjectionTestExecutionListener.class })
-@TransactionConfiguration(defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-@DirtiesContext
-public class MembershipTestCase {
+
+public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
 
     @Autowired
     BaseService b;
@@ -68,10 +69,12 @@ public class MembershipTestCase {
     AddressService addressService;
 
     @Before
+    @Transactional
     public void beforetest(){
         b.initIstance();	
     }
     @Test
+    @Transactional
     public void test0() throws SerpicsException{
         final CommerceSessionContext context = ce.connect("default-store",
                 "superuser", "admin".toCharArray());
@@ -81,7 +84,6 @@ public class MembershipTestCase {
         assertEquals(2, l.size());
     }
     @Test
-    // @Transactional
     public void test() throws SerpicsException {
 
         CommerceSessionContext context = ce.connect("default-store",
@@ -142,6 +144,7 @@ public class MembershipTestCase {
 
         l1 = m.findAll();
         assertEquals(2, l1.size());
+        
     }
 
     private void registerTestUser(final CommerceSessionContext context) {

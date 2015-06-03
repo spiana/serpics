@@ -2,38 +2,44 @@ package com.serpics.membership.test;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.ExecutionTestListener;
 
 @ContextConfiguration({  "classpath*:META-INF/applicationContext.xml"})
-@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
-@TransactionConfiguration(defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-public class BaseServiceTest {
+@Transactional
+public class BaseServiceTest  extends AbstractTransactionalJunit4SerpicTest{
 
 	@Autowired
 	BaseService b;
 	
 	@Autowired
 	CommerceEngine commerceEngine;
-
-	@Test
-	@Transactional
-	public void test() throws SerpicsException {
+	@Before
+	
+	public void beforeTest(){
 		b.initIstance();
+	}
+	
+	@Test
+	public void test() throws SerpicsException {
 		CommerceSessionContext context = commerceEngine.connect("default-store");
 		assertNotNull(context);
 	}

@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.repositories.MemberGroupRepository;
@@ -24,12 +27,8 @@ import com.serpics.test.ExecutionTestListener;
 
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
-@TestExecutionListeners({ ExecutionTestListener.class,
-    DependencyInjectionTestExecutionListener.class })
-@TransactionConfiguration(defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-@DirtiesContext
-public class MemberGroupTest {
+@Transactional
+public class MemberGroupTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Autowired
 	BaseService b;

@@ -1,5 +1,6 @@
 package com.serpics.base.test;
 
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.http.converter.xml.AbstractXmlHttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +14,7 @@ import com.serpics.test.AbstractTest;
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
+@Ignore
 public class BaseTest {
 
 }

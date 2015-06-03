@@ -134,7 +134,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return this.beanFactory.getBean(serviceName);
     }
 
-    @SuppressWarnings("unchecked")
+    
+	@SuppressWarnings("unchecked")
 	@Override
     public T getCurrentContext() {
         return (T) threadLocal.get();

@@ -1,5 +1,6 @@
 package com.serpics.test;
 
+import org.hibernate.validator.internal.util.privilegedactions.GetAnnotationParameter;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
 
@@ -11,6 +12,7 @@ public class ExecutionTestListener extends AbstractTestExecutionListener {
 	@Override
 	public void prepareTestInstance(TestContext testContext) throws Exception {
 		super.prepareTestInstance(testContext);
+		//Thread.currentThread().setContextClassLoader(testContext.getApplicationContext().getClassLoader());
 		SerpicsTest s = testContext.getTestClass().getAnnotation(SerpicsTest.class);
 		if (s != null)
 			StoreScopeContextHolder.setCurrentStoreRealm(s.value());

@@ -117,6 +117,7 @@ class ComponentScanner {
         // Discoverer discoverer = new ClasspathDiscoverer();
         // ClasspathDiscoverer discoverer = new com.impetus.annovention.ClasspathDiscoverer();
 
+        logger.debug(Thread.currentThread().getContextClassLoader().getClass().getName());
         logger.info("discoveder {} URL", discoverer.findResources().length);
         if (logger.isDebugEnabled()) {
             for (final URL url : discoverer.findResources()) {
