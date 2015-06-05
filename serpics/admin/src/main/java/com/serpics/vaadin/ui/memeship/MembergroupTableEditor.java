@@ -2,11 +2,7 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.data.Repository;
-import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.Membergroup;
-import com.serpics.membership.data.repositories.MemberGroupRepository;
-import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;

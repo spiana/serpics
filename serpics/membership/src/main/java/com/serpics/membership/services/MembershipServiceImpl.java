@@ -25,6 +25,7 @@ import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.StoreRepository;
+import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.strategies.MembershipStrategy;
 
 @Service("memberService")
@@ -40,7 +41,7 @@ public class MembershipServiceImpl extends AbstractService<CommerceSessionContex
     private UserService userService;
 
     @Autowired
-    private UserRegService userRegService;
+    private UserRegrepository userRegRepository;
 
     @Resource
     private MembershipStrategy membershipHook;
@@ -98,11 +99,12 @@ public class MembershipServiceImpl extends AbstractService<CommerceSessionContex
     @Override
 
     public UserDetail connect(final Principal principal) {
-        final UsersReg ur = userRegService.findByLoginid(principal.getName());
+        final UsersReg ur = userRegRepository.findBylogonid(principal.getName());
         Assert.notNull(ur);
         return ur;
     }
 
+    
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<User> findbyexample(final User example) {

@@ -7,13 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
@@ -21,11 +16,10 @@ import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.StoreRepository;
+import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.data.repositories.UserRepository;
 import com.serpics.membership.services.BaseService;
-import com.serpics.membership.services.UserRegService;
 import com.serpics.membership.services.UserService;
-import com.serpics.test.ExecutionTestListener;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,7 +30,7 @@ public class UserRegServiceTest extends AbstractTransactionalJunit4SerpicTest{
     BaseService baseService;
 
     @Autowired
-    UserRegService userRegService;
+    UserRegrepository userRegRepository;
 
     @Autowired
     UserService userService;
@@ -55,9 +49,9 @@ public class UserRegServiceTest extends AbstractTransactionalJunit4SerpicTest{
     @Test
 	@Transactional
     public void first() {
-        final List<UsersReg> l = userRegService.findAll();
+        final List<UsersReg> l = userRegRepository.findAll();
         Assert.assertEquals(1, l.size());
-        UsersReg u = userRegService.findByLoginid("superuser");
+        UsersReg u = userRegRepository.findBylogonid("superuser");
         Assert.assertNotNull(u);
     }
 

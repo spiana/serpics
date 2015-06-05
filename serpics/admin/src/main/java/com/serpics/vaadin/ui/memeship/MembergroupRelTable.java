@@ -4,17 +4,15 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.data.Repository;
-import com.serpics.core.service.EntityService;
 import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.data.model.Membergrouprel;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.MembergrouprelRepository;
-import com.serpics.membership.services.MembergrouprelService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
+
 
 @VaadinComponent("membergroupRelTable")
 public class MembergroupRelTable extends MasterDetailTable<Membergrouprel , User> {

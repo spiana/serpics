@@ -4,12 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.membership.Member2GroupRelType;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.Membergrouprel;
 import com.serpics.membership.data.model.MembgrouprelPK;
 import com.serpics.membership.data.repositories.MemberGroupRepository;
-import com.serpics.membership.services.MembergroupService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.vaadin.addon.jpacontainer.JPAContainer;

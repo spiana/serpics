@@ -26,6 +26,7 @@ import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserRepository;
 
@@ -47,7 +48,7 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
     CommerceEngine commerceEngine;
 
     @Autowired
-    RoleService roleService;
+    RoleRepository roleRepository;
 
     @Autowired
     LocaleService localeService;
@@ -88,7 +89,8 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 
         try {
 
-            final List<Role> roles = roleService.findByexample(new Role("administrator"));
+            final List<Role> roles = roleRepository.findAll(
+            		roleRepository.makeSpecification(new Role("administrator")));
             Assert.notEmpty(roles);
             final SessionContext c = commerceEngine.connect("default-store");
 
@@ -130,8 +132,8 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         final Role role = new Role("employee");
         final Role role1 = new Role("administrator");
 
-        roleService.create(role);
-        roleService.create(role1);
+        roleRepository.create(role);
+        roleRepository.create(role1);
     }
 
 }

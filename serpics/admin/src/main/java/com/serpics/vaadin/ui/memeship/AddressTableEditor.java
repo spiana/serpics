@@ -2,16 +2,13 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.data.Repository;
-import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.data.repositories.PermanentAddressRepository;
-import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
+
 
 @VaadinComponent(value = "addressTableEditor")
 public class AddressTableEditor extends MasterDetailTable<PermanentAddress, User> {

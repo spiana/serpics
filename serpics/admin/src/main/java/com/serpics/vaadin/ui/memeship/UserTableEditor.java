@@ -2,16 +2,12 @@ package com.serpics.vaadin.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.data.Repository;
-import com.serpics.core.service.EntityService;
-import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.data.repositories.UserRegrepository;
-import com.serpics.membership.services.UserRegService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
+
 
 @VaadinComponent(value = "userTableEditor")
 public class UserTableEditor extends MasterTable<UsersReg> {

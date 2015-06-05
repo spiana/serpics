@@ -2,7 +2,6 @@ package com.serpics.system.security;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,6 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.services.UserRegService;
 import com.serpics.system.services.UserDetailsService;
 import com.serpics.system.web.WebCostant;
 
@@ -28,9 +26,7 @@ public class AuthenticationFilter extends BasicAuthenticationFilter {
     @Autowired
     CommerceEngine commerceEngine;
 
-    @Autowired
-    UserRegService userRegService;
-
+ 
     @Autowired
     UserDetailsService userDetailsService;
 
@@ -76,10 +72,8 @@ public class AuthenticationFilter extends BasicAuthenticationFilter {
                 context.setLocale(locale);
             }
 
-            user.setLastLogin(new Date());
-            user.setLastVisit(user.getLastLogin());
-            userRegService.update(user);
-
+            userDetailsService.updateLastVisit(user);
+    
         } catch (final SerpicsException e) {
             authentication.setAuthenticated(false);
             throw new IOException(e);

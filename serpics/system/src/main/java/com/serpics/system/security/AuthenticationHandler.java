@@ -2,7 +2,6 @@ package com.serpics.system.security;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,6 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.MembersRoleRepository;
-import com.serpics.membership.services.UserRegService;
 import com.serpics.system.services.UserDetailsService;
 import com.serpics.system.web.WebCostant;
 
@@ -33,9 +31,6 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
     private MembersRoleRepository membersRoleRepository;
     @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    private UserRegService userRegService;
 
     @Autowired
     private CatalogService catalogService;
@@ -66,11 +61,7 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
             if (locale != null) {
                 context.setLocale(locale);
             }
-
-            user.setLastLogin(new Date());
-            user.setLastVisit(user.getLastLogin());
-            userRegService.update(user);
-
+           userDetailsService.updateLastVisit(user);
         } catch (final SerpicsException e) {
             authentication.setAuthenticated(false);
             throw new ServletException(e);

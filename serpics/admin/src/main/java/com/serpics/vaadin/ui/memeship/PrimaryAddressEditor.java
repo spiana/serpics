@@ -1,9 +1,6 @@
 package com.serpics.vaadin.ui.memeship;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.services.PrimaryAddressService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 
@@ -11,9 +8,7 @@ import com.serpics.vaadin.ui.EntityForm;
 public class PrimaryAddressEditor extends EntityForm<UsersReg> {
     private static final long serialVersionUID = 1L;
 
-    @Autowired
-    private transient PrimaryAddressService addressService;
-
+ 
     public PrimaryAddressEditor() {
         super(UsersReg.class);
 

@@ -3,16 +3,11 @@ package com.serpics.vaadin.ui.memeship;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.core.data.Repository;
-import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.RoleRepository;
-import com.serpics.membership.services.MemberRoleService;
-import com.serpics.membership.services.RoleService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;

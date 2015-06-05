@@ -6,19 +6,10 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,12 +24,10 @@ import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.repositories.MembersRoleRepository;
+import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.membership.services.BaseService;
-import com.serpics.membership.services.MemberRoleService;
-import com.serpics.membership.services.RoleService;
-import com.serpics.membership.services.UserRegService;
 import com.serpics.membership.services.UserService;
-import com.serpics.test.ExecutionTestListener;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 
@@ -53,12 +42,10 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     @Autowired
     UserService userService;
     @Autowired
-    RoleService roleService;
+    RoleRepository roleRepository;
+  
     @Autowired
-    UserRegService userRegService;
-
-    @Autowired
-    MemberRoleService memberRoleService;
+    MembersRoleRepository memberRoleRepository;
 
     @Before
     public void init() {
@@ -79,7 +66,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
         final Role r = new Role();
         r.setName("user");
         r.setDescription("User");
-        roleService.create(r);
+        roleRepository.create(r);
 
         u = userService.create(u);
         
@@ -114,7 +101,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
         // try add role
         final Role r1 = new Role();
         r1.setName("employer");
-        roleService.create(r1);
+        roleRepository.create(r1);
 
         final MembersRole m1 = new MembersRole();
         m1.setRole(r1);
@@ -130,7 +117,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 
         //try nother role
         Role r2 = new Role("boss");
-        r2 =roleService.create(r2);
+        r2 =roleRepository.create(r2);
 
         u = userService.addRole(r2, u);
         final java.util.List<User> l2 = userService.findByexample(new User(
@@ -141,10 +128,10 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
         final Set<MembersRole> roles = l2.get(0).getMembersRoles();
         final MembersRole mr = roles.iterator().next();
 
-        final MembersRole mr1 = memberRoleService.findOne(mr.getId());
+        final MembersRole mr1 = memberRoleRepository.findOne(mr.getId());
         Assert.assertNotNull(mr1);
 
-        final List<MembersRole> l3 = memberRoleService.findAll();
+        final List<MembersRole> l3 = memberRoleRepository.findAll();
         Assert.assertEquals(3, l3.size());
    
 //        memberRoleService.delete(l3.get(2).getId());

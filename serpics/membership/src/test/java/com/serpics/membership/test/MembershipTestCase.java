@@ -14,20 +14,11 @@ import javax.persistence.criteria.Root;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.convert.ReadingConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
@@ -40,12 +31,11 @@ import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.services.AddressService;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.MembershipService;
-import com.serpics.membership.services.UserRegService;
 import com.serpics.membership.services.UserService;
-import com.serpics.test.ExecutionTestListener;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 
@@ -63,7 +53,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
     UserService userService;
 
     @Autowired
-    UserRegService userRegService;
+    UserRegrepository userRegRepository;
 
     @Autowired
     AddressService addressService;
@@ -113,7 +103,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         List<UsersReg> l = m.findbyexample(r);
         assertEquals(1, l.size());
 
-        l = userRegService.findAll(new Specification<UsersReg>() {
+        l = userRegRepository.findAll(new Specification<UsersReg>() {
 
             @Override
             public Predicate toPredicate(final Root<UsersReg> arg0, final CriteriaQuery<?> arg1,
@@ -121,16 +111,16 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
                 return arg2.equal(arg0.get("logonid"), "test1");
             }
 
-        }, new PageRequest(0, 1));
+        });
 
         assertEquals(1, l.size());
         userService.addAddress(new PermanentAddress(), u.getMemberId());
 
-        userRegService.detach(u);
+        userRegRepository.detach(u);
 
         u.setEmail("aaaa");
 
-        final UsersReg u1 = userRegService.update(u);
+        final UsersReg u1 = userRegRepository.update(u);
         assertEquals("aaaa", u1.getEmail());
 
         // assertEquals(0, l1.get(0).getPermanentAddresses().size());

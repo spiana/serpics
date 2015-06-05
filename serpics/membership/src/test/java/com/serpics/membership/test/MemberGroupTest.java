@@ -4,15 +4,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
@@ -23,8 +16,6 @@ import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.membership.services.BaseService;
-import com.serpics.test.ExecutionTestListener;
-
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @Transactional

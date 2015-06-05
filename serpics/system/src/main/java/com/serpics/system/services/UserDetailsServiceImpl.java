@@ -2,6 +2,7 @@ package com.serpics.system.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
@@ -22,7 +24,6 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.services.MembershipService;
-import com.serpics.membership.services.UserRegService;
 
 @Service("userDetailService")
 public class UserDetailsServiceImpl extends AbstractService<CommerceSessionContext> implements UserDetailsService {
@@ -33,7 +34,7 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
     UserRegrepository userRegrepository;
 
     @Autowired
-    UserRegService userRegService;
+   UserRegrepository userRegRepository;
 
     @Autowired
     MembersRoleRepository membersRoleRepository;
@@ -41,7 +42,7 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
     @Override
     public UserDetails loadUserByUsername(final String userName) throws UsernameNotFoundException {
       try{
-        final UsersReg ur = userRegService.findByLoginid(userName);
+        final UsersReg ur = userRegRepository.findBylogonid(userName);
         if (ur == null) {
             throw new UsernameNotFoundException("username :" + userName + " not found !");
         }
@@ -66,7 +67,7 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
 
     @Override
     public void setCredentials(final Authentication authentication) {
-        final UsersReg reg = userRegService.findByLoginid(authentication.getName());
+        final UsersReg reg = userRegRepository.findBylogonid(authentication.getName());
 
         final List<MembersRole> roles = membersRoleRepository.findUserRoles(reg, (Store) getCurrentContext()
                 .getStoreRealm());
@@ -83,4 +84,14 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
 
         SecurityContextHolder.getContext().setAuthentication(token);
     }
+
+	@Override
+	public void updateLastVisit(UsersReg user) {
+		Assert.notNull(user);
+		user.setLastLogin(new Date());
+        user.setLastVisit(user.getLastLogin());
+        userRegRepository.save(user);
+	
+		
+	}
 }
