@@ -11,15 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.serpics.commerce.service.AbstractCommerceEntityService;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.AbstractService;
-import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.AddressRepository;
@@ -94,10 +90,6 @@ public class AddressServiceImpl extends AbstractCommerceEntityService<Address, L
 		return addressRepository;
 	}
 
-	@Override
-	public Specification<Address> getBaseSpec() {
-		
-		return null;
-	}
+	
 
 }

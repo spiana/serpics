@@ -29,5 +29,36 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	  <property name="order" value="100"/>
 	  <property name="interceptor" ref="membegroupCreateInterceptor" />
  </bean>  
-    
+   
+  <bean name="userSpecification" class="com.serpics.membership.data.interceptors.DefaultUserSpecification"/>  
+  
+  
+  <!-- facade -->
+  <bean name="addressPopulator" class="com.serpics.membership.facade.AddressPopulator" />
+   <alias name="defaultAddressConverter" alias="addressConverter"/>
+  <bean name="defaultAddressConverter" parent="abstractConverter">
+  <property name="targetClass" value="com.serpics.membership.facade.AddressData"/>
+  <property name="populators">
+  	<list>
+  		<ref bean="addressPopulator"/>	
+  	</list>
+  </property>
+  </bean>
+  
+  
+  <bean name="userPopulator" class="com.serpics.membership.facade.UserPopulator">
+ 	 <property name="addressConverter" ref="addressConverter"/>
+  </bean>
+  
+  
+  <alias name="defaultUserConverter" alias="userConverter"/>
+  <bean name="defaultUserConverter" parent="abstractConverter">
+  <property name="targetClass" value="com.serpics.membership.facade.UserData"/>
+  <property name="populators">
+  	<list>
+  		<ref bean="userPopulator"/>	
+  	</list>
+  </property>
+  </bean>
+  
  </beans>    

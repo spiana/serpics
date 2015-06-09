@@ -1,23 +1,11 @@
 package com.serpics.vaadin.ui.catalog;
 
-import org.restlet.engine.http.header.ProductReader;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.repositories.Category2ProductRepository;
 import com.serpics.catalog.data.repositories.CategoryRepository;
-import com.serpics.catalog.data.repositories.PriceRepository;
-import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.catalog.services.Category2ProductService;
-import com.serpics.catalog.services.CategoryService;
-import com.serpics.catalog.services.PriceService;
-import com.serpics.catalog.services.ProductService;
-import com.serpics.core.data.Repository;
-import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
@@ -32,6 +20,7 @@ import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
+
 
 @VaadinComponent("productTable")
 public class ProductTable extends MasterTable<Product> {

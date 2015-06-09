@@ -1,6 +1,5 @@
 package com.serpics.membership.services;
 
-import static com.serpics.membership.data.repositories.UserSpecification.isUserInStore;
 import static org.springframework.data.jpa.domain.Specifications.where;
 
 import java.util.Collection;
@@ -12,7 +11,6 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -42,8 +40,6 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 
     @Resource
     UserRepository userRepository;
-
-
     @Resource
     UserRegrepository userRegrepository;
 
@@ -105,25 +101,14 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         return userRegrepository.saveAndFlush(reg);
     }
 
-    private Specification storeFilterSpec() {
-        return isUserInStore((Store) getCurrentContext().getStoreRealm());
-    }
+  
 
     @Override
     public List<UsersReg> findByexample(final UsersReg example) {
         return userRegrepository.findAll(where(userRegrepository.makeSpecification(example)));
     }
 
-    @Override
-    public Repository<User, Long> getEntityRepository() {
-        return userRepository;
-    }
-
-    @Override
-    public Specification<User> getBaseSpec() {
-        return storeFilterSpec();
-    }
-
+   
     @Override
     public Collection<Role> getUserRoles(final User user, final Store store) {
 
@@ -149,4 +134,13 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         return memberGroupRepository.findMembergroupByUser(user, (Store) getCurrentContext().getStoreRealm());
     }
 
+	@Override
+	public Repository<User, Long> getEntityRepository() {
+		return userRepository;
+	}
+
+	@Override
+	public User getCurrentUser() {
+		return (User) getCurrentContext().getCustomer();
+	}
 }

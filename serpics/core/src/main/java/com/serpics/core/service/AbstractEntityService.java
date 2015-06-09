@@ -21,18 +21,16 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
 
     public abstract Repository<T, ID> getEntityRepository();
 
-    public abstract Specification<T> getBaseSpec();
-
     @Override
     @Transactional
     public T create(final T entity) {
-        return getEntityRepository().saveAndFlush(entity);
+        return getEntityRepository().create(entity);
     }
 
     @Override
     @Transactional
     public T update(final T entity) {
-        return getEntityRepository().saveAndFlush(entity);
+        return getEntityRepository().update(entity);
     }
 
     @Override
@@ -49,12 +47,12 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
 
     @Override
     public Page<T> findAll(final Pageable page) {
-        return getEntityRepository().findAll(getBaseSpec(), page);
+        return getEntityRepository().findAll(page);
     }
 
     @Override
     public List<T> findAll() {
-        return getEntityRepository().findAll(getBaseSpec());
+        return getEntityRepository().findAll();
     }
 
     @Override
@@ -63,12 +61,12 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
             return findAll();
 
         if (sort == null)
-            return getEntityRepository().findAll(where(spec).and(getBaseSpec()));
+            return getEntityRepository().findAll(spec);
 
         if (spec == null)
-            return getEntityRepository().findAll(where(getBaseSpec()), sort);
+            return getEntityRepository().findAll(sort);
 
-        return getEntityRepository().findAll(where(spec).and(getBaseSpec()), sort);
+        return getEntityRepository().findAll(spec, sort);
     }
 
     @Override
@@ -76,14 +74,15 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
         if (spec == null)
             return findAll(page).getContent();
 
-        final Page<T> res = getEntityRepository().findAll(where(spec).and(getBaseSpec()), page);
+        final Page<T> res = getEntityRepository().findAll(spec, page);
         return res.getContent();
     }
 
     @Override
     public List<T> findByexample(final T example) {
+    	
         return getEntityRepository()
-                .findAll(where(getEntityRepository().makeSpecification(example)).and(getBaseSpec()));
+                .findAll(where(getEntityRepository().makeSpecification(example)));
     }
 
     @Override
@@ -108,7 +107,6 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
 
     @Override
     public void detach(final T entity) {
-
         getEntityRepository().detach(entity);
     }
 

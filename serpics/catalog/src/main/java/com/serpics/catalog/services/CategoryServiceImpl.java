@@ -4,16 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,23 +41,9 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
     }
 
     @Override
-    public Specification<Category> getBaseSpec() {
-        return new Specification<Category>() {
-            @Override
-            public Predicate toPredicate(final Root<Category> root, final CriteriaQuery<?> cq, final CriteriaBuilder cb) {
-                return cb.equal(root.get("catalog"), getCurrentContext().getCatalog());
-            }
-        };
-    }
-
-    @Override
     @Transactional
     public Category create(final Category entity) {
-        if (entity.getCatalog() == null) {
-            entity.setCatalog((Catalog) getCurrentContext().getCatalog());
-        }
-
-        return super.create(entity);
+            return super.create(entity);
     }
 
     @Override

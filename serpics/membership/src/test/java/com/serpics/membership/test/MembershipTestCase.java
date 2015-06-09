@@ -95,12 +95,12 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         example.setUserType(UserType.REGISTERED);
         example.setLastname("testmembership");
 
-        List<User> l1 = m.findbyexample(example);
+        List<User> l1 = userService.findByexample(example);
         assertEquals(1, l1.size());
 
         final UsersReg r = new UsersReg();
         r.setLogonid("test1");
-        List<UsersReg> l = m.findbyexample(r);
+        List<UsersReg> l = userService.findByexample(r);
         assertEquals(1, l.size());
 
         l = userRegRepository.findAll(new Specification<UsersReg>() {
@@ -132,7 +132,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         assertEquals(1, addresses.size());
 
 
-        l1 = m.findAll();
+        l1 = userService.findAll();
         assertEquals(2, l1.size());
         
     }

@@ -2,7 +2,7 @@ package com.serpics.core.facade;
 
 import java.util.List;
 
-public abstract class AbstractPopulatingConverter<SOURCE , TARGET> extends AbstractConverter<SOURCE, TARGET> 
+public class AbstractPopulatingConverter<SOURCE , TARGET> extends AbstractConverter<SOURCE, TARGET> 
 	implements PopulatorList<SOURCE, TARGET>{
 
 	List<Populator<SOURCE, TARGET>> populators;
@@ -30,5 +30,6 @@ public abstract class AbstractPopulatingConverter<SOURCE , TARGET> extends Abstr
 			}
 		}
 	}
+
 	
 }

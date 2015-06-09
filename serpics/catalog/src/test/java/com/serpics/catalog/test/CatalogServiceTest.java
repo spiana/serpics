@@ -7,13 +7,12 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
 import com.serpics.base.data.model.BaseAttribute;
-import com.serpics.base.services.AttributeService;
+import com.serpics.base.data.repositories.BaseAttributeRepository;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Bundle;
 import com.serpics.catalog.data.model.Catalog;
@@ -50,7 +49,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     AbstractProductRepository abstractProductRepository;
 
     @Resource
-    AttributeService attributeService;
+    BaseAttributeRepository attributeRepository;
 
     @Autowired
     PriceService priceService;
@@ -63,9 +62,9 @@ public class CatalogServiceTest extends CatalogBaseTest {
         attribute.setAttributeType(AttributeType.INTEGER);
         attribute.setAvailablefor(AvailableforType.USER);
         attribute.setName("test");
-        attributeService.create(attribute);
+        attributeRepository.create(attribute);
 
-        final List<BaseAttribute> al = attributeService.findAll();
+        final List<BaseAttribute> al = attributeRepository.findAll();
         Assert.assertEquals(1, al.size());
 
         baseService.createStore("test-store");
@@ -75,18 +74,18 @@ public class CatalogServiceTest extends CatalogBaseTest {
         attribute1.setAttributeType(AttributeType.TEXT);
         attribute1.setAvailablefor(AvailableforType.USER);
         attribute1.setName("test");
-        attributeService.create(attribute1);
+        attributeRepository.create(attribute1);
 
         final BaseAttribute attribute2 = new BaseAttribute();
         attribute2.setAttributeType(AttributeType.TEXT);
         attribute2.setAvailablefor(AvailableforType.FEATURE);
         attribute2.setName("test1");
-        attributeService.create(attribute2);
+        attributeRepository.create(attribute2);
 
-        final List<BaseAttribute> al1 = attributeService.findAll();
+        final List<BaseAttribute> al1 = attributeRepository.findAll();
         Assert.assertEquals(2, al1.size());
 
-        final List<BaseAttribute> al2 = attributeService.findbyAvailablefor(AvailableforType.FEATURE, new PageRequest(0, 10));
+        final List<BaseAttribute> al2 = attributeRepository.findByAvailablefor(AvailableforType.FEATURE);
         Assert.assertEquals(1, al2.size());
     }
 
@@ -123,7 +122,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         price.setCurrentPrice(10.0);
         priceService.create(price);
 
-        productService.detach(p);
+        productRepository.detach(p);
 
         //
         // final Bundle b = new Bundle();

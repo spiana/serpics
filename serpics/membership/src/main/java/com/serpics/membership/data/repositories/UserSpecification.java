@@ -9,8 +9,10 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
+import com.serpics.stereotype.DefaultSpec;
 
 
+@DefaultSpec(User.class)
 public class UserSpecification {
 
 

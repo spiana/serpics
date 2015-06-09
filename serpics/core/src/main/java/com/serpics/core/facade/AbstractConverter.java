@@ -1,14 +1,14 @@
 package com.serpics.core.facade;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
 public abstract class AbstractConverter<SOURCE , TARGET> implements Converter<SOURCE, TARGET> , Populator<SOURCE, TARGET> {
 
 	Class<TARGET> targetClass;
 	
-	public TARGET Convert(SOURCE source){
+	@Override
+	public TARGET convert(SOURCE source){
 		 TARGET target;
 		 target = createTarget();
 		 populate(source , target);
@@ -16,7 +16,8 @@ public abstract class AbstractConverter<SOURCE , TARGET> implements Converter<SO
 		 return target;
 	}
 	
-	@SuppressWarnings("unchecked")
+
+
 	public TARGET createTarget() {
 			Assert.notNull(targetClass);
 			try
@@ -27,5 +28,12 @@ public abstract class AbstractConverter<SOURCE , TARGET> implements Converter<SO
 			{
 				throw new RuntimeException(e);
 			}
+	}
+
+
+
+	@Required
+	public void setTargetClass(Class<TARGET> targetClass) {
+		this.targetClass = targetClass;
 	}
 }

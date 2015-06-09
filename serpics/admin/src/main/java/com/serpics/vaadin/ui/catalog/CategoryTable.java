@@ -2,35 +2,18 @@ package com.serpics.vaadin.ui.catalog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.base.data.repositories.LocaleRepository;
-import com.serpics.base.services.LocaleService;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
-import com.serpics.catalog.data.repositories.CategoryRepository;
-import com.serpics.catalog.services.CategoryService;
-import com.serpics.core.data.Repository;
-import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.serpics.vaadin.ui.MultilingualTextField;
-import com.serpics.vaadin.ui.PropertiesUtils;
 import com.serpics.vaadin.ui.component.MasterDetailField;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
-import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.server.ClientConnector.AttachEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
+
 
 @VaadinComponent("categoryTable")
 public class CategoryTable extends MasterTable<Category> {

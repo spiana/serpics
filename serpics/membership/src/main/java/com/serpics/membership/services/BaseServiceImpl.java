@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.repositories.CurrencyRepository;
-import com.serpics.base.services.LocaleService;
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
@@ -51,7 +51,7 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
     RoleRepository roleRepository;
 
     @Autowired
-    LocaleService localeService;
+    LocaleRepository localeRepository;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -68,13 +68,13 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         locale.setCountry("IT");
         locale.setlanguage("it");
         locale.setName("Italiano");
-        localeService.create(locale);
+        localeRepository.create(locale);
 
         locale = new Locale();
         locale.setCountry("US");
         locale.setlanguage("en");
         locale.setName("English");
-        localeService.create(locale);
+        localeRepository.create(locale);
 
         Store s = new Store();
         s.setName("default-store");

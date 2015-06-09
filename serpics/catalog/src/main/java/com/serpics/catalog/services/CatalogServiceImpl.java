@@ -1,14 +1,9 @@
 package com.serpics.catalog.services;
 
 import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,17 +31,7 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
         return catalogRepository;
     }
 
-    @Override
-    public Specification<Catalog> getBaseSpec() {
-        return new Specification<Catalog>() {
-            @Override
-            public Predicate toPredicate(final Root<Catalog> arg0, final CriteriaQuery<?> arg1,
-                    final CriteriaBuilder arg2) {
-
-                return arg2.isNotNull(arg0.get("uuid"));
-            }
-        };
-    }
+   
 
     @Override
     public Catalog findByCode(final String code) {

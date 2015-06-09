@@ -30,7 +30,6 @@ import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
-
 @Transactional(propagation=Propagation.REQUIRES_NEW)
 public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     Logger log = LoggerFactory.getLogger(UserServiceTest.class);
@@ -69,6 +68,8 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
         roleRepository.create(r);
 
         u = userService.create(u);
+        final java.util.List<User> l0 = userService.findAll();
+        Assert.assertEquals(2, l0.size());
         
         final MembersRole m = new MembersRole();
         m.setRole(r);
@@ -79,6 +80,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 
         final java.util.List<User> l = userService.findAll();
         Assert.assertEquals(2, l.size());
+        
         final java.util.List<User> u1 = userService.findByexample(new User(
                 UserType.GUEST, "test", null, null, null));
         Assert.assertEquals(1, u1.size());

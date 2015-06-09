@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.repositories.LocaleRepository;
-import com.serpics.base.services.LocaleService;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.VaadinComponent;
@@ -16,6 +15,7 @@ import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
+
 
 @VaadinComponent("userRegEditorComponent")
 public class UserRegEditorComponent extends EntityForm<UsersReg> {

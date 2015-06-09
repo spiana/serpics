@@ -4,13 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
-import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.catalog.data.repositories.CategoryRepository;
-import com.serpics.catalog.services.CategoryRelationService;
-import com.serpics.catalog.services.CategoryService;
-import com.serpics.core.data.Repository;
-import com.serpics.core.data.RepositoryInitializer;
-import com.serpics.core.service.EntityService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
@@ -18,12 +12,9 @@ import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
+
 
 @VaadinComponent("childCategoryRelationTable")
 public class ChildCategoryRelationTable extends MasterDetailTable<CategoryRelation, Category> {

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.services.LocaleService;
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.services.CategoryService;
@@ -23,14 +23,14 @@ public class CategoryServiceTest extends CatalogBaseTest {
 
 
     @Autowired
-    LocaleService localeService;
+    LocaleRepository localeRepository;
 
 
 
     @Test
     public void test1() throws SerpicsException {
 
-        final Locale locale = localeService.findByLanguage("it");
+        final Locale locale = localeRepository.findByLanguage("it");
         final Catalog catalog = (Catalog) context.getCatalog();
 
         Category category = new Category();

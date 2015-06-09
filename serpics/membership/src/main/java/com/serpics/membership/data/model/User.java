@@ -1,7 +1,5 @@
 package com.serpics.membership.data.model;
 
-import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +16,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -58,7 +57,10 @@ public class User extends Member implements  UserDetail {
     @Column(length = 512)
     private String email;
 
-    private BigInteger field4;
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
+    protected PrimaryAddress billingAddress;
+    
+    private Integer field4;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
@@ -109,11 +111,11 @@ public class User extends Member implements  UserDetail {
         this.email = email;
     }
 
-    public BigInteger getField4() {
+    public Integer getField4() {
         return this.field4;
     }
 
-    public void setField4(final BigInteger field4) {
+    public void setField4(final Integer field4) {
         this.field4 = field4;
     }
 
@@ -209,5 +211,13 @@ public class User extends Member implements  UserDetail {
     public void setStores(final Set<Store> stores) {
         this.stores = stores;
     }
+
+	public PrimaryAddress getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(PrimaryAddress billingAddress) {
+		this.billingAddress = billingAddress;
+	}
 
 }
