@@ -15,7 +15,7 @@ public class UserEditorComponent extends EntityForm<UsersReg> {
     @Override
     public void init() {
         super.init();
-        final String[] displayProperties ={"firstname" , "lastname" , "phone" , "email" ,"primaryAddress" ,"created"};
+        final String[] displayProperties ={"firstname" , "lastname" , "phone" , "email"  ,"primaryAddress","created"};
         setDisplayProperties(displayProperties);
         setReadOnlyProperties(new String[] { "created" });
     }

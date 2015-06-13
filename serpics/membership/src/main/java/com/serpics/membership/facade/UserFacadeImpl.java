@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.Assert;
 
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.data.model.User;
@@ -39,8 +40,27 @@ public class UserFacadeImpl implements UserFacade{
 			ulist.add(userConvert.convert(user));
 		}
 		
-		Page<UserData> udata= new PageImpl<UserData>(ulist);
+		Page<UserData> udata= new PageImpl<UserData>(ulist ,page , users.getTotalElements());
 		return udata;
+	}
+
+	@Override
+	public UserData findUserById(Long userId) {
+		User u = userService.findOne(userId);
+		Assert.notNull(u);
+		return userConvert.convert(u);
+	}
+
+	@Override
+	public void createUser(UserData user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateUser(Long userid, UserData user) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

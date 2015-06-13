@@ -1,4 +1,4 @@
-package com.vaadin.addon.jpacontainer.provider;
+package com.serpics.vaadin.jpacontainer.provider;
 
 import java.util.Set;
 
@@ -12,6 +12,7 @@ import javax.persistence.metamodel.Type;
 import com.serpics.core.data.Repository;
 import com.serpics.core.data.RepositoryInitializer;
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.provider.CachingLocalEntityServiceProvider;
 
 public class ServiceContainerFactory {
 

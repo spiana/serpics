@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<xsd:schema id="smc-definition" xmlns="prova" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="prova">
+
+  <xsd:element name="property">
+        
+        <xsd:complexType>
+      <xsd:attribute name="name" type="xsd:string" />
+    </xsd:complexType>
+    </xsd:element>
+  <xsd:element name="smc-definition">
+        <xsd:complexType>
+      <xsd:choice minOccurs="0" maxOccurs="unbounded">
+        <xsd:element ref="property" />
+        <xsd:element name="class" >
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="table" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element ref="property" minOccurs="0" maxOccurs="unbounded" />
+                  </xsd:sequence>
+                  <xsd:attribute name="action" type="xsd:string" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="editor" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element ref="property" minOccurs="0" maxOccurs="unbounded" />
+                  </xsd:sequence>
+                  <xsd:attribute name="action" type="xsd:string" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="select" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element ref="property" minOccurs="1" maxOccurs="1" />
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="name" type="xsd:string" />
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:choice>
+    </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

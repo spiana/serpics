@@ -5,10 +5,10 @@ import org.springframework.util.Assert;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.data.RepositoryInitializer;
+import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.util.filter.Compare;
 
 public abstract class EntityFormChild<T, P> extends EntityForm<T> implements EntityComponentChild<T, P> {

@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.core.data.Repository;
 import com.serpics.core.data.RepositoryInitializer;
+import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;

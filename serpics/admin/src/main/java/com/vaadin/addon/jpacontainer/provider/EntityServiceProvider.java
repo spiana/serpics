@@ -21,11 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.core.data.Repository;
-import com.serpics.core.service.EntityService;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.filter.util.FilterConverter;
+import com.vaadin.addon.jpacontainer.provider.MutableLocalEntityProvider;
 import com.vaadin.data.Container.Filter;
 
 @Transactional(readOnly=true)

@@ -6,13 +6,13 @@ import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.ui.Field;
 
 

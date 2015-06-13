@@ -17,6 +17,7 @@ import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 
+@Deprecated
 class CachingServiceSupport<T> implements Serializable {
 	private static final long serialVersionUID = -7938390490825372160L;
 

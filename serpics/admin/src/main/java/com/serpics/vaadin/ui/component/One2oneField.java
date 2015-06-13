@@ -1,36 +1,30 @@
 package com.serpics.vaadin.ui.component;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
-import com.vaadin.addon.jpacontainer.util.HibernateUtil;
-import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.validator.BeanValidator;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Field;
@@ -123,6 +117,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 		LOG.info("create field : {}", pid);
 		final Field<?> f = CustomFieldFactory.get().createField(entityItem,
 				pid, this);
+	
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 
@@ -173,11 +168,15 @@ public class One2oneField<M, T> extends CustomField<T> {
 	
 	@Override
 	public void commit() throws SourceException, InvalidValueException {
+	
 		try {
+			 fieldGroup.commit();
 			 if (!entityItem.isPersistent()) {
 	                entityItem.getContainer().addEntity(entityItem.getEntity());
+	                masterEntity.getItemProperty(parentPropertyId).setValue(entityItem.getEntity());
+	             masterEntity.getContainer().commit();
 			 }  
-			 fieldGroup.commit();
+			
 		} catch (CommitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

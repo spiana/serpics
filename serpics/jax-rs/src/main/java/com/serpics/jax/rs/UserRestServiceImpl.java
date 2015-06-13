@@ -16,19 +16,28 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.membership.data.model.User;
+import com.serpics.membership.facade.UserData;
+import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.services.UserService;
 
 
+
 @Path("/userService")
+@Transactional(readOnly=true)
 public class UserRestServiceImpl  implements UserRestService {
 
     @Resource
     UserService userService;
+   
+    @Autowired
+    UserFacade userFacade;
 
     @Override
     @Consumes(MediaType.APPLICATION_JSON)
@@ -45,8 +54,8 @@ public class UserRestServiceImpl  implements UserRestService {
     @Produces(MediaType.APPLICATION_JSON)
     @DELETE
     @Path("delete/{id}")
-    public Response delete(@PathParam("id") final Long id) {
-        final User user = userService.findOne(id);
+    public Response delete(@PathParam("id") final String id) {
+        final User user = userService.findOne(new Long(id));
         if (user != null){
             userService.delete(user);
         }else
@@ -79,17 +88,22 @@ public class UserRestServiceImpl  implements UserRestService {
     @Consumes(MediaType.TEXT_HTML)
     @GET
     @Path("get/{id}")
-    public User findOne(@PathParam("id") final Long id)  {
-        final User u =userService.findOne(id); 
+    public User findOne(@PathParam("id") final String id)  {
+        final User u =userService.findOne(new Long(id)); 
         return u;
     }
 
     @Override
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public Page<User> findAll(
+    public Page<UserData> findAll(
             @QueryParam("page") @DefaultValue("0") final int page , @QueryParam("size" ) @DefaultValue("10") final int size){
-        return userService.findAll(new PageRequest(page, size));
+    	
+    	
+    	Page<UserData> l = userFacade.findAllUser(new PageRequest(page, size));
+    	
+    	return l;
+    	// return userService.findAll(new PageRequest(page, size));
     }
 
 

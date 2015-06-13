@@ -43,6 +43,7 @@ public class AuthenticationHandler implements RequestHandler {
 			baseService.initIstance();
 		
 		try {
+			commerceEngine.connect("default-store");
 			commerceEngine.connect("default-store", "superuser", "admin".toCharArray());
 		} catch (SerpicsException e) {
 			return Response.status(401).header("WWW-Authenticate", "Basic").build();

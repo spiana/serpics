@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
@@ -21,7 +22,6 @@ import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.util.HibernateUtil;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;

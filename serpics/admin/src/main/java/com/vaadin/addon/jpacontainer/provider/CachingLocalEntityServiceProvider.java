@@ -7,20 +7,7 @@ import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.data.Container.Filter;
 
-/**
- * En extended version of {@link LocalEntityProvider} that also implements the {@link CachingEntityProvider} interface.
- * <p>
- * This provider can be used in applications in the same manner as {@link LocalEntityProvider}, with a few exceptions.
- * By default the cache is on. The cache can be turned off using {@link #setCacheEnabled(boolean) }, in which case the
- * provider effectively works as a {@link LocalEntityProvider}.
- * <p>
- * If you are going to edit the entities returned by the container, you should check the
- * {@link #setCloneCachedEntities(boolean) } before continuing.
- * 
- * @author Petter Holmstr��m (Vaadin Ltd)
- * @since 1.0
- */
-class CachingLocalEntityServiceProvider<T> extends EntityServiceProvider<T>
+public class  CachingLocalEntityServiceProvider<T> extends EntityServiceProvider<T>
 implements CachingEntityProvider<T> {
 
     // TODO Check how well caching works with concurrent users
@@ -28,7 +15,7 @@ implements CachingEntityProvider<T> {
     // concurrent implementations? What about synchronization?
 
     private static final long serialVersionUID = 302600441430870363L;
-    private final CachingServiceSupport<T> cachingSupport;
+    private final CachingSupport<T> cachingSupport;
 
     /**
      * Creates a new <code>CachingLocalEntityProvider</code>. The entity manager
@@ -40,7 +27,7 @@ implements CachingEntityProvider<T> {
      */
     public CachingLocalEntityServiceProvider(final Class<T> entityClass) {
         super(entityClass);
-        cachingSupport = new CachingServiceSupport<T>(this);
+        cachingSupport = new CachingSupport<T>(this);
     }
 
     @Override

@@ -124,6 +124,7 @@
    	<module>system</module>
     <module>jax-rs</module>
     <module>admin</module>
+    <module>gae-app</module>
   </modules>
   <version>1.0-SNAPSHOT</version>
   <dependencyManagement>

@@ -5,5 +5,5 @@ public enum AddressType {
     // public static final String PERMANENT = "PERMANENT";
     // public static final String TEMPORARY ="TEMPORARY";
 
-    PRIMARY, PERMANENT, TEMPORARY;
+    PRIMARY, PERMANENT, TEMPORARY , BILLING; 
 }

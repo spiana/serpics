@@ -1,7 +1,7 @@
 package com.serpics.vaadin.ui;
 
+import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;

@@ -1,4 +1,4 @@
-package com.serpics.membership.data.interceptors;
+package com.serpics.membership.data.specifications;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,7 +15,7 @@ import com.serpics.membership.data.model.User;
 import com.serpics.stereotype.DefaultSpec;
 
 @DefaultSpec(User.class)
-public class DefaultUserSpecification implements Specification<User> {
+public class DefaultUserRegSpecification implements Specification<User> {
 	@Autowired
 	Engine<CommerceSessionContext> engine;
 

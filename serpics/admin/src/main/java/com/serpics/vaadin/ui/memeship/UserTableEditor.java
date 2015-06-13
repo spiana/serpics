@@ -30,6 +30,9 @@ public class UserTableEditor extends MasterTable<UsersReg> {
 
     @Autowired
     PrimaryAddressEditor primaryAddressEditor;
+    
+    @Autowired
+    BillingAddressEditor billingAddressEditor;
 
     @Autowired
     MemberRoleTable memberRoleTable;
@@ -44,6 +47,7 @@ public class UserTableEditor extends MasterTable<UsersReg> {
     	EntityFormWindow<UsersReg> editorWindow = new EntityFormWindow<UsersReg>();
     	editorWindow.addTab(userEditorComponent, "main");
         editorWindow.addTab(primaryAddressEditor, "contactAddress");
+        editorWindow.addTab(billingAddressEditor, "billingAddress");
         editorWindow.addTab(userRegEditorComponent, "userReg");
         editorWindow.addTab(addressTableEditor, "address");
         editorWindow.addTab(membergroupRelTable, "grouprelation");

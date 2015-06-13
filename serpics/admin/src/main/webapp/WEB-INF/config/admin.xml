@@ -22,6 +22,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id ="userDatailsService" class="com.serpics.system.services.UserDetailsServiceImpl"/>
   <bean id="successAuthenticationHandler" class="com.serpics.system.security.AuthenticationHandler"/> 
   
+  <bean id="propertiesUtils" class="com.serpics.vaadin.ui.PropertiesUtils"/>
   
 <!--   <bean id="propertiesUtils" class="com.serpics.vaadin.ui.PropertiesUtils"> -->
 <!--   <property name="tableProperties"> -->

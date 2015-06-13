@@ -14,7 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.springframework.data.domain.Page;
+
+import com.serpics.membership.facade.UserData;
 
 public interface AbstractRestService<T , ID> {
 	
@@ -25,11 +28,11 @@ public interface AbstractRestService<T , ID> {
 	
 	@DELETE
 	@Path("delete/{id}")
-	public Response delete(@PathParam("id") ID id);
+	public Response delete(@PathParam("id") String id);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Page<T> findAll(@QueryParam("page") @DefaultValue("0") int page , @QueryParam("size" ) @DefaultValue("10") int size);
+	public Page<UserData> findAll(@QueryParam("page") @DefaultValue("0") int page , @QueryParam("size" ) @DefaultValue("10") int size);
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -44,5 +47,5 @@ public interface AbstractRestService<T , ID> {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("get/{id}")
-	public T findOne(@PathParam("id") ID id);
+	public T findOne(@PathParam("id") String id);
 }

@@ -30,8 +30,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	  <property name="interceptor" ref="membegroupCreateInterceptor" />
  </bean>  
    
-  <bean name="userSpecification" class="com.serpics.membership.data.interceptors.DefaultUserSpecification"/>  
-  
+  <bean name="userSpecification" class="com.serpics.membership.data.specifications.DefaultUserSpecification"/>  
+  <bean name="userRegSpecification" class="com.serpics.membership.data.specifications.DefaultUserRegSpecification"/>
   
   <!-- facade -->
   <bean name="addressPopulator" class="com.serpics.membership.facade.AddressPopulator" />

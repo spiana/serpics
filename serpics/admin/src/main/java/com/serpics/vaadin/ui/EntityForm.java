@@ -9,27 +9,20 @@ import javax.persistence.Id;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.component.CustomFieldFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.addon.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.data.validator.BeanValidator;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Form;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -46,7 +39,7 @@ public abstract class EntityForm<T> extends FormLayout implements
 	private boolean initialized = false;
 	private String[] displayProperties;
 	private final Set<String> hideProperties = new HashSet<String>(0);
-	private String[] readOnlyProperties = {};
+	private Set<String> readOnlyProperties = new HashSet<String>(0);
 	protected EntityItem<T> entityItem;
 	private boolean readOnly = true;
 	private Class<T> entityClass;
@@ -102,25 +95,40 @@ public abstract class EntityForm<T> extends FormLayout implements
 		//fieldGroup.setFieldFactory(this);
 		fieldGroup.setItemDataSource(entityItem);
 		fieldGroup.setBuffered(true);
+	
+		
 		if (displayProperties != null)
 			addField(displayProperties);
 		else {
 			addField(propertyList.getAllAvailablePropertyNames().toArray(
 					new String[] {}));
 		}
+		for (final String pid : readOnlyProperties) {
+			if (fieldGroup.getField(pid) != null)
+				fieldGroup.getField(pid).setReadOnly(true);
+		}
 		initialized = true;
 	}
 
 	private void addField(final String[] propertyNames) {
-		for (final String pid : propertyNames) {
+		for (final String pid : propertyNames) {		
 			if (propertyList.getClassMetadata().getProperty(pid) == null)
 				LOG.error("properity {} not found !", pid);
+	
 			else if (propertyList.getClassMetadata().getProperty(pid)
 					.getAnnotation(Id.class) == null)
 				if (propertyList.getClassMetadata().getProperty(pid)
 						.getAnnotation(EmbeddedId.class) == null)
-					if (!hideProperties.contains(pid))
-						addComponent(createField(pid));
+					if(propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)  ||
+							propertyList.getPropertyKind(pid).equals(PropertyKind.ONE_TO_MANY) ||
+							propertyList.getPropertyKind(pid).equals(PropertyKind.MANY_TO_ONE) 
+							|| entityItem.isPersistent())
+						if (!hideProperties.contains(pid)){
+							Field<?> f = createField(pid);
+							if (readOnlyProperties.contains(pid))
+								f.setReadOnly(true);
+							addComponent(f);
+						}
 		}
 
 	}
@@ -176,10 +184,7 @@ public abstract class EntityForm<T> extends FormLayout implements
 			fieldGroup.setEnabled(false);
 		} else {
 			fieldGroup.setEnabled(true);
-			for (final String pid : readOnlyProperties) {
-				if (fieldGroup.getField(pid) != null)
-					fieldGroup.getField(pid).setReadOnly(true);
-			}
+			
 		}
 		super.attach();
 	}
@@ -203,7 +208,7 @@ public abstract class EntityForm<T> extends FormLayout implements
 	}
 
 	public void setReadOnlyProperties(final String[] readOnlyProperties) {
-		this.readOnlyProperties = readOnlyProperties;
+		this.readOnlyProperties.addAll(Arrays.asList(readOnlyProperties));
 	}
 
 	@Override

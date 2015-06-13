@@ -4,9 +4,21 @@ package com.serpics.vaadin.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.io.Resource;
+
 import com.serpics.core.EngineFactory;
 
-public class PropertiesUtils {
+public class PropertiesUtils implements ApplicationContextAware , InitializingBean{
+	
+	Logger LOG = LoggerFactory.getLogger(PropertiesUtils.class);
+	
+	private ApplicationContext applicationContext;
 	
 	private static PropertiesUtils instance;
 	
@@ -50,5 +62,24 @@ public class PropertiesUtils {
 
 	public void setSelectProperties(Map<Class<?>, String> selectProperties) {
 		this.selectProperties = selectProperties;
+	}
+
+	
+
+	@Override
+	public void setApplicationContext(ApplicationContext arg0)
+			throws BeansException {
+		this.applicationContext= arg0;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+			Resource[] resources =this.applicationContext.getResources("classpath*:META-INF/*-smc.xml");
+			
+			for (Resource resource : resources) {
+				LOG.info("found smc definition file : {}" , resource.getFilename()) ;
+			}
+			
+			
 	}
 }

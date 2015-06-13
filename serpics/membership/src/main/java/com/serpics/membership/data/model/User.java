@@ -58,7 +58,7 @@ public class User extends Member implements  UserDetail {
     private String email;
 
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
-    protected PrimaryAddress billingAddress;
+    protected BillingAddress billingAddress;
     
     private Integer field4;
 
@@ -162,21 +162,6 @@ public class User extends Member implements  UserDetail {
     }
 
 
-    // public UsersReg getUserReg() {
-    // return userReg;
-    // }
-    //
-    // public void setUserReg(final UsersReg userReg) {
-    // this.userReg = userReg;
-    // }
-    //
-    // @Override
-    // public String getName() {
-    // if (userReg != null)
-    // return userReg.getLogonid();
-    // else
-    // return "guest";
-    // }
 
     @Override
     public Long getUserId() {
@@ -189,14 +174,6 @@ public class User extends Member implements  UserDetail {
         setMemberId(userId);
     }
 
-
-    // public Set<UserStoreRelation> getStoreRelation() {
-    // return storeRelation;
-    // }
-    //
-    // public void setStoreRelation(final Set<UserStoreRelation> storeRelation) {
-    // this.storeRelation = storeRelation;
-    // }
 
     @Override
     public String getName() {
@@ -212,11 +189,11 @@ public class User extends Member implements  UserDetail {
         this.stores = stores;
     }
 
-	public PrimaryAddress getBillingAddress() {
+	public BillingAddress getBillingAddress() {
 		return billingAddress;
 	}
 
-	public void setBillingAddress(PrimaryAddress billingAddress) {
+	public void setBillingAddress(BillingAddress billingAddress) {
 		this.billingAddress = billingAddress;
 	}
 
