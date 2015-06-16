@@ -2,6 +2,7 @@ package com.serpics.membership.facade;
 
 import com.serpics.core.facade.Populator;
 import com.serpics.membership.data.model.AbstractAddress;
+import com.serpics.membership.facade.data.AddressData;
 public class AddressPopulator implements Populator<AbstractAddress, AddressData>{
 
 	@Override

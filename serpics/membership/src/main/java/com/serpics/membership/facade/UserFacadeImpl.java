@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.data.model.User;
+import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreFacade;
 

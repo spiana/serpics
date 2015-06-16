@@ -23,8 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.facade.UserData;
 import com.serpics.membership.facade.UserFacade;
+import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.UserService;
 
 

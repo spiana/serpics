@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.data.domain.Page;
 
-import com.serpics.membership.facade.UserData;
+import com.serpics.membership.facade.data.UserData;
 
 public interface AbstractRestService<T , ID> {
 	

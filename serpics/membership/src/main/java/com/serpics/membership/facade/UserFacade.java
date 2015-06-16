@@ -3,6 +3,8 @@ package com.serpics.membership.facade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.serpics.membership.facade.data.UserData;
+
 public interface UserFacade {
 
 	public UserData getCurrentuser();

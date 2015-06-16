@@ -9,6 +9,8 @@ import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.User;
+import com.serpics.membership.facade.data.AddressData;
+import com.serpics.membership.facade.data.UserData;
 
 public class UserPopulator implements Populator<User, UserData> {
 

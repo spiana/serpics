@@ -27,7 +27,9 @@ import com.serpics.membership.UserType;
 @Entity
 @Table(name = "users_reg")
 public class UsersReg extends User implements UserDetail {
-  private static final long serialVersionUID = 9178702090616745340L;
+  
+
+private static final long serialVersionUID = 9178702090616745340L;
 
 	@Size(max = 100)
     @Column(name = "alternate_email", length = 100)
@@ -75,6 +77,10 @@ public class UsersReg extends User implements UserDetail {
     }
 
 
+    public UsersReg(UserType userType, String firstname, String lastname,
+			String phone, String email) {
+		super(userType, firstname, lastname, phone, email);
+    }    
     public String getAlternateEmail() {
         return this.alternateEmail;
     }

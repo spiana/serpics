@@ -1,4 +1,4 @@
-package com.serpics.membership.facade;
+package com.serpics.membership.facade.data;
 
 import java.util.Date;
 import java.util.List;

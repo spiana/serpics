@@ -37,7 +37,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   <bean name="addressPopulator" class="com.serpics.membership.facade.AddressPopulator" />
    <alias name="defaultAddressConverter" alias="addressConverter"/>
   <bean name="defaultAddressConverter" parent="abstractConverter">
-  <property name="targetClass" value="com.serpics.membership.facade.AddressData"/>
+  <property name="targetClass" value="com.serpics.membership.facade.data.AddressData"/>
   <property name="populators">
   	<list>
   		<ref bean="addressPopulator"/>	
@@ -53,7 +53,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   
   <alias name="defaultUserConverter" alias="userConverter"/>
   <bean name="defaultUserConverter" parent="abstractConverter">
-  <property name="targetClass" value="com.serpics.membership.facade.UserData"/>
+  <property name="targetClass" value="com.serpics.membership.facade.data.UserData"/>
   <property name="populators">
   	<list>
   		<ref bean="userPopulator"/>	
