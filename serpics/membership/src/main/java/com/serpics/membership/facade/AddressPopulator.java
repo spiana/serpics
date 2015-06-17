@@ -7,6 +7,11 @@ public class AddressPopulator implements Populator<AbstractAddress, AddressData>
 
 	@Override
 	public void populate(AbstractAddress source, AddressData target) {
+		
+		target.setUuid(source.getUuid());
+		target.setCreated(source.getCreated());
+		target.setUpdated(source.getUpdated());
+		
 		target.setFirstname(source.getFirstname());
 		target.setLastname(source.getLastname());
 		target.setAddress1(source.getAddress1());

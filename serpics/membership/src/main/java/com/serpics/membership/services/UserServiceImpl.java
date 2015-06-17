@@ -18,6 +18,7 @@ import org.springframework.util.Assert;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
+import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
@@ -25,6 +26,7 @@ import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.repositories.BillingAddressRepository;
 import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.PermanentAddressRepository;
@@ -42,7 +44,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     UserRepository userRepository;
     @Resource
     UserRegrepository userRegrepository;
-
+    
     @Resource
     StoreRepository storeRepository;
 
@@ -51,7 +53,10 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 
     @Resource(name = "permanentAddressRepository")
     PermanentAddressRepository addressRepository;
-
+    
+    @Resource
+    BillingAddressRepository billingAddressRepository;
+    
     @Autowired
     MembersRoleRepository membersRoleRepository;
 
@@ -140,7 +145,27 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 	}
 
 	@Override
-	public User getCurrentUser() {
+	public User getCurrentCustomer() {
 		return (User) getCurrentContext().getCustomer();
+	}
+	
+	@Override
+	public UsersReg getCurrentUser() {
+		return (UsersReg) getCurrentContext().getUserPrincipal();
+	}
+	
+	@Override
+	public void setCurrentCustomer(User user) {
+		getCurrentContext().setCustomer(user);
+	}
+
+	@Override
+	@Transactional
+	public void addBillingAddress(BillingAddress address, User user) {
+		Assert.notNull(user);
+		Assert.notNull(address);
+		address.setMember(user);
+		user.setBillingAddress(address);
+		billingAddressRepository.saveAndFlush(address);
 	}
 }

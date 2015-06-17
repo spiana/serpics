@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
@@ -37,7 +37,7 @@ public class CategoryTable extends MasterTable<Category> {
     @Override
     public EntityFormWindow<Category> buildEntityWindow() {
     	EntityFormWindow<Category> editorWindow = new EntityFormWindow<Category>();
-    	editorWindow.addTab(new EntityForm<Category>(Category.class) {
+    	editorWindow.addTab(new MasterForm<Category>(Category.class) {
 
             private static final long serialVersionUID = 8129655459345393570L;
 
@@ -74,7 +74,7 @@ public class CategoryTable extends MasterTable<Category> {
         }, "main");
 
 
-        editorWindow.addTab(new EntityForm<Category>(Category.class) {
+        editorWindow.addTab(new MasterForm<Category>(Category.class) {
             private static final long serialVersionUID = -7154962966506074107L;
 
             @Override

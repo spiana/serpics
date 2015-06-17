@@ -1,9 +1,8 @@
 package com.serpics.core.test.service;
 
 import com.serpics.core.service.AbstractService;
-import com.serpics.stereotype.StoreService;
 
-//@StoreService(value="testService" , stores={"store2" , "store3"})
+//@StoreService(value="testService" )
 public class TestService4 extends AbstractService implements TestService{
 
 	

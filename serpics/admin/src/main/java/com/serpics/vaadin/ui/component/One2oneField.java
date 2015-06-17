@@ -171,9 +171,11 @@ public class One2oneField<M, T> extends CustomField<T> {
 	
 		try {
 			 fieldGroup.commit();
+			 
 			 if (!entityItem.isPersistent()) {
 	                entityItem.getContainer().addEntity(entityItem.getEntity());
 	                masterEntity.getItemProperty(parentPropertyId).setValue(entityItem.getEntity());
+	                
 	             masterEntity.getContainer().commit();
 			 }  
 			

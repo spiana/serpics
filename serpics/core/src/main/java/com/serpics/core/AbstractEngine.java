@@ -61,6 +61,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
     @Override
     public T connect(final String storeName) throws SerpicsException {
         StoreScopeContextHolder.setCurrentStoreRealm(storeName);
+        
         final Membership membershipService = beanFactory.getBean(Membership.class);
 
         final StoreRealm s = membershipService.fetchStoreByName(storeName);

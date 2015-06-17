@@ -2,7 +2,7 @@ package com.serpics.vaadin.ui.memeship;
 
 import com.serpics.membership.data.model.Role;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
 
@@ -20,7 +20,7 @@ public class RolesTable extends MasterTable<Role> {
     public EntityFormWindow<Role> buildEntityWindow() {
     	EntityFormWindow<Role> _e = new EntityFormWindow<Role>();
     	
-    	final EntityForm<Role> editor = new EntityForm<Role>(Role.class) {
+    	final MasterForm<Role> editor = new MasterForm<Role>(Role.class) {
             private static final long serialVersionUID = -8926571251656496441L;
 
             @Override
@@ -39,7 +39,7 @@ public class RolesTable extends MasterTable<Role> {
     public void init() {
         super.init();
 
-        final EntityForm<Role> editor = new EntityForm<Role>(Role.class) {
+        final MasterForm<Role> editor = new MasterForm<Role>(Role.class) {
             private static final long serialVersionUID = -8926571251656496441L;
 
             @Override

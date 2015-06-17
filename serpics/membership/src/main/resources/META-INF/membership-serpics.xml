@@ -17,6 +17,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
      
   <bean name="memberroleBeforeCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberRoleCreateInterceptor" />
   <bean name="membegroupCreateInterceptor" class="com.serpics.membership.data.interceptors.membergroupCreateInterceptor"/>
+  <bean name="userRegCreateInterceptor" class="com.serpics.membership.data.interceptors.UserRegCreateInterceptor"/>
   
   <bean name="memberRoleMapping" class="com.serpics.core.data.InterceptorMapping" >
 	  <property name="targetEntity" value="com.serpics.membership.data.model.MembersRole" />
@@ -29,6 +30,12 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	  <property name="order" value="100"/>
 	  <property name="interceptor" ref="membegroupCreateInterceptor" />
  </bean>  
+
+	<bean name="userRegMapping" class="com.serpics.core.data.InterceptorMapping" >
+		  <property name="targetEntity" value="com.serpics.membership.data.model.UsersReg" />
+		  <property name="order" value="100"/>
+		  <property name="interceptor" ref="userRegCreateInterceptor" />
+	 </bean> 
    
   <bean name="userSpecification" class="com.serpics.membership.data.specifications.DefaultUserSpecification"/>  
   <bean name="userRegSpecification" class="com.serpics.membership.data.specifications.DefaultUserRegSpecification"/>

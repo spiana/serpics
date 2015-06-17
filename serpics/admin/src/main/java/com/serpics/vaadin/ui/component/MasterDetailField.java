@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityContainer;
@@ -179,7 +179,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	  }
 
 	  private EntityComponent<X> buildMainComponent(){
-		  EntityForm<X> form = new EntityForm<X>(this.container.getEntityClass()) {
+		  MasterForm<X> form = new MasterForm<X>(this.container.getEntityClass()) {
 			  @Override
 			public void init() {
 				 setReadOnlyProperties(new String[] { "updated", "created" });

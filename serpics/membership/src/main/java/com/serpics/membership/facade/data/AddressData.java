@@ -1,7 +1,9 @@
 package com.serpics.membership.facade.data;
 
+import com.serpics.core.facade.AbstractData;
 
-public class AddressData {
+
+public class AddressData extends AbstractData{
 
 	protected String nickname;
 	protected String firstname;

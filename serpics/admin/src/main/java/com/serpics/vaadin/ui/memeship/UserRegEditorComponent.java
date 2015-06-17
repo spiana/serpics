@@ -8,7 +8,7 @@ import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -18,7 +18,7 @@ import com.vaadin.ui.Field;
 
 
 @VaadinComponent("userRegEditorComponent")
-public class UserRegEditorComponent extends EntityForm<UsersReg> {
+public class UserRegEditorComponent extends MasterForm<UsersReg> {
     private static final long serialVersionUID = 8474927861483565203L;
 
    @Autowired

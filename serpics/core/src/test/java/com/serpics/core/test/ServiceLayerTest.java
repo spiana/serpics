@@ -1,15 +1,11 @@
 package com.serpics.core.test;
 
-import javax.annotation.Resource;
-
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -20,9 +16,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.serpics.core.EngineFactory;
 import com.serpics.core.scope.StoreScopeContextHolder;
 import com.serpics.core.test.service.MySecondTestService;
-import com.serpics.core.test.service.TestService;
 import com.serpics.core.test.service.MyTestService;
-import com.serpics.core.test.service.TestServiceImpl1;
+import com.serpics.core.test.service.TestService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.ExecutionTestListener;
 
@@ -91,14 +86,14 @@ public class ServiceLayerTest extends Assert {
 		
 		StoreScopeContextHolder.setCurrentStoreRealm("default-store");
 		TestService s4 = applicationContext.getBean(TestService.class);
-		assertEquals("TestService4", s4.getServiceClassName());
+		assertEquals("DefaultTestServiceImpl", s4.getServiceClassName());
 	}
 	@Test(expected=BeanNotOfRequiredTypeException.class)
 	public void test3 (){
 		ApplicationContext applicationContext = EngineFactory.getCurrentApplicationContext();
 		
 		StoreScopeContextHolder.setCurrentStoreRealm("store2");
-		MyTestService s4 = applicationContext.getBean(MyTestService.class);
+		TestService s4 = applicationContext.getBean(MyTestService.class);
 		assertEquals("TestService2", s4.getServiceClassName());
 	}
 	@Test(expected=ClassCastException.class)

@@ -2,10 +2,10 @@ package com.serpics.vaadin.ui.memeship;
 
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 
 @VaadinComponent("membergroupEditorComponent")
-public class MembergroupEditor extends EntityForm<Membergroup> {
+public class MembergroupEditor extends MasterForm<Membergroup> {
     private static final long serialVersionUID = 1L;
 
     public MembergroupEditor() {

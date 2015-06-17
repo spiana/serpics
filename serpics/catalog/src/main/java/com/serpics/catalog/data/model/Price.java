@@ -79,14 +79,7 @@ public class Price extends AbstractEntity implements Serializable {
         this.pricesId = pricesId;
     }
 
-    public Double getCtentryCost() {
-        return productCost;
-    }
-
-    public void setCtentryCost(final Double productCost) {
-        this.productCost = productCost;
-    }
-
+  
     public Currency getCurrency() {
         return currency;
     }
@@ -159,5 +152,13 @@ public class Price extends AbstractEntity implements Serializable {
     public void setProduct(final AbstractProduct product) {
         this.product = product;
     }
+
+	public Double getProductCost() {
+		return productCost;
+	}
+
+	public void setProductCost(Double productCost) {
+		this.productCost = productCost;
+	}
 
 }

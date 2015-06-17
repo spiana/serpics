@@ -1,26 +1,23 @@
 package com.serpics.vaadin.ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
-import com.serpics.core.data.Repository;
-import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.util.filter.Compare;
 
-public abstract class EntityFormChild<T, P> extends EntityForm<T> implements EntityComponentChild<T, P> {
+public abstract class MasterDetailForm<T, P> extends MasterForm<T> implements EntityComponentChild<T, P> {
     private static final long serialVersionUID = 7628189100288027785L;
 
     protected EntityItem<P> parent;
 
     protected Object parentPropertyId;
    
-    protected JPAContainer<T> container;
+    protected JPAContainer<P> container;
 
-    public EntityFormChild(final Class<T> clazz) {
+    public MasterDetailForm(final Class<T> clazz) {
         super(clazz);
     }
 
@@ -28,6 +25,10 @@ public abstract class EntityFormChild<T, P> extends EntityForm<T> implements Ent
     @Override
     public void setParentEntity(final EntityItem<P> parent) {
         this.parent = parent;
+        container =  (JPAContainer<P> )ServiceContainerFactory.make(parent.getEntity().getClass());
+        
+        
+        
     }
 
     @Override

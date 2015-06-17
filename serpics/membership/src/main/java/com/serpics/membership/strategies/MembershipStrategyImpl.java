@@ -23,6 +23,7 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
     @Override
     public UserDetail login(final Store store, final String username, final char[] password) throws SerpicsException {
         UsersReg ur = userRegRepository.findBylogonid(username);
+        
         if (ur != null) {
             if (ur.getUserType().equals(UserType.ADMINISTRATOR) || ur.getUserType().equals(UserType.REGISTERED)
                     || ur.getUserType().equals(UserType.SUPERSUSER))
@@ -42,6 +43,7 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
             throw new MembershipException("no user found for loginid [" + username + "] !");
         }
         
+        userRegRepository.detach(ur);
         return ur;
     }
 

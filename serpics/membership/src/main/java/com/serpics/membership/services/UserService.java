@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.serpics.core.service.EntityService;
+import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
@@ -25,6 +26,9 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
     public Set<Membergroup> getUserGroups(User user);
     public User create(User user);
     public User update(User user);
+    public void addBillingAddress(BillingAddress address , User user);
     
-    public User getCurrentUser();
+    public User getCurrentCustomer();
+    public void setCurrentCustomer(User user);
+    public UsersReg getCurrentUser();
 }

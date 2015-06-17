@@ -24,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -233,5 +232,23 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 	@Override
 	public EntityManager getEntityManager() {
 		return entityManager;
+	}
+
+	@Override
+	public Z findByUUID(final String uuid) {
+		Assert.notNull(uuid);
+		List<Z> entities = findAll(new Specification<Z>() {
+			@Override
+			public Predicate toPredicate(Root<Z> root,
+					CriteriaQuery<?> cq, CriteriaBuilder cb) {
+				return cb.equal(root.get("uuid"), uuid) ;
+			}
+			
+		}) ;
+		Assert.state(entities.size() == 1, String.format("found more than object for UUID %s" , uuid));
+    	if (!entities.isEmpty())
+            return entities.get(0);
+        else
+            return null;
 	}
 }

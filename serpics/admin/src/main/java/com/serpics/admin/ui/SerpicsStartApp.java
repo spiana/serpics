@@ -108,13 +108,13 @@ public class SerpicsStartApp extends UI {
         menu.setParent("groups", "admin");
         menu.setChildrenAllowed("groups", false);
 
-        menu.addItem("userReg");
-        menu.setParent("userReg", "admin");
-        menu.setChildrenAllowed("userReg", false);
+//        menu.addItem("userReg");
+//        menu.setParent("userReg", "admin");
+//        menu.setChildrenAllowed("userReg", false);
 
-        menu.addItem("relation");
-        menu.setParent("relation", "admin");
-        menu.setChildrenAllowed("relation", false);
+//        menu.addItem("relation");
+//        menu.setParent("relation", "admin");
+//        menu.setChildrenAllowed("relation", false);
 
         menu.addItem("country");
         menu.setParent("country", "admin");

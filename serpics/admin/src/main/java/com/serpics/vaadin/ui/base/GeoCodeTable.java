@@ -8,7 +8,7 @@ import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Role;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
@@ -36,7 +36,7 @@ public class GeoCodeTable extends MasterTable<Geocode> {
 	public EntityFormWindow<Geocode> buildEntityWindow() {
 		EntityFormWindow<Geocode> editorWindow = new EntityFormWindow<Geocode>();
 	
-			EntityForm<Geocode> main = new EntityForm<Geocode>(Geocode.class) {
+			MasterForm<Geocode> main = new MasterForm<Geocode>(Geocode.class) {
 				@Override
 				public void init() {
 					super.init();

@@ -104,6 +104,11 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
         else
             return null;
     }
+    
+    @Override
+    public T findByUUID(final String uuid) {
+    	return getEntityRepository().findByUUID(uuid);
+    }
 
     @Override
     public void detach(final T entity) {

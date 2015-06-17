@@ -10,7 +10,7 @@ import com.serpics.membership.data.model.MembgrouprelPK;
 import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -20,7 +20,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 
 @VaadinComponent("membergroupRelEditor")
-public class MembergroupRelEditor extends EntityForm<Membergrouprel> {
+public class MembergroupRelEditor extends MasterForm<Membergrouprel> {
 
     private static transient Logger logger = LoggerFactory.getLogger(MembergroupRelEditor.class);
 

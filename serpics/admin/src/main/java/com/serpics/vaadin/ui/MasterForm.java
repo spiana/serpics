@@ -27,11 +27,11 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
-public abstract class EntityForm<T> extends FormLayout implements
+public abstract class MasterForm<T> extends FormLayout implements
 		EntityFormComponent<T> {
 	private static final long serialVersionUID = -7816433625437405000L;
 	private static final transient Logger LOG = LoggerFactory
-			.getLogger(EntityForm.class);
+			.getLogger(MasterForm.class);
 
 	private transient PropertyList<T> propertyList;
 
@@ -44,7 +44,7 @@ public abstract class EntityForm<T> extends FormLayout implements
 	private boolean readOnly = true;
 	private Class<T> entityClass;
 
-	public EntityForm(final Class<T> clazz) {
+	public MasterForm(final Class<T> clazz) {
 		propertyList = new PropertyList<T>(MetadataFactory.getInstance()
 				.getEntityClassMetadata(clazz));
 

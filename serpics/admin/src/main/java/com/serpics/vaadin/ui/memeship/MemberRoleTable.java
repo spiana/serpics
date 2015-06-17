@@ -10,7 +10,7 @@ import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -40,7 +40,7 @@ public class MemberRoleTable extends MasterDetailTable<MembersRole, User> {
 	@Override
 	public EntityFormWindow<MembersRole> buildEntityWindow() {
 		EntityFormWindow<MembersRole> _e = new EntityFormWindow<MembersRole>();
-		final EntityForm<MembersRole> form = new EntityForm<MembersRole>(MembersRole.class) {
+		final MasterForm<MembersRole> form = new MasterForm<MembersRole>(MembersRole.class) {
             private static final long serialVersionUID = 1L;
 
             @Override

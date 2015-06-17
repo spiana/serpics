@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -33,5 +32,7 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	
 	public Class<?> getDomainClass();
 	public EntityManager getEntityManager();
+	
+	public T findByUUID(String uuid);
    
  }

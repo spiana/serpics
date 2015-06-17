@@ -7,7 +7,7 @@ import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
@@ -36,7 +36,7 @@ public class ParentCategoryRelationTable extends MasterDetailTable<CategoryRelat
     @Override
     public EntityFormWindow<CategoryRelation> buildEntityWindow() {
     	 EntityFormWindow<CategoryRelation> editorWindow = new EntityFormWindow<CategoryRelation>();
-    	 editorWindow.addTab(new EntityForm<CategoryRelation>(CategoryRelation.class) {
+    	 editorWindow.addTab(new MasterForm<CategoryRelation>(CategoryRelation.class) {
 
              JPAContainer<Category> categories;
 

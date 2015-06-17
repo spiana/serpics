@@ -8,9 +8,9 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
-import com.serpics.vaadin.ui.EntityForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -32,12 +32,12 @@ public class ProductTable extends MasterTable<Product> {
         super(Product.class);
     }
 
-    private EntityForm<Product> buildMainTab(){
-    	return new EntityForm<Product>(Product.class) {
+    private MasterForm<Product> buildMainTab(){
+    	return new MasterForm<Product>(Product.class) {
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"description","prices"});
+                setDisplayProperties(new String[]{"code" ,"description","buyable","prices" });
               //  setHideProperties(new String[] {  "field2", "productType", "ctentryType" , "ctentryAttributes" , "productffmts","medias" , "ctentryid" });
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
 
@@ -53,7 +53,7 @@ public class ProductTable extends MasterTable<Product> {
     	 editorWindow.addTab(buildMainTab(), "main");
     	 editorWindow.addTab(buildPriceTab(), "prices");
     	 
- //   	 editorWindow.addTab(buildCategoriesTab(), "categories");
+    	 editorWindow.addTab(buildCategoriesTab(), "categories");
  //   	 editorWindow.addTab(buildPriceTab(), "prices");
     	 
     	return editorWindow;
@@ -73,7 +73,7 @@ public class ProductTable extends MasterTable<Product> {
 			
         	EntityFormWindow<CategoryProductRelation> editorWindow = new EntityFormWindow<CategoryProductRelation>();
         	
-        	editorWindow.addTab(new EntityForm<CategoryProductRelation>(CategoryProductRelation.class) {
+        	editorWindow.addTab(new MasterForm<CategoryProductRelation>(CategoryProductRelation.class) {
 
                  @Override
                  public void init() {
@@ -133,12 +133,12 @@ public class ProductTable extends MasterTable<Product> {
             @Override
             public EntityFormWindow<Price> buildEntityWindow() {
             	EntityFormWindow<Price> editorWindow = new EntityFormWindow<Price>();
-                editorWindow.addTab(new EntityForm<Price>(Price.class) {
+                editorWindow.addTab(new MasterForm<Price>(Price.class) {
 
                     @Override
                     public void init() {
                         super.init();
-                        setDisplayProperties(new String[] { "currentPrice", "ctentryCost", "productPrice",
+                        setDisplayProperties(new String[] { "precedence","currentPrice", "productCost", "productPrice",
                                 "validFrom", "validTo" });
                     }
 
@@ -149,7 +149,7 @@ public class ProductTable extends MasterTable<Product> {
             public void init() {
                 super.init();
                 container.addNestedContainerProperty("currency.*");
-                setPropertyToShow(new String[] { "currentPrice", "ctentryCost", "productPrice", "currency.isoCode",
+                setPropertyToShow(new String[] { "precedence" ,"currentPrice", "productCost", "productPrice", "currency.isoCode",
                         "validFrom", "validTo" });
                 setParentProperty("product");
             }
@@ -167,7 +167,7 @@ public class ProductTable extends MasterTable<Product> {
     @Override
     public void init() {
         super.init();
-        setPropertyToShow(new String[] { "code", "description" });
+        setPropertyToShow(new String[] { "code", "description" , "buyable" });
         entityList.setConverter("description", new MultilingualStringConvert());
     }
 

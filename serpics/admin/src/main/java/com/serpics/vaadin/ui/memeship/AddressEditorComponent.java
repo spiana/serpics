@@ -2,10 +2,10 @@ package com.serpics.vaadin.ui.memeship;
 
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.EntityForm;
+import com.serpics.vaadin.ui.MasterForm;
 
 @VaadinComponent("addressEditorComponent")
-public class AddressEditorComponent extends EntityForm<AbstractAddress> {
+public class AddressEditorComponent extends MasterForm<AbstractAddress> {
     private static final long serialVersionUID = 1L;
 
     public AddressEditorComponent() {
