@@ -1,7 +1,6 @@
 package com.serpics.membership.data.model;
 
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -40,8 +39,6 @@ private static final long serialVersionUID = 9178702090616745340L;
 
     @Column(length = 254)
     private String changequestion;
-
-    private Timestamp created;
 
     @Column(length = 500)
     private String dn;

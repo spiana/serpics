@@ -42,7 +42,7 @@ public abstract class MasterForm<T> extends FormLayout implements
 	private Set<String> readOnlyProperties = new HashSet<String>(0);
 	protected EntityItem<T> entityItem;
 	private boolean readOnly = true;
-	private Class<T> entityClass;
+	protected Class<T> entityClass;
 
 	public MasterForm(final Class<T> clazz) {
 		propertyList = new PropertyList<T>(MetadataFactory.getInstance()
@@ -75,21 +75,12 @@ public abstract class MasterForm<T> extends FormLayout implements
 		return entityClass;
 	}
 
-//	@Override
-//	public <T extends Field> T createField(final Class<?> dataType,
-//			final Class<T> fieldType) {
-//		final T f = DefaultFieldGroupFieldFactory.get().createField(dataType,
-//				fieldType);
-//		return f;
-//	}
 
 	public Item getEntityItem() {
 		return entityItem;
 	}
 
-	@Override
-	public void setEntityItem(final EntityItem<T> entityItem) {
-		this.entityItem = entityItem;
+	protected void buildContent(){
 		removeAllComponents();
 		fieldGroup = new FieldGroup();
 		//fieldGroup.setFieldFactory(this);
@@ -108,6 +99,12 @@ public abstract class MasterForm<T> extends FormLayout implements
 				fieldGroup.getField(pid).setReadOnly(true);
 		}
 		initialized = true;
+	}
+	
+	@Override
+	public void setEntityItem(final EntityItem<T> entityItem) {
+		this.entityItem = entityItem;
+		buildContent();
 	}
 
 	private void addField(final String[] propertyNames) {
@@ -158,11 +155,13 @@ public abstract class MasterForm<T> extends FormLayout implements
 
 	@Override
 	public void save() throws CommitException {
-		if (fieldGroup.isModified()) {
-			fieldGroup.commit();
-			// test if new item
-			if (!entityItem.isPersistent()) {
-				entityItem.getContainer().addEntity(entityItem.getEntity());
+		if (initialized){
+			if (fieldGroup.isModified()) {
+				fieldGroup.commit();
+				// test if new item
+				if (!entityItem.isPersistent()) {
+					entityItem.getContainer().addEntity(entityItem.getEntity());
+				}
 			}
 		}
 	}
@@ -173,21 +172,24 @@ public abstract class MasterForm<T> extends FormLayout implements
 
 	@Override
 	public void discard() {
-		fieldGroup.discard();
+		if (initialized)
+			fieldGroup.discard();
 	}
 
 	@Override
 	public void attach() {
 		setLocale(UI.getCurrent().getSession().getLocale());
-
-		if (readOnly) {
-			fieldGroup.setEnabled(false);
-		} else {
-			fieldGroup.setEnabled(true);
-			
+		if(initialized){
+			if (readOnly) {
+				fieldGroup.setEnabled(false);
+			} else {
+				fieldGroup.setEnabled(true);
+				
+			}
 		}
 		super.attach();
 	}
+
 
 	public void setDisplayProperties(final String[] displayProperties) {
 		this.displayProperties = displayProperties;
@@ -218,7 +220,10 @@ public abstract class MasterForm<T> extends FormLayout implements
 
 	@Override
 	public boolean isModifield() {
-		return fieldGroup.isModified();
+		if(initialized)
+			return fieldGroup.isModified();
+		else
+			return false;
 
 	}
 

@@ -1,10 +1,8 @@
 package com.serpics.vaadin.ui;
 
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.TableFieldFactory;
 
 public interface EntityComponent<T> extends Component{
@@ -22,8 +20,8 @@ public interface EntityComponent<T> extends Component{
         public void setTableFieldFactory(TableFieldFactory factory);
     }
 
-    public interface EntityComponentChild<T, P> extends EntityComponent<T> {
-        public void setParentEntity(EntityItem<P> parent);
+    public interface EntityComponentChild<DETAIL,MASTER> extends EntityComponent<DETAIL> {
+        public void setParentEntity(EntityItem<MASTER> parent);
         public void setParentProperty(Object parentPropertyId);
 
        
