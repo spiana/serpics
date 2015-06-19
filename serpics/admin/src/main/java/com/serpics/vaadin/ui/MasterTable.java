@@ -5,10 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Transient;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.serpics.core.data.Repository;
-import com.serpics.core.data.RepositoryInitializer;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -133,8 +129,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
                     editorWindow.setEntityItem(createEntityItem());
                     UI.getCurrent().addWindow(editorWindow);
                 }else{
-                    createEntityItem();
-                    entityList.refreshRowCache();
+                   // createEntityItem();
+                   // entityList.refreshRowCache();
                 }
             }
         });

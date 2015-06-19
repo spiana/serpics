@@ -48,7 +48,7 @@ public class MembergroupRelTable extends MasterDetailTable<Membergrouprel , User
     @Override
     public EntityItem<Membergrouprel> createEntityItem() {
         final Membergrouprel membergrouprel = new Membergrouprel();
-      //  membergrouprel.setMember(parent.getEntity());
+        membergrouprel.setMember(parent.getEntity());
         membergrouprel.setStatus(Member2GroupRelType.EFFECTIVE);
         membergrouprel.setValidFrom(new Date());
         membergrouprel.setValidTo(new Date(new Double(4.071e+12 + 3.136e+10).longValue()));
