@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.component.MasterDetailField;
@@ -23,8 +23,8 @@ public class CategoryTable extends MasterTable<Category> {
     @Autowired
     private transient ChildCategoryRelationTable childCategoryRelatcionTable;
 
-    @Autowired
-    private transient ParentCategoryRelationTable parentCategoryRelationTable;
+//    @Autowired
+//    private transient ParentCategoryRelationTable parentCategoryRelationTable;
 
     @Autowired
     private transient CategoryRelationTreeTable categoryRelationTreeTable;
@@ -102,7 +102,7 @@ public class CategoryTable extends MasterTable<Category> {
         }, "seo");
 
         editorWindow.addTab(childCategoryRelatcionTable, "childCategories");
-        editorWindow.addTab(parentCategoryRelationTable, "parentCategories");
+  //      editorWindow.addTab(parentCategoryRelationTable, "parentCategories");
 
 
         editorWindow.setCaption("category.title");

@@ -49,8 +49,10 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   <bean name="userRegSpecification" class="com.serpics.membership.data.specifications.DefaultUserRegSpecification"/>
   
   <!-- facade -->
-  <bean name="addressPopulator" class="com.serpics.membership.facade.AddressPopulator" />
-   <alias name="defaultAddressConverter" alias="addressConverter"/>
+  <alias name="defaultAddressPopulator" alias="addressPopulator"/>
+  <bean name="defaultAddressPopulator" class="com.serpics.membership.facade.AddressPopulator" />
+  
+  <alias name="defaultAddressConverter" alias="addressConverter"/>
   <bean name="defaultAddressConverter" parent="abstractConverter">
   <property name="targetClass" value="com.serpics.membership.facade.data.AddressData"/>
   <property name="populators">
@@ -60,11 +62,10 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   </property>
   </bean>
   
-  
-  <bean name="userPopulator" class="com.serpics.membership.facade.UserPopulator">
+  <alias name="defaulUserPopulator" alias="userPopulator"/>
+  <bean name="defaulUserPopulator" class="com.serpics.membership.facade.UserPopulator">
  	 <property name="addressConverter" ref="addressConverter"/>
   </bean>
-  
   
   <alias name="defaultUserConverter" alias="userConverter"/>
   <bean name="defaultUserConverter" parent="abstractConverter">

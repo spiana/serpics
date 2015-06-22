@@ -261,5 +261,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         // TODO Auto-generated method stub
 
     }
-   
+
+    public Class<?> getType(){
+    	return this.entityClass;
+    }
 }

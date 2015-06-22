@@ -5,13 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.repositories.CategoryRepository;
-import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
-import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -21,7 +19,7 @@ import com.vaadin.ui.Field;
 
 
 
-@VaadinComponent("parentCategoryRelationTable")
+//@VaadinComponent("parentCategoryRelationTable")
 public class ParentCategoryRelationTable extends MasterDetailTable<CategoryRelation, Category> {
     private static final long serialVersionUID = -4806072716873321159L;
 
@@ -73,19 +71,8 @@ public class ParentCategoryRelationTable extends MasterDetailTable<CategoryRelat
         super.init();
         container.addNestedContainerProperty("parentCategory.*");
         setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description", "sequence" });
-
         setParentProperty("childCategory");
-
-       
         entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
     }
 
-
-
-    @Override
-    public EntityItem<CategoryRelation> createEntityItem() {
-        final CategoryRelation categoryRelation = new CategoryRelation();
-        categoryRelation.setChildCategory(parent.getEntity());
-        return container.createEntityItem(categoryRelation);
-    }
 }

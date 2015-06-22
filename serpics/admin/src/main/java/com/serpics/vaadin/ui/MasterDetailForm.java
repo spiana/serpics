@@ -78,6 +78,7 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
     public void setParentProperty(final Object parentPropertyId) {
         this.parentPropertyId = parentPropertyId;
     }
+    
     protected  String getMappedByProperty(String propertyName)
 	  {
 	    OneToOne otm = (OneToOne)getAnnotationForProperty(OneToOne.class, masterEntity.getEntity().getClass(), propertyName);

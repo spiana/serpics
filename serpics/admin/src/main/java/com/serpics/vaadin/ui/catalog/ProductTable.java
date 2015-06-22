@@ -13,7 +13,6 @@ import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -108,19 +107,12 @@ public class ProductTable extends MasterTable<Product> {
             container.addNestedContainerProperty("parentCategory.*");
             setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description" });
             entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
-            setParentProperty("childProduct");
+            setParentProperty("categories");
 
            
         }
 
-
-
-        @Override
-        public EntityItem<CategoryProductRelation> createEntityItem() {
-            final CategoryProductRelation _entity = new CategoryProductRelation();
-            _entity.setChildProduct(parent.getEntity());
-            return container.createEntityItem(_entity);
-        }
+       
     	};
     
     }
@@ -151,16 +143,9 @@ public class ProductTable extends MasterTable<Product> {
                 container.addNestedContainerProperty("currency.*");
                 setPropertyToShow(new String[] { "precedence" ,"currentPrice", "productCost", "productPrice", "currency.isoCode",
                         "validFrom", "validTo" });
-                setParentProperty("product");
+                setParentProperty("prices");
             }
-
-
-            @Override
-            public EntityItem<Price> createEntityItem() {
-                final Price _entity = new Price();
-                _entity.setProduct(parent.getEntity());
-                return container.createEntityItem(_entity);
-            }
+           
         };
     }
     

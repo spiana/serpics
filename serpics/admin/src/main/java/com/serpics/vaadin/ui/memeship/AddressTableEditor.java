@@ -7,7 +7,6 @@ import com.serpics.membership.data.model.User;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
-import com.vaadin.addon.jpacontainer.EntityItem;
 
 
 @VaadinComponent(value = "addressTableEditor")
@@ -34,17 +33,17 @@ public class AddressTableEditor extends MasterDetailTable<PermanentAddress, User
       
         final String[] p = { "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
         "country" };
-        setParentProperty("member");
+        setParentProperty("permanentAddresses");
         setPropertyToShow(p );
 
     }
 
-    @Override
-    public EntityItem<PermanentAddress> createEntityItem() {
-        final PermanentAddress a = new PermanentAddress();
-        a.setMember(parent.getEntity());
-        return container.createEntityItem(a);
-    }
+//    @Override
+//    public EntityItem<PermanentAddress> createEntityItem() {
+//        final PermanentAddress a = new PermanentAddress();
+//        a.setMember(masterEntity.getEntity());
+//        return container.createEntityItem(a);
+//    }
 
 	
 

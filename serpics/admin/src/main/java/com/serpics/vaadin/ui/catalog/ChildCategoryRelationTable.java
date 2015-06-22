@@ -7,11 +7,10 @@ import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
-import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.ui.Field;
 
@@ -67,14 +66,9 @@ public class ChildCategoryRelationTable extends MasterDetailTable<CategoryRelati
         super.init();
         container.addNestedContainerProperty("childCategory.*");
         setPropertyToShow(new String[] { "childCategory.code", "childCategory.description", "sequence" });
-        setParentProperty("parentCategory");
+        setParentProperty("childCategories");
         entityList.setConverter("childCategory.description", new MultilingualStringConvert());
     }
 
-    @Override
-    public EntityItem<CategoryRelation> createEntityItem() {
-        final CategoryRelation categoryRelation = new CategoryRelation();
-        categoryRelation.setParentCategory(parent.getEntity());
-        return container.createEntityItem(categoryRelation);
-    }
+   
 }

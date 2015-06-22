@@ -10,10 +10,9 @@ import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
-import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
-import com.vaadin.addon.jpacontainer.EntityItem;
+import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -78,10 +77,8 @@ public class MemberRoleTable extends MasterDetailTable<MembersRole, User> {
     @Override
     public void init() {
         super.init();
-        setParentProperty("member");
+        setParentProperty("membersRoles");
         container.addNestedContainerProperty("role.*");
-
-    
         setPropertyToShow(new String[] { "role.name" });
 
         //
@@ -110,13 +107,7 @@ public class MemberRoleTable extends MasterDetailTable<MembersRole, User> {
         // });
     }
 
-    @Override
-    public EntityItem<MembersRole> createEntityItem() {
-        final MembersRole m = new MembersRole();
-        m.setMember(parent.getEntity());
-        final EntityItem<MembersRole> _m = container.createEntityItem(m);
-        return _m;
-    }
+   
 
     @Override
     public void attach() {
