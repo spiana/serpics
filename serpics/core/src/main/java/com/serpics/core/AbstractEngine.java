@@ -139,7 +139,9 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 	@SuppressWarnings("unchecked")
 	@Override
     public T getCurrentContext() {
-        return (T) threadLocal.get();
+		T context = (T) threadLocal.get();
+		Assert.notNull(context ,"Session Context not initialized !");
+        return context;
     }
 
 

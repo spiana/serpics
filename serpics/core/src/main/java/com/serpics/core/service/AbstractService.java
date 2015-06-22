@@ -2,7 +2,6 @@ package com.serpics.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import com.serpics.core.Engine;
 import com.serpics.core.session.SessionContext;
@@ -25,9 +24,7 @@ public abstract class AbstractService<T extends SessionContext> implements Serpi
 
 	@Override
 	public T getCurrentContext() {
-		T context = engine.getCurrentContext();
-		Assert.notNull(context, "Context not initialized !");
-		return context;
+		return engine.getCurrentContext();
 	}
 	
 }
