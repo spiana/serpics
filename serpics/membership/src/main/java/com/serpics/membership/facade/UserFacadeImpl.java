@@ -26,6 +26,7 @@ import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreFacade;
 
 @StoreFacade("userFacade")
+@Transactional(readOnly=true)
 public class UserFacadeImpl implements UserFacade{
 
 	@Autowired

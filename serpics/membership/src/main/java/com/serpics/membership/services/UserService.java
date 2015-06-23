@@ -30,5 +30,5 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
     
     public User getCurrentCustomer();
     public void setCurrentCustomer(User user);
-    public UsersReg getCurrentUser();
+    public User getCurrentUser();
 }

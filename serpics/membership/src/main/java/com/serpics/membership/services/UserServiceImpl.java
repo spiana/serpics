@@ -150,8 +150,8 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 	}
 	
 	@Override
-	public UsersReg getCurrentUser() {
-		return (UsersReg) getCurrentContext().getUserPrincipal();
+	public User getCurrentUser() {
+		return (User) getCurrentContext().getUserPrincipal();
 	}
 	
 	@Override
