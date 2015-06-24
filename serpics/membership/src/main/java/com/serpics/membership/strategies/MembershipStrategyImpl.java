@@ -43,7 +43,7 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
             throw new MembershipException("no user found for loginid [" + username + "] !");
         }
         
-        userRegRepository.detach(ur);
+      //  userRegRepository.detach(ur);
         return ur;
     }
 

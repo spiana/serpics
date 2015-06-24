@@ -39,7 +39,8 @@ public class UserFacadeImpl implements UserFacade{
 	
 	@Override
 	public UserData getCurrentuser() {
-		return userConvert.convert(userService.getCurrentUser());
+		User u = userService.getCurrentCustomer();
+		return userConvert.convert(userService.findOne(u.getUserId()));
 	}
 
 	@Override
@@ -199,5 +200,4 @@ public class UserFacadeImpl implements UserFacade{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -74,7 +74,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         final Store currentStore = (Store) getCurrentContext().getStoreRealm();
         final Store _s = storeRepository.findOne(currentStore.getMemberId());
         user.getStores().add(_s);
-        return userRepository.saveAndFlush(user);
+        return userRepository.create(user);
 
     }
 
@@ -84,7 +84,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         user = adjustAddresses(user);
         user = adjustMemberRoles(user);
 
-        return userRepository.saveAndFlush(user);
+        return userRepository.create(user);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
             primaryAddress.setMember(u);
             reg.setPrimaryAddress(primaryAddress);
         }
-        return userRegrepository.saveAndFlush(reg);
+        return userRegrepository.create(reg);
     }
 
   
