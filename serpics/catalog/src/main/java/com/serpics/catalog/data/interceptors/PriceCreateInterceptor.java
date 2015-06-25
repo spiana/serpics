@@ -33,6 +33,9 @@ public class PriceCreateInterceptor implements CreateInterceptor<Price> {
 	            entity.setPricelist(l.get(0));
 	        }
 		
+	        if (entity.getPrecedence() == null){
+	        	entity.setPrecedence(0.0);
+	        }
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.serpics.catalog.data.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -19,10 +18,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.MultilingualString;
@@ -63,7 +59,7 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
 
     @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
-    private MultilingualString description = new MultilingualString();
+    private MultilingualString description ;
 
     // bi-directional many-to-one association to CtentryAttribute
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)

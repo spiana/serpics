@@ -55,7 +55,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     PriceService priceService;
 
 
-    @Test
+ //   @Test
     public void AttributeTest() throws SerpicsException{
 
         final BaseAttribute attribute = new BaseAttribute();
@@ -113,7 +113,6 @@ public class CatalogServiceTest extends CatalogBaseTest {
 
         final Product p = new Product();
         p.setCode("test-sku");
-        p.setCatalog((Catalog)context.getCatalog());
         p.setBuyable(1);
         productService.create(p);
 
@@ -121,16 +120,17 @@ public class CatalogServiceTest extends CatalogBaseTest {
         price.setProduct(p);
         price.setCurrentPrice(10.0);
         priceService.create(price);
+        
+        final Price price1 = new Price();
+        price1.setCurrentPrice(9.0);
+        price1.setPrecedence(1.0);
+        priceService.addPrice(p, price1);
+        
+        
 
         productRepository.detach(p);
 
-        //
-        // final Bundle b = new Bundle();
-        // b.setCode("bundle-sku");
-        // b.setCatalog(catalog);
-        // b.setBuyable(1);
-        // productService.create(b);
-
+  
         final Product p1 = new Product();
         p1.setCode("test-sku");
         p1.setCatalog((Catalog)context.getCatalog());
@@ -149,8 +149,10 @@ public class CatalogServiceTest extends CatalogBaseTest {
         Assert.assertNotNull(p2);
         Assert.assertEquals("test-sku", p2.getCode());
         final List<Price> prices = priceService.findValidPricesforProduct(p2);
-        Assert.assertEquals(1, prices.size());
+        Assert.assertEquals(2, prices.size());
 
+        final Price _price = priceService.findProductPrice(p2);
+        Assert.assertEquals(new Double(9.0), _price.getCurrentPrice());
         // final Bundle b2 = bundleRepository.findOne(bundleRepository.makeSpecification(b1));
         // Assert.assertNotNull(b2);
         // Assert.assertEquals("bundle-sku", b2.getCode());
