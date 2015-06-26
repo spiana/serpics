@@ -29,7 +29,7 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "orderitem_id", unique = true, nullable = false)
-    private Long orderitemsId;
+    private Long id;
 
     @Column(name = "discount_amount", precision = 10, scale = 4)
     protected Double discountAmount = new Double(0);
@@ -107,12 +107,12 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
 
     }
 
-    public Long getOrderitemsId() {
-        return this.orderitemsId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setOrderitemsId(final Long orderitemsId) {
-        this.orderitemsId = orderitemsId;
+    public void setId(final Long orderitemsId) {
+        this.id = orderitemsId;
     }
 
     public double getDiscountPerc() {

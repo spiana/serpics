@@ -45,7 +45,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id", unique = true, nullable = false)
-    protected Long orderId;
+    protected Long id;
 
     @Column(name = "cookie", length = 250, unique = false, nullable = false)
     protected String cookie;
@@ -122,12 +122,12 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     public AbstractOrder() {
     }
 
-    public Long getOrderId() {
-        return this.orderId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setOrderId(final Long orderId) {
-        this.orderId = orderId;
+    public void setId(final Long orderId) {
+        this.id = orderId;
     }
 
     public Currency getCurrency() {

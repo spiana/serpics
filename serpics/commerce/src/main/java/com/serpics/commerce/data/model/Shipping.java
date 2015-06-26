@@ -16,7 +16,7 @@ public class Shipping extends com.serpics.core.data.jpa.AbstractEntity implement
 
 	@Id
 	@Column(name="shipping_id", unique=true, nullable=false)
-	private Long shippingId;
+	private Long id;
 
 	@Column(nullable=false, length=3)
 	private String currency;
@@ -35,12 +35,12 @@ public class Shipping extends com.serpics.core.data.jpa.AbstractEntity implement
     public Shipping() {
     }
 
-	public Long getShippingId() {
-		return this.shippingId;
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setShippingId(Long shippingId) {
-		this.shippingId = shippingId;
+	public void setId(Long shippingId) {
+		this.id = shippingId;
 	}
 
 	public String getCurrency() {

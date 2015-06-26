@@ -25,7 +25,7 @@ public class Suborder extends com.serpics.core.data.jpa.AbstractEntity implement
 
     @Id
     @Column(name = "suborders_id", unique = true, nullable = false)
-    private Long subordersId;
+    private Long id;
 
     @Column(name = "customer_id", nullable = false)
     private Long customerId;
@@ -74,12 +74,12 @@ public class Suborder extends com.serpics.core.data.jpa.AbstractEntity implement
     public Suborder() {
     }
 
-    public Long getSubordersId() {
-        return this.subordersId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setSubordersId(final Long subordersId) {
-        this.subordersId = subordersId;
+    public void setId(final Long subordersId) {
+        this.id = subordersId;
     }
 
    

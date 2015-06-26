@@ -20,7 +20,7 @@ public class Shipmode extends com.serpics.core.data.jpa.AbstractEntity implement
 
     @Id
     @Column(name = "shipmode_id", unique = true, nullable = false)
-    private Long shipmodeId;
+    private Long id;
 
     @Column(length = 1000)
     private String description;
@@ -36,11 +36,7 @@ public class Shipmode extends com.serpics.core.data.jpa.AbstractEntity implement
     @OneToMany(mappedBy = "shipmode")
     private Set<AbstractOrder> orders;
 
-    // bi-directional many-to-one association to ShipmodeDescr
-    @OneToMany(mappedBy = "shipmode")
-    private Set<ShipmodeDescr> shipmodeDescrs;
-
-    // bi-directional many-to-one association to Shipmodelookup
+       // bi-directional many-to-one association to Shipmodelookup
     @OneToMany(mappedBy = "shipmode")
     private Set<Shipmodelookup> shipmodelookups;
 
@@ -55,12 +51,12 @@ public class Shipmode extends com.serpics.core.data.jpa.AbstractEntity implement
     public Shipmode() {
     }
 
-    public Long getShipmodeId() {
-        return this.shipmodeId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setShipmodeId(final Long shipmodeId) {
-        this.shipmodeId = shipmodeId;
+    public void setId(final Long shipmodeId) {
+        this.id = shipmodeId;
     }
 
     public String getDescription() {
@@ -95,14 +91,7 @@ public class Shipmode extends com.serpics.core.data.jpa.AbstractEntity implement
         this.orders = orders;
     }
 
-    public Set<ShipmodeDescr> getShipmodeDescrs() {
-        return this.shipmodeDescrs;
-    }
-
-    public void setShipmodeDescrs(final Set<ShipmodeDescr> shipmodeDescrs) {
-        this.shipmodeDescrs = shipmodeDescrs;
-    }
-
+   
     public Set<Shipmodelookup> getShipmodelookups() {
         return this.shipmodelookups;
     }

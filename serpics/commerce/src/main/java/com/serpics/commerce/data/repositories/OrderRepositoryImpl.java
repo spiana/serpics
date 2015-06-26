@@ -21,14 +21,14 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         final Query queryRow = entityManager
                 .createNativeQuery("update orderitems set pending=0 where order_id = :orderid ");
 
-        query.setParameter("orderid", cart.getOrderId());
-        queryRow.setParameter("orderid", cart.getOrderId());
+        query.setParameter("orderid", cart.getId());
+        queryRow.setParameter("orderid", cart.getId());
         query.executeUpdate();
         queryRow.executeUpdate();
         entityManager.flush();
         entityManager.detach(cart);
 
-        return entityManager.find(Order.class, cart.getOrderId());
+        return entityManager.find(Order.class, cart.getId());
     }
 
 }

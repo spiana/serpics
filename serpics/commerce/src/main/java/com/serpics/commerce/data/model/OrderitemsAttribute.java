@@ -22,7 +22,7 @@ public class OrderitemsAttribute extends com.serpics.core.data.jpa.AbstractEntit
 
     @Id
     @Column(name = "attribute_id", unique = true, nullable = false)
-    private Long attributeId;
+    private Long id;
 
     @Column(name = "base_attributes_id", nullable = false)
     private BigInteger baseAttributesId;
@@ -57,12 +57,12 @@ public class OrderitemsAttribute extends com.serpics.core.data.jpa.AbstractEntit
     public OrderitemsAttribute() {
     }
 
-    public Long getAttributeId() {
-        return this.attributeId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setAttributeId(final Long attributeId) {
-        this.attributeId = attributeId;
+    public void setId(final Long attributeId) {
+        this.id = attributeId;
     }
 
     public BigInteger getBaseAttributesId() {

@@ -26,7 +26,7 @@ public class Orderpayment extends com.serpics.core.data.jpa.AbstractEntity imple
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orderpayment_id", unique = true, nullable = false)
-    private Long orderpaymentId;
+    private Long id;
 
     @Column(precision = 10, scale = 4)
     private Double amount;
@@ -50,12 +50,12 @@ public class Orderpayment extends com.serpics.core.data.jpa.AbstractEntity imple
         setAmount(amount);
     }
 
-    public Long getOrderpaymentId() {
-        return this.orderpaymentId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setOrderpaymentId(final Long orderpaymentId) {
-        this.orderpaymentId = orderpaymentId;
+    public void setId(final Long orderpaymentId) {
+        this.id = orderpaymentId;
     }
 
     public Double getAmount() {
