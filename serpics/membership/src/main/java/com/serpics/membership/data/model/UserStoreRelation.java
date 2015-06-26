@@ -19,8 +19,8 @@ public class UserStoreRelation extends MemberRelation {
     public UserStoreRelation(final Store store , final User user) {
         super();
         final MemberRelationPK k = new MemberRelationPK();
-        k.setParentMemberId(store.getStoreId());
-        k.setChildMemberId(user.getUserId());
+        k.setParentMemberId(store.getId());
+        k.setChildMemberId(user.getId());
         this.setId(k);
     }
 

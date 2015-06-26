@@ -22,7 +22,7 @@ public class Role extends com.serpics.core.data.jpa.AbstractEntity implements Se
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="role_id", unique=true, nullable=false)
-	private Long roleId;
+	private Long Id;
 
 	@Column(length=254)
 	private String description;
@@ -42,12 +42,12 @@ public class Role extends com.serpics.core.data.jpa.AbstractEntity implements Se
 		this.name = name;
 	}
 
-	public Long getRoleId() {
-		return this.roleId;
+	public Long getId() {
+		return this.Id;
 	}
 
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
+	public void setId(Long roleId) {
+		this.Id = roleId;
 	}
 
 	public String getDescription() {

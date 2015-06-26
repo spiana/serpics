@@ -31,7 +31,7 @@ public abstract class AbstractMemberService<T extends Member, ID extends Seriali
             member.setMembersRoles(new HashSet<MembersRole>(0));
         }
 
-        final Store s = storeRepository.findOne(((Store) getCurrentContext().getStoreRealm()).getStoreId());
+        final Store s = storeRepository.findOne(((Store) getCurrentContext().getStoreRealm()).getId());
 
         for (final MembersRole memberRole : member.getMembersRoles()) {
             if (memberRole.getId() == null) {
@@ -40,9 +40,9 @@ public abstract class AbstractMemberService<T extends Member, ID extends Seriali
 
                 memberRole.setMember(member);
                 final MembersRolePK pk = new MembersRolePK();
-                pk.setStoresStoreId(s.getStoreId());
-                pk.setMemberId(member.getMemberId());
-                pk.setRoleId(memberRole.getRole().getRoleId());
+                pk.setStoresStoreId(s.getId());
+                pk.setMemberId(member.getId());
+                pk.setRoleId(memberRole.getRole().getId());
                 memberRole.setId(pk);
             }
         }

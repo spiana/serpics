@@ -72,7 +72,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         user = adjustMemberRoles(user);
         user.setCreated(new Date());
         final Store currentStore = (Store) getCurrentContext().getStoreRealm();
-        final Store _s = storeRepository.findOne(currentStore.getMemberId());
+        final Store _s = storeRepository.findOne(currentStore.getId());
         user.getStores().add(_s);
         return userRepository.create(user);
 
@@ -129,7 +129,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 
     @Override
     public Set<PermanentAddress> getUserAddress(final User user) {
-        final User _u = userRegrepository.findOne(user.getUserId());
+        final User _u = userRegrepository.findOne(user.getId());
         _u.getPermanentAddresses().size();
         return _u.getPermanentAddresses();
     }

@@ -53,11 +53,7 @@ public class Store extends Member implements Serializable, StoreRealm {
     // return getName();
     // }
 
-    @Override
-    public Long getStoreId() {
-        return getMemberId();
-    }
-
+   
     public Currency getCurrency() {
         return currency;
     }

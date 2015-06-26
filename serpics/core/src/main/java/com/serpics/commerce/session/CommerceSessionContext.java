@@ -34,7 +34,7 @@ public class CommerceSessionContext extends SessionContext {
     }
 
     public Long getStoreId() {
-        return this.storeRealm.getStoreId();
+        return this.storeRealm.getId();
     }
 
     public StoreRealm getStoreRealm() {

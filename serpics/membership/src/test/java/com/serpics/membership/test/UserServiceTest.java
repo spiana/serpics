@@ -90,7 +90,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
         // try add a new address
         final PermanentAddress address = new PermanentAddress();
         address.setCity("Napoli");
-        u = userService.addAddress(address, u.getMemberId());
+        u = userService.addAddress(address, u.getId());
         Assert.assertEquals(1, u.getPermanentAddresses().size());
 
         // try add another address directly

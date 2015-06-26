@@ -30,7 +30,7 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
                 ur = login(ur, password);
             else
                 throw new MembershipException(String.format("invalid type %s for userId [%d] !", ur.getUserType(),
-                        ur.getUserId()));
+                        ur.getId()));
 
             // if not superuser test store
 //            if (!ur.getUserType().equals(UserType.SUPERSUSER)) {

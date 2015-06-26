@@ -45,7 +45,7 @@ public class MembersRole  extends com.serpics.core.data.jpa.AbstractEntity imple
         this.member = member;
         this.role = role;
         this.store = store;
-        this.id= new MembersRolePK(role.getRoleId() ,member.getMemberId() , store.getStoreId());
+        this.id= new MembersRolePK(role.getId() ,member.getId() , store.getId());
 
     }
 

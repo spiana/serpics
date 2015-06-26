@@ -35,7 +35,7 @@ public class Membergroup  extends com.serpics.core.data.jpa.AbstractEntity imple
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="membergroups_id", unique=true, nullable=false)
-    private Long membergroupsId;
+    private Long id;
 
     @NotEmpty
     @NotNull
@@ -58,12 +58,12 @@ public class Membergroup  extends com.serpics.core.data.jpa.AbstractEntity imple
     public Membergroup() {
     }
 
-    public Long getMembergroupsId() {
-        return this.membergroupsId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setMembergroupsId(final Long membergroupsId) {
-        this.membergroupsId = membergroupsId;
+    public void setId(final Long membergroupsId) {
+        this.id = membergroupsId;
     }
 
     public String getDescription() {

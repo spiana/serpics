@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,9 +37,8 @@ import com.serpics.membership.UserType;
 @Entity(name = "User")
 @Table(name = "users")
 @DiscriminatorValue("USER")
-@PrimaryKeyJoinColumn(name="user_id")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends Member implements  UserDetail {
+public class User extends Member implements UserDetail{
  	private static final long serialVersionUID = 545575485685613766L;
 
 	@Column(length = 200)
@@ -154,7 +152,7 @@ public class User extends Member implements  UserDetail {
     public boolean hasRole(final String role, final Long storeId) {
 
         for (final MembersRole mrole : membersRoles) {
-            if (mrole.getStore().getStoreId().equals(storeId) && mrole.getRole().getName().equals(role))
+            if (mrole.getStore().getId().equals(storeId) && mrole.getRole().getName().equals(role))
                 return true;
         }
 
@@ -162,23 +160,11 @@ public class User extends Member implements  UserDetail {
     }
 
 
-
-    @Override
-    public Long getUserId() {
-
-        return getMemberId();
-    }
-
-    public void setUserId(final Long userId) {
-
-        setMemberId(userId);
-    }
-
-
     @Override
     public String getName() {
-        return null;
+    	return this.email;
     }
+    
 
     @XmlTransient
     public Set<Store> getStores() {

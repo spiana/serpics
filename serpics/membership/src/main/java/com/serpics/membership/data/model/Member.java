@@ -1,8 +1,6 @@
 package com.serpics.membership.data.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,8 +22,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -49,7 +45,7 @@ public class Member extends AbstractEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id", unique = true, nullable = false)
-    protected Long memberId;
+    protected Long id;
 
     @Size(max = 1000)
     @Column(length = 1000)
@@ -95,12 +91,12 @@ public class Member extends AbstractEntity implements Serializable {
     public Member() {
     }
 
-    public Long getMemberId() {
-        return this.memberId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setMemberId(final Long memberId) {
-        this.memberId = memberId;
+    public void setId(final Long id) {
+        this.id = id;
     }
 
 

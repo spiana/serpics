@@ -1,7 +1,7 @@
 package com.serpics.core.security;
 
 public interface StoreRealm {
-    public Long getStoreId();
+    public Long getId();
     public String getName();
     // public String getRealm();
 }

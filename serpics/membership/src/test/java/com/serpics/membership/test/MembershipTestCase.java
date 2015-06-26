@@ -114,7 +114,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         });
 
         assertEquals(1, l.size());
-        userService.addAddress(new PermanentAddress(), u.getMemberId());
+        userService.addAddress(new PermanentAddress(), u.getId());
 
         userRegRepository.detach(u);
 

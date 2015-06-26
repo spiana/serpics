@@ -14,8 +14,8 @@ public class MemberGroupRelCreateInterceptor implements CreateInterceptor<Member
 			Assert.notNull(entity.getMember());
 			Assert.notNull(entity.getMembergroup());
 			MembgrouprelPK pk = new MembgrouprelPK();
-			pk.setMembergroupsId(entity.getMembergroup().getMembergroupsId());
-			pk.setMemberId(entity.getMember().getMemberId());
+			pk.setMembergroupsId(entity.getMembergroup().getId());
+			pk.setMemberId(entity.getMember().getId());
 			entity.setId(pk);
 		}
 		

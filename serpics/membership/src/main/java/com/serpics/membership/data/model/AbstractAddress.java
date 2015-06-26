@@ -42,7 +42,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "address_id", unique = true, nullable = false)
-    protected Long addressId;
+    protected Long id;
 
     @Column(nullable = true, length = 50)
     protected String firstname;
@@ -142,12 +142,12 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
         this.vatcode = vatcode;
     }
 
-    public Long getAddressId() {
-        return this.addressId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setAddressId(final Long addressId) {
-        this.addressId = addressId;
+    public void setId(final Long addressId) {
+        this.id = addressId;
     }
 
     public String getAddress1() {

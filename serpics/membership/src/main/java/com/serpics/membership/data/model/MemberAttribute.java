@@ -31,7 +31,7 @@ public class MemberAttribute extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "attribute_id", unique = true, nullable = false)
-    private Long attributeId;
+    private Long id;
 
     @ManyToOne()
     @JoinColumn(name = "base_attributes_id", nullable=false)
@@ -68,12 +68,12 @@ public class MemberAttribute extends AbstractEntity implements Serializable {
     public MemberAttribute() {
     }
 
-    public Long getAttributeId() {
-        return this.attributeId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setAttributeId(final Long attributeId) {
-        this.attributeId = attributeId;
+    public void setId(final Long attributeId) {
+        this.id = attributeId;
     }
 
 

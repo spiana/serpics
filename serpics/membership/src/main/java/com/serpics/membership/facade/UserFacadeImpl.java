@@ -40,7 +40,7 @@ public class UserFacadeImpl implements UserFacade{
 	@Override
 	public UserData getCurrentuser() {
 		User u = userService.getCurrentCustomer();
-		return userConvert.convert(userService.findOne(u.getUserId()));
+		return userConvert.convert(userService.findOne(u.getId()));
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class UserFacadeImpl implements UserFacade{
 	public void updateUser(UserData user) {
 			User currentUser = userService.getCurrentCustomer();
 			
-			User _u = userService.findOne(currentUser.getUserId());
+			User _u = userService.findOne(currentUser.getId());
 			
 			_u.setLastname(user.getLastname());
 			_u.setFirstname(user.getFirstname());

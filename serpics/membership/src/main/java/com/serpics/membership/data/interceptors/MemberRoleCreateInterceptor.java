@@ -16,8 +16,8 @@ public class MemberRoleCreateInterceptor implements CreateInterceptor<MembersRol
 	@Override
 	public void beforeCreate(MembersRole entity) {
 		if (entity.getId() == null && entity.getRole() != null && entity.getMember() != null) {
-            final MembersRolePK pk = new MembersRolePK(entity.getRole().getRoleId(),
-                    entity.getMember().getMemberId(), engine.getCurrentContext().getStoreId());
+            final MembersRolePK pk = new MembersRolePK(entity.getRole().getId(),
+                    entity.getMember().getId(), engine.getCurrentContext().getStoreId());
             entity.setId(pk);
 		}
 	}

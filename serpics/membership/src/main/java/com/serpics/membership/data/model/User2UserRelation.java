@@ -33,8 +33,8 @@ public class User2UserRelation extends MemberRelation {
     public User2UserRelation(final User parentUser , final User childUser , final int relationType) {
         super();
         final MemberRelationPK k = new MemberRelationPK();
-        k.setParentMemberId(parentUser.getUserId());
-        k.setChildMemberId(childUser.getUserId());
+        k.setParentMemberId(parentUser.getId());
+        k.setChildMemberId(childUser.getId());
         this.setId(k);
         this.setRelationType(relationType);
     }
