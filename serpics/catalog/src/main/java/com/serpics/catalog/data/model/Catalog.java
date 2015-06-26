@@ -2,17 +2,12 @@ package com.serpics.catalog.data.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.serpics.catalog.CatalogEntryTypes;
 import com.serpics.core.datatype.CatalogEntryType;
 
 /**
@@ -42,11 +37,6 @@ public class Catalog extends Ctentry implements com.serpics.core.data.model.Cata
 
 	public void setPublished(short published) {
 		this.published = published;
-	}
-
-	@Override
-	public Long getCatalogId() {
-		return getCtentryId();
 	}
 	
 	

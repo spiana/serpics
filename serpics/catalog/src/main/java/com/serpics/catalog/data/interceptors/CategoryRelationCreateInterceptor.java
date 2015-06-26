@@ -14,8 +14,8 @@ public class CategoryRelationCreateInterceptor implements CreateInterceptor<Cate
 	    	Assert.notNull(entity.getParentCategory());
 	    	Assert.notNull(entity.getChildCategory());
 	    	
-            final CtentryRelationPK pk = new CtentryRelationPK(entity.getParentCategory().getCtentryId(), entity
-                    .getChildCategory().getCtentryId());
+            final CtentryRelationPK pk = new CtentryRelationPK(entity.getParentCategory().getId(), entity
+                    .getChildCategory().getId());
             entity.setId(pk);
         }
 	}

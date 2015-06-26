@@ -29,7 +29,7 @@ public class Price extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "prices_id")
-    private Long pricesId;
+    private Long id;
 
     @Column(name = "product_cost")
     private Double productCost;
@@ -71,12 +71,12 @@ public class Price extends AbstractEntity implements Serializable {
     public Price() {
     }
 
-    public Long getPricesId() {
-        return pricesId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPricesId(final Long pricesId) {
-        this.pricesId = pricesId;
+    public void setId(final Long pricesId) {
+        this.id = pricesId;
     }
 
   

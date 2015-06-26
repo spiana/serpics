@@ -19,7 +19,7 @@ import com.serpics.base.data.model.MultilingualString;
 public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long featureGroupId;
+    private Long id;
 
     private String code;
 
@@ -38,12 +38,12 @@ public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
     @OneToMany(mappedBy="featureGroup")
     Set<Feature> features = new HashSet<Feature>(0);
 
-    public Long getFeatureGroupId() {
-        return featureGroupId;
+    public Long getId() {
+        return id;
     }
 
-    public void setFeatureGroupId(final Long featureGroupId) {
-        this.featureGroupId = featureGroupId;
+    public void setFeatureGroupId(final Long id) {
+        this.id = id;
     }
 
     public String getCode() {

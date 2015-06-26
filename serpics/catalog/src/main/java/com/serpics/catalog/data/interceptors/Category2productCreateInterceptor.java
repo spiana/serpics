@@ -10,8 +10,8 @@ public class Category2productCreateInterceptor  implements CreateInterceptor<Cat
 	public void beforeCreate(CategoryProductRelation entity) {
 		if (entity.getId() == null) {
             final CtentryRelationPK pk = new CtentryRelationPK();
-            pk.setCtentryIdParent(entity.getParentCategory().getCtentryId());
-            pk.setCtentryIdChild(entity.getChildProduct().getCtentryId());
+            pk.setCtentryIdParent(entity.getParentCategory().getId());
+            pk.setCtentryIdChild(entity.getChildProduct().getId());
             entity.setId(pk);
         }
 		

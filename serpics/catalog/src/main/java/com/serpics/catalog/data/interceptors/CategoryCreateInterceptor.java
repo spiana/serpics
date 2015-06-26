@@ -18,7 +18,7 @@ public class CategoryCreateInterceptor implements CreateInterceptor<Category>{
 	@Override
 	public void beforeCreate(Category entity) {
 		com.serpics.core.data.model.Catalog  _c = engine.getCurrentContext().getCatalog();
-		com.serpics.catalog.data.model.Catalog c = catalogService.findOne(_c.getCatalogId());
+		com.serpics.catalog.data.model.Catalog c = catalogService.findOne(_c.getId());
 		entity.setCatalog(c);
 	}
 

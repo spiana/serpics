@@ -1,7 +1,7 @@
 package com.serpics.core.data.model;
 
 public interface Catalog {
-	public Long getCatalogId();
+	public Long getId();
 
 	public String getCode();
 

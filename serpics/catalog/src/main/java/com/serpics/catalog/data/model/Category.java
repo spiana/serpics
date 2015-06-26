@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.serpics.core.datatype.CatalogEntryType;
@@ -24,7 +23,6 @@ import com.serpics.core.datatype.CatalogEntryType;
 @Entity
 @Table(name = "category")
 @DiscriminatorValue("1")
-@PrimaryKeyJoinColumn(name = "category_id")
 public class Category extends Ctentry implements Serializable {
     private static final long serialVersionUID = 1L;
 

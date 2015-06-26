@@ -24,7 +24,7 @@ public class Brand implements Serializable {
 
 	@Id
 	@Column(name = "brand_id")
-	private Long brandsId;
+	private Long id;
 
 	@Column(name = "logo_src")
 	private String logoSrc;
@@ -41,12 +41,12 @@ public class Brand implements Serializable {
 	public Brand() {
 	}
 
-	public Long getBrandsId() {
-		return this.brandsId;
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setBrandsId(Long brandsId) {
-		this.brandsId = brandsId;
+	public void setId(Long brandsId) {
+		this.id = brandsId;
 	}
 
 	public String getLogoSrc() {

@@ -22,7 +22,7 @@ public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="featurevalue_id")
-    private Long featureValueId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "feature_id" , nullable=false)
@@ -46,11 +46,11 @@ public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity {
     private MultilingualString textValue;
 
 
-    public Long getFeatureValueId() {
-        return featureValueId;
+    public Long getId() {
+        return id;
     }
-    public void setFeatureValueId(final Long featureValueId) {
-        this.featureValueId = featureValueId;
+    public void setId(final Long id) {
+        this.id = id;
     }
     public Feature getFeature() {
         return feature;

@@ -25,7 +25,7 @@ public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="feature_id")
-    private Long featureId;
+    private Long id;
 
     //	@ManyToOne
     //	@JoinColumn(name="base_attribute_id")
@@ -49,12 +49,12 @@ public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
     @OneToMany(mappedBy="feature" ,fetch= FetchType.EAGER)
     private Set<FeatureValues> featureValues = new HashSet<FeatureValues>(0);
 
-    public Long getFeatureId() {
-        return featureId;
+    public Long getId() {
+        return id;
     }
 
-    public void setFeatureId(final Long featureId) {
-        this.featureId = featureId;
+    public void setId(final Long featureId) {
+        this.id = featureId;
     }
 
 

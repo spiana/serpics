@@ -90,7 +90,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
 		price.setProduct(product);
 
 		priceRepository.create(price);
-		return productRepository.findOne(product.getCtentryId());
+		return productRepository.findOne(product.getId());
 	}
 
 	@Override

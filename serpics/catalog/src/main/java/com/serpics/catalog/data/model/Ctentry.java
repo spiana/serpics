@@ -38,7 +38,7 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ctentry_id")
-    protected Long ctentryId;
+    protected Long id;
 
     @Column(name = "ctentry_type", nullable = false)
     protected Integer ctentryType;
@@ -70,12 +70,12 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
     protected Set<Media> medias;
 
    
-    public Long getCtentryId() {
-        return this.ctentryId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setCtentryId(final Long ctentryId) {
-        this.ctentryId = ctentryId;
+    public void setId(final Long ctentryId) {
+        this.id = ctentryId;
     }
 
     public Integer getCtentryType() {

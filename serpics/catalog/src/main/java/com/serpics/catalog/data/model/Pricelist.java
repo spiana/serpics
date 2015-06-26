@@ -32,7 +32,7 @@ public class Pricelist extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="pricelist_id")
-    private Long pricelistId;
+    private Long id;
 
     @NotNull
     @Size(max = 100)
@@ -68,12 +68,12 @@ public class Pricelist extends AbstractEntity implements Serializable {
         this.catalog = catalog;
     }
 
-    public Long getPricelistId() {
-        return this.pricelistId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setPricelistId(final Long pricelistId) {
-        this.pricelistId = pricelistId;
+    public void setId(final Long pricelistId) {
+        this.id = pricelistId;
     }
 
     public String getName() {

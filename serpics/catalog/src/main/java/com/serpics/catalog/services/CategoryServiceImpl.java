@@ -51,7 +51,7 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
     public Category create(Category category, final Category parent) {
         category = this.create(category);
         if (parent != null) {
-            final CtentryRelationPK ctpk = new CtentryRelationPK(parent.getCtentryId(), category.getCtentryId());
+            final CtentryRelationPK ctpk = new CtentryRelationPK(parent.getId(), category.getId());
             final CategoryRelation cgrel = new CategoryRelation();
             cgrel.setId(ctpk);
             categoryRelationRepository.save(cgrel);

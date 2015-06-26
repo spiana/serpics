@@ -26,7 +26,7 @@ public class Media implements Serializable {
 
     @Id
     @Column(name="media_id")
-    private Long mediaId;
+    private Long id;
 
     @Column(name="content_type")
     private String contentType;
@@ -54,12 +54,12 @@ public class Media implements Serializable {
     public Media() {
     }
 
-    public Long getMediaId() {
-        return this.mediaId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setMediaId(final Long mediaId) {
-        this.mediaId = mediaId;
+    public void setId(final Long mediaId) {
+        this.id = mediaId;
     }
 
     public String getContentType() {
