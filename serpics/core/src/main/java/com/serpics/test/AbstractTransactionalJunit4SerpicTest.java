@@ -1,4 +1,4 @@
-package com.serpics.core.test;
+package com.serpics.test;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.TestExecutionListeners;
@@ -7,8 +7,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.serpics.test.ExecutionTestListener;
 
 @TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class })
 @TransactionConfiguration(defaultRollback = true )

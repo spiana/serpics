@@ -1,4 +1,4 @@
-package com.serpics.base.data.model;
+package com.serpics.commerce.data.model;
 
 import java.io.Serializable;
 import javax.persistence.*;

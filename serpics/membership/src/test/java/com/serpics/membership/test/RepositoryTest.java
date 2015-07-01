@@ -14,13 +14,13 @@ import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.repositories.CurrencyRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({  "classpath*:META-INF/applicationContext.xml"})
 @Transactional

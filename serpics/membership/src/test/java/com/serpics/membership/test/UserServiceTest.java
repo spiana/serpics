@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.PermanentAddress;
@@ -28,6 +27,7 @@ import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @Transactional(propagation=Propagation.REQUIRES_NEW)

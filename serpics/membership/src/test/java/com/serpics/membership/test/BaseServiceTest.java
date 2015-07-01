@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.membership.services.BaseService;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({  "classpath*:META-INF/applicationContext.xml"})
 @Transactional

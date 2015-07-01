@@ -8,9 +8,7 @@
 		<class>com.serpics.base.data.model.BaseAttribute</class>
 		<class>com.serpics.base.data.model.Country</class>
 		<class>com.serpics.base.data.model.Geocode</class>
-		<class>com.serpics.base.data.model.Paymethlookup</class>
-		<class>com.serpics.base.data.model.PaymethlookupPK</class>
-		<class>com.serpics.base.data.model.Paymethod</class>
+	
 		<class>com.serpics.base.data.model.Region</class>
 		<class>com.serpics.base.data.model.Currency</class>
 		<class>com.serpics.base.data.model.Locale</class>

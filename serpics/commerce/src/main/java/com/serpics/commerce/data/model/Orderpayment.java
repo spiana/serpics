@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.serpics.base.data.model.Paymethod;
-
 /**
  * The persistent class for the orderpayment database table.
  * 

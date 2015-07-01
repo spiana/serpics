@@ -4,18 +4,18 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.data.model.Geocode;
 import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.data.model.Paymethod;
+import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.base.data.repositories.LocaleRepository;
-import com.serpics.base.data.repositories.PaymethodRepository;
 
 public class MultilingualTest extends BaseTest {
 
     @Autowired
     LocaleRepository localeRepository;
     @Autowired
-    PaymethodRepository paymethodRepository;
+    GeoCodeRepository geoCodeRepository;
 
     @Test
     public void test(){
@@ -33,22 +33,18 @@ public class MultilingualTest extends BaseTest {
 
         localeRepository.saveAndFlush(l1);
 
-        Paymethod p = new Paymethod();
-        p.setName("uno");
+        Geocode p = new Geocode();
+        p.setCode("uno");
 
         final MultilingualString desc = new MultilingualString(l.getLanguage(), "descrizione");
         desc.addText(l1.getLanguage(), "description");
         p.setDescription(desc);
 
-        p = paymethodRepository.saveAndFlush(p);
+        p = geoCodeRepository.create(p);
 
-        paymethodRepository.detach(p);
+        geoCodeRepository.detach(p);
 
-        final Paymethod p1 = paymethodRepository.findOne(p.getPaymethodId());
-        Assert.assertNotNull(p1);
-        Assert.assertEquals("descrizione", p1.getDescription().getText(l.getLanguage()));
-
-        final Paymethod p2 = paymethodRepository.findOne(paymethodRepository.makeSpecification(new Paymethod("uno")));
+        final Geocode p1 = geoCodeRepository.findOne(p.getGeocodeId());
         Assert.assertNotNull(p1);
         Assert.assertEquals("descrizione", p1.getDescription().getText(l.getLanguage()));
 

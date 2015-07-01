@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
@@ -20,6 +19,7 @@ import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.data.repositories.UserRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.facade.UserFacade;
@@ -21,6 +20,7 @@ import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.SerpicsTest;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
