@@ -22,8 +22,6 @@
 		<class>com.serpics.commerce.data.model.OrdersAttributeValueText</class>
 		<class>com.serpics.commerce.data.model.OrdersAttributeValueVarchar</class>
 		<class>com.serpics.commerce.data.model.Shipmode</class>
-		<class>com.serpics.commerce.data.model.ShipmodeDescr</class>
-		<class>com.serpics.commerce.data.model.ShipmodeDescrPK</class>
 		<class>com.serpics.commerce.data.model.Shipmodelookup</class>
 		<class>com.serpics.commerce.data.model.Shipping</class>
 		<class>com.serpics.commerce.data.model.Suborder</class>

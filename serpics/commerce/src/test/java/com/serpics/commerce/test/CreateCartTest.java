@@ -18,8 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Price;
+import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.services.CatalogService;
+import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
@@ -56,6 +60,12 @@ public class CreateCartTest {
     @Resource
     ProductService productService;
 
+    @Resource
+    PriceService priceService;
+    
+    @Resource
+    PriceListRepository priceListRepository;
+    
     @Resource(name = "cartService")
     CartService cs;
 
@@ -65,8 +75,6 @@ public class CreateCartTest {
     @Before
     public void init() {
         b.initIstance();
-
-
     }
 
     @Test
@@ -81,18 +89,45 @@ public class CreateCartTest {
         c.setCode("default-catalog");
         c = catalogService.create(c);
         context.setCatalog(c);
+        Pricelist pl = new Pricelist();
+        pl.setCatalog(c);
+        pl.setDefaultList(true);
+        pl.setName("default-list");
+        priceListRepository.create(pl);
 
         final Product p = new Product();
         p.setCode("product");
         p.setBuyable(1);
         p.setCatalog(c);
+        
         productService.create(p);
+        
+        Price price = new Price();
+        price.setCurrentPrice(100.0);
+        price.setProductCost(9.0);
+        priceService.addPrice(p ,price);
+        
         final Product p1 = new Product();
         p1.setCode("product1");
         p1.setBuyable(1);
         p1.setCatalog(c);
         productService.create(p1);
+        
+        Price price1 = new Price();
+        price1.setCurrentPrice(110.0);
+        price1.setProductCost(9.0);
+        price1.setPrecedence(0.0);
+        priceService.addPrice(p1 ,price1);
 
+        
+        Price price2 = new Price();
+        price2.setCurrentPrice(100.0);
+        price2.setProductCost(9.0);
+        price2.setPrecedence(1.0);
+        priceService.addPrice(p1 ,price2);
+
+        
+        
         Cart cart = cs.createSessionCart();
         assertNotNull(cart);
         // Assert.assertEquals(0, cart.getPending());

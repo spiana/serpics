@@ -7,7 +7,8 @@ import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 public interface CartService {
-
+	public final String SESSION_CART = "cart";
+		
     public Cart createSessionCart();
 
     public Cart getSessionCart();

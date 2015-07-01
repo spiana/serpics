@@ -1,6 +1,5 @@
 package com.serpics.catalog.data.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.serpics.core.datatype.CatalogEntryType;
 
@@ -36,8 +33,6 @@ public class Specification extends Ctentry{
 	@OneToMany(mappedBy="specification" ,cascade=CascadeType.REMOVE , orphanRemoval=true)
 	private Set<FeatureGroup> featureGroups = new HashSet<FeatureGroup>(0);
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
 
 	public Set<FeatureGroup> getFeatureGroups() {
 		return featureGroups;
@@ -46,15 +41,7 @@ public class Specification extends Ctentry{
 	public void setFeatureGroups(Set<FeatureGroup> featureGroups) {
 		this.featureGroups = featureGroups;
 	}
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-
+	
 	public Catalog getCatalog() {
 		return catalog;
 	}

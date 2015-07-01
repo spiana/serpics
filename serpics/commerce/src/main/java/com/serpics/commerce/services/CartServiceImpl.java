@@ -15,9 +15,6 @@ import org.springframework.util.Assert;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.strategies.InventoryStrategy;
-import com.serpics.catalog.strategies.PriceStrategy;
-import com.serpics.catalog.strategies.ProductStrategy;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.repositories.CartRepository;
@@ -25,6 +22,9 @@ import com.serpics.commerce.data.repositories.OrderItemRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CommerceStrategy;
 import com.serpics.commerce.strategies.DiscountStrategy;
+import com.serpics.commerce.strategies.InventoryStrategy;
+import com.serpics.commerce.strategies.PriceStrategy;
+import com.serpics.commerce.strategies.ProductStrategy;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
@@ -44,17 +44,17 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     OrderItemRepository orderitemrepository;
 
     @Resource
-    DiscountStrategy discountHook;
+    DiscountStrategy discountStrategy;
     @Resource
-    PriceStrategy priceHook;
+    PriceStrategy priceStrategy;
 
     @Resource
-    ProductStrategy productHook;
+    ProductStrategy productStrategy;
     @Resource
-    CommerceStrategy commerceHook;
+    CommerceStrategy commerceStrategy;
 
     @Resource
-    InventoryStrategy inventoryHook;
+    InventoryStrategy inventoryStrategy;
 
     @Override
     @Transactional
@@ -66,15 +66,16 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
                     getCurrentContext().getUserCookie());
 
             cart.setCurrency(((Store) getCurrentContext().getStoreRealm()).getCurrency());
-            cartRepository.saveAndFlush(cart);
+            cart.setCustomer((User)getCurrentContext().getCustomer());
+            cartRepository.create(cart);
         }
-        getCurrentContext().setAttribute("cart", cart);
+        getCurrentContext().setAttribute(SESSION_CART, cart);
         return cart;
     }
 
     @Override
     public Cart getSessionCart() {
-        Cart currentCart = (Cart) getCurrentContext().getAttribute("cart");
+        Cart currentCart = (Cart) getCurrentContext().getAttribute(SESSION_CART);
 
         if (currentCart == null) {
             LOG.info("NOT found cart in commerce session for user {}",
@@ -91,18 +92,18 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     @Transactional
     public Cart cartUpdate(final Cartitem orderitem, final Cart cart) throws InventoryNotAvailableException,
     ProductNotFoundException {
-        final Product product = productHook.resolveSKU(orderitem.getSku());
+        final Product product = productStrategy.resolveSKU(orderitem.getSku());
 
-        orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
-        orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
-        discountHook.applyItemDiscount(orderitem);
+        orderitem.setSkuCost(priceStrategy.resolveProductCost(product, cart.getCurrency()));
+        orderitem.setSkuPrice(priceStrategy.resolveProductPrice(product, cart.getCurrency()));
+        discountStrategy.applyItemDiscount(orderitem);
 
         orderitem.setOrder(cart);
         cart.getCartitems().add(orderitem);
 
-        commerceHook.calculateShipping(orderitem);
+        commerceStrategy.calculateShipping(orderitem);
 
-        return cartRepository.saveAndFlush(cart);
+        return cartRepository.update(cart);
 
     }
 
@@ -118,16 +119,16 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
         if (merge)
             cartItem = mergeCart(cart, cartItem);
 
-        cartItem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
-        cartItem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
+        cartItem.setSkuCost(priceStrategy.resolveProductCost(product, cart.getCurrency()));
+        cartItem.setSkuPrice(priceStrategy.resolveProductPrice(product, cart.getCurrency()));
 
-        discountHook.applyItemDiscount(cartItem);
+        discountStrategy.applyItemDiscount(cartItem);
         cartItem.setOrder(cart);
         cart.getCartitems().add(cartItem);
 
-        commerceHook.calculateShipping(cartItem);
+        commerceStrategy.calculateShipping(cartItem);
 
-        return cartRepository.saveAndFlush(cart);
+        return cartRepository.update(cart);
     }
 
     @Override
@@ -165,7 +166,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     @Transactional
     public Cart cartAdd(final String sku, final double quantity, final Cart cart, final boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException {
-        final Product product = productHook.resolveSKU(sku);
+        final Product product = productStrategy.resolveSKU(sku);
         return cartAdd(product, quantity, merge);
     }
 
@@ -203,27 +204,27 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
         cart.setTotalTax(new BigDecimal(0));
 
         for (final Cartitem orderitem : cart.getCartitems()) {
-            final Product product = productHook.resolveSKU(orderitem.getSku());
+            final Product product = productStrategy.resolveSKU(orderitem.getSku());
             if (updateInventory)
-                inventoryHook.updateInventory(product);
+                inventoryStrategy.updateInventory(product);
             else
-                inventoryHook.checkInventory(product);
-            orderitem.setSkuCost(priceHook.resolveProductCost(product, cart.getCurrency()));
-            orderitem.setSkuPrice(priceHook.resolveProductPrice(product, cart.getCurrency()));
+                inventoryStrategy.checkInventory(product);
+            orderitem.setSkuCost(priceStrategy.resolveProductCost(product, cart.getCurrency()));
+            orderitem.setSkuPrice(priceStrategy.resolveProductPrice(product, cart.getCurrency()));
 
-            discountHook.applyItemDiscount(orderitem);
-            commerceHook.calculateShipping(orderitem);
+            discountStrategy.applyItemDiscount(orderitem);
+            commerceStrategy.calculateShipping(orderitem);
         }
 
-        commerceHook.calculateProductTotal(cart);
+        commerceStrategy.calculateProductTotal(cart);
 
-        discountHook.applyOrderDiscount(cart);
+        discountStrategy.applyOrderDiscount(cart);
 
-        commerceHook.calculateShiping(cart);
-        commerceHook.calculateTax(cart);
-        commerceHook.calculateOrderTotal(cart);
+        commerceStrategy.calculateShiping(cart);
+        commerceStrategy.calculateTax(cart);
+        commerceStrategy.calculateOrderTotal(cart);
 
-        return cartRepository.saveAndFlush(cart);
+        return cartRepository.update(cart);
     }
 
     @Override

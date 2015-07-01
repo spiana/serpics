@@ -50,7 +50,6 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @Column(name = "cookie", length = 250, unique = false, nullable = false)
     protected String cookie;
 
-
     @ManyToOne(fetch = FetchType.EAGER, optional = false, targetEntity = Currency.class)
     @JoinColumn(name = "currency_id")
     private Currency currency;

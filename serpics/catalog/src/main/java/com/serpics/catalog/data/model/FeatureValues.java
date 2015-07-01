@@ -34,6 +34,7 @@ public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity {
 
     @Temporal(TemporalType.DATE)
     private Date dateValue;
+    
     private Long longValue;
     private Double decimalValue;
 

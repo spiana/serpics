@@ -1,8 +1,15 @@
 package com.serpics.commerce.data.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.serpics.base.data.model.Currency;
 
 
 /**
@@ -17,15 +24,16 @@ public class Shipping extends com.serpics.core.data.jpa.AbstractEntity implement
 	@Id
 	@Column(name="shipping_id", unique=true, nullable=false)
 	private Long id;
-
-	@Column(nullable=false, length=3)
-	private String currency;
-
-	@Column(precision=10, scale=4)
-	private BigDecimal rangestart;
+	
+	@ManyToOne
+	@JoinColumn(name="currency_id", nullable=false)
+	private Currency currency;
 
 	@Column(precision=10, scale=4)
-	private BigDecimal value;
+	private Double rangestart;
+
+	@Column(precision=10, scale=4)
+	private Double value;
 
 	//bi-directional many-to-one association to Shipmode
     @ManyToOne
@@ -43,27 +51,27 @@ public class Shipping extends com.serpics.core.data.jpa.AbstractEntity implement
 		this.id = shippingId;
 	}
 
-	public String getCurrency() {
+	public Currency getCurrency() {
 		return this.currency;
 	}
 
-	public void setCurrency(String currency) {
+	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
 
-	public BigDecimal getRangestart() {
+	public Double getRangestart() {
 		return this.rangestart;
 	}
 
-	public void setRangestart(BigDecimal rangestart) {
+	public void setRangestart(Double rangestart) {
 		this.rangestart = rangestart;
 	}
 
-	public BigDecimal getValue() {
+	public Double getValue() {
 		return this.value;
 	}
 
-	public void setValue(BigDecimal value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 

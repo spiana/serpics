@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,23 +30,23 @@ public class Shipmode extends com.serpics.core.data.jpa.AbstractEntity implement
     private String name;
 
     // bi-directional many-to-one association to Orderitem
-    @OneToMany(mappedBy = "shipmode")
+    @OneToMany(mappedBy = "shipmode" , fetch=FetchType.LAZY)
     private Set<AbstractOrderitem> orderitems;
 
     // bi-directional many-to-one association to Order
-    @OneToMany(mappedBy = "shipmode")
+    @OneToMany(mappedBy = "shipmode" , fetch=FetchType.LAZY)
     private Set<AbstractOrder> orders;
 
        // bi-directional many-to-one association to Shipmodelookup
-    @OneToMany(mappedBy = "shipmode")
+    @OneToMany(mappedBy = "shipmode", fetch=FetchType.LAZY )
     private Set<Shipmodelookup> shipmodelookups;
 
     // bi-directional many-to-one association to Shipping
-    @OneToMany(mappedBy = "shipmode")
+    @OneToMany(mappedBy = "shipmode" , fetch=FetchType.LAZY)
     private Set<Shipping> shippings;
 
     // bi-directional many-to-one association to Suborder
-    @OneToMany(mappedBy = "shipmode")
+    @OneToMany(mappedBy = "shipmode" , fetch=FetchType.LAZY)
     private Set<Suborder> suborders;
 
     public Shipmode() {

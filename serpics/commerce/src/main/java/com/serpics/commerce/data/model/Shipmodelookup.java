@@ -1,8 +1,18 @@
 package com.serpics.commerce.data.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigInteger;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.Geocode;
+import com.serpics.base.data.model.Region;
+import com.serpics.membership.data.model.Store;
 
 
 /**
@@ -16,19 +26,24 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
 
 	@Id
 	@Column(name="shipmodelookup_id", unique=true, nullable=false)
-	private Long shipmodelookupId;
+	private Long id;
 
-	@Column(name="countries_id")
-	private BigInteger countriesId;
+	
+	@ManyToOne(optional=true)
+	@JoinColumn(name="country_id", nullable=true)
+	private Country country;
 
-	@Column(name="geocode_id")
-	private BigInteger geocodeId;
+	@ManyToOne(optional=true)
+	@JoinColumn(name="geocode_id", nullable=true)
+	private Geocode geocode;
 
-	@Column(name="regions_id")
-	private BigInteger regionsId;
+	@ManyToOne(optional=true)
+	@JoinColumn(name="regions_id" , nullable=true)
+	private Region region;
 
-	@Column(name="store_id", nullable=false)
-	private BigInteger storeId;
+	@ManyToOne
+	@JoinColumn(name="store_id", nullable=false)
+	private Store store;
 
 	@Column(length=30)
 	private String zipcode;
@@ -41,45 +56,14 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
     public Shipmodelookup() {
     }
 
-	public Long getShipmodelookupId() {
-		return this.shipmodelookupId;
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setShipmodelookupId(Long shipmodelookupId) {
-		this.shipmodelookupId = shipmodelookupId;
+	public void setShipmodelookupId(Long id) {
+		this.id = id;
 	}
 
-	public BigInteger getCountriesId() {
-		return this.countriesId;
-	}
-
-	public void setCountriesId(BigInteger countriesId) {
-		this.countriesId = countriesId;
-	}
-
-	public BigInteger getGeocodeId() {
-		return this.geocodeId;
-	}
-
-	public void setGeocodeId(BigInteger geocodeId) {
-		this.geocodeId = geocodeId;
-	}
-
-	public BigInteger getRegionsId() {
-		return this.regionsId;
-	}
-
-	public void setRegionsId(BigInteger regionsId) {
-		this.regionsId = regionsId;
-	}
-
-	public BigInteger getStoreId() {
-		return this.storeId;
-	}
-
-	public void setStoreId(BigInteger storeId) {
-		this.storeId = storeId;
-	}
 
 	public String getZipcode() {
 		return this.zipcode;
@@ -95,6 +79,38 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
 
 	public void setShipmode(Shipmode shipmode) {
 		this.shipmode = shipmode;
+	}
+
+	public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+
+	public Geocode getGeocode() {
+		return geocode;
+	}
+
+	public void setGeocode(Geocode geocode) {
+		this.geocode = geocode;
+	}
+
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 	
 }

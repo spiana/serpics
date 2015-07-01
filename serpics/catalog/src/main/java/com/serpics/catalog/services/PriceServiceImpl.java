@@ -55,30 +55,42 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
     }
   
     @Override
-    public List<Price> findValidPricesforProduct(final AbstractProduct product, final Pricelist pricelist) {
-        return priceRepository.findValidPricesForProduct(product, pricelist);
+    public List<Price> findValidPricesforProduct(final AbstractProduct product, final Pricelist pricelist , Currency currency) {
+        return priceRepository.findValidPricesForProduct(product, pricelist, currency);
     }
     @Override
     public List<Price> findValidPricesforProduct(final AbstractProduct product) {
         final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
                 .getCatalog());
+        final Currency currency = (Currency) getCurrentContext().getCurrency();
         assert !defaultPricelist.isEmpty() : "missing default price list !";
-        return findValidPricesforProduct(product, defaultPricelist.get(0));
+        return findValidPricesforProduct(product, defaultPricelist.get(0), currency);
     }
 	@Override
-	public Price findProductPrice(AbstractProduct product, Pricelist priceList) throws PriceNotFoundException{
-		List<Price> prices = findValidPricesforProduct(product, priceList);
+	public Price findProductPrice(AbstractProduct product, Pricelist priceList , Currency currency) throws PriceNotFoundException{
+		List<Price> prices = findValidPricesforProduct(product, priceList, currency);
 		if( prices.isEmpty())
 			throw  new PriceNotFoundException(product);
 		
 		return prices.get(0);
 	}
+	
+	@Override
+	public Price findProductPrice(AbstractProduct product, Currency currency)
+			throws PriceNotFoundException {
+		 final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
+	                .getCatalog());
+	       
+	        Assert.isTrue(!defaultPricelist.isEmpty(), "missing default price list !");
+	       
+	        return findProductPrice(product, defaultPricelist.get(0) , currency);
+	}
 	@Override
 	public Price findProductPrice(AbstractProduct product) throws PriceNotFoundException{
 		 final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
 	                .getCatalog());
-	        assert !defaultPricelist.isEmpty() : "missing default price list !";
-	        return findProductPrice(product, defaultPricelist.get(0));
+		 final Currency currency = (Currency) getCurrentContext().getCurrency();
+		 return findProductPrice(product, currency);
 	}
 
 	@Override

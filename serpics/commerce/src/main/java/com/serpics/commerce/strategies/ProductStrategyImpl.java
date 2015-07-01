@@ -1,4 +1,4 @@
-package com.serpics.catalog.strategies;
+package com.serpics.commerce.strategies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -24,7 +24,7 @@ public class Orderpayment extends com.serpics.core.data.jpa.AbstractEntity imple
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "orderpayment_id", unique = true, nullable = false)
     private Long id;
 
