@@ -1,29 +1,27 @@
 package com.serpics.core.data;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.core.Ordered;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.core.data.jpa.AbstractEntity;
 
 
 
-public class InterceptorMapping{
+public class InterceptorMapping implements Ordered{
 	@Autowired
 	CommerceEngine commerceEngine;
 	
 	String targetEntity;
-	Integer order;
+	Integer order = Integer.MIN_VALUE;
 	Interceptor	interceptor;
 	
 	
-	
-	public Integer getOrder() {
-		return order;
-	}
+
 	
 	public void setOrder(Integer order) {
+		if (order == null)
+			order = Integer.MIN_VALUE;
 		this.order = order;
 	}
 	
@@ -45,6 +43,11 @@ public class InterceptorMapping{
 
 	public void setInterceptor(Interceptor interceptor) {
 		this.interceptor = interceptor;
+	}
+
+	@Override
+	public int getOrder() {
+		return order.intValue();
 	}
 
 	

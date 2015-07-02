@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.serpics.membership.data.model.Store;
+
 
 
 /**
@@ -16,40 +18,43 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="paymethlookup" )
-public class Paymethlookup extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
+@Table(name="paymethodlookup" )
+public class Paymethodlookup extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private PaymethlookupPK id;
+	private PaymethodlookupPK id;
 
 	@Column(nullable=false)
-	private short active;
+	private boolean active;
 
 
-
+	//bi-directional many-to-one association to Store
+    @ManyToOne
+	@JoinColumn(name="store_id", insertable=false, updatable=false)
+	private Store store;
 
 	//bi-directional many-to-one association to Paymethod
     @ManyToOne
-	@JoinColumn(name="paymethod_id", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="paymethod_id", insertable=false, updatable=false)
 	private Paymethod paymethod;
 
-    public Paymethlookup() {
+    public Paymethodlookup() {
     }
 
-	public PaymethlookupPK getId() {
+	public PaymethodlookupPK getId() {
 		return this.id;
 	}
 
-	public void setId(PaymethlookupPK id) {
+	public void setId(PaymethodlookupPK id) {
 		this.id = id;
 	}
 	
-	public short getActive() {
+	public boolean getActive() {
 		return this.active;
 	}
 
-	public void setActive(short active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
 
@@ -59,6 +64,14 @@ public class Paymethlookup extends com.serpics.core.data.jpa.AbstractEntity impl
 
 	public void setPaymethod(Paymethod paymethod) {
 		this.paymethod = paymethod;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 	
 }

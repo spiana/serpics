@@ -6,9 +6,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Order;
+import com.serpics.commerce.data.model.Orderpayment;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderRepository;
 import com.serpics.core.service.AbstractService;
@@ -21,6 +23,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 	CartRepository cartRepository;
 	@Resource
 	OrderRepository orderRepository;
+	
 
 	/*
 	 * (non-Javadoc)
@@ -32,28 +35,27 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Order createOrder(Cart cart) {
-
 		return orderRepository.createOrderFromcart(cart);
 
-		//
-		// Order order = new Order(); order.setStatus("P");
-		// order.setBillingAddress(cart.getBillingAddress());
-		// order.setCookie(cart.getCookie());
-		// order.setCurrency(cart.getCurrency());
-		// order.setCustomerId(cart.getCustomerId());
-		// order.setDiscountAmount(cart.getDiscountAmount());
-		// order.setDiscountPerc(cart.getDiscountPerc());
-		// order.setOrderitems(cart.getOrderitems());
-		// order.setOrdersAttributes(cart.getOrdersAttributes());
-		// order.setShipmode(cart.getShipmode());
-		// order.setShippingAddress(cart.getShippingAddress());
-		// order.setStoreId(cart.getStoreId());
-		// order.setSuborders(cart.getSuborders());
-		// order.setUserId(cart.getUserId()); for (Orderitem item :
-		// order.getOrderitems()) { item.setOrder(order); } //
-		// cartRepository.delete(cart);
-		//
-		// return orderRepository.saveAndFlush(order);
-		//
+	}
+
+	@Override
+	@Transactional
+	public Order addPayment(Order order,Orderpayment payment) {
+		Assert.notNull(order , "order must not be null !");
+		Assert.notNull(payment , "payment must not be null !");
+		Assert.notNull(payment.getPaymethod() , "PaymentMethod must non be null in orderPayment !");
+		Assert.notNull(payment.getAmount() , "Amount must non be null in orderPayment !");
+		order = orderRepository.findOne(order.getId());
+	
+		Double toPay = order.getOrderAmount().doubleValue() - order.getPayAmount().doubleValue();
+		if (payment.getAmount() > toPay){
+			throw new RuntimeException(String.format("paymemt (%s) amount greater than to pay amount (%s) !" , payment.getAmount() , toPay));
+		}
+		order.setPayAmount(order.getPayAmount() + payment.getAmount());
+		payment.setOrder(order);
+		order.getOrderpayments().add(payment);
+		
+		return orderRepository.update(order);
 	}
 }

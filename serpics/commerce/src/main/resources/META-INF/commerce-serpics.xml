@@ -14,5 +14,16 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
      	<data:repositories base-package="com.serpics.commerce.data.repositories" 
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
      
-     
+     <!-- Default Specification -->
+     <bean name="defaultPaymethodlookupSpecification" class="com.serpics.commerce.data.specifications.DefaultPaymethodlookupSpecification"/>
+    
+    <!-- Interceptor Mapping -->
+	<bean name="paymethodlookupCreateInterceptor"
+		class="com.serpics.commerce.data.interceptors.PaymethodlookupInterceptor" />
+	
+	<bean name="paymethodlookupCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.commerce.data.model.Paymethodlookup" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="paymethodlookupCreateInterceptor" />
+	</bean> 
  </beans>    

@@ -1,24 +1,26 @@
 package com.serpics.commerce.data.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  * The primary key class for the paymethlookup database table.
  * 
  */
 @Embeddable
-public class PaymethlookupPK implements Serializable {
+public class PaymethodlookupPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="paymethod_id", unique=true, nullable=false)
+	@Column(name="paymethod_id",  nullable=false)
 	private Long paymethodId;
 
-	@Column(name="store_id", unique=true, nullable=false)
+	@Column(name="store_id",  nullable=false)
 	private Long storeId;
 
-    public PaymethlookupPK() {
+    public PaymethodlookupPK() {
     }
 	public Long getPaymethodId() {
 		return this.paymethodId;
@@ -37,10 +39,10 @@ public class PaymethlookupPK implements Serializable {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof PaymethlookupPK)) {
+		if (!(other instanceof PaymethodlookupPK)) {
 			return false;
 		}
-		PaymethlookupPK castOther = (PaymethlookupPK)other;
+		PaymethodlookupPK castOther = (PaymethodlookupPK)other;
 		return 
 			this.paymethodId.equals(castOther.paymethodId)
 			&& this.storeId.equals(castOther.storeId);

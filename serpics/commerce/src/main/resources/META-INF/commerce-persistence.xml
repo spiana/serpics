@@ -25,8 +25,8 @@
 		<class>com.serpics.commerce.data.model.Shipmodelookup</class>
 		<class>com.serpics.commerce.data.model.Shipping</class>
 		<class>com.serpics.commerce.data.model.Suborder</class>
-		<class>com.serpics.commerce.data.model.Paymethlookup</class>
-		<class>com.serpics.commerce.data.model.PaymethlookupPK</class>
+		<class>com.serpics.commerce.data.model.Paymethodlookup</class>
+		<class>com.serpics.commerce.data.model.PaymethodlookupPK</class>
 		<class>com.serpics.commerce.data.model.Paymethod</class>
 	</persistence-unit>
 </persistence>	

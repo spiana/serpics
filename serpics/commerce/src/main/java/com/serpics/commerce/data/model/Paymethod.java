@@ -36,7 +36,7 @@ public class Paymethod extends AbstractEntity implements Serializable {
 
     // bi-directional many-to-one association to Paymethlookup
     @OneToMany(mappedBy = "paymethod")
-    private Set<Paymethlookup> paymethlookups;
+    private Set<Paymethodlookup> paymethlookups;
 
     // bi-directional many-to-one association to PaymethodDescr
     // @OneToMany(mappedBy = "paymethod")
@@ -79,11 +79,11 @@ public class Paymethod extends AbstractEntity implements Serializable {
         this.name = name;
     }
 
-    public Set<Paymethlookup> getPaymethlookups() {
+    public Set<Paymethodlookup> getPaymethlookups() {
         return this.paymethlookups;
     }
 
-    public void setPaymethlookups(final Set<Paymethlookup> paymethlookups) {
+    public void setPaymethlookups(final Set<Paymethodlookup> paymethlookups) {
         this.paymethlookups = paymethlookups;
     }
 

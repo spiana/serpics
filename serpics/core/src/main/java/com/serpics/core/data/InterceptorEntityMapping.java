@@ -1,12 +1,9 @@
 package com.serpics.core.data;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import com.serpics.core.data.jpa.AbstractEntity;
 
 public class InterceptorEntityMapping extends HashMap<String,  List<InterceptorMapping>>  {
 	
@@ -15,7 +12,7 @@ public class InterceptorEntityMapping extends HashMap<String,  List<InterceptorM
 	private class Comparator implements java.util.Comparator<InterceptorMapping>{
 		@Override
 		public int compare(InterceptorMapping o1, InterceptorMapping o2) {
-			return o1.getOrder().compareTo(o2.getOrder());
+			return o2.getOrder() - o1.getOrder();
 		}
 		
 	}
