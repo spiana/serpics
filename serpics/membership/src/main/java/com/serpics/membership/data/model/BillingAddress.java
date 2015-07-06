@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.DiscriminatorOptions;
 
+import com.serpics.base.data.model.Region;
 import com.serpics.util.gson.GsonTransient;
 
 @XmlRootElement(name="address")
@@ -24,10 +25,10 @@ public class BillingAddress extends AbstractAddress {
         super();
     }
 
-    public BillingAddress(final String firstname, final String lastname, final String company, final String email,
-            final String address1, final String address2, final String address3, final String zipcode, final String city, final String region,
+    public BillingAddress(final String nickname, final String firstname, final String lastname, final String company, final String email,
+            final String address1, final String address2, final String address3, final String zipcode, final String city, final Region region,
             final String country, final String vatcode) {
-        super(firstname, lastname, company, email, address1, address2, address3, zipcode, city, region,
+        super(nickname, firstname, lastname, company, email, address1, address2, address3, zipcode, city, region,
                 vatcode);
 
     }

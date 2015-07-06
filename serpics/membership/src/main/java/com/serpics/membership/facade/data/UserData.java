@@ -14,7 +14,7 @@ public class UserData extends AbstractData{
 	protected String field1;
 	protected String field2;
 	protected Double field3;
-	protected Double field4;
+	protected Integer field4;
 	
 	protected Date lastVisit;
 	protected String logonid;
@@ -86,11 +86,11 @@ public class UserData extends AbstractData{
 		this.field3 = field3;
 	}
 
-	public Double getField4() {
+	public Integer getField4() {
 		return field4;
 	}
 
-	public void setField4(Double field4) {
+	public void setField4(Integer field4) {
 		this.field4 = field4;
 	}
 

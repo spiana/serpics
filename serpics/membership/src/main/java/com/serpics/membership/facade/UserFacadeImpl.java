@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.Region;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.BillingAddress;
@@ -101,6 +103,12 @@ public class UserFacadeImpl implements UserFacade{
 		destination.setLastname(source.getLastname());
 		destination.setAddress1(source.getAddress1());
 		destination.setCity(source.getCity());
+		
+		destination.setCompany(source.getCompany());
+		destination.setZipcode(source.getZipcode());
+		//destination.setCountry(new Country().s);
+		//destination.setRegion();
+		
 		return destination;
 	}
 
