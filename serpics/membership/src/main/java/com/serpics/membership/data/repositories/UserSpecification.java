@@ -1,7 +1,10 @@
 package com.serpics.membership.data.repositories;
 
+
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -26,6 +29,18 @@ public class UserSpecification {
             }
         };
     }
+    
 
+    public static Specification<User> searchByName(final String name){
+        return new Specification<User>() {
+            @Override
+            public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
+                    final CriteriaBuilder cb) {
+            	Expression<String> e = root.get("email");
+            	Predicate nameLike = cb.like(e, "%" +name +"%");
+                return nameLike;
+            }
+        };
+    }
 
 }

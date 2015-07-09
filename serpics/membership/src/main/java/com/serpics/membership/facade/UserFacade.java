@@ -11,6 +11,8 @@ public interface UserFacade {
 	public UserData getCurrentuser();
 	public Page<UserData> findAllUser(Pageable page);
 	public UserData findUserById(Long userId);
+	public Page<UserData> findUserByName(String name, Pageable page);
+	
 	public void registerUser(UserData user);
 	
 	public void addAddress(AddressData address);

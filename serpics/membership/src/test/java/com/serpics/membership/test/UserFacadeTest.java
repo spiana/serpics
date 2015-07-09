@@ -3,7 +3,10 @@ package com.serpics.membership.test;
 
 
 
+import java.util.Iterator;
+
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -12,17 +15,25 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import antlr.collections.List;
+
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
+import com.serpics.base.data.model.Region;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
+import com.serpics.base.data.repositories.RegionRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.PrimaryAddress;
+import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.repositories.UserRepository;
+import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.BaseService;
@@ -45,10 +56,16 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	UserService userService ;
 	
 	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
 	GeoCodeRepository geoCodeRepository;
 	
 	@Autowired
 	CountryRepository countryrepository;
+	
+	@Autowired
+	RegionRepository regionRepository;
 	
 	@Resource
 	CommerceEngine ce;
@@ -86,9 +103,19 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 			Page<UserData> l1 = userFacade.findAllUser(new PageRequest(0, 100));
 			Assert.assertEquals(3, l1.getContent().size());
 			Assert.assertEquals("it", l1.getContent().get(2).getContactAddress().getCountry().getIso2Code());
+			
 			LOGGER.info("**log PRIMO UTENTE " + l1.getContent().get(1).getContactAddress().getNickname());
 			LOGGER.info("**log SECONDO UTENTE " + l1.getContent().get(2).getContactAddress().getNickname());
-			
+			for (Iterator iterator = l1.iterator(); iterator.hasNext();) {
+				UserData ud = (UserData) iterator.next();
+				LOGGER.info("*********");
+				LOGGER.info("** " + ud.getEmail()  );
+				LOGGER.info("** " + ud.getContactAddress().getNickname()  );
+				if(ud.getContactAddress().getCountry() != null) LOGGER.info("**  " + ud.getContactAddress().getCountry().getIso2Code() );
+				if(ud.getContactAddress().getRegion() != null) LOGGER.info("** " + ud.getContactAddress().getRegion().getName());
+				if(ud.getContactAddress().getRegion() != null) LOGGER.info("** " + ud.getContactAddress().getRegion().getCountry().getIso2Code() );
+				LOGGER.info("*********");
+			}
 	}
 	
 	@Test
@@ -107,7 +134,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		u.setLogonid(name);
 		u.setPassword("1");
 		u.setLastname(name);
-		
+		u.setEmail("testprova@"+name+".it");
 		Geocode g = new Geocode();
 		g.setCode("ITA");
 		
@@ -118,12 +145,17 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		c.setIso2Code("it");
 		c.setIso3Code("ita");
 		c.setGeocode(g);
-		
 		c = countryrepository.create(c);
+		
+		Region r = new Region();
+		r.setCountry(c);
+		r.setName("Verbania");
+		r = regionRepository.create(r);
 		
 		PrimaryAddress a = new PrimaryAddress();
 		a.setAddress1("prova");
 		a.setCountry(c);
+		a.setRegion(r);
 		if(name.equals("test1")) a.setNickname("PROVA VALE NICK 1");
 		userService.registerUser(u, a);
 		
@@ -134,6 +166,25 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	public void valeTest()  throws SerpicsException{
 		System.out.println("*** STARTING TEST VALE ***") ;
 		ce.connect("default-store" , "superuser" ,"admin".toCharArray() );
-		//Page<UserData> l = userFacade.findAllUser(new PageRequest(0, 100));
+		
+		User u = new User();
+		u.setEmail("prova@test1.it");
+		u.setFirstname("p1");
+		userService.create(u);
+				
+		u = new User();
+		u.setEmail("test");
+		u.setFirstname("p2");
+		userService.create(u);
+		Page<UserData> l = userFacade.findUserByName("P", new PageRequest(0, 100));
+		if(l.hasContent()) LOGGER.info("*** CI SONO CONTENTUTI");
+		else LOGGER.info("**** RITORNA VUOTO");
+		 l = userFacade.findUserByName("test", new PageRequest(0, 100));
+		for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+			UserData user = (UserData) iterator.next();
+			LOGGER.info("UTENTE" + user.getEmail() + " - " + user.getFirstname() + " - ");
+			
+		}
+	
 	}
 }

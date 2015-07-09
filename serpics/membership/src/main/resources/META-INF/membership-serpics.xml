@@ -52,6 +52,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   <alias name="defaultAddressPopulator" alias="addressPopulator"/>
   <bean name="defaultAddressPopulator" class="com.serpics.membership.facade.AddressPopulator" >
   	 <property name="countryConverter" ref="countryConverter"/>
+  	 <property name="regionConverter" ref="regionConverter"/>
   </bean>
   <alias name="defaultAddressConverter" alias="addressConverter"/>
   <bean name="defaultAddressConverter" parent="abstractConverter">

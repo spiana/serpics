@@ -1,20 +1,25 @@
 package com.serpics.membership.facade;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.hibernate.annotations.Where;
+import org.hibernate.dialect.function.TrimFunctionTemplate.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Region;
+import com.serpics.base.facade.data.CountryData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.BillingAddress;
@@ -22,6 +27,7 @@ import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.UserService;
@@ -66,12 +72,28 @@ public class UserFacadeImpl implements UserFacade{
 	}
 
 	@Override
+	public Page<UserData> findUserByName(String name, Pageable page) { 
+		User u = new User();
+		u.setEmail(name);
+		//List<User> lu = userService.findByexample(Specifications.);
+		List<User> lu = userService.findAll(UserSpecification.searchByName(name), page);
+		List<UserData> ulist = new ArrayList<UserData>();
+		Iterator<User> i = lu.iterator();
+		while (i.hasNext()) {
+			ulist.add(userConvert.convert(i.next()));
+			
+		}
+		Page<UserData> udata= new PageImpl<UserData>(ulist ,page , lu.size());
+		return udata;
+	}
+	
+	@Override
 	@Transactional
 	public void registerUser(UserData user) {
 		UsersReg _u = new UsersReg();
 		_u.setLastname(user.getLastname());
 		_u.setFirstname(user.getFirstname());
-		
+		_u.setEmail(user.getEmail());
 		PrimaryAddress primaryAddress;
 		
 		if (user.getContactAddress()!= null){
@@ -106,7 +128,7 @@ public class UserFacadeImpl implements UserFacade{
 		
 		destination.setCompany(source.getCompany());
 		destination.setZipcode(source.getZipcode());
-		//destination.setCountry(new Country().s);
+		
 		//destination.setRegion();
 		
 		return destination;
