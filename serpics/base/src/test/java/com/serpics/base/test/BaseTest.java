@@ -22,6 +22,7 @@ import com.serpics.base.data.repositories.RegionRepository;
 
 
 import com.serpics.base.services.CountryService;
+import com.serpics.base.services.RegionService;
 import com.serpics.core.SerpicsException;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
@@ -45,6 +46,9 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Autowired
 	CountryService countryService;
+	
+	@Autowired
+	RegionService regionService;
 	
 	@Test
 	@Transactional
@@ -94,5 +98,14 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		 Country cu = countryService.findByUUID(uuid);
 		 LOGGER.info("uiid " + cu.getIso2Code());
 		 
+		 
+		 List<Region> lr = regionService.findAll();
+		 for (Region  region: lr) {
+				LOGGER.info("REGIONE" + region.getRegionsId() + "-" + region.getName());
+		
+		}
 	}
+	
+	
+	
 }

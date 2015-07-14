@@ -19,5 +19,7 @@ public interface UserRepository extends Repository<User, Long> {
 
     @Query("select u from User u where u.userType='ANONYMOUS'")
     public List<User> findAnonymous();
+    
+ 
 
 }

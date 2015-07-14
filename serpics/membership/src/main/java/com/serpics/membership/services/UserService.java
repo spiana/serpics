@@ -39,5 +39,5 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
     public void setCurrentCustomer(User user);
     public User getCurrentUser();
     
-    public Country getCountry(CountryData c);
+   
 }

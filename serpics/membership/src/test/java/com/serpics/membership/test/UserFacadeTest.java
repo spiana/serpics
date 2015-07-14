@@ -4,6 +4,7 @@ package com.serpics.membership.test;
 
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -18,8 +19,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+
+
+
 
 
 
@@ -47,12 +53,14 @@ import com.serpics.base.services.CountryService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.AddressType;
+import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.UserRepository;
+import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
@@ -220,7 +228,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Test
 	@Transactional
-	public void valeTest()  throws SerpicsException{
+	public void valeTestService()  throws SerpicsException{
 		System.out.println("*** STARTING TEST VALE ***") ;
 		ce.connect("default-store" , "superuser" ,"admin".toCharArray() );
 		UsersReg u = null;
@@ -267,6 +275,9 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 			pea.setCity("pallanza");
 			userService.addAddress(pea, u);
 			
+			
+			
+			
 			LOGGER.info(u.getLogonid());
 			
 			
@@ -275,10 +286,21 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 			
 		}
 		
+		List<User> lu = userService.findAll();
+		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
+			User user = (User) iterator.next();
+			LOGGER.info( user.getName() + "-" + user.getUserType());
+		}
+		
+		lu = userService.findAll(UserSpecification.findByUserType(UserType.REGISTERED),new PageRequest(0, 10));
+		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
+			User user = (User) iterator.next();
+			LOGGER.info( user.getName() + "-" + user.getUserType());
+		}
 		//LOGGO CON UTENT
 		ce.connect("default-store", "vale76", "prova".toCharArray());
 		
-		//utente corrent
+		//utente corrent  AGGIORNO I DATI service
 		User cu = userService.getCurrentUser();
 		BillingAddress ba = cu.getBillingAddress();
 		PrimaryAddress pa = cu.getPrimaryAddress();
@@ -313,11 +335,53 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 			userService.updatePermanentAddress(permanentAddress);
 		}
 		LOGGER.info("UTENTE CORRENTE " + cu.getFirstname()  + cu.getName());
-		
-		//AGGIORNO I DATI
-		
 		LOGGER.info("EXIT");
 	
+	}
+	
+	@Test
+	@Transactional
+	public void valeTestFacade()  throws SerpicsException{
+		//Creazione UTENTE
+		LOGGER.debug("VALE FACADE TEST USER");
+		UserData ud = new UserData();
+		ud.setFirstname("vale facade 1");
+		ud.setLastname("ranc");
+		ud.setLogonid("falefa");
+		ud.setUserType(UserType.REGISTERED);
+		userFacade.registerUser(ud);
+		
+		ud = new UserData();
+		ud.setFirstname("vale facade 2");
+		ud.setLastname("ranc2");
+		ud.setLogonid("falefa");
+		ud.setUserType(UserType.GUEST);
+		userFacade.registerUser(ud);
+		
+		Page<UserData> lu = userFacade.findAllUser(new PageRequest(0, 10));
+		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
+			UserData u = (UserData) iterator.next();
+			LOGGER.info("UTENTE: " + u.getFirstname() + u.getUserType());
+		}
+		
+		
+		lu = userFacade.findAllUserByUserType(UserType.GUEST, new PageRequest(0, 10));
+		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
+			UserData u = (UserData) iterator.next();
+			u.setEmail("prova");
+			u.setUserType(UserType.REGISTERED);
+			userFacade.updateUser(u.getUuid(),u);
+			LOGGER.info("UTENTE typoreg : " + u.getFirstname() + u.getUserType());
+			
+		}
+		
+		lu = userFacade.findAllUserByUserType(UserType.GUEST, new PageRequest(0, 10));
+		LOGGER.info("totale guest " + lu.getTotalElements());
+		lu = userFacade.findAllUserByUserType(UserType.REGISTERED, new PageRequest(0, 10));
+		LOGGER.info("totale REGISTERED " + lu.getTotalElements());
+		
+		
+		LOGGER.info("PPROVA");
 	}
 	
 	private Geocode createGeoCode() {

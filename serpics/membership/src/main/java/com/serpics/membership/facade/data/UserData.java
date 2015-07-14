@@ -4,13 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import com.serpics.core.facade.AbstractData;
+import com.serpics.membership.UserType;
 
 public class UserData extends AbstractData{
 	protected String firstname;
 	protected String lastname;
 	protected String phone;
 	protected String email;
-	
+	protected UserType userType;
 	protected String field1;
 	protected String field2;
 	protected Double field3;
@@ -157,7 +158,13 @@ public class UserData extends AbstractData{
 	public void setPasswordChange(Date passwordChange) {
 		this.passwordChange = passwordChange;
 	}
+	public UserType getUserType() {
+		return userType;
+	}
 
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
 	public AddressData getContactAddress() {
 		return contactAddress;
 	}

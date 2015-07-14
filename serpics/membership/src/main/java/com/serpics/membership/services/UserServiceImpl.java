@@ -198,11 +198,5 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		billingAddressRepository.saveAndFlush(address);
 	}
 	
-	@Override
-	public Country getCountry(CountryData d) {
-		Country c = new Country();
-		
-		//Country  c = countryRepository.findOne(countryRepository.makeSpecification(ce));
-		return c;
-	}
+	
 }

@@ -10,6 +10,8 @@ import javax.annotation.Resource;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,7 +22,9 @@ import org.springframework.util.Assert;
 import com.serpics.base.data.model.Country;
 import com.serpics.base.facade.data.CountryData;
 import com.serpics.base.services.CountryService;
+import com.serpics.base.services.RegionService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.PermanentAddress;
@@ -43,6 +47,9 @@ public class UserFacadeImpl implements UserFacade{
 	
 	@Autowired
 	CountryService countryService;
+	
+	@Autowired
+	RegionService regionService;
 	
 	@Resource(name="userConverter")
 	AbstractPopulatingConverter<User, UserData> userConvert;
@@ -76,6 +83,19 @@ public class UserFacadeImpl implements UserFacade{
 		return userConvert.convert(u);
 	}
 
+	@Override
+	public Page<UserData> findAllUserByUserType(UserType userType, Pageable page) {  
+		List<User> users = userService.findAll(UserSpecification.findByUserType(userType), page);
+	
+		List<UserData> ulist = new ArrayList<UserData>();
+		for (User user : users) {
+			ulist.add(userConvert.convert(user));
+		}
+		
+		Page<UserData> udata= new PageImpl<UserData>(ulist ,page , users.size());
+		return udata;
+	}
+	
 	@Override
 	public Page<UserData> findUserByName(String name, Pageable page) { 
 		User u = new User();
@@ -130,15 +150,13 @@ public class UserFacadeImpl implements UserFacade{
 		destination.setLastname(source.getLastname());
 		destination.setAddress1(source.getAddress1());
 		destination.setCity(source.getCity());
-		
 		destination.setCompany(source.getCompany());
 		destination.setZipcode(source.getZipcode());
+		destination.setVatcode(source.getVatcode());
+		destination.setFax(source.getFax());
 		
-		if((source.getCountry() != null) && (source.getUuid() != null)) destination.setCountry(countryService.findByUUID(source.getUuid()));
-		
-		//destination.setCountry());
-		
-		
+		if((source.getRegion() != null) && (source.getRegion().getUuid() != null)) destination.setRegion(regionService.findByUUID(source.getRegion().getUuid()));
+		if((source.getCountry() != null) && (source.getCountry().getUuid() != null)) destination.setCountry(countryService.findByUUID(source.getCountry().getUuid()));
 		return destination;
 	}
 
@@ -147,7 +165,6 @@ public class UserFacadeImpl implements UserFacade{
 	public void addAddress(AddressData address) {
 		PermanentAddress _a = (PermanentAddress) buildAddress(address, new PermanentAddress());
 		userService.addAddress(_a, userService.getCurrentCustomer());
-		
 		// TODO Auto-generated method stub
 		
 	}
@@ -158,12 +175,12 @@ public class UserFacadeImpl implements UserFacade{
 		BillingAddress _a = (BillingAddress) buildAddress(address, new BillingAddress());
 		userService.addBillingAddress(_a, userService.getCurrentCustomer());
 		// TODO Auto-generated method stub
-		
 	}
 
 
 	@Override
 	public void updateContactAddress(AddressData address) {
+		
 		// TODO Auto-generated method stub
 		
 	}
@@ -238,6 +255,11 @@ public class UserFacadeImpl implements UserFacade{
 	@Override
 	public void updateUser(String userUUID, UserData user) {
 		// TODO Auto-generated method stub
+		User _u = userService.findByUUID(userUUID);
+		_u.setFirstname(user.getFirstname());
+		_u.setLastname(user.getLastname());
+		_u.setUserType(user.getUserType());
+		userService.update(_u);
 		
 	}
 }

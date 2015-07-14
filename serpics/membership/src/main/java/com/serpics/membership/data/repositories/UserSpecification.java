@@ -8,8 +8,10 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.stereotype.DefaultSpec;
@@ -39,6 +41,16 @@ public class UserSpecification {
             	Expression<String> e = root.get("email");
             	Predicate nameLike = cb.like(e, "%" +name +"%");
                 return nameLike;
+            }
+        };
+    }
+    
+    public static Specification<User> findByUserType(final UserType userType){
+        return new Specification<User>() {
+            @Override
+            public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
+                    final CriteriaBuilder cb) {
+            	return cb.equal(root.get("userType"), userType);
             }
         };
     }
