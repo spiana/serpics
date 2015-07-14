@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.serpics.base.data.model.Country;
+import com.serpics.base.facade.data.CountryData;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Membergroup;
@@ -25,10 +27,17 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
     public Set<PermanentAddress> getUserAddress(User user);
     public Set<Membergroup> getUserGroups(User user);
     public User create(User user);
-    public User update(User user);
-    public void addBillingAddress(BillingAddress address , User user);
     
+    public User update(User user);
+    
+    public void addBillingAddress(BillingAddress address , User user);
+    public BillingAddress updateBillingAddress(BillingAddress address);
+    public PrimaryAddress updatePrimaryAddress(PrimaryAddress address);
+    public PermanentAddress updatePermanentAddress(PermanentAddress address);
+     
     public User getCurrentCustomer();
     public void setCurrentCustomer(User user);
     public User getCurrentUser();
+    
+    public Country getCountry(CountryData c);
 }

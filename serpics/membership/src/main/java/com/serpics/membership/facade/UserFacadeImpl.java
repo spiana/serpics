@@ -7,19 +7,19 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.hibernate.annotations.Where;
-import org.hibernate.dialect.function.TrimFunctionTemplate.Specification;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Country;
-import com.serpics.base.data.model.Region;
 import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.services.CountryService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.BillingAddress;
@@ -30,6 +30,7 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
+import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreFacade;
 
@@ -40,10 +41,14 @@ public class UserFacadeImpl implements UserFacade{
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	CountryService countryService;
 	
 	@Resource(name="userConverter")
 	AbstractPopulatingConverter<User, UserData> userConvert;
 	
+	@Resource(name="countryConverter")
+	AbstractPopulatingConverter<Country, CountryData> countryConvert;
 	
 	@Override
 	public UserData getCurrentuser() {
@@ -129,7 +134,10 @@ public class UserFacadeImpl implements UserFacade{
 		destination.setCompany(source.getCompany());
 		destination.setZipcode(source.getZipcode());
 		
-		//destination.setRegion();
+		if((source.getCountry() != null) && (source.getUuid() != null)) destination.setCountry(countryService.findByUUID(source.getUuid()));
+		
+		//destination.setCountry());
+		
 		
 		return destination;
 	}
@@ -147,6 +155,8 @@ public class UserFacadeImpl implements UserFacade{
 
 	@Override
 	public void addBillingAddress(AddressData address) {
+		BillingAddress _a = (BillingAddress) buildAddress(address, new BillingAddress());
+		userService.addBillingAddress(_a, userService.getCurrentCustomer());
 		// TODO Auto-generated method stub
 		
 	}

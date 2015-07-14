@@ -1,5 +1,7 @@
 package com.serpics.base.test;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -17,9 +19,10 @@ import com.serpics.base.data.model.Region;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.base.data.repositories.RegionRepository;
-import com.serpics.base.facade.data.RegionData;
-import com.serpics.core.SerpicsException;
 
+
+import com.serpics.base.services.CountryService;
+import com.serpics.core.SerpicsException;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
@@ -40,7 +43,8 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 	@Autowired
 	RegionRepository regionRepository;
 	
-	
+	@Autowired
+	CountryService countryService;
 	
 	@Test
 	@Transactional
@@ -57,11 +61,38 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		c.setGeocode(g);
 		c = countryRepository.create(c);
 		
+		c = new Country();
+		c.setIso2Code("en");
+		c.setIso3Code("eng");
+		c.setGeocode(g);
+		c = countryRepository.create(c);
+		Long cId = c.getCountriesId();
 		Region r = new Region();
 		r.setName("TEST1");
 		r.setCountry(c); 
 		r = regionRepository.create(r);
 		
+		
+		List<Country> lc =  countryRepository.findAll();
+		for (Country country : lc) {
+			LOGGER.info("*** ELENCO COUNTRY ****");
+			LOGGER.info(country.getIso2Code());
+		}
+		
+		Country cr = countryRepository.findOne(cId);
 		LOGGER.info("*** EXIT ****");
+		
+		String uuid = null;
+		 lc =  countryService.findAll();
+		 for (Country country : lc) {
+			LOGGER.info("*** ELENCO COUNTRY ****");
+			LOGGER.info(country.getIso2Code());
+			uuid = country.getUuid();
+		}
+		
+		 
+		 Country cu = countryService.findByUUID(uuid);
+		 LOGGER.info("uiid " + cu.getIso2Code());
+		 
 	}
 }
