@@ -6,18 +6,17 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
-
-
-
-
-
-
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -28,7 +27,6 @@ import com.serpics.base.services.RegionService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.AbstractAddress;
-import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
@@ -38,7 +36,7 @@ import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.AddressService;
-import com.serpics.membership.services.BaseService;
+import com.serpics.membership.services.PrimaryAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreFacade;
 
@@ -48,6 +46,9 @@ public class UserFacadeImpl implements UserFacade{
 
 	@Autowired
 	UserService userService;
+	
+	@Resource
+	PrimaryAddressService primaryAddressService;
 	
 	@Autowired
 	AddressService addressService;
@@ -105,14 +106,32 @@ public class UserFacadeImpl implements UserFacade{
 	
 	@Override
 	public Page<UserData> findUserByName(String name, Pageable page) { 
-		List<User> lu = userService.findAll(UserSpecification.searchByName(name, "name"), page);
-		return returnListUserData(lu, page);
+		//List<User> lu = userService.findAll(UserSpecification.searchByName(name, "name"), page);
+		//return returnListUserData(lu, page);
+		return null;
 	}
 
 	
 	@Override
-	public Page<UserData>  findUserByLogonid(String name, Pageable page) {  
-		List<User> lu = userService.findAll(UserSpecification.searchByName(name, "logonid"), page);
+	public Page<UserData>  findUserByLogonid(final String name, Pageable page) {  
+		List<User> lu = userService.findAll(
+				new Specification<User>() {
+		            @Override
+		            public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
+		                    final CriteriaBuilder cb) {
+		            	Expression<String> e = null;
+		            	Predicate nameLike = null;
+		            	e = root.get("email");
+		            	nameLike = cb.like(e, "%" +name +"%");
+		            	
+		            	
+		                return nameLike;
+		            }
+				} , page);
+				
+				
+				
+			//	UserSpecification.searchByName(name, "logonid"), page);
 		return returnListUserData(lu, page);
 	}
 	
@@ -180,6 +199,7 @@ public class UserFacadeImpl implements UserFacade{
 
 	
 	@Override
+	@Transactional
 	public void addAddress(AddressData address) {
 		PermanentAddress _a = (PermanentAddress) buildAddress(address, new PermanentAddress());
 		userService.addAddress(_a, userService.getCurrentCustomer());
@@ -189,6 +209,7 @@ public class UserFacadeImpl implements UserFacade{
 	
 
 	@Override
+	@Transactional
 	public void addBillingAddress(AddressData address) {
 		BillingAddress _a = (BillingAddress) buildAddress(address, new BillingAddress());
 		userService.addBillingAddress(_a, userService.getCurrentCustomer());
@@ -197,6 +218,7 @@ public class UserFacadeImpl implements UserFacade{
 
 
 	@Override
+	@Transactional
 	public void updateContactAddress(AddressData a) {
 		// TODO Auto-generated method stub
 		User _u = userService.getCurrentUser();
@@ -206,6 +228,7 @@ public class UserFacadeImpl implements UserFacade{
 	}
 
 	@Override
+	@Transactional
 	public void updateBillingAddress(AddressData a) {
 		// TODO Auto-generated method stub
 		//User currentUser = userService.getCurrentCustomer();
@@ -218,6 +241,7 @@ public class UserFacadeImpl implements UserFacade{
 	}
 
 	@Override
+	@Transactional
 	public void updateUser(UserData user) {
 			User currentUser = userService.getCurrentCustomer();
 			
@@ -272,14 +296,16 @@ public class UserFacadeImpl implements UserFacade{
 	}
 	
 	@Override
+	@Transactional
 	public void updateAddress(String addressUUID, AddressData a) {
 		// TODO Auto-generated method stub
-		Address _address = addressService.findByUUID(addressUUID);
-		_address = (Address) buildAddress(a, _address);
-		addressService.update(_address);
+		AbstractAddress _address = primaryAddressService.findByUUID(addressUUID);
+		_address = (AbstractAddress) buildAddress(a, _address);
+		primaryAddressService.update((PrimaryAddress)_address);
 	}
 
 	@Override
+	@Transactional
 	public void updateUser(String userUUID, UserData user) {
 		// TODO Auto-generated method stub
 		User _u = userService.findByUUID(userUUID);
