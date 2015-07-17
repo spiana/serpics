@@ -5,17 +5,30 @@ package com.serpics.membership.data.repositories;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+
+
+
+import javax.persistence.criteria.Subquery;
+
 import org.springframework.data.jpa.domain.Specification;
 
+import com.mysema.query.types.Path;
+import com.mysema.query.types.SubQuery;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.DefaultSpec;
 
 
+class Staff {
+    private Integer id;
+    private UserType tue;
+}
 
 @DefaultSpec(User.class)
 public class UserSpecification {
