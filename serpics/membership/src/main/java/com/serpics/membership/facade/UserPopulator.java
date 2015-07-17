@@ -22,7 +22,7 @@ public class UserPopulator implements Populator<User, UserData> {
 		target.setUuid(source.getUuid());
 		target.setCreated(source.getCreated());
 		target.setUpdated(source.getUpdated());
-		
+		target.setLogonid(source.getName());
 		target.setFirstname(source.getFirstname());
 		target.setLastname(source.getLastname());
 		target.setEmail(source.getEmail());

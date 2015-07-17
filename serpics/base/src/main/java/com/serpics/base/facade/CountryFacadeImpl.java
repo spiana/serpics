@@ -29,13 +29,14 @@ public class CountryFacadeImpl implements CountryFacade {
 	
 	@Override
 	@Transactional
-	public Country addCountry(CountryData cd) {
+	public CountryData addCountry(CountryData cd) {
 		Country c = new Country();
 		c.setIso2Code(cd.getIso2Code());
 		c.setIso3Code(cd.getIso3Code());
 		c.setGeocode(cd.getGeocode());
 		c = countryService.create(c);
-		return c;
+		cd = countryConvert.convert(c);
+		return cd ;
 	}
 	
 	@Override

@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,6 +28,7 @@ import com.serpics.base.services.RegionService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.AbstractAddress;
+import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
@@ -34,6 +37,7 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
+import com.serpics.membership.services.AddressService;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreFacade;
@@ -44,6 +48,9 @@ public class UserFacadeImpl implements UserFacade{
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	AddressService addressService;
 	
 	@Autowired
 	CountryService countryService;
@@ -98,10 +105,18 @@ public class UserFacadeImpl implements UserFacade{
 	
 	@Override
 	public Page<UserData> findUserByName(String name, Pageable page) { 
-		User u = new User();
-		u.setEmail(name);
-		//List<User> lu = userService.findByexample(Specifications.);
-		List<User> lu = userService.findAll(UserSpecification.searchByName(name), page);
+		List<User> lu = userService.findAll(UserSpecification.searchByName(name, "name"), page);
+		return returnListUserData(lu, page);
+	}
+
+	
+	@Override
+	public Page<UserData>  findUserByLogonid(String name, Pageable page) {  
+		List<User> lu = userService.findAll(UserSpecification.searchByName(name, "logonid"), page);
+		return returnListUserData(lu, page);
+	}
+	
+	private Page<UserData> returnListUserData(List<User> lu, Pageable page) {
 		List<UserData> ulist = new ArrayList<UserData>();
 		Iterator<User> i = lu.iterator();
 		while (i.hasNext()) {
@@ -119,6 +134,9 @@ public class UserFacadeImpl implements UserFacade{
 		_u.setLastname(user.getLastname());
 		_u.setFirstname(user.getFirstname());
 		_u.setEmail(user.getEmail());
+		_u.setLogonid(user.getLogonid());
+		_u.setPassword(user.getPassword());
+		_u.setUserType(user.getUserType());
 		PrimaryAddress primaryAddress;
 		
 		if (user.getContactAddress()!= null){
@@ -179,15 +197,23 @@ public class UserFacadeImpl implements UserFacade{
 
 
 	@Override
-	public void updateContactAddress(AddressData address) {
-		
+	public void updateContactAddress(AddressData a) {
 		// TODO Auto-generated method stub
-		
+		User _u = userService.getCurrentUser();
+		PrimaryAddress _primary = _u.getPrimaryAddress();
+		_primary = (PrimaryAddress) buildAddress(a, _primary);
+		_u.setPrimaryAddress(_primary);
 	}
 
 	@Override
-	public void updateBillingAddress(AddressData address) {
+	public void updateBillingAddress(AddressData a) {
 		// TODO Auto-generated method stub
+		//User currentUser = userService.getCurrentCustomer();
+		//User _u = userService.findOne(currentUser.getId());
+		User _u = userService.getCurrentCustomer();
+		BillingAddress _billing = _u.getBillingAddress();
+		_billing = (BillingAddress) buildAddress(a, _billing);
+		_u.setBillingAddress(_billing);
 		
 	}
 
@@ -246,10 +272,11 @@ public class UserFacadeImpl implements UserFacade{
 	}
 	
 	@Override
-	public void updateAddress(String addressUUID, AddressData address) {
-		
+	public void updateAddress(String addressUUID, AddressData a) {
 		// TODO Auto-generated method stub
-		
+		Address _address = addressService.findByUUID(addressUUID);
+		_address = (Address) buildAddress(a, _address);
+		addressService.update(_address);
 	}
 
 	@Override
@@ -259,6 +286,7 @@ public class UserFacadeImpl implements UserFacade{
 		_u.setFirstname(user.getFirstname());
 		_u.setLastname(user.getLastname());
 		_u.setUserType(user.getUserType());
+		_u.setEmail(user.getEmail());
 		userService.update(_u);
 		
 	}

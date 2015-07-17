@@ -76,7 +76,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     @Transactional
     public User create(User user) {
 
-        if (user.getUserType().equals(UserType.ANONYMOUS))
+        if ((user.getUserType() == null) || (user.getUserType().equals(UserType.ANONYMOUS)))
             user.setUserType(UserType.GUEST);
 
         user = adjustAddresses(user);

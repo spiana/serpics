@@ -12,6 +12,7 @@ public interface UserFacade {
 	public UserData getCurrentuser();
 	public Page<UserData> findAllUser(Pageable page);
 	public UserData findUserById(Long userId);
+	public Page<UserData> findUserByLogonid(String logonid, Pageable page);
 	public Page<UserData> findUserByName(String name, Pageable page);
 	public Page<UserData> findAllUserByUserType(UserType userType, Pageable page);
 	

@@ -9,7 +9,7 @@ import com.serpics.base.facade.data.CountryData;
 
 
 public interface CountryFacade {
-	public Country addCountry(CountryData country);
+	public CountryData addCountry(CountryData country);
 	 
 	public Page<CountryData> findAll(Pageable page);
 }

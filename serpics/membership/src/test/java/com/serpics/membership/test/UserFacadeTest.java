@@ -172,7 +172,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		c.setIso2Code("jp");
 		c.setIso3Code("jpa");
 		c.setGeocode(g);
-		Country ct = countryFacade.addCountry(c);
+		c = countryFacade.addCountry(c);
 		
 		
 		Page<CountryData> l = countryFacade.findAll(new PageRequest(0, 100));
@@ -339,39 +339,73 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	}
 	
-	@Test
-	@Transactional
-	public void valeTestFacade()  throws SerpicsException{
-		//Creazione UTENTE
-		LOGGER.debug("VALE FACADE TEST USER");
-		UserData ud = new UserData();
-		ud.setFirstname("vale facade 1");
-		ud.setLastname("ranc");
-		ud.setLogonid("falefa");
-		ud.setUserType(UserType.REGISTERED);
-		userFacade.registerUser(ud);
-		
-		ud = new UserData();
-		ud.setFirstname("vale facade 2");
-		ud.setLastname("ranc2");
-		ud.setLogonid("falefa");
-		ud.setUserType(UserType.GUEST);
-		userFacade.registerUser(ud);
-		
+	private void createUserData() {
+		UserData ud = null;
+		AddressData ad = null;
+		try{
+			ud = new UserData();
+			ud.setFirstname("vale facade 1");
+			ud.setLastname("ranc");
+			ud.setLogonid("vale01");
+			ud.setPassword("prova");
+			ud.setUserType(UserType.REGISTERED);
+			
+			ad = new AddressData();
+			ad.setAddress1("via subito");
+			ad.setCity("VB");
+			ud.setBillingAddress(ad);
+			
+			
+			ad = new AddressData();
+			ad.setAddress1("via di contatto è il primary");
+			ad.setCity("VB");
+			ud.setContactAddress(ad);
+			
+			
+			userFacade.registerUser(ud);
+		}catch(javax.validation.ConstraintViolationException _e) {
+			messageExceptione(_e);
+		}
+		try{
+			ud = new UserData();
+			ud.setFirstname("vale facade 2");
+			ud.setLastname("ranc2");
+			ud.setEmail("prova@p.it");
+			ud.setLogonid("vale02");
+			ud.setUserType(UserType.GUEST);
+			userFacade.registerUser(ud);
+		}catch(javax.validation.ConstraintViolationException _e) {
+			messageExceptione(_e);
+		}
+		try{
+			ud = new UserData();
+			ud.setFirstname("valentina");
+			ud.setLastname("rancilio");
+			ud.setEmail("vrancilio@stepfour.it");
+			ud.setLogonid("vale03");
+			ud.setPhone("123");
+			userFacade.registerUser(ud);
+		}catch(javax.validation.ConstraintViolationException _e) {
+			messageExceptione(_e);
+		}
+	}
+	
+	private void listUserData() {
 		Page<UserData> lu = userFacade.findAllUser(new PageRequest(0, 10));
 		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
 			UserData u = (UserData) iterator.next();
 			LOGGER.info("UTENTE: " + u.getFirstname() + u.getUserType());
 		}
 		
-		
-		lu = userFacade.findAllUserByUserType(UserType.GUEST, new PageRequest(0, 10));
+		lu = userFacade.findAllUserByUserType(UserType.REGISTERED, new PageRequest(0, 10));
 		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
 			UserData u = (UserData) iterator.next();
-			u.setEmail("prova");
-			u.setUserType(UserType.REGISTERED);
+			//u.setEmail("prova");
+			u.setPhone("111");
+			//u.setUserType(UserType.GUEST);
 			userFacade.updateUser(u.getUuid(),u);
-			LOGGER.info("UTENTE typoreg : " + u.getFirstname() + u.getUserType());
+			
+			LOGGER.info("UTENTE typoreg : " + u.getFirstname() + u.getUserType() + u.getLogonid() );
 			
 		}
 		
@@ -381,7 +415,70 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		LOGGER.info("totale REGISTERED " + lu.getTotalElements());
 		
 		
-		LOGGER.info("PPROVA");
+		Page<UserData> pud = userFacade.findUserByName("prova", new PageRequest(0, 10));
+		
+		
+		UserData ud =  userFacade.findUserById(new Long("4"));
+		
+		LOGGER.info("utente " 
+				+ ud.getLogonid() + "\n" 
+				+ ud.getFirstname() + " " + ud.getLastname()  + "\n" 
+				+ ud.getEmail()   + "\n" 
+				+ ud.getPhone( )
+			);
+	}
+	
+	private void updateCurrentAddressData()throws SerpicsException{
+		ce.connect("default-store", "vale01", "prova".toCharArray());
+		try { 
+			AddressData ab = userFacade.getCurrentuser().getBillingAddress();
+			if(ab == null) ab = new AddressData();
+			ab.setAddress1("Via Intra Premeno");
+			ab.setCity("via di prova");;
+			ab.setFax("123");
+			userFacade.updateBillingAddress(ab);
+			userFacade.updateContactAddress(ab);
+		} catch(javax.validation.ConstraintViolationException _e) {
+			messageExceptione(_e);
+		}
+	}
+	
+	/**
+	 * @function: updateUserAddressData
+	 * @description: change address information for user (not logged user)
+	 * @throws SerpicsException
+	 */
+	private void updateUserAddressData()throws SerpicsException{
+		LOGGER.info("****SEARCH");
+		Page<UserData> pud2 = userFacade.findUserByName("prova@p.it", new PageRequest(0, 10));
+		Page<UserData> pud1 = userFacade.findUserByLogonid("prova@p.it", new PageRequest(0, 10));
+		Page<UserData> pud = userFacade.findAllUser( new PageRequest(0, 10));
+		//if(pud.getTotalElements() == 1) {
+		if(pud != null) {
+			UserData ud = pud.getContent().get(1);
+			String addressUuId = ud.getContactAddress().getUuid();
+			try { 
+				AddressData ab = new AddressData();
+				ab.setAddress1("Via Intra Premeno");
+				ab.setCity("via di prova");;
+				ab.setFax("123");
+				userFacade.updateAddress(addressUuId, ab);
+				LOGGER.info("exit update");
+			} catch(javax.validation.ConstraintViolationException _e) {
+				messageExceptione(_e);
+			}
+		}
+		
+	}
+	@Test
+	@Transactional
+	public void userFacade()  throws SerpicsException{
+		createUserData();
+		listUserData();
+		updateCurrentAddressData();
+		updateUserAddressData();
+		
+		
 	}
 	
 	private Geocode createGeoCode() {

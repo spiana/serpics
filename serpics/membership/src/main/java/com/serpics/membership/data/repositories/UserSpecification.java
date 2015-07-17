@@ -8,7 +8,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.membership.UserType;
@@ -17,9 +16,10 @@ import com.serpics.membership.data.model.User;
 import com.serpics.stereotype.DefaultSpec;
 
 
+
 @DefaultSpec(User.class)
 public class UserSpecification {
-
+	
 
     public static Specification<User> isUserInStore(final Store store){
         return new Specification<User>() {
@@ -33,13 +33,27 @@ public class UserSpecification {
     }
     
 
-    public static Specification<User> searchByName(final String name){
+    public static Specification<User> searchByName(final String name,final String type){
         return new Specification<User>() {
             @Override
             public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
                     final CriteriaBuilder cb) {
-            	Expression<String> e = root.get("email");
-            	Predicate nameLike = cb.like(e, "%" +name +"%");
+            	Expression<String> e = null;
+            	Predicate nameLike = null;
+            	if(type.equals("name")) {
+            		e = root.get("email");
+            		nameLike = cb.like(e, "%" +name +"%");
+            	}
+            	if(type.equals("logonid")) {
+            		e = root.get("email");
+            		
+            		//Root<UsersReg> reg = query.from(UsersReg.class);
+            		//e = reg.get("logonid");
+            		
+            		nameLike = cb.like(e, "%" +name +"%");
+            		
+            	}
+            	
                 return nameLike;
             }
         };
