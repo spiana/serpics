@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.services.AddressService;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.MembershipService;
+import com.serpics.membership.services.PrimaryAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
@@ -57,6 +59,9 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
 
     @Autowired
     AddressService addressService;
+    
+    @Autowired
+    PrimaryAddressService primaryAddressService;
 
     @Before
     @Transactional
@@ -131,6 +136,11 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         final Set<PermanentAddress> addresses = userService.getUserAddress(lu1.get(0));
         assertEquals(1, addresses.size());
 
+      //  Address _a = addressService.findByUUID(lu1.get(0).getPrimaryAddress().getUuid());
+        Assert.assertNotNull(lu1.get(0).getPrimaryAddress().getId());
+        PrimaryAddress _a = primaryAddressService.findOne(lu1.get(0).getPrimaryAddress().getId());
+        Assert.assertNotNull(_a);
+//        
 
         l1 = userService.findAll();
         assertEquals(2, l1.size());

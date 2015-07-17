@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
-
-
 import javax.validation.ConstraintViolation;
 
 import org.apache.log4j.Logger;
@@ -19,27 +17,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
@@ -59,6 +38,7 @@ import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.data.repositories.UserRepository;
 import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.UserFacade;
@@ -73,6 +53,7 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
 @SerpicsTest("default-store")
+@Transactional
 public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	private static final Logger LOGGER = Logger.getLogger(UserFacadeTest.class);
 
@@ -86,6 +67,10 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Resource
 	UserService userService ;
+
+	@Resource
+	UserRegrepository ur;
+	
 	
 	@Resource
 	CountryService countryService;
@@ -113,14 +98,12 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	CommerceEngine ce;
 	
 	@Before
-	@Transactional
 	public void beforeTest(){
 		baseService.initIstance();
 	
 	}
 	
 	@Test
-	@Transactional
 	public void testGetuser() throws SerpicsException{
 				
 			ce.connect("default-store" , "superuser" ,"admin".toCharArray() );
@@ -161,7 +144,6 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	}
 	
 	@Test
-	@Transactional
 	public void registUsertest() throws SerpicsException{
 	//	ce.connect("default-store");
 		Geocode g = new Geocode();
@@ -227,7 +209,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	}
 	
 	@Test
-	@Transactional
+
 	public void valeTestService()  throws SerpicsException{
 		System.out.println("*** STARTING TEST VALE ***") ;
 		ce.connect("default-store" , "superuser" ,"admin".toCharArray() );
@@ -339,7 +321,8 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	}
 	
-	private void createUserData() {
+
+	public void createUserData() {
 		UserData ud = null;
 		AddressData ad = null;
 		try{
@@ -450,32 +433,43 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	 */
 	private void updateUserAddressData()throws SerpicsException{
 		LOGGER.info("****SEARCH");
-		Page<UserData> pud2 = userFacade.findUserByName("prova@p.it", new PageRequest(0, 10));
-		Page<UserData> pud1 = userFacade.findUserByLogonid("prova@p.it", new PageRequest(0, 10));
-		Page<UserData> pud = userFacade.findAllUser( new PageRequest(0, 10));
+		//Page<UserData> pud = userFacade.findUserByName("prova@p.it", new PageRequest(0, 10));
+//		Page<UserData> pud = userFacade.findUserByLogonid("prova@p.it", new PageRequest(0, 10));
+		
+		UsersReg  k = ur.findBylogonid("vale02");
+		
+		Assert.assertNotNull(k);
+		
+		//Page<UserData> pud = userFacade.findAllUser( new PageRequest(0, 10));
 		//if(pud.getTotalElements() == 1) {
-		if(pud != null) {
-			UserData ud = pud.getContent().get(1);
-			String addressUuId = ud.getContactAddress().getUuid();
+		
+			
+			String addressUuId = k.getUuid();
+			
+			User _k = userService.findByUUID(addressUuId);
+			UserData _ad = userFacade.findUserById(k.getId());
+			
+			//Address _a = addressService.findByUUID(k.getPrimaryAddress().getUuid());
+			
 			try { 
 				AddressData ab = new AddressData();
 				ab.setAddress1("Via Intra Premeno");
 				ab.setCity("via di prova");;
 				ab.setFax("123");
-				userFacade.updateAddress(addressUuId, ab);
+				userFacade.updateAddress(k.getPrimaryAddress().getUuid(), ab);
 				LOGGER.info("exit update");
 			} catch(javax.validation.ConstraintViolationException _e) {
 				messageExceptione(_e);
 			}
-		}
+		
 		
 	}
 	@Test
-	@Transactional
+	@Transactional(readOnly=true)
 	public void userFacade()  throws SerpicsException{
 		createUserData();
-		listUserData();
-		updateCurrentAddressData();
+//		listUserData();
+//		updateCurrentAddressData();
 		updateUserAddressData();
 		
 		
