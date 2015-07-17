@@ -19,6 +19,8 @@ public class UserData extends AbstractData{
 	
 	protected Date lastVisit;
 	protected String logonid;
+	protected String password;
+	
 	protected String alternateEmail;
 	protected String changeanswer;
 	protected String changequestion;
@@ -119,6 +121,13 @@ public class UserData extends AbstractData{
 		this.alternateEmail = alternateEmail;
 	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
 	public String getChangeanswer() {
 		return changeanswer;
 	}
