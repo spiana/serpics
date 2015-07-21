@@ -36,6 +36,8 @@ import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.AddressService;
+import com.serpics.membership.services.BillingAddressService;
+import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.membership.services.PrimaryAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreFacade;
@@ -49,6 +51,12 @@ public class UserFacadeImpl implements UserFacade{
 	
 	@Resource
 	PrimaryAddressService primaryAddressService;
+	
+	@Resource
+	BillingAddressService billingAddressService;
+	
+	@Resource
+	PermanentAddressService permanentAddressService;
 	
 	@Autowired
 	AddressService addressService;
@@ -114,6 +122,28 @@ public class UserFacadeImpl implements UserFacade{
 	
 	@Override
 	public Page<UserData>  findUserByLogonid(final String name, Pageable page) {  
+		List<User> lu = userService.findAll(
+				new Specification<User>() {
+		            @Override
+		            public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
+		                    final CriteriaBuilder cb) {
+		            	Expression<String> e = null;
+		            	Predicate nameLike = null;
+		            	e = root.get("email");
+		            	nameLike = cb.like(e, "%" +name +"%");
+		            	
+		            	
+		                return nameLike;
+		            }
+				} , page);
+				
+				
+				
+			//	UserSpecification.searchByName(name, "logonid"), page);
+		return returnListUserData(lu, page);
+	}
+	
+	public Page<UserData>  findUserByLogonidTest(final String name, Pageable page) {  
 		List<User> lu = userService.findAll(
 				new Specification<User>() {
 		            @Override
@@ -304,6 +334,23 @@ public class UserFacadeImpl implements UserFacade{
 		primaryAddressService.update((PrimaryAddress)_address);
 	}
 
+	
+	@Override
+	@Transactional
+	public void updateBillingAddress(String addressUUID, AddressData a) {
+		AbstractAddress _address = billingAddressService.findByUUID(addressUUID);
+		_address = (AbstractAddress) buildAddress(a, _address);
+		billingAddressService.update((BillingAddress)_address);
+	}
+	
+	@Override
+	@Transactional
+	public void updatePermanentAddress(String addressUUID, AddressData a) {
+		AbstractAddress _address = permanentAddressService.findByUUID(addressUUID);
+		_address = (AbstractAddress) buildAddress(a, _address);
+		permanentAddressService.update((PermanentAddress)_address);
+	}
+	
 	@Override
 	@Transactional
 	public void updateUser(String userUUID, UserData user) {

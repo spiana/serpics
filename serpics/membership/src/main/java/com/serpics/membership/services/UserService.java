@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.serpics.base.data.model.Country;
-import com.serpics.base.facade.data.CountryData;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Membergroup;

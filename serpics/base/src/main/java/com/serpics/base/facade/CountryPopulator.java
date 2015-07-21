@@ -12,7 +12,7 @@ public class CountryPopulator  implements Populator<Country, CountryData>{
 		
 		target.setIso2Code(source.getIso2Code());
 		target.setIso3Code(source.getIso3Code());
-		
+		target.setUuid(source.getUuid());
 	}
 }
 

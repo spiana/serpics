@@ -10,12 +10,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.facade.data.CountryData;
 import com.serpics.base.services.CountryService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
-
 import com.serpics.stereotype.StoreFacade;
 
 @StoreFacade("countryFacade")
@@ -35,8 +35,9 @@ public class CountryFacadeImpl implements CountryFacade {
 		c.setIso3Code(cd.getIso3Code());
 		c.setGeocode(cd.getGeocode());
 		c = countryService.create(c);
-		cd = countryConvert.convert(c);
-		return cd ;
+		CountryData ncd = countryConvert.convert(c);
+		Assert.notNull(ncd);
+		return ncd ;
 	}
 	
 	@Override

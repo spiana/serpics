@@ -3,9 +3,9 @@ package com.serpics.membership.test;
 
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
@@ -22,25 +22,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.base.data.repositories.RegionRepository;
 import com.serpics.base.facade.CountryFacade;
+import com.serpics.base.facade.RegionFacade;
 import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.facade.data.RegionData;
 import com.serpics.base.services.CountryService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
-import com.serpics.membership.AddressType;
 import com.serpics.membership.UserType;
-import com.serpics.membership.data.model.BillingAddress;
-import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.data.repositories.UserRepository;
-import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
@@ -57,7 +56,11 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	private static final Logger LOGGER = Logger.getLogger(UserFacadeTest.class);
 
+	@Resource
+	CountryFacade countryFacade;
 	
+	@Resource
+	RegionFacade regionFacade;
 	
 	@Resource
 	BaseService baseService;
@@ -68,15 +71,13 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	@Resource
 	UserService userService ;
 
-	@Resource
-	UserRegrepository ur;
+	
 	
 	
 	@Resource
 	CountryService countryService;
 	
-	@Resource
-	CountryFacade countryFacade;
+	
 	
 	@Autowired
 	UserRepository userRepository;
@@ -93,6 +94,9 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Autowired
 	RegionRepository regionRepository;
+	
+	@Resource
+	UserRegrepository ur;
 	
 	@Resource
 	CommerceEngine ce;
@@ -208,118 +212,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		
 	}
 	
-	@Test
-
-	public void valeTestService()  throws SerpicsException{
-		System.out.println("*** STARTING TEST VALE ***") ;
-		ce.connect("default-store" , "superuser" ,"admin".toCharArray() );
-		UsersReg u = null;
-		//CREAZIONE UTENTE REGISTRATO
-		try{
-			 u = new UsersReg();
-			u.setFirstname("vale");
-			u.setLastname("rancilio");
-			
-			u.setLogonid("vale76");
-			u.setPassword("prova");
-			u.setChangequestion("prova domanda");
-			u.setChangeanswer("proviamo");
-			
-			Geocode g = createGeoCode();
-			Country c = createCountry(g);
-			PrimaryAddress pa = new PrimaryAddress();
-			pa.setAddress1("via di pprova");
-			pa.setCity("verbania");
-			pa.setCountry(c);
-			pa.setMobile("347");
-			pa.setFax("00");
-			pa.setEmail("prova emaila");
-			
-			u = userService.registerUser(u, pa);
-			
-			BillingAddress ba = new BillingAddress();
-			ba.setAddress1("indi pa1");
-			ba.setCity("Intra");
-			ba.setCountry(c);
-			ba.setZipcode("12");
-			ba.setNickname("billingadr");
-			userService.addBillingAddress(ba, u);
-			
-			
-			PermanentAddress pea = new PermanentAddress();
-			pea.setAddress1("peramanet 1");
-			pea.setCity("intra");
-			pea.setFlag(AddressType.PERMANENT);
-			userService.addAddress(pea, u);
-			
-			pea = new PermanentAddress();
-			pea.setAddress1("peramenten 2");
-			pea.setCity("pallanza");
-			userService.addAddress(pea, u);
-			
-			
-			
-			
-			LOGGER.info(u.getLogonid());
-			
-			
-		} catch(javax.validation.ConstraintViolationException _e) {
-			messageExceptione(_e);
-			
-		}
-		
-		List<User> lu = userService.findAll();
-		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
-			User user = (User) iterator.next();
-			LOGGER.info( user.getName() + "-" + user.getUserType());
-		}
-		
-		lu = userService.findAll(UserSpecification.findByUserType(UserType.REGISTERED),new PageRequest(0, 10));
-		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
-			User user = (User) iterator.next();
-			LOGGER.info( user.getName() + "-" + user.getUserType());
-		}
-		//LOGGO CON UTENT
-		ce.connect("default-store", "vale76", "prova".toCharArray());
-		
-		//utente corrent  AGGIORNO I DATI service
-		User cu = userService.getCurrentUser();
-		BillingAddress ba = cu.getBillingAddress();
-		PrimaryAddress pa = cu.getPrimaryAddress();
-		Set<PermanentAddress> spa = cu.getPermanentAddresses();
-		try {
-			cu.setLastname("prova 2");
-			cu.setFirstname("vale new");
-			cu.setPhone("11");
-			cu.setEmail("newemaili");
-			userService.update(cu);
-		} catch(javax.validation.ConstraintViolationException _e) {
-			messageExceptione(_e);
-		}
-		try {
-			pa.setAddress1("new primary addr");
-			userService.updatePrimaryAddress(pa);
-		} catch(javax.validation.ConstraintViolationException _e) {
-			messageExceptione(_e);
-		}
-		try {
-			ba.setNickname("billingName");
-			ba.setAddress1("new billing addresss");
-			ba.setCity("nuova cita");
-			userService.updateBillingAddress(ba);
-		}catch(javax.validation.ConstraintViolationException _e) {
-			messageExceptione(_e);
-		}
-		
-		for (PermanentAddress permanentAddress : spa) {
-			permanentAddress.setAddress1("updade peramente 1");
-			permanentAddress.setCity("citi due");
-			userService.updatePermanentAddress(permanentAddress);
-		}
-		LOGGER.info("UTENTE CORRENTE " + cu.getFirstname()  + cu.getName());
-		LOGGER.info("EXIT");
 	
-	}
 	
 
 	public void createUserData() {
@@ -350,13 +243,32 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 			messageExceptione(_e);
 		}
 		try{
+			AddressData ba = new AddressData();
+			ba.setAddress1("via di fattura 1");
+			ba.setZipcode("234234");
+			ba.setCity("Pallanza");
+			
+			List<AddressData> lad = new ArrayList<AddressData>();
+			AddressData pa = new AddressData();
+			pa.setAddress1("per 1");
+			lad.add(pa);
+			
+			pa = new AddressData();
+			pa.setAddress1("per 2");
+			lad.add(pa);
+			
 			ud = new UserData();
 			ud.setFirstname("vale facade 2");
 			ud.setLastname("ranc2");
 			ud.setEmail("prova@p.it");
 			ud.setLogonid("vale02");
 			ud.setUserType(UserType.GUEST);
+			ud.setBillingAddress(ba);
+			ud.setDestinationAddress(lad);
 			userFacade.registerUser(ud);
+			
+			
+			
 		}catch(javax.validation.ConstraintViolationException _e) {
 			messageExceptione(_e);
 		}
@@ -461,6 +373,101 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 			} catch(javax.validation.ConstraintViolationException _e) {
 				messageExceptione(_e);
 			}
+	}
+	
+	
+
+	/**
+	 * @function: updateUserAddressData
+	 * @description: change address information for user (not logged user)
+	 * @throws SerpicsException
+	 */
+	private void updateUserBillingAddress() throws SerpicsException{
+		Geocode g = createGeoCode();
+		CountryData c = createCountry(g);
+		createRegion(c);
+		
+		Page<RegionData> lr = regionFacade.findAll(new PageRequest(0,10));
+		RegionData r = lr.getContent().get(0);
+		
+		UsersReg  k = ur.findBylogonid("vale02");
+		Assert.assertNotNull(k);
+		
+			
+			
+			try { 
+				AddressData ab = new AddressData();
+				ab.setAddress1("Via Intra Premeno");
+				ab.setCity("via di prova");;
+				ab.setFax("123");
+				ab.setCountry(c);
+				ab.setRegion(r);
+				ab.setFirstname("b1");
+				ab.setLastname("r1");
+				ab.setCompany("ranc");
+				ab.setEmail("ranc@email.it");
+				ab.setIdNumber("id num");
+				ab.setNickname("billadd Ranc");
+				ab.setPhone("1332342");
+				ab.setFax("444");
+				ab.setStreeNumber("29/A");
+				ab.setVatcode("00030442323432");
+				ab.setZipcode("234234");
+				userFacade.updateBillingAddress(k.getBillingAddress().getUuid(), ab);
+				LOGGER.info("exit update");
+			} catch(javax.validation.ConstraintViolationException _e) {
+				messageExceptione(_e);
+			}
+			
+			
+		
+		
+	}
+	
+	
+	/**
+	 * @function: updateUserPermanentAddress
+	 * @description: change address information for user (not logged user)
+	 * @throws SerpicsException
+	 */
+	private void updateUserPermanentAddress() throws SerpicsException{
+		Geocode g = createGeoCode();
+		CountryData c = createCountry(g);
+		createRegion(c);
+		
+		Page<RegionData> lr = regionFacade.findAll(new PageRequest(0,10));
+		RegionData r = lr.getContent().get(0);
+		
+		UsersReg  k = ur.findBylogonid("vale02");
+		Assert.assertNotNull(k);
+		
+			
+			
+			try { 
+				AddressData ab = new AddressData();
+				ab.setAddress1("Via Intra Premeno");
+				ab.setCity("via di prova");;
+				ab.setFax("123");
+				ab.setCountry(c);
+				ab.setRegion(r);
+				ab.setFirstname("b1");
+				ab.setLastname("r1");
+				ab.setCompany("ranc");
+				ab.setEmail("ranc@email.it");
+				ab.setIdNumber("id num");
+				ab.setNickname("billadd Ranc");
+				ab.setPhone("1332342");
+				ab.setFax("444");
+				ab.setStreeNumber("29/A");
+				ab.setVatcode("00030442323432");
+				ab.setZipcode("234234");
+				userFacade.updatePermanentAddress(k.getPermanentAddresses().iterator().next().getUuid(), ab);
+				LOGGER.info("exit update");
+			} catch(javax.validation.ConstraintViolationException _e) {
+				messageExceptione(_e);
+			}
+			
+			
 		
 		
 	}
@@ -470,25 +477,34 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		createUserData();
 //		listUserData();
 //		updateCurrentAddressData();
-		updateUserAddressData();
-		
-		
+//		updateUserAddressData();
+//		updateUserBillingAddress();
+		updateUserPermanentAddress();
 	}
 	
 	private Geocode createGeoCode() {
 		Geocode g = new Geocode();
 		g.setCode("ITA");
-		
 		g = geoCodeRepository.create(g);
 		return g;
 	}
-	private Country createCountry(Geocode g){
-		Country c = new Country();
+	private CountryData createCountry(Geocode g){
+		CountryData c = new CountryData();
 		c.setIso2Code("it");
 		c.setIso3Code("ita");
 		c.setGeocode(g);
-		c = countryRepository.create(c);
+		c =  countryFacade.addCountry(c);
 		return c;
+	}
+	
+	private void createRegion(CountryData cd) {
+	
+		Country c = countryService.findByUUID(cd.getUuid());
+		Region r = new Region();
+		r.setCountry(c);
+		r.setName("VB");
+		r.setDescription(new MultilingualString("ita", "Verbano-Cusio-Ossola"));
+		r = regionRepository.create(r);
 	}
 	
 	private void messageExceptione(javax.validation.ConstraintViolationException _e) {

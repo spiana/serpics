@@ -20,10 +20,12 @@ public interface UserFacade {
 	
 	public void addAddress(AddressData address);
 	public void addBillingAddress(AddressData address);
-	
-	public void updateAddress(String addressUUID, AddressData address);
 	public void updateContactAddress(AddressData address);
 	public void updateBillingAddress(AddressData address);
+	
+	public void updateAddress(String addressUUID, AddressData address);
+	public void updateBillingAddress(String addressUUID, AddressData address);
+	public void updatePermanentAddress(String addressUUID, AddressData address);
 	
 	public void updateUser(String userUUID , UserData user);
 	public void updateUser(UserData user);
