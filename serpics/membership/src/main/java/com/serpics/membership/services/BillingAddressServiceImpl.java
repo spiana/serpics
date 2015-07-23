@@ -24,5 +24,10 @@ public class BillingAddressServiceImpl extends  AbstractCommerceEntityService<Bi
 		return  billingAddressRepository;
 		
 	}
-
+	
+	
+	public void delete(BillingAddress entity) {
+		billingAddressRepository.delete(entity);
+		
+	}
 }

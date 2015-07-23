@@ -2,25 +2,19 @@ package com.serpics.base.test;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.base.data.repositories.RegionRepository;
-
-
 import com.serpics.base.services.CountryService;
 import com.serpics.base.services.RegionService;
 import com.serpics.core.SerpicsException;
@@ -59,28 +53,36 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		
 		g = geoCodeRepository.create(g);
 		
-		Country c = new Country();
+		MultilingualString desc = new MultilingualString("it", "ITALIA");
+        Country c = new Country();
 		c.setIso2Code("it");
 		c.setIso3Code("ita");
 		c.setGeocode(g);
+		c.setDescription(desc);
 		c = countryRepository.create(c);
 		
+		desc = new MultilingualString("it", "GRAN BRETAGNA");
 		c = new Country();
 		c.setIso2Code("en");
 		c.setIso3Code("eng");
 		c.setGeocode(g);
+		c.setDescription(desc);
 		c = countryRepository.create(c);
 		Long cId = c.getCountriesId();
+		
+		
+		desc = new MultilingualString("it", "TEST");
 		Region r = new Region();
 		r.setName("TEST1");
 		r.setCountry(c); 
+		r.setDescription(desc);
 		r = regionRepository.create(r);
 		
 		
 		List<Country> lc =  countryRepository.findAll();
 		for (Country country : lc) {
 			LOGGER.info("*** ELENCO COUNTRY ****");
-			LOGGER.info(country.getIso2Code());
+			LOGGER.info(country.getIso2Code() + "-" + country.getDescription().getText("it"));
 		}
 		
 		Country cr = countryRepository.findOne(cId);
@@ -101,7 +103,7 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		 
 		 List<Region> lr = regionService.findAll();
 		 for (Region  region: lr) {
-				LOGGER.info("REGIONE" + region.getRegionsId() + "-" + region.getName());
+				LOGGER.info("REGIONE" + region.getRegionsId() + "-" + region.getName() + " - " + region.getDescription().getText("it"));
 		
 		}
 	}

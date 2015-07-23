@@ -6,19 +6,17 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.base.data.model.Country;
 import com.serpics.base.data.repositories.CountryRepository;
-import com.serpics.base.facade.data.CountryData;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
@@ -119,7 +117,6 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     @Override
     @Transactional
     public UsersReg registerUser(final UsersReg reg, final PrimaryAddress primaryAddress) {
-
         final User u = create(reg);
 
         if (reg.getUserType().equals(UserType.ANONYMOUS) || reg.getUserType().equals(UserType.GUEST))
@@ -132,6 +129,8 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
             primaryAddress.setMember(u);
             reg.setPrimaryAddress(primaryAddress);
         }
+        
+       
         return userRegrepository.create(reg);
     }
 
@@ -142,7 +141,11 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         return userRegrepository.findAll(where(userRegrepository.makeSpecification(example)));
     }
 
-   
+    @Override
+    public UsersReg findByRegUUID(final String uuid) {
+        return userRegrepository.findByUUID(uuid);
+    }
+    
     @Override
     public Collection<Role> getUserRoles(final User user, final Store store) {
 
@@ -154,6 +157,13 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         final List<User> users = userRepository.findAnonymous();
         Assert.notEmpty(users);
         return users.get(0);
+    }
+    
+    @Override
+    public UsersReg findByLogonid(String logonid) {  
+       UsersReg users = userRegrepository.findBylogonid(logonid);
+       Assert.notNull(users);
+       return users;
     }
 
     @Override
@@ -195,8 +205,23 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		Assert.notNull(address);
 		address.setMember(user);
 		user.setBillingAddress(address);
-		billingAddressRepository.saveAndFlush(address);
+		billingAddressRepository.create(address);
+		//billingAddressRepository.saveAndFlush(address);
 	}
 	
-	
+	@Override
+	@Transactional 
+	public void addPermanentAddress(PermanentAddress address, User user) {
+		Assert.notNull(user);
+		Assert.notNull(address);
+		address.setMember(user);
+		Set<PermanentAddress> spa = new TreeSet<PermanentAddress>();
+		if(user.getPrimaryAddress() != null) 
+			spa = user.getPermanentAddresses();
+		spa.add(address);
+		user.setPermanentAddresses(spa);
+		addressRepository.create(address);
+		
+		
+	}
 }

@@ -261,8 +261,6 @@ public class UserFacadeImpl implements UserFacade{
 	@Transactional
 	public void updateBillingAddress(AddressData a) {
 		// TODO Auto-generated method stub
-		//User currentUser = userService.getCurrentCustomer();
-		//User _u = userService.findOne(currentUser.getId());
 		User _u = userService.getCurrentCustomer();
 		BillingAddress _billing = _u.getBillingAddress();
 		_billing = (BillingAddress) buildAddress(a, _billing);
@@ -349,6 +347,40 @@ public class UserFacadeImpl implements UserFacade{
 		AbstractAddress _address = permanentAddressService.findByUUID(addressUUID);
 		_address = (AbstractAddress) buildAddress(a, _address);
 		permanentAddressService.update((PermanentAddress)_address);
+	}
+	
+	@Override
+	@Transactional
+	public void deleteContactAddress(UserData ud) {
+		PrimaryAddress pa = new PrimaryAddress();
+		User _u = userService.findByUUID(ud.getUuid());
+		_u.setPrimaryAddress(null);
+		_u = userService.update(_u);
+		Long i = _u.getId();
+		
+	}
+	
+	@Override
+	@Transactional
+	public void deleteBillingAddress(UserData ud) {
+		String uuid = ud.getBillingAddress().getUuid();
+		AbstractAddress _ba = billingAddressService.findByUUID(uuid);
+//		billingAddressService.delete((BillingAddress) _ba);
+		//userService.updateBillingAddress(null);
+		//ud.setBillingAddress(null);
+		// TODO Auto-generated method stub
+		User _u = userService.findByUUID(ud.getUuid());
+		_u.setBillingAddress(null);
+		_u = userService.update(_u);
+		Long i = _u.getId();
+	}
+	
+	@Override
+	@Transactional
+	public void deletePermanentAddress(UserData ud, String addressUUID) {
+		AbstractAddress _address = permanentAddressService.findByUUID(addressUUID);
+		permanentAddressService.delete((PermanentAddress) _address);
+		
 	}
 	
 	@Override

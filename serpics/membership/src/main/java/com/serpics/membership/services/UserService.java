@@ -20,15 +20,21 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
 
     public UsersReg registerUser(UsersReg reg, PrimaryAddress primaryAddress);
     public List<UsersReg> findByexample(UsersReg example);
-    public Collection<Role> getUserRoles(User user , Store store);	
+    public UsersReg findByRegUUID(String uuid);
+    public Collection<Role> getUserRoles(User user , Store store);
+    
     public User findAnonymous();
+    public UsersReg findByLogonid(String logonid);
+    
     public Set<PermanentAddress> getUserAddress(User user);
     public Set<Membergroup> getUserGroups(User user);
-    public User create(User user);
     
+    public User create(User user);
     public User update(User user);
     
     public void addBillingAddress(BillingAddress address , User user);
+    public void addPermanentAddress(PermanentAddress address , User user);
+    
     public BillingAddress updateBillingAddress(BillingAddress address);
     public PrimaryAddress updatePrimaryAddress(PrimaryAddress address);
     public PermanentAddress updatePermanentAddress(PermanentAddress address);

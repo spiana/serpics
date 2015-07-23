@@ -27,6 +27,10 @@ public interface UserFacade {
 	public void updateBillingAddress(String addressUUID, AddressData address);
 	public void updatePermanentAddress(String addressUUID, AddressData address);
 	
+	public void deleteContactAddress(UserData ud);
+	public void deleteBillingAddress(UserData ud);
+	public void deletePermanentAddress(UserData ud, String addressUUID);
+	
 	public void updateUser(String userUUID , UserData user);
 	public void updateUser(UserData user);
 
