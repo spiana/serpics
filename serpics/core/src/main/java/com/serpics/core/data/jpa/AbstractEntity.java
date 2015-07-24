@@ -21,7 +21,7 @@ public abstract class AbstractEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	protected  Date created;
 	
-	@Column(name = "uuid", nullable = false, length = 100 , updatable=false)
+	@Column(name = "uuid", nullable = false, length = 100 , updatable=false,unique=true)
 	protected String uuid;
 
 	@PrePersist

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="" xsi:schemaLocation="xmc.xsd">
+
+	<entity name="test.entity">
+		<table>
+			<display>
+				<property name="p1" />
+				<property name="p2" />
+			</display>
+			<search>
+				<property name="p1" />
+			</search>
+		</table>
+
+		<select>
+			<property name="code" />
+		</select>
+		<editor>
+			<display>
+				<property name="p1" />
+				<property name="p2" />
+			</display>
+			<readonly>
+				<property name="p2" />
+			</readonly>
+		</editor>
+
+	</entity>
+
+
+</smc-definition>
+

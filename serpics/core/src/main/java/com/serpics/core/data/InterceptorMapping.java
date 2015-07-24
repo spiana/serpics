@@ -13,15 +13,13 @@ public class InterceptorMapping implements Ordered{
 	CommerceEngine commerceEngine;
 	
 	String targetEntity;
-	Integer order = Integer.MIN_VALUE;
+	int order = Integer.MIN_VALUE;
 	Interceptor	interceptor;
 	
 	
 
 	
-	public void setOrder(Integer order) {
-		if (order == null)
-			order = Integer.MIN_VALUE;
+	public void setOrder(int order) {
 		this.order = order;
 	}
 	
@@ -47,8 +45,9 @@ public class InterceptorMapping implements Ordered{
 
 	@Override
 	public int getOrder() {
-		return order.intValue();
+		return order;
 	}
 
+	
 	
 }

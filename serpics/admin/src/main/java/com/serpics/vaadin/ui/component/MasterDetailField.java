@@ -11,18 +11,20 @@ import java.util.logging.Logger;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
-import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
+import com.serpics.vaadin.ui.MasterForm;
+import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.PropertiesUtils;
 import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.addon.jpacontainer.util.HibernateUtil;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.Action;
@@ -51,10 +53,14 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	private  Table table;
 	private transient  String[] displayProperties;
 
+	 @Transient
+	 private transient PropertyList<T> propertyList;
+	
 	public Table getTable() {
 		return table;
 	}
 
+	@SuppressWarnings("unchecked")
 	public MasterDetailField(
 			EntityContainer<T> entityContainer,
 			EntityItem<T> entityItem, Object propertyId) {
@@ -64,8 +70,12 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		this.entityItem	 = entityItem;
 		this.propertyId = propertyId;
 		this.masterEntity = entityItem.getEntity();
+		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
+					.getEntityClassMetadata(getType()));
+		
 		buildcontainer();
 	}
+	@SuppressWarnings("unchecked")
 	public MasterDetailField(
 			EntityContainer<T> entityContainer,
 			EntityItem<T> entityItem, Object propertyId ,String[] displayProperties) {
@@ -76,6 +86,9 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		this.propertyId = propertyId;
 		this.masterEntity = entityItem.getEntity();
 		this.displayProperties = displayProperties;
+		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
+				.getEntityClassMetadata(getType()));
+		
 		buildcontainer();
 		
 		
@@ -96,14 +109,18 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 			Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
 		 	this.container.addContainerFilter(filter);
 		}
-		 
+		
+		if (displayProperties == null){
+			displayProperties = PropertiesUtils.get().getTableProperties().get(getType().getSimpleName());
+			
+		}
+		
 		if (displayProperties == null){
 			buildDisplayProperties(referencedType);
 		}
 		
 		 for (String pid : displayProperties) {
 			if (pid.contains(".")){
-				//String _pid = pid.split(".")[0]+".*";
 				container.addNestedContainerProperty(pid);
 			}	
 		} 
@@ -147,6 +164,13 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    getTable().setEditable(false);
 	    getTable().setSelectable(true);
 	  //  getTable().setSizeFull();
+	    
+	    for (Object pid : visibleProperties) {
+	    		if(propertyList.getPropertyType((String)pid).isAssignableFrom(MultilingualString.class) ){
+					table.setConverter(pid, new MultilingualStringConvert());
+				}
+			}	
+	    
 	   getTable().setTableFieldFactory(new CustomFieldFactory());
 	  }
 	

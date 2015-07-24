@@ -10,7 +10,6 @@ import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -36,21 +35,17 @@ public class ParentCategoryRelationTable extends MasterDetailTable<CategoryRelat
     	 EntityFormWindow<CategoryRelation> editorWindow = new EntityFormWindow<CategoryRelation>();
     	 editorWindow.addTab(new MasterForm<CategoryRelation>(CategoryRelation.class) {
 
-             JPAContainer<Category> categories;
-
-             @Override
+    		 @Override
              public void init() {
                  super.init();
                  setDisplayProperties(new String[] { "parentCategory", "sequence" });
-                 categories = ServiceContainerFactory.make(Category.class );
+                
              }
-
              @Override
              protected Field<?> createField(final String pid) {
-
                  if (pid.equals("parentCategory")) {
                      final ComboBox combo = new ComboBox(pid);
-                     combo.setContainerDataSource(categories);
+                     combo.setContainerDataSource(ServiceContainerFactory.make(Category.class ));
                      combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
                      combo.setItemCaptionPropertyId("code");
                      combo.setFilteringMode(FilteringMode.CONTAINS);

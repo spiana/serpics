@@ -1,7 +1,6 @@
 package com.serpics.vaadin.ui.component;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,26 +9,25 @@ import org.slf4j.LoggerFactory;
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
-import com.serpics.membership.Member2GroupRelType;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.PropertiesUtils;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.addon.jpacontainer.util.HibernateUtil;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 
 public class CustomFieldFactory extends DefaultFieldFactory{
 
@@ -102,11 +100,10 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     
     @SuppressWarnings("rawtypes")
 	private Field<?> createSelect(Object propertyId , JPAContainerItem item){
-    
     	 final ComboBox combo = new ComboBox(propertyId.toString());
          combo.setContainerDataSource(buildcontainer(item.getContainer(), propertyId));
          combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-         combo.setItemCaptionPropertyId("code");
+         combo.setItemCaptionPropertyId(buildReferencedPropertyToShow(item.getContainer(), propertyId));
          combo.setFilteringMode(FilteringMode.CONTAINS);
          combo.setImmediate(true);
          combo.setConverter(new SingleSelectConverter(combo));
@@ -144,6 +141,17 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 		Class<?> referencedType=  containerForProperty.getType(propertyId);
 		
 		return ServiceContainerFactory.make(referencedType);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private String buildReferencedPropertyToShow( EntityContainer containerForProperty , Object propertyId){
+		Class<?> referencedType=  containerForProperty.getType(propertyId);
+		String referencedProperty = PropertiesUtils.get().getSelectProperty(referencedType.getSimpleName());
+		
+		if (referencedProperty == null)
+			referencedProperty = "code"; // this is default
+		
+		return referencedProperty;
 	}
 
 }

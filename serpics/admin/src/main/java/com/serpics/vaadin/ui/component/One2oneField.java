@@ -2,6 +2,7 @@ package com.serpics.vaadin.ui.component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.PropertiesUtils;
 import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
-import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -38,7 +39,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 	private transient PropertyList<T> propertyList;
 	private transient String[] displayProperties;
 	private transient final Set<String> hideProperties = new HashSet<String>(0);
-	private transient String[] readOnlyProperties = {};
+	private transient Set<String> readOnlyProperties  = new HashSet<String>(0);
 	private transient EntityItem<T> entityItem;
 	private transient EntityItem<M> masterEntity;
 	private transient Object parentPropertyId;
@@ -80,11 +81,21 @@ public class One2oneField<M, T> extends CustomField<T> {
 	private void buildContent(FormLayout layout) {
 		fieldGroup.setItemDataSource(entityItem);
 		fieldGroup.setBuffered(true);
+		
+		if (displayProperties == null)
+			displayProperties = PropertiesUtils.get().getEditProperty(getType().getSimpleName());
+			
+		String[] _readOnlyProperties = PropertiesUtils.get().getReadOnlyProperty(getType().getSimpleName());
+			
+		if (_readOnlyProperties != null)
+			readOnlyProperties.addAll(Arrays.asList(_readOnlyProperties));
+		
 		if (displayProperties != null)
 			addField(displayProperties , layout);
 		else
 			addField(propertyList.getAllAvailablePropertyNames().toArray(
 					new String[] {}) , layout);
+		
 
 	}
 
@@ -102,8 +113,6 @@ public class One2oneField<M, T> extends CustomField<T> {
 					.getAnnotation(Id.class) == null)
 				if (propertyList.getClassMetadata().getProperty(pid)
 						.getAnnotation(EmbeddedId.class) == null)
-					if (propertyList.getPropertyKind(pid).equals(
-							PropertyKind.SIMPLE))
 						if (!hideProperties.contains(pid))
 							layout.addComponent(createField(pid));
 		}
@@ -132,6 +141,9 @@ public class One2oneField<M, T> extends CustomField<T> {
 		if (String.class.isAssignableFrom(p.getType())) {
 			f.setWidth("80%");
 		}
+		if (readOnlyProperties.contains(pid))
+			f.setReadOnly(true);
+		
 		return f;
 	}
 

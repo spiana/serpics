@@ -5,10 +5,12 @@ import java.util.Set;
 
 import javax.persistence.Transient;
 
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -36,6 +38,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
    
     @Transient
     private transient final Class<T> entityClass;
+    @Transient
+    private transient PropertyList<T> propertyList;
 
     private String[] displayProperties;
     private final Set<String> hideProperties = new HashSet<String>();
@@ -52,6 +56,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     public MasterTable(final Class<T> entityClass) {
         super();
         this.entityClass = entityClass;
+        this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
+				.getEntityClassMetadata(entityClass));
     }
 
 
@@ -65,6 +71,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     	if(!initialized){
 	    	buildContainer();
 	    	buildContent();
+	     this.initialized = true;
     	}
    
     }
@@ -73,7 +80,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     	if (container == null) {
             container = ServiceContainerFactory.make(entityClass);
         }
-        this.initialized = true;
+       
     }
     
     public abstract EntityFormWindow<T>  buildEntityWindow();
@@ -86,6 +93,21 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         entityList.setColumnCollapsingAllowed(true);
         entityList.setColumnReorderingAllowed(true);
         entityList.setContainerDataSource(this.container);
+        
+        this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
+        if (this.displayProperties != null	){
+        	for (String string : displayProperties) {
+				if (string.contains(".")){
+					container.addNestedContainerProperty(string);
+					propertyList.addNestedProperty(string);
+				}
+				if(propertyList.getPropertyType(string).isAssignableFrom(MultilingualString.class) ){
+					entityList.setConverter(string, new MultilingualStringConvert());
+				}
+					
+			}
+        	entityList.setVisibleColumns(displayProperties);
+        }
 
         final VerticalLayout v = new VerticalLayout();
         v.setSizeFull();
@@ -93,7 +115,9 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         
         this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
         this.editButtonPanel.setEnabled(isEnabled());
-
+        
+        this.searchPanel.addComponent(new SearchForm<T>(entityClass , createEntityItem()) {});
+        
         this.searchPanel.setCaption("search");
         v.addComponent(searchPanel);
         

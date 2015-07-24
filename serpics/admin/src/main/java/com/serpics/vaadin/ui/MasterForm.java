@@ -87,7 +87,14 @@ public abstract class MasterForm<T> extends FormLayout implements
 		fieldGroup.setItemDataSource(entityItem);
 		fieldGroup.setBuffered(true);
 	
-		
+		if (this.displayProperties == null)
+			this.displayProperties = PropertiesUtils.get().getEditProperty(entityClass.getSimpleName());
+	
+		if (this.readOnlyProperties == null){
+			String[] _readonly = PropertiesUtils.get().getReadOnlyProperty(entityClass.getSimpleName());
+			if (_readonly != null)
+				this.readOnlyProperties  = new HashSet<String>(Arrays.asList(_readonly));
+		}
 		if (displayProperties != null)
 			addField(displayProperties);
 		else {
@@ -118,7 +125,8 @@ public abstract class MasterForm<T> extends FormLayout implements
 						.getAnnotation(EmbeddedId.class) == null)
 					if(propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)  ||
 							propertyList.getPropertyKind(pid).equals(PropertyKind.ONE_TO_MANY) ||
-							propertyList.getPropertyKind(pid).equals(PropertyKind.MANY_TO_ONE) 
+							propertyList.getPropertyKind(pid).equals(PropertyKind.MANY_TO_ONE) ||
+							propertyList.getPropertyType(pid).isAssignableFrom(MultilingualString.class)
 							|| entityItem.isPersistent())
 						if (!hideProperties.contains(pid)){
 							Field<?> f = createField(pid);

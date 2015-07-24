@@ -12,7 +12,6 @@ import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.ui.Field;
 
 
 @VaadinComponent("childCategoryRelationTable")
@@ -39,23 +38,7 @@ public class ChildCategoryRelationTable extends MasterDetailTable<CategoryRelati
                  setDisplayProperties(new String[] { "childCategory", "sequence" });
                  categories = ServiceContainerFactory.make(Category.class );
              }
-
-             @Override
-             protected Field<?> createField(final String pid) {
-//
-//                 if (pid.equals("childCategory")) {
-//                     final ComboBox combo = new ComboBox("childCategory");
-//                     combo.setContainerDataSource(categories);
-//                     combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-//                     combo.setItemCaptionPropertyId("code");
-//                     combo.setFilteringMode(FilteringMode.CONTAINS);
-//                     combo.setImmediate(true);
-//                     combo.setConverter(new SingleSelectConverter(combo));
-//                     fieldGroup.bind(combo, "childCategory");
-//                     return combo;
-//                 } else
-                     return super.createField(pid);
-             }
+           
          }, "main");
 
     	 return editorWindow;

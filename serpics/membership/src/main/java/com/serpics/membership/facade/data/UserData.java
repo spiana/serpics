@@ -3,6 +3,8 @@ package com.serpics.membership.facade.data;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlSchemaType;
+
 import com.serpics.core.facade.AbstractData;
 
 public class UserData extends AbstractData{
@@ -142,6 +144,7 @@ public class UserData extends AbstractData{
 		this.dn = dn;
 	}
 
+	@XmlSchemaType(name = "dateTime")
 	public Date getLastLogin() {
 		return lastLogin;
 	}

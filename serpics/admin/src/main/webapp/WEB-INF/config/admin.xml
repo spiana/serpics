@@ -24,6 +24,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="propertiesUtils" class="com.serpics.vaadin.ui.PropertiesUtils"/>
   
+  
 <!--   <bean id="propertiesUtils" class="com.serpics.vaadin.ui.PropertiesUtils"> -->
 <!--   <property name="tableProperties"> -->
 <!--   	<map> -->

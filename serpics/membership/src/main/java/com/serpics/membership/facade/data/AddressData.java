@@ -1,8 +1,10 @@
 package com.serpics.membership.facade.data;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.serpics.core.facade.AbstractData;
 
-
+@XmlRootElement
 public class AddressData extends AbstractData{
 
 	protected String nickname;
