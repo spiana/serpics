@@ -333,14 +333,18 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 		UsersReg u = userService.findByLogonid("vale01");
 		
 		pa = new PermanentAddress();
-		pa.setAddress1("REG ADDR 3.1");
+		pa.setAddress1("REG ADDR");
 		pa.setCity("verbania");
+		pa.setStreetNumber("3.1");
 		userService.addPermanentAddress(pa, u); 
 		
 		pa = new PermanentAddress();
-		pa.setAddress1("REG ADDR 3.2");
+		pa.setAddress1("REG ADDR");
+		pa.setStreetNumber("3.2");
 		pa.setCity("verbania");
 		userService.addPermanentAddress(pa, u); 
+		
+		Assert.assertNotNull("STREET IS NULL" , u.getPermanentAddresses().iterator().next().getStreetNumber());
     }
     
     private void deletePermanentAddress() {
@@ -351,7 +355,9 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 	private void deleteBillingAddress() {
 		UsersReg u = userService.findByLogonid("vale01");
 		Assert.assertNotNull("ERROR NOT FIND BILLING", u.getBillingAddress());
-		
+		userService.deleteBillingAddress(u);
+		Assert.assertNotNull("ERROR NOT FIND 2 BILLING", u.getBillingAddress());
+		BillingAddress ba = u.getBillingAddress();
 		
 		
 	}

@@ -224,4 +224,17 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		
 		
 	}
+	
+	
+	@Override
+	@Transactional
+	public void deleteBillingAddress(User user) {
+		Assert.notNull(user);
+		Assert.notNull(user.getBillingAddress());
+		BillingAddress address = user.getBillingAddress();
+		//address.setMember(user);
+		//user.setBillingAddress(address);
+		billingAddressRepository.delete(address);
+		//billingAddressRepository.saveAndFlush(address);
+	}
 }

@@ -216,6 +216,7 @@ public class UserFacadeImpl implements UserFacade{
 		destination.setFirstname(source.getFirstname());
 		destination.setLastname(source.getLastname());
 		destination.setAddress1(source.getAddress1());
+		destination.setStreetNumber(source.getStreeNumber());
 		destination.setCity(source.getCity());
 		destination.setCompany(source.getCompany());
 		destination.setZipcode(source.getZipcode());

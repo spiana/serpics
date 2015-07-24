@@ -236,6 +236,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 			
 			ad = new AddressData();
 			ad.setAddress1("via subito");
+			ad.setStreeNumber("1");
 			ad.setCity("VB");
 			ud.setBillingAddress(ad);
 			
@@ -252,9 +253,11 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		}
 		try{
 			AddressData ba = new AddressData();
-			ba.setAddress1("via di fattura 1");
+			ba.setAddress1("via di fattura");
+			ba.setStreeNumber("12");
 			ba.setZipcode("234234");
 			ba.setCity("Pallanza");
+			
 			
 			List<AddressData> lad = new ArrayList<AddressData>();
 			AddressData pa = new AddressData();
@@ -429,6 +432,8 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 				messageExceptione(_e);
 			}
 			
+			Assert.assertNotNull("is null" , k.getBillingAddress().getStreetNumber());
+			LOGGER.debug("street number " + k.getBillingAddress().getStreetNumber());
 			String oldUuidBilling = "";
 			Page<UserData> list = userFacade.findAllUser(new PageRequest(0,10));
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {

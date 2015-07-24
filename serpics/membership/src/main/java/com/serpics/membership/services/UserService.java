@@ -35,6 +35,8 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
     public void addBillingAddress(BillingAddress address , User user);
     public void addPermanentAddress(PermanentAddress address , User user);
     
+    public void deleteBillingAddress(User user);
+    
     public BillingAddress updateBillingAddress(BillingAddress address);
     public PrimaryAddress updatePrimaryAddress(PrimaryAddress address);
     public PermanentAddress updatePermanentAddress(PermanentAddress address);
