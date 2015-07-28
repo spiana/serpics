@@ -25,6 +25,7 @@ import org.hibernate.annotations.DiscriminatorOptions;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
+import com.serpics.base.data.model.Region;
 import com.serpics.membership.AddressType;
 
 /**
@@ -44,6 +45,9 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @Column(name = "address_id", unique = true, nullable = false)
     protected Long id;
 
+    @Column(nullable = true, length = 50)
+    protected String nickname;
+    
     @Column(nullable = true, length = 50)
     protected String firstname;
 
@@ -78,9 +82,9 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @Column(length = 200)
     protected String city;
 
-    @Size(max = 100)
-    @Column(length = 100)
-    protected String region;
+    @ManyToOne
+    @JoinColumn(name = "region_id", nullable = true)
+    protected Region region;
 
     @ManyToOne
     @JoinColumn(name = "country_id", nullable = true)
@@ -123,11 +127,12 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
 
     }
 
-    public AbstractAddress(final String firstname, final String lastname, final String company, final String email,
-            final String address1, final String address2, final String address3, final String zipcode, final String city, final String region,
+    public AbstractAddress(final String nickname, final String firstname, final String lastname, final String company, final String email,
+            final String address1, final String address2, final String address3, final String zipcode, final String city, final Region region,
           final String vatcode) {
         super();
 
+        this.nickname = nickname;
         this.firstname = firstname;
         this.lastname = lastname;
         this.company = company;
@@ -238,6 +243,14 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
         this.field4 = field4;
     }
 
+    public String getNickname() {
+        return this.nickname;
+    }
+
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
     public String getFirstname() {
         return this.firstname;
     }
@@ -264,11 +277,11 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     }
 
 
-    public String getRegion() {
+    public Region getRegion() {
         return this.region;
     }
 
-    public void setRegion(final String region) {
+    public void setRegion(final Region region) {
         this.region = region;
     }
 

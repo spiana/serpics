@@ -11,10 +11,14 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.Country;
+import com.serpics.base.data.repositories.CountryRepository;
+import com.serpics.base.facade.data.CountryData;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
@@ -30,6 +34,7 @@ import com.serpics.membership.data.repositories.BillingAddressRepository;
 import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.PermanentAddressRepository;
+import com.serpics.membership.data.repositories.PrimaryAddressRepository;
 import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.data.repositories.UserRepository;
@@ -48,11 +53,17 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     @Resource
     StoreRepository storeRepository;
 
+    @Resource
+    CountryRepository countryRepository;
+    
     @Autowired
     MemberGroupRepository memberGroupRepository;
 
     @Resource(name = "permanentAddressRepository")
     PermanentAddressRepository addressRepository;
+    
+    @Resource(name = "primaryAddressRepository")
+    PrimaryAddressRepository primaryAddressRepository;
     
     @Resource
     BillingAddressRepository billingAddressRepository;
@@ -65,7 +76,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     @Transactional
     public User create(User user) {
 
-        if (user.getUserType().equals(UserType.ANONYMOUS))
+        if ((user.getUserType() == null) || (user.getUserType().equals(UserType.ANONYMOUS)))
             user.setUserType(UserType.GUEST);
 
         user = adjustAddresses(user);
@@ -87,6 +98,24 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         return userRepository.create(user);
     }
 
+    @Override
+    @Transactional
+    public BillingAddress updateBillingAddress(BillingAddress ba) {
+    	return billingAddressRepository.update(ba);
+    }
+    
+    @Override
+    @Transactional
+    public PrimaryAddress updatePrimaryAddress(PrimaryAddress pa) {
+    	return primaryAddressRepository.update(pa);
+    }
+    
+    @Override
+    @Transactional
+    public PermanentAddress updatePermanentAddress(PermanentAddress pe) {
+    	return addressRepository.update(pe);
+    }
+    
     @Override
     @Transactional
     public UsersReg registerUser(final UsersReg reg, final PrimaryAddress primaryAddress) {
@@ -168,4 +197,6 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		user.setBillingAddress(address);
 		billingAddressRepository.saveAndFlush(address);
 	}
+	
+	
 }

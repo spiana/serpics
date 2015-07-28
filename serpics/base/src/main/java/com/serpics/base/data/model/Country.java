@@ -53,6 +53,7 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     public Country() {
     }
 
+   
     public Long getCountriesId() {
         return this.countriesId;
     }

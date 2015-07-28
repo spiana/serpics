@@ -1,14 +1,111 @@
 package com.serpics.base.test;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.log4j.Logger;
 import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.Geocode;
+import com.serpics.base.data.model.Region;
+import com.serpics.base.data.repositories.CountryRepository;
+import com.serpics.base.data.repositories.GeoCodeRepository;
+import com.serpics.base.data.repositories.RegionRepository;
+
+
+import com.serpics.base.services.CountryService;
+import com.serpics.base.services.RegionService;
+import com.serpics.core.SerpicsException;
+import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
-@Transactional
-@Ignore
-public abstract class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
-
+//@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
+@SerpicsTest("default-store")
+//@Transactional
+//@Ignore
+public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
+	private static final Logger LOGGER = Logger.getLogger(BaseTest.class);
+	
+	@Autowired
+	GeoCodeRepository geoCodeRepository;
+	
+	@Autowired
+	CountryRepository countryRepository;
+	
+	@Autowired
+	RegionRepository regionRepository;
+	
+	@Autowired
+	CountryService countryService;
+	
+	@Autowired
+	RegionService regionService;
+	
+	@Test
+	@Transactional
+	public void coutryregion()  throws SerpicsException{
+		LOGGER.info("*** ENTRY COUTNRY REGION TEST ***");
+		Geocode g = new Geocode();
+		g.setCode("ITA");
+		
+		g = geoCodeRepository.create(g);
+		
+		Country c = new Country();
+		c.setIso2Code("it");
+		c.setIso3Code("ita");
+		c.setGeocode(g);
+		c = countryRepository.create(c);
+		
+		c = new Country();
+		c.setIso2Code("en");
+		c.setIso3Code("eng");
+		c.setGeocode(g);
+		c = countryRepository.create(c);
+		Long cId = c.getCountriesId();
+		Region r = new Region();
+		r.setName("TEST1");
+		r.setCountry(c); 
+		r = regionRepository.create(r);
+		
+		
+		List<Country> lc =  countryRepository.findAll();
+		for (Country country : lc) {
+			LOGGER.info("*** ELENCO COUNTRY ****");
+			LOGGER.info(country.getIso2Code());
+		}
+		
+		Country cr = countryRepository.findOne(cId);
+		LOGGER.info("*** EXIT ****");
+		
+		String uuid = null;
+		 lc =  countryService.findAll();
+		 for (Country country : lc) {
+			LOGGER.info("*** ELENCO COUNTRY ****");
+			LOGGER.info(country.getIso2Code());
+			uuid = country.getUuid();
+		}
+		
+		 
+		 Country cu = countryService.findByUUID(uuid);
+		 LOGGER.info("uiid " + cu.getIso2Code());
+		 
+		 
+		 List<Region> lr = regionService.findAll();
+		 for (Region  region: lr) {
+				LOGGER.info("REGIONE" + region.getRegionsId() + "-" + region.getName());
+		
+		}
+	}
+	
+	
+	
 }

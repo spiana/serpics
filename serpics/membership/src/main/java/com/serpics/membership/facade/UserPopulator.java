@@ -22,9 +22,11 @@ public class UserPopulator implements Populator<User, UserData> {
 		target.setUuid(source.getUuid());
 		target.setCreated(source.getCreated());
 		target.setUpdated(source.getUpdated());
-		
+		target.setLogonid(source.getName());
 		target.setFirstname(source.getFirstname());
 		target.setLastname(source.getLastname());
+		target.setEmail(source.getEmail());
+		target.setUserType(source.getUserType());
 		if (source.getPrimaryAddress() != null)
 			target.setContactAddress(addressConverter.convert(source
 					.getPrimaryAddress()));
@@ -39,7 +41,9 @@ public class UserPopulator implements Populator<User, UserData> {
 			}
 			target.setDestinationAddress(destinationAddress);
 		}
-
+		
+		
+		
 		
 	}
 

@@ -245,7 +245,7 @@ public class RepositoryImpl<Z, IT extends Serializable> extends SimpleJpaReposit
 			}
 			
 		}) ;
-		Assert.state(entities.size() > 1, String.format("found more than object for UUID %s" , uuid));
+		Assert.state(entities.size() == 1, String.format("found more than object for UUID %s" , uuid));
     	if (!entities.isEmpty())
             return entities.get(0);
         else

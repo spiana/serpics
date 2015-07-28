@@ -13,6 +13,32 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <context:component-scan base-package="com.serpics.base.services" />
      	<data:repositories base-package="com.serpics.base.data.repositories" 
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
-     
-     
- </beans>    
+     <!--  facade -->
+     <alias name="defaultCountryPopulator" alias="countryPopulator"/>
+  	 <bean name="defaultCountryPopulator" class="com.serpics.base.facade.CountryPopulator"/>
+  	
+  	<alias name="defaultCountryConverter" alias="countryConverter"/>
+  	<bean name="defaultCountryConverter" parent="abstractConverter">
+  		<property name="targetClass" value="com.serpics.base.facade.data.CountryData"/>
+  		<property name="populators">
+	  		<list>
+	  			<ref bean="countryPopulator"/>	
+	  		</list>
+  		</property>
+  	</bean>
+  	
+  	<alias name="defaultRegionPopulator" alias="regionPopulator"/>
+  	<bean name="defaultRegionPopulator" class="com.serpics.base.facade.RegionPopulator">
+  		 <property name="countryConverter" ref="countryConverter"/>
+  	</bean>
+  	
+  	<alias name="defaultRegionConverter" alias="regionConverter"/>
+  	<bean name="defaultRegionConverter" parent="abstractConverter">
+  		<property name="targetClass" value="com.serpics.base.facade.data.RegionData"/>
+  		<property name="populators">
+	  		<list>
+	  			<ref bean="regionPopulator"/>	
+	  		</list>
+  		</property>
+  	</bean>
+ </beans>   

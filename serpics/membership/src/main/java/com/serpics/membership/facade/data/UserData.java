@@ -3,23 +3,24 @@ package com.serpics.membership.facade.data;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlSchemaType;
-
 import com.serpics.core.facade.AbstractData;
+import com.serpics.membership.UserType;
 
 public class UserData extends AbstractData{
 	protected String firstname;
 	protected String lastname;
 	protected String phone;
 	protected String email;
-	
+	protected UserType userType;
 	protected String field1;
 	protected String field2;
 	protected Double field3;
-	protected Double field4;
+	protected Integer field4;
 	
 	protected Date lastVisit;
 	protected String logonid;
+	protected String password;
+	
 	protected String alternateEmail;
 	protected String changeanswer;
 	protected String changequestion;
@@ -88,11 +89,11 @@ public class UserData extends AbstractData{
 		this.field3 = field3;
 	}
 
-	public Double getField4() {
+	public Integer getField4() {
 		return field4;
 	}
 
-	public void setField4(Double field4) {
+	public void setField4(Integer field4) {
 		this.field4 = field4;
 	}
 
@@ -120,6 +121,13 @@ public class UserData extends AbstractData{
 		this.alternateEmail = alternateEmail;
 	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
 	public String getChangeanswer() {
 		return changeanswer;
 	}
@@ -144,7 +152,6 @@ public class UserData extends AbstractData{
 		this.dn = dn;
 	}
 
-	@XmlSchemaType(name = "dateTime")
 	public Date getLastLogin() {
 		return lastLogin;
 	}
@@ -160,7 +167,13 @@ public class UserData extends AbstractData{
 	public void setPasswordChange(Date passwordChange) {
 		this.passwordChange = passwordChange;
 	}
+	public UserType getUserType() {
+		return userType;
+	}
 
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
 	public AddressData getContactAddress() {
 		return contactAddress;
 	}

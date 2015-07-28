@@ -11,7 +11,6 @@ http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:component-scan base-package="com.serpics.membership.services" />
-    
   <data:repositories base-package="com.serpics.membership.data.repositories" 
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
      
@@ -50,8 +49,10 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   
   <!-- facade -->
   <alias name="defaultAddressPopulator" alias="addressPopulator"/>
-  <bean name="defaultAddressPopulator" class="com.serpics.membership.facade.AddressPopulator" />
-  
+  <bean name="defaultAddressPopulator" class="com.serpics.membership.facade.AddressPopulator" >
+  	 <property name="countryConverter" ref="countryConverter"/>
+  	 <property name="regionConverter" ref="regionConverter"/>
+  </bean>
   <alias name="defaultAddressConverter" alias="addressConverter"/>
   <bean name="defaultAddressConverter" parent="abstractConverter">
   <property name="targetClass" value="com.serpics.membership.facade.data.AddressData"/>
