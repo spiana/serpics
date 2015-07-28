@@ -34,6 +34,8 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.membership.services.BaseService;
+import com.serpics.membership.services.BillingAddressService;
+import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
@@ -44,6 +46,14 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 
     @Autowired
     BaseService baseService;
+    
+    @Autowired
+    BillingAddressService billingAddressService;
+    @Autowired
+    PermanentAddressService permanentAddressService;
+    
+   
+    
     @Autowired
     CommerceEngine commerceEngine;
     @Autowired
@@ -160,33 +170,14 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     public void managerUser() throws SerpicsException {
     	createUser();
     	listUser();
-    	addBillingAddress();
-    	addPermanentAddress();
-    	updatePrimaryAddress();
-    	updateBillingAddress();
-    	updatePermanentAddress();
-    	deletePrimaryAddress();
-    	deleteBillingAddress();
-    	deletePermanentAddress();
+    	managerBillingAddress();
+    	managerPermaentAddress();
     }
     
    
 
 	private void createUser() {
-    	User u = new User();
-		u.setFirstname("vale guest service 1");
-		u.setLastname("ranc");
-		u.setUserType(UserType.GUEST);
-		u.setEmail("valeser01@prova.it");
-		u = userService.create(u);
-		
-		u = new User();
-		u.setFirstname("vale guest service 2");
-		u.setLastname("ranc");
-		u.setUserType(UserType.GUEST);
-		u.setEmail("valeser02@prova.it");
-		u = userService.create(u);
-		
+    	
 		
 		Geocode g = new Geocode();
 		g.setDescription(new MultilingualString("it","geo ita"));
@@ -209,10 +200,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 		reg.setPassword("vale");
 		reg.setEmail("vale01@prova.it");
 		
-		
-
-		
-		reg = userService.registerUser(reg, pa);
+		reg = userService.registerUser(reg, null);
 		
 		reg = new UsersReg();
 		reg.setFirstname("vale reg 2");
@@ -234,172 +222,86 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     
     private void listUser() {
     	List<User> l = userService.findAll();
-    	Assert.assertEquals("not equals" ,5, l.size());
+    	log.info("elenco utenti numero " + l.size());
     	
 		int i = 0;
 		String guuid = null;
     	for (Iterator iterator = l.iterator(); iterator.hasNext();) {
 			User user = (User) iterator.next();
-			if(user.getUserType() == UserType.REGISTERED){
-				
-				String uuid = user.getUuid();
-				UsersReg ur = userService.findByRegUUID(uuid);
-				Assert.assertNotNull(ur);
-//				ur.getLogonid();
-//				ur.setLogonid("nuovo"+i);
-//				userService.update((User)ur);
-				
-			} else if(user.getUserType().equals(UserType.GUEST)) {
-				guuid=user.getUuid();
-			}
+			
 			i++;
 		}
 
     	
     }
     
-    private void addBillingAddress() {
-    	List<User> lu = userService.findByexample(new User(UserType.GUEST,null,null,null,null));
-    	Assert.assertEquals("ERROR NOT EQUALS ", 2, lu.size());
-    	User _u = lu.get(0);
-    	Assert.assertEquals("ERROR NOT USER GUEST", "valeser01@prova.it", _u.getEmail());
-    	String _uuid = _u.getUuid();
-    	
-    	BillingAddress ba = new BillingAddress();
-    	ba.setAddress1("GUEST ADDR 1");
-    	ba.setCity("verbania");
-    	userService.addBillingAddress(ba, _u);
-    	
-    	 _u = lu.get(1);
-    	Assert.assertEquals("ERROR NOT USER GUEST", "valeser02@prova.it", _u.getEmail());
-    	 _uuid = _u.getUuid();
-    	
-    	ba = new BillingAddress();
-    	ba.setAddress1("GUEST ADDR 2");
-    	ba.setCity("verbania");
-    	userService.addBillingAddress(ba, _u); 
+    private void managerBillingAddress() {
+    	User u = userService.findByLogonid("vale01");
+    	userService.setCurrentCustomer(u);
+    	Assert.assertNotNull("NOT MAIL CURRENT USER" + userService.getCurrentCustomer().getEmail());
     	
     	
-    	lu = userService.findByexample(new User(UserType.GUEST,null,null,null,null));
-    	for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
-			User user = (User) iterator.next();
-			Assert.assertNotNull("IS NULL", user.getBillingAddress());
-			Assert.assertNotNull("IS NULL", user.getPermanentAddresses());
-		}
+    	BillingAddress address = new BillingAddress();
+    	address.setAddress1("Via di prova numero 1");
+    	address.setCity("verbania");
+    	userService.addBillingAddress(address, u);
+    	Assert.assertEquals("non uguale city",  "verbania", userService.getCurrentCustomer().getBillingAddress().getCity());
     	
+    	address = userService.getCurrentCustomer().getBillingAddress();
+    	address.setAddress1("Via billing aggioranta");
+    	address.setCity("verbania");
+    	address.setZipcode("123");
+    	userService.updateBillingAddress(address);
+    	Assert.assertEquals("non uguale zipcode",  "123", userService.getCurrentCustomer().getBillingAddress().getZipcode());
     	
-    	UsersReg u = userService.findByLogonid("vale01");
-    	ba = new BillingAddress();
-    	ba.setAddress1("nuovo bil addr");
-    	ba.setCity("verbania");
-    	userService.addBillingAddress(ba, u);
+    	userService.deleteBillingAddress(userService.getCurrentCustomer());
     	
+    	Assert.assertNull("NON NULL BILLING" , userService.getCurrentCustomer().getBillingAddress());
     	
+    	List<BillingAddress> l = billingAddressService.findAll();
+    	log.info("totale indirizzi di fatturazione" + l.size());
     }
+
     
-    private void addPermanentAddress() {
-    	List<User> lu = userService.findByexample(new User(UserType.REGISTERED,null,null,null,null));
-    	Assert.assertEquals("ERROR NOT EQUALS ", 2, lu.size());
-    	User _u = lu.get(0);
-    	Assert.assertEquals("ERROR NOT USER GUEST", "vale01@prova.it", _u.getEmail());
-    	String _uuid = _u.getUuid();
-    	
-    	PermanentAddress pa = new PermanentAddress();
-    	pa.setAddress1("REG ADDR 1");
-    	pa.setCity("verbania");
-    	userService.addPermanentAddress(pa, _u);
-    	
-    	 _u = lu.get(1);
-    	Assert.assertEquals("ERROR NOT USER GUEST", "vale02@prova.it", _u.getEmail());
-    	 _uuid = _u.getUuid();
-    	
-    	pa = new PermanentAddress();
-    	pa.setAddress1("REG ADDR 2");
-    	pa.setCity("verbania");
-    	userService.addPermanentAddress(pa, _u); 
-    	
-    	pa = new PermanentAddress();
-    	pa.setAddress1("REG ADDR 2.2");
-    	pa.setCity("verbania");
-    	userService.addPermanentAddress(pa, _u); 
+    private void managerPermaentAddress() {
+    	User u = userService.findByLogonid("vale02");
+    	userService.setCurrentCustomer(u);
+    	Assert.assertNotNull("NOT MAIL CURRENT USER" + userService.getCurrentCustomer().getEmail());
     	
     	
-    	List<User> lu2 = userService.findByexample(new User(UserType.REGISTERED,null,null,null,null));
-    	for (Iterator iterator = lu2.iterator(); iterator.hasNext();) {
-			User user = (User) iterator.next();
-			Assert.assertNotNull("IS NULL", user.getPermanentAddresses());
-		}
+    	PermanentAddress address = new PermanentAddress();
+    	address.setAddress1("Via di prova numero 1");
+    	address.setCity("verbania");
+    	userService.addPermanentAddress(address, userService.getCurrentCustomer());
+    	Assert.assertEquals("non uguale city",  "verbania", userService.getCurrentCustomer().getPermanentAddresses().iterator().next().getCity());
     	
-		UsersReg u = userService.findByLogonid("vale01");
-		
-		pa = new PermanentAddress();
-		pa.setAddress1("REG ADDR");
-		pa.setCity("verbania");
-		pa.setStreetNumber("3.1");
-		userService.addPermanentAddress(pa, u); 
-		
-		pa = new PermanentAddress();
-		pa.setAddress1("REG ADDR");
-		pa.setStreetNumber("3.2");
-		pa.setCity("verbania");
-		userService.addPermanentAddress(pa, u); 
-		
-		Assert.assertNotNull("STREET IS NULL" , u.getPermanentAddresses().iterator().next().getStreetNumber());
+    	address = new PermanentAddress();
+    	address.setAddress1("Via di prova numero ");
+    	address.setStreetNumber("2");
+    	address.setCity("verbania");
+    	userService.addPermanentAddress(address, userService.getCurrentCustomer());
+    	
+    	address = new PermanentAddress();
+    	address.setAddress1("Via di prova numero ");
+    	address.setStreetNumber("3");
+    	address.setCity("verbania");
+    	userService.addPermanentAddress(address, userService.getCurrentCustomer());
+   
+    	
+    	
+    	address = (PermanentAddress) userService.getCurrentCustomer().getPermanentAddresses().toArray()[1];
+    	address.setAddress1("Via per aggioranta");
+    	address.setCity("verbania");
+    	address.setNickname("address1");
+    	address.setZipcode("123");
+    	userService.updatePermanentAddress(address);
+    	Assert.assertEquals("non uguale zipcode",  "123", ((PermanentAddress) userService.getCurrentCustomer().getPermanentAddresses().toArray()[1]).getZipcode());
+    	
+    	userService.deletePermanentAddress(userService.getCurrentCustomer(), (PermanentAddress) userService.getCurrentCustomer().getPermanentAddresses().toArray()[2]);
+    	
+    	
+    	
+    	List<PermanentAddress> l = permanentAddressService.findAll();
+    	log.info("totale indirizzi di permanenti" + l.size());
     }
-    
-    private void deletePermanentAddress() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void deleteBillingAddress() {
-		UsersReg u = userService.findByLogonid("vale01");
-		Assert.assertNotNull("ERROR NOT FIND BILLING", u.getBillingAddress());
-		userService.deleteBillingAddress(u);
-		Assert.assertNotNull("ERROR NOT FIND 2 BILLING", u.getBillingAddress());
-		BillingAddress ba = u.getBillingAddress();
-		
-		
-	}
-
-	private void deletePrimaryAddress() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void updatePermanentAddress() {
-		UsersReg u = userService.findByLogonid("vale01");
-		Assert.assertNotNull(" FOUND PERMANENT", u.getPermanentAddresses());
-		
-		Set<PermanentAddress> list = u.getPermanentAddresses();
-		String uuid = list.iterator().next().getUuid();
-		PermanentAddress address = list.iterator().next();
-		address.setAddress1("TEST CHANGE ADDRESS");
-		address.setZipcode("123");
-		address = userService.updatePermanentAddress(address);
-		Assert.assertEquals("NOT CHANGE", "123", u.getPermanentAddresses().iterator().next().getZipcode());
-	}
-
-	private void updateBillingAddress() {
-		UsersReg  u = userService.findByLogonid("vale01");
-		Assert.assertNotNull("not FOUND billing", u.getBillingAddress());
-		String paUuid = u.getBillingAddress().getUuid();
-		
-		BillingAddress address = u.getBillingAddress();
-		address.setAddress1("TEST_BILL1");
-		address = userService.updateBillingAddress(address);
-		Assert.assertEquals("NOT CHANGE", "TEST_BILL1", u.getBillingAddress().getAddress1());
-		
-	}
-
-	private void updatePrimaryAddress() {
-		UsersReg u = userService.findByLogonid("vale01");
-		Assert.assertNotNull("NOT FOUNT PRIMARY", u.getPrimaryAddress());
-		String paUuid = u.getPrimaryAddress().getUuid();
-		
-		PrimaryAddress address = u.getPrimaryAddress();
-		address.setAddress1("TEST1");
-		address = userService.updatePrimaryAddress(address);
-		Assert.assertEquals("NOT CHANGE", "TEST1", u.getPrimaryAddress().getAddress1());
-	}
 }

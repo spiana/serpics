@@ -1,26 +1,25 @@
 package com.serpics.base.facade.data;
 
-import com.serpics.base.data.model.Geocode;
-import com.serpics.base.data.model.MultilingualString;
+
 import com.serpics.core.facade.AbstractData;
 
 
 public class CountryData  extends AbstractData{ 
 	
-	protected Geocode geocode;
-	protected MultilingualString  description;
+	protected GeocodeData geocode;
 	protected String iso2Code;
 	protected String iso3Code;
-	public Geocode getGeocode() {
+	protected String description;
+	public GeocodeData getGeocode() {
 		return geocode;
 	}
-	public void setGeocode(Geocode geocode) {
+	public void setGeocode(GeocodeData geocode) {
 		this.geocode = geocode;
 	}
-	public MultilingualString getDescription() {
+	public String getDescription() {
 		return description;
 	}
-	public void setDescription(MultilingualString description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 	public String getIso2Code() {

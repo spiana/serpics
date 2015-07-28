@@ -18,15 +18,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Country;
-import com.serpics.base.data.model.Geocode;
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.base.data.repositories.RegionRepository;
 import com.serpics.base.facade.CountryFacade;
+import com.serpics.base.facade.GeocodeFacade;
 import com.serpics.base.facade.RegionFacade;
 import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.facade.data.GeocodeData;
 import com.serpics.base.services.CountryService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
@@ -54,6 +55,9 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Resource
 	RegionFacade regionFacade;
+	
+	@Resource
+	GeocodeFacade geocodeFacade;
 	
 	@Resource
 	BaseService baseService;
@@ -99,7 +103,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Test
 	public void createUser() throws SerpicsException{
-		Geocode g = createGeoCode();
+		GeocodeData g = createGeoCode();
 		CountryData c = createCountry(g);
 		
 		
@@ -233,13 +237,13 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		
 		List<PermanentAddress> l2 = permanentAddressService.findAll();
 	}
-	private Geocode createGeoCode() {
-		Geocode g = new Geocode();
+	private GeocodeData createGeoCode() {
+		GeocodeData g = new GeocodeData();
 		g.setCode("ITA");
-		g = geoCodeRepository.create(g);
+		g = geocodeFacade.addGeocode(g);
 		return g;
 	}
-	private CountryData createCountry(Geocode g){
+	private CountryData createCountry(GeocodeData g){
 		CountryData c = new CountryData();
 		c.setIso2Code("it");
 		c.setIso3Code("ita");

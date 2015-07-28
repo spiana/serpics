@@ -57,9 +57,6 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     @Autowired
     MemberGroupRepository memberGroupRepository;
 
-    @Resource(name = "permanentAddressRepository")
-    PermanentAddressRepository addressRepository;
-    
     @Resource(name = "primaryAddressRepository")
     PrimaryAddressRepository primaryAddressRepository;
     
@@ -68,6 +65,8 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     
     @Autowired
     MembersRoleRepository membersRoleRepository;
+	@Resource(name = "permanentAddressRepository")
+	PermanentAddressRepository addressRepository;
 
 
     @Override
@@ -221,8 +220,6 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		spa.add(address);
 		user.setPermanentAddresses(spa);
 		addressRepository.create(address);
-		
-		
 	}
 	
 	
@@ -235,6 +232,20 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		//address.setMember(user);
 		//user.setBillingAddress(address);
 		billingAddressRepository.delete(address);
+		user.setBillingAddress(null);
+		//billingAddressRepository.saveAndFlush(address);
+	}
+	
+	
+	@Override
+	@Transactional
+	public void deletePermanentAddress(User user, PermanentAddress address) {
+		Assert.notNull(user);
+		Assert.notNull(user.getPermanentAddresses().contains(address));
+		//address.setMember(user);
+		//user.setBillingAddress(address);
+		addressRepository.delete(address);
+		user.getPermanentAddresses().remove(address);
 		//billingAddressRepository.saveAndFlush(address);
 	}
 }
