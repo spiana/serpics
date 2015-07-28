@@ -75,31 +75,5 @@
 			<property name="name" />
 		</select>
 	</entity>
-	<entity name="country">
-		<table>
-			<display>
-				<property name="geocode.code" />
-				<property name="description" />
-			</display>
-			<search>
-				<property name="geocode" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="geocode.code" />
-				<property name="description" />
-				<property name="iso2Code" />
-				<property name="iso3Code" />
-				<!-- <property name="regions"/> -->
-			</display>
-
-			<readonly action="append">
-				<property name="created" />
-				<property name="updated" />
-			</readonly>
-		</editor>
-
-	</entity>
 
 </smc-definition>

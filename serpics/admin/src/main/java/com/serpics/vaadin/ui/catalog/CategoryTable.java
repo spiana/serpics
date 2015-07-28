@@ -3,13 +3,11 @@ package com.serpics.vaadin.ui.catalog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.catalog.data.model.Category;
-import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.serpics.vaadin.ui.component.MasterDetailField;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
@@ -56,16 +54,16 @@ public class CategoryTable extends MasterTable<Category> {
             
             @Override
             protected Field<?> createField(final String pid) {
-            	if (pid.equals("childCategories")) { 
-                	MasterDetailField<Category, CategoryRelation> t = 
-                			new MasterDetailField<Category, CategoryRelation>(this.entityItem.getContainer(), this.entityItem, pid, 
-                					new String[] {"childCategory.code" , "sequence"});
-                	fieldGroup.bind(t, pid);
-                	return t;
-                	
-                }else {
+//            	if (pid.equals("childCategories")) { 
+//                	MasterDetailField<Category, CategoryRelation> t = 
+//                			new MasterDetailField<Category, CategoryRelation>(this.entityItem.getContainer(), this.entityItem, pid, 
+//                					new String[] {"childCategory.code" , "sequence"});
+//                	fieldGroup.bind(t, pid);
+//                	return t;
+//                	
+//                }else {
                     return super.createField(pid);
-                }
+//                }
             }
 
         }, "main");

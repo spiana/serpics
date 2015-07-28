@@ -1,15 +1,9 @@
 package com.serpics.vaadin.ui.base;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
-import com.serpics.base.data.repositories.CountryRepository;
-import com.serpics.core.data.Repository;
-import com.serpics.membership.data.model.Role;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.EntityFormWindow;
+import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 
@@ -40,7 +34,7 @@ public class GeoCodeTable extends MasterTable<Geocode> {
 				@Override
 				public void init() {
 					super.init();
-					setDisplayProperties(new String[]{"code" , "description"});
+					setDisplayProperties(new String[]{"code" , "description","countries"});
 					
 				}
 			};

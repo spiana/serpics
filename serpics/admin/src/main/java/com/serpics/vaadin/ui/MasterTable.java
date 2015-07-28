@@ -104,9 +104,9 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				if(propertyList.getPropertyType(string).isAssignableFrom(MultilingualString.class) ){
 					entityList.setConverter(string, new MultilingualStringConvert());
 				}
-					
+				entityList.setVisibleColumns(displayProperties);	
 			}
-        	entityList.setVisibleColumns(displayProperties);
+        	
         }
 
         final VerticalLayout v = new VerticalLayout();
@@ -116,7 +116,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
         this.editButtonPanel.setEnabled(isEnabled());
         
-        this.searchPanel.addComponent(new SearchForm<T>(entityClass , createEntityItem()) {});
+      //  this.searchPanel.addComponent(new SearchForm<T>(entityClass , createEntityItem()) {});
         
         this.searchPanel.setCaption("search");
         v.addComponent(searchPanel);

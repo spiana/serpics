@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
@@ -52,9 +51,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	private transient T masterEntity;
 	private  Table table;
 	private transient  String[] displayProperties;
-
-	 @Transient
-	 private transient PropertyList<T> propertyList;
+	private transient PropertyList<T> propertyList;
 	
 	public Table getTable() {
 		return table;
@@ -70,9 +67,6 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		this.entityItem	 = entityItem;
 		this.propertyId = propertyId;
 		this.masterEntity = entityItem.getEntity();
-		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
-					.getEntityClassMetadata(getType()));
-		
 		buildcontainer();
 	}
 	@SuppressWarnings("unchecked")
@@ -86,8 +80,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		this.propertyId = propertyId;
 		this.masterEntity = entityItem.getEntity();
 		this.displayProperties = displayProperties;
-		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
-				.getEntityClassMetadata(getType()));
+
 		
 		buildcontainer();
 		
@@ -97,7 +90,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	@SuppressWarnings("unchecked")
 	private void buildcontainer(){
 		Class<T> masterEntityClass = this.containerForProperty.getEntityClass();
-		Class<?> referencedType=  ServiceContainerFactory.detectReferencedType(
+		Class<T> referencedType= (Class<T>) ServiceContainerFactory.detectReferencedType(
 				containerForProperty.getEntityProvider().getEntityManagerProvider().getEntityManager().getEntityManagerFactory(),
 				this.propertyId, masterEntityClass);
 		this.container= (EntityContainer<X>) ServiceContainerFactory.make(referencedType);
@@ -109,9 +102,11 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 			Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
 		 	this.container.addContainerFilter(filter);
 		}
+		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
+				.getEntityClassMetadata(referencedType));
 		
 		if (displayProperties == null){
-			displayProperties = PropertiesUtils.get().getTableProperties().get(getType().getSimpleName());
+			displayProperties = PropertiesUtils.get().getTableProperty(referencedType.getSimpleName());
 			
 		}
 		
@@ -164,7 +159,8 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    getTable().setEditable(false);
 	    getTable().setSelectable(true);
 	  //  getTable().setSizeFull();
-	    
+		
+		
 	    for (Object pid : visibleProperties) {
 	    		if(propertyList.getPropertyType((String)pid).isAssignableFrom(MultilingualString.class) ){
 					table.setConverter(pid, new MultilingualStringConvert());

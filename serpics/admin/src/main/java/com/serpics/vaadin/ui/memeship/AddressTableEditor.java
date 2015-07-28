@@ -30,9 +30,9 @@ public class AddressTableEditor extends MasterDetailTable<PermanentAddress, User
     @Override
     public void init() {
         super.init();
-      
+        container.addNestedContainerProperty("country.*");
         final String[] p = { "firstname", "lastname", "company", "address1", "zipcode", "city", "region",
-        "country" };
+        "country.iso2Code" };
         setParentProperty("permanentAddresses");
         setPropertyToShow(p );
 
