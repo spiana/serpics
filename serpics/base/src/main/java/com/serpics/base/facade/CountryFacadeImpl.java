@@ -40,14 +40,14 @@ public class CountryFacadeImpl implements CountryFacade {
 	
 	@Override
 	@Transactional
-	public CountryData addCountry(CountryData cd) {
-		Geocode g =  geocodeService.findByUUID(cd.getGeocode().getUuid());
+	public CountryData addCountry(CountryData data) {
+		Geocode g =  geocodeService.findByUUID(data.getGeocode().getUuid());
 		String locale = "it";
 		//if(engine.getCurrentContext() != null) locale = engine.getCurrentContext().getLocale().getLanguage();
-		final MultilingualString desc = new MultilingualString(locale, cd.getDescription());
+		final MultilingualString desc = new MultilingualString(locale, data.getDescription());
 		Country c = new Country();
-		c.setIso2Code(cd.getIso2Code());
-		c.setIso3Code(cd.getIso3Code());
+		c.setIso2Code(data.getIso2Code());
+		c.setIso3Code(data.getIso3Code());
 		c.setGeocode(g);
 		c.setDescription(desc);
 		c = countryService.create(c);

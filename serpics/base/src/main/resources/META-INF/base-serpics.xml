@@ -17,6 +17,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
      <alias name="defaultCountryPopulator" alias="countryPopulator"/>
   	 <bean name="defaultCountryPopulator" class="com.serpics.base.facade.CountryPopulator">
          <property name="geocodeConverter" ref="geocodeConverter"/>
+         <property name="regionConverter" ref="regionConverter"/>
     </bean>
     
   	<alias name="defaultCountryConverter" alias="countryConverter"/>

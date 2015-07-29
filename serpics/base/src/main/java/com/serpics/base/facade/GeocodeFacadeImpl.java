@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Geocode;
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.facade.data.GeocodeData;
 import com.serpics.base.services.GeocodeService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
@@ -28,13 +29,17 @@ public class GeocodeFacadeImpl implements GeocodeFacade {
 	
 	@Override
 	@Transactional
-	public GeocodeData addGeocode(GeocodeData cd) {
+	public GeocodeData addGeocode(GeocodeData data) {
+		String locale = "it";
+		final MultilingualString description = new MultilingualString(locale, data.getDescription());
+		
 		Geocode g = new Geocode();
-		g.setCode(cd.getCode());
+		g.setCode(data.getName());
+		g.setDescription(description);
 		g= geocodeService.create(g);
 		
-		cd = geocodeConvert.convert(g);
-		return cd;
+		data = geocodeConvert.convert(g);
+		return data;
 	} 
 	
 	

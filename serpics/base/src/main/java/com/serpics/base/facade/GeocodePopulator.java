@@ -9,9 +9,10 @@ public class GeocodePopulator  implements Populator<Geocode, GeocodeData>{
 	
 	@Override
 	public void populate(Geocode source, GeocodeData target) {
-		
-		target.setCode(source.getCode());
+		target.setDescription(source.getDescription().getText("it"));
+		target.setName(source.getCode());
 		target.setUuid(source.getUuid());
+		
 	}
 }
 

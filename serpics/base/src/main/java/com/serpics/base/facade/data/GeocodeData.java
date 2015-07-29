@@ -4,7 +4,6 @@ import com.serpics.core.facade.AbstractData;
 
 public class GeocodeData extends AbstractData{ 
 	protected String name;
-	protected String code;
 	protected String description;
 	protected CountryData country;
 	
@@ -15,12 +14,7 @@ public class GeocodeData extends AbstractData{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
+	
 	public String getDescription() {
 		return description;
 	}

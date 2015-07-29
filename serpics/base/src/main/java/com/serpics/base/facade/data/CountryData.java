@@ -1,6 +1,8 @@
 package com.serpics.base.facade.data;
 
 
+import java.util.Set;
+
 import com.serpics.core.facade.AbstractData;
 
 
@@ -10,6 +12,7 @@ public class CountryData  extends AbstractData{
 	protected String iso2Code;
 	protected String iso3Code;
 	protected String description;
+	protected Set<RegionData> regions;
 	public GeocodeData getGeocode() {
 		return geocode;
 	}
@@ -35,7 +38,13 @@ public class CountryData  extends AbstractData{
 		this.iso3Code = iso3Code;
 	}
 	
+	public void setRegions(Set<RegionData> regions) {
+		this.regions = regions;
+	}
 	
+	public Set<RegionData> getRegions() {
+		return regions;
+	}
 	
 	
 

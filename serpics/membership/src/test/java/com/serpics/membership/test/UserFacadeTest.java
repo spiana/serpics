@@ -17,9 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.Country;
-import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.data.model.Region;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.base.data.repositories.RegionRepository;
@@ -28,6 +25,7 @@ import com.serpics.base.facade.GeocodeFacade;
 import com.serpics.base.facade.RegionFacade;
 import com.serpics.base.facade.data.CountryData;
 import com.serpics.base.facade.data.GeocodeData;
+import com.serpics.base.facade.data.RegionData;
 import com.serpics.base.services.CountryService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
@@ -239,7 +237,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	}
 	private GeocodeData createGeoCode() {
 		GeocodeData g = new GeocodeData();
-		g.setCode("ITA");
+		g.setName("ITA");
 		g = geocodeFacade.addGeocode(g);
 		return g;
 	}
@@ -254,12 +252,11 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	private void createRegion(CountryData cd) {
 	
-		Country c = countryService.findByUUID(cd.getUuid());
-		Region r = new Region();
-		r.setCountry(c);
+		RegionData r = new RegionData();
+		r.setCountry(cd);
 		r.setName("VB");
-		r.setDescription(new MultilingualString("ita", "Verbano-Cusio-Ossola"));
-		r = regionRepository.create(r);
+		r.setDescription("Verbano-Cusio-Ossola");
+		r = regionFacade.addRegion(r);
 	}
 	
 	private void messageExceptione(javax.validation.ConstraintViolationException _e) {
