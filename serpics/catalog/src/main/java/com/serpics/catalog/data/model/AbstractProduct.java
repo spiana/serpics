@@ -34,7 +34,7 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     public AbstractProduct(final Integer buyable, final String sku) {
         super();
         this.buyable = buyable;
-        this.published = buyable;
+        //this.published = buyable;
         this.code = sku;
         this.downlodable = 0;
         this.ctentryType = 1;
