@@ -1,5 +1,7 @@
 package com.serpics.catalog.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
+import com.serpics.catalog.data.model.CtentryRelationPK;
 import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.repositories.BrandRepository;
 import com.serpics.catalog.data.repositories.Category2ProductRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -18,12 +22,18 @@ import com.serpics.core.service.AbstractEntityService;
 @Service("produtService")
 @Scope("store")
 public class ProductServiceImpl extends AbstractEntityService<Product, Long, CommerceSessionContext> implements ProductService{
-
+	 private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 	@Autowired
 	ProductRepository productRepository;
 
 	@Autowired
     Category2ProductRepository categoryProductRepository;
+	
+	@Autowired
+    Category2ProductRepository categoryProductRelation;
+	
+	@Autowired
+    BrandRepository brandRepository;
 	
 	@Override
 	public Repository<Product, Long> getEntityRepository() {
@@ -43,6 +53,19 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 	    }
 	
 	    return product;
+	   
 	}
+	
+	
+	@Transactional
+	public Product addParentCategory(Product product,  Category category) {
+		final CtentryRelationPK ctpk = new CtentryRelationPK(product.getId(), category.getId());
+		final CategoryProductRelation cpr = new CategoryProductRelation();
+		cpr.setId(ctpk);
+		categoryProductRelation.save(cpr);
+		return product;
+	}
+	
+	
 	
 }

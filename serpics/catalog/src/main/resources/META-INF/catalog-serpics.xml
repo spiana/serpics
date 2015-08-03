@@ -64,18 +64,12 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		
 	<!--  facade -->
 	 <!-- facade -->
-    <alias name="defaultCtentryPopulator" alias="ctentryPopulator"/>
-    <bean name="defaultCtentryPopulator" class="com.serpics.catalog.facade.CtentryPopulator" />
+   
 	  
 
     <alias name="defaultCtentryConverter" alias="ctentryConverter"/>
 	<bean name="defaultCtentryConverter" parent="abstractConverter">
 	<property name="targetClass" value="com.serpics.catalog.facade.data.CtentryData"/>
-	<property name="populators">
-	  <list>
-	      <ref bean="ctentryPopulator"/>  
-	  </list>
-	</property>
 	</bean>
 	
 	<alias name="defaultCategoryPopulator" alias="categoryPopulator"/>
@@ -93,7 +87,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     </bean>
     
 	<alias name="defaultProductPopulator" alias="productPopulator"/>
-    <bean name="defaultProductPopulator" class="com.serpics.catalog.facade.ProductPopulator" />
+    <bean name="defaultProductPopulator" class="com.serpics.catalog.facade.ProductPopulator" >
+        <property name="brandConverter" ref="brandConverter"/>
+    </bean>
     
     <alias name="defaultProductConverter" alias="productConverter"/>
 	<bean name="defaultProductConverter" parent="abstractConverter">
@@ -104,4 +100,17 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	  </list>
 	</property>
 	</bean>
+	
+	<alias name="defaultBrandPopulator" alias="brandPopulator"/> 
+    <bean name="defaultBrandPopulator" class="com.serpics.catalog.facade.BrandPopulator" />
+    
+    <alias name="defaultBrandConverter" alias="brandConverter"/>
+    <bean name="defaultBrandConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.BrandData"/>
+    <property name="populators">
+      <list>
+          <ref bean="brandPopulator"/>  
+      </list>
+    </property>
+    </bean>
 </beans>    

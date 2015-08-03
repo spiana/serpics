@@ -18,7 +18,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.CtentryFacade;
+import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.CatalogService;
@@ -40,6 +42,9 @@ public class CatalogFacadeTest {
 	Logger log = LoggerFactory.getLogger(CatalogFacadeTest.class);
 	@Resource
 	CtentryFacade ctentryFacade;
+	
+	@Resource
+	BrandFacade brandFacade;
 
     @Autowired
     BaseService baseService;
@@ -90,18 +95,20 @@ public class CatalogFacadeTest {
     	entry.setDescription("ABBIGLIAMNTO");
     	entry.setUrl("http://prova cateogrty3");
     	entry = ctentryFacade.addCategory(entry,entryU.getUuid());
-    	entry = ctentryFacade.addCategory(entry,entryD.getUuid());
+    	ctentryFacade.addCategoryParent( entry.getUuid(), entryD.getUuid());
     	
     	CategoryData entry1 = new CategoryData();
     	entry1.setCode("BLUES");
     	entry1.setDescription("BLUES");
     	entry1.setUrl("http://prova cateogrty4");
-    	ctentryFacade.addCategory(entry1, entry.getUuid());
+    	ctentryFacade.addCategory(entry1, entryD.getUuid());
     	
     	entry1 = new CategoryData();
      	entry1.setCode("BOTTOM");
      	entry1.setDescription("BOTTOM");
      	entry1.setUrl("http://prova cateogrty5");
+     	entry1.setMetaDescription("meta bo");
+     	entry1.setMetaKey("bo");
     	ctentryFacade.addCategory(entry1, entry.getUuid());
     	
     	
@@ -112,9 +119,18 @@ public class CatalogFacadeTest {
     	Page<CategoryData> p= ctentryFacade.listCategory(new PageRequest(0, 10));
     	Assert.assertNotNull("Category not found", p);
     	log.info("Number category " +  p.getTotalElements());
+    	
+    	
     }
     
     private void createProduct() {
+    	BrandData b = new BrandData();
+    	b.setName("RANC");
+    	b.setId(1);
+    	b = brandFacade.addBrand(b);
+    	
+    	CategoryData c = ctentryFacade.findCategoryByCode("BLUES");
+    	
     	ProductData entry = new ProductData();
     	entry.setCode("PROD1");
     	entry.setDescription("PRODOTTO DI TEST NUMERO 1");
@@ -128,9 +144,10 @@ public class CatalogFacadeTest {
     	entry.setUrl("http://www.test.it");
     	entry.setWeight(10.50);
     	entry.setWeightMeas("KG");
-    	ctentryFacade.addProduct(entry);
+    	entry.setBrand(b);
+    	entry  = ctentryFacade.addProduct(entry);
+    	ctentryFacade.addEntryCategoryParent( entry.getUuid(), c.getUuid());
     	
-    	CategoryData c = ctentryFacade.findCategoryByCode("BLUES");
     	entry = new ProductData();
     	entry.setCode("PROD2");
     	entry.setDescription("PRODOTTO DI TEST NUMERO 2");
@@ -140,8 +157,11 @@ public class CatalogFacadeTest {
     }
     
     private void listProduct() {
+    	Page<BrandData> lb = brandFacade.findAll(new PageRequest(0, 10));
     	Page<ProductData> p = ctentryFacade.listProduct(new PageRequest(0, 10));
     	Assert.assertNotNull("Product not found", p);
     	log.info("Number product " +  p.getTotalElements());
+    	Page<CategoryData> l= ctentryFacade.listCategory(new PageRequest(0, 10));
+    	
     }
 }

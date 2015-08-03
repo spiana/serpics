@@ -24,22 +24,6 @@ public class CountryPopulator  implements Populator<Country, CountryData>{
 		target.setGeocode(geocodeConverter.convert(source.getGeocode()));
 		target.setDescription(source.getDescription().getText("it"));
 		target.setUuid(source.getUuid()); 
-		/*
-		 Set<RegionData> regionsData = new HashSet();
-		
-		
-		if(source.getRegions() != null) {
-			Set<Region> regions = source.getRegions();
-			for (Region region : regions) {
-				String test = region.getName();
-				RegionData regionData = regionConverter.convert(region);
-				regionsData.add(regionData);
-			}
-			
-		
-			target.setRegions(regionsData);
-		}*/
-		
 	}
 	
 	@Required

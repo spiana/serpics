@@ -11,7 +11,8 @@ public class ProductData  extends CtentryData{
 	protected Double weight;
 	protected String weightMeas;
 	//protected Set<PriceData> prices;
-	//protected BrandData brand;
+	protected BrandData brand;
+	
 	//protected CatalogData catalog;
 	//protected Categories categories;
 	protected String metaDescription;
@@ -72,5 +73,10 @@ public class ProductData  extends CtentryData{
 	public void setMetaKey(String metaKey) {
 		this.metaKey = metaKey;
 	}
-	
+	public BrandData getBrand() {
+		return brand;
+	}
+	public void setBrand(BrandData brand) {
+		this.brand = brand;
+	}
 }

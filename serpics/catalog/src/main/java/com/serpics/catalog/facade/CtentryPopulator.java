@@ -10,9 +10,15 @@ public class CtentryPopulator implements Populator<Ctentry, CtentryData> {
 	public void populate(Ctentry source, CtentryData target) {
 		target.setCode(source.getCode());
 		target.setUuid(source.getUuid());
+		target.setUrl(source.getUrl());
+		if(source.getDescription() != null)
+			target.setDescription(source.getDescription().getText("it"));
 		//target.setDescription(source.getDescription().getText("it"));
 		
 		
 	}
+	
+	
+	
 
 }
