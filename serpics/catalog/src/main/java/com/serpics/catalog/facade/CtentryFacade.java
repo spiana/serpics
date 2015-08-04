@@ -14,6 +14,7 @@ public interface CtentryFacade {
 	public void addCategoryParent(String childUuid, String parentUiid);
 	
 	public Page<ProductData> listProduct(Pageable page);
+	public Page<ProductData> listProductByCategory(String cUuid, Pageable page);
 	public ProductData addProduct(ProductData product);
 	public ProductData addProduct(ProductData product, String categoryUid);
 	public void addEntryCategoryParent(String childUuid, String parentUiid);

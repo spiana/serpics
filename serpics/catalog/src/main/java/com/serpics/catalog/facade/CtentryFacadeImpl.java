@@ -84,16 +84,7 @@ public class CtentryFacadeImpl implements CtentryFacade {
 		CategoryData entity = categoryConverter.convert(category);
 		return entity;
 	}
-	@Override
-	public Page<ProductData> listProduct(Pageable page) {
-		Page<Product> products = productService.findAll(page);
-		List<ProductData> l = new ArrayList<ProductData>();
-		for (Product product : products.getContent()) {
-			l.add(productConverter.convert(product));
-		}
-		Page<ProductData> list = new PageImpl<ProductData>(l, page, products.getTotalElements());
-		return list;
-	}
+	
 	
 	@Override
 	public CategoryData addCategory(CategoryData category) {
@@ -181,5 +172,29 @@ public class CtentryFacadeImpl implements CtentryFacade {
 		Category category = categoryService.findByUUID(categoryUuid);
 		
 		productService.addParentCategory(product, category);
+	}
+	
+	
+	@Override
+	public Page<ProductData> listProduct(Pageable page) {
+		Page<Product> products = productService.findAll(page);
+		List<ProductData> l = new ArrayList<ProductData>();
+		for (Product product : products.getContent()) {
+			l.add(productConverter.convert(product));
+		}
+		Page<ProductData> list = new PageImpl<ProductData>(l, page, products.getTotalElements());
+		return list;
+	}
+	
+	
+	public Page<ProductData> listProductByCategory(final String cUuid,Pageable page) {
+		Category category = categoryService.findByUUID(cUuid);
+		List<Product> products = productService.findProductByCategory(category);
+		List<ProductData> l = new ArrayList<ProductData>();
+		for (Product product : products) {
+			l.add(productConverter.convert(product));
+		}
+		Page<ProductData> list = new PageImpl<ProductData>(l, page, products.size());
+		return list;
 	}
 }

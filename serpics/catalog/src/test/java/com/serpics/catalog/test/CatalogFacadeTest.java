@@ -162,6 +162,10 @@ public class CatalogFacadeTest {
     	Assert.assertNotNull("Product not found", p);
     	log.info("Number product " +  p.getTotalElements());
     	Page<CategoryData> l= ctentryFacade.listCategory(new PageRequest(0, 10));
+    	CategoryData category = ctentryFacade.findCategoryByCode("BLUES");
+    	Page<ProductData> lp = ctentryFacade.listProductByCategory(category.getUuid(), new PageRequest(0, 10));
+    	Assert.assertNotNull("list product is null", lp);
+    	log.info("Number product " + lp.getTotalElements() + " in category " + category.getCode());
     	
     }
 }
