@@ -205,7 +205,6 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		address.setMember(user);
 		user.setBillingAddress(address);
 		billingAddressRepository.create(address);
-		//billingAddressRepository.saveAndFlush(address);
 	}
 	
 	@Override
@@ -229,11 +228,9 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		Assert.notNull(user);
 		Assert.notNull(user.getBillingAddress());
 		BillingAddress address = user.getBillingAddress();
-		//address.setMember(user);
-		//user.setBillingAddress(address);
 		billingAddressRepository.delete(address);
 		user.setBillingAddress(null);
-		//billingAddressRepository.saveAndFlush(address);
+		
 	}
 	
 	
@@ -242,10 +239,8 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 	public void deletePermanentAddress(User user, PermanentAddress address) {
 		Assert.notNull(user);
 		Assert.notNull(user.getPermanentAddresses().contains(address));
-		//address.setMember(user);
-		//user.setBillingAddress(address);
 		addressRepository.delete(address);
 		user.getPermanentAddresses().remove(address);
-		//billingAddressRepository.saveAndFlush(address);
+		
 	}
 }
