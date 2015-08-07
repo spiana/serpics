@@ -44,6 +44,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     private String[] displayProperties;
     private final Set<String> hideProperties = new HashSet<String>();
     private boolean editable= true;
+    private boolean searchFormEnable = true;
     
    // protected EntityFormWindow<T> editorWindow;
     protected Table entityList;
@@ -115,14 +116,15 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         
         this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
         this.editButtonPanel.setEnabled(isEnabled());
-        
-      //  this.searchPanel.addComponent(new SearchForm<T>(entityClass , createEntityItem()) {});
-        
-        this.searchPanel.setCaption("search");
-        v.addComponent(searchPanel);
-        
+     
+        if(searchFormEnable){
+        	this.searchPanel.addComponent(new SearchForm<T>(entityClass , createEntityItem()) {});
+        	this.searchPanel.setCaption("search");
+        	v.addComponent(searchPanel);
+        }
         v.addComponent(editButtonPanel);
         v.addComponent(entityList);
+        
         v.setExpandRatio(entityList, 1);
 
         entityList.addValueChangeListener(new Property.ValueChangeListener() {
@@ -289,4 +291,14 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     public Class<?> getType(){
     	return this.entityClass;
     }
+
+
+	public boolean isSearchFormEnable() {
+		return searchFormEnable;
+	}
+
+
+	public void setSearchFormEnable(boolean searchFormEnable) {
+		this.searchFormEnable = searchFormEnable;
+	}
 }

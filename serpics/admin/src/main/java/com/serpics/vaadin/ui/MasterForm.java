@@ -154,9 +154,14 @@ public abstract class MasterForm<T> extends FormLayout implements
 			}
 			((TextField) f).setNullRepresentation("");
 		}
+		
 		f.addValidator(new BeanValidator(entityClass, pid));
+		
 		if (String.class.isAssignableFrom(p.getType())) {
 			f.setWidth("80%");
+		}
+		if (Number.class.isAssignableFrom(p.getType())) {
+			f.setWidth("30%");
 		}
 		return f;
 	}

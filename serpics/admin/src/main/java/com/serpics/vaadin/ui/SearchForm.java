@@ -1,24 +1,36 @@
 package com.serpics.vaadin.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.serpics.vaadin.ui.component.CustomFieldFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
 
 public abstract class SearchForm<T> extends FormLayout{
-
+	private static transient Logger LOG = LoggerFactory.getLogger(SearchForm.class);
+	
 	private static final long serialVersionUID = 87868509261251877L;
 	private BeanFieldGroup<T> formFiledBinding;
 	private transient PropertyList<T> propertyList;	
@@ -77,9 +89,17 @@ public abstract class SearchForm<T> extends FormLayout{
 			if(pid.contains("."))
 				propertyList.addNestedProperty(pid);
 			
-			Field<?> field = CustomFieldFactory.get().createField(item, pid, this);
+			HorizontalLayout h = new HorizontalLayout();
+			h.addComponent(new Label(pid));
+			ComboBox c = new ComboBox("", Arrays.asList(new String [] {"iniza con" , "contiene" , "finisce con"}));
+			Field<?> field = createField(pid ,h);
+			field.setCaption("");
+			h.addComponent(c);
+			h.addComponent(field);
 			formFiledBinding.bind(field, pid);
-			addComponent(field);
+			h.setWidth("100%");
+			addComponent(h);
+			
 		}
 		Button search= new Button("search");
 		search.addClickListener(new Button.ClickListener() {
@@ -92,6 +112,28 @@ public abstract class SearchForm<T> extends FormLayout{
 		
 		addComponent(search);
 		
+	}
+	protected Field<?> createField(final String pid , Component uicontext) {
+		@SuppressWarnings("rawtypes")
+		final Property p = item.getItemProperty(pid);
+		LOG.info("create field : {}", pid);
+		final Field<?> f = CustomFieldFactory.get().createField(item,
+				pid, uicontext);
+		f.setBuffered(true);
+
+		if (f instanceof TextField) {
+			((TextField) f).setNullRepresentation("");
+		}
+		
+		f.addValidator(new BeanValidator(entityClass, pid));
+		
+		if (String.class.isAssignableFrom(p.getType())) {
+			f.setWidth("80%");
+		}
+		if (Number.class.isAssignableFrom(p.getType())) {
+			f.setWidth("30%");
+		}
+		return f;
 	}
 	
 	public void search() {
