@@ -46,6 +46,14 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
             return super.create(entity);
     }
 
+    @Transactional
+    public void addRelationCategory(final Category childCategory, final Category parentCategory) {
+    	final CtentryRelationPK ctpk = new CtentryRelationPK(parentCategory.getId(), childCategory.getId());
+        final CategoryRelation cgrel = new CategoryRelation();
+        cgrel.setId(ctpk);
+        categoryRelationRepository.save(cgrel);
+    }
+    
     @Override
     @Transactional
     public Category create(Category category, final Category parent) {
@@ -80,4 +88,6 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
         return categoryRepository.findRootCategory((Catalog) getCurrentContext().getCatalog());
     }
 
+    
+    
 }

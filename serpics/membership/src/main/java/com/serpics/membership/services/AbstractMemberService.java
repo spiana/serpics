@@ -60,7 +60,7 @@ public abstract class AbstractMemberService<T extends Member, ID extends Seriali
 
         if (member.getPrimaryAddress() != null && member.getPrimaryAddress().getMember() == null)
             member.getPrimaryAddress().setMember(member);
-
+     
         return member;
 
     }

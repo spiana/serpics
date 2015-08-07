@@ -16,19 +16,12 @@ import javax.persistence.criteria.Subquery;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.mysema.query.types.Path;
-import com.mysema.query.types.SubQuery;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.DefaultSpec;
 
 
-class Staff {
-    private Integer id;
-    private UserType tue;
-}
 
 @DefaultSpec(User.class)
 public class UserSpecification {

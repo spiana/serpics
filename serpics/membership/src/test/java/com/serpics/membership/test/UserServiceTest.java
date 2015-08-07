@@ -1,5 +1,6 @@
 package com.serpics.membership.test;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -13,19 +14,28 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.Geocode;
+import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.repositories.CountryRepository;
+import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.UserType;
+import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.membership.services.BaseService;
+import com.serpics.membership.services.BillingAddressService;
+import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
@@ -36,6 +46,14 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 
     @Autowired
     BaseService baseService;
+    
+    @Autowired
+    BillingAddressService billingAddressService;
+    @Autowired
+    PermanentAddressService permanentAddressService;
+    
+   
+    
     @Autowired
     CommerceEngine commerceEngine;
     @Autowired
@@ -46,6 +64,12 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     @Autowired
     MembersRoleRepository memberRoleRepository;
 
+    @Autowired
+    CountryRepository coutnryRepository;
+    
+    @Autowired
+    GeoCodeRepository geocodeRepository;
+    
     @Before
     public void init() {
        baseService.initIstance();
@@ -139,5 +163,145 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 //        memberRoleService.delete(l3.get(2).getId());
 //        final List<MembersRole> l4 = memberRoleService.findAll();
 //        Assert.assertEquals(2, l4.size());
+    }
+    
+    
+    @Test    
+    public void managerUser() throws SerpicsException {
+    	createUser();
+    	listUser();
+    	managerBillingAddress();
+    	managerPermaentAddress();
+    }
+    
+   
+
+	private void createUser() {
+    	
+		
+		Geocode g = new Geocode();
+		g.setDescription(new MultilingualString("it","geo ita"));
+		g.setCode("it");
+		g = geocodeRepository.create(g);
+		
+		Country c = new Country();
+		c.setDescription(new MultilingualString("it","ITALIA"));
+		c.setIso2Code("it");
+		c.setIso3Code("ita");
+		c.setGeocode(g);
+		c = coutnryRepository.create(c);
+		
+		PrimaryAddress pa = new PrimaryAddress();
+		
+		UsersReg reg = new UsersReg();
+		reg.setFirstname("vale reg 1");
+		reg.setLastname("ranc");
+		reg.setLogonid("vale01");
+		reg.setPassword("vale");
+		reg.setEmail("vale01@prova.it");
+		
+		reg = userService.registerUser(reg, null);
+		
+		reg = new UsersReg();
+		reg.setFirstname("vale reg 2");
+		reg.setLastname("ranc");
+		reg.setLogonid("vale02");
+		reg.setPassword("vale");
+		reg.setEmail("vale02@prova.it");
+		reg.setPhone("123");
+		
+		pa = new PrimaryAddress();
+		pa.setAddress1("vai registrato2");
+		pa.setCity("verbania");
+		pa.setZipcode("28921");
+		reg = userService.registerUser(reg, pa);
+		log.info("EXIT TEST SERVICE");
+		
+		
+    }
+    
+    private void listUser() {
+    	List<User> l = userService.findAll();
+    	log.info("elenco utenti numero " + l.size());
+    	
+		int i = 0;
+		String guuid = null;
+    	for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+			User user = (User) iterator.next();
+			
+			i++;
+		}
+
+    	
+    }
+    
+    private void managerBillingAddress() {
+    	User u = userService.findByLogonid("vale01");
+    	userService.setCurrentCustomer(u);
+    	Assert.assertNotNull("NOT MAIL CURRENT USER" + userService.getCurrentCustomer().getEmail());
+    	
+    	
+    	BillingAddress address = new BillingAddress();
+    	address.setAddress1("Via di prova numero 1");
+    	address.setCity("verbania");
+    	userService.addBillingAddress(address, u);
+    	Assert.assertEquals("non uguale city",  "verbania", userService.getCurrentCustomer().getBillingAddress().getCity());
+    	
+    	address = userService.getCurrentCustomer().getBillingAddress();
+    	address.setAddress1("Via billing aggioranta");
+    	address.setCity("verbania");
+    	address.setZipcode("123");
+    	userService.updateBillingAddress(address);
+    	Assert.assertEquals("non uguale zipcode",  "123", userService.getCurrentCustomer().getBillingAddress().getZipcode());
+    	
+    	userService.deleteBillingAddress(userService.getCurrentCustomer());
+    	
+    	Assert.assertNull("NON NULL BILLING" , userService.getCurrentCustomer().getBillingAddress());
+    	
+    	List<BillingAddress> l = billingAddressService.findAll();
+    	log.info("totale indirizzi di fatturazione" + l.size());
+    }
+
+    
+    private void managerPermaentAddress() {
+    	User u = userService.findByLogonid("vale02");
+    	userService.setCurrentCustomer(u);
+    	Assert.assertNotNull("NOT MAIL CURRENT USER" + userService.getCurrentCustomer().getEmail());
+    	
+    	
+    	PermanentAddress address = new PermanentAddress();
+    	address.setAddress1("Via di prova numero 1");
+    	address.setCity("verbania");
+    	userService.addPermanentAddress(address, userService.getCurrentCustomer());
+    	Assert.assertEquals("non uguale city",  "verbania", userService.getCurrentCustomer().getPermanentAddresses().iterator().next().getCity());
+    	
+    	address = new PermanentAddress();
+    	address.setAddress1("Via di prova numero ");
+    	address.setStreetNumber("2");
+    	address.setCity("verbania");
+    	userService.addPermanentAddress(address, userService.getCurrentCustomer());
+    	
+    	address = new PermanentAddress();
+    	address.setAddress1("Via di prova numero ");
+    	address.setStreetNumber("3");
+    	address.setCity("verbania");
+    	userService.addPermanentAddress(address, userService.getCurrentCustomer());
+   
+    	
+    	
+    	address = (PermanentAddress) userService.getCurrentCustomer().getPermanentAddresses().toArray()[1];
+    	address.setAddress1("Via per aggioranta");
+    	address.setCity("verbania");
+    	address.setNickname("address1");
+    	address.setZipcode("123");
+    	userService.updatePermanentAddress(address);
+    	Assert.assertEquals("non uguale zipcode",  "123", ((PermanentAddress) userService.getCurrentCustomer().getPermanentAddresses().toArray()[1]).getZipcode());
+    	
+    	userService.deletePermanentAddress(userService.getCurrentCustomer(), (PermanentAddress) userService.getCurrentCustomer().getPermanentAddresses().toArray()[2]);
+    	
+    	
+    	
+    	List<PermanentAddress> l = permanentAddressService.findAll();
+    	log.info("totale indirizzi di permanenti" + l.size());
     }
 }

@@ -43,11 +43,12 @@ public class Category extends Ctentry implements Serializable {
 
     @Column(name = "meta_description")
     private String metaDescription;
-
-    @Column(name = "meta_keyword")
+    
+	@Column(name = "meta_keyword")
     private String metaKeyword;
 
-    public Category() {
+    
+	public Category() {
         this.ctentryType = CatalogEntryType.CATEGORY;
     }
 
@@ -75,7 +76,20 @@ public class Category extends Ctentry implements Serializable {
         this.catalog = catalog;
     }
 
+    public String getMetaKeyword() {
+		return metaKeyword;
+	}
 
+	public void setMetaKeyword(String metaKeyword) {
+		this.metaKeyword = metaKeyword;
+	}
+	public String getMetaDescription() {
+		return metaDescription;
+	}
+
+	public void setMetaDescription(String metaDescription) {
+		this.metaDescription = metaDescription;
+	}
     @PrePersist
     @Override
     public void beforePersist() {

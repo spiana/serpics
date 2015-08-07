@@ -2,14 +2,12 @@ package com.serpics.membership.data.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,14 +15,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DiscriminatorOptions;
 
 import com.serpics.base.data.model.Country;
-import com.serpics.base.data.model.Geocode;
 import com.serpics.base.data.model.Region;
 import com.serpics.membership.AddressType;
 
@@ -65,8 +61,12 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @Size(max = 512)
     @Column(length = 512)
     protected String address1;
-
-    @Size(max = 512)
+    
+    @Size(max = 10)
+    @Column(nullable = true, length = 10)
+    protected String streetNumber;
+        
+	@Size(max = 512)
     @Column(length = 512)
     protected String address2;
 
@@ -128,7 +128,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     }
 
     public AbstractAddress(final String nickname, final String firstname, final String lastname, final String company, final String email,
-            final String address1, final String address2, final String address3, final String zipcode, final String city, final Region region,
+            final String address1, final String streetNumber, final String address2, final String address3, final String zipcode, final String city, final Region region,
           final String vatcode) {
         super();
 
@@ -138,6 +138,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
         this.company = company;
         this.email = email;
         this.address1 = address1;
+        this.streetNumber = streetNumber;
         this.address2 = address2;
         this.address3 = address3;
         this.zipcode = zipcode;
@@ -162,6 +163,14 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     public void setAddress1(final String address1) {
         this.address1 = address1;
     }
+
+    public String getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber(String streetNumber) {
+		this.streetNumber = streetNumber;
+	}
 
     public String getAddress2() {
         return this.address2;

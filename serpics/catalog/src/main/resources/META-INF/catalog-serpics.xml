@@ -60,5 +60,57 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		class="com.serpics.catalog.data.specification.DefaultCategorySpecification" />
 	<bean name="productSpecification"
 		class="com.serpics.catalog.data.specification.DefaultProductSpecification" />
+		
+		
+	<!--  facade -->
+	 <!-- facade -->
+   
+	  
 
+    <alias name="defaultCtentryConverter" alias="ctentryConverter"/>
+	<bean name="defaultCtentryConverter" parent="abstractConverter">
+	<property name="targetClass" value="com.serpics.catalog.facade.data.CtentryData"/>
+	</bean>
+	
+	<alias name="defaultCategoryPopulator" alias="categoryPopulator"/>
+    <bean name="defaultCategoryPopulator" class="com.serpics.catalog.facade.CategoryPopulator" />
+      
+
+    <alias name="defaultCategoryConverter" alias="categoryConverter"/>
+    <bean name="defaultCategoryConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.CategoryData"/>
+    <property name="populators">
+      <list>
+          <ref bean="categoryPopulator"/>  
+      </list>
+    </property>
+    </bean>
+    
+	<alias name="defaultProductPopulator" alias="productPopulator"/>
+    <bean name="defaultProductPopulator" class="com.serpics.catalog.facade.ProductPopulator" >
+        <property name="brandConverter" ref="brandConverter"/>
+    </bean>
+    
+    <alias name="defaultProductConverter" alias="productConverter"/>
+	<bean name="defaultProductConverter" parent="abstractConverter">
+	<property name="targetClass" value="com.serpics.catalog.facade.data.ProductData"/>
+	<property name="populators">
+	  <list>
+	      <ref bean="productPopulator"/>  
+	  </list>
+	</property>
+	</bean>
+	
+	<alias name="defaultBrandPopulator" alias="brandPopulator"/> 
+    <bean name="defaultBrandPopulator" class="com.serpics.catalog.facade.BrandPopulator" />
+    
+    <alias name="defaultBrandConverter" alias="brandConverter"/>
+    <bean name="defaultBrandConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.BrandData"/>
+    <property name="populators">
+      <list>
+          <ref bean="brandPopulator"/>  
+      </list>
+    </property>
+    </bean>
 </beans>    

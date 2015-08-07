@@ -16,7 +16,7 @@ public class RegionPopulator implements Populator<Region, RegionData>{
 	@Override
 	public void populate(Region source, RegionData target) {
 		target.setName(source.getName());
-		
+		target.setDescription(source.getDescription().getText("it"));
 		if(source.getCountry() != null)
 			target.setCountry(countryConverter.convert(source.getCountry())); 
 		

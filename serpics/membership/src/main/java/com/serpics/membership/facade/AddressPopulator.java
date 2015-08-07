@@ -23,7 +23,9 @@ public class AddressPopulator implements Populator<AbstractAddress, AddressData>
 		target.setNickname(source.getNickname());
 		target.setFirstname(source.getFirstname());
 		target.setLastname(source.getLastname());
+		
 		target.setAddress1(source.getAddress1());
+		target.setStreetNumber(source.getStreetNumber());
 		target.setZipcode(source.getZipcode());
 		target.setCity(source.getCity());
 			
