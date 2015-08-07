@@ -20,15 +20,14 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
 
     public MasterDetailTable(final Class<T> entityClass) {
         super(entityClass);
+        setSearchFormEnable(false);
     }
 
     @Override
     public void setParentEntity(final EntityItem<P> parent) {
         this.masterEntity = parent.getEntity();
-        
         if (this.backReferencePropertyId == null)
     		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());
-    		
     	 container.removeContainerFilters(backReferencePropertyId);
          container.addContainerFilter(new Compare.Equal(backReferencePropertyId, masterEntity));
     }
