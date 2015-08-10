@@ -113,4 +113,20 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
       </list>
     </property>
     </bean>
+    
+    
+    <alias name="defaultPricePopulator" alias="pricePopulator"/> 
+    <bean name="defaultPricePopulator" class="com.serpics.catalog.facade.PricePopulator" >
+        <property name="productConverter" ref="productConverter"/>
+    </bean>
+    
+    <alias name="defaultPriceConverter" alias="priceConverter"/>
+    <bean name="defaultPriceConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.PriceData"/>
+    <property name="populators">
+      <list>
+          <ref bean="pricePopulator"/>  
+      </list>
+    </property>
+    </bean>
 </beans>    

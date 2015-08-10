@@ -2,6 +2,7 @@ package com.serpics.catalog.facade.data;
 
 
 
+
 public class ProductData  extends CtentryData{
 	protected int buyable;
 	protected int published;
@@ -14,7 +15,7 @@ public class ProductData  extends CtentryData{
 	protected BrandData brand;
 	
 	//protected CatalogData catalog;
-	//protected Categories categories;
+	//protected Set<CategoryProductRelationData> categories;
 	protected String metaDescription;
 	protected String metaKey;
 	public int getBuyable() {
@@ -79,4 +80,16 @@ public class ProductData  extends CtentryData{
 	public void setBrand(BrandData brand) {
 		this.brand = brand;
 	}
+/*	public Set<PriceData> getPrices() {
+		return prices;
+	}
+	public void setPrices(Set<PriceData> prices) {
+		this.prices = prices;
+	}*/
+	/*public Set<CategoryProductRelationData> getCategories() {
+		return categories;
+	}
+	public void setCategories(Set<CategoryProductRelationData> categories) {
+		this.categories = categories;
+	}*/
 }

@@ -1,9 +1,12 @@
 package com.serpics.catalog.facade;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.serpics.catalog.facade.data.CategoryData;
+import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 
 public interface CtentryFacade {
@@ -18,4 +21,6 @@ public interface CtentryFacade {
 	public ProductData addProduct(ProductData product);
 	public ProductData addProduct(ProductData product, String categoryUid);
 	public void addEntryCategoryParent(String childUuid, String parentUiid);
+	public void addPrice(String productUuid, PriceData price);
+	public  List<CategoryData>  getParentCategory(ProductData product);
 }
