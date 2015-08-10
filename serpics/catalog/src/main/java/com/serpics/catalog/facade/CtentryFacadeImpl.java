@@ -19,15 +19,19 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Ctentry;
+import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.CtentryData;
+import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.BrandService;
 import com.serpics.catalog.services.CategoryService;
+import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
@@ -46,6 +50,9 @@ public class CtentryFacadeImpl implements CtentryFacade {
 	
 	@Autowired
 	BrandService brandService;
+	
+	@Autowired
+	PriceService priceService;
 	
 	@Resource(name="ctentryConverter")
 	AbstractPopulatingConverter<Ctentry, CtentryData> ctentryConverter;
@@ -195,6 +202,25 @@ public class CtentryFacadeImpl implements CtentryFacade {
 			l.add(productConverter.convert(product));
 		}
 		Page<ProductData> list = new PageImpl<ProductData>(l, page, products.size());
-		return list;
+		return list; 
+	}
+	
+	
+	public void  addPrice(String  entryId, PriceData priceData) {
+			AbstractProduct product = productService.findByUUID(entryId);
+			Price price = new Price();
+			price.setCurrentPrice(priceData.getCurrentPrice());
+			product = priceService.addPrice(product, price);
+	}
+	
+	
+	public List<CategoryData> getParentCategory(ProductData productData) {
+		Product product = productService.findByUUID(productData.getUuid());
+		List<Category> list = categoryService.getCategoriesByProduct(product);
+		List<CategoryData> categories = new ArrayList<CategoryData>();
+		for (Category category : list) {
+			categories.add(categoryConverter.convert(category));
+		}
+		return categories;
 	}
 }

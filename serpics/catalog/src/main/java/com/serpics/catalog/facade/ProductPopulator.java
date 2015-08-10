@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Brand;
+import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.facade.data.BrandData;
+import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 
 public class ProductPopulator implements Populator<AbstractProduct, ProductData> {
 	private AbstractPopulatingConverter<Brand, BrandData> brandConverter;
+	private AbstractPopulatingConverter<Price, PriceData> priceConverter;
 	@Override
 	public void populate(AbstractProduct source, ProductData target) {
 		target.setBuyable(source.getBuyable());
@@ -24,7 +27,16 @@ public class ProductPopulator implements Populator<AbstractProduct, ProductData>
 		target.setMetaKey(source.getMetaKeyword());
 		target.setMetaDescription(source.getMetaDescription());
 		
-		//target.setPrice(null);
+		/*if(source.getPrices() != null) {
+			Set<PriceData> pricesd = new HashSet<PriceData>();
+			Set<Price> prices = source.getPrices();
+			for (Price _p : prices) {
+				PriceData priced = priceConverter.convert(_p);
+				pricesd.add(priced);
+			}
+			target.setPrices(pricesd);
+			
+		} */
 		if(source.getBrand() != null)
 			target.setBrand(brandConverter.convert(source.getBrand()));
 		
@@ -42,4 +54,8 @@ public class ProductPopulator implements Populator<AbstractProduct, ProductData>
 			this.brandConverter = brandConverter;
 		}
 		
+		/*@Required
+		public void setPriceConverter(AbstractPopulatingConverter<Price, PriceData> priceConverter) {
+			this.priceConverter = priceConverter;
+		}*/
 }

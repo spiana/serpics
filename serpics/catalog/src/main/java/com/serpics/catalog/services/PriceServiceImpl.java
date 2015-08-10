@@ -56,7 +56,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
   
     @Override
     public List<Price> findValidPricesforProduct(final AbstractProduct product, final Pricelist pricelist , Currency currency) {
-        return priceRepository.findValidPricesForProduct(product, pricelist, currency);
+        return priceRepository.findValidPricesForProductT(product, pricelist);//findValidPricesForProduct(product, pricelist, currency);
     }
     @Override
     public List<Price> findValidPricesforProduct(final AbstractProduct product) {
@@ -111,5 +111,10 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
 	                .getCatalog());
 	        assert !defaultPricelist.isEmpty() : "missing default price list !";
 	        return addPrice(product, price, defaultPricelist.get(0));
+	}
+	
+	
+	public Pricelist addPriceList(Pricelist priceList) {
+		return priceListRepository.create(priceList);
 	}
 }

@@ -16,4 +16,8 @@ public interface PriceRepository extends Repository<Price, Long> {
     @Query("select p from Price p where p.product=:product and pricelist = :priceList and p.currency=:currency and ((p.validFrom is null and p.validTo is null) or CURRENT_DATE between p.validFrom and p.validTo) order by precedence DESC")
     public List<Price> findValidPricesForProduct(@Param("product") AbstractProduct product,
             @Param("priceList") Pricelist pricelist , @Param("currency") Currency currency);
+    
+    @Query("select p from Price p where p.product=:product and pricelist = :priceList order by precedence DESC")
+    public List<Price> findValidPricesForProductT(@Param("product") AbstractProduct product,
+            @Param("priceList") Pricelist pricelist );
 }

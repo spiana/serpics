@@ -1,5 +1,7 @@
 package com.serpics.catalog.test;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Assert;
@@ -18,10 +20,13 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.CtentryFacade;
+import com.serpics.catalog.facade.PriceFacade;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.facade.data.CategoryData;
+import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
@@ -45,7 +50,11 @@ public class CatalogFacadeTest {
 	
 	@Resource
 	BrandFacade brandFacade;
-
+	
+	@Resource
+	PriceFacade priceFacade;
+	
+	
     @Autowired
     BaseService baseService;
     
@@ -141,12 +150,21 @@ public class CatalogFacadeTest {
     	entry.setMetaDescription("MD PROD1");
     	entry.setMetaKey("MK PROD1");
     	entry.setUnitMeas("Q");
+    	
     	entry.setUrl("http://www.test.it");
     	entry.setWeight(10.50);
     	entry.setWeightMeas("KG");
     	entry.setBrand(b);
     	entry  = ctentryFacade.addProduct(entry);
     	ctentryFacade.addEntryCategoryParent( entry.getUuid(), c.getUuid());
+    	
+    	PriceData price = new PriceData();
+    	price.setCurrentPrice(10.00);
+    	price.setMinQty(1);
+    	price.setProductCost(5.50);
+    	price.setProductPrice(8.50);
+    
+    	ctentryFacade.addPrice(entry.getUuid(), price);
     	
     	entry = new ProductData();
     	entry.setCode("PROD2");
@@ -167,5 +185,19 @@ public class CatalogFacadeTest {
     	Assert.assertNotNull("list product is null", lp);
     	log.info("Number product " + lp.getTotalElements() + " in category " + category.getCode());
     	
+    	for (ProductData productData : lp) {
+			log.info("product " + productData.getCode() + " - " + productData.getDescription() + " - ") ;
+			//Assert.assertNotNull("Prices is null ", productData.getPrices());
+			//log.info("product " + productData.getPrices().iterator().next().getCurrentPrice()) ;
+			try {
+				PriceData price = priceFacade.findPriceByProduct(productData.getUuid());
+				Assert.assertNotNull("PRICE IS NULL", price);
+			} catch (PriceNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			List<CategoryData> cprd = ctentryFacade.getParentCategory(productData);
+			Assert.assertNotNull("List category parent null", cprd);
+		}
     }
 }
