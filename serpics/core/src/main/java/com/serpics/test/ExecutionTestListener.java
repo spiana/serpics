@@ -1,6 +1,6 @@
 package com.serpics.test;
 
-import org.hibernate.validator.internal.util.privilegedactions.GetAnnotationParameter;
+
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
 
