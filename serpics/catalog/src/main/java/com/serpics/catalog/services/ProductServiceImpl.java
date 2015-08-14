@@ -55,6 +55,7 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 	}
 	
 	
+	
 	@Transactional
 	public Product addParentCategory(Product product,  Category category) {
 		addCategoryRelation(product, category);
@@ -66,10 +67,7 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
         ctcgrel.setChildProduct((AbstractProduct) product);
         ctcgrel.setParentCategory(category);
         categoryProductRepository.create(ctcgrel);
-        /*  final CtentryRelationPK ctpk = new CtentryRelationPK(category.getId(), product.getId());
-          final CategoryProductRelation cprel = new CategoryProductRelation();
-          cprel.setId(ctpk);
-          categoryProductRepository.save(cprel);*/
+        
 	}
 	
 	@Transactional 
