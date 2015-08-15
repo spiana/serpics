@@ -159,6 +159,9 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     @Override
     public void unbind() {
+    	SessionContext context = threadLocal.get();
+    	if (context != null)
+    		this.sessionManager.putSessionContext(context.getSessionId(), context);
         threadLocal.remove();
     }
 }

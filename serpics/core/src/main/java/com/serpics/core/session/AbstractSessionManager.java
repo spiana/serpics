@@ -32,6 +32,7 @@ public abstract class AbstractSessionManager implements SessionManager {
         final CommerceSessionContext context = new CommerceSessionContext();
         context.setStoreRealm(realm);
         context.setSessionId(sessionId);
+        context.setUserCookie(sessionId);
         context.setLastAccess(new Date());
 
         context.setCommerceScopeAttribute(commerceScopeAttributes);
@@ -64,5 +65,10 @@ public abstract class AbstractSessionManager implements SessionManager {
         }
 
         return sessionContext;
+    }
+    
+    @Override
+    public void putSessionContext(String sessionId, SessionContext context) {
+    	sessionList.put(sessionId, context);
     }
 }

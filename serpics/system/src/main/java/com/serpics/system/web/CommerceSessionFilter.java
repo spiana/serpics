@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.membership.services.BaseService;
 
 public class CommerceSessionFilter implements Filter {
 
@@ -24,6 +25,9 @@ public class CommerceSessionFilter implements Filter {
 
     @Autowired
     CommerceEngine ce;
+    
+    @Autowired 
+    BaseService baseService;
 
 
 
@@ -34,6 +38,10 @@ public class CommerceSessionFilter implements Filter {
         if (logger.isDebugEnabled())
             logger.debug("CommerceSessionFilter called");
 
+        if (!baseService.isInitialized()){
+        	logger.warn("serpics is not initialized !");
+        	baseService.initIstance();
+        }
         
         final HttpServletRequest httpReq = (HttpServletRequest) req;
         final String id = (String) httpReq.getSession().getAttribute(

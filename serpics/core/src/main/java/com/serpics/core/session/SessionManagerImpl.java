@@ -52,4 +52,10 @@ public class SessionManagerImpl implements SessionManager {
 			sessionList.remove(sessionId);
 	}
 
+	@Override
+	public void putSessionContext(String sessionId, SessionContext context) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

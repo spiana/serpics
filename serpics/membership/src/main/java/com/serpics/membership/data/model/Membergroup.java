@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.NotEmpty;
+
 
 
 /**
@@ -37,7 +37,6 @@ public class Membergroup  extends com.serpics.core.data.jpa.AbstractEntity imple
     @Column(name="membergroups_id", unique=true, nullable=false)
     private Long id;
 
-    @NotEmpty
     @NotNull
     @Size(max = 100)
     @Column(nullable = false, length = 100)

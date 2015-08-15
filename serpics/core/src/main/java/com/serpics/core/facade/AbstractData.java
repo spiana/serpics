@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 
 public abstract class AbstractData {
 	
-	@XmlSchemaType(name = "dateTime")
+	@XmlSchemaType(name = "date")
 	protected Date updated;
 	
 	@XmlSchemaType(name = "dateTime")

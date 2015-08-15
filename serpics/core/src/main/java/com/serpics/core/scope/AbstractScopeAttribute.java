@@ -1,5 +1,6 @@
 package com.serpics.core.scope;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -8,7 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public abstract class AbstractScopeAttribute {
+public abstract class AbstractScopeAttribute implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7000323362121580424L;
 
 	final Logger logger = LoggerFactory.getLogger(AbstractScopeAttribute.class);
 

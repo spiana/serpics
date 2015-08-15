@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smc-definition>
+
+<class name="com.pippo">
+	<table action="replace">
+		<property name="" />
+	</table>
+	<table action="replace">
+		<property name="" />
+	</table>
+	<editor action="append">
+		<property name="" />
+	</editor>
+	<select>
+		<property name="" />
+	</select>
+</class>
+<class name="com.pippo">
+	<table action="replace">
+		<property name="" />
+	</table>
+	<editor action="append">
+		<property name="" />
+	</editor>
+	<select>
+		<property name="" />
+	</select>
+</class>
+<class>
+</class>
+
+</smc-definition>
+

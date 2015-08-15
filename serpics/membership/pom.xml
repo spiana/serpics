@@ -58,9 +58,64 @@
           </execution>
         </executions>
       </plugin>
+      
+               <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <version>3.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-sql-schema</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>hbm2ddl</goal>
+                        </goals>
+                        <configuration>
+                            <hibernatetool>
+                                <jpaconfiguration persistenceunit="serpics" />
+                                <hbm2ddl update="true" create="true" export="false"
+                                    outputfilename="src/main/sql/schema.sql" format="true"
+                                    console="true" />
+                            </hibernatetool>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+      
     </plugins>
-    
-  </build>
+
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>org.codehaus.mojo</groupId>
+    								<artifactId>
+    									hibernate3-maven-plugin
+    								</artifactId>
+    								<versionRange>[3.0,)</versionRange>
+    								<goals>
+    									<goal>hbm2ddl</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+</build>
   
 	<!-- 
 	<build>

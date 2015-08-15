@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="" xsi:schemaLocation="xmc.xsd">
+	<entity name="country">
+		<table>
+			<display>
+				<property name="geocode.code" />
+				<property name="description" />
+			</display>
+			<search>
+				<property name="geocode" />
+				<property name="iso2Code" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="geocode" />
+				<property name="description" />
+				<property name="iso2Code" />
+				<property name="iso3Code" />
+				<!-- <property name="regions"/> -->
+				<property name="created" />
+				<property name="updated" />
+			</display>
+
+			<readonly action="append">
+				<property name="created" />
+				<property name="updated" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="iso2Code" />
+		</select>
+	</entity>
+
+</smc-definition>

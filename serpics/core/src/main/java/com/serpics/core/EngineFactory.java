@@ -25,7 +25,7 @@ public class EngineFactory implements ApplicationContextAware{
 	public static void init()  {
 		List<String> modules = new ArrayList<String>();
 		modules.add("classpath:META-INF/applicationContext.xml");
-		URL l = EngineFactory.class.getClassLoader().getResource("META-INF/modules.xml");
+		URL l = Thread.currentThread().getContextClassLoader().getResource("META-INF/modules.xml");
 		LOG.info("modules file location : {}",l.getPath());
 		SAXReader reader = new SAXReader();
 	     Document document;
