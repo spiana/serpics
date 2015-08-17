@@ -61,6 +61,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	
 	@Autowired
 	Engine<CommerceSessionContext> engine;
+	
+	
 	@Override
 	public Page<CategoryData> listCategory(Pageable page) {
 		Page<Category> categories = categoryService.findAll(page);
@@ -72,6 +74,26 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		return list;
 	}
 	
+	@Override
+	public List<CategoryData> listTopCategory() {
+		List<Category> categories = categoryService.findRootCategory();
+		List<CategoryData> list = new ArrayList<CategoryData>();
+		for (Category category : categories) {
+			list.add(categoryConverter.convert(category));
+		}
+		return list;
+	}
+	@Override
+	public List<CategoryData> listChildCategories(String uuid) {
+		List<CategoryData> list = new ArrayList<CategoryData>();
+		Category parent = categoryService.findByUUID(uuid);
+		List<Category> categories = categoryService.getChildCategories(parent);
+		for (Category category : categories) {
+			list.add(categoryConverter.convert(category));
+		}
+		
+		return list;
+	}
 	
 	@Override 
 	public CategoryData findCategoryByCode(final String code){ 
@@ -90,31 +112,30 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	
 	
 	@Override
-	public CategoryData addCategory(CategoryData category) {
-		Category  entity = buildCategory(category);
+	public CategoryData create(CategoryData category) {
+		Category  entity = buildCategory(category, new Category());
 		entity = categoryService.create(entity); 
 		category = categoryConverter.convert(entity);
 		return category;
 	}
 	
 	@Override
-	public CategoryData addCategory(CategoryData category, String parentUuid) {
+	public CategoryData create(CategoryData category, String parentUuid) {
 		Category parent = categoryService.findByUUID(parentUuid);
-		Category entity = buildCategory(category);
+		Category entity = buildCategory(category, new Category());
 		entity = categoryService.create(entity, parent);
 		category = categoryConverter.convert(entity);
 		return category;
-	}
+	} 
 	
-	private Category buildCategory(CategoryData category){
-		Category entity = new Category();
+	private Category buildCategory(CategoryData category, Category entity){
 		entity.setCode(category.getCode());
 		entity.setUrl(category.getUrl());
 		return entity;
 	}
 	
 	
-	public void addCategoryParent(String parentUui, String childUuid) {
+	public void addCategoryParent(String childUuid, String parentUui) {
 		Category parent = categoryService.findByUUID(parentUui);
 		Category child = categoryService.findByUUID(childUuid);
 		

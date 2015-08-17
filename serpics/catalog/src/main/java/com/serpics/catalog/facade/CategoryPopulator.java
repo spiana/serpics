@@ -16,6 +16,7 @@ public class CategoryPopulator implements Populator<Category, CategoryData>    {
 		target.setCode(source.getCode());
 		target.setUuid(source.getUuid());
 		target.setUrl(source.getUrl());
+		target.setCatalogId(source.getCatalog().getCode());
 		if(source.getDescription() != null)
 			target.setDescription(source.getDescription().getText("it"));
 	}

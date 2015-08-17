@@ -91,6 +91,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<alias name="defaultProductPopulator" alias="productPopulator"/>
     <bean name="defaultProductPopulator" class="com.serpics.catalog.facade.ProductPopulator" >
         <property name="brandConverter" ref="brandConverter"/>
+        <property name="priceConverter" ref="priceConverter"/>
+        <property name="mediaConverter" ref="mediaConverter"/>
+        <property name="categoryConverter" ref="categoryConverter"/>
     </bean>
     
     <alias name="defaultProductConverter" alias="productConverter"/>
@@ -123,9 +126,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     
     
     <alias name="defaultPricePopulator" alias="pricePopulator"/> 
-    <bean name="defaultPricePopulator" class="com.serpics.catalog.facade.PricePopulator" >
-        <property name="productConverter" ref="productConverter"/>
-    </bean>
+    <bean name="defaultPricePopulator" class="com.serpics.catalog.facade.PricePopulator" />
     
     <alias name="defaultPriceConverter" alias="priceConverter"/>
     <bean name="defaultPriceConverter" parent="abstractConverter">
@@ -133,6 +134,20 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <property name="populators">
       <list>
           <ref bean="pricePopulator"/>  
+      </list>
+    </property>
+    </bean>
+    
+    
+    <alias name="defaultMediaPopulator" alias="mediaPopulator"/> 
+    <bean name="defaultMediaPopulator" class="com.serpics.catalog.facade.MediaPopulator" />
+    
+    <alias name="defaultMediaConverter" alias="mediaConverter"/>
+    <bean name="defaultMediaConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.MediaData"/>
+    <property name="populators">
+      <list>
+          <ref bean="mediaPopulator"/>  
       </list>
     </property>
     </bean>

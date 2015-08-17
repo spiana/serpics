@@ -1,6 +1,7 @@
 package com.serpics.catalog.test;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -20,13 +21,13 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.PriceFacade;
 import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.facade.data.CategoryData;
+import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.CatalogService;
@@ -92,39 +93,44 @@ public class CatalogFacadeTest {
     
     
     private void createCategory() {
-    	CategoryData entryU = new CategoryData();
-    	entryU.setCode("UOMO");
-    	entryU.setDescription("UOMO");
-    	entryU.setUrl("http://prova cateogrty");
-    	entryU = categoryFacade.addCategory(entryU);
+    	CategoryData catU = new CategoryData();
+    	catU.setCode("UOMO");
+    	catU.setDescription("UOMO");
+    	catU.setUrl("http://prova cateogrty");
+    	catU = categoryFacade.create(catU);
     	
+    	CategoryData catA = new CategoryData();
+    	catA.setCode("ABB");
+    	catA.setDescription("ABBIGLIAMNTO");
+    	catA.setUrl("http://prova cateogrty3");
+    	catA = categoryFacade.create(catA,catU.getUuid());
     	
-    	CategoryData entryD = new CategoryData();
-    	entryD.setCode("DONNA");
-    	entryD.setDescription("DONNA");
-    	entryD.setUrl("http://prova cateogrty2");
-    	entryD = categoryFacade.addCategory(entryD);
+    	CategoryData catB = new CategoryData();
+     	catB.setCode("BOTTOM");
+     	catB.setDescription("BOTTOM");
+     	catB.setUrl("http://prova cateogrty5");
+     	catB.setMetaDescription("meta bo");
+     	catB.setMetaKey("bo");
+     	catB = categoryFacade.create(catB, catA.getUuid());
+     	
+    	CategoryData catD = new CategoryData();
+    	catD.setCode("DONNA");
+    	catD.setDescription("DONNA");
+    	catD.setUrl("http://prova cateogrty2");
+    	catD = categoryFacade.create(catD);
     	
-    	CategoryData entry = new CategoryData();
-    	entry.setCode("ABB");
-    	entry.setDescription("ABBIGLIAMNTO");
-    	entry.setUrl("http://prova cateogrty3");
-    	entry = categoryFacade.addCategory(entry,entryU.getUuid());
-    	categoryFacade.addCategoryParent( entry.getUuid(), entryD.getUuid());
+    	CategoryData catAD = new CategoryData();
+    	catAD.setCode("ABBD");
+    	catAD.setDescription("ABBIGLIAMNTO");
+    	catAD = categoryFacade.create(catAD);
+    	categoryFacade.addCategoryParent( catAD.getUuid(), catD.getUuid());
     	
-    	CategoryData entry1 = new CategoryData();
-    	entry1.setCode("BLUES");
-    	entry1.setDescription("BLUES");
-    	entry1.setUrl("http://prova cateogrty4");
-    	categoryFacade.addCategory(entry1, entryD.getUuid());
+    	CategoryData catBL = new CategoryData();
+    	catBL.setCode("BLUES");
+    	catBL.setDescription("BLUES");
+    	catBL.setUrl("http://prova cateogrty4");
+    	categoryFacade.create(catBL, catAD.getUuid());
     	
-    	entry1 = new CategoryData();
-     	entry1.setCode("BOTTOM");
-     	entry1.setDescription("BOTTOM");
-     	entry1.setUrl("http://prova cateogrty5");
-     	entry1.setMetaDescription("meta bo");
-     	entry1.setMetaKey("bo");
-     	categoryFacade.addCategory(entry1, entry.getUuid());
     	
     	
     	
@@ -135,6 +141,23 @@ public class CatalogFacadeTest {
     	Assert.assertNotNull("Category not found", p);
     	log.info("Number category " +  p.getTotalElements());
     	
+    	CategoryData cat = categoryFacade.findCategoryByCode("UOMO");
+    	List<CategoryData> childU = categoryFacade.listChildCategories(cat.getUuid());
+    	Assert.assertNotNull("SUB UOMO NULL", childU);
+    	List<CategoryData> categories = categoryFacade.listTopCategory();
+    	Assert.assertNotNull("Empty top categories", categories);
+    	log.info("** top cateogries " + categories.size());
+    	for (CategoryData categoryData : categories) {
+    		log.info("TOP: " + categoryData.getCode() + " - " + categoryData.getDescription());
+    		
+    		List<CategoryData> subCategories = categoryFacade.listChildCategories(categoryData.getUuid());
+    		if(subCategories != null) {
+    			for (CategoryData subCategory : subCategories) {
+    				log.info("|--- " + subCategory.getCode() + " - " + subCategory.getDescription());
+    				
+				}
+    		}
+		}
     	
     }
     
@@ -147,6 +170,7 @@ public class CatalogFacadeTest {
     	
     	
     	CategoryData c = categoryFacade.findCategoryByCode("BLUES");
+    	CategoryData c2 = categoryFacade.findCategoryByCode("ABBD");
     	
     	ProductData entry = new ProductData();
     	entry.setCode("PROD1");
@@ -163,25 +187,38 @@ public class CatalogFacadeTest {
     	entry.setWeight(10.50);
     	entry.setWeightMeas("KG");
     	entry.setBrand(b);
-    	entry  = productFacade.addProduct(entry);
+    	entry  = productFacade.create(entry);
     	productFacade.addEntryCategoryParent( entry.getUuid(), c.getUuid());
     	
     	
     	
     	PriceData price = new PriceData();
     	price.setCurrentPrice(10.00);
-    	price.setMinQty(1);
+    /*	price.setMinQty(1);
     	price.setProductCost(5.50);
-    	price.setProductPrice(8.50);
-    
+    	price.setProductPrice(8.50);*/
+    	price.setPrecedence(1);
     	productFacade.addPrice(entry.getUuid(), price);
+    	
+    	MediaData media = new MediaData();
+    	media.setSrc("prova.jpg");
+    	media.setName("imgthmb");
+    	media.setSequence(1);
+    	productFacade.addMedia(entry.getUuid(),media);
     	
     	entry = new ProductData();
     	entry.setCode("PROD2");
     	entry.setDescription("PRODOTTO DI TEST NUMERO 2");
     	entry.setBuyable(1);
     	entry.setPublished(1); 
-    	productFacade.addProduct(entry,c.getUuid());
+    	entry = productFacade.create(entry,c.getUuid());
+    	
+    	productFacade.addEntryCategoryParent( entry.getUuid(), c2.getUuid());
+    	
+    	 price = new PriceData();
+     	price.setCurrentPrice(20.00);
+     	price.setPrecedence(1);
+     	productFacade.addPrice(entry.getUuid(), price);
     }
     
     private void listProduct() {
@@ -197,17 +234,20 @@ public class CatalogFacadeTest {
     	
     	for (ProductData productData : lp) {
 			log.info("product " + productData.getCode() + " - " + productData.getDescription() + " - ") ;
-			//Assert.assertNotNull("Prices is null ", productData.getPrices());
-			//log.info("product " + productData.getPrices().iterator().next().getCurrentPrice()) ;
-			try {
-				PriceData price = priceFacade.findPriceByProduct(productData.getUuid());
-				Assert.assertNotNull("PRICE IS NULL", price);
-			} catch (PriceNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+			
+			Set<MediaData> medias = productData.getMedia();
+			log.info("TOTALE MEDIA " + medias.size());
+			
+			Assert.assertNotNull("price is null");
+			if(productData.getPrices() != null) log.info("Current price" +productData.getPrices().getCurrentPrice());
+			
+			if(productData.getCategories() != null) {
+				Set<CategoryData> listParentCategory = productData.getCategories();
+				log.info("parent categories " + listParentCategory.size());
+			}
 			List<CategoryData> cprd = productFacade.getParentCategory(productData);
 			Assert.assertNotNull("List category parent null", cprd);
+			log.info("GET PARENT " + cprd.size());
 		}
     }
     

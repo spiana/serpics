@@ -17,15 +17,18 @@ import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Ctentry;
+import com.serpics.catalog.data.model.Media;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.ProductSpecification;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.CtentryData;
+import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.BrandService;
 import com.serpics.catalog.services.CategoryService;
+import com.serpics.catalog.services.MediaService;
 import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -43,7 +46,8 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Autowired
 	ProductService productService;
 	
-	
+	@Autowired
+	MediaService mediaService;
 	
 	@Autowired
 	BrandService brandService;
@@ -78,7 +82,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override
-	public ProductData addProduct(ProductData product) {
+	public ProductData create(ProductData product) {
 		Product entity = buildProduct(product, new Product());
 		entity = productService.create(entity);
 		product = productConverter.convert(entity);
@@ -86,7 +90,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override
-	public ProductData addProduct(ProductData product, String parentUuid) {
+	public ProductData create(ProductData product, String parentUuid) {
 		Category parent = categoryService.findByUUID(parentUuid);
 		Product entity = buildProduct(product, new Product());
 		entity = productService.create(entity, parent);
@@ -156,7 +160,12 @@ public class ProductFacadeImpl implements ProductFacade {
 			AbstractProduct product = productService.findByUUID(entryId);
 			Price price = new Price();
 			price.setCurrentPrice(priceData.getCurrentPrice());
+			price.setMinQty(new Double(priceData.getMinQty()).doubleValue());
+			price.setPrecedence(new Double(priceData.getPrecedence()).doubleValue());
+			price.setProductPrice(priceData.getProductPrice());
+			price.setProductCost(priceData.getProductCost());
 			product = priceService.addPrice(product, price);
+			Assert.assertNotNull(product);
 	}
 	
 	
@@ -199,6 +208,18 @@ public class ProductFacadeImpl implements ProductFacade {
 		Product product = productService.findOne(ProductSpecification.findByName(name));
 		ProductData p = productConverter.convert(product);
 		return p; 
+	}
+
+	@Override
+	public void addMedia(String productUuid, MediaData mediaData) {
+		Product product = productService.findByUUID(productUuid);
+		Media media = new Media();
+		media.setCtentry(product);
+		media.setName(mediaData.getName());
+		media.setSrc(mediaData.getSrc());
+		media = mediaService.create(media);
+		product = productService.addMedia(product, media);
+		Assert.assertNotNull(product);
 	}
 	
 	

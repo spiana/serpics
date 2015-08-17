@@ -10,6 +10,7 @@ public class PriceData {
 	protected Double productPrice;
 	protected Date validFrom;
 	protected Date validTo;
+	protected int precedence;
 	protected ProductData product;
 	public Double getProductCost() {
 		return productCost;
@@ -52,5 +53,11 @@ public class PriceData {
 	}
 	public void setProduct(ProductData product) {
 		this.product = product;
+	}
+	public int getPrecedence() {
+		return precedence;
+	}
+	public void setPrecedence(int precedence) {
+		this.precedence = precedence;
 	}
 }

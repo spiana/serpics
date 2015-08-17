@@ -101,7 +101,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
 		price.setPricelist(pricelist);
 		price.setProduct(product);
 
-		priceRepository.create(price);
+		price = priceRepository.create(price);
 		return productRepository.findOne(product.getId());
 	}
 
