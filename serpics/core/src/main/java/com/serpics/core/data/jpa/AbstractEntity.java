@@ -1,5 +1,6 @@
 package com.serpics.core.data.jpa;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,13 +12,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @MappedSuperclass
-public abstract class AbstractEntity {
+public abstract class AbstractEntity implements Serializable {
 
-	@Column(name = "updated")
+	@Column(name = "updated" , nullable =false)
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date updated;
 	
-	@Column(name = "created")
+	@Column(name = "created" , nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	protected  Date created;
 	
