@@ -127,7 +127,6 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         threadLocal.set(context);
         StoreScopeContextHolder.setCurrentStoreRealm(context.getRealm());
         SessionScopeContextHolder.setSessionScopeAttributes(context.getCommerceScopeAttribute());
-        this.sessionManager.putSessionContext(context.getSessionId(), context);
         return;
     }
 
