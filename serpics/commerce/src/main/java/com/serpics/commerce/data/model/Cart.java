@@ -32,5 +32,7 @@ public class Cart extends AbstractOrder {
         return (Set<Cartitem>) super.getOrderitems();
     }
 
-
+    public Set<AbstractOrderitem> setCartitems(Set<AbstractOrderitem> items) {
+        return this.orderitems = items;
+    }
 }

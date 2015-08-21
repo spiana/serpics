@@ -1,7 +1,11 @@
 package com.serpics.commerce.services;
 
 import java.math.BigDecimal;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -15,8 +19,10 @@ import org.springframework.util.Assert;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Product;
+import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.repositories.CartItemRepository;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderItemRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -40,6 +46,10 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     @Resource
     CartRepository cartRepository;
 
+    @Resource
+    CartItemRepository cartItemRepository;
+
+    
     @Resource
     OrderItemRepository orderitemrepository;
 
@@ -107,6 +117,35 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
     }
 
+    
+    
+    
+    @Override
+    @Transactional
+	public Cart cartUpdateProduct(Hashtable<Product, Double> list)
+			throws InventoryNotAvailableException, ProductNotFoundException {
+
+		Cart cart = getSessionCart();
+		
+		cartItemRepository.delete(cart.getCartitems());
+		Set<AbstractOrderitem> abs = new HashSet<AbstractOrderitem>();
+		cart.setCartitems(abs);
+		//cart.getCartitems().remove(cart.getCartitems());
+		cart = cartRepository.update(cart);
+		//cart = getSessionCart();
+		Enumeration<Product> e = list.keys();
+		while (e.hasMoreElements()) {
+			Product product = (Product) e.nextElement();
+			double q = list.get(product);
+			if(q > 0)  cartAdd(product, q, true);
+		}
+		cart = cartRepository.update(cart);
+		return cart;
+    	
+    	
+
+	}
+    
     @Override
     @Transactional
     public Cart cartAdd(final AbstractProduct product, final double quantity, final Cart cart, final boolean merge)
@@ -115,7 +154,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
         Cartitem cartItem = new Cartitem();
         cartItem.setSku(product.getCode());
         cartItem.setQuantity(quantity);
-
+       
         if (merge)
             cartItem = mergeCart(cart, cartItem);
 
@@ -124,6 +163,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
         discountStrategy.applyItemDiscount(cartItem);
         cartItem.setOrder(cart);
+        
+        //cartItem.setProduct(product);
         cart.getCartitems().add(cartItem);
 
         commerceStrategy.calculateShipping(cartItem);
@@ -197,7 +238,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     @Transactional
     public Cart prepareCart(final Cart cart, final boolean updateInventory) throws InventoryNotAvailableException,
     ProductNotFoundException {
-
+    	
         cart.setOrderAmount(new BigDecimal(0));
         cart.setTotalProduct(new BigDecimal(0));
         cart.setTotalShipping(new BigDecimal(0));

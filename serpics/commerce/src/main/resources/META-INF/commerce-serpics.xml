@@ -26,4 +26,43 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="order" value="10" />
 		<property name="interceptor" ref="paymethodlookupCreateInterceptor" />
 	</bean> 
+	
+	
+	<!-- facade -->
+	
+	<alias name="defaultAbstractOrderPopulator" alias="abstractOrderPopulator"/>
+	<bean name="defaultAbstractOrderPopulator" class="com.serpics.commerce.facade.AbstractOrderPopulator"  abstract="true"/>
+	 
+	
+	<alias name="defaultCartPopulator" alias="cartPopulator"/>
+	<bean name="defaultCartPopulator" parent="abstractOrderPopulator">
+	   <property name="abstractOrderItemConverter" ref="cartItemConvert"/>
+	</bean>
+	
+	<alias name="defaulCartConverter" alias="cartConverter"/>
+	<bean name="defaulCartConverter" parent="abstractConverter">
+	<property name="targetClass" value="com.serpics.commerce.facade.data.CartData"/>
+	<property name="populators">
+	  <list>
+	      <ref bean="cartPopulator"/>  
+	  </list>
+	</property>
+	</bean>
+	
+	<alias name="defaultCartItemConverter" alias="cartItemConvert"/>
+	  <bean name="defaultCartItemConverter" parent="abstractConverter">
+	       <property name="targetClass" value="com.serpics.commerce.facade.data.CartItemData"/>
+	       <property name="populators">
+      <list>
+          <ref bean="cartItemPopulator"/>  
+      </list>
+    </property>
+	  </bean>
+
+	<alias name="defaultAbstractOrderItemPopulator" alias="abstractOrderItemPopulator"/>
+    <bean name="defaultAbstractOrderItemPopulator" class="com.serpics.commerce.facade.AbstractOrderItemPopulator"  />
+    
+    <alias name="defaultCartItemPopulator" alias="cartItemPopulator"/>
+    <bean name="defaultCartItemPopulator" parent="abstractOrderItemPopulator" />
+    
  </beans>    

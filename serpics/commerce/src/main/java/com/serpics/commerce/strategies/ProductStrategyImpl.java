@@ -6,7 +6,7 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.commerce.strategies.AbstractStrategy;
+import com.serpics.catalog.data.repositories.ProductSpecification;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy("productStrategy")
@@ -24,7 +24,8 @@ public class ProductStrategyImpl extends AbstractStrategy implements ProductStra
 		p.setCode(sku);
 		p.setCatalog(catalog);
 
-		Product product = productRepository.findOne(productRepository.makeSpecification(p));
+		//Product product = productRepository.findOne(productRepository.makeSpecification(p));
+		Product product = productRepository.findOne(ProductSpecification.findByName(sku));
 		if (product == null)
 			throw new ProductNotFoundException(String.format("product not found for SKU [%s] !", sku));
 		
