@@ -15,7 +15,7 @@ implements CachingEntityProvider<T> {
     // concurrent implementations? What about synchronization?
 
     private static final long serialVersionUID = 302600441430870363L;
-    private final CachingServiceSupport<T> cachingSupport;
+    private final CachingSupport<T> cachingSupport;
 
     /**
      * Creates a new <code>CachingLocalEntityProvider</code>. The entity manager
@@ -27,7 +27,7 @@ implements CachingEntityProvider<T> {
      */
     public CachingLocalEntityServiceProvider(final Class<T> entityClass) {
         super(entityClass);
-        cachingSupport = new CachingServiceSupport<T>(this);
+        cachingSupport = new CachingSupport<T>(this);
     }
 
     @Override
@@ -45,6 +45,11 @@ implements CachingEntityProvider<T> {
         return entity;
     }
 
+   @Override
+	public void removeEntity(Object entityId) {
+		super.removeEntity(entityId);
+		cachingSupport.clear();
+	}
 
     @Override
     public void flush() {

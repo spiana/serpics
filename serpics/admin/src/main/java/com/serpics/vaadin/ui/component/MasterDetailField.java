@@ -191,7 +191,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    if (itemId != null) {
 	      Collection collection = (Collection)getPropertyDataSource().getValue();
 	      EntityItem item = this.container.getItem(itemId);
-	      item.getItemProperty(this.backReferencePropertyId).setValue(null);
+	     // item.getItemProperty(this.backReferencePropertyId).setValue(null);
 	      this.container.removeItem(itemId);
 	      
 	       collection.remove(item.getEntity());
