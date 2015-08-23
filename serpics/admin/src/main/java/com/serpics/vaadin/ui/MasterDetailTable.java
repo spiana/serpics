@@ -30,6 +30,7 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
     		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());
     	 container.removeContainerFilters(backReferencePropertyId);
          container.addContainerFilter(new Compare.Equal(backReferencePropertyId, masterEntity));
+         container.refresh();
     }
 
     @Override

@@ -11,15 +11,19 @@
 		<param-value>true</param-value>
 	</context-param>
 
+<!-- 	<listener> -->
+<!-- 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
+<!-- 	</listener> -->
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>
+			com.serpics.system.web.ContextLoaderListener
+		</listener-class>
 	</listener>
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		classpath*:META-INF/applicationContext.xml,	
 		WEB-INF/config/admin.xml,
-		WEB-INF/config/local-datasource.xml
 		WEB-INF/config/security.xml,
 		</param-value>
 	</context-param>
@@ -65,6 +69,11 @@
     <init-param>
         <param-name>entityManagerFactoryBeanName</param-name>
         <param-value>entityManagerFactory</param-value>
+        
+    </init-param>
+    <init-param>
+    	<param-name>persistenceUnitName</param-name>
+        <param-value>serpics</param-value>
     </init-param>
 </filter>
 

@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.PropertiesUtils;
 import com.serpics.vaadin.ui.PropertyList;

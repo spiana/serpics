@@ -48,7 +48,6 @@ public class CategoryTable extends MasterTable<Category> {
 
             @Override
             public void attach() {
-            	container.refresh();
             	super.attach();
             }
             

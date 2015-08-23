@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.vaadin.addon.jpacontainer.JPAContainer;

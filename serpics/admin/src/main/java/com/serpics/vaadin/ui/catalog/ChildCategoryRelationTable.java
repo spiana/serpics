@@ -6,7 +6,7 @@ import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;

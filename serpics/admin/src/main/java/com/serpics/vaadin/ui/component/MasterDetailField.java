@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
@@ -91,7 +91,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	private void buildcontainer(){
 		Class<T> masterEntityClass = this.containerForProperty.getEntityClass();
 		Class<T> referencedType= (Class<T>) ServiceContainerFactory.detectReferencedType(
-				containerForProperty.getEntityProvider().getEntityManagerProvider().getEntityManager().getEntityManagerFactory(),
+				containerForProperty.getEntityProvider().getEntityManager().getEntityManagerFactory(),
 				this.propertyId, masterEntityClass);
 		this.container= (EntityContainer<X>) ServiceContainerFactory.make(referencedType);
 		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());//HibernateUtil.getMappedByProperty(this.masterEntity, this.propertyId.toString());

@@ -9,7 +9,7 @@ import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;

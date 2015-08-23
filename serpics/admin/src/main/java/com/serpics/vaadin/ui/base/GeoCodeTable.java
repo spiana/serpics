@@ -34,7 +34,7 @@ public class GeoCodeTable extends MasterTable<Geocode> {
 				@Override
 				public void init() {
 					super.init();
-					setDisplayProperties(new String[]{"code" , "description","countries"});
+					setDisplayProperties(new String[]{"code" , "description"});
 					
 				}
 			};

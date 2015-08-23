@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.PropertiesUtils;
 import com.vaadin.addon.jpacontainer.EntityContainer;

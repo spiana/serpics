@@ -17,18 +17,19 @@ import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 
+
 @Deprecated
 class CachingServiceSupport<T> implements Serializable {
 	private static final long serialVersionUID = -7938390490825372160L;
 
-	private final EntityServiceProvider<T> entityProvider;
+	private final EntityRepositoryProvider<T> entityProvider;
     private int maxCacheSize = 1000;
     private boolean cacheEnabled = true;
     private boolean cloneCachedEntities = false;
     /**
      * The number of entity IDs to fetch every time a query is made.
      */
-    protected static final int CHUNK_SIZE = 150;
+    protected static final int CHUNK_SIZE = 50;
     /**
      * A {@link Filter}-instance representing the null-filter (i.e. no filter
      * applied).
@@ -72,7 +73,7 @@ class CachingServiceSupport<T> implements Serializable {
      * @param entityProvider
      *            the entity provider (never null).
      */
-    public CachingServiceSupport(final EntityServiceProvider<T> entityProvider) {
+    public CachingServiceSupport(final EntityRepositoryProvider<T> entityProvider) {
         assert entityProvider != null : "entityProvider should not be null";
         this.entityProvider = entityProvider;
     }
@@ -449,7 +450,7 @@ class CachingServiceSupport<T> implements Serializable {
     protected List<Object> getIds(final EntityContainer<T> container, final Filter filter,
             final List<SortBy> sortBy, final int startFrom, final int fetchMax) {
 
-        return entityProvider.doGetAllEntityIdentifiers(container, filter, sortBy, startFrom, fetchMax);
+        return entityProvider.doGetAllEntityIdentifiers(container, filter, sortBy) ;//, startFrom, fetchMax);
     }
 
     /**

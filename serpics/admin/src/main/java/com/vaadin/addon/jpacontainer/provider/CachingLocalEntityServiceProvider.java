@@ -7,7 +7,7 @@ import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.data.Container.Filter;
 
-public class  CachingLocalEntityServiceProvider<T> extends EntityServiceProvider<T>
+public class  CachingLocalEntityServiceProvider<T> extends EntityRepositoryProvider<T>
 implements CachingEntityProvider<T> {
 
     // TODO Check how well caching works with concurrent users
@@ -15,7 +15,7 @@ implements CachingEntityProvider<T> {
     // concurrent implementations? What about synchronization?
 
     private static final long serialVersionUID = 302600441430870363L;
-    private final CachingSupport<T> cachingSupport;
+    private final CachingServiceSupport<T> cachingSupport;
 
     /**
      * Creates a new <code>CachingLocalEntityProvider</code>. The entity manager
@@ -27,7 +27,7 @@ implements CachingEntityProvider<T> {
      */
     public CachingLocalEntityServiceProvider(final Class<T> entityClass) {
         super(entityClass);
-        cachingSupport = new CachingSupport<T>(this);
+        cachingSupport = new CachingServiceSupport<T>(this);
     }
 
     @Override

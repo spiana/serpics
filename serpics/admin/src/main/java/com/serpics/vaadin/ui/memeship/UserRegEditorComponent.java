@@ -7,7 +7,7 @@ import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;

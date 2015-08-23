@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.persistence.Transient;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.vaadin.jpacontainer.provider.ServiceContainerFactory;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -44,7 +44,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     private String[] displayProperties;
     private final Set<String> hideProperties = new HashSet<String>();
     private boolean editable= true;
-    private boolean searchFormEnable = true;
+    private boolean searchFormEnable = false;
     
    // protected EntityFormWindow<T> editorWindow;
     protected Table entityList;
@@ -95,7 +95,9 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         entityList.setColumnReorderingAllowed(true);
         entityList.setContainerDataSource(this.container);
         
-        this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
+        if (this.displayProperties == null)
+        	this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
+        
         if (this.displayProperties != null	){
         	for (String string : displayProperties) {
 				if (string.contains(".")){
@@ -229,7 +231,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         EntityItem<T> entityItem = null;
         try {
             entityItem = container.createEntityItem(entityClass.newInstance());
-            container.refresh();
+           // container.refresh();
         } catch (final InstantiationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -267,8 +269,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         if (!isInitialized())
             init();
         editButtonPanel.setEnabled(isEditable());
-        if (container != null)
-        	container.refresh();	
+//        if (container != null)
+//        	container.refresh();	
         super.attach();
     }
 
