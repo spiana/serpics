@@ -42,7 +42,7 @@ import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
 @SerpicsTest("default-store")
 @Transactional
 public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{

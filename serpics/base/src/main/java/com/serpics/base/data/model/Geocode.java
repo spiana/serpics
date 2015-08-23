@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public class Geocode extends com.serpics.core.data.jpa.AbstractEntity implements
     private String code;
 
     // bi-directional many-to-one association to Country
-    @OneToMany(mappedBy = "geocode")
+    @OneToMany(mappedBy = "geocode" , fetch=FetchType.LAZY)
     private Set<Country> countries;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

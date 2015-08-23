@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.annotation.Resource;
 
@@ -184,7 +183,8 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 
 	@Override
 	public User getCurrentCustomer() {
-		return (User) getCurrentContext().getCustomer();
+		User u = (User) getCurrentContext().getCustomer();
+		return userRepository.findOne(u.getId());
 	}
 	
 	@Override
@@ -199,12 +199,15 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 
 	@Override
 	@Transactional
-	public void addBillingAddress(BillingAddress address, User user) {
+	public BillingAddress addBillingAddress(BillingAddress address, User user) {
 		Assert.notNull(user);
 		Assert.notNull(address);
 		address.setMember(user);
 		user.setBillingAddress(address);
-		billingAddressRepository.create(address);
+		if (user.getBillingAddress() != null){
+			billingAddressRepository.delete(user.getBillingAddress());
+		}
+		return billingAddressRepository.create(address);
 	}
 	
 	@Override
@@ -213,11 +216,6 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		Assert.notNull(user);
 		Assert.notNull(address);
 		address.setMember(user);
-		Set<PermanentAddress> spa = new TreeSet<PermanentAddress>();
-		if(user.getPrimaryAddress() != null) 
-			spa = user.getPermanentAddresses();
-		spa.add(address);
-		user.setPermanentAddresses(spa);
 		addressRepository.create(address);
 	}
 	
@@ -230,7 +228,6 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		BillingAddress address = user.getBillingAddress();
 		billingAddressRepository.delete(address);
 		user.setBillingAddress(null);
-		
 	}
 	
 	

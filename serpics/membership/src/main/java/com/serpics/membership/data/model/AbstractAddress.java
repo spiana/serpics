@@ -8,6 +8,7 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -86,7 +87,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @JoinColumn(name = "region_id", nullable = true)
     protected Region region;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "country_id", nullable = true)
     protected Country country;
 

@@ -51,8 +51,8 @@ public class Member extends AbstractEntity implements Serializable {
     @Column(length = 1000)
     protected String field1;
 
-    @Size(max = 512)
-    @Column(length = 512)
+    @Size(max = 254)
+    @Column(length = 254)
     protected String field2;
 
     @Column(precision = 10, scale = 4)

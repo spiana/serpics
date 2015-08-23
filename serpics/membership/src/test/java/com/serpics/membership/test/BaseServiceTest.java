@@ -14,7 +14,7 @@ import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({  "classpath*:META-INF/applicationContext.xml"})
+@ContextConfiguration({  "classpath*:META-INF/applicationContext-test.xml"})
 @Transactional
 public class BaseServiceTest  extends AbstractTransactionalJunit4SerpicTest{
 

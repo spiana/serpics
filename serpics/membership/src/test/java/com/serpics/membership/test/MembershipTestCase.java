@@ -4,6 +4,12 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -39,8 +45,7 @@ import com.serpics.membership.services.PrimaryAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
-
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
 public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
 
     @Autowired
@@ -68,6 +73,10 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
     public void beforetest(){
         b.initIstance();	
     }
+    
+    byte[] buffer;
+   
+    
     @Test
     @Transactional
     public void test0() throws SerpicsException{
@@ -147,6 +156,38 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         
     }
 
+    @Test
+    public void test1() throws SerpicsException, IOException, ClassNotFoundException{
+    	CommerceSessionContext context = ce.connect("default-store",
+                "superuser", "admin".toCharArray());
+    	Assert.assertNotNull(context.getUserPrincipal().getUuid());
+    	String sessionid = context.getSessionId();
+    	serialize(context);	
+    	CommerceSessionContext context1 = deserialize();
+    	
+    	Assert.assertNotNull(context1.getUserPrincipal().getUuid());
+    	
+    }
+    
+    
+    private void serialize(CommerceSessionContext e) throws IOException{
+    
+    		ByteArrayOutputStream fileOut =new ByteArrayOutputStream();
+    	   ObjectOutputStream out = new ObjectOutputStream(fileOut);
+           out.writeObject(e);
+           out.close();
+           buffer= fileOut.toByteArray();
+    
+    }
+    private CommerceSessionContext deserialize() throws IOException, ClassNotFoundException{
+    	InputStream infile = new ByteArrayInputStream(buffer);
+    	 ObjectInputStream in = new ObjectInputStream(infile);
+    	 CommerceSessionContext c = (CommerceSessionContext) in.readObject();
+    	 in.close();
+    	 return c;
+    	 
+    }
+    
     private void registerTestUser(final CommerceSessionContext context) {
 
 

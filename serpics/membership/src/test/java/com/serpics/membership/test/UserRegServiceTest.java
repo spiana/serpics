@@ -21,7 +21,7 @@ import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class UserRegServiceTest extends AbstractTransactionalJunit4SerpicTest{

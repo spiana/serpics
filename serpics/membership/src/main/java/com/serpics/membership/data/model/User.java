@@ -51,8 +51,8 @@ public class User extends Member implements UserDetail{
     @Column(length = 25)
     private String phone;
 
-    @Size(max = 512)
-    @Column(length = 512)
+    @Size(max = 254)
+    @Column(length = 254)
     private String email;
 
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL ,orphanRemoval=true)

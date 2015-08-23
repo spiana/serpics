@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,21 +42,22 @@ private static final long serialVersionUID = 9178702090616745340L;
     @Column(length = 254)
     private String changequestion;
 
-    @Column(length = 500)
+    @Column(length = 254)
     private String dn;
 
     @Column(name = "last_login")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLogin;
 
-    @Column(name = "locale_id")
+    @ManyToOne
+    @JoinColumn(name="locale_id" , nullable=true)
     private Locale locale;
 
     @Size(min = 5, max = 100)
-    @Column(nullable = true, length = 40, unique = true)
+    @Column(nullable = true, length = 100, unique = true)
     private String logonid;
 
-    @Column(nullable = true, length = 254)
+    @Column(nullable = true, length = 100)
     private String password;
 
     @Column(name = "password_change")

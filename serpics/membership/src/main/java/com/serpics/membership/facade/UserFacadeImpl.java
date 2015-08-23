@@ -44,6 +44,7 @@ public class UserFacadeImpl implements UserFacade{
 	@Autowired
 	UserService userService;
 	
+
 	@Autowired
 	CountryService countryService;
 	
@@ -160,12 +161,17 @@ public class UserFacadeImpl implements UserFacade{
 	@Transactional
 	public void updateUser(UserData user) {
 			User _u = userService.getCurrentCustomer();
-			UsersReg _ur = userService.findByRegUUID(_u.getUuid());
+			
+			UsersReg _ur =  userService.findByRegUUID(_u.getUuid());
 			_ur.setLastname(user.getLastname());
 			_ur.setFirstname(user.getFirstname());
 			_ur.setEmail(user.getEmail());
 			_ur.setChangequestion(user.getChangequestion());
 			_ur.setChangeanswer(user.getChangeanswer());
+			
+			if(user.getPassword() != null)
+				_ur.setPassword(user.getPassword());
+			
 			userService.update((User) _ur);
 			
 	}
@@ -198,20 +204,21 @@ public class UserFacadeImpl implements UserFacade{
 	@Override
 	@Transactional
 	public void addBillingAddress(AddressData a) {
-		Assert.notNull(userService.getCurrentCustomer(),"AddBilling user null");
 		Assert.notNull(a,"AddBilling address null");
-		
 		BillingAddress _address = (BillingAddress) buildAddress(a, new BillingAddress());
 		userService.addBillingAddress(_address, userService.getCurrentCustomer());
-		
-		Assert.notNull(userService.getCurrentCustomer().getBillingAddress());
-	}
+	}		
 	
 	@Override
 	@Transactional
 	public void updateBillingAddress(AddressData a) {
 		User _u = userService.getCurrentCustomer();
 		BillingAddress _address = _u.getBillingAddress();
+		
+		if (_address == null){
+			_address = new BillingAddress();
+			_address = userService.addBillingAddress(_address, _u);
+		}
 		_address = (BillingAddress) buildAddress(a, _address);
 		userService.updateBillingAddress(_address);
 		
@@ -221,8 +228,6 @@ public class UserFacadeImpl implements UserFacade{
 	@Transactional
 	public void deleteBillingAddress() {
 		User _u = userService.getCurrentCustomer();
-		//billingAddressService.delete(_u.getBillingAddress());
-		//_u.setBillingAddress(null);
 		userService.deleteBillingAddress(_u);
 	}
 	

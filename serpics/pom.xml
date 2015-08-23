@@ -122,7 +122,7 @@
     <module>membership</module>
     <module>warehouse</module>
    	<module>system</module>
-    <module>jax-rs</module>
+<!--     <module>jax-rs</module> -->
     <module>admin</module>
     <module>gae-app</module>
   </modules>

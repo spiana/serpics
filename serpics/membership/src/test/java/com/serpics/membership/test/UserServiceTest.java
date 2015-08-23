@@ -39,7 +39,7 @@ import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
 @Transactional(propagation=Propagation.REQUIRES_NEW)
 public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     Logger log = LoggerFactory.getLogger(UserServiceTest.class);
@@ -166,7 +166,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     }
     
     
-    @Test    
+ //   @Test    
     public void managerUser() throws SerpicsException {
     	createUser();
     	listUser();

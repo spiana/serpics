@@ -22,7 +22,7 @@ import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({  "classpath*:META-INF/applicationContext.xml"})
+@ContextConfiguration({  "classpath*:META-INF/applicationContext-test.xml"})
 @Transactional
 @SerpicsTest("defualt-store")
 public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {

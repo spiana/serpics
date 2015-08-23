@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     private MultilingualString description = new MultilingualString();
 
     // bi-directional many-to-one association to Region
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", fetch=FetchType.LAZY)
     private Set<Region> regions;
 
     public Country() {

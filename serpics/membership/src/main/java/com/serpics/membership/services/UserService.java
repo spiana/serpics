@@ -32,7 +32,7 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
     public User create(User user);
     public User update(User user);
     
-    public void addBillingAddress(BillingAddress address , User user);
+    public BillingAddress addBillingAddress(BillingAddress address , User user);
     public void addPermanentAddress(PermanentAddress address , User user);
     
     public void deleteBillingAddress(User user);
