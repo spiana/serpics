@@ -35,18 +35,7 @@ public class AddressTableEditor extends MasterDetailTable<PermanentAddress, User
         "country.iso2Code" };
         setParentProperty("permanentAddresses");
         setPropertyToShow(p );
-
     }
 
-//    @Override
-//    public EntityItem<PermanentAddress> createEntityItem() {
-//        final PermanentAddress a = new PermanentAddress();
-//        a.setMember(masterEntity.getEntity());
-//        return container.createEntityItem(a);
-//    }
-
-	
-
-    
 
 }

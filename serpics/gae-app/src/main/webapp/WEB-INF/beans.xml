@@ -28,7 +28,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
     	 <cxf:logging/>
 	</jaxrs:features>
     <jaxrs:serviceBeans>
-      <bean class="com.serpics.jax.rs.UserRestServiceImpl" />
+      <bean class="com.serpics.jax.rs.CustomerServiceImpl" />
       <bean class="com.serpics.jax.rs.TestRestServiceImpl"/>
     </jaxrs:serviceBeans>
    
@@ -38,6 +38,28 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   </jaxrs:extensionMappings>
    <jaxrs:providers>
  	  	<bean class="com.serpics.jax.rs.AuthenticationHandler" />
+<!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
+<!--        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/> -->
+       <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
+      		 <property name="mapper" ref="mapper"/>
+       </bean>
+    </jaxrs:providers>
+    </jaxrs:server>
+
+	<jaxrs:server id="auth" address="/auth">
+ 	 <jaxrs:features>
+    	 <cxf:logging/>
+	</jaxrs:features>
+    <jaxrs:serviceBeans>
+   	   <bean class="com.serpics.jax.rs.AuthenticationServiceImpl" />
+    </jaxrs:serviceBeans>
+   
+   
+  <jaxrs:extensionMappings>
+  	<entry key="json" value="application/json"/>
+  </jaxrs:extensionMappings>
+   <jaxrs:providers>
+<!--  	  	<bean class="com.serpics.jax.rs.AuthenticationHandler" /> -->
 <!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
 <!--        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/> -->
        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">

@@ -22,6 +22,7 @@
 				<property name="phone" />
 				<property name="email" />
 				<property name="primaryAddress" />
+				<property name="permanentAddresses"/>
 				<property name="created" />
 			</display>
 			<readonly>
@@ -69,6 +70,44 @@
 			</readonly>
 		</editor>
 
+	</entity>
+	
+	<entity name="permanentAddress">
+		<table>
+			<display>
+				<property name="firstname" />
+				<property name="lastname" />
+				<property name="company" />
+				<property name="address1" />
+				<property name="zipcode" />
+				<property name="city" />
+			</display>
+			<search>
+				<property name="firstname" />
+				<property name="lastname" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="firstname" />
+				<property name="lastname" />
+				<property name="company" />
+				<property name="vatcode" />
+				<property name="address1" />
+				<property name="zipcode" />
+				<property name="city" />
+				<property name="email" />
+				<property name="mobile" />
+				<property name="phone" />
+				<property name="fax" />
+				<property name="created" />
+				<property name="updated" />
+			</display>
+			<readonly action="append">
+				<property name="created" />
+				<property name="updated" />
+			</readonly>
+		</editor>
 	</entity>
 	<entity name="membergroup">
 		<select>

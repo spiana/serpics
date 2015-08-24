@@ -40,6 +40,10 @@ public interface UserRestService  {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("get/{id}")
 	public UserData findOne(@PathParam("id") String id);
+	
+	
+	public String connect(@PathParam("store") String store);
 
+	public Response logon( @QueryParam("logonid") String logonid , @QueryParam("password") String password );
 
 }
