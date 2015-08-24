@@ -61,6 +61,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				.getEntityClassMetadata(entityClass));
     }
 
+   
 
     @Override
     public Class<T> getEntityType() {
@@ -84,7 +85,11 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
        
     }
     
-    public abstract EntityFormWindow<T>  buildEntityWindow();
+    public  EntityFormWindow<T>  buildEntityWindow(){
+    	 EntityFormWindow<T> editorWindow = new EntityFormWindow<T>();
+    	 editorWindow.addTab(new MasterForm<T>(entityClass){} , entityClass.getSimpleName());
+    	return editorWindow;
+    }
     
     protected void buildContent() {
     	this.entityList = new Table();
