@@ -1,17 +1,20 @@
 package com.serpics.catalog.data.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
  * The persistent class for the brands database table.
@@ -19,10 +22,11 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "brands")
-public class Brand implements Serializable {
+public class Brand extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "brand_id")
 	private Long id;
 
@@ -31,13 +35,15 @@ public class Brand implements Serializable {
 
 	private String name;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updated;
-
 	// bi-directional many-to-one association to Product
-	@OneToMany(mappedBy = "brand")
+	@OneToMany(mappedBy = "brand" , fetch=FetchType.LAZY)
 	private Set<AbstractProduct> products;
-
+	
+	@ManyToOne(optional = false  )
+	@JoinColumn(name = "catalog_id" )
+	private Catalog catalog;
+	
+	
 	public Brand() {
 	}
 
@@ -65,20 +71,20 @@ public class Brand implements Serializable {
 		this.name = name;
 	}
 
-	public Date getUpdated() {
-		return this.updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
-	}
-
 	public Set<AbstractProduct> getProducts() {
 		return this.products;
 	}
 
 	public void setProducts(Set<AbstractProduct> products) {
 		this.products = products;
+	}
+
+	public Catalog getCatalog() {
+		return catalog;
+	}
+
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
 	}
 
 }

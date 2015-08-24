@@ -19,6 +19,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<bean name="productCreateInterceptor"
 		class="com.serpics.catalog.data.interceptors.ProductCreateInterceptor" />
 	
+	<bean name="brandCreateInterceptor"
+		class="com.serpics.catalog.data.interceptors.BrandCreateInterceptor" />
+	
 	<bean name="categoryCreateInterceptor"
 		class="com.serpics.catalog.data.interceptors.CategoryCreateInterceptor" />
 	<bean name="categoryRelationCreateInterceptor"
@@ -32,6 +35,12 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="targetEntity" value="com.serpics.catalog.data.model.Product" />
 		<property name="order" value="10" />
 		<property name="interceptor" ref="productCreateInterceptor" />
+	</bean>
+	
+	<bean name="brandCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.catalog.data.model.Brand" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="brandCreateInterceptor" />
 	</bean>
 	
 	<bean name="categoryCreateMapping" class="com.serpics.core.data.InterceptorMapping">

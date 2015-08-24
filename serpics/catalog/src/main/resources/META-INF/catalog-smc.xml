@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="" xsi:schemaLocation="xmc.xsd">
+
+	<entity name="brand">
+		<table action="append">
+			<display>
+				<property name="name" />
+				<property name="logoSrc" />
+			</display>
+			<search>
+				<property name="name" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="name" />
+				<property name="logoSrc" />
+				<property name="created" />
+			</display>
+			<readonly>
+				<property name="created" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="name" />
+		</select>
+	</entity>
+</smc-definition>
