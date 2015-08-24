@@ -21,7 +21,6 @@ public interface PriceService extends EntityService<Price, Long> {
     
     public AbstractProduct addPrice(AbstractProduct product , Price price , Pricelist priceList);
     public AbstractProduct addPrice(AbstractProduct product , Price price );
-    
-    
-
+ 
+    public Pricelist addPriceList(Pricelist priceList);
 }

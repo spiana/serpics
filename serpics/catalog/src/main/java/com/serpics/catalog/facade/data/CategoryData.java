@@ -3,6 +3,8 @@ package com.serpics.catalog.facade.data;
 
 public class CategoryData  extends CtentryData{
 	protected String metaDescription;
+	protected String metaKey;
+	protected String catalogId;
 	public String getMetaDescription() {
 		return metaDescription;
 	}
@@ -15,7 +17,13 @@ public class CategoryData  extends CtentryData{
 	public void setMetaKey(String metaKey) {
 		this.metaKey = metaKey;
 	}
-	protected String metaKey;
+	public String getCatalogId() {
+		return catalogId;
+	}
+	public void setCatalogId(String catalogId) {
+		this.catalogId = catalogId;
+	}
+	
 	
 	
 }

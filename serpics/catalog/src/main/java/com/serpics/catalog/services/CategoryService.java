@@ -3,6 +3,7 @@ package com.serpics.catalog.services;
 import java.util.List;
 
 import com.serpics.catalog.data.model.Category;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.core.service.EntityService;
 
 public interface CategoryService extends EntityService<Category, Long> {
@@ -13,5 +14,7 @@ public interface CategoryService extends EntityService<Category, Long> {
     public List<Category> findRootCategory();
 
     public List<Category> getChildCategories(Category parent);
+    
+    public List<Category> getCategoriesByProduct(Product product);
 
 }

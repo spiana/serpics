@@ -2,6 +2,7 @@ package com.serpics.catalog.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
+import com.serpics.catalog.data.model.Media;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.BrandRepository;
 import com.serpics.catalog.data.repositories.Category2ProductRepository;
@@ -55,6 +57,7 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 	}
 	
 	
+	
 	@Transactional
 	public Product addParentCategory(Product product,  Category category) {
 		addCategoryRelation(product, category);
@@ -66,6 +69,7 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
         ctcgrel.setChildProduct((AbstractProduct) product);
         ctcgrel.setParentCategory(category);
         categoryProductRepository.create(ctcgrel);
+        
 	}
 	
 	@Transactional 
@@ -82,6 +86,18 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 		}
 		return products;
 	}
+
+
+	@Override
+	public Product addMedia(Product product, Media media) {
+		Set<Media> list = product.getMedias();
+		list.add(media);
+		product.setMedias(list);
+		product = productRepository.update(product);
+		return product;
+	}
+	
+	
 	
 	
 }

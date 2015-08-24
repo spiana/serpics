@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
+import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CategoryRelation;
-import com.serpics.catalog.data.model.CtentryRelationPK;
+import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.repositories.Category2ProductRepository;
 import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
@@ -34,6 +36,9 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
 
     @Autowired
     CategoryRelationRepository categoryRelationRepository;
+    
+    @Autowired
+    Category2ProductRepository category2ProductRepository;
 
     @Override
     public Repository<Category, Long> getEntityRepository() {
@@ -48,21 +53,30 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
 
     @Transactional
     public void addRelationCategory(final Category childCategory, final Category parentCategory) {
-    	final CtentryRelationPK ctpk = new CtentryRelationPK(parentCategory.getId(), childCategory.getId());
+    	/*final CtentryRelationPK ctpk = new CtentryRelationPK(parentCategory.getId(), childCategory.getId());
         final CategoryRelation cgrel = new CategoryRelation();
         cgrel.setId(ctpk);
-        categoryRelationRepository.save(cgrel);
+        categoryRelationRepository.save(cgrel);*/
+    	final CategoryRelation cr = new CategoryRelation();
+    	cr.setChildCategory(childCategory);
+    	cr.setParentCategory(parentCategory);
+    	categoryRelationRepository.create(cr);
     }
     
     @Override
     @Transactional
-    public Category create(Category category, final Category parent) {
+    public Category create(Category category, final Category parentCategory) {
         category = this.create(category);
-        if (parent != null) {
+        if (parentCategory != null) {
+        	final CategoryRelation cr = new CategoryRelation();
+        	cr.setChildCategory(category);
+        	cr.setParentCategory(parentCategory);
+        	categoryRelationRepository.create(cr);
+        	/*
             final CtentryRelationPK ctpk = new CtentryRelationPK(parent.getId(), category.getId());
             final CategoryRelation cgrel = new CategoryRelation();
             cgrel.setId(ctpk);
-            categoryRelationRepository.save(cgrel);
+            categoryRelationRepository.save(cgrel);*/
         }
 
         return category;
@@ -89,5 +103,19 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
     }
 
     
+    @Transactional
+    public List<Category> getCategoriesByProduct(final Product product){
+    	final List<Category> res = new ArrayList<>();
+    	
+    	try {
+            final List<CategoryProductRelation> findCategoryParent = category2ProductRepository.findByChildProduct(product);
+            for (final CategoryProductRelation rel : findCategoryParent) {
+                res.add(rel.getParentCategory());
+            }
+        } catch (final Exception e) {
+            logger.error("", e);
+        }
+        return res;
+    }
     
 }
