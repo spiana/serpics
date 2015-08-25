@@ -4,7 +4,14 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.model.MultilingualString;
@@ -13,24 +20,30 @@ import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.core.SerpicsException;
+import com.serpics.test.ExecutionTestListener;
 
 
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
+@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
+@RunWith(SpringJUnit4ClassRunner.class)	
+@TransactionConfiguration(defaultRollback = true)
+@Transactional
 public class CategoryServiceTest extends CatalogBaseTest {
 
 
     @Autowired
     CategoryService categoryService;
 
-
     @Autowired
     LocaleRepository localeRepository;
 
-
-
     @Test
+    @Transactional
     public void test1() throws SerpicsException {
 
-        final Locale locale = localeRepository.findByLanguage("it");
+    
+
+    	final Locale locale = localeRepository.findByLanguage("it");
         final Catalog catalog = (Catalog) context.getCatalog();
 
         Category category = new Category();
@@ -46,7 +59,7 @@ public class CategoryServiceTest extends CatalogBaseTest {
 
         Assert.assertNotNull(locale);
 
-        Assert.assertEquals("descrizione", categories.get(0).getDescription().getLocalizedString(locale.getLanguage()));
+        Assert.assertEquals("descrizione", categories.get(0).getDescription().getText(locale.getLanguage()));
 
     }
 

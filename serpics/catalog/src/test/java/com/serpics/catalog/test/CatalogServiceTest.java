@@ -6,7 +6,13 @@ import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.AttributeType;
@@ -27,8 +33,13 @@ import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.core.SerpicsException;
+import com.serpics.test.ExecutionTestListener;
 
 
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
+@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
+@RunWith(SpringJUnit4ClassRunner.class)
+@TransactionConfiguration(defaultRollback = true)
 public class CatalogServiceTest extends CatalogBaseTest {
 
     @Resource
@@ -68,7 +79,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         Assert.assertEquals(1, al.size());
 
         baseService.createStore("test-store");
-        context = commerceEngine.connect("test-store");
+        commerceEngine.connect("test-store");
 
         final BaseAttribute attribute1 = new BaseAttribute();
         attribute1.setAttributeType(AttributeType.TEXT);
@@ -93,8 +104,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     @Test
     @Transactional
     public void test() throws SerpicsException {
-
-
+    	
         final List<Catalog> l = catalogRepository.findAll();
         Assert.assertEquals(1, l.size());
 
@@ -133,7 +143,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
   
         final Product p1 = new Product();
         p1.setCode("test-sku");
-        p1.setCatalog((Catalog)context.getCatalog());
+        p1.setCatalog((Catalog) context.getCatalog());
         p1.setBuyable(1);
 
 
@@ -173,8 +183,6 @@ public class CatalogServiceTest extends CatalogBaseTest {
         final List<AbstractProduct> l3 = abstractProductRepository.findAll();
         Assert.assertEquals(1, l3.size());
         // catalogService.deleteCatalog(catalog);
-
-
     }
 
 }

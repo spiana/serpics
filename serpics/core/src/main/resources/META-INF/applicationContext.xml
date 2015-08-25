@@ -18,9 +18,5 @@ http://www.springframework.org/schema/aop
 <import resource="applicationContext-database-multi-local.xml" />
 <!-- 	<import resource="classpath*:META-INF/*-serpics.xml" /> -->
 <!--   	<import resource="applicationContext-database-multi.xml" /> -->
-
-
-
-
 	
  </beans>    

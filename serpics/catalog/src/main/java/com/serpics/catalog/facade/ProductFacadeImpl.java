@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.catalog.data.model.AbstractProduct;
@@ -71,17 +71,19 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	
 	
+	@Transactional
 	public void addCategoryParent(String parentUui, String childUuid) {
 		Category parent = categoryService.findByUUID(parentUui);
 		Category child = categoryService.findByUUID(childUuid);
 		
-		Assert.assertNotNull("parent not found", parent);
-		Assert.assertNotNull("child not found", child);
+		Assert.notNull(parent,"parent not found");
+		Assert.notNull(child,"child not found");
 		
 		categoryService.addRelationCategory(child, parent);
 	}
 	
 	@Override
+	@Transactional
 	public ProductData create(ProductData product) {
 		Product entity = buildProduct(product, new Product());
 		entity = productService.create(entity);
@@ -90,6 +92,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override
+	@Transactional
 	public ProductData create(ProductData product, String parentUuid) {
 		Category parent = categoryService.findByUUID(parentUuid);
 		Product entity = buildProduct(product, new Product());
@@ -99,6 +102,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override 
+	@Transactional
 	public ProductData updateProduct(ProductData product) {
 		Product entity = productService.findByUUID(product.getUuid());
 		entity = buildProduct(product, entity);
@@ -108,6 +112,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override 
+	@Transactional
 	public void deleteProduct(String uuid) {
 		Product entity = productService.findByUUID(uuid);
 		productService.delete(entity);
@@ -139,23 +144,17 @@ public class ProductFacadeImpl implements ProductFacade {
 		return destination;
 	}
 	
-	
+	@Transactional
 	public void addEntryCategoryParent(String ctentryUuid, String categoryUuid) {
-		Assert.assertNotNull("Entry is null", ctentryUuid);
-		Assert.assertNotNull("Category is null", categoryUuid);
+		Assert.notNull(ctentryUuid,"Entry is null");
+		Assert.notNull(categoryUuid,"Category is null");
 		Product product = productService.findByUUID(ctentryUuid);
 		Category category = categoryService.findByUUID(categoryUuid);
 		
 		productService.addParentCategory(product, category);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	@Transactional
 	public void  addPrice(String  entryId, PriceData priceData) {
 			AbstractProduct product = productService.findByUUID(entryId);
 			Price price = new Price();
@@ -165,7 +164,6 @@ public class ProductFacadeImpl implements ProductFacade {
 			price.setProductPrice(priceData.getProductPrice());
 			price.setProductCost(priceData.getProductCost());
 			product = priceService.addPrice(product, price);
-			Assert.assertNotNull(product);
 	}
 	
 	
@@ -211,6 +209,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 
 	@Override
+	@Transactional
 	public void addMedia(String productUuid, MediaData mediaData) {
 		Product product = productService.findByUUID(productUuid);
 		Media media = new Media();
@@ -219,7 +218,6 @@ public class ProductFacadeImpl implements ProductFacade {
 		media.setSrc(mediaData.getSrc());
 		media = mediaService.create(media);
 		product = productService.addMedia(product, media);
-		Assert.assertNotNull(product);
 	}
 	
 	

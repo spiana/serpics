@@ -36,16 +36,16 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.test.ExecutionTestListener;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
 @TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
-
 @SerpicsTest("default-store")
 @Transactional
-public class CatalogFacadeTest {
+public class CatalogFacadeTest  extends AbstractTransactionalJunit4SerpicTest{
 	Logger log = LoggerFactory.getLogger(CatalogFacadeTest.class);
 	@Resource
 	CategoryFacade categoryFacade;
@@ -73,24 +73,26 @@ public class CatalogFacadeTest {
 
     @Before
     public void beforeTest() throws SerpicsException {
-        baseService.initIstance();
+        if(!baseService.isInitialized())
+        	baseService.initIstance();
+       
         context = commerceEngine.connect("default-store", "superuser", "admin".toCharArray());
         catalogService.initialize();
     }
     
     
     @Test
-    public void catalogManager() {
+    @Transactional
+    public void catalogManager1() {
     	createCategory();
     	listCategory();
     	createProduct();
     	listProduct();
     	updateProduct();
     	deleteProduct();
-    	listProduct();
+  
     	
     }
-    
     
     private void createCategory() {
     	CategoryData catU = new CategoryData();
@@ -219,6 +221,12 @@ public class CatalogFacadeTest {
      	price.setCurrentPrice(20.00);
      	price.setPrecedence(1);
      	productFacade.addPrice(entry.getUuid(), price);
+     	
+     	MediaData media1 = new MediaData();
+    	media1.setSrc("prova.jpg");
+    	media1.setName("imgthmb");
+    	media1.setSequence(1);
+     	productFacade.addMedia(entry.getUuid(),media1);
     }
     
     private void listProduct() {
@@ -263,8 +271,8 @@ public class CatalogFacadeTest {
     	String productUuid = product.getUuid();
     	productFacade.deleteProduct(productUuid);
     	log.info("*** ELIMINATO ?");
-    	Page<ProductData> p = productFacade.listProduct(new PageRequest(0, 10));
-    	log.info("*** ELIMINATO ? " + p.getTotalElements());
+    	//Page<ProductData> p = productFacade.listProduct(new PageRequest(0, 10));
+    //	log.info("*** ELIMINATO ? " + p.getTotalElements());
     }
     
 }

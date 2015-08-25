@@ -1,6 +1,7 @@
 package com.serpics.catalog.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +28,7 @@ import com.serpics.core.service.AbstractEntityService;
 
 @Service("produtService")
 @Scope("store")
+@Transactional(readOnly=true)
 public class ProductServiceImpl extends AbstractEntityService<Product, Long, CommerceSessionContext> implements ProductService{
 	 private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 	@Autowired
@@ -64,6 +66,7 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 		return product;
 	}
 	
+
 	private void addCategoryRelation(Product product, Category category) {
 		final CategoryProductRelation ctcgrel = new CategoryProductRelation();
         ctcgrel.setChildProduct((AbstractProduct) product);
@@ -72,8 +75,8 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
         
 	}
 	
-	@Transactional 
-    public List<Product> findProductByCategory(final Category category) {
+
+	public List<Product> findProductByCategory(final Category category) {
 		final List<Product> products = new ArrayList<Product>();
 		try {
 			final List<CategoryProductRelation> l = categoryProductRepository.findAll(ProductSpecification.findByCategory(category));
@@ -89,15 +92,16 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 
 
 	@Override
+	@Transactional
 	public Product addMedia(Product product, Media media) {
 		Set<Media> list = product.getMedias();
+		if (list == null)
+			list = new HashSet<Media>();
+		
 		list.add(media);
 		product.setMedias(list);
 		product = productRepository.update(product);
 		return product;
 	}
-	
-	
-	
 	
 }

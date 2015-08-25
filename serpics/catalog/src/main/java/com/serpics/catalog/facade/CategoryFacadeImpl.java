@@ -106,7 +106,10 @@ public class CategoryFacadeImpl implements CategoryFacade {
                 return cb.like(	e, code);
             }
 		});
-		CategoryData entity = categoryConverter.convert(category);
+		CategoryData entity = null;
+		if(category != null)
+			entity = categoryConverter.convert(category);
+		
 		return entity;
 	}
 	
