@@ -25,7 +25,7 @@ import com.serpics.core.SerpicsException;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
 @SerpicsTest("default-store")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BaseTestFacade extends AbstractTransactionalJunit4SerpicTest{
