@@ -251,6 +251,7 @@ public class UserFacadeImpl implements UserFacade{
 		
 	}
 	
+	@Transactional	
 	public void deleteDestinationAddress(String uuid) {
 		User _u = userService.getCurrentCustomer();
 		PermanentAddress _address = permanentAddressService.findByUUID(uuid);

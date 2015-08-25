@@ -44,7 +44,7 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
 @SerpicsTest("default-store")
-@Transactional
+
 public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	private static final Logger LOGGER = Logger.getLogger(UserFacadeTest.class);
 
@@ -95,11 +95,13 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Before
 	public void beforeTest(){
-		baseService.initIstance();
+		if (!baseService.isInitialized())
+			baseService.initIstance();
 	
 	}
 	
 	@Test
+	@Transactional
 	public void createUser() throws SerpicsException{
 		GeocodeData g = createGeoCode();
 		CountryData c = createCountry(g);
@@ -203,7 +205,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	private void destinationAddressUser() throws SerpicsException{	
 		
-		Assert.assertEquals("Destination is not null" ,0, userFacade.getCurrentuser().getDestinationAddress().size());
+		Assert.assertEquals(0, userFacade.getCurrentuser().getDestinationAddress().size());
 		
 		AddressData address = new AddressData();
 		address.setAddress1("via di prova");
@@ -211,13 +213,13 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		userFacade.addDestinationAddress(address);
 		
 		
-		address = new AddressData();
-		address.setAddress1("via di prova forse");
-		address.setStreetNumber("2");
-		userFacade.addDestinationAddress(address);
+//		address = new AddressData();
+//		address.setAddress1("via di prova forse");
+//		address.setStreetNumber("2");
+//		userFacade.addDestinationAddress(address);
 		
-		Assert.assertNotNull("Destination Address 1 is null" , userFacade.getCurrentuser().getDestinationAddress());
 		List<AddressData> l = userFacade.getCurrentuser().getDestinationAddress();
+		Assert.assertEquals(1, l.size());
 		String uuid = l.get(0).getUuid();
 		address = new AddressData();
 		address.setAddress1("modifico address");

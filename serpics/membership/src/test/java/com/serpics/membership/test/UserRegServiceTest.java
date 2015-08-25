@@ -43,7 +43,8 @@ public class UserRegServiceTest extends AbstractTransactionalJunit4SerpicTest{
 
     @Before
     public void init() {
-        baseService.initIstance();
+    	if (!baseService.isInitialized())
+			baseService.initIstance();
     }
 
     @Test

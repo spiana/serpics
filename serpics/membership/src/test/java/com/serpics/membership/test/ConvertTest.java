@@ -28,7 +28,7 @@ import com.serpics.membership.services.MembershipService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
-@ContextConfiguration({  "classpath*:META-INF/applicationContext.xml"})
+@ContextConfiguration({  "classpath*:META-INF/applicationContext-test.xml"})
 @Transactional
 public class ConvertTest extends AbstractTransactionalJunit4SerpicTest {
 
@@ -48,7 +48,8 @@ public class ConvertTest extends AbstractTransactionalJunit4SerpicTest {
 	
 	@Before
 	public void beforetest(){
-		baseService.initIstance();
+		if (!baseService.isInitialized())
+			baseService.initIstance();
 	}
 	
 	@Resource(name="addressConverter")

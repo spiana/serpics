@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Country;
@@ -40,7 +39,6 @@ import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
-@Transactional(propagation=Propagation.REQUIRES_NEW)
 public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     Logger log = LoggerFactory.getLogger(UserServiceTest.class);
 
@@ -72,10 +70,12 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     
     @Before
     public void init() {
-       baseService.initIstance();
+    	if (!baseService.isInitialized())
+			baseService.initIstance();
     }
 
     @Test
+    @Transactional
     public void first() throws SerpicsException {
     	final CommerceSessionContext context = commerceEngine
                 .connect("default-store");
@@ -166,7 +166,8 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     }
     
     
- //   @Test    
+    @Test  
+    @Transactional
     public void managerUser() throws SerpicsException {
     	createUser();
     	listUser();
@@ -238,13 +239,14 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     private void managerBillingAddress() {
     	User u = userService.findByLogonid("vale01");
     	userService.setCurrentCustomer(u);
-    	Assert.assertNotNull("NOT MAIL CURRENT USER" + userService.getCurrentCustomer().getEmail());
+    	Assert.assertNotNull( userService.getCurrentCustomer().getEmail());
     	
     	
     	BillingAddress address = new BillingAddress();
     	address.setAddress1("Via di prova numero 1");
     	address.setCity("verbania");
     	userService.addBillingAddress(address, u);
+ 
     	Assert.assertEquals("non uguale city",  "verbania", userService.getCurrentCustomer().getBillingAddress().getCity());
     	
     	address = userService.getCurrentCustomer().getBillingAddress();
@@ -263,17 +265,18 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     }
 
     
-    private void managerPermaentAddress() {
+    private void managerPermaentAddress() throws SerpicsException {
     	User u = userService.findByLogonid("vale02");
-    	userService.setCurrentCustomer(u);
-    	Assert.assertNotNull("NOT MAIL CURRENT USER" + userService.getCurrentCustomer().getEmail());
-    	
+    	commerceEngine.connect("default-store", u);
+    //	userService.setCurrentCustomer(u);
+    	Assert.assertNotNull(userService.getCurrentCustomer().getEmail());
+   
     	
     	PermanentAddress address = new PermanentAddress();
     	address.setAddress1("Via di prova numero 1");
     	address.setCity("verbania");
-    	userService.addPermanentAddress(address, userService.getCurrentCustomer());
-    	Assert.assertEquals("non uguale city",  "verbania", userService.getCurrentCustomer().getPermanentAddresses().iterator().next().getCity());
+    	userService.addPermanentAddress(address, u);
+    	Assert.assertEquals(1, userService.getCurrentCustomer().getPermanentAddresses().size());
     	
     	address = new PermanentAddress();
     	address.setAddress1("Via di prova numero ");
@@ -287,7 +290,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     	address.setCity("verbania");
     	userService.addPermanentAddress(address, userService.getCurrentCustomer());
    
-    	
+    	Assert.assertEquals(3, userService.getCurrentCustomer().getPermanentAddresses().size());
     	
     	address = (PermanentAddress) userService.getCurrentCustomer().getPermanentAddresses().toArray()[1];
     	address.setAddress1("Via per aggioranta");

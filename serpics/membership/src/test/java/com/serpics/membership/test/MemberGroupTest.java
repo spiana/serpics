@@ -22,7 +22,7 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 public class MemberGroupTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Autowired
-	BaseService b;
+	BaseService baseService;
 	
 	@Autowired
 	CommerceEngine commerceEngine;
@@ -32,7 +32,8 @@ public class MemberGroupTest extends AbstractTransactionalJunit4SerpicTest{
 
 	@Test
 	public void test() throws SerpicsException{
-		b.initIstance();
+		if (!baseService.isInitialized())
+			baseService.initIstance();
 		CommerceSessionContext context = commerceEngine.connect("default-store");
 		
 		Membergroup m = new Membergroup();

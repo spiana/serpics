@@ -42,7 +42,8 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 	
 	@Before
 	public void beforeTest(){
-		baseService.initIstance();
+		if (!baseService.isInitialized())
+			baseService.initIstance();
 	}
 	
 	@Test

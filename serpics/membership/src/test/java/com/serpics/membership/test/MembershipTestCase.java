@@ -49,7 +49,7 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
 
     @Autowired
-    BaseService b;
+    BaseService baseService;
 
     @Autowired
     MembershipService m;
@@ -71,7 +71,8 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
     @Before
     @Transactional
     public void beforetest(){
-        b.initIstance();	
+    	if (!baseService.isInitialized())
+			baseService.initIstance();
     }
     
     byte[] buffer;
@@ -83,11 +84,13 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         final CommerceSessionContext context = ce.connect("default-store",
                 "superuser", "admin".toCharArray());
         final Page p = userService.findAll(new PageRequest(0, 10));
-        assertEquals(2, p.getContent().size());
+        assertEquals(1, p.getContent().size());
         final List<User> l = userService.findAll();
-        assertEquals(2, l.size());
+        assertEquals(1, l.size());
     }
+    
     @Test
+    @Transactional
     public void test() throws SerpicsException {
 
         CommerceSessionContext context = ce.connect("default-store",
@@ -157,6 +160,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
     }
 
     @Test
+    @Transactional
     public void test1() throws SerpicsException, IOException, ClassNotFoundException{
     	CommerceSessionContext context = ce.connect("default-store",
                 "superuser", "admin".toCharArray());

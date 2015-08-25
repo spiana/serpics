@@ -2,6 +2,7 @@ package com.serpics.membership.services;
 
 import static org.springframework.data.jpa.domain.Specifications.where;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -184,12 +185,14 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 	@Override
 	public User getCurrentCustomer() {
 		User u = (User) getCurrentContext().getCustomer();
-		return userRepository.findOne(u.getId());
+		User _u  = userRepository.findOne(u.getId());
+//		userRepository.detach(_u);
+		return _u;
 	}
 	
 	@Override
-	public User getCurrentUser() {
-		return (User) getCurrentContext().getUserPrincipal();
+	public UserPrincipal getCurrentUser() {
+		return (UserPrincipal) getCurrentContext().getUserPrincipal();
 	}
 	
 	@Override
@@ -203,10 +206,10 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		Assert.notNull(user);
 		Assert.notNull(address);
 		address.setMember(user);
-		user.setBillingAddress(address);
 		if (user.getBillingAddress() != null){
 			billingAddressRepository.delete(user.getBillingAddress());
 		}
+		user.setBillingAddress(address);
 		return billingAddressRepository.create(address);
 	}
 	
@@ -217,6 +220,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		Assert.notNull(address);
 		address.setMember(user);
 		addressRepository.create(address);
+		user.getPermanentAddresses().add(address);
 	}
 	
 	

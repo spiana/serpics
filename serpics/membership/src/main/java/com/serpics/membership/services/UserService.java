@@ -1,5 +1,6 @@
 package com.serpics.membership.services;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +45,7 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
      
     public User getCurrentCustomer();
     public void setCurrentCustomer(User user);
-    public User getCurrentUser();
+    public UserPrincipal getCurrentUser();
     
    
 }
