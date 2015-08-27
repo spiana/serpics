@@ -26,26 +26,29 @@ public class EngineFactory implements ApplicationContextAware{
 		List<String> modules = new ArrayList<String>();
 		modules.add("classpath:META-INF/applicationContext.xml");
 		URL l = Thread.currentThread().getContextClassLoader().getResource("META-INF/modules.xml");
-		LOG.info("modules file location : {}",l.getPath());
-		
-		SAXReader reader = new SAXReader();
-	     Document document;
-		try {
-			document = reader.read(l);
-			  
-		     Element root = document.getRootElement();
-		     for ( Iterator i = root.elementIterator( "module" ); i.hasNext(); ) {
-		            Element node = (Element) i.next();
-		            String module = node.getText();
-					LOG.info("adding module : {}" , module);
-					module = "classpath*:META-INF/"+ module;
-					modules.add(module);
-		        }
-			
-		} catch (DocumentException e) {
-			LOG.error("",e);
+		if(l == null)
+			LOG.info("no modules.xml found in classpath !");
+		else{	
+			LOG.info("modules file location : {}",l.getPath());
+			SAXReader reader = new SAXReader();
+		    Document document;
+		    
+			try {
+				document = reader.read(l);
+				  
+			     Element root = document.getRootElement();
+			     for ( Iterator i = root.elementIterator( "module" ); i.hasNext(); ) {
+			            Element node = (Element) i.next();
+			            String module = node.getText();
+						LOG.info("adding module : {}" , module);
+						module = "classpath*:META-INF/"+ module;
+						modules.add(module);
+			        }
+				
+			} catch (DocumentException e) {
+				LOG.error("",e);
+			}
 		}
-	     
 		
 			
 		

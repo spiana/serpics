@@ -1,24 +1,29 @@
 package com.serpics.admin.test;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
+import com.serpics.stereotype.SerpicsTest;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.PropertiesUtils;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 
 
 @ContextConfiguration( {"classpath*:META-INF/applicationContext-test.xml" })
-@RunWith(SpringJUnit4ClassRunner.class)
-public class LoadSmcConfigTest {
+@SerpicsTest("default-store")
+@Ignore
+public class LoadSmcConfigTest  extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Autowired
 	PropertiesUtils props;
@@ -29,7 +34,11 @@ public class LoadSmcConfigTest {
 	@Autowired 
 	UserService userService;
 	
+	@Autowired
+	CommerceEngine ce;
+	
 	@Test
+	@Transactional
 	public void test(){
 		Assert.assertNotNull(props);
 
@@ -38,9 +47,16 @@ public class LoadSmcConfigTest {
 	}
 
 	@Test
-	public void test1(){
-		baseService.initIstance();
+	@Transactional
+	@Ignore
+	public void test1() throws SerpicsException{
+		if(!baseService.isInitialized())
+			baseService.initIstance();
+		
+		ce.connect("default-store");
+		
 		JPAContainer<UsersReg> s = ServiceContainerFactory.make(UsersReg.class);
+		
 		
 		for (int x=1 ; x< 200 ;x++){
 			UsersReg u = new UsersReg();
