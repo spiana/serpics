@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -32,15 +33,22 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     private Long countriesId;
 
     @Column(name = "iso2_code", nullable = false, length = 2)
+    @Size(min=2,max=2)
+    @Pattern(regexp="A-Z")
     private String iso2Code;
 
     @Column(name = "iso3_code", nullable = false, length = 3)
-    @Size(min=1,max=3)
+    @Size(min=3,max=3)
+    @Pattern(regexp="A-Z")
     private String iso3Code;
 
+    @Column(name = "iso_num_code", nullable = true)
+    private Integer isoNumber;
+
+    
     // bi-directional many-to-one association to Geocode
     @ManyToOne
-    @JoinColumn(name = "geocode_id", nullable = false)
+    @JoinColumn(name = "geocode_id", nullable = true)
     private Geocode geocode;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -102,5 +110,15 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     public void setRegions(final Set<Region> regions) {
         this.regions = regions;
     }
+
+
+	public Integer getIsoNumber() {
+		return isoNumber;
+	}
+
+
+	public void setIsoNumber(Integer isoNumber) {
+		this.isoNumber = isoNumber;
+	}
 
 }
