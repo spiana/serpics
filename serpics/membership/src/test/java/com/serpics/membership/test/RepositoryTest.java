@@ -47,6 +47,13 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 	}
 	
 	@Test
+	@Transactional
+	public void repositoryTest(){
+		UsersReg r =userRegrepository.findBylogonid("superuser");
+		Assert.assertNotNull(r);
+	}	
+	
+	@Test
 	public void userRegTest() throws SerpicsException{
 		ce.connect("default-store");
 		
