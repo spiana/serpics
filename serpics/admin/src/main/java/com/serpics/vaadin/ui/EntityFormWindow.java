@@ -61,7 +61,11 @@ public class EntityFormWindow<T> extends Window implements Handler {
         vl.setSizeFull();
         setContent(vl);
 
-        tabSheet.setSizeFull();
+        tabSheet.setWidth("90%");
+        tabSheet.setHeight("100%");
+        tabSheet.addStyleName("framed");
+        tabSheet.addStyleName("overflow");
+        
 
         vl.addComponent(tabSheet);
         vl.setExpandRatio(tabSheet, 1);

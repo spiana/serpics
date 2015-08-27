@@ -22,7 +22,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("valo")
+@Theme("tests-valo-facebook")
 @Component
 @Scope("prototype")
 public class SerpicsStartApp extends UI {
@@ -87,6 +87,8 @@ public class SerpicsStartApp extends UI {
                     addComponent("geocodeTable", "geocode");
                 }   else if (itemid == "brand") {
                     addComponent("brandTable", "brand");     
+                }else if (itemid == "currency") {
+                    addComponent("currencyTable", "currency");     
                 }
             }
         });
@@ -109,6 +111,10 @@ public class SerpicsStartApp extends UI {
         menu.addItem("groups");
         menu.setParent("groups", "admin");
         menu.setChildrenAllowed("groups", false);
+        
+        menu.addItem("currency");
+        menu.setParent("currency", "admin");
+        menu.setChildrenAllowed("currency", false);
 
 //        menu.addItem("userReg");
 //        menu.setParent("userReg", "admin");

@@ -8,7 +8,7 @@
 	<context-param>
 	<description>Vaadin production mode</description>
 		<param-name>productionMode</param-name>
-		<param-value>true</param-value>
+		<param-value>false</param-value>
 	</context-param>
 
 <!-- 	<listener> -->
@@ -61,26 +61,26 @@
 	
 	
 
-<filter>
-    <filter-name>oemInViewFilter</filter-name>
-    <filter-class>
-        org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter
-    </filter-class>
-    <init-param>
-        <param-name>entityManagerFactoryBeanName</param-name>
-        <param-value>entityManagerFactory</param-value>
+<!-- <filter> -->
+<!--     <filter-name>oemInViewFilter</filter-name> -->
+<!--     <filter-class> -->
+<!--         org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter -->
+<!--     </filter-class> -->
+<!--     <init-param> -->
+<!--         <param-name>entityManagerFactoryBeanName</param-name> -->
+<!--         <param-value>entityManagerFactory</param-value> -->
         
-    </init-param>
-    <init-param>
-    	<param-name>persistenceUnitName</param-name>
-        <param-value>serpics</param-value>
-    </init-param>
-</filter>
+<!--     </init-param> -->
+<!--     <init-param> -->
+<!--     	<param-name>persistenceUnitName</param-name> -->
+<!--         <param-value>serpics</param-value> -->
+<!--     </init-param> -->
+<!-- </filter> -->
 
-<filter-mapping>
-    <filter-name>oemInViewFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-</filter-mapping>
+<!-- <filter-mapping> -->
+<!--     <filter-name>oemInViewFilter</filter-name> -->
+<!--     <url-pattern>/*</url-pattern> -->
+<!-- </filter-mapping> -->
 
 <!-- Spring MVC -->
 	<servlet>

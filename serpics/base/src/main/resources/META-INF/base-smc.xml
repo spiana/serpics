@@ -33,4 +33,34 @@
 		</select>
 	</entity>
 
+<entity name="currency">
+		<table>
+			<display>
+				<property name="isoCode" />
+				<property name="descriprion" />
+			</display>
+			<search>
+				<property name="isoCode" />
+	
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="isoCode" />
+				<property name="descriprion" />
+				<!-- <property name="regions"/> -->
+				<property name="created" />
+				<property name="updated" />
+			</display>
+
+			<readonly action="append">
+				<property name="created" />
+				<property name="updated" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="isoCode" />
+		</select>
+	</entity>
+
 </smc-definition>
