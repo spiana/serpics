@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Paymethod;
@@ -21,7 +22,6 @@ import com.serpics.membership.services.BaseService;
 
 
 @ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
-//@Transactional
 public class PaymentMethodTest extends AbstractTransactionalJUnit4SpringContextTests {
 	
 	@Autowired
@@ -36,10 +36,12 @@ public class PaymentMethodTest extends AbstractTransactionalJUnit4SpringContextT
 	
 	@Before
 	public void beforeTest(){
-		baseService.initIstance();
+		if(!baseService.isInitialized())
+			baseService.initIstance();
 	}
 	
 	@Test
+	@Transactional
 	public void paymethodTest() throws SerpicsException{
 		CommerceSessionContext c= commerceEngine.connect("default-store");
 		

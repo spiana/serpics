@@ -2,10 +2,8 @@ package com.serpics.commerce.services;
 
 import java.math.BigDecimal;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -19,7 +17,6 @@ import org.springframework.util.Assert;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.repositories.CartItemRepository;
@@ -126,18 +123,17 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			throws InventoryNotAvailableException, ProductNotFoundException {
 
 		Cart cart = getSessionCart();
+		cart.getOrderitems().clear();
+	//	cart = cartRepository.update(cart);
 		
-		cartItemRepository.delete(cart.getCartitems());
-		Set<AbstractOrderitem> abs = new HashSet<AbstractOrderitem>();
-		cart.setCartitems(abs);
-		//cart.getCartitems().remove(cart.getCartitems());
-		cart = cartRepository.update(cart);
-		//cart = getSessionCart();
+//		Set<AbstractOrderitem> abs = new HashSet<AbstractOrderitem>();
+//		cart.setCartitems(abs);
+
 		Enumeration<Product> e = list.keys();
 		while (e.hasMoreElements()) {
 			Product product = (Product) e.nextElement();
 			double q = list.get(product);
-			if(q > 0)  cartAdd(product, q, true);
+			if(q > 0)  cartAdd(product, q,cart, true);
 		}
 		cart = cartRepository.update(cart);
 		return cart;

@@ -1,11 +1,10 @@
 package com.serpics.commerce.facade;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.util.Assert;
 
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
@@ -13,6 +12,8 @@ import com.serpics.commerce.facade.data.AbstractOrderItemData;
 import com.serpics.commerce.facade.data.AbstractOrdersData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
+
+
 
 public  class AbstractOrderPopulator implements Populator<AbstractOrder,  AbstractOrdersData>{
 	private AbstractPopulatingConverter<AbstractOrderitem, AbstractOrderItemData> abstractOrderItemConverter;
@@ -31,7 +32,7 @@ public  class AbstractOrderPopulator implements Populator<AbstractOrder,  Abstra
 		if(source.getOrderitems() != null) {
 		
 			for (AbstractOrderitem abstractOrderitem : source.getOrderitems() ){
-				Assert.assertNotNull(abstractOrderitem.getId());
+				Assert.notNull(abstractOrderitem.getId());
 				AbstractOrderItemData itemData = abstractOrderItemConverter.convert(abstractOrderitem);
 				items.add(itemData);
 			} 

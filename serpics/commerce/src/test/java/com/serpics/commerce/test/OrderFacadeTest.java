@@ -1,21 +1,14 @@
 package com.serpics.commerce.test;
 
-import java.util.Set;
-
 import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.facade.ProductFacade;
@@ -32,18 +25,12 @@ import com.serpics.core.SerpicsException;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
-import com.serpics.test.ExecutionTestListener;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
-@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
-@TransactionConfiguration(defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
 @SerpicsTest("default-store")
 @Transactional
-
-	
-public class OrderFacadeTest {
+public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 	Logger log = LoggerFactory.getLogger(OrderFacadeTest.class);
 
 	@Autowired
@@ -66,13 +53,15 @@ public class OrderFacadeTest {
 	 
 	 @Before
 	public void beforeTest() throws SerpicsException {
-	    baseService.initIstance();
+		 if (!baseService.isInitialized())
+			 baseService.initIstance();
 	    context = commerceEngine.connect("default-store", "superuser", "admin".toCharArray());
 	    catalogService.initialize();
 	}
 	    
 	    
 	@Test
+	@Transactional
 	public void shoppingTest() {
 		createProduct1();
 		createProduct2();
@@ -186,25 +175,20 @@ public class OrderFacadeTest {
 	private void displayCart() {
 		CartData cart = cartFacade.getCurrentCart();
 		
-		Assert.assertNotNull("CART IS NULL" + cart);
-		log.info("CART NUMBER" +  cart.getId()); 
-		Set<CartItemData> items = cart.getOrderItems();
-		Assert.assertNotNull("ITEMS IS NULL " + items);
-		log.info("NUMBER OF ITEMS " + items.size());
+		Assert.assertNotNull(cart);
+		Assert.assertEquals(3, cart.getOrderItems().size());
 		
 		/* UPDATE QUANTITY */
 		String lastUuid = null;
-		for (CartItemData cartItemData : items) {
+		for (CartItemData cartItemData : cart.getOrderItems()) {
 			log.info("RIGA CARRELLO " + cartItemData.getSku() +  "  + " +  cartItemData.getQuantity() +  " - " + cartItemData.getSkuPrice());
 			if( cartItemData.getSku().equals("PROD1")) cartItemData.setQuantity(3);
 			if(cartItemData.getSku().equals("PROD2")) cartItemData.setQuantity(0);
 			lastUuid = cartItemData.getUuid();
 		}
 		cart = cartFacade.update(cart);
-		cart = cartFacade.getCurrentCart();
 		
-		Assert.assertNotNull(cart);
-		
+		Assert.assertEquals(2, cart.getOrderItems().size());
 		
 		
 	}

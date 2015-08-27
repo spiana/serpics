@@ -70,6 +70,7 @@ public class CartFacadeImpl implements CartFacade {
 	@Override
 	public CartData update(CartData cart) {
 		Hashtable<Product, Double> list = new Hashtable<Product, Double>();
+		
 		for (CartItemData cartItemData : cart.getOrderItems()) {
 			//String uuid = cartItemData.getProduct().getUuid();
 			String sku = cartItemData.getSku();

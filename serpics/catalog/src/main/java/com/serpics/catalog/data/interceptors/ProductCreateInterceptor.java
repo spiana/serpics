@@ -18,9 +18,11 @@ public class ProductCreateInterceptor implements CreateInterceptor<AbstractProdu
 	
 	@Override
 	public void beforeCreate(AbstractProduct entity) {
-		Catalog  _c = engine.getCurrentContext().getCatalog();
-		com.serpics.catalog.data.model.Catalog c = catalogService.findOne(_c.getId());
-		entity.setCatalog(c);
+		if (entity.getCatalog() == null){
+			Catalog  _c = engine.getCurrentContext().getCatalog();
+			com.serpics.catalog.data.model.Catalog c = catalogService.findOne(_c.getId());
+			entity.setCatalog(c);
+		}
 	}
 
 	@Override

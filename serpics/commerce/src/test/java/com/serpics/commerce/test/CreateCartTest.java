@@ -7,19 +7,12 @@ import javax.annotation.Resource;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Price;
-import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.services.CatalogService;
@@ -36,15 +29,10 @@ import com.serpics.commerce.services.OrderService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
-import com.serpics.test.ExecutionTestListener;
-import com.serpics.warehouse.InventoryNotAvailableException;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
-@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
-@Transactional
-@TransactionConfiguration(defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-public class CreateCartTest {
+@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
+public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
     @Autowired
     BaseService b;
 
@@ -72,28 +60,29 @@ public class CreateCartTest {
     @Resource
     OrderService orderService;
 
+    private CommerceSessionContext context;
+     
     @Before
-    public void init() {
-        b.initIstance();
+    public void init() throws SerpicsException {
+    	if (!b.isInitialized())
+    		b.initIstance();
+    	
+    	
+    	context = ce.connect("default-store", "superuser", "admin".toCharArray());
+    	catalogService.initialize();
     }
 
     @Test
+    @Transactional
     public void test() throws SerpicsException {
-
-        final CommerceSessionContext context = ce.connect("default-store", "superuser", "admin".toCharArray());
 
 
         assertNotNull("not connect with context !", context);
 
-        Catalog c = new Catalog();
-        c.setCode("default-catalog");
-        c = catalogService.create(c);
-        context.setCatalog(c);
-        Pricelist pl = new Pricelist();
-        pl.setCatalog(c);
-        pl.setDefaultList(true);
-        pl.setName("default-list");
-        priceListRepository.create(pl);
+        Catalog c = catalogService.findByCode("default-catalog");
+        
+        assertNotNull("default catalog not found !", c);
+
 
         final Product p = new Product();
         p.setCode("product");
@@ -167,8 +156,22 @@ public class CreateCartTest {
         assertEquals(1, orderRepository.findAll().size());
     }
 
+    
     @Test
-    public void cartDelete() throws InventoryNotAvailableException, ProductNotFoundException {
+    @Transactional
+    public void cartDelete() throws SerpicsException {
+    	 
+    	final Product p1 = new Product();
+        p1.setCode("product");
+        p1.setBuyable(1);
+        productService.create(p1);
+        
+        Price price1 = new Price();
+        price1.setCurrentPrice(110.0);
+        price1.setProductCost(9.0);
+        price1.setPrecedence(0.0);
+        priceService.addPrice(p1 ,price1);
+
         Cart cart = cs.createSessionCart();
         cart = cs.cartAdd("product", 1, false);
         cs.cartDelete(cart);
