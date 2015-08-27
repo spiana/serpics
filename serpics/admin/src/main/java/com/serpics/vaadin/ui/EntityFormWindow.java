@@ -75,9 +75,12 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
         final HorizontalLayout hl = new HorizontalLayout();
         hl.setWidth("100%");
-        hl.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        hl.setHeight("50px");
+    
+        hl.setDefaultComponentAlignment(Alignment.TOP_CENTER);
         hl.addComponent(cancelButton);
         hl.addComponent(saveButton);
+       
 
         vl.addComponent(hl);
         setModal(true);
