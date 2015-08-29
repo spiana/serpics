@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.annotation.Resource;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,7 +174,8 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
         priceService.addPrice(p1 ,price1);
 
         Cart cart = cs.createSessionCart();
-        cart = cs.cartAdd("product", 1, false);
+        Cartitem c = cs.cartAdd("product", 1, false);
+        Assert.assertNotNull(c);
         cs.cartDelete(cart);
     }
 }

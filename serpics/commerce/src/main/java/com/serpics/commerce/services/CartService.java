@@ -20,7 +20,7 @@ public interface CartService {
 
     public void cartDelete(Cart cart); 
 
-    public Cart cartUpdate(Cartitem orderitem, Cart cart) throws InventoryNotAvailableException,
+    public Cartitem cartUpdate(Cartitem orderitem, Cart cart) throws InventoryNotAvailableException,
     ProductNotFoundException;
     
    
@@ -28,18 +28,18 @@ public interface CartService {
     public Cart cartUpdateProduct(Hashtable<Product, Double> cart) throws InventoryNotAvailableException,
     ProductNotFoundException;
     
-    public Cart cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
+    public Cartitem cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
             throws InventoryNotAvailableException, ProductNotFoundException;
 
-    public Cart cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
+    public Cartitem cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException;
 
-    public Cart cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
+    public Cartitem cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException;
 
-    public Cart cartUpdate(Cartitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException;
+    public Cartitem cartUpdate(Cartitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException;
 
-    public Cart cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException, 
+    public Cartitem cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException, 
     ProductNotFoundException;
 
     public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException;
@@ -48,6 +48,10 @@ public interface CartService {
 
     public Cart prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
     ProductNotFoundException;
+    
+    public void cartItemDelete(Cartitem item);
+    
+    public void cartItemDelete(Long id);
     
   
 

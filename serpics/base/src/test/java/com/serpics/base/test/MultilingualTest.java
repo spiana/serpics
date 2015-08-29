@@ -3,6 +3,7 @@ package com.serpics.base.test;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Geocode;
 import com.serpics.base.data.model.Locale;
@@ -18,6 +19,7 @@ public class MultilingualTest extends BaseTest {
     GeoCodeRepository geoCodeRepository;
 
     @Test
+    @Transactional
     public void test(){
         final Locale l = new Locale();
         l.setName("italiano");

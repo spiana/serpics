@@ -166,7 +166,6 @@ public class CatalogFacadeTest  extends AbstractTransactionalJunit4SerpicTest{
     private void createProduct() {
     	BrandData b = new BrandData();
     	b.setName("prodRANC");
-    	b.setId(1);
     	b = brandFacade.addBrand(b);
     	
     	

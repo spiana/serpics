@@ -76,10 +76,17 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
             cart.setCustomer((User)getCurrentContext().getCustomer());
             cartRepository.create(cart);
         }
-        getCurrentContext().setAttribute(SESSION_CART, cart);
+       putCartinSession(cart);
         return cart;
     }
 
+    private void  putCartinSession(Cart cart){
+    	 getCurrentContext().setAttribute(SESSION_CART, cart);
+    }
+    private void  removeCartFromSession(){
+   	 getCurrentContext().setAttribute(SESSION_CART, null);
+   }
+    
     @Override
     public Cart getSessionCart() {
         Cart currentCart = (Cart) getCurrentContext().getAttribute(SESSION_CART);
@@ -97,7 +104,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
     @Override
     @Transactional
-    public Cart cartUpdate(final Cartitem orderitem, final Cart cart) throws InventoryNotAvailableException,
+    public Cartitem cartUpdate(final Cartitem orderitem, final Cart cart) throws InventoryNotAvailableException,
     ProductNotFoundException {
         final Product product = productStrategy.resolveSKU(orderitem.getSku());
 
@@ -109,8 +116,11 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
         cart.getCartitems().add(orderitem);
 
         commerceStrategy.calculateShipping(orderitem);
-
-        return cartRepository.update(cart);
+        cartRepository.update(cart);
+        
+        putCartinSession(cart);
+        
+        return  orderitem;
 
     }
 
@@ -123,12 +133,11 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			throws InventoryNotAvailableException, ProductNotFoundException {
 
 		Cart cart = getSessionCart();
-		cart.getOrderitems().clear();
-	//	cart = cartRepository.update(cart);
 		
-//		Set<AbstractOrderitem> abs = new HashSet<AbstractOrderitem>();
-//		cart.setCartitems(abs);
-
+		cart = cartRepository.refresh(cart);
+		
+		cart.getOrderitems().clear();
+	
 		Enumeration<Product> e = list.keys();
 		while (e.hasMoreElements()) {
 			Product product = (Product) e.nextElement();
@@ -136,6 +145,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			if(q > 0)  cartAdd(product, q,cart, true);
 		}
 		cart = cartRepository.update(cart);
+		
+		putCartinSession(cart);
+		
 		return cart;
     	
     	
@@ -144,7 +156,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     
     @Override
     @Transactional
-    public Cart cartAdd(final AbstractProduct product, final double quantity, final Cart cart, final boolean merge)
+    public Cartitem cartAdd(final AbstractProduct product, final double quantity, final Cart cart, final boolean merge)
             throws InventoryNotAvailableException, ProductNotFoundException {
 
         Cartitem cartItem = new Cartitem();
@@ -165,19 +177,20 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
         commerceStrategy.calculateShipping(cartItem);
 
-        return cartRepository.update(cart);
+       cartRepository.update(cart);
+       return cartItem;
     }
 
     @Override
     @Transactional
-    public Cart cartUpdate(final Cartitem cartItem) throws InventoryNotAvailableException, ProductNotFoundException {
+    public Cartitem cartUpdate(final Cartitem cartItem) throws InventoryNotAvailableException, ProductNotFoundException {
         final Cart cart = createSessionCart();
         return cartUpdate(cartItem, cart);
     }
 
     @Override
     @Transactional
-    public Cart cartAdd(final AbstractProduct product, final double quantity, final boolean merge) throws InventoryNotAvailableException,
+    public Cartitem cartAdd(final AbstractProduct product, final double quantity, final boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException {
         final Cart cart = createSessionCart();
         return cartAdd(product, quantity, cart, merge);
@@ -201,7 +214,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
     @Override
     @Transactional
-    public Cart cartAdd(final String sku, final double quantity, final Cart cart, final boolean merge) throws InventoryNotAvailableException,
+    public Cartitem cartAdd(final String sku, final double quantity, final Cart cart, final boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException {
         final Product product = productStrategy.resolveSKU(sku);
         return cartAdd(product, quantity, merge);
@@ -209,7 +222,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
     @Override
     @Transactional
-    public Cart cartAdd(final String sku, final double quantity, final boolean merge) throws InventoryNotAvailableException,
+    public Cartitem cartAdd(final String sku, final double quantity, final boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException {
         final Cart cart = createSessionCart();
         return cartAdd(sku, quantity, cart, merge);
@@ -261,6 +274,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
         commerceStrategy.calculateTax(cart);
         commerceStrategy.calculateOrderTotal(cart);
 
+        putCartinSession(cart);
+        
         return cartRepository.update(cart);
     }
 
@@ -269,13 +284,34 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     public void cartDelete() {
         final Cart cart = getSessionCart();
         cartDelete(cart);
-
+        
     }
 
     @Override
     @Transactional
     public void cartDelete(final Cart cart) {
         cartRepository.delete(cart);
-
+        removeCartFromSession();
     }
+    @Override
+    @Transactional
+    public void cartItemDelete(Cartitem item) {
+    	Cart cart =  createSessionCart() ;
+    	
+    	if (cart.getOrderitems().contains(item))
+    		cart.getOrderitems().remove(item);
+    	
+    	cart = cartRepository.update(cart);
+    	
+    	putCartinSession(cart);
+    	
+    }
+    @Override
+    @Transactional
+    public void cartItemDelete(Long id) {
+    	Cartitem item = cartItemRepository.findOne(id);
+    	if (item != null)
+    		cartItemDelete(item);
+    }	
+    	
 }

@@ -28,6 +28,9 @@ public class InterceptorManager<Z> {
 							entity.getClass().getName());
 				((CreateInterceptor) beforeSaveInterceptor.getInterceptor()).beforeCreate(entity);
 			}
+		}else{
+			if(LOG.isDebugEnabled())
+				LOG.debug("interceptorMapping for entity {} non found in context !" ,entity.getClass().getName()); 
 		}
 		return entity;
 
@@ -49,6 +52,9 @@ public class InterceptorManager<Z> {
 							entity.getClass().getName());
 				((CreateInterceptor) beforeSaveInterceptor.getInterceptor()).afterCreate(entity);
 			}
+		}else{
+			if(LOG.isDebugEnabled())
+				LOG.debug("interceptorMapping for entity {} non found in context !" ,entity.getClass().getName()); 
 		}
 		return entity;
 	}

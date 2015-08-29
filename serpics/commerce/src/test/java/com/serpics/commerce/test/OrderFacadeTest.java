@@ -20,6 +20,8 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
+import com.serpics.commerce.facade.data.CartItemModification;
+import com.serpics.commerce.facade.data.CartModificationStatus;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.facade.data.AddressData;
@@ -104,9 +106,10 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	media.setSequence(1);
     	productFacade.addMedia(entry.getUuid(),media);
     	
-    	CartData cart = cartFacade.cartAdd(entry.getUuid());
-    	Assert.assertNotNull("carrello is null " + cart);
-    	log.info("**** carrello " + cart.getTotalProduct());
+    	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode());
+    	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
+    	
+    	log.info("**** carrello " + cartFacade.getCurrentCart().getTotalProduct());
     	
     	
 	}
@@ -135,9 +138,10 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	media.setSequence(1);
     	productFacade.addMedia(entry.getUuid(),media);
     	
-    	CartData cart = cartFacade.cartAdd(entry.getUuid(), 2);
-    	Assert.assertNotNull("carrello is null " + cart);
-    	log.info("**** carrello " + cart.getTotalProduct());
+    	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode(), 2);
+    	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
+    	
+    	log.info("**** carrello " + cartFacade.getCurrentCart().getTotalProduct());
     	
     	
 	}
@@ -166,9 +170,11 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	media.setSequence(1);
     	productFacade.addMedia(entry.getUuid(),media);
     	
-    	CartData cart = cartFacade.cartAdd(entry.getUuid());
-    	Assert.assertNotNull("carrello is null " + cart);
-    	log.info("**** carrello " + cart.getTotalProduct());
+    	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode());
+    	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
+    	
+    	log.info("**** carrello " + cartFacade.getCurrentCart().getTotalProduct());
+    	
     	
     	
 	}

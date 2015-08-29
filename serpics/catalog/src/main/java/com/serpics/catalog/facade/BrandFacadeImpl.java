@@ -29,7 +29,7 @@ public class BrandFacadeImpl implements BrandFacade {
 	@Override
 	public BrandData addBrand(BrandData brand) {
 		Brand b = new Brand();
-		b.setId(brand.getId());
+		//b.setId(brand.getId());
 		b.setLogoSrc(brand.getName());
 		b.setName(brand.getName());
 		b = brandService.create(b);
