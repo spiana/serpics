@@ -7,7 +7,6 @@ import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.services.PriceService;
-import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy("priceStrategy")
@@ -19,13 +18,13 @@ public class PriceStrategyImpl extends AbstractStrategy implements PriceStrategy
 	@Override
 	public Double resolveProductPrice(AbstractProduct product, Currency currency) throws PriceNotFoundException{
 		Price price = priceService.findProductPrice(product , currency);
-		return price.getCurrentPrice();
+		return price.getCurrentPrice() != null ? price.getCurrentPrice() : new Double(0);
 	}
 
 	@Override
 	public Double resolveProductCost(AbstractProduct product, Currency currency) throws PriceNotFoundException{
 		Price price = priceService.findProductPrice(product , currency);
-		return price.getProductCost();
+		return price.getProductCost() != null ? price.getProductCost() : new Double(0);
 	}
 
 }

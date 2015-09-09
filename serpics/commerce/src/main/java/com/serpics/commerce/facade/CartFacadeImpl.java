@@ -58,6 +58,7 @@ public class CartFacadeImpl implements CartFacade {
 		Cartitem c = null;
 		try {
 			c = cartService.cartAdd(sku, quantity, true);
+			cartService.prepareCart();
 		} catch (InventoryNotAvailableException e){
 			return new CartItemModification(CartModificationStatus.ERROR, new CartItemData(), "not avialable !");
 		}catch (ProductNotFoundException e) {
