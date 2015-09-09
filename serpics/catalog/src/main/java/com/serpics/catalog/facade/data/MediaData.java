@@ -1,12 +1,14 @@
 package com.serpics.catalog.facade.data;
 
 public class MediaData {
+	
 	protected String contentType;
 	protected short mediaType;
 	protected String name;
 	protected String src;
 	protected int sequence;
 	protected String description;
+	
 	public String getContentType() {
 		return contentType;
 	}

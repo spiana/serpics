@@ -56,7 +56,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
   
     @Override
     public List<Price> findValidPricesforProduct(final AbstractProduct product, final Pricelist pricelist , Currency currency) {
-        return priceRepository.findValidPricesForProductT(product, pricelist);//findValidPricesForProduct(product, pricelist, currency);
+        return priceRepository.findValidPricesForProduct(product, pricelist, currency);
     }
     @Override
     public List<Price> findValidPricesforProduct(final AbstractProduct product) {
