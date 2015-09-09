@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MembershipException;
@@ -12,14 +13,18 @@ import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.data.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy(value="membershipStrategy")
 public class MembershipStrategyImpl  implements MembershipStrategy {
     @Resource
-    UserRegrepository userRegRepository;
+    UserregRepository userRegRepository;
 
+    @Resource
+    CommerceEngine commerceEngine;
+    
+    
     @Override
     public UserDetail login(final Store store, final String username, final char[] password) throws SerpicsException {
         UsersReg ur = userRegRepository.findBylogonid(username);
@@ -33,17 +38,15 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
                         ur.getId()));
 
             // if not superuser test store
-//            if (!ur.getUserType().equals(UserType.SUPERSUSER)) {
-//                if (!ur.getStores().contains((Store) getCurrentContext().getRealm())) {
-//                    throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
-//                            ur.getLogonid(), getCurrentContext().getRealm()));
-//                }
-//            }
+            if (!ur.getUserType().equals(UserType.SUPERSUSER)) {
+                if (!ur.getStores().contains((Store) commerceEngine.getCurrentContext().getStoreRealm())) {
+                    throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
+                            ur.getLogonid(), commerceEngine.getCurrentContext().getRealm()));
+                }
+            }
         } else {
             throw new MembershipException("no user found for loginid [" + username + "] !");
         }
-        
-      //  userRegRepository.detach(ur);
         return ur;
     }
 

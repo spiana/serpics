@@ -11,16 +11,16 @@ import org.springframework.data.jpa.domain.Specification;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.membership.data.model.Store;
-import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.DefaultSpec;
 
-@DefaultSpec(User.class)
-public class DefaultUserRegSpecification implements Specification<User> {
+@DefaultSpec(UsersReg.class)
+public class DefaultUserRegSpecification implements Specification<UsersReg> {
 	@Autowired
 	Engine<CommerceSessionContext> engine;
 
 	@Override
-	public Predicate toPredicate(Root<User> root, CriteriaQuery<?> cq,
+	public Predicate toPredicate(Root<UsersReg> root, CriteriaQuery<?> cq,
 			CriteriaBuilder cb) {
 		return cb.equal(root.join("stores").as(Store.class), (Store) engine.getCurrentContext().getStoreRealm());
 

@@ -34,7 +34,7 @@ import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.PermanentAddressRepository;
 import com.serpics.membership.data.repositories.PrimaryAddressRepository;
 import com.serpics.membership.data.repositories.StoreRepository;
-import com.serpics.membership.data.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.data.repositories.UserRepository;
 
 //@StoreService("userService" )
@@ -46,7 +46,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     @Resource
     UserRepository userRepository;
     @Resource
-    UserRegrepository userRegrepository;
+    UserregRepository userRegrepository;
     
     @Resource
     StoreRepository storeRepository;

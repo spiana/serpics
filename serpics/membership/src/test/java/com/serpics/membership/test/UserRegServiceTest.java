@@ -15,8 +15,8 @@ import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.StoreRepository;
-import com.serpics.membership.data.repositories.UserRegrepository;
 import com.serpics.membership.data.repositories.UserRepository;
+import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
@@ -30,7 +30,7 @@ public class UserRegServiceTest extends AbstractTransactionalJunit4SerpicTest{
     BaseService baseService;
 
     @Autowired
-    UserRegrepository userRegRepository;
+    UserregRepository userRegRepository;
 
     @Autowired
     UserService userService;
@@ -51,7 +51,7 @@ public class UserRegServiceTest extends AbstractTransactionalJunit4SerpicTest{
 	@Transactional
     public void first() {
         final List<UsersReg> l = userRegRepository.findAll();
-        Assert.assertEquals(1, l.size());
+        Assert.assertEquals(0, l.size());
         UsersReg u = userRegRepository.findBylogonid("superuser");
         Assert.assertNotNull(u);
     }
@@ -61,7 +61,7 @@ public class UserRegServiceTest extends AbstractTransactionalJunit4SerpicTest{
     public void second() {
         final List<Store> stores = storeRepository.findAll();
         final List<User> l = userRepository.findAllByStore(stores.get(0));
-        Assert.assertEquals(1, l.size());
+        Assert.assertEquals(0, l.size());
 
     }
 

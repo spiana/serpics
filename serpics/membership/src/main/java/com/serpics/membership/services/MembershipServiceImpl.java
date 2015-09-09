@@ -21,7 +21,7 @@ import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.StoreRepository;
-import com.serpics.membership.data.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.strategies.MembershipStrategy;
 
 @Service("memberService")
@@ -38,7 +38,7 @@ public class MembershipServiceImpl extends AbstractCommerceService implements Me
     
       
     @Autowired
-    private UserRegrepository userRegRepository;
+    private UserregRepository userRegRepository;
 
     @Resource
     private MembershipStrategy membershipHook;

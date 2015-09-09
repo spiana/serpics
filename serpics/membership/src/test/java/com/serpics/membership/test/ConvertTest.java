@@ -74,12 +74,12 @@ public class ConvertTest extends AbstractTransactionalJunit4SerpicTest {
 	                "superuser", "admin".toCharArray());
 		 
 		Page<UserData> ulist = userFacade.findAllUser(new PageRequest(0, 10));
-		Assert.assertEquals(1,ulist.getTotalElements());
+		Assert.assertEquals(0,ulist.getTotalElements());
 		registerTestUser(context);
 		ulist = userFacade.findAllUser(new PageRequest(0, 10));
-		Assert.assertEquals(2,ulist.getTotalElements());
-		Assert.assertEquals("testmembership" , ulist.getContent().get(1).getLastname());
-		Assert.assertEquals("testmembership" , ulist.getContent().get(1).getContactAddress().getLastname());
+		Assert.assertEquals(1,ulist.getTotalElements());
+		Assert.assertEquals("testmembership" , ulist.getContent().get(0).getLastname());
+		Assert.assertEquals("testmembership" , ulist.getContent().get(0).getContactAddress().getLastname());
 	//	registerTestUser(context);
 	}
 	

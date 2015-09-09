@@ -37,7 +37,7 @@ import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.data.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.services.AddressService;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.MembershipService;
@@ -60,7 +60,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
     UserService userService;
 
     @Autowired
-    UserRegrepository userRegRepository;
+    UserregRepository userRegRepository;
 
     @Autowired
     AddressService addressService;
@@ -84,9 +84,9 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         final CommerceSessionContext context = ce.connect("default-store",
                 "superuser", "admin".toCharArray());
         final Page p = userService.findAll(new PageRequest(0, 10));
-        assertEquals(1, p.getContent().size());
+        assertEquals(0, p.getContent().size());
         final List<User> l = userService.findAll();
-        assertEquals(1, l.size());
+        assertEquals(0, l.size());
     }
     
     @Test
@@ -155,7 +155,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
 //        
 
         l1 = userService.findAll();
-        assertEquals(2, l1.size());
+        assertEquals(1, l1.size());
         
     }
 

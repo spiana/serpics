@@ -26,15 +26,24 @@ import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.repositories.PrimaryAddressRepository;
 import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserRepository;
+import com.serpics.membership.data.repositories.UserregRepository;
 
 @Service("baseService")
 public class BaseServiceImpl extends AbstractService implements BaseService {
     @Autowired
     UserRepository memberFactory;
 
+    
+    @Resource(name="userregRepository")
+    UserregRepository userRepository;
+    
+    @Resource(name="primaryAddressRepository")
+    PrimaryAddressRepository addressRepository;
+    
     @Autowired
     StoreRepository storeFactory;
 
@@ -94,13 +103,19 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
             Assert.notEmpty(roles);
             final SessionContext c = commerceEngine.connect("default-store");
 
-            final UsersReg ug = new UsersReg();
+            UsersReg ug = new UsersReg();
             ug.setLastname("Superuser");
             ug.setUserType(UserType.SUPERSUSER);
             ug.setLogonid("superuser");
             ug.setPassword("admin");
             ug.setStatus(UserRegStatus.ACTIVE);
-            m.registerUser(ug, new PrimaryAddress());
+            //ug = m.registerUser(ug, new PrimaryAddress());
+            ug= userRepository.saveAndFlush(ug);
+            PrimaryAddress _a =new PrimaryAddress();
+            _a.setMember(ug);
+            ug.setPrimaryAddress(_a);
+            _a =addressRepository.saveAndFlush(_a);
+            
 
         } catch (final SerpicsException e) {
             e.printStackTrace();

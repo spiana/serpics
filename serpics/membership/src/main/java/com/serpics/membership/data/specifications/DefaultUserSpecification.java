@@ -12,10 +12,9 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
-import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.DefaultSpec;
 
-@DefaultSpec(UsersReg.class)
+@DefaultSpec(User.class)
 public class DefaultUserSpecification implements Specification<User> {
 	@Autowired
 	Engine<CommerceSessionContext> engine;

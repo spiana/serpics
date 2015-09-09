@@ -93,7 +93,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 
         u = userService.create(u);
         final java.util.List<User> l0 = userService.findAll();
-        Assert.assertEquals(2, l0.size());
+        Assert.assertEquals(1, l0.size());
         
         final MembersRole m = new MembersRole();
         m.setRole(r);
@@ -103,7 +103,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
         u = userService.update(u);
 
         final java.util.List<User> l = userService.findAll();
-        Assert.assertEquals(2, l.size());
+        Assert.assertEquals(1, l.size());
         
         final java.util.List<User> u1 = userService.findByexample(new User(
                 UserType.GUEST, "test", null, null, null));

@@ -17,7 +17,7 @@ import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.StoreRepository;
-import com.serpics.membership.data.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
@@ -29,7 +29,7 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 	@Autowired
 	BaseService baseService;
 	@Autowired
-	UserRegrepository userRegrepository;
+	UserregRepository userRegrepository;
 	
 	@Autowired
 	StoreRepository storeRepository;
