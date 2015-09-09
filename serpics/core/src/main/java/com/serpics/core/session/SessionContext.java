@@ -54,6 +54,8 @@ public abstract class SessionContext implements Serializable {
     }
 
     public Serializable getAttribute(final String key) {
+    	if(attribute == null)
+    		  return null;
         return attribute.get(key);
     }
 
