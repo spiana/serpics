@@ -22,7 +22,7 @@ import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.MembersRoleRepository;
-import com.serpics.membership.data.repositories.UserRegrepository;
+import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.services.MembershipService;
 
 @Service("userDetailService")
@@ -31,10 +31,10 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
     MembershipService membershipService;
 
     @Autowired
-    UserRegrepository userRegrepository;
+    UserregRepository userRegrepository;
 
     @Autowired
-   UserRegrepository userRegRepository;
+   UserregRepository userRegRepository;
 
     @Autowired
     MembersRoleRepository membersRoleRepository;
