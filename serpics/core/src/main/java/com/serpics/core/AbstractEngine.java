@@ -60,7 +60,6 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     @Override
     public T connect(final String storeName) throws SerpicsException {
-        StoreScopeContextHolder.setCurrentStoreRealm(storeName);
         
         final Membership membershipService = beanFactory.getBean(Membership.class);
 
@@ -70,18 +69,15 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         final UserDetail user = membershipService.createAnonymous();
         context.setUserPrincipal(user);
         context.setLastAccess(new Date());
-
+     
         bind(context);
         return (T) context;
     }
 
     @Override
     public T connect(final String storeName, final String loginId, final char[] password) throws SerpicsException {
-        StoreScopeContextHolder.setCurrentStoreRealm(storeName);
-        final Membership membershipService = beanFactory.getBean(Membership.class);
-        final StoreRealm s = membershipService.fetchStoreByName(storeName);
-        final SessionContext context = getSessionManager().createSessionContext(s);
-        context.setLastAccess(new Date());
+    	final Membership membershipService = beanFactory.getBean(Membership.class);
+    	final SessionContext context = connect(storeName);
         final UserDetail user = membershipService.login(loginId, password);
         context.setUserPrincipal(user);
         bind(context);
@@ -91,8 +87,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
     @Override
     public T connect(final String storeName, final Principal principal) throws SerpicsException {
         final Membership membershipService = beanFactory.getBean(Membership.class);
-        final StoreRealm s = membershipService.fetchStoreByName(storeName);
-        final SessionContext context = getSessionManager().createSessionContext(s);
+        final SessionContext context = connect(storeName);
         final UserDetail user = membershipService.connect(principal);
         context.setUserPrincipal(user);
         bind(context);
