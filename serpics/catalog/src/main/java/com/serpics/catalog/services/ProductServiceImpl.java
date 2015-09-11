@@ -21,7 +21,7 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.BrandRepository;
 import com.serpics.catalog.data.repositories.Category2ProductRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.catalog.data.repositories.ProductSpecification;
+import com.serpics.catalog.data.specification.ProductSpecification;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractEntityService;

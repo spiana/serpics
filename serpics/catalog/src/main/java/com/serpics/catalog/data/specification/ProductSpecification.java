@@ -1,4 +1,4 @@
-package com.serpics.catalog.data.repositories;
+package com.serpics.catalog.data.specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

@@ -89,8 +89,8 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     protected Catalog catalog;
 
     @ManyToOne(optional=true)
-    @JoinColumn(name="specification_id")
-    protected Specification specification;
+    @JoinColumn(name="featuremodel_id")
+    protected FeatureModel featureModel;
 
     @OneToMany(mappedBy="product" , orphanRemoval=true , cascade=CascadeType.REMOVE , fetch=FetchType.LAZY)
     Set<FeatureValues> featureValues = new HashSet<FeatureValues>(0);
@@ -208,12 +208,12 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
             this.url = "/" + getCatalog().getCode() + "/product/" + getCode();
     }
 
-    public Specification getSpecification() {
-        return specification;
+    public FeatureModel getfeautureModel() {
+        return featureModel;
     }
 
-    public void setSpecification(final Specification specification) {
-        this.specification = specification;
+    public void setFeautureModel(final FeatureModel featureModel) {
+        this.featureModel = featureModel;
     }
 
     public Set<FeatureValues> getFeatureValues() {

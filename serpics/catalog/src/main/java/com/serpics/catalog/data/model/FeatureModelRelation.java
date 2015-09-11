@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity(name="SpecificatonRelation")
-public class SpecificationRelation extends CtentryRelation {
+public class FeatureModelRelation extends CtentryRelation {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -15,26 +15,26 @@ public class SpecificationRelation extends CtentryRelation {
 	//bi-directional many-to-one association to Ctentry
     @ManyToOne (fetch=FetchType.EAGER)
 	@JoinColumn(name="ctentry_id_parent" , insertable=false, updatable=false)
-	private Specification parentSpecification;
+	private FeatureModel parentSpecification;
 	
 	//bi-directional many-to-one association to Ctentry
     @ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
-	private Specification childSpecification;
+	private FeatureModel childSpecification;
 
-	public Specification getParentSpecification() {
+	public FeatureModel getParentSpecification() {
 		return parentSpecification;
 	}
 
-	public void setParentSpecification(Specification parentSpecification) {
+	public void setParentSpecification(FeatureModel parentSpecification) {
 		this.parentSpecification = parentSpecification;
 	}
 
-	public Specification getChildSpecification() {
+	public FeatureModel getChildSpecification() {
 		return childSpecification;
 	}
 
-	public void setChildSpecification(Specification childSpecification) {
+	public void setChildSpecification(FeatureModel childSpecification) {
 		this.childSpecification = childSpecification;
 	}
 

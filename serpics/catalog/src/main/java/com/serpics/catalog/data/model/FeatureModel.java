@@ -16,9 +16,9 @@ import com.serpics.core.datatype.CatalogEntryType;
 @Entity
 @DiscriminatorValue("2")
 @PrimaryKeyJoinColumn(name = "specification_id")
-public class Specification extends Ctentry{
+public class FeatureModel extends Ctentry{
 
-	public Specification() {
+	public FeatureModel() {
 		super();
 		ctentryType = CatalogEntryType.SPECIFICATION;
 	}

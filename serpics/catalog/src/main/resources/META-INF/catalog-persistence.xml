@@ -31,8 +31,8 @@
 		<!--  <class>com.serpics.catalog.data.model.CtentryRelation</class> -->
 		<class>com.serpics.catalog.data.model.CategoryProductRelation</class>
 		<!-- specification -->
-		<class>com.serpics.catalog.data.model.Specification</class>
-		<class>com.serpics.catalog.data.model.SpecificationRelation</class>
+		<class>com.serpics.catalog.data.model.FeatureModel</class>
+		<class>com.serpics.catalog.data.model.FeatureModelRelation</class>
 		<class>com.serpics.catalog.data.model.Feature</class>
 <!-- 		<class>com.serpics.catalog.data.model.FeatureDescr</class> -->
 		<class>com.serpics.catalog.data.model.FeatureGroup</class>

@@ -29,7 +29,7 @@ public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name="specification_id" , nullable=false)
-    Specification specification;
+    FeatureModel specification;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
@@ -70,11 +70,11 @@ public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
         this.sequence = sequence;
     }
 
-    public Specification getSpecification() {
+    public FeatureModel getSpecification() {
         return specification;
     }
 
-    public void setSpecification(final Specification specification) {
+    public void setSpecification(final FeatureModel specification) {
         this.specification = specification;
     }
 

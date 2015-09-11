@@ -20,7 +20,7 @@ import com.serpics.catalog.data.model.Ctentry;
 import com.serpics.catalog.data.model.Media;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.repositories.ProductSpecification;
+import com.serpics.catalog.data.specification.ProductSpecification;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.CtentryData;
 import com.serpics.catalog.facade.data.MediaData;
