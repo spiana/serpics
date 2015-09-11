@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.repositories.ProductSpecification;
+import com.serpics.catalog.data.specification.ProductSpecification;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;

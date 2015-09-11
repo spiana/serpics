@@ -10,13 +10,13 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Ctentry;
@@ -142,8 +142,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		Category parent = categoryService.findByUUID(parentUui);
 		Category child = categoryService.findByUUID(childUuid);
 		
-		Assert.assertNotNull("parent not found", parent);
-		Assert.assertNotNull("child not found", child);
+		Assert.notNull(parent , "parent not found");
+		Assert.notNull(child , "child not found");
 		
 		categoryService.addRelationCategory(child, parent);
 	}

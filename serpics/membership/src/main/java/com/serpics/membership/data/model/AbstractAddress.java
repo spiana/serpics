@@ -34,7 +34,7 @@ import com.serpics.membership.AddressType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "flag", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorOptions(force = true)
-public abstract class AbstractAddress extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
+public abstract class AbstractAddress extends com.serpics.core.data.jpa.AbstractEntity implements Serializable , Cloneable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -127,7 +127,23 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     public AbstractAddress() {
 
     }
-
+    
+    public AbstractAddress clone() {
+    	AbstractAddress _a = null;
+		try {
+			_a = (AbstractAddress) super.clone();
+			_a.setId(null);
+			_a.setCreated(null);
+			_a.setUpdated(null);
+			_a.setUuid(null);
+			
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return _a;
+    }
+    
     public AbstractAddress(final String nickname, final String firstname, final String lastname, final String company, final String email,
             final String address1, final String streetNumber, final String address2, final String address3, final String zipcode, final String city, final Region region,
           final String vatcode) {

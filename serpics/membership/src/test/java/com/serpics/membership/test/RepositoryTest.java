@@ -63,7 +63,7 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 		userRegrepository.create(u);
 		
 		List<UsersReg> l = userRegrepository.findAll();
-		Assert.assertEquals(2,l.size());
+		Assert.assertEquals(1,l.size());
 		
 		createStore();
 		
