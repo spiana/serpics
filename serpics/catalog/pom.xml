@@ -20,11 +20,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.serpics</groupId>
-			<artifactId>warehouse</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.serpics</groupId>
 			<artifactId>membership</artifactId>
 			<version>${serpics.version}</version>
 		</dependency>

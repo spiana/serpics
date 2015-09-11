@@ -117,16 +117,14 @@ public class CartFacadeImpl implements CartFacade {
 		
 		User user = userService.getCurrentCustomer();
 		usersFacade.addBillingAddress(billingAddress);
-		//usersFacade.addDestinationAddress(shippingAddress);
-		
+	
 		user = userService.getCurrentCustomer();
 		BillingAddress billing = user.getBillingAddress();
-		//PermanentAddress shipping = user.getPermanentAddresses().iterator().next();
-		Cart cart = cartService.getSessionCart();
-		cart.setBillingAddress(billing);
-		//cart.setShippingAddress(shipping);
+		cartService.setBillingAddress(billing);
+		
+		// cartService.setDestinationAddress(shippingAddress);
 		try {
-			cartService.prepareCart(cart);
+			cartService.prepareCart();
 		} catch (InventoryNotAvailableException | ProductNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

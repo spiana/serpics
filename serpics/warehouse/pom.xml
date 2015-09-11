@@ -14,8 +14,13 @@
 			<groupId>com.serpics</groupId>
 			<artifactId>base</artifactId>
 			<version>${serpics.version}</version>
-		</dependency>		
-	
+		</dependency>
+
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>catalog</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
 	</dependencies>
 
 <build>

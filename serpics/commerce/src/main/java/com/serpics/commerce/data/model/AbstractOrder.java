@@ -24,7 +24,6 @@ import javax.persistence.Table;
 import com.serpics.base.data.model.Currency;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.Address;
-import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 
@@ -110,7 +109,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @ManyToOne(fetch=FetchType.EAGER )
     @JoinColumn(name = "billing_address_id" )
     //protected Address billingAddress;
-    protected BillingAddress  billingAddress;
+    protected Address  billingAddress;
 
     @ManyToOne(fetch=FetchType.EAGER )
     @JoinColumn(name = "shipping_address_id")
@@ -219,11 +218,11 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.suborders = suborders;
     }
 
-    public BillingAddress getBillingAddress() {
+    public Address getBillingAddress() {
         return billingAddress;
     }
 
-    public void setBillingAddress(final BillingAddress billingAddress) {
+    public void setBillingAddress(final Address billingAddress) {
         this.billingAddress = billingAddress;
     }
 

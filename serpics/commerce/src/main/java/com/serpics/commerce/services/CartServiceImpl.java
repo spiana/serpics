@@ -14,24 +14,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.data.repositories.CartItemRepository;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderItemRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CommerceStrategy;
 import com.serpics.commerce.strategies.DiscountStrategy;
-import com.serpics.commerce.strategies.InventoryStrategy;
 import com.serpics.commerce.strategies.PriceStrategy;
 import com.serpics.commerce.strategies.ProductStrategy;
 import com.serpics.core.service.AbstractService;
+import com.serpics.membership.data.model.Address;
+import com.serpics.membership.data.model.BillingAddress;
+import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.repositories.AddressRepository;
 import com.serpics.warehouse.InventoryNotAvailableException;
+import com.serpics.warehouse.data.model.InventoryStatusEnum;
+import com.serpics.warehouse.strategies.InventoryStrategy;
 
 @Service("cartService")
 @Scope("store")
@@ -63,6 +70,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     @Resource
     InventoryStrategy inventoryStrategy;
 
+    @Resource
+    AddressRepository addressRepository;
+    
     @Override
     @Transactional
     public Cart createSessionCart() {
@@ -72,7 +82,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
             cart = new Cart((User) getCurrentContext().getUserPrincipal(), (Store) getCurrentContext().getStoreRealm(),
                     getCurrentContext().getUserCookie());
 
-            cart.setCurrency(((Store) getCurrentContext().getStoreRealm()).getCurrency());
+            cart.setCurrency((Currency) getCurrentContext().getCurrency());
             cart.setCustomer((User)getCurrentContext().getCustomer());
             cartRepository.create(cart);
         }
@@ -162,6 +172,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
         Cartitem cartItem = new Cartitem();
         cartItem.setSku(product.getCode());
         cartItem.setQuantity(quantity);
+         InventoryStatusEnum status = (InventoryStatusEnum) inventoryStrategy.checkInventory(product , quantity);
+         if (status == InventoryStatusEnum.OutOfStock)
+        	 throw new InventoryNotAvailableException(product.getCode(), quantity);
        
         if (merge)
             cartItem = mergeCart(cart, cartItem);
@@ -256,9 +269,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
         for (final Cartitem orderitem : cart.getCartitems()) {
             final Product product = productStrategy.resolveSKU(orderitem.getSku());
             if (updateInventory)
-                inventoryStrategy.updateInventory(product);
-            else
-                inventoryStrategy.checkInventory(product);
+                inventoryStrategy.updateInventory(product , orderitem.getQuantity());
+          
             orderitem.setSkuCost(priceStrategy.resolveProductCost(product, cart.getCurrency()));
             orderitem.setSkuPrice(priceStrategy.resolveProductPrice(product, cart.getCurrency()));
 
@@ -312,6 +324,42 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     	Cartitem item = cartItemRepository.findOne(id);
     	if (item != null)
     		cartItemDelete(item);
-    }	
+    }
+
+	@Override
+	@Transactional
+	public void setBillingAddress(BillingAddress address) {
+		setBillingAddress(addressRepository.clone(address));
+	}
+
+	@Override
+	@Transactional
+	public void setDestinationAddress(PermanentAddress address) {
+		setDestinationAddress(addressRepository.clone(address));
+	}
+
+	@Override
+	public void setShippingMode(Shipmode shippingMode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	@Transactional
+	public void setBillingAddress(Address address) {
+		Assert.notNull(address, "Billing address can not be null !");
+		Cart c = getSessionCart();
+		c.setBillingAddress(address);
+		cartRepository.saveAndFlush(c);
+	}
+
+	@Override
+	@Transactional
+	public void setDestinationAddress(Address address) {
+		Assert.notNull(address, "Destination address can not be null !");
+		Cart c = getSessionCart();
+		c.setShippingAddress(address);
+		cartRepository.saveAndFlush(c);
+	}	
     	
 }

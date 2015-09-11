@@ -5,13 +5,12 @@ import java.util.Set;
 
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.membership.data.model.Address;
-import com.serpics.membership.data.model.BillingAddress;
 
 
 public abstract class AbstractOrdersData<T>{
 	protected Long id;
 	protected Shipmode shipmode;
-	protected BillingAddress billingAddress;
+	protected Address billingAddress;
 	protected Address shippingAddress;
 		
 	protected Set<AbstractOrderItemData> orderItems; 
@@ -31,10 +30,10 @@ public abstract class AbstractOrdersData<T>{
 	public void setShipmode(Shipmode shipmode) {
 		this.shipmode = shipmode;
 	}
-	public BillingAddress getBillingAddress() {
+	public Address getBillingAddress() {
 		return billingAddress;
 	}
-	public void setBillingAddress(BillingAddress billingAddress) {
+	public void setBillingAddress(Address billingAddress) {
 		this.billingAddress = billingAddress;
 	}
 	public Address getShippingAddress() {

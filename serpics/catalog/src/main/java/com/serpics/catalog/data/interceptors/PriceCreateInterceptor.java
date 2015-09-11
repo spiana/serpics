@@ -11,7 +11,6 @@ import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.CreateInterceptor;
-import com.serpics.membership.data.model.Store;
 
 public class PriceCreateInterceptor implements CreateInterceptor<Price> {
 
@@ -24,7 +23,7 @@ public class PriceCreateInterceptor implements CreateInterceptor<Price> {
 	@Override
 	public void beforeCreate(Price entity) {
 		 if (entity.getCurrency() == null) {
-	            final Currency currency = ((Store) engine.getCurrentContext().getStoreRealm()).getCurrency();
+	            final Currency currency = (Currency) engine.getCurrentContext().getCurrency();
 	            entity.setCurrency(currency);
 	        }
 	        if (entity.getPricelist() == null) {
