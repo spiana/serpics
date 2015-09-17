@@ -1,4 +1,4 @@
-package com.serpics.jax.rs;
+package com.serpics.jaxrs;
 
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;

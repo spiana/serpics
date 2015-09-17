@@ -1,4 +1,4 @@
-package com.serpics.jax.rs;
+package com.serpics.jaxrs;
 
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.JsonSerializer;

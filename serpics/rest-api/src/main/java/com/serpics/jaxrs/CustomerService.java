@@ -1,4 +1,4 @@
-package com.serpics.jax.rs;
+package com.serpics.jaxrs;
 
 import javax.ws.rs.core.Response;
 

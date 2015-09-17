@@ -20,7 +20,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer"/>
 <!--   <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/> -->
 
-   <bean name="mapper" class="com.serpics.jax.rs.JaxbMapper"/>
+   <bean name="mapper" class="com.serpics.jaxrs.JaxbMapper"/>
    
    <jaxrs:server id="services" address="/">
  	 
@@ -28,8 +28,9 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
     	 <cxf:logging/>
 	</jaxrs:features>
     <jaxrs:serviceBeans>
-      <bean class="com.serpics.jax.rs.CustomerServiceImpl" />
-      <bean class="com.serpics.jax.rs.TestRestServiceImpl"/>
+      <bean class="com.serpics.jaxrs.CustomerServiceImpl" />
+      <bean class="com.serpics.jaxrs.TestRestServiceImpl"/>
+      <bean class="com.serpics.jaxrs.CartRestServiceImpl" />
     </jaxrs:serviceBeans>
    
    
@@ -37,7 +38,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   	<entry key="json" value="application/json"/>
   </jaxrs:extensionMappings>
    <jaxrs:providers>
- 	  	<bean class="com.serpics.jax.rs.AuthenticationHandler" />
+ 	  	<bean class="com.serpics.jaxrs.AuthenticationHandler" />
 <!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
 <!--        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/> -->
        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
@@ -51,7 +52,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
     	 <cxf:logging/>
 	</jaxrs:features>
     <jaxrs:serviceBeans>
-   	   <bean class="com.serpics.jax.rs.AuthenticationServiceImpl" />
+   	   <bean class="com.serpics.jaxrs.AuthenticationServiceImpl" />
     </jaxrs:serviceBeans>
    
    
@@ -59,7 +60,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   	<entry key="json" value="application/json"/>
   </jaxrs:extensionMappings>
    <jaxrs:providers>
-<!--  	  	<bean class="com.serpics.jax.rs.AuthenticationHandler" /> -->
+<!--  	  	<bean class="com.serpics.jaxrs.AuthenticationHandler" /> -->
 <!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
 <!--        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/> -->
        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">

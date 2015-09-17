@@ -1,4 +1,6 @@
-package com.serpics.jax.rs;
+package com.serpics.jaxrs;
+
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -17,8 +19,7 @@ import org.springframework.data.domain.Page;
 
 import com.serpics.membership.facade.data.UserData;
 
-
-public interface UserRestService  {
+public interface AbstractRestService<T , ID> {
 	
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
@@ -34,16 +35,15 @@ public interface UserRestService  {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(UserData entity);
+	public Response update(T entity);
+	
+	@GET
+	@Path("find")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<T> findByexample(T example);
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("get/{id}")
-	public UserData findOne(@PathParam("id") String id);
-	
-	
-	public String connect(@PathParam("store") String store);
-
-	public Response logon( @QueryParam("logonid") String logonid , @QueryParam("password") String password );
-
+	public T findOne(@PathParam("id") String id);
 }
