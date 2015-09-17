@@ -262,13 +262,17 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
   @Transactional
   public <S extends T> S save(S entity)
   {
+	interceptorMapping.performBeforeSaveInterceptor(entity);	
+	
     if (this.entityInformation.isNew(entity)) {
-      interceptorMapping.performBeforeCreateInterceptor(entity);	
       this.em.persist(entity);
-      interceptorMapping.performAfterCreateInterceptor(entity);
+      interceptorMapping.performAfterSaveInterceptor(entity);
       return entity;
     }
-    return this.em.merge(entity);
+    
+    entity =  this.em.merge(entity);
+    interceptorMapping.performAfterSaveInterceptor(entity); 
+    return entity;
   }
 
   @Transactional

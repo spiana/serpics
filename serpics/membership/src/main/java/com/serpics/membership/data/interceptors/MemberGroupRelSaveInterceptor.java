@@ -2,14 +2,14 @@ package com.serpics.membership.data.interceptors;
 
 import org.springframework.util.Assert;
 
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
 import com.serpics.membership.data.model.Membergrouprel;
 import com.serpics.membership.data.model.MembgrouprelPK;
 
-public class MemberGroupRelCreateInterceptor implements CreateInterceptor<Membergrouprel> {
+public class MemberGroupRelSaveInterceptor implements SaveInterceptor<Membergrouprel> {
 
 	@Override
-	public void beforeCreate(Membergrouprel entity) {
+	public void beforeSave(Membergrouprel entity) {
 		if (entity.getId() == null){
 			Assert.notNull(entity.getMember());
 			Assert.notNull(entity.getMembergroup());
@@ -22,7 +22,7 @@ public class MemberGroupRelCreateInterceptor implements CreateInterceptor<Member
 	}
 
 	@Override
-	public void afterCreate(Membergrouprel entity) {
+	public void afterSave(Membergrouprel entity) {
 		// TODO Auto-generated method stub
 		
 	}

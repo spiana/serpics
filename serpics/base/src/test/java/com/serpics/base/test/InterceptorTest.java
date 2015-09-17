@@ -11,7 +11,7 @@ import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
 import com.serpics.core.data.InterceptorEntityMapping;
 import com.serpics.core.data.InterceptorMappingInitializer;
 import com.serpics.core.session.SessionContext;

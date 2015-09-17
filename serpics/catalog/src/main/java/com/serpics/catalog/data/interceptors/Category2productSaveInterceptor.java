@@ -2,12 +2,12 @@ package com.serpics.catalog.data.interceptors;
 
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CtentryRelationPK;
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
 
-public class Category2productCreateInterceptor  implements CreateInterceptor<CategoryProductRelation>{
+public class Category2productSaveInterceptor  implements SaveInterceptor<CategoryProductRelation>{
 
 	@Override
-	public void beforeCreate(CategoryProductRelation entity) {
+	public void beforeSave(CategoryProductRelation entity) {
 		if (entity.getId() == null) {
             final CtentryRelationPK pk = new CtentryRelationPK();
             pk.setCtentryIdParent(entity.getParentCategory().getId());
@@ -18,7 +18,7 @@ public class Category2productCreateInterceptor  implements CreateInterceptor<Cat
 	}
 
 	@Override
-	public void afterCreate(CategoryProductRelation entity) {
+	public void afterSave(CategoryProductRelation entity) {
 		// TODO Auto-generated method stub
 		
 	}

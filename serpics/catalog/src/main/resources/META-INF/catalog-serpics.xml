@@ -17,19 +17,19 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<!-- Interceptor Mapping -->
 	<bean name="productCreateInterceptor"
-		class="com.serpics.catalog.data.interceptors.ProductCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.ProductSaveInterceptor" />
 	
 	<bean name="brandCreateInterceptor"
-		class="com.serpics.catalog.data.interceptors.BrandCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.BrandSaveInterceptor" />
 	
 	<bean name="categoryCreateInterceptor"
-		class="com.serpics.catalog.data.interceptors.CategoryCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.CategorySaveInterceptor" />
 	<bean name="categoryRelationCreateInterceptor"
-		class="com.serpics.catalog.data.interceptors.CategoryRelationCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.CategoryRelationSaveInterceptor" />
 	<bean name="category2ProductCreateInterceptor"
-		class="com.serpics.catalog.data.interceptors.Category2productCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.Category2productSaveInterceptor" />
 	<bean name="priceInterceptor"
-		class="com.serpics.catalog.data.interceptors.PriceCreateInterceptor" />
+		class="com.serpics.catalog.data.interceptors.PriceSaveInterceptor" />
 
 	<bean name="productCreateMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.catalog.data.model.Product" />
@@ -74,10 +74,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		
 		
 	<!--  facade -->
-	 <!-- facade -->
-   
-	  
-
     <alias name="defaultCtentryConverter" alias="ctentryConverter"/>
 	<bean name="defaultCtentryConverter" parent="abstractConverter">
 	<property name="targetClass" value="com.serpics.catalog.facade.data.CtentryData"/>
@@ -114,11 +110,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	  </list>
 	</property>
 	</bean>
-	
-	  
-   
-    
-    
 	
 	<alias name="defaultBrandPopulator" alias="brandPopulator"/> 
     <bean name="defaultBrandPopulator" class="com.serpics.catalog.facade.BrandPopulator" />

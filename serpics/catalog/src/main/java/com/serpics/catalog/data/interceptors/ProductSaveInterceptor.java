@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
 import com.serpics.core.data.model.Catalog;
 
-public class ProductCreateInterceptor implements CreateInterceptor<AbstractProduct>{
+public class ProductSaveInterceptor implements SaveInterceptor<AbstractProduct>{
 	
 	@Autowired
 	CommerceEngine engine;
@@ -17,7 +17,7 @@ public class ProductCreateInterceptor implements CreateInterceptor<AbstractProdu
 	CatalogService catalogService;
 	
 	@Override
-	public void beforeCreate(AbstractProduct entity) {
+	public void beforeSave(AbstractProduct entity) {
 		if (entity.getCatalog() == null){
 			Catalog  _c = engine.getCurrentContext().getCatalog();
 			com.serpics.catalog.data.model.Catalog c = catalogService.findOne(_c.getId());
@@ -26,7 +26,7 @@ public class ProductCreateInterceptor implements CreateInterceptor<AbstractProdu
 	}
 
 	@Override
-	public void afterCreate(AbstractProduct entity) {
+	public void afterSave(AbstractProduct entity) {
 		// TODO Auto-generated method stub
 		
 	}

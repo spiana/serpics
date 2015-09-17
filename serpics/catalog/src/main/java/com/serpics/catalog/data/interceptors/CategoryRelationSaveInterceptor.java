@@ -4,12 +4,12 @@ import org.springframework.util.Assert;
 
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.model.CtentryRelationPK;
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
 
-public class CategoryRelationCreateInterceptor implements CreateInterceptor<CategoryRelation> {
+public class CategoryRelationSaveInterceptor implements SaveInterceptor<CategoryRelation> {
 
 	@Override
-	public void beforeCreate(CategoryRelation entity) {
+	public void beforeSave(CategoryRelation entity) {
 	    if (entity.getId() == null){
 	    	Assert.notNull(entity.getParentCategory());
 	    	Assert.notNull(entity.getChildCategory());
@@ -21,7 +21,7 @@ public class CategoryRelationCreateInterceptor implements CreateInterceptor<Cate
 	}
 
 	@Override
-	public void afterCreate(CategoryRelation entity) {
+	public void afterSave(CategoryRelation entity) {
 		// TODO Auto-generated method stub
 		
 	}

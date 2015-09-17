@@ -26,16 +26,11 @@ public class InterceptorMappingInitializer implements InitializingBean , Applica
 		
 		for (String interceptor : m.keySet()) {
 			InterceptorMapping i = m.get(interceptor);
-			if (i.getInterceptor() instanceof CreateInterceptor){
-				LOG.info(String.format("found create interceptor %s of type %s for entity %s with order %s" , interceptor , 
+			if (i.getInterceptor() instanceof SaveInterceptor){
+				LOG.info(String.format("found save interceptor %s of type %s for entity %s with order %s" , interceptor , 
 						i.getInterceptor().getClass().getName(),
 						i.getTargetEntity() , i.getOrder()) );
 				this.createinterceptor.put(i.getTargetEntity() , i);
-			}else if(i.getInterceptor() instanceof UpdateInterceptor){
-				LOG.info(String.format("found update interceptor %s of type %s for entity %s with order %s" , interceptor , 
-						i.getInterceptor().getClass().getName(),
-						i.getTargetEntity() , i.getOrder()) );
-				this.updateinterceptor.put(i.getTargetEntity(), i);
 			}else{
 				throw new RuntimeException(String.format("invalid interceptor type for entity %s", i.getTargetEntity()));
 			}

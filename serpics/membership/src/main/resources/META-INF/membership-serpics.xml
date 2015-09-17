@@ -15,10 +15,10 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
      
   <!--  Interceptor  definition  -->   
-  <bean name="memberroleBeforeCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberRoleCreateInterceptor" />
-  <bean name="membegroupCreateInterceptor" class="com.serpics.membership.data.interceptors.membergroupCreateInterceptor"/>
-  <bean name="userRegCreateInterceptor" class="com.serpics.membership.data.interceptors.UserRegCreateInterceptor"/>
-  <bean name="memberGrouprelCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberGroupRelCreateInterceptor" />
+  <bean name="memberroleBeforeCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberRoleSaveInterceptor" />
+  <bean name="membegroupCreateInterceptor" class="com.serpics.membership.data.interceptors.MembergroupSaveInterceptor"/>
+  <bean name="userRegCreateInterceptor" class="com.serpics.membership.data.interceptors.UserRegSaveInterceptor"/>
+  <bean name="memberGrouprelCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberGroupRelSaveInterceptor" />
   
   <bean name="memberRoleMapping" class="com.serpics.core.data.InterceptorMapping" >
 	  <property name="targetEntity" value="com.serpics.membership.data.model.MembersRole" />

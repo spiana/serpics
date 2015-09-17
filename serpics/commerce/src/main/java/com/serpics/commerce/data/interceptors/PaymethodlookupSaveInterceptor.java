@@ -7,17 +7,17 @@ import org.springframework.util.Assert;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.model.PaymethodlookupPK;
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
 import com.serpics.membership.data.model.Store;
 
 
-public class PaymethodlookupInterceptor implements CreateInterceptor<Paymethodlookup> {
+public class PaymethodlookupSaveInterceptor implements SaveInterceptor<Paymethodlookup> {
 
 	@Resource
 	CommerceEngine commerceEngine;
 	
 	@Override
-	public void beforeCreate(Paymethodlookup entity) {
+	public void beforeSave(Paymethodlookup entity) {
 		Assert.notNull(entity.getPaymethod() , "paymethod must not be null !");
 		
 		if(entity.getStore() == null){
@@ -34,7 +34,7 @@ public class PaymethodlookupInterceptor implements CreateInterceptor<Paymethodlo
 	}
 
 	@Override
-	public void afterCreate(Paymethodlookup entity) {
+	public void afterSave(Paymethodlookup entity) {
 		
 		
 	}

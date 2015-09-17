@@ -2,12 +2,13 @@ package com.serpics.catalog.data.interceptors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.catalog.data.model.Category;
+import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
+import com.serpics.core.data.model.Catalog;
 
-public class CategoryCreateInterceptor implements CreateInterceptor<Category>{
+public class BrandSaveInterceptor implements SaveInterceptor<Brand>{
 	
 	@Autowired
 	CommerceEngine engine;
@@ -16,14 +17,14 @@ public class CategoryCreateInterceptor implements CreateInterceptor<Category>{
 	CatalogService catalogService;
 	
 	@Override
-	public void beforeCreate(Category entity) {
-		com.serpics.core.data.model.Catalog  _c = engine.getCurrentContext().getCatalog();
+	public void beforeSave(Brand entity) {
+		Catalog  _c = engine.getCurrentContext().getCatalog();
 		com.serpics.catalog.data.model.Catalog c = catalogService.findOne(_c.getId());
 		entity.setCatalog(c);
 	}
 
 	@Override
-	public void afterCreate(Category entity) {
+	public void afterSave(Brand entity) {
 		// TODO Auto-generated method stub
 		
 	}

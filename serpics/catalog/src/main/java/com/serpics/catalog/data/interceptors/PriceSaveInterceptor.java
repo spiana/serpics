@@ -10,9 +10,9 @@ import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
 
-public class PriceCreateInterceptor implements CreateInterceptor<Price> {
+public class PriceSaveInterceptor implements SaveInterceptor<Price> {
 
 	@Autowired
 	CommerceEngine engine;
@@ -21,7 +21,7 @@ public class PriceCreateInterceptor implements CreateInterceptor<Price> {
 	PriceListRepository priceListRepository;
 	
 	@Override
-	public void beforeCreate(Price entity) {
+	public void beforeSave(Price entity) {
 		 if (entity.getCurrency() == null) {
 	            final Currency currency = (Currency) engine.getCurrentContext().getCurrency();
 	            entity.setCurrency(currency);
@@ -38,7 +38,7 @@ public class PriceCreateInterceptor implements CreateInterceptor<Price> {
 	}
 
 	@Override
-	public void afterCreate(Price entity) {
+	public void afterSave(Price entity) {
 		// TODO Auto-generated method stub
 		
 	}

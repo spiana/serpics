@@ -1,12 +1,12 @@
 package com.serpics.base.test.interceptor;
 
 import com.serpics.base.data.model.Locale;
-import com.serpics.core.data.CreateInterceptor;
+import com.serpics.core.data.SaveInterceptor;
 
-public class LocaleCreateInterceptor implements CreateInterceptor<Locale> {
+public class LocaleCreateInterceptor implements SaveInterceptor<Locale> {
 
 	@Override
-	public void beforeCreate(Locale entity) {
+	public void beforeSave(Locale entity) {
 		if(entity.getName() == null)
 			entity.setName("test");
 		if (entity.getCountry() == null)
@@ -17,7 +17,7 @@ public class LocaleCreateInterceptor implements CreateInterceptor<Locale> {
 	}
 
 	@Override
-	public void afterCreate(Locale entity) {
+	public void afterSave(Locale entity) {
 		return ;
 	}
 

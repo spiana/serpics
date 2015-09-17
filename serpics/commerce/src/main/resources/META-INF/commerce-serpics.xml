@@ -19,7 +19,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     
     <!-- Interceptor Mapping -->
 	<bean name="paymethodlookupCreateInterceptor"
-		class="com.serpics.commerce.data.interceptors.PaymethodlookupInterceptor" />
+		class="com.serpics.commerce.data.interceptors.PaymethodlookupSaveInterceptor" />
 	
 	<bean name="paymethodlookupCreateMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.commerce.data.model.Paymethodlookup" />

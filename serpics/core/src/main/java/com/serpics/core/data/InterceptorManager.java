@@ -13,7 +13,7 @@ public class InterceptorManager<Z> {
 	InterceptorMappingInitializer interceptorMappingInitializer;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Z performBeforeCreateInterceptor(final Z entity) {
+	public Z performBeforeSaveInterceptor(final Z entity) {
 		checkInitialize();
 		final InterceptorEntityMapping beforeCreate = interceptorMappingInitializer
 				.getCreateInterceptor();
@@ -26,7 +26,7 @@ public class InterceptorManager<Z> {
 					LOG.debug("perform before create interceptor {} for entity {}" ,
 							beforeSaveInterceptor.getInterceptor().getClass().getName(),
 							entity.getClass().getName());
-				((CreateInterceptor) beforeSaveInterceptor.getInterceptor()).beforeCreate(entity);
+				((SaveInterceptor) beforeSaveInterceptor.getInterceptor()).beforeSave(entity);
 			}
 		}else{
 			if(LOG.isDebugEnabled())
@@ -37,7 +37,7 @@ public class InterceptorManager<Z> {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Z performAfterCreateInterceptor(final Z entity) {
+	public Z performAfterSaveInterceptor(final Z entity) {
 		checkInitialize();
 		final InterceptorEntityMapping afterCreate = interceptorMappingInitializer
 				.getCreateInterceptor();
@@ -50,7 +50,7 @@ public class InterceptorManager<Z> {
 					LOG.debug("perform after create interceptor {} for entity {}" ,
 							beforeSaveInterceptor.getInterceptor().getClass().getName(),
 							entity.getClass().getName());
-				((CreateInterceptor) beforeSaveInterceptor.getInterceptor()).afterCreate(entity);
+				((SaveInterceptor) beforeSaveInterceptor.getInterceptor()).afterSave(entity);
 			}
 		}else{
 			if(LOG.isDebugEnabled())
