@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
@@ -21,12 +22,14 @@ import com.serpics.core.session.SessionContext;
 import com.serpics.core.session.SessionManager;
 
 
-public abstract class AbstractEngine<T extends SessionContext> implements Engine<T> {
+public abstract class AbstractEngine<T extends SessionContext> implements Engine<T> , InitializingBean{
 
     Logger logger = LoggerFactory.getLogger(AbstractEngine.class);
 
     private static final ThreadLocal<SessionContext> threadLocal = new ThreadLocal<SessionContext>();
 
+    private Membership membershipService;
+    
     @Resource
     SessionManager sessionManager;
 
@@ -58,14 +61,16 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return this.applicationContext;
     }
 
-    @Override
-    public T connect(final String storeName) throws SerpicsException {
-        
-        final Membership membershipService = beanFactory.getBean(Membership.class);
-
-        final StoreRealm s = membershipService.fetchStoreByName(storeName);
+    private T doConnection(String storeName) throws SerpicsException{
+    	final StoreRealm s = membershipService.fetchStoreByName(storeName);
         Assert.notNull(s);
         final SessionContext context = getSessionManager().createSessionContext(s);
+    	return (T) context;
+    }
+    @Override
+    public T connect(final String storeName) throws SerpicsException {
+       
+    	final SessionContext context = doConnection(storeName);
         final UserDetail user = membershipService.createAnonymous();
         context.setUserPrincipal(user);
         context.setLastAccess(new Date());
@@ -76,8 +81,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     @Override
     public T connect(final String storeName, final String loginId, final char[] password) throws SerpicsException {
-    	final Membership membershipService = beanFactory.getBean(Membership.class);
-    	final SessionContext context = connect(storeName);
+    	final SessionContext context = doConnection(storeName);
         final UserDetail user = membershipService.login(loginId, password);
         context.setUserPrincipal(user);
         bind(context);
@@ -86,8 +90,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     @Override
     public T connect(final String storeName, final Principal principal) throws SerpicsException {
-        final Membership membershipService = beanFactory.getBean(Membership.class);
-        final SessionContext context = connect(storeName);
+    	final SessionContext context = doConnection(storeName);
         final UserDetail user = membershipService.connect(principal);
         context.setUserPrincipal(user);
         bind(context);
@@ -98,7 +101,6 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
     public T connect(final SessionContext context, final String loginId, final char[] password)
             throws SerpicsException {
         context.setLastAccess(new Date());
-        final Membership membershipService = beanFactory.getBean(Membership.class);
         final UserDetail user = membershipService.login(loginId, password);
         context.setUserPrincipal(user);
         bind(context);
@@ -158,5 +160,10 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
     	if (context != null)
     		this.sessionManager.putSessionContext(context.getSessionId(), context);
         threadLocal.remove();
+    }
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+    	this.membershipService = beanFactory.getBean(Membership.class);
     }
 }
