@@ -17,6 +17,8 @@
 		</table>
 		<editor>
 			<display>
+				<property name="logonid" />
+				<property name="password" />
 				<property name="firstname" />
 				<property name="lastname" />
 				<property name="phone" />

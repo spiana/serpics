@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  * The persistent class for the countries database table.
@@ -33,13 +32,13 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     private Long countriesId;
 
     @Column(name = "iso2_code", nullable = false, length = 2)
-    @Size(min=2,max=2)
-    @Pattern(regexp="A-Z")
+ //   @Size(min=2,max=2)
+    @Pattern(regexp="[a-z]{2}")
     private String iso2Code;
 
     @Column(name = "iso3_code", nullable = false, length = 3)
-    @Size(min=3,max=3)
-    @Pattern(regexp="A-Z")
+ //   @Size(min=3,max=3)
+    @Pattern(regexp="[a-z]{3}")
     private String iso3Code;
 
     @Column(name = "iso_num_code", nullable = true)

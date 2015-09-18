@@ -27,6 +27,7 @@ import com.serpics.membership.UserType;
 
 @Entity
 @Table(name = "users_reg")
+
 public class UsersReg extends User implements UserDetail {
   
 
@@ -54,7 +55,7 @@ private static final long serialVersionUID = 9178702090616745340L;
     private Locale locale;
 
     @Size(min = 5, max = 100)
-    @Column(nullable = true, length = 100, unique = true)
+    @Column(nullable = false, length = 100, unique = true)
     private String logonid;
 
     @Column(nullable = true, length = 100)

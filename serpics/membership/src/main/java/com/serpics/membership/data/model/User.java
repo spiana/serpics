@@ -72,7 +72,7 @@ public class User extends Member implements UserDetail{
     //   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     //   protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
 
-    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER )
+    @ManyToMany(fetch = FetchType.EAGER )
     @JoinTable(name = "user2storerel", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "store_id"))
     protected Set<Store> stores = new HashSet<Store>(0);
 

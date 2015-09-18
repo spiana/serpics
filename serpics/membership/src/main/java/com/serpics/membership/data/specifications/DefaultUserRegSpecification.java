@@ -2,6 +2,7 @@ package com.serpics.membership.data.specifications;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -22,7 +23,7 @@ public class DefaultUserRegSpecification implements Specification<UsersReg> {
 	@Override
 	public Predicate toPredicate(Root<UsersReg> root, CriteriaQuery<?> cq,
 			CriteriaBuilder cb) {
-		return cb.equal(root.join("stores").as(Store.class), (Store) engine.getCurrentContext().getStoreRealm());
+		return cb.equal(root.join("stores", JoinType.INNER).as(Store.class), (Store) engine.getCurrentContext().getStoreRealm());
 
 	}
 

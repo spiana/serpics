@@ -6,8 +6,8 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-// @Entity(name = "UserStoreRelation")
-// @Table(name = "User2StoreRel")
+ //@Entity(name = "userStoreRelation")
+ //@Table(name = "user2StoreRel")
 public class UserStoreRelation extends MemberRelation {
     private static final long serialVersionUID = 1L;
 
@@ -27,12 +27,12 @@ public class UserStoreRelation extends MemberRelation {
 
     //bi-directional many-to-one association to Member
     @ManyToOne( fetch=FetchType.LAZY)
-    @JoinColumn(name="parent_member_id", nullable=false, insertable=false, updatable=false )
+    @JoinColumn(name="store_id", nullable=false, insertable=false, updatable=false )
     private Store store;
 
     //bi-directional many-to-one association to Member
     @ManyToOne(fetch=FetchType.LAZY )
-    @JoinColumn(name="child_member_id", nullable=false, insertable=false, updatable=false)
+    @JoinColumn(name="user_id", nullable=false, insertable=false, updatable=false)
     private User user;
 
 
