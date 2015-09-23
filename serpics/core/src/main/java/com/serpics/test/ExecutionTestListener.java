@@ -8,7 +8,6 @@ import com.serpics.core.scope.StoreScopeContextHolder;
 import com.serpics.stereotype.SerpicsTest;
 
 public class ExecutionTestListener extends AbstractTestExecutionListener {
-
 	@Override
 	public void prepareTestInstance(TestContext testContext) throws Exception {
 		super.prepareTestInstance(testContext);

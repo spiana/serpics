@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
@@ -17,7 +19,8 @@ import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class MemberGroupTest extends AbstractTransactionalJunit4SerpicTest{
 	

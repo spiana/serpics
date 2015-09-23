@@ -6,8 +6,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Currency;
@@ -22,7 +24,8 @@ import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({  "classpath*:META-INF/applicationContext-test.xml"})
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @SerpicsTest("defualt-store")
 public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
@@ -40,6 +43,7 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 	@Autowired
 	CommerceEngine ce ;
 	
+
 	@Before
 	public void beforeTest(){
 		if (!baseService.isInitialized())
@@ -60,10 +64,12 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 		UsersReg u = new UsersReg();
 		u.setFirstname("firstname");
 		u.setLastname("lastname");
+		u.setLogonid("testuser1");
 		userRegrepository.create(u);
 		
 		List<UsersReg> l = userRegrepository.findAll();
 		Assert.assertEquals(1,l.size());
+		Assert.assertEquals("testuser1",l.get(0).getLogonid());	
 		
 		createStore();
 		
@@ -71,11 +77,12 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 		UsersReg u1 = new UsersReg();
 		u1.setFirstname("firstname");
 		u1.setLastname("lastname");
+		u1.setLogonid("testuser2");
 		userRegrepository.create(u1);
 		
 		List<UsersReg> l1 = userRegrepository.findAll();
 		Assert.assertEquals(1,l1.size());
-		
+		Assert.assertEquals("testuser2",l1.get(0).getLogonid());	
 	}
 	
 	private void createStore(){

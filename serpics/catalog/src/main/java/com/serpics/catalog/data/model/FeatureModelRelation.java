@@ -1,12 +1,11 @@
 package com.serpics.catalog.data.model;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity(name="SpecificatonRelation")
+@Entity(name="FearureModelRelation")
 public class FeatureModelRelation extends CtentryRelation {
 	
 	private static final long serialVersionUID = 1L;

@@ -5,9 +5,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
@@ -19,10 +20,15 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.services.BaseService;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
-public class PaymentMethodTest extends AbstractTransactionalJUnit4SpringContextTests {
+
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
+	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml",
+	"classpath:META-INF/commerce-serpics.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
+public class PaymentMethodTest extends AbstractTransactionalJunit4SerpicTest {
 	
 	@Autowired
 	BaseService baseService;

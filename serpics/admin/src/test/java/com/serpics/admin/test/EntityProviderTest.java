@@ -4,7 +4,9 @@ import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
@@ -18,8 +20,11 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 
 
-@ContextConfiguration("classpath*:/META-INF/applicationContext-test.xml")
+
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" ,
+						"classpath:META-INF/membership-serpics.xml"})
 @Transactional
+@RunWith(SpringJUnit4ClassRunner.class)
 public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 
 	@Resource

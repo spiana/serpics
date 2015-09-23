@@ -21,7 +21,7 @@ import com.serpics.core.test.service.TestService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.ExecutionTestListener;
 
-@ContextConfiguration({  "classpath*:META-INF/core-serpics.xml"})
+@ContextConfiguration({  "classpath*:META-INF/core-serpics.xml"} )
 @TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
 @TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)

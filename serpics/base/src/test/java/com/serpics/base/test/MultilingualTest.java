@@ -2,7 +2,10 @@ package com.serpics.base.test;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Geocode;
@@ -10,8 +13,13 @@ import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.base.data.repositories.LocaleRepository;
+import com.serpics.stereotype.SerpicsTest;
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-public class MultilingualTest extends BaseTest {
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml"})
+@SerpicsTest("default-store")
+@RunWith(SpringJUnit4ClassRunner.class)
+public class MultilingualTest  extends AbstractTransactionalJunit4SerpicTest {
 
     @Autowired
     LocaleRepository localeRepository;

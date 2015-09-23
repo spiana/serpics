@@ -26,4 +26,88 @@
 			<property name="name" />
 		</select>
 	</entity>
+	
+	<entity name="featuregroup">
+		<table action="append">
+			<display>
+				<property name="code" />
+				<property name="name" />
+				<property name="description" />
+				<property name="sequence" />
+			</display>
+			<search>
+				<property name="code" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="code" />
+				<property name="description" />
+				<property name="name" />
+				<property name="feature" />
+				<property name="sequence" />
+				<property name="created" />
+			</display>
+			<readonly>
+				<property name="created" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="code" />
+		</select>
+	</entity>
+	
+	<entity name="featuremodel">
+		<table action="append">
+			<display>
+				<property name="code" />
+				<property name="description" />
+			</display>
+			<search>
+				<property name="code" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="code" />
+				<property name="description" />
+				<property name="featurGroup" />
+				<property name="created" />
+			</display>
+			<readonly>
+				<property name="created" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="code" />
+		</select>
+	</entity>
+	
+	<entity name="feature">
+		<table action="append">
+			<display>
+				<property name="name" />
+				<property name="description" />
+				<property name="sequence" />
+			</display>
+			<search>
+				<property name="name" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="name" />
+				<property name="description" />
+				<property name="sequence" />
+				<property name="created" />
+			</display>
+			<readonly>
+				<property name="created" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="name" />
+		</select>
+	</entity>
+	
 </smc-definition>

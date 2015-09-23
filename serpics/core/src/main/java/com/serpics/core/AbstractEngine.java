@@ -61,7 +61,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return this.applicationContext;
     }
 
-    private T doConnection(String storeName) throws SerpicsException{
+    protected T doConnection(String storeName) throws SerpicsException{
     	final StoreRealm s = membershipService.fetchStoreByName(storeName);
         Assert.notNull(s);
         final SessionContext context = getSessionManager().createSessionContext(s);
@@ -164,6 +164,6 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
     
     @Override
     public void afterPropertiesSet() throws Exception {
-    	this.membershipService = beanFactory.getBean(Membership.class);
+    	this.membershipService = (Membership) beanFactory.getBean("memberService");
     }
 }

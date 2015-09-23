@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +79,6 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 		final List<Product> products = new ArrayList<Product>();
 		try {
 			final List<CategoryProductRelation> l = categoryProductRepository.findAll(ProductSpecification.findByCategory(category));
-			Assert.assertNotNull("list is null" , l);
 			for (CategoryProductRelation categoryProductRelation : l) {
 				products.add((Product) categoryProductRelation.getChildProduct());
 			}

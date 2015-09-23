@@ -50,7 +50,7 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
     @Resource
     CurrencyRepository currencyRepository;
 
-    @Autowired
+    @Resource(name="memberService")
     MembershipService m;
 
     @Resource

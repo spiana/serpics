@@ -5,8 +5,6 @@ import java.security.Principal;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +22,6 @@ import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.strategies.MembershipStrategy;
 
-@Service("memberService")
-@Scope("store")
 @Transactional(readOnly = true)
 public class MembershipServiceImpl extends AbstractCommerceService implements MembershipService, Membership {
 

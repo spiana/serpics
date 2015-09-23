@@ -6,11 +6,14 @@ import com.serpics.core.SerpicsException;
 
 public class CommerceEngineImpl  extends AbstractEngine<CommerceSessionContext> implements CommerceEngine{
 
+	
 	@Override
-	public CommerceSessionContext connect(String storeName) throws SerpicsException {
-		CommerceSessionContext context =  super.connect(storeName);
+	protected CommerceSessionContext doConnection(String storeName)
+			throws SerpicsException {
+	
+		CommerceSessionContext context = super.doConnection(storeName);
 		context.setCurrency(context.getStoreRealm().getCurrency());
-		
 		return context;
 	}
+	
 }

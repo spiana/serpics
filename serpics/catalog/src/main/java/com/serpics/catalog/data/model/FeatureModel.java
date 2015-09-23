@@ -30,7 +30,7 @@ public class FeatureModel extends Ctentry{
 	@JoinColumn(name = "catalog_id")
 	private Catalog catalog;
 	
-	@OneToMany(mappedBy="specification" ,cascade=CascadeType.REMOVE , orphanRemoval=true)
+	@OneToMany(mappedBy="model" ,cascade=CascadeType.REMOVE , orphanRemoval=true)
 	private Set<FeatureGroup> featureGroups = new HashSet<FeatureGroup>(0);
 	
 

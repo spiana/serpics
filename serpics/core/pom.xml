@@ -120,6 +120,12 @@
 			<artifactId>validation-api</artifactId>
 				<version>1.0.0.GA</version>
 		</dependency>
+<!-- 		<dependency> -->
+<!--   		<groupId>com.serpics</groupId> -->
+<!--   		<artifactId>core-junit</artifactId> -->
+<!--   		<version>${serpics.version}</version> -->
+<!--   		<scope>test</scope> -->
+<!--   	</dependency> -->
 	</dependencies>
 	
 <build>

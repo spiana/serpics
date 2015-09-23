@@ -8,8 +8,10 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.data.model.Catalog;
@@ -32,7 +34,10 @@ import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
+	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml",
+	"classpath:META-INF/commerce-serpics.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
     @Autowired
     BaseService b;

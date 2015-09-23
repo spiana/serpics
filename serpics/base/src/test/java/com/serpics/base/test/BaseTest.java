@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Country;
@@ -21,9 +23,9 @@ import com.serpics.core.SerpicsException;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml", 
-	"classpath:META-INF/base-serpics-test.xml"})
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml"})
 @SerpicsTest("default-store")
+@RunWith(SpringJUnit4ClassRunner.class)
 //@Transactional
 //@Ignore
 public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{

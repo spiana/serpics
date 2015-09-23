@@ -28,8 +28,8 @@ public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
     private double sequence;
 
     @ManyToOne
-    @JoinColumn(name="specification_id" , nullable=false)
-    FeatureModel specification;
+    @JoinColumn(name="model_id" , nullable=false)
+    FeatureModel model;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
@@ -70,13 +70,7 @@ public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
         this.sequence = sequence;
     }
 
-    public FeatureModel getSpecification() {
-        return specification;
-    }
-
-    public void setSpecification(final FeatureModel specification) {
-        this.specification = specification;
-    }
+    
 
     public Set<Feature> getFeatures() {
         return features;
@@ -93,4 +87,12 @@ public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
     public void setDescription(final MultilingualString description) {
         this.description = description;
     }
+
+	public FeatureModel getModel() {
+		return model;
+	}
+
+	public void setModel(FeatureModel model) {
+		this.model = model;
+	}
 }

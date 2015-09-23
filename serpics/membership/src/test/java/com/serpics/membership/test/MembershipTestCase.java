@@ -21,11 +21,13 @@ import javax.persistence.criteria.Root;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
@@ -45,7 +47,8 @@ import com.serpics.membership.services.PrimaryAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
 
     @Autowired
