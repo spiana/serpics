@@ -44,7 +44,7 @@
 				<property name="code" />
 				<property name="description" />
 				<property name="name" />
-				<property name="feature" />
+				<property name="features" />
 				<property name="sequence" />
 				<property name="created" />
 			</display>
@@ -71,7 +71,7 @@
 			<display>
 				<property name="code" />
 				<property name="description" />
-				<property name="featurGroup" />
+				<property name="featureGroups" />
 				<property name="created" />
 			</display>
 			<readonly>

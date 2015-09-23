@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.serpics.core.datatype.CatalogEntryType;
@@ -50,4 +51,11 @@ public class FeatureModel extends Ctentry{
 		this.catalog = catalog;
 	}
 	
+	 @PrePersist
+	 @Override
+	public void beforePersist() {
+	        if (this.url == null)
+	            this.url = "/" + getCatalog().getCode() + "/" + getCode();
+	        super.beforePersist();
+	    }
 }

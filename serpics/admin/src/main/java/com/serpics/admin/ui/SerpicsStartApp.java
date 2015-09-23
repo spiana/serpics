@@ -89,6 +89,8 @@ public class SerpicsStartApp extends UI {
                     addComponent("brandTable", "brand");     
                 }else if (itemid == "currency") {
                     addComponent("currencyTable", "currency");     
+                }else if (itemid == "featureModel") {
+                    addComponent("featureModelTable", "featureModel");     
                 }
             }
         });
@@ -144,6 +146,10 @@ public class SerpicsStartApp extends UI {
         menu.addItem("brand");
         menu.setParent("brand", "catalog");
         menu.setChildrenAllowed("brand", false);
+        
+        menu.addItem("featureModel");
+        menu.setParent("featureModel", "catalog");
+        menu.setChildrenAllowed("featureModel", false);
 
     }
 

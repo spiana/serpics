@@ -193,7 +193,25 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			<!-- As we are doing "inplace" GWT compilation, ensure the widgetset -->
+	
+	<plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+     	<version>${surefire-plugin.version}</version>
+    	
+	     <configuration>
+	    	<useSystemClassLoader>false</useSystemClassLoader> 
+	     </configuration>
+        <executions>
+          <execution>
+            <id>default-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>		
+   		<!-- As we are doing "inplace" GWT compilation, ensure the widgetset -->
 			<!-- directory is cleaned properly -->
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -253,6 +271,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
