@@ -5,6 +5,7 @@
 	<entity name="usersreg">
 		<table action="append">
 			<display>
+				<property name="logonid" />
 				<property name="firstname" />
 				<property name="lastname" />
 				<property name="created" />
@@ -18,7 +19,6 @@
 		<editor>
 			<display>
 				<property name="logonid" />
-				<property name="password" />
 				<property name="firstname" />
 				<property name="lastname" />
 				<property name="phone" />
