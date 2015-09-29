@@ -59,10 +59,10 @@ public class UserTableEditor extends MasterTable<UsersReg> {
     @Override
     public void init() {
         super.init();
-        container.addNestedContainerProperty("primaryAddress.*");
-        final String[] p = { "firstname", "lastname", "created" };
-        setPropertyToShow(p);
-        
+//        container.addNestedContainerProperty("primaryAddress.*");
+//        final String[] p = { "firstname", "lastname", "created" };
+//        setPropertyToShow(p);
+//        
 
     }
 

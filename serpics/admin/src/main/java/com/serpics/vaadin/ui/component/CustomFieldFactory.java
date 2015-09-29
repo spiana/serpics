@@ -63,7 +63,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     @Override
     public Field<?> createField(Item item, Object propertyId, Component uiContext) {
     
-    	LOG.info("create field {}" , propertyId);
+    	LOG.debug("create field {}" , propertyId);
     	
         if (MultilingualString.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
         	Field<?> f = super.createField(item, propertyId, uiContext);

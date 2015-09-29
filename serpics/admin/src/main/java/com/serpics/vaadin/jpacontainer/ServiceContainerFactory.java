@@ -21,6 +21,7 @@ public class ServiceContainerFactory {
 		final CachingLocalEntityServiceProvider<T> provider = new CachingLocalEntityServiceProvider<T>(entityClass);
 		provider.setCacheEnabled(true);
 		cont.setEntityProvider(provider);
+		cont.setWriteThrough(false);
 		provider.setRepository(RepositoryInitializer.getInstance().getRepositoryForEntity(entityClass));
 		return cont;
 	}

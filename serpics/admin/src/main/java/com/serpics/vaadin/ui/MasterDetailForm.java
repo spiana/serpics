@@ -69,7 +69,7 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
 	    	super.save();
 	    	if (!entityItem.isPersistent()){
 	    		 masterEntity.getItemProperty(parentPropertyId).setValue(entityItem.getEntity());
-	             masterEntity.getContainer().commit();
+	     //        masterEntity.getContainer().commit();
 	    	}
     	}
     }

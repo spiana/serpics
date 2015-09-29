@@ -148,7 +148,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             }
         });
 
-        final Button _new = new Button("new");
+        final Button _new = new Button("add");
         editButtonPanel.addComponent(_new);
 
         _new.addClickListener(new Button.ClickListener() {
@@ -168,7 +168,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             }
         });
 
-        final Button _edit = new Button("edit");
+        final Button _edit = new Button("modify");
         editButtonPanel.addComponent(_edit);
 
         _edit.addClickListener(new Button.ClickListener() {

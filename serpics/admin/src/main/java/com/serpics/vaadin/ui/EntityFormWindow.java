@@ -169,8 +169,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
         fireEvent(new saveEvent(this));
         try {
             for (final EntityComponent component : componentList) {
-                if (component instanceof EntityComponent) {
-                    if (component.isEnabled() && !component.isReadOnly())
+                if (component instanceof EntityFormComponent) {
+                    if (component.isEnabled() && !component.isReadOnly() && ((EntityFormComponent) component).isModifield()) 
                         ((EntityComponent) component).save();
                 }
             }

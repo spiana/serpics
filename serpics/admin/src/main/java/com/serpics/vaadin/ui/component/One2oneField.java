@@ -123,7 +123,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 		@SuppressWarnings("rawtypes")
 		final Property p = entityItem.getItemProperty(pid);
 
-		LOG.info("create field : {}", pid);
+		LOG.debug("create field : {}", pid);
 		final Field<?> f = CustomFieldFactory.get().createField(entityItem,
 				pid, this);
 	
@@ -186,10 +186,11 @@ public class One2oneField<M, T> extends CustomField<T> {
 			 
 			 if (!entityItem.isPersistent()) {
 	                entityItem.getContainer().addEntity(entityItem.getEntity());
-	                masterEntity.getItemProperty(parentPropertyId).setValue(entityItem.getEntity());
-	                masterEntity.commit();
-			 }  
-			
+	    	 }  
+			 masterEntity.getItemProperty(parentPropertyId).setValue(entityItem.getEntity());
+             masterEntity.commit();
+			 entityItem.getContainer().commit();
+			 
 		} catch (CommitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

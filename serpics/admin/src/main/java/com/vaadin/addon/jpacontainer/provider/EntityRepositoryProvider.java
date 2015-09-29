@@ -6,16 +6,21 @@ import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.Assert;
 
+import com.serpics.core.EngineFactory;
 import com.serpics.core.data.Repository;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
 import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
 
-@Transactional(readOnly=true)
-public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> implements EntityManagerProvider {
+
+public class EntityRepositoryProvider<T> extends BatchableLocalEntityProvider<T> implements EntityManagerProvider  {
 	 private static final Logger logger = LoggerFactory.getLogger(EntityRepositoryProvider.class);
 
     private Repository<T, Serializable> repository;
@@ -34,8 +39,19 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    protected void runInTransaction(Runnable operation) {
-        super.runInTransaction(operation);
+    protected void runInTransaction(final Runnable operation) {
+    	TransactionTemplate transactiontemplate = new TransactionTemplate((PlatformTransactionManager) EngineFactory.getCurrentApplicationContext().getBean("transactionManager"));
+    	
+    	transactiontemplate.execute(new TransactionCallback() {
+
+			@Override
+			public Object doInTransaction(TransactionStatus arg0) {
+				 operation.run();
+				 return null;
+			}
+    		
+		});
+      //  super.runInTransaction(operation);
     }
 
     
@@ -97,5 +113,6 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
 		this.repository = repository;
 	
 	}
+
 	
 }

@@ -141,7 +141,7 @@ public abstract class MasterForm<T> extends FormLayout implements
 	protected Field<?> createField(final String pid) {
 		@SuppressWarnings("rawtypes")
 		final Property p = entityItem.getItemProperty(pid);
-		LOG.info("create field : {}", pid);
+		LOG.debug("create field : {}", pid);
 		final Field<?> f = CustomFieldFactory.get().createField(entityItem,
 				pid, this);
 		fieldGroup.bind(f, pid);
@@ -171,10 +171,10 @@ public abstract class MasterForm<T> extends FormLayout implements
 		if (initialized){
 			if (fieldGroup.isModified()) {
 				fieldGroup.commit();
-				// test if new item
 				if (!entityItem.isPersistent()) {
 					entityItem.getContainer().addEntity(entityItem.getEntity());
 				}
+				entityItem.getContainer().commit();
 			}
 		}
 	}
