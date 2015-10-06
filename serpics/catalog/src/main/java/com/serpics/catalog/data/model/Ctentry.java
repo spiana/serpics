@@ -3,7 +3,6 @@ package com.serpics.catalog.data.model;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -19,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.MultilingualString;
@@ -43,7 +43,7 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
     @Column(name = "ctentry_type", nullable = false)
     protected Integer ctentryType;
 
-    @Nonnull
+    @NotNull
     @Size(max = 250)
     @Column(name = "code", nullable = false, length = 250)
     protected String code;
