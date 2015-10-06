@@ -33,7 +33,7 @@
 			<url>http://repo.springsource.org/release</url>
 		</repository>
 
-		<repository>
+		<!--<repository>
 			<id>msource</id>
 			<url>http://source.mysema.com/maven2/releases/</url>
 			<releases>
@@ -42,7 +42,7 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
+		</repository>-->
 	</repositories>
 
 	<dependencies>
