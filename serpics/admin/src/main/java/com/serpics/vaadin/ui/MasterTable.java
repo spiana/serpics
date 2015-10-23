@@ -153,7 +153,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             }
         });
 
-        final Button _new = new Button(I18nUtils.getMessage("button.add", "add"));
+        final Button _new = new Button(I18nUtils.getMessage("button.add", "Add"));
         editButtonPanel.addComponent(_new);
 
         _new.addClickListener(new Button.ClickListener() {
@@ -173,7 +173,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             }
         });
 
-        final Button _edit = new Button(I18nUtils.getMessage("button.modify", "modify"));
+        final Button _edit = new Button(I18nUtils.getMessage("button.modify", "Modify"));
         editButtonPanel.addComponent(_edit);
 
         _edit.addClickListener(new Button.ClickListener() {
@@ -191,7 +191,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
                 }
             }
         });
-        final Button _delete = new Button(I18nUtils.getMessage("button.delete", "delete"));
+        final Button _delete = new Button(I18nUtils.getMessage("button.remove", "Remove"));
         editButtonPanel.addComponent(_delete);
 
         _delete.addClickListener(new Button.ClickListener() {

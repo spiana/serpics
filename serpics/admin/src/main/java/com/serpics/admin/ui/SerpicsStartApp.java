@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.vaadin.ui.EntityComponent;
+import com.serpics.vaadin.ui.I18nUtils;
 import com.vaadin.annotations.Theme;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
@@ -63,7 +64,6 @@ public class SerpicsStartApp extends UI {
         populateMenu(menu);
         content.addComponent(menu);
 
-
         menu.addItemClickListener(new ItemClickListener() {
 
             @Override
@@ -90,7 +90,7 @@ public class SerpicsStartApp extends UI {
                 }else if (itemid == "currency") {
                     addComponent("currencyTable", "currency");     
                 }else if (itemid == "featureModel") {
-                    addComponent("featureModelTable", "featureModel");     
+                    addComponent("featureModelTable", I18nUtils.getMessage("featureModel" , "featureModel") );     
                 }
             }
         });
@@ -150,7 +150,7 @@ public class SerpicsStartApp extends UI {
         menu.addItem("featureModel");
         menu.setParent("featureModel", "catalog");
         menu.setChildrenAllowed("featureModel", false);
-
+        menu.setItemCaption("featureModel", I18nUtils.getMessage("featureModel" , "featureModel"));
     }
 
     private void addComponent(final String id, final String caption) {
