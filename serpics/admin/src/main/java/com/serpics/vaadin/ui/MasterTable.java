@@ -104,6 +104,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         	this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
         
         if (this.displayProperties != null	){
+        	entityList.setVisibleColumns(displayProperties);	
+        	
         	for (String string : displayProperties) {
 				if (string.contains(".")){
 					container.addNestedContainerProperty(string);
@@ -112,7 +114,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				if(propertyList.getPropertyType(string).isAssignableFrom(MultilingualString.class) ){
 					entityList.setConverter(string, new MultilingualStringConvert());
 				}
-				entityList.setVisibleColumns(displayProperties);	
+				
+				String message =  I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() +"."+ string,null);
+				if (message != null)		
+					entityList.setColumnHeader( string,message);
 			}
         	
         }
@@ -148,7 +153,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             }
         });
 
-        final Button _new = new Button("add");
+        final Button _new = new Button(I18nUtils.getMessage("button.add", "add"));
         editButtonPanel.addComponent(_new);
 
         _new.addClickListener(new Button.ClickListener() {
@@ -168,7 +173,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             }
         });
 
-        final Button _edit = new Button("modify");
+        final Button _edit = new Button(I18nUtils.getMessage("button.modify", "modify"));
         editButtonPanel.addComponent(_edit);
 
         _edit.addClickListener(new Button.ClickListener() {
@@ -186,7 +191,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
                 }
             }
         });
-        final Button _delete = new Button("delete");
+        final Button _delete = new Button(I18nUtils.getMessage("button.delete", "delete"));
         editButtonPanel.addComponent(_delete);
 
         _delete.addClickListener(new Button.ClickListener() {
@@ -195,7 +200,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             public void buttonClick(final ClickEvent event) {
                 if (entityList.getValue() == null)
                     return;
-                MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "vuoi cancellare l'oggetto selezionato ?",
+                MessageBox.showPlain(Icon.QUESTION, I18nUtils.getMessage("messagebox.delete.title" , ""),
+                		I18nUtils.getMessage("messagebox.delete.text" , ""),
                         new MessageBoxListener() {
                     @Override
                     public void buttonClicked(final ButtonId buttonId) {
@@ -229,6 +235,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         this.displayProperties = propertyToShow;
         if (initialized && container != null)
             entityList.setVisibleColumns(displayProperties);
+        
+       
     }
 
      public EntityItem<T> createEntityItem() {

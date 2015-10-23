@@ -16,6 +16,7 @@ import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
+import com.serpics.vaadin.ui.I18nUtils;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.PropertiesUtils;
@@ -258,20 +259,20 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    if(!entityItem.isPersistent())
 	    	buttons.setEnabled(false);
 	    
-	    buttons.addComponent(new Button("Add", new Button.ClickListener()
+	    buttons.addComponent(new Button(I18nUtils.getMessage("button.add", "Add"), new Button.ClickListener()
 	    {
 	      public void buttonClick(Button.ClickEvent event) {
 	        addNew();
 	      }
 	    }));
-	    buttons.addComponent(new Button("Modify", new Button.ClickListener()
+	    buttons.addComponent(new Button(I18nUtils.getMessage("button.modify", "Modify"), new Button.ClickListener()
 	    {
 	      public void buttonClick(Button.ClickEvent event) {
 	    	  if (getTable().getValue() != null	)
 	    		  modify(getTable().getValue());
 	      }
 	    }));
-	    buttons.addComponent(new Button("Remove", new Button.ClickListener()
+	    buttons.addComponent(new Button(I18nUtils.getMessage("button.remove", "Remove"), new Button.ClickListener()
 	    {
 	      public void buttonClick(Button.ClickEvent event) {
 	    	  remove(getTable().getValue());

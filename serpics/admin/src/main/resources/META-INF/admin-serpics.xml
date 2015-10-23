@@ -14,5 +14,11 @@ http://www.springframework.org/schema/aop
 <!-- <import resource="local-datasource.xml"/> -->
 <bean id="propertiesUtils" class="com.serpics.vaadin.ui.PropertiesUtils"/>
 
+<bean id="messageSource"
+        class="com.serpics.spring.context.support.CustomRelodableResourceBundleMessageSource">
+<!--         <property name="basename" value="classpath:META-INF/messages" /> -->
+        <property name="defaultEncoding" value="UTF-8"/>
+</bean>
+    
  </beans>    
 
