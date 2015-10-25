@@ -12,6 +12,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 <!--   <bean name="initApp" class="com.serpics.system.web.InitializeTestWebApplication"/> -->
      
-     <bean id="sessionManager" class="com.serpics.system.web.WebSessionManager"/>
+   <context:component-scan base-package="com.serpics.system.services"/> 
      
  </beans>    

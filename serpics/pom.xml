@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<serpics.version>1.0-SNAPSHOT</serpics.version>
-		<spring-version>3.2.4.RELEASE</spring-version>
+		<spring-version>4.1.7.RELEASE</spring-version>
 		<cxf.version>2.7.2</cxf.version>
 		<jackson.version>1.9.11</jackson.version>
 		<jaxb.version>2.1</jaxb.version>
@@ -33,16 +33,16 @@
 			<url>http://repo.springsource.org/release</url>
 		</repository>
 
-		<repository>
-			<id>msource</id>
-			<url>http://source.mysema.com/maven2/releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
+<!-- 		<repository> -->
+<!-- 			<id>msource</id> -->
+<!-- 			<url>http://source.mysema.com/maven2/releases/</url> -->
+<!-- 			<releases> -->
+<!-- 				<enabled>true</enabled> -->
+<!-- 			</releases> -->
+<!-- 			<snapshots> -->
+<!-- 				<enabled>false</enabled> -->
+<!-- 			</snapshots> -->
+<!-- 		</repository> -->
 	</repositories>
 
 	<dependencies>

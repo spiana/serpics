@@ -6,16 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.membership.services.BaseService;
 import com.serpics.system.services.UserDetailsService;
-@ContextConfiguration({ "classpath*:META-INF/applicationContext-test.xml" })
-@Transactional
-@TransactionConfiguration(defaultRollback = true)
+import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
+@ContextConfiguration({"classpath:META-INF/base-serpics.xml" , "classpath:META-INF/membership-serpics.xml", "classpath*:META-INF/system-test.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UserserviceTest  {
+public class UserserviceTest extends AbstractTransactionalJunit4SerpicTest  {
 	
 	@Autowired
 	UserDetailsService userDetailsService;

@@ -4,9 +4,14 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.annotation.WebListener;
+import javax.servlet.annotation.WebServlet;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.ContextLoader;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.vaadin.ui.EntityComponent;
@@ -15,6 +20,9 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.spring.annotation.EnableVaadin;
+import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.spring.server.SpringVaadinServlet;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
@@ -25,10 +33,24 @@ import com.vaadin.ui.VerticalLayout;
 
 @Theme("tests-valo-facebook")
 @Component
+@SpringUI
 @Scope("prototype")
 public class SerpicsStartApp extends UI {
     private static final long serialVersionUID = -5966946454650068735L;
 
+    @WebServlet(value = "/*", asyncSupported = true)
+    public static class Servlet extends SpringVaadinServlet {
+    }
+
+    @WebListener
+    public static class MyContextLoaderListener extends ContextLoader {
+    }
+    @Configuration
+    @EnableVaadin
+    public static class MyConfiguration {
+    }
+
+    
     @Autowired
     private transient CommerceEngine commerceEngine;
 

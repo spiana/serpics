@@ -18,28 +18,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.CustomJpaRepository;
+import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 
+@org.springframework.stereotype.Repository
 @Transactional(readOnly=true)
-public class RepositoryImpl<Z, IT extends Serializable> extends CustomJpaRepository<Z, IT> 
-			implements Repository<Z, IT> {
+public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaRepository<Z, ID> 
+			implements Repository<Z, ID> {
 
     private static final Logger logger = LoggerFactory.getLogger(RepositoryImpl.class);
 
     private final EntityManager entityManager;
-   
-   
     
-    private Class<Z> domainClass;
-   
+ 
     
-    public RepositoryImpl(final Class<Z> domainClass, final EntityManager em ) {
+    public RepositoryImpl(JpaEntityInformation<Z, ?> entityInformation , EntityManager entityManager) {
+			super(entityInformation, entityManager);
+		 this.entityManager = entityManager;
+	}
+
+	public RepositoryImpl(final Class<Z> domainClass, final EntityManager em ) {
         super(domainClass, em);
-        this.domainClass = domainClass;
         this.entityManager = em;
     }
 
@@ -49,6 +52,12 @@ public class RepositoryImpl<Z, IT extends Serializable> extends CustomJpaReposit
 
     }
 
+    @Override
+    public Class<Z> getDomainClass() {
+    	return super.getDomainClass();
+    }
+    
+    
     @Override
     public <T> Specification<T> makeSpecification(final T example) {
         return new Specification<T>() {
@@ -123,11 +132,6 @@ public class RepositoryImpl<Z, IT extends Serializable> extends CustomJpaReposit
 		return engine.getCurrentContext();
 	}
     
-
-	@Override
-	public Class<?> getDomainClass() {
-		return this.domainClass;
-	}
 
 	@Override
 	public EntityManager getEntityManager() {

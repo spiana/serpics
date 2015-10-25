@@ -1,6 +1,7 @@
 package com.serpics.core.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.core.Engine;
@@ -9,7 +10,8 @@ import com.serpics.core.session.SessionContext;
 @Transactional(readOnly = true)
 public abstract class AbstractService<T extends SessionContext> implements SerpicsService<T>{
 
-	@Autowired(required = true)
+	//@Autowired(required = true)
+	@Resource(name="commerceEngine")
 	Engine<T> engine;
 
 	@Override
