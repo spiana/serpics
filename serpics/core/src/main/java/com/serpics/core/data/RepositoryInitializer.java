@@ -1,6 +1,5 @@
 package com.serpics.core.data;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

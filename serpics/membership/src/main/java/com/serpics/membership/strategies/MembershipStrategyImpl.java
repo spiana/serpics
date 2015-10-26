@@ -16,7 +16,7 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.stereotype.StoreStrategy;
 
-@StoreStrategy(value="membershipStrategy")
+@StoreStrategy(value="membershipStrategy" )
 public class MembershipStrategyImpl  implements MembershipStrategy {
     @Resource
     UserregRepository userRegRepository;

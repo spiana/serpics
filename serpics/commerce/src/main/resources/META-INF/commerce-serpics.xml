@@ -4,15 +4,15 @@
  xmlns:data="http://www.springframework.org/schema/data/jpa"
 xmlns:context="http://www.springframework.org/schema/context"
 xsi:schemaLocation="http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/beans/spring-beans.xsd 
 http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:component-scan base-package="com.serpics.commerce.services" />
      	<data:repositories base-package="com.serpics.commerce.data.repositories" 
-  factory-class="com.serpics.core.data.RepositoryFactoryBean"/>
+  base-class="com.serpics.core.data.RepositoryImpl"/>
      
      <!-- Default Specification -->
      <bean name="defaultPaymethodlookupSpecification" class="com.serpics.commerce.data.specifications.DefaultPaymethodlookupSpecification"/>

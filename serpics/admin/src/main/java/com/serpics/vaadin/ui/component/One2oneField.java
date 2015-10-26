@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
+import com.serpics.vaadin.ui.I18nUtils;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
 import com.serpics.vaadin.ui.PropertiesUtils;
 import com.serpics.vaadin.ui.PropertyList;
@@ -143,6 +144,10 @@ public class One2oneField<M, T> extends CustomField<T> {
 		}
 		if (readOnlyProperties.contains(pid))
 			f.setReadOnly(true);
+		
+		String message = I18nUtils.getMessage(getType().getSimpleName().toLowerCase() +"." + pid , null);
+		if (message != null)
+			f.setCaption(message);
 		
 		return f;
 	}

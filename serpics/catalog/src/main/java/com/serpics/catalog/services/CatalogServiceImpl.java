@@ -39,6 +39,7 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
     }
 
     @Override
+    @Transactional
     public void initialize() {
         Catalog catalog = catalogRepository.findByCode("default-catalog");
 

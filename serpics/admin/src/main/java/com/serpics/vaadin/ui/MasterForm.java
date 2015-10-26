@@ -156,13 +156,17 @@ public abstract class MasterForm<T> extends FormLayout implements
 		}
 		
 		f.addValidator(new BeanValidator(entityClass, pid));
-		
 		if (String.class.isAssignableFrom(p.getType())) {
 			f.setWidth("80%");
 		}
 		if (Number.class.isAssignableFrom(p.getType())) {
 			f.setWidth("30%");
 		}
+		
+		String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() +"." + pid , null);
+		if (message != null)
+			f.setCaption(message);
+		
 		return f;
 	}
 

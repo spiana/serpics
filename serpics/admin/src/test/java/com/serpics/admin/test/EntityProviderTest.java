@@ -58,8 +58,23 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 		c.refresh();
 		i = c.getItemIds().size();
 		Assert.assertEquals(2, i);
+		
+		UsersReg u2 = new UsersReg();
+		u2.setLogonid("user567");
+		userService.registerUser(u2, new PrimaryAddress());
+		
+		// test if contains
+		c.addContainerFilter("logonid", "er56", false, false);
+		c.refresh();
+		i = c.getItemIds().size();
+		Assert.assertEquals(1, i);
+		
+		// test if start with
+		c.addContainerFilter("logonid", "use", false, true);
+		c.refresh();
+		i = c.getItemIds().size();
+		Assert.assertEquals(1, i);
 	}
-	
 	
 	
 	

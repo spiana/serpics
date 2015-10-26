@@ -95,18 +95,18 @@
 	</servlet-mapping>
 <!--  end MVC		 -->
 	
-	<servlet>
-		<servlet-name>Test Application</servlet-name>
-		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
-		<init-param>
-			<param-name>beanName</param-name>
-			<param-value>serpicsStartApp</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Test Application</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>Test Application</servlet-name> -->
+<!-- 		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>beanName</param-name> -->
+<!-- 			<param-value>serpicsStartApp</param-value> -->
+<!-- 		</init-param> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>Test Application</servlet-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 	<display-name>admin</display-name>
 
 </web-app>
