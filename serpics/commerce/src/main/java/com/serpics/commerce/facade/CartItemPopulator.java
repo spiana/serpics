@@ -13,6 +13,9 @@ public  class CartItemPopulator  implements Populator<Cartitem ,  CartItemData >
 	public void populate(Cartitem source, CartItemData target) {
 		//target.setBillingAddress(source.getBillingAddress());
 		target.setId(source.getId());
+		target.setUuid(source.getUuid());
+		target.setCreated(source.getCreated());
+		target.setUpdated(source.getUpdated());
 		
 		target.setSku(source.getSku());
 		

@@ -1,7 +1,6 @@
 package com.serpics.commerce.data.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -63,14 +62,14 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     protected User user;
 
     @Column(name = "discount_amount", precision = 10, scale = 4)
-    protected BigDecimal discountAmount = new BigDecimal(0);
+    protected Double discountAmount ;
 
     @Column(name = "discount_perc", precision = 10, scale = 4)
     protected double discountPerc = 0;
 
     @Column(name = "order_amount", nullable = false, precision = 10, scale = 4)
-    protected BigDecimal orderAmount = new BigDecimal(0);
-
+    protected Double orderAmount ;
+    
     // @Column(name="shipping_address_id")
     // private Long shippingAddressId;
 
@@ -82,16 +81,22 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     protected Store store;
 
     @Column(name = "total_product", precision = 10, scale = 4)
-    protected BigDecimal totalProduct = new BigDecimal(0);
+    protected Double totalProduct;
 
     @Column(name = "total_service", precision = 10, scale = 4)
-    protected BigDecimal totalService = new BigDecimal(0);
+    protected Double totalService ;
 
     @Column(name = "total_shipping", precision = 10, scale = 4)
-    protected BigDecimal totalShipping = new BigDecimal(0);
+    protected Double totalShipping ;
 
+    @Column(name = "total_cost", precision = 10, scale = 4)
+    protected Double totalCost ;
+
+    @Column(name = "total_price", precision = 10, scale = 4)
+    protected Double totalPrice ;
+    
     @Column(name = "total_tax", precision = 10, scale = 4)
-    protected BigDecimal totalTax = new BigDecimal(0);
+    protected Double totalTax;
 
     // bi-directional many-to-one association to Shipmode
     @ManyToOne(fetch=FetchType.EAGER , optional=true)
@@ -138,14 +143,6 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.currency = currency;
     }
 
-    public BigDecimal getDiscountAmount() {
-        return this.discountAmount;
-    }
-
-    public void setDiscountAmount(final BigDecimal discountAmount) {
-        this.discountAmount = discountAmount;
-    }
-
     public double getDiscountPerc() {
         return this.discountPerc;
     }
@@ -154,44 +151,12 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.discountPerc = discountPerc;
     }
 
-    public BigDecimal getOrderAmount() {
-        return this.orderAmount;
-    }
-
-    public void setOrderAmount(final BigDecimal orderAmount) {
-        this.orderAmount = orderAmount;
-    }
-
     public String getStatus() {
         return this.status;
     }
 
     public void setStatus(final String status) {
         this.status = status;
-    }
-
-    public BigDecimal getTotalProduct() {
-        return this.totalProduct;
-    }
-
-    public void setTotalProduct(final BigDecimal totalProduct) {
-        this.totalProduct = totalProduct;
-    }
-
-    public BigDecimal getTotalShipping() {
-        return this.totalShipping;
-    }
-
-    public void setTotalShipping(final BigDecimal totalShipping) {
-        this.totalShipping = totalShipping;
-    }
-
-    public BigDecimal getTotalTax() {
-        return this.totalTax;
-    }
-
-    public void setTotalTax(final BigDecimal totalTax) {
-        this.totalTax = totalTax;
     }
 
     public Shipmode getShipmode() {
@@ -266,14 +231,6 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.store = store;
     }
 
-    public BigDecimal getTotalService() {
-        return totalService;
-    }
-
-    public void setTotalService(final BigDecimal totalService) {
-        this.totalService = totalService;
-    }
-
     public Set<? extends AbstractOrderitem> getOrderitems() {
         return orderitems;
     }
@@ -281,5 +238,69 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     public void setOrderitems(final Set<? extends AbstractOrderitem> orderitems) {
         this.orderitems = (Set<AbstractOrderitem>) orderitems;
     }
+
+	public Double getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountAmount(Double discountAmount) {
+		this.discountAmount = discountAmount;
+	}
+
+	public Double getOrderAmount() {
+		return orderAmount;
+	}
+
+	public void setOrderAmount(Double orderAmount) {
+		this.orderAmount = orderAmount;
+	}
+
+	public Double getTotalProduct() {
+		return totalProduct;
+	}
+
+	public void setTotalProduct(Double totalProduct) {
+		this.totalProduct = totalProduct;
+	}
+
+	public Double getTotalService() {
+		return totalService;
+	}
+
+	public void setTotalService(Double totalService) {
+		this.totalService = totalService;
+	}
+
+	public Double getTotalShipping() {
+		return totalShipping;
+	}
+
+	public void setTotalShipping(Double totalShipping) {
+		this.totalShipping = totalShipping;
+	}
+
+	public Double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Double getTotalTax() {
+		return totalTax;
+	}
+
+	public void setTotalTax(Double totalTax) {
+		this.totalTax = totalTax;
+	}
 
 }

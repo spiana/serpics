@@ -19,6 +19,7 @@ public class UserPopulator implements Populator<User, UserData> {
 	@Override
 	public void populate(User source, UserData target) {
 		
+		target.setId(source.getId());
 		target.setUuid(source.getUuid());
 		target.setCreated(source.getCreated());
 		target.setUpdated(source.getUpdated());

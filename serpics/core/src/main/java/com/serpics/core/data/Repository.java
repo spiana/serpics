@@ -20,8 +20,18 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	public T refresh(T entity);
 	
 	public void detach(final T entity);
+	/**
+	 * @deprecated Use save or saveAndFlush
+	 * @param entity
+	 * @return
+	 */
 	@Deprecated
 	public T create(T entity);
+	/**
+	 * @deprecated Use save or saveAndFlush
+	 * @param entity
+	 * @return
+	 */
 	@Deprecated
 	public T update(T entity);
     

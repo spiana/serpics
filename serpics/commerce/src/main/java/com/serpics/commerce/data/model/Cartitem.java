@@ -7,5 +7,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "1")
 public class Cartitem extends AbstractOrderitem {
 
+	private static final long serialVersionUID = -346014887001626903L;
+
 
 }

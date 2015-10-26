@@ -7,4 +7,6 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "0")
 public class Orderitem extends AbstractOrderitem {
 
+	private static final long serialVersionUID = -3290337831602573616L;
+	
 }

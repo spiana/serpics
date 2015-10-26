@@ -1,9 +1,8 @@
 package com.serpics.catalog.facade.data;
 
+import java.util.Set;
 
-
-
-public class AbstractData  extends CtentryData{
+public class AbstractProductData  extends CtentryData{
 	protected int buyable;
 	protected int published;
 	protected int dowloadable;
@@ -11,11 +10,13 @@ public class AbstractData  extends CtentryData{
 	protected String unitMeas;
 	protected Double weight;
 	protected String weightMeas;
-	//protected Set<PriceData> prices;
+	protected PriceData price;
 	protected BrandData brand;
-	
+
+	protected Set<MediaData> medias;
+
 	//protected CatalogData catalog;
-	//protected Set<CategoryProductRelationData> categories;
+	protected Set<CategoryData> categories;
 	protected String metaDescription;
 	protected String metaKey;
 	public int getBuyable() {
@@ -80,16 +81,23 @@ public class AbstractData  extends CtentryData{
 	public void setBrand(BrandData brand) {
 		this.brand = brand;
 	}
-/*	public Set<PriceData> getPrices() {
-		return prices;
+	public PriceData getPrice() {
+		return price;
 	}
-	public void setPrices(Set<PriceData> prices) {
-		this.prices = prices;
-	}*/
-	/*public Set<CategoryProductRelationData> getCategories() {
+	public void setPrice(PriceData price) {
+		this.price = price;
+	}
+	public Set<CategoryData> getCategories() {
 		return categories;
 	}
-	public void setCategories(Set<CategoryProductRelationData> categories) {
+	public void setCategories(Set<CategoryData> categories) {
 		this.categories = categories;
-	}*/
+	}
+	
+	public Set<MediaData> getMedia() {
+		return medias;
+	}
+	public void setMedias(Set<MediaData> medias) {
+		this.medias = medias;
+	}
 }

@@ -13,7 +13,8 @@ public abstract class AbstractData {
 	protected  Date created;
 	
 	protected String uuid;
-
+	
+	protected Long id;
 
 	public Date getUpdated() {
 		return updated;
@@ -38,6 +39,14 @@ public abstract class AbstractData {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

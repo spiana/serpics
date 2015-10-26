@@ -1,6 +1,5 @@
 package com.serpics.commerce.data.model;
 
-import java.math.BigDecimal;
 import java.util.Set;
 
 import javax.persistence.DiscriminatorValue;
@@ -13,7 +12,9 @@ import com.serpics.membership.data.model.User;
 @DiscriminatorValue(value = "1")
 public class Cart extends AbstractOrder {
 
-    public Cart() {
+	private static final long serialVersionUID = 1366756693313998623L;
+
+	public Cart() {
         super();
     }
 
@@ -21,18 +22,16 @@ public class Cart extends AbstractOrder {
 
         this.user = this.customer = user;
         this.store = store;
-        this.orderAmount = new BigDecimal(0);
+        this.orderAmount = 0D;
         this.status = "P";
         this.cookie = userCookie;
 
     }
 
 
-    public Set<Cartitem> getCartitems() {
+    @SuppressWarnings("unchecked")
+	public Set<Cartitem> getCartitems() {
         return (Set<Cartitem>) super.getOrderitems();
     }
 
-    public Set<AbstractOrderitem> setCartitems(Set<AbstractOrderitem> items) {
-        return this.orderitems = items;
-    }
 }

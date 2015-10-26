@@ -5,7 +5,6 @@ import com.serpics.core.facade.AbstractData;
 
 
 public abstract  class AbstractOrderItemData extends AbstractData{
-	protected Long id;
 	protected Double discountAmount;
 	protected Double discountPerc;
 	
@@ -22,13 +21,6 @@ public abstract  class AbstractOrderItemData extends AbstractData{
 	//protected ShipmodeData shipmode;
 	protected long shippingAddressId;
 	
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public Double getDiscountAmount() {
 		return discountAmount;
 	}

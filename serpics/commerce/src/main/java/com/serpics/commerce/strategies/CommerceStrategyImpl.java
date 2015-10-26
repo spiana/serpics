@@ -1,7 +1,5 @@
 package com.serpics.commerce.strategies;
 
-import java.math.BigDecimal;
-
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.stereotype.StoreStrategy;
@@ -41,20 +39,25 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
             total_cost += orderItem.getSkuCost() != null ?orderItem.getSkuCost() :new Double(0)  * orderItem.getQuantity();
             total_price += orderItem.getSkuPrice() * orderItem.getQuantity();
         }
-        order.setTotalProduct(new BigDecimal(total_netPrice));
+        order.setTotalProduct(total_netPrice);
+        order.setTotalCost(total_cost);
+        order.setTotalPrice(total_price);
+                  
     }
 
     @Override
     public void calculateOrderTotal(final AbstractOrder order) {
 
-        BigDecimal orderAmount = new BigDecimal(0);
-        orderAmount = orderAmount.add(order.getTotalProduct());
-        orderAmount = orderAmount.add(order.getTotalService());
-        orderAmount = orderAmount.add(order.getTotalShipping());
-        orderAmount = orderAmount.add(order.getTotalTax());
+    	double orderAmount = 0;                              
+    	orderAmount = orderAmount + getSafeDouble(order.getTotalProduct()); 
+    	orderAmount = orderAmount + getSafeDouble(order.getTotalService()); 
+    	orderAmount = orderAmount + getSafeDouble(order.getTotalShipping());
+    	orderAmount = orderAmount + getSafeDouble(order.getTotalTax());     
 
         order.setOrderAmount(orderAmount);
 
     }
-
+    private double getSafeDouble(Double value){
+    	return value!=null?value:0;
+    }
 }
