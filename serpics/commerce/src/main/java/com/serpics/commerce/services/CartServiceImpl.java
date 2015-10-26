@@ -1,6 +1,5 @@
 package com.serpics.commerce.services;
 
-import java.math.BigDecimal;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -59,6 +58,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
     @Resource
     DiscountStrategy discountStrategy;
+    
     @Resource
     PriceStrategy priceStrategy;
 
@@ -84,7 +84,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
             cart.setCurrency((Currency) getCurrentContext().getCurrency());
             cart.setCustomer((User)getCurrentContext().getCustomer());
-            cartRepository.create(cart);
+            cartRepository.save(cart);
         }
        putCartinSession(cart);
         return cart;
@@ -126,7 +126,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
         cart.getCartitems().add(orderitem);
 
         commerceStrategy.calculateShipping(orderitem);
-        cartRepository.update(cart);
+        cartRepository.save(cart);
         
         putCartinSession(cart);
         
@@ -154,7 +154,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			double q = list.get(product);
 			if(q > 0)  cartAdd(product, q,cart, true);
 		}
-		cart = cartRepository.update(cart);
+		cart = cartRepository.save(cart);
 		
 		putCartinSession(cart);
 		
@@ -190,7 +190,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
         commerceStrategy.calculateShipping(cartItem);
 
-       cartRepository.update(cart);
+       cartRepository.save(cart);
        return cartItem;
     }
 
@@ -261,10 +261,10 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     public Cart prepareCart(final Cart cart, final boolean updateInventory) throws InventoryNotAvailableException,
     ProductNotFoundException {
     	
-        cart.setOrderAmount(new BigDecimal(0));
-        cart.setTotalProduct(new BigDecimal(0));
-        cart.setTotalShipping(new BigDecimal(0));
-        cart.setTotalTax(new BigDecimal(0));
+        cart.setOrderAmount(0D);
+        cart.setTotalProduct(0D);
+        cart.setTotalShipping(0D);
+        cart.setTotalTax(0D);
 
         for (final Cartitem orderitem : cart.getCartitems()) {
             final Product product = productStrategy.resolveSKU(orderitem.getSku());
@@ -288,7 +288,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
         putCartinSession(cart);
         
-        return cartRepository.update(cart);
+        return cartRepository.save(cart);
     }
 
     @Override
@@ -313,7 +313,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     	if (cart.getOrderitems().contains(item))
     		cart.getOrderitems().remove(item);
     	
-    	cart = cartRepository.update(cart);
+    	cart = cartRepository.save(cart);
     	
     	putCartinSession(cart);
     	

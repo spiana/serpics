@@ -55,21 +55,21 @@ public class PaymentMethodTest extends AbstractTransactionalJunit4SerpicTest {
 		Paymethod p2 = new Paymethod("paypal");
 		Paymethod p3 = new Paymethod("cash");
 		
-		p1 =paymethodRepository.create(p1);
-		p2= paymethodRepository.create(p2);
-		p3= paymethodRepository.create(p3);
+		p1 =paymethodRepository.save(p1);
+		p2= paymethodRepository.save(p2);
+		p3= paymethodRepository.save(p3);
 		
 		Paymethodlookup pl1= new Paymethodlookup();
 		pl1.setActive(true);
 		pl1.setStore((Store)c.getStoreRealm());
 		pl1.setPaymethod(p1);
-		paymethodlookupRepository.create(pl1);
+		paymethodlookupRepository.save(pl1);
 		
 		Paymethodlookup pl2= new Paymethodlookup();
 		pl2.setActive(false);
 		pl2.setStore((Store)c.getStoreRealm());
 		pl2.setPaymethod(p2);
-		paymethodlookupRepository.create(pl2);
+		paymethodlookupRepository.save(pl2);
 		
 		List<Paymethod> l = paymethodRepository.findActivePaymentmethod((Store)c.getStoreRealm());
 		Assert.assertEquals(1, l.size());

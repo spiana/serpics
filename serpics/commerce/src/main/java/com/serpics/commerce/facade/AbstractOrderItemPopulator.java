@@ -12,13 +12,14 @@ public   class AbstractOrderItemPopulator implements Populator< AbstractOrderite
 	public void populate(AbstractOrderitem source, AbstractOrderItemData target) {
 		//target.setBillingAddress(source.getBillingAddress());
 		target.setId(source.getId());
+		target.setUuid(source.getUuid());
+		target.setCreated(source.getCreated());
+		target.setUpdated(source.getUpdated());
 		
 		target.setQuantity(source.getQuantity());
 		
 		target.setProduct(source.getProduct());
 		target.setSku(source.getSku());
-		target.setUuid(source.getUuid());
-		
 		target.setSkuCost(source.getSkuCost());
 		target.setSkuDescription(source.getSkuDescription());
 		target.setSkuNetPrice(source.getSkuNetPrice());

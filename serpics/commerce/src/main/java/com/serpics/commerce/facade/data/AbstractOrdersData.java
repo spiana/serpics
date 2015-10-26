@@ -1,6 +1,5 @@
 package com.serpics.commerce.facade.data;
 
-import java.math.BigDecimal;
 import java.util.Set;
 
 import com.serpics.commerce.data.model.Shipmode;
@@ -14,13 +13,14 @@ public abstract class AbstractOrdersData<T>{
 	protected Address shippingAddress;
 		
 	protected Set<AbstractOrderItemData> orderItems; 
-	protected BigDecimal discountAmount;
-	protected BigDecimal discountPerc;
-	protected BigDecimal orderAmount;
-	protected BigDecimal totalProduct;
-	protected BigDecimal totalService;
-	protected BigDecimal totalShipping;
-	protected BigDecimal totalTax;
+	protected Double discountAmount;
+	protected Double discountPerc;
+	protected Double orderAmount;
+	protected Double totalProduct;
+	protected Double totalService;
+	protected Double totalShipping;
+	protected Double totalTax;
+
 	
 	
 	
@@ -42,47 +42,47 @@ public abstract class AbstractOrdersData<T>{
 	public void setShippingAddress(Address shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
-	public BigDecimal getDiscountAmount() {
+	public double getDiscountAmount() {
 		return discountAmount;
 	}
-	public void setDiscountAmount(BigDecimal discountAmount) {
-		this.discountAmount = discountAmount;
-	}
-	public BigDecimal getDiscountPerc() {
+	public Double getDiscountPerc() {
 		return discountPerc;
 	}
-	public void setDiscountPerc(BigDecimal discountPerc) {
+	public void setDiscountPerc(Double discountPerc) {
 		this.discountPerc = discountPerc;
 	}
-	public BigDecimal getOrderAmount() {
+	public Double getOrderAmount() {
 		return orderAmount;
 	}
-	public void setOrderAmount(BigDecimal orderAmount) {
+	public void setOrderAmount(Double orderAmount) {
 		this.orderAmount = orderAmount;
 	}
-	public BigDecimal getTotalProduct() {
+	public Double getTotalProduct() {
 		return totalProduct;
 	}
-	public void setTotalProduct(BigDecimal totalProduct) {
+	public void setTotalProduct(Double totalProduct) {
 		this.totalProduct = totalProduct;
 	}
-	public BigDecimal getTotalService() {
+	public Double getTotalService() {
 		return totalService;
 	}
-	public void setTotalService(BigDecimal totalService) {
+	public void setTotalService(Double totalService) {
 		this.totalService = totalService;
 	}
-	public BigDecimal getTotalShipping() {
+	public Double getTotalShipping() {
 		return totalShipping;
 	}
-	public void setTotalShipping(BigDecimal totalShipping) {
+	public void setTotalShipping(Double totalShipping) {
 		this.totalShipping = totalShipping;
 	}
-	public BigDecimal getTotalTax() {
+	public Double getTotalTax() {
 		return totalTax;
 	}
-	public void setTotalTax(BigDecimal totalTax) {
+	public void setTotalTax(Double totalTax) {
 		this.totalTax = totalTax;
+	}
+	public void setDiscountAmount(Double discountAmount) {
+		this.discountAmount = discountAmount;
 	}
 	public Set<AbstractOrderItemData> getOrderItems() {
 		return orderItems;

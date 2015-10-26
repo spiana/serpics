@@ -1,7 +1,5 @@
 package com.serpics.commerce.strategies;
 
-import java.math.BigDecimal;
-
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.stereotype.StoreStrategy;
@@ -30,8 +28,8 @@ public class DiscountStrategyImpl implements DiscountStrategy {
     @Override
     public AbstractOrder applyOrderDiscount(final AbstractOrder order) {
         if (order.getDiscountPerc() > 0)
-            order.setDiscountAmount(order.getDiscountAmount().add(
-                    order.getTotalProduct().multiply(new BigDecimal(order.getDiscountPerc() / 100))));
+            order.setDiscountAmount(order.getDiscountAmount() +
+                    order.getTotalProduct() *  (order.getDiscountPerc() / 100));
 
         return order;
     }
