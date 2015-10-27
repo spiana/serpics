@@ -97,6 +97,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     }
     
     @Test
+    @Transactional
     public void testProductByCategory(){
     	CategoryData c = categoryFacade.findCategoryByCode("BLUES");
     	Page<ProductData> list = productFacade.listProductByCategory(c.getUuid(), new PageRequest(0, 10));
