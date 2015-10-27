@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,8 +59,6 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 	   
 	}
 	
-	
-	
 	@Transactional
 	public Product addParentCategory(Product product,  Category category) {
 		addCategoryRelation(product, category);
@@ -70,22 +70,19 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 		final CategoryProductRelation ctcgrel = new CategoryProductRelation();
         ctcgrel.setChildProduct((AbstractProduct) product);
         ctcgrel.setParentCategory(category);
-        categoryProductRepository.create(ctcgrel);
+        categoryProductRepository.saveAndFlush(ctcgrel);
         
 	}
 	
 
-	public List<Product> findProductByCategory(final Category category) {
-		final List<Product> products = new ArrayList<Product>();
+	public Page<Product> findProductByCategory(final Category category,Pageable pagination) {
+		Page<Product> l = null;
 		try {
-			final List<CategoryProductRelation> l = categoryProductRepository.findAll(ProductSpecification.findByCategory(category));
-			for (CategoryProductRelation categoryProductRelation : l) {
-				products.add((Product) categoryProductRelation.getChildProduct());
-			}
+			l = categoryProductRepository.findProductsByCategory(category, pagination);
 		} catch(final Exception e) {
 			logger.error("", e);
 		}
-		return products;
+		return l;
 	}
 
 
