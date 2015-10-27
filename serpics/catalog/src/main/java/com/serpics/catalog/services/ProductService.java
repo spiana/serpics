@@ -1,6 +1,7 @@
 package com.serpics.catalog.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Media;
@@ -14,7 +15,7 @@ public interface ProductService extends EntityService<Product, Long> {
 	
 	public Product addParentCategory(Product product, Category category);
 
-	public List<Product> findProductByCategory(Category category);
+	public Page<Product> findProductByCategory(Category category,Pageable pagination);
 	
 	
 	public Product addMedia(Product product, Media media);

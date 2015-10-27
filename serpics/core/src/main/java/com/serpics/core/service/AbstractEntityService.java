@@ -24,13 +24,13 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
     @Override
     @Transactional
     public T create(final T entity) {
-        return getEntityRepository().create(entity);
+        return getEntityRepository().saveAndFlush(entity);
     }
 
     @Override
     @Transactional
     public T update(final T entity) {
-        return getEntityRepository().update(entity);
+        return getEntityRepository().saveAndFlush(entity);
     }
 
     @Override
