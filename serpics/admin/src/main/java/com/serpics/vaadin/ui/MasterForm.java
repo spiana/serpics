@@ -27,11 +27,9 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
-public abstract class MasterForm<T> extends FormLayout implements
-		EntityFormComponent<T> {
+public abstract class MasterForm<T> extends FormLayout implements EntityFormComponent<T> {
 	private static final long serialVersionUID = -7816433625437405000L;
-	private static final transient Logger LOG = LoggerFactory
-			.getLogger(MasterForm.class);
+	private static final transient Logger LOG = LoggerFactory.getLogger(MasterForm.class);
 
 	private transient PropertyList<T> propertyList;
 
@@ -45,8 +43,7 @@ public abstract class MasterForm<T> extends FormLayout implements
 	protected Class<T> entityClass;
 
 	public MasterForm(final Class<T> clazz) {
-		propertyList = new PropertyList<T>(MetadataFactory.getInstance()
-				.getEntityClassMetadata(clazz));
+		propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(clazz));
 
 		this.entityClass = clazz;
 
@@ -75,31 +72,29 @@ public abstract class MasterForm<T> extends FormLayout implements
 		return entityClass;
 	}
 
-
 	public Item getEntityItem() {
 		return entityItem;
 	}
 
-	protected void buildContent(){
+	protected void buildContent() {
 		removeAllComponents();
 		fieldGroup = new FieldGroup();
-		//fieldGroup.setFieldFactory(this);
+		// fieldGroup.setFieldFactory(this);
 		fieldGroup.setItemDataSource(entityItem);
 		fieldGroup.setBuffered(true);
-	
+
 		if (this.displayProperties == null)
 			this.displayProperties = PropertiesUtils.get().getEditProperty(entityClass.getSimpleName());
-	
-		if (this.readOnlyProperties == null){
+
+		if (this.readOnlyProperties == null) {
 			String[] _readonly = PropertiesUtils.get().getReadOnlyProperty(entityClass.getSimpleName());
 			if (_readonly != null)
-				this.readOnlyProperties  = new HashSet<String>(Arrays.asList(_readonly));
+				this.readOnlyProperties = new HashSet<String>(Arrays.asList(_readonly));
 		}
 		if (displayProperties != null)
 			addField(displayProperties);
 		else {
-			addField(propertyList.getAllAvailablePropertyNames().toArray(
-					new String[] {}));
+			addField(propertyList.getAllAvailablePropertyNames().toArray(new String[] {}));
 		}
 		for (final String pid : readOnlyProperties) {
 			if (fieldGroup.getField(pid) != null)
@@ -107,7 +102,7 @@ public abstract class MasterForm<T> extends FormLayout implements
 		}
 		initialized = true;
 	}
-	
+
 	@Override
 	public void setEntityItem(final EntityItem<T> entityItem) {
 		this.entityItem = entityItem;
@@ -115,20 +110,18 @@ public abstract class MasterForm<T> extends FormLayout implements
 	}
 
 	private void addField(final String[] propertyNames) {
-		for (final String pid : propertyNames) {		
+		for (final String pid : propertyNames) {
 			if (propertyList.getClassMetadata().getProperty(pid) == null)
 				LOG.error("properity {} not found !", pid);
-	
-			else if (propertyList.getClassMetadata().getProperty(pid)
-					.getAnnotation(Id.class) == null)
-				if (propertyList.getClassMetadata().getProperty(pid)
-						.getAnnotation(EmbeddedId.class) == null)
-					if(propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)  ||
-							propertyList.getPropertyKind(pid).equals(PropertyKind.ONE_TO_MANY) ||
-							propertyList.getPropertyKind(pid).equals(PropertyKind.MANY_TO_ONE) ||
-							propertyList.getPropertyType(pid).isAssignableFrom(MultilingualString.class)
+
+			else if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null)
+				if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(EmbeddedId.class) == null)
+					if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)
+							|| propertyList.getPropertyKind(pid).equals(PropertyKind.ONE_TO_MANY)
+							|| propertyList.getPropertyKind(pid).equals(PropertyKind.MANY_TO_ONE)
+							|| propertyList.getPropertyType(pid).isAssignableFrom(MultilingualString.class)
 							|| entityItem.isPersistent())
-						if (!hideProperties.contains(pid)){
+						if (!hideProperties.contains(pid)) {
 							Field<?> f = createField(pid);
 							if (readOnlyProperties.contains(pid))
 								f.setReadOnly(true);
@@ -142,8 +135,7 @@ public abstract class MasterForm<T> extends FormLayout implements
 		@SuppressWarnings("rawtypes")
 		final Property p = entityItem.getItemProperty(pid);
 		LOG.debug("create field : {}", pid);
-		final Field<?> f = CustomFieldFactory.get().createField(entityItem,
-				pid, this);
+		final Field<?> f = CustomFieldFactory.get().createField(entityItem, pid, this);
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 
@@ -154,7 +146,7 @@ public abstract class MasterForm<T> extends FormLayout implements
 			}
 			((TextField) f).setNullRepresentation("");
 		}
-		
+
 		f.addValidator(new BeanValidator(entityClass, pid));
 		if (String.class.isAssignableFrom(p.getType())) {
 			f.setWidth("80%");
@@ -162,17 +154,17 @@ public abstract class MasterForm<T> extends FormLayout implements
 		if (Number.class.isAssignableFrom(p.getType())) {
 			f.setWidth("30%");
 		}
-		
-		String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() +"." + pid , null);
+
+		String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + pid, null);
 		if (message != null)
 			f.setCaption(message);
-		
+
 		return f;
 	}
 
 	@Override
 	public void save() throws CommitException {
-		if (initialized){
+		if (initialized) {
 			if (fieldGroup.isModified()) {
 				fieldGroup.commit();
 				if (!entityItem.isPersistent()) {
@@ -196,17 +188,16 @@ public abstract class MasterForm<T> extends FormLayout implements
 	@Override
 	public void attach() {
 		setLocale(UI.getCurrent().getSession().getLocale());
-		if(initialized){
+		if (initialized) {
 			if (readOnly) {
 				fieldGroup.setEnabled(false);
 			} else {
 				fieldGroup.setEnabled(true);
-				
+
 			}
 		}
 		super.attach();
 	}
-
 
 	public void setDisplayProperties(final String[] displayProperties) {
 		this.displayProperties = displayProperties;
@@ -237,7 +228,7 @@ public abstract class MasterForm<T> extends FormLayout implements
 
 	@Override
 	public boolean isModifield() {
-		if(initialized)
+		if (initialized)
 			return fieldGroup.isModified();
 		else
 			return false;
