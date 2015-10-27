@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Locale;
@@ -15,7 +16,7 @@ import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.core.SerpicsException;
 
-
+@TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class CategoryServiceTest extends CatalogBaseTest {
 
@@ -26,6 +27,7 @@ public class CategoryServiceTest extends CatalogBaseTest {
     @Autowired
     LocaleRepository localeRepository;
 
+    
     @Test
     @Transactional
     public void test1() throws SerpicsException {

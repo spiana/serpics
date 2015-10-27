@@ -1,5 +1,6 @@
 package com.serpics.catalog.test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -7,17 +8,14 @@ import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,18 +33,10 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
-import com.serpics.stereotype.SerpicsTest;
-import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
-import com.serpics.test.ExecutionTestListener;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
-	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml"})
-@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
+
 @TransactionConfiguration(defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-@SerpicsTest("default-store")
-@Transactional
-public class CatalogFacadeTest  extends AbstractTransactionalJunit4SerpicTest{
+public class CatalogFacadeTest  extends CatalogBaseTest{
 	Logger log = LoggerFactory.getLogger(CatalogFacadeTest.class);
 	@Resource
 	CategoryFacade categoryFacade;
@@ -72,41 +62,95 @@ public class CatalogFacadeTest  extends AbstractTransactionalJunit4SerpicTest{
   
     CommerceSessionContext context;
 
-    @Before
-    public void beforeTest() throws SerpicsException {
-        if(!baseService.isInitialized())
-        	baseService.initIstance();
-       
-        context = commerceEngine.connect("default-store", "superuser", "admin".toCharArray());
-        catalogService.initialize();
-    }
+    private HashMap<String,CategoryData> listOfCategoriesForTest = new HashMap<String,CategoryData>();
     
+    @Before
+    public void setUp() throws SerpicsException{
+    	super.beforeTest();
+    	createCategory();
+    	createProduct();
+    }
     
     @Test
     @Transactional
-    public void catalogManager1() {
-    	createCategory();
-    	listCategory();
-    	createProduct();
-    	listProduct();
-    	updateProduct();
-    	deleteProduct();
-  
+    public void testListCategory(){
+    	Page<CategoryData> p= categoryFacade.listCategory(new PageRequest(0, 10));
+    	Assert.assertNotNull("Category not found", p);
+
+    	Assert.assertEquals("Number of categories", listOfCategoriesForTest.values().size(), p.getTotalElements());
+    	
+    	CategoryData cat = categoryFacade.findCategoryByCode("UOMO");
+    	Assert.assertEquals("Id of category UOMO",listOfCategoriesForTest.get("UOMO").getId(),cat.getId());
+    	Assert.assertEquals("Url of category UOMO",listOfCategoriesForTest.get("UOMO").getUrl(),cat.getUrl());
+    	Assert.assertEquals("UUID of category UOMO",listOfCategoriesForTest.get("UOMO").getUuid(),cat.getUuid());
+    	
+    	List<CategoryData> childU = categoryFacade.listChildCategories(cat.getUuid());
+    	Assert.assertNotNull("SUB UOMO NULL", childU);
+    	Assert.assertEquals("Number of childs", 1, childU.size());
+    	
+    	Assert.assertEquals("Child of category UOMO", listOfCategoriesForTest.get("ABB").getUuid(),childU.get(0).getUuid());
+    	
+    	List<CategoryData> categories = categoryFacade.listTopCategory();
+    	Assert.assertNotNull("Empty top categories", categories);
+    	Assert.assertEquals("Number of top categories", 2, categories.size());
     	
     }
     
+    @Test
+    public void testProductByCategory(){
+    	CategoryData c = categoryFacade.findCategoryByCode("BLUES");
+    	Page<ProductData> list = productFacade.listProductByCategory(c.getUuid(), new PageRequest(0, 10));
+    	
+    	Assert.assertEquals(2, list.getNumberOfElements());
+    	
+    	list = productFacade.listProductByCategory(c.getUuid(), new PageRequest(0, 1));
+    	Assert.assertEquals(1, list.getNumberOfElements());
+    }
+    
+    @Test
+    @Transactional
+    public void testListProduct() {
+    	Page<BrandData> lb = brandFacade.findAll(new PageRequest(0, 10));
+    	Assert.assertEquals("Number of brand", 1, lb.getTotalElements());
+    	
+    	Page<ProductData> p = productFacade.listProduct(new PageRequest(0, 10));
+    	Assert.assertNotNull("Product not found", p);
+    	Assert.assertEquals("Number of products", 2, p.getTotalElements());
+    	
+    	CategoryData category = categoryFacade.findCategoryByCode("BLUES");
+    	Page<ProductData> lp = productFacade.listProductByCategory(category.getUuid(), new PageRequest(0, 10));
+    	Assert.assertNotNull("list product is null", lp);
+    	Assert.assertEquals("Number of products under category BLUES",2, lp.getTotalElements());
+    	
+    	ProductData productData = lp.iterator().next();
+    	Assert.assertEquals("Product code in category BLUES", "PROD1", productData.getCode());
+    	Assert.assertEquals("Product price in category BLUES", 10.00 , productData.getPrice().getCurrentPrice(),0);
+    	Assert.assertEquals("Product media in category BLUES", "imgthmb", productData.getMedia().iterator().next().getName());
+		
+    	List<CategoryData> cprd = productFacade.getParentCategory(productData);
+		Assert.assertNotNull("List category parent null", cprd);
+    }
+    
+    
     private void createCategory() {
+    	
+    	listOfCategoriesForTest.clear();
+    	
     	CategoryData catU = new CategoryData();
     	catU.setCode("UOMO");
     	catU.setDescription("UOMO");
     	catU.setUrl("http://prova cateogrty");
     	catU = categoryFacade.create(catU);
     	
+    	listOfCategoriesForTest.put("UOMO",catU);
+    	
     	CategoryData catA = new CategoryData();
     	catA.setCode("ABB");
     	catA.setDescription("ABBIGLIAMNTO");
     	catA.setUrl("http://prova cateogrty3");
     	catA = categoryFacade.create(catA,catU.getUuid());
+    	
+    	listOfCategoriesForTest.put("ABB",catA);
     	
     	CategoryData catB = new CategoryData();
      	catB.setCode("BOTTOM");
@@ -116,11 +160,15 @@ public class CatalogFacadeTest  extends AbstractTransactionalJunit4SerpicTest{
      	catB.setMetaKey("bo");
      	catB = categoryFacade.create(catB, catA.getUuid());
      	
+     	listOfCategoriesForTest.put("BOTTOM",catB);
+     	
     	CategoryData catD = new CategoryData();
     	catD.setCode("DONNA");
     	catD.setDescription("DONNA");
     	catD.setUrl("http://prova cateogrty2");
     	catD = categoryFacade.create(catD);
+    	
+    	listOfCategoriesForTest.put("DONNA",catD);
     	
     	CategoryData catAD = new CategoryData();
     	catAD.setCode("ABBD");
@@ -128,48 +176,24 @@ public class CatalogFacadeTest  extends AbstractTransactionalJunit4SerpicTest{
     	catAD = categoryFacade.create(catAD);
     	categoryFacade.addCategoryParent( catAD.getUuid(), catD.getUuid());
     	
+    	listOfCategoriesForTest.put("ABBD",catAD);
+    	
     	CategoryData catBL = new CategoryData();
     	catBL.setCode("BLUES");
     	catBL.setDescription("BLUES");
     	catBL.setUrl("http://prova cateogrty4");
     	categoryFacade.create(catBL, catAD.getUuid());
     	
+    	listOfCategoriesForTest.put("BLUES",catBL);
     	
-    	
-    	
-    }
-    
-    private void listCategory() {
-    	Page<CategoryData> p= categoryFacade.listCategory(new PageRequest(0, 10));
-    	Assert.assertNotNull("Category not found", p);
-    	log.info("Number category " +  p.getTotalElements());
-    	
-    	CategoryData cat = categoryFacade.findCategoryByCode("UOMO");
-    	List<CategoryData> childU = categoryFacade.listChildCategories(cat.getUuid());
-    	Assert.assertNotNull("SUB UOMO NULL", childU);
-    	List<CategoryData> categories = categoryFacade.listTopCategory();
-    	Assert.assertNotNull("Empty top categories", categories);
-    	log.info("** top cateogries " + categories.size());
-    	for (CategoryData categoryData : categories) {
-    		log.info("TOP: " + categoryData.getCode() + " - " + categoryData.getDescription());
-    		
-    		List<CategoryData> subCategories = categoryFacade.listChildCategories(categoryData.getUuid());
-    		if(subCategories != null) {
-    			for (CategoryData subCategory : subCategories) {
-    				log.info("|--- " + subCategory.getCode() + " - " + subCategory.getDescription());
-    				
-				}
-    		}
-		}
     	
     }
     
     private void createProduct() {
+    	
     	BrandData b = new BrandData();
     	b.setName("prodRANC");
     	b = brandFacade.addBrand(b);
-    	
-    	
     	
     	CategoryData c = categoryFacade.findCategoryByCode("BLUES");
     	CategoryData c2 = categoryFacade.findCategoryByCode("ABBD");
@@ -192,13 +216,8 @@ public class CatalogFacadeTest  extends AbstractTransactionalJunit4SerpicTest{
     	entry  = productFacade.create(entry);
     	productFacade.addEntryCategoryParent( entry.getUuid(), c.getUuid());
     	
-    	
-    	
     	PriceData price = new PriceData();
     	price.setCurrentPrice(10.00);
-    /*	price.setMinQty(1);
-    	price.setProductCost(5.50);
-    	price.setProductPrice(8.50);*/
     	price.setPrecedence(1);
     	productFacade.addPrice(entry.getUuid(), price);
     	
@@ -229,50 +248,25 @@ public class CatalogFacadeTest  extends AbstractTransactionalJunit4SerpicTest{
      	productFacade.addMedia(entry.getUuid(),media1);
     }
     
-    private void listProduct() {
-    	Page<BrandData> lb = brandFacade.findAll(new PageRequest(0, 10));
-    	Page<ProductData> p = productFacade.listProduct(new PageRequest(0, 10));
-    	Assert.assertNotNull("Product not found", p);
-    	log.info("Number product " +  p.getTotalElements());
-    	Page<CategoryData> l= categoryFacade.listCategory(new PageRequest(0, 10));
-    	CategoryData category = categoryFacade.findCategoryByCode("BLUES");
-    	Page<ProductData> lp = productFacade.listProductByCategory(category.getUuid(), new PageRequest(0, 10));
-    	Assert.assertNotNull("list product is null", lp);
-    	log.info("Number product " + lp.getTotalElements() + " in category " + category.getCode());
-    	
-    	for (ProductData productData : lp) {
-			log.info("product " + productData.getCode() + " - " + productData.getDescription() + " - ") ;
-			
-			Set<MediaData> medias = productData.getMedia();
-			log.info("TOTALE MEDIA " + medias.size());
-			
-			Assert.assertNotNull("price is null");
-			if(productData.getPrices() != null) log.info("Current price" +productData.getPrices().getCurrentPrice());
-			
-			if(productData.getCategories() != null) {
-				Set<CategoryData> listParentCategory = productData.getCategories();
-				log.info("parent categories " + listParentCategory.size());
-			}
-			List<CategoryData> cprd = productFacade.getParentCategory(productData);
-			Assert.assertNotNull("List category parent null", cprd);
-			log.info("GET PARENT " + cprd.size());
-		}
-    }
-    
-    
-    private void updateProduct() {
+    @Test
+    @Transactional
+    public void testUpdateProduct() {
     	ProductData product = productFacade.findByName("PROD1");
     	product.setUnitMeas("L");
     	productFacade.updateProduct(product);
+    	product = productFacade.findByName("PROD1");
+    	Assert.assertEquals("L", product.getUnitMeas());
     }
     
-    private void deleteProduct() {
+    //Rimuovere l'ignore dopo aver messo a posto i cascade sulle relazioni
+    @Test
+    @Ignore
+    public void testDeleteProduct() {
     	ProductData product = productFacade.findByName("PROD1");
     	String productUuid = product.getUuid();
     	productFacade.deleteProduct(productUuid);
-    	log.info("*** ELIMINATO ?");
-    	//Page<ProductData> p = productFacade.listProduct(new PageRequest(0, 10));
-    //	log.info("*** ELIMINATO ? " + p.getTotalElements());
+    	product = productFacade.findByName("PROD1");
+    	Assert.assertNull(product);
     }
     
 }
