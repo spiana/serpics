@@ -318,9 +318,13 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    }
 	    catch (Exception e)
 	    {
+	    		
 	    }
 	    if ((field != null) && (field.isAnnotationPresent(annotationType))) {
 	      return field.getAnnotation(annotationType);
+	    } else{
+	    	if (entityClass.getSuperclass() != null )
+	    		return getAnnotationFromField(annotationType, entityClass.getSuperclass(), propertyName);
 	    }
 	    return null;
 	  }
@@ -346,7 +350,10 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	      if  (getter.isAnnotationPresent(annotationType))
 	    	  return getter.getAnnotation(annotationType);
 	      else{
-	    	  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
+	    	  if (entityClass.getSuperclass() != null )
+	    		return getAnnotationFromPropertyGetter(annotationType, entityClass.getSuperclass(), propertyName);	  
+	    	else
+	    		  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
 	      }
 	    }
 	    return null;
