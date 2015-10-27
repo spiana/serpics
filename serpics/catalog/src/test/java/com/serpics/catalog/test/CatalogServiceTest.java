@@ -63,7 +63,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         attribute.setAttributeType(AttributeType.INTEGER);
         attribute.setAvailablefor(AvailableforType.USER);
         attribute.setName("test");
-        attributeRepository.create(attribute);
+        attributeRepository.save(attribute);
 
         final List<BaseAttribute> al = attributeRepository.findAll();
         Assert.assertEquals(1, al.size());
@@ -75,13 +75,13 @@ public class CatalogServiceTest extends CatalogBaseTest {
         attribute1.setAttributeType(AttributeType.TEXT);
         attribute1.setAvailablefor(AvailableforType.USER);
         attribute1.setName("test");
-        attributeRepository.create(attribute1);
+        attributeRepository.save(attribute1);
 
         final BaseAttribute attribute2 = new BaseAttribute();
         attribute2.setAttributeType(AttributeType.TEXT);
         attribute2.setAvailablefor(AvailableforType.FEATURE);
         attribute2.setName("test1");
-        attributeRepository.create(attribute2);
+        attributeRepository.save(attribute2);
 
         final List<BaseAttribute> al1 = attributeRepository.findAll();
         Assert.assertEquals(2, al1.size());

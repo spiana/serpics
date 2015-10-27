@@ -192,12 +192,12 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override
 	public Page<ProductData> listProductByCategory(final String cUuid,Pageable page) {
 		Category category = categoryService.findByUUID(cUuid);
-		List<Product> products = productService.findProductByCategory(category);
+		Page<Product> products = productService.findProductByCategory(category,page);
 		List<ProductData> l = new ArrayList<ProductData>();
-		for (Product product : products) {
+		for (Product product : products.getContent()) {
 			l.add(productConverter.convert(product));
 		}
-		Page<ProductData> list = new PageImpl<ProductData>(l, page, products.size());
+		Page<ProductData> list = new PageImpl<ProductData>(l, page, products.getTotalElements());
 		return list; 
 	}
 	
