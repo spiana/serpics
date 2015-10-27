@@ -15,13 +15,18 @@ import com.serpics.core.facade.Populator;
 
 
 
+@SuppressWarnings("rawtypes")
 public  class AbstractOrderPopulator implements Populator<AbstractOrder,  AbstractOrdersData>{
 	private AbstractPopulatingConverter<AbstractOrderitem, AbstractOrderItemData> abstractOrderItemConverter;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void populate(AbstractOrder source, AbstractOrdersData target) {
 		target.setBillingAddress(source.getBillingAddress());
 		target.setId(source.getId());
+		target.setUuid(source.getUuid());
+		target.setCreated(source.getCreated());
+		target.setUpdated(source.getUpdated());
 		
 		target.setTotalProduct(source.getTotalProduct());
 		target.setTotalService(source.getTotalService());

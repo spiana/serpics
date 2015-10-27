@@ -3,16 +3,16 @@ package com.serpics.commerce.facade.data;
 import java.util.Set;
 
 import com.serpics.commerce.data.model.Shipmode;
+import com.serpics.core.facade.AbstractData;
 import com.serpics.membership.data.model.Address;
 
 
-public abstract class AbstractOrdersData<T>{
-	protected Long id;
+public abstract class AbstractOrdersData<T extends AbstractOrderItemData> extends AbstractData{
 	protected Shipmode shipmode;
 	protected Address billingAddress;
 	protected Address shippingAddress;
 		
-	protected Set<AbstractOrderItemData> orderItems; 
+	protected Set<T> orderItems; 
 	protected Double discountAmount;
 	protected Double discountPerc;
 	protected Double orderAmount;
@@ -84,17 +84,11 @@ public abstract class AbstractOrdersData<T>{
 	public void setDiscountAmount(Double discountAmount) {
 		this.discountAmount = discountAmount;
 	}
-	public Set<AbstractOrderItemData> getOrderItems() {
+	public Set<T> getOrderItems() {
 		return orderItems;
 	} 
-	public void setOrderItems(Set<AbstractOrderItemData> orderItems) {
+	public void setOrderItems(Set<T> orderItems) {
 		this.orderItems = orderItems;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Long getId() {
-		return id;
 	}
 	
 }
