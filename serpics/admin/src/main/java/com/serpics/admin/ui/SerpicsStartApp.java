@@ -11,30 +11,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.vaadin.ui.EntityComponent;
-import com.serpics.vaadin.ui.NavGeneratoFactory;
+import com.serpics.vaadin.ui.I18nUtils;
+import com.serpics.vaadin.ui.MasterTable;
+import com.serpics.vaadin.ui.NavigatorMenuTree;
 import com.vaadin.annotations.Theme;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.EnableVaadin;
+import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.server.SpringVaadinServlet;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @Theme("tests-valo-facebook")
 @Component
-@Scope("prototype")
+@SpringUI
 public class SerpicsStartApp extends UI {
 
 	private static final long serialVersionUID = -5966946454650068735L;
@@ -45,11 +46,12 @@ public class SerpicsStartApp extends UI {
 	private transient CommerceEngine commerceEngine;
 
 	@Autowired
-	private NavGeneratoFactory navGeneratoFactory;
+	private NavigatorMenuTree navigatorMenuTree;
 
 	private final TabSheet leftContentPanel = new TabSheet();
 	@SuppressWarnings("rawtypes")
-	private final Map<String, EntityComponent> activeComponent = new HashMap<String, EntityComponent>(0);
+	private final Map<String, EntityComponent> activeComponent = new HashMap<String, EntityComponent>(
+			0);
 
 	@WebServlet(value = "/*", asyncSupported = true)
 	public static class Servlet extends SpringVaadinServlet {
@@ -89,11 +91,15 @@ public class SerpicsStartApp extends UI {
 		}
 
 		getSession().setLocale(_locale);
-		final Tree menu = populateMenu();
-		menu.setWidth("150px");
-		content.addComponent(menu);
+		for (Object id : navigatorMenuTree.getItemIds()) {
+			navigatorMenuTree.setItemCaption(id,
+					I18nUtils.getMessage(id.toString(), id.toString()));
+		}
 
-		menu.addItemClickListener(new ItemClickListener() {
+		navigatorMenuTree.setWidth("150px");
+		content.addComponent(navigatorMenuTree);
+
+		navigatorMenuTree.addItemClickListener(new ItemClickListener() {
 
 			/**
 			 * 
@@ -103,29 +109,13 @@ public class SerpicsStartApp extends UI {
 			@Override
 			public void itemClick(final ItemClickEvent event) {
 				final String itemid = (String) event.getItemId();
-				LOG.info("item id : {}", itemid);
-				if (itemid.equalsIgnoreCase("users")) {
-					addComponent("userTableEditor", "user");
-				} else if (itemid.equalsIgnoreCase("groups")) {
-					addComponent("membergroupTableEditor", "groups");
-				} else if (itemid.equalsIgnoreCase("relation")) {
-					addComponent("membergroupRelTable", "user2grouprelation");
-				} else if (itemid.equalsIgnoreCase("userReg")) {
-					addComponent("userRegTableEditor", "userReg");
-				} else if (itemid.equalsIgnoreCase("category")) {
-					addComponent("categoryTable", "category");
-				} else if (itemid.equalsIgnoreCase("product")) {
-					addComponent("productTable", "product");
-				} else if (itemid.equalsIgnoreCase("country")) {
-					addComponent("countryTable", "country");
-				} else if (itemid.equalsIgnoreCase("geocode")) {
-					addComponent("geocodeTable", "geocode");
-				} else if (itemid.equalsIgnoreCase("brand")) {
-					addComponent("brandTable", "brand");
-				} else if (itemid.equalsIgnoreCase("currency")) {
-					addComponent("currencyTable", "currency");
-				} else if (itemid.equalsIgnoreCase("featureModel")) {
-					addComponent("featureModelTable", "featureModel");
+				if (navigatorMenuTree.getBeanComponent(itemid) != null)
+					addComponent(navigatorMenuTree.getBeanComponent(itemid),
+							I18nUtils.getMessage(itemid, itemid));
+				else if (navigatorMenuTree.getClassComponent(itemid) != null) {
+					addComponentByClass(
+							navigatorMenuTree.getClassComponent(itemid),
+							I18nUtils.getMessage(itemid, itemid));
 				}
 			}
 		});
@@ -140,15 +130,6 @@ public class SerpicsStartApp extends UI {
 
 	}
 
-	/**
-	 * 
-	 * @return a tree generated from xml
-	 */
-	private Tree populateMenu() {
-		final Tree customizableNav = navGeneratoFactory.generateNavigator();
-		return customizableNav;
-	}
-
 	private void addComponent(final String id, final String caption) {
 		final EntityComponent<?> _component = getComponent(id);
 
@@ -160,16 +141,42 @@ public class SerpicsStartApp extends UI {
 		leftContentPanel.setSelectedTab(_component);
 	}
 
+	private void addComponentByClass(final String clazz, final String caption) {
+
+		EntityComponent<?> _component = null;
+
+		_component = activeComponent.get(clazz);
+		if (_component == null) {
+			try {
+				_component = new MasterTable(Class.forName(clazz)) {
+				};
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+		}
+
+		if (_component != null) {
+			activeComponent.put(clazz, _component);
+			final Tab t = leftContentPanel.getTab(_component);
+			if (t == null) {
+				leftContentPanel.addTab(_component, caption);
+				leftContentPanel.getTab(_component).setClosable(true);
+			}
+			leftContentPanel.setSelectedTab(_component);
+		}
+
+	}
+
 	private EntityComponent<?> getComponent(final String name) {
 
 		EntityComponent<?> _component = activeComponent.get(name);
 		if (_component == null) {
-			_component = (EntityComponent<?>) commerceEngine.getApplicationContext().getBean(name);
-			// _component.init();
-
+			_component = (EntityComponent<?>) commerceEngine
+					.getApplicationContext().getBean(name);
 			activeComponent.put(name, _component);
 		}
-
 		return _component;
 
 	}

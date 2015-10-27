@@ -39,7 +39,7 @@ public abstract class MasterForm<T> extends FormLayout implements
 	private boolean initialized = false;
 	private String[] displayProperties;
 	private final Set<String> hideProperties = new HashSet<String>(0);
-	private Set<String> readOnlyProperties = new HashSet<String>(0);
+	private Set<String> readOnlyProperties ;
 	protected EntityItem<T> entityItem;
 	private boolean readOnly = true;
 	protected Class<T> entityClass;
@@ -90,10 +90,12 @@ public abstract class MasterForm<T> extends FormLayout implements
 		if (this.displayProperties == null)
 			this.displayProperties = PropertiesUtils.get().getEditProperty(entityClass.getSimpleName());
 	
-		if (this.readOnlyProperties == null){
+		if (this.readOnlyProperties == null || this.readOnlyProperties.isEmpty()){
 			String[] _readonly = PropertiesUtils.get().getReadOnlyProperty(entityClass.getSimpleName());
 			if (_readonly != null)
 				this.readOnlyProperties  = new HashSet<String>(Arrays.asList(_readonly));
+			else
+				this.readOnlyProperties = new HashSet<String>(0);
 		}
 		if (displayProperties != null)
 			addField(displayProperties);
@@ -227,6 +229,9 @@ public abstract class MasterForm<T> extends FormLayout implements
 	}
 
 	public void setReadOnlyProperties(final String[] readOnlyProperties) {
+		if (this.readOnlyProperties == null){
+			this.readOnlyProperties = new HashSet<String>(0);
+		}
 		this.readOnlyProperties.addAll(Arrays.asList(readOnlyProperties));
 	}
 

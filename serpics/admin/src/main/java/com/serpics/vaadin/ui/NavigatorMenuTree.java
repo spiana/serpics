@@ -6,7 +6,9 @@ package com.serpics.vaadin.ui;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -18,42 +20,28 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StringUtils;
 
-import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Tree;
 
 /**
  * @author christian
  *
  */
-public class NavGeneratoFactory extends AbstractSelect
+public class NavigatorMenuTree extends Tree
 		implements ApplicationContextAware, InitializingBean, Serializable {
 
 	private static final long serialVersionUID = -3879900712039097486L;
 
-	private static Logger LOG = LoggerFactory.getLogger(NavGeneratoFactory.class);
+	private static Logger LOG = LoggerFactory.getLogger(NavigatorMenuTree.class);
 
 	private ApplicationContext applicationContext;
-
-	private Tree navigator;
-
-	public NavGeneratoFactory() {
+	
+	private Map<String , String> beans = new HashMap<String , String>();
+	private Map<String , String> clazz = new HashMap<String , String>();
+	
+	public NavigatorMenuTree() {
 		super();
-	}
-
-	/**
-	 * @return the navigator
-	 */
-	public Tree getNavigator() {
-		return navigator;
-	}
-
-	/**
-	 * @param navigator
-	 *            the navigator to set
-	 */
-	public void setNavigator(final Tree navigator) {
-		this.navigator = navigator;
 	}
 
 	/**
@@ -109,36 +97,36 @@ public class NavGeneratoFactory extends AbstractSelect
 	 */
 	private void generateSingleNav(Element navigator, String navigatorName) {
 
-		final Tree currentTree = new Tree();
-
 		for (Iterator<?> i = navigator.elementIterator(); i.hasNext();) {
 			Element navItem = (Element) i.next();
+			String name = navItem.attributeValue("name");
 			if (Boolean.parseBoolean(navItem.attributeValue("allow-child"))) {
-				currentTree.addItem(navItem.attributeValue("name"));
+				this.addItem(name);
+				
 			} else {
-				currentTree.addItem(navItem.attributeValue("name"));
-				currentTree.setParent(navItem.attributeValue("name"), navItem.attributeValue("parent"));
-				currentTree.setChildrenAllowed(navItem.attributeValue("name"),
+				this.addItem(name);
+				this.setParent(navItem.attributeValue("name"), navItem.attributeValue("parent"));
+				this.setChildrenAllowed(navItem.attributeValue("name"),
 						Boolean.parseBoolean(navItem.attributeValue("allow-child")));
+			}
+			if (!StringUtils.isEmpty(navItem.attributeValue("bean"))){
+				beans.put(navItem.attributeValue("name"), navItem.attributeValue("bean"));
+			}
+			if (!StringUtils.isEmpty(navItem.attributeValue("class"))){
+				clazz.put(navItem.attributeValue("name"), navItem.attributeValue("class"));
 			}
 
 		}
-		LOG.info("created navigator tree from admin generator: {} with name {}", NavGeneratoFactory.class.getName(),
+		LOG.info("created navigator tree from admin generator: {} with name {}", NavigatorMenuTree.class.getName(),
 				navigatorName);
-		setNavigator(currentTree);
+	
 	}
 
-	/**
-	 * @return the navigator
-	 * @throws Exception
-	 */
-	public Tree generateNavigator() {
-		try {
-			afterPropertiesSet();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return getNavigator();
+	public String getBeanComponent(String key){
+		return beans.get(key);
+	}
+	public String getClassComponent(String key){
+		return clazz.get(key);
 	}
 
 }

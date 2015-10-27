@@ -6,6 +6,7 @@ import java.util.List;
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
+import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.event.Action;
@@ -39,6 +40,9 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     private Button saveButton;
     private Button cancelButton;
+    
+    private transient EntityContainer<T> container;
+    private transient EntityItem<T> item;
 
     public EntityFormWindow() throws SecurityException {
         build();
@@ -175,6 +179,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
                 }
             }
         } catch (final CommitException e) {
+        	if (container != null && !item.isPersistent())
+        		container.removeItem(item.getItemId());
             e.printStackTrace();
         }
     }
@@ -218,6 +224,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
 //    	if(entityItem.isPersistent())
 //    		entityItem.getContainer().refresh();
 //    	
+    	this.item = entityItem;
+    	
         for (final EntityComponent c : componentList) {
             if (c instanceof EntityComponentChild) {
                 if (!newItem)
@@ -280,5 +288,13 @@ public class EntityFormWindow<T> extends Window implements Handler {
     public int getTabComponentCount() {
         return tabSheet.getComponentCount() ;
     }
+
+	public EntityContainer<T> getContainer() {
+		return container;
+	}
+
+	public void setContainer(EntityContainer<T> container) {
+		this.container = container;
+	}
 
 }

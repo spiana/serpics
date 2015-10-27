@@ -35,6 +35,9 @@ public abstract class AbstractEntity implements Serializable {
 	
 	@PreUpdate
 	public void beforeUpdate() {
+		if(getCreated() == null)
+			setCreated(new Date());
+		
 		setUpdated(new Date());
 	}
 
