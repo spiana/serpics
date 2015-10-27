@@ -49,6 +49,8 @@ public class ConvertTest extends AbstractTransactionalJunit4SerpicTest {
 	@Autowired
 	Engine<CommerceSessionContext> ce;
 	
+	private Long testIDUser =null;
+	
 	@Before
 	public void beforetest(){
 		if (!baseService.isInitialized())
@@ -83,6 +85,7 @@ public class ConvertTest extends AbstractTransactionalJunit4SerpicTest {
 		Assert.assertEquals(1,ulist.getTotalElements());
 		Assert.assertEquals("testmembership" , ulist.getContent().get(0).getLastname());
 		Assert.assertEquals("testmembership" , ulist.getContent().get(0).getContactAddress().getLastname());
+		Assert.assertEquals(testIDUser, ulist.getContent().get(0).getId());
 	//	registerTestUser(context);
 	}
 	
@@ -98,6 +101,7 @@ public class ConvertTest extends AbstractTransactionalJunit4SerpicTest {
 	        final PrimaryAddress a = new PrimaryAddress();
 	        a.setLastname("testmembership");
 	        ur = m.registerUser(ur, a);
+	        testIDUser = ur.getId();
 
 	    }	
 }
