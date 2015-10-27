@@ -104,8 +104,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         	this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
         
         if (this.displayProperties != null	){
-        	entityList.setVisibleColumns(displayProperties);	
-        	
         	for (String string : displayProperties) {
 				if (string.contains(".")){
 					container.addNestedContainerProperty(string);
@@ -114,12 +112,11 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				if(propertyList.getPropertyType(string).isAssignableFrom(MultilingualString.class) ){
 					entityList.setConverter(string, new MultilingualStringConvert());
 				}
-				
 				String message =  I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() +"."+ string,null);
 				if (message != null)		
 					entityList.setColumnHeader( string,message);
 			}
-        	
+        	entityList.setVisibleColumns(displayProperties);	
         }
 
         final VerticalLayout v = new VerticalLayout();
@@ -162,6 +159,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             public void buttonClick(final ClickEvent event) {
                 if(!entityList.isEditable()){
                 	EntityFormWindow<T> editorWindow = buildEntityWindow();
+                	editorWindow.setContainer(container);
                     editorWindow.setNewItem(true);
                     editorWindow.setReadOnly(false);
                     editorWindow.setEntityItem(createEntityItem());
@@ -184,6 +182,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
                     return;
                 if (!entityList.isEditable()) {
                 	EntityFormWindow<T> editorWindow = buildEntityWindow();
+                	editorWindow.setContainer(container);
                     editorWindow.setNewItem(false);
                     editorWindow.setReadOnly(false);
                     editorWindow.setEntityItem(container.getItem(entityList.getValue()));
@@ -206,8 +205,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
                     @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.compareTo(ButtonId.YES) == 0) {
-                            if (!container.removeItem(entityList.getValue()))
+                            if (!container.removeItem(entityList.getValue())){
                                 System.out.println("Errore !");
+                            }else
+                            	container.commit();;
 
                         }
 
