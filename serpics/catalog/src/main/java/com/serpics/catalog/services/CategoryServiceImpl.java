@@ -60,7 +60,7 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
     	final CategoryRelation cr = new CategoryRelation();
     	cr.setChildCategory(childCategory);
     	cr.setParentCategory(parentCategory);
-    	categoryRelationRepository.create(cr);
+    	categoryRelationRepository.saveAndFlush(cr);
     }
     
     @Override
@@ -71,7 +71,7 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
         	final CategoryRelation cr = new CategoryRelation();
         	cr.setChildCategory(category);
         	cr.setParentCategory(parentCategory);
-        	categoryRelationRepository.create(cr);
+        	categoryRelationRepository.saveAndFlush(cr);
         	/*
             final CtentryRelationPK ctpk = new CtentryRelationPK(parent.getId(), category.getId());
             final CategoryRelation cgrel = new CategoryRelation();
