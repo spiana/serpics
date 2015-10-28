@@ -66,7 +66,7 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
     protected Set<CtentryAttribute> ctentryAttributes;
 
     // bi-directional many-to-one association to Media
-    @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY, cascade= CascadeType.REMOVE)
     protected Set<Media> medias;
 
    

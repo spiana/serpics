@@ -2,20 +2,17 @@ package com.serpics.catalog.test;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -186,8 +183,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	categoryFacade.create(catBL, catAD.getUuid());
     	
     	listOfCategoriesForTest.put("BLUES",catBL);
-    	
-    	
+
     }
     
     private void createProduct() {
@@ -261,7 +257,8 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     
     //Rimuovere l'ignore dopo aver messo a posto i cascade sulle relazioni
     @Test
-    @Ignore
+
+    @Transactional
     public void testDeleteProduct() {
     	ProductData product = productFacade.findByName("PROD1");
     	String productUuid = product.getUuid();

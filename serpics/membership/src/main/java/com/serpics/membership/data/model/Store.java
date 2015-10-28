@@ -27,7 +27,7 @@ public class Store extends Member implements Serializable, StoreRealm {
     @Column(nullable = false, length = 250, unique = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "currency_id")
     private Currency currency;
 

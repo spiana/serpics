@@ -4566,7 +4566,7 @@ div.v-layout.v-horizontal.v-widget {
 	-moz-user-select: text;
 	-ms-user-select: text;
 	user-select: text;
-	margin-top: 24px;
+	margin: 0;
 	font: inherit;
 	
 	font-weight: 400;
@@ -4582,7 +4582,7 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
-	
+	width: 150px;
 }
 
 .v-ie8 .tests-valo-facebook .v-textfield, .v-ie9 .tests-valo-facebook .v-textfield {
@@ -7828,9 +7828,9 @@ div.v-layout.v-horizontal.v-widget {
 	background-image: radial-gradient(  circle at 50% 50%, #222, #030303);
 	opacity: 0.68;
 	filter: alpha(opacity=68) ;
-	-webkit-animation: valo-animate-in-fade 400ms;
-	-moz-animation: valo-animate-in-fade 400ms;
-	animation: valo-animate-in-fade 400ms;
+	-webkit-animation: valo-animate-in-fade 400ms 100ms;
+	-moz-animation: valo-animate-in-fade 400ms 100ms;
+	animation: valo-animate-in-fade 400ms 100ms;
 }
 
 .v-op12 .tests-valo-facebook .v-window-modalitycurtain {
@@ -14232,51 +14232,3 @@ div.v-layout.v-horizontal.v-widget {
 	display: block;
 	margin: 0 auto;
 }
-
-.tests-valo-facebook .viewheader {
-	padding-bottom: 25px;
-	width: 100%;
-	text-align: right;
-	white-space: normal;
-}
-
-.tests-valo-facebook .viewheader .v-slot-h1 {
-	float: left;
-}
-
-.tests-valo-facebook .viewheader .h1 {
-	white-space: normal;
-}
-
-.tests-valo-facebook.viewheader[width-range~="0-700px"] {
-	padding-bottom: 19px;
-	text-align: left;
-}
-
-.tests-valo-facebook .viewheader[width-range~="0-700px"] .v-slot-h1 {
-	float: none;
-}
-
-.tests-valo-facebook .viewheader[width-range~="0-700px"] .h1 {
-	font-size: 2em;
-}
-
-.tests-valo-facebook .viewheader[width-range~="0-700px"]  > .v-slot {
-	display: block;
-}
-
-.tests-valo-facebook .viewheader[width-range~="0-700px"] .toolbar {
-	white-space: normal;
-}
-
-.tests-valo-facebook.viewheader[width-range~="0-700px"] .toolbar  > .v-spacing {
-	height: 9px;
-}
-
-.tests-valo-facebook .viewheader {
-	padding: 25px;
-	border-bottom: 1px solid #dfdfdf;
-}
-
-
-

@@ -31,7 +31,7 @@ public class Order extends AbstractOrder {
     private Double payAmount = new Double(0);
 
     // bi-directional many-to-one association to Orderpayment
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Orderpayment> orderpayments = new HashSet<Orderpayment>(0);
 
     public Set<Orderpayment> getOrderpayments() {
