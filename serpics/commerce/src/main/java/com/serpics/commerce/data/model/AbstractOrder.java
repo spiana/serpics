@@ -49,15 +49,15 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @Column(name = "cookie", length = 250, unique = false, nullable = false)
     protected String cookie;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, targetEntity = Currency.class)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, targetEntity = Currency.class)
     @JoinColumn(name = "currency_id")
     private Currency currency;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id")
     protected User customer;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     protected User user;
 
@@ -76,7 +76,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @Column(nullable = false, length = 2)
     protected String status;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "store_id")
     protected Store store;
 
@@ -99,7 +99,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     protected Double totalTax;
 
     // bi-directional many-to-one association to Shipmode
-    @ManyToOne(fetch=FetchType.EAGER , optional=true)
+    @ManyToOne(fetch=FetchType.LAZY , optional=true)
     @JoinColumn(name = "shipmode_id")
     protected Shipmode shipmode;
 
@@ -108,20 +108,20 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     protected Set<OrdersAttribute> ordersAttributes = new HashSet<OrdersAttribute>(0);
 
     // bi-directional many-to-one association to Suborder
-    @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     protected Set<Suborder> suborders = new HashSet<Suborder>(0);
 
-    @ManyToOne(fetch=FetchType.EAGER )
+    @ManyToOne(fetch=FetchType.LAZY )
     @JoinColumn(name = "billing_address_id" )
     //protected Address billingAddress;
     protected Address  billingAddress;
 
-    @ManyToOne(fetch=FetchType.EAGER )
+    @ManyToOne(fetch=FetchType.LAZY )
     @JoinColumn(name = "shipping_address_id")
     protected Address shippingAddress;
 
     // bi-directional many-to-one association to Orderitem
-    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true)
     protected Set<AbstractOrderitem> orderitems = new HashSet<AbstractOrderitem>(0);
 
     public AbstractOrder() {

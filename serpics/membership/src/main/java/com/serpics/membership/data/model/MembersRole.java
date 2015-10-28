@@ -28,7 +28,7 @@ public class MembersRole  extends com.serpics.core.data.jpa.AbstractEntity imple
     private Member member;
 
     //bi-directional many-to-one association to Role
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="role_id", nullable=false, insertable=false, updatable=false)
     private Role role;
 

@@ -35,7 +35,7 @@ public class BillingAddress extends AbstractAddress {
 
     // bi-directional many-to-one association to Member
     @GsonTransient
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false, updatable = false)
     private Member member;
 

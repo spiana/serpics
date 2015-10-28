@@ -47,7 +47,7 @@ public class Membergroup  extends com.serpics.core.data.jpa.AbstractEntity imple
     private String description;
 
     //bi-directional many-to-one association to Store
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="store_id", nullable=false)
     private Store store;
 

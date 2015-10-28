@@ -25,7 +25,7 @@ public class MultilingualText extends AbstractEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long Id;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @MapKeyColumn(name = "locale")
     @CollectionTable(name = "locale_text_map", joinColumns = @JoinColumn(name = "string_id"))
     private final Map<String, LocalizedString> map = new HashMap<String, LocalizedString>();

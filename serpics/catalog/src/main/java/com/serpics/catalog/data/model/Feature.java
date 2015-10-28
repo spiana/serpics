@@ -46,7 +46,7 @@ public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
     @JoinColumn(name="featureGroup_id")
     private FeatureGroup featureGroup;
 
-    @OneToMany(mappedBy="feature" ,fetch= FetchType.EAGER)
+    @OneToMany(mappedBy="feature" ,fetch= FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<FeatureValues> featureValues = new HashSet<FeatureValues>(0);
 
     public Long getId() {

@@ -1,5 +1,6 @@
 package com.serpics.catalog.data.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,12 +21,12 @@ public class CategoryProductRelation extends CtentryRelation {
 
 
     //bi-directional many-to-one association to Ctentry
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ctentry_id_parent" , insertable=false, updatable=false)
     private Category parentCategory;
 
     //bi-directional many-to-one association to Ctentry
-    @ManyToOne(fetch = FetchType.EAGER )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ctentry_id_child" , insertable=false, updatable=false )
     private AbstractProduct childProduct;
 

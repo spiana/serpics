@@ -73,7 +73,7 @@ public class Member extends AbstractEntity implements Serializable {
     protected Set<MemberAttribute> memberAttributes = new HashSet<MemberAttribute>(0);
 
     // bi-directional many-to-one association to MembersRole
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     protected Set<MembersRole> membersRoles = new HashSet<MembersRole>(0);
 
 
