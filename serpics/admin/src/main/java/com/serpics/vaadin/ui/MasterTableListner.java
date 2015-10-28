@@ -6,6 +6,10 @@ package com.serpics.vaadin.ui;
 import java.util.Arrays;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.filter.Filters;
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.Not;
 import com.vaadin.data.util.filter.SimpleStringFilter;
@@ -14,6 +18,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -58,8 +63,6 @@ public class MasterTableListner {
 						if (buttonId.compareTo(ButtonId.YES) == 0) {
 							if (!container.removeItem(entityList.getValue()))
 								System.out.println("Errore !");
-							else
-								container.commit();
 						}
 					}
 				}, ButtonId.NO, ButtonId.YES);
@@ -73,50 +76,44 @@ public class MasterTableListner {
 	 * @param _search
 	 */
 	public <T> void searchButtonClickListener(final JPAContainer<T> container, final Button search,
-			final Object propertyId, final TextField field, final ComboBox filterType) {
+			final ComboBox propertyId, final TextField field, final ComboBox filterType) {
 
 		search.addClickListener(new Button.ClickListener() {
-
 			@Override
 			public void buttonClick(final ClickEvent event) {
-
-				switch ((String) filterType.getValue()) {
-
-				case "inizia con":
-					container.addContainerFilter(new SimpleStringFilter(propertyId, field.getValue(), false, true));
-					break;
-
-				case "contiene":
-					container.addContainerFilter(new SimpleStringFilter(propertyId, field.getValue(), false, false));
-					break;
-
-				case "è uguale a":
-					container.addContainerFilter(new Compare.Equal(propertyId, field.getValue()));
-					break;
-
-				case "è diverso da":
-					container.addContainerFilter(new Not(new Compare.Equal(propertyId, field.getValue())));
-					break;
-
-				case "è maggiore di":
-					container.addContainerFilter(new Compare.Greater(propertyId, field.getValue()));
-					break;
-
-				case "è minore di":
-					container.addContainerFilter(new Compare.Less(propertyId, field.getValue()));
-					break;
-
-				case "è maggiore o uguale a":
-					container.addContainerFilter(new Compare.GreaterOrEqual(propertyId, field.getValue()));
-					break;
-
-				case "è minore o uguale a":
-					container.addContainerFilter(new Compare.LessOrEqual(propertyId, field.getValue()));
-					break;
-
-				default:
-					break;
-				}
+				if (propertyId.getValue() != null && filterType.getValue() != null) {
+					switch ((String) filterType.getValue()) {
+					case "inizia con":
+						container.addContainerFilter(
+								new SimpleStringFilter(propertyId.getValue(), field.getValue(), false, true));
+						break;
+					case "contiene":
+						container
+								.addContainerFilter(new SimpleStringFilter(propertyId, field.getValue(), false, false));
+						break;
+					case "è uguale a":
+						container.addContainerFilter(new Compare.Equal(propertyId, field.getValue()));
+						break;
+					case "è diverso da":
+						container.addContainerFilter(new Not(new Compare.Equal(propertyId, field.getValue())));
+						break;
+					case "è maggiore di":
+						container.addContainerFilter(new Compare.Greater(propertyId, field.getValue()));
+						break;
+					case "è minore di":
+						container.addContainerFilter(new Compare.Less(propertyId, field.getValue()));
+						break;
+					case "è maggiore o uguale a":
+						container.addContainerFilter(new Compare.GreaterOrEqual(propertyId, field.getValue()));
+						break;
+					case "è minore o uguale a":
+						container.addContainerFilter(new Compare.LessOrEqual(propertyId, field.getValue()));
+						break;
+					default:
+						break;
+					}
+				} else
+					container.applyFilters();
 			}
 		});
 	}
@@ -163,11 +160,51 @@ public class MasterTableListner {
 	 */
 	public Component buildComboByMXL(String[] properties) {
 		final ComboBox propertiesId = new ComboBox();
-		if(properties!=null){
-			for (String entry : properties)
-				propertiesId.addItem((String)entry);
+		if (properties != null) {
+			for (String entry : properties) {
+				propertiesId.addItem((String) entry);
+			}
 		}
 		return propertiesId;
 	}
 
+	/**
+	 * 
+	 * @param container
+	 * @param field
+	 * @param property
+	 * @param properties
+	 */
+	public <T> void showNotificationOnSystemTray(final JPAContainer<T> container, final TextField field,
+			final ComboBox property, final String[] properties) {
+
+		property.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+				String propertySelected = (String) property.getValue();
+				if (propertySelected == null) {
+					Notification.show("Commerce Notification", "Filter All container: ",
+							Notification.Type.TRAY_NOTIFICATION);
+					filterAllContainerJPA(container, property, field);
+				} else
+					Notification.show("Commerce Notification", "Filter container by property " + propertySelected,
+							Notification.Type.TRAY_NOTIFICATION);
+			}
+		});
+
+	}
+
+	/**
+	 * 
+	 * @param container
+	 * @param property
+	 * @param field
+	 * @param properties
+	 */
+	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final ComboBox property,
+			final TextField field) {	
+				Filter filterLike = Filters.like("firstname", field.getValue()+"%", false);				
+				container.addContainerFilter(Filters.or(filterLike));		
+
+	}
 }
