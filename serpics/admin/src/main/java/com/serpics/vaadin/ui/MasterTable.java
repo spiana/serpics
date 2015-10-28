@@ -196,10 +196,12 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		final TextField serchField = (TextField) masterTableListner.get().buildFilterField();
 		final ComboBox filterType = (ComboBox) masterTableListner.get().createComboFilterType();
 		final ComboBox propertiesToFilter = (ComboBox) masterTableListner.get().buildComboByMXL(this.displayProperties);
+
 		
-		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
 		masterTableListner.get().searchButtonClickListener(container, _search , propertiesToFilter, serchField , filterType);
+		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
 		masterTableListner.get().resetButtonClickListener(container, _reset);
+		masterTableListner.get().showNotificationOnSystemTray(container, serchField,propertiesToFilter,this.displayProperties);
 
 		editButtonPanel.addComponent(_delete);
 		editButtonPanel.addComponent(propertiesToFilter);

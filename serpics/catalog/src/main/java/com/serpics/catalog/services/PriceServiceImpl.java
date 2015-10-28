@@ -87,8 +87,8 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
 	}
 	@Override
 	public Price findProductPrice(AbstractProduct product) throws PriceNotFoundException{
-		 final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
-	                .getCatalog());
+//		 final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
+//	                .getCatalog());
 		 final Currency currency = (Currency) getCurrentContext().getCurrency();
 		 return findProductPrice(product, currency);
 	}

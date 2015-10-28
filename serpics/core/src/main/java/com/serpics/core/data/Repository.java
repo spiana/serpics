@@ -15,6 +15,7 @@ import com.serpics.core.session.SessionContext;
 
 public interface Repository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T>  {
 	
+	@SuppressWarnings("hiding")
 	public <T> Specification<T> makeSpecification(final T example);
 //	public T findOne(Specification<T> spec , final Sort sort , int index );
 	public T refresh(T entity);

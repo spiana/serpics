@@ -146,7 +146,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     }
 
-    private boolean isModified() {
+    @SuppressWarnings("rawtypes")
+	private boolean isModified() {
         for (final EntityComponent component : componentList) {
             if (component instanceof EntityFormComponent) {
                 if (((EntityFormComponent) component).isModifield()) {

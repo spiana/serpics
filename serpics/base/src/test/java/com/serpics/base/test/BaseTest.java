@@ -53,7 +53,7 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		Geocode g = new Geocode();
 		g.setCode("ITA");
 		
-		g = geoCodeRepository.create(g);
+		g = geoCodeRepository.saveAndFlush(g);
 		
 		MultilingualString desc = new MultilingualString("it", "ITALIA");
         Country c = new Country();
@@ -61,7 +61,7 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		c.setIso3Code("ita");
 		c.setGeocode(g);
 		c.setDescription(desc);
-		c = countryRepository.create(c);
+		c = countryRepository.saveAndFlush(c);
 		
 		desc = new MultilingualString("it", "GRAN BRETAGNA");
 		c = new Country();
@@ -69,8 +69,7 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		c.setIso3Code("eng");
 		c.setGeocode(g);
 		c.setDescription(desc);
-		c = countryRepository.create(c);
-		Long cId = c.getCountriesId();
+		c = countryRepository.saveAndFlush(c);
 		
 		
 		desc = new MultilingualString("it", "TEST");
@@ -78,7 +77,7 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		r.setName("TEST1");
 		r.setCountry(c); 
 		r.setDescription(desc);
-		r = regionRepository.create(r);
+		r = regionRepository.saveAndFlush(r);
 		
 		
 		List<Country> lc =  countryRepository.findAll();
@@ -87,7 +86,6 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 			LOGGER.info(country.getIso2Code() + "-" + country.getDescription().getText("it"));
 		}
 		
-		Country cr = countryRepository.findOne(cId);
 		LOGGER.info("*** EXIT ****");
 		
 		String uuid = null;

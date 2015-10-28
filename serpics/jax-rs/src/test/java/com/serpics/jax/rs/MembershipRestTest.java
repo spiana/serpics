@@ -2,6 +2,7 @@ package com.serpics.jax.rs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
@@ -16,10 +17,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.data.domain.Page;
 
 import com.serpics.core.SerpicsException;
-import com.serpics.membership.data.model.User;
 import com.serpics.membership.services.BaseService;
 
 //@ContextConfiguration({ "classpath*:META-INF/applicationContext.xml" })
@@ -60,7 +59,8 @@ public class MembershipRestTest extends Assert {
 		WebClient client = WebClient.create(WADL_ADDRESS);
 		// wait for 20 secs or so
 		for (int i = 0; i < 20; i++) {
-			Thread.currentThread().sleep(1000);
+//			Thread.currentThread().sleep(1000);
+			TimeUnit.SECONDS.sleep(1);
 			Response response = client.get();
 			if (response.getStatus() == 200) {
 				System.out.print(response.getEntity().toString());

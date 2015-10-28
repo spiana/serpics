@@ -1,8 +1,6 @@
 package com.serpics.catalog.services;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -22,7 +20,6 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.BrandRepository;
 import com.serpics.catalog.data.repositories.Category2ProductRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.catalog.data.specification.ProductSpecification;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractEntityService;
@@ -95,7 +92,7 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 		
 		list.add(media);
 		product.setMedias(list);
-		product = productRepository.update(product);
+		product = productRepository.saveAndFlush(product);
 		return product;
 	}
 	

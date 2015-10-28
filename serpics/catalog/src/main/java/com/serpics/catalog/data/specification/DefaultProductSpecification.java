@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.catalog.data.model.Catalog;
-import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.stereotype.DefaultSpec;

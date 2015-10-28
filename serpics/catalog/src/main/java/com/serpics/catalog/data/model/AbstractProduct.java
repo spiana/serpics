@@ -80,7 +80,7 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     protected Brand brand;
 
     // bi-directional many-to-one association to Productffmt
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     protected Set<Productffmt> productffmts;
 
     // bi-directional many-to-one association to Catalog
@@ -96,7 +96,7 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     Set<FeatureValues> featureValues = new HashSet<FeatureValues>(0);
 
  // bi-directional many-to-one association to CtentryRelation
-    @OneToMany(mappedBy = "childProduct", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class)
+    @OneToMany(mappedBy = "childProduct", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class,cascade = CascadeType.REMOVE)
     @OrderBy("sequence desc")
     private Set<CategoryProductRelation> categories;
 

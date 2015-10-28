@@ -50,7 +50,7 @@ public class MultilingualTest  extends AbstractTransactionalJunit4SerpicTest {
         desc.addText(l1.getLanguage(), "description");
         p.setDescription(desc);
 
-        p = geoCodeRepository.create(p);
+        p = geoCodeRepository.saveAndFlush(p);
 
         geoCodeRepository.detach(p);
 

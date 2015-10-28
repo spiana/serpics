@@ -22,7 +22,9 @@ import com.serpics.base.data.model.MultilingualString;
 @Entity
 public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
 
-    @Id
+	private static final long serialVersionUID = -1111581062897750056L;
+
+	@Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="feature_id")
     private Long id;

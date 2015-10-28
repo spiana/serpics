@@ -65,7 +65,7 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 		u.setFirstname("firstname");
 		u.setLastname("lastname");
 		u.setLogonid("testuser1");
-		userRegrepository.create(u);
+		userRegrepository.saveAndFlush(u);
 		
 		List<UsersReg> l = userRegrepository.findAll();
 		Assert.assertEquals(1,l.size());
@@ -78,7 +78,7 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 		u1.setFirstname("firstname");
 		u1.setLastname("lastname");
 		u1.setLogonid("testuser2");
-		userRegrepository.create(u1);
+		userRegrepository.saveAndFlush(u1);
 		
 		List<UsersReg> l1 = userRegrepository.findAll();
 		Assert.assertEquals(1,l1.size());
