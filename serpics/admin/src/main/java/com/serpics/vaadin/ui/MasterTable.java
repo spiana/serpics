@@ -101,8 +101,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
 
 		if (this.displayProperties != null) {
-			entityList.setVisibleColumns(displayProperties);
-
 			for (String string : displayProperties) {
 				if (string.contains(".")) {
 
@@ -118,6 +116,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				if (message != null)
 					entityList.setColumnHeader(string, message);
 			}
+			entityList.setVisibleColumns(displayProperties);
 
 		}
 

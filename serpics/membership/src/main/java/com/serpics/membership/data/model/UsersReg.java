@@ -27,7 +27,6 @@ import com.serpics.membership.UserType;
 
 @Entity
 @Table(name = "users_reg")
-
 public class UsersReg extends User implements UserDetail {
   
 

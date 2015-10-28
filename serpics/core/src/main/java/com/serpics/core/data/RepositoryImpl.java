@@ -119,6 +119,7 @@ public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaReposi
 	}
 
 	@Override
+	@Transactional
 	public Z refresh(Z entity) {
 		 return getEntityManager().merge(entity);
 	}

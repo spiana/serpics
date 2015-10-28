@@ -33,7 +33,7 @@ import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("tests-valo-facebook")
+@Theme("tests-valo-dark")
 @Component
 @SpringUI
 public class SerpicsStartApp extends UI {

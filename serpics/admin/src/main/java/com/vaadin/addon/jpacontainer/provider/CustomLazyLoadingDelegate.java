@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -92,7 +93,7 @@ private <E> Object tryGetEntityId(E entity) {
 
 private <E> String getprimaryKey( Class<?> clazz){
 	  for (Field f : clazz.getDeclaredFields()) {
-		    if ((f.isAnnotationPresent(Id.class)))
+		    if ((f.isAnnotationPresent(Id.class) || f.isAnnotationPresent( EmbeddedId.class)))
 		    	return f.getName();
 		    }
 	  
@@ -108,19 +109,20 @@ private <E> Object getEntityId(Class<?> clazz , E entity)
   throws IllegalArgumentException, IllegalAccessException, InvocationTargetException
 {
   for (Field f : clazz.getDeclaredFields()) {
-    if (!(f.isAnnotationPresent(Id.class))) continue;
-    try {
-      f.setAccessible(true);
-      Object localObject1 = f.get(entity);
-
-      return localObject1; 
-      } finally { f.setAccessible(false);
+    if ((f.isAnnotationPresent(Id.class) || f.isAnnotationPresent(EmbeddedId.class))) {
+	    try {
+	      f.setAccessible(true);
+	      Object localObject1 = f.get(entity);
+	
+	      return localObject1; 
+	      } finally { f.setAccessible(false);
+	    }
     }
 
   }
 
   for (Method m : clazz.getMethods()) {
-    if (m.isAnnotationPresent(Id.class)) {
+    if (m.isAnnotationPresent(Id.class)|| m.isAnnotationPresent(EmbeddedId.class)) {
       return m.invoke(entity, new Object[0]);
     }
   }

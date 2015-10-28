@@ -21,11 +21,12 @@ import com.serpics.core.data.jpa.AbstractEntity;
 public class MultilingualString extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 7728685826544128982L;
 
-    @javax.persistence.Id
+   
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @javax.persistence.Id
     Long Id;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "locale")
     @CollectionTable(name = "locale_string_map", joinColumns = @JoinColumn(name = "string_id"))
     private final Map<String, LocalizedString> map = new HashMap<String, LocalizedString>();

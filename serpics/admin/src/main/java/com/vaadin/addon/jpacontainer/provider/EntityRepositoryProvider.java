@@ -23,7 +23,7 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
         super(entityClass);
         LazyLoadingDelegate delegate = new CustomLazyLoadingDelegate();
 	    delegate.setEntityProvider(this);
-		setLazyLoadingDelegate(delegate);
+	    setLazyLoadingDelegate(delegate);
 		CustomQueryModifierDelegate queryModifierDelegate = new CustomQueryModifierDelegate();
 		queryModifierDelegate.setClassMetadata(entityClass);
 		setQueryModifierDelegate(queryModifierDelegate);

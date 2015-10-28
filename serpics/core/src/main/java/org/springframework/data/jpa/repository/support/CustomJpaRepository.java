@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.query.QueryUtils;
+import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -35,12 +36,14 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 	
 	private RepositoryInitializer initializer;
 	private EntityManager em;
+	private EntityInformation< T, ?> entityInformation;
 	private final InterceptorManager<T> interceptorMapping;
 	private Engine<SessionContext> engine;
 	
 	public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation,
 			EntityManager entityManager) {
 		super(entityInformation, entityManager);
+		this.entityInformation = entityInformation;
 		this.em = entityManager;
 		interceptorMapping = new InterceptorManager<T>();
 		
@@ -78,7 +81,9 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 	@Transactional
 	@Override
 	public <S extends T> S save(S entity) {
-		interceptorMapping.performBeforeSaveInterceptor(entity);
+		if (entityInformation.isNew(entity))
+			interceptorMapping.performBeforeSaveInterceptor(entity);
+		
 		entity = super.save(entity);
 		interceptorMapping.performAfterSaveInterceptor(entity);
 		return entity;

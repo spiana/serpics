@@ -20,8 +20,8 @@ public class UserRegSaveInterceptor  implements SaveInterceptor<UsersReg> {
 	@Override
 	public void beforeSave(UsersReg entity) {
 		if(entity.getUserType() != UserType.SUPERSUSER){
-			Store _s = storeRepository.findOne(ce.getCurrentContext().getStoreId());
-			entity.getStores().add(_s);
+			//Store _s = storeRepository.findOne(ce.getCurrentContext().getStoreId());
+			entity.getStores().add((Store)ce.getCurrentContext().getStoreRealm());
 		}
 		
 	}
