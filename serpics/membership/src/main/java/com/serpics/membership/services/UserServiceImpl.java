@@ -82,7 +82,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         final Store currentStore = (Store) getCurrentContext().getStoreRealm();
         final Store _s = storeRepository.findOne(currentStore.getId());
         user.getStores().add(_s);
-        return userRepository.create(user);
+        return userRepository.saveAndFlush(user);
 
     }
 
@@ -92,25 +92,25 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         user = adjustAddresses(user);
         user = adjustMemberRoles(user);
 
-        return userRepository.create(user);
+        return userRepository.saveAndFlush(user);
     }
 
     @Override
     @Transactional
     public BillingAddress updateBillingAddress(BillingAddress ba) {
-    	return billingAddressRepository.update(ba);
+    	return billingAddressRepository.saveAndFlush(ba);
     }
     
     @Override
     @Transactional
     public PrimaryAddress updatePrimaryAddress(PrimaryAddress pa) {
-    	return primaryAddressRepository.update(pa);
+    	return primaryAddressRepository.saveAndFlush(pa);
     }
     
     @Override
     @Transactional
     public PermanentAddress updatePermanentAddress(PermanentAddress pe) {
-    	return addressRepository.update(pe);
+    	return addressRepository.saveAndFlush(pe);
     }
     
     @Override
@@ -130,7 +130,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         }
         
        
-        return userRegrepository.create(reg);
+        return userRegrepository.saveAndFlush(reg);
     }
 
   
@@ -210,7 +210,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 			billingAddressRepository.delete(user.getBillingAddress());
 		}
 		user.setBillingAddress(address);
-		return billingAddressRepository.create(address);
+		return billingAddressRepository.saveAndFlush(address);
 	}
 	
 	@Override
@@ -219,7 +219,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		Assert.notNull(user);
 		Assert.notNull(address);
 		address.setMember(user);
-		addressRepository.create(address);
+		addressRepository.saveAndFlush(address);
 		user.getPermanentAddresses().add(address);
 	}
 	

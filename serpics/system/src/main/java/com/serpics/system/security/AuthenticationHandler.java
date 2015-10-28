@@ -17,7 +17,6 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.system.services.UserDetailsService;
 import com.serpics.system.web.WebCostant;
 
@@ -27,8 +26,8 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
     @Autowired
     private CommerceEngine commerceEngine;
 
-    @Autowired
-    private MembersRoleRepository membersRoleRepository;
+//    @Autowired
+//    private MembersRoleRepository membersRoleRepository;
     @Autowired
     private UserDetailsService userDetailsService;
 

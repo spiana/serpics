@@ -16,7 +16,9 @@ import com.serpics.util.gson.GsonTransient;
 @XmlRootElement(name="address")
 public class Address extends AbstractAddress {
 
-    public Address() {
+	private static final long serialVersionUID = -3506267698918264420L;
+
+	public Address() {
         super();
 
     }

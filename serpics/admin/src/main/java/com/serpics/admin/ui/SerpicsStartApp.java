@@ -25,6 +25,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("tests-valo-facebook")
 @Component
 @Scope("prototype")
+@SuppressWarnings("rawtypes")
 public class SerpicsStartApp extends UI {
     private static final long serialVersionUID = -5966946454650068735L;
 
@@ -66,7 +67,9 @@ public class SerpicsStartApp extends UI {
 
         menu.addItemClickListener(new ItemClickListener() {
 
-            @Override
+			private static final long serialVersionUID = -3499467466657765902L;
+
+			@Override
             public void itemClick(final ItemClickEvent event) {
                 final String itemid = (String) event.getItemId();
                 if (itemid == "users") {

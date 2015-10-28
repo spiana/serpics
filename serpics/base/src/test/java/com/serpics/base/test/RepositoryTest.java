@@ -22,7 +22,7 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest{
  @Test
  public void test(){
 	RepositoryInitializer r =  RepositoryInitializer.getInstance();
-	Repository rep = r.getRepositoryForEntity(Locale.class);
+	Repository<?, ?> rep = r.getRepositoryForEntity(Locale.class);
 	Assert.assertNotNull(rep);
  }
 

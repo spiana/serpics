@@ -235,7 +235,8 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         return orderitems;
     }
 
-    public void setOrderitems(final Set<? extends AbstractOrderitem> orderitems) {
+    @SuppressWarnings("unchecked")
+	public void setOrderitems(final Set<? extends AbstractOrderitem> orderitems) {
         this.orderitems = (Set<AbstractOrderitem>) orderitems;
     }
 

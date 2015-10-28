@@ -7,7 +7,6 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
 
 public interface Engine<T extends SessionContext> extends ApplicationContextAware, BeanFactoryAware  {

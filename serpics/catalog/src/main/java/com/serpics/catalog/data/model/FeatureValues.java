@@ -19,7 +19,9 @@ import com.serpics.base.data.model.MultilingualString;
 @Entity
 public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity {
 
-    @Id
+	private static final long serialVersionUID = 5102019790904200289L;
+
+	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="featurevalue_id")
     private Long id;

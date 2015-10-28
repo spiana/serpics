@@ -17,7 +17,6 @@ import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
-import com.serpics.core.session.SessionContext;
 import com.serpics.membership.MemberType;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
@@ -32,6 +31,7 @@ import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserRepository;
 import com.serpics.membership.data.repositories.UserregRepository;
 
+@SuppressWarnings("rawtypes")
 @Service("baseService")
 public class BaseServiceImpl extends AbstractService implements BaseService {
     @Autowired
@@ -77,13 +77,13 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         locale.setCountry("IT");
         locale.setlanguage("it");
         locale.setName("Italiano");
-        localeRepository.create(locale);
+        localeRepository.saveAndFlush(locale);
 
         locale = new Locale();
         locale.setCountry("US");
         locale.setlanguage("en");
         locale.setName("English");
-        localeRepository.create(locale);
+        localeRepository.saveAndFlush(locale);
 
         Store s = new Store();
         s.setName("default-store");
@@ -101,7 +101,8 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
             final List<Role> roles = roleRepository.findAll(
             		roleRepository.makeSpecification(new Role("administrator")));
             Assert.notEmpty(roles);
-            final SessionContext c = commerceEngine.connect("default-store");
+//            final SessionContext c = 
+            commerceEngine.connect("default-store");
 
             UsersReg ug = new UsersReg();
             ug.setLastname("Superuser");
@@ -147,8 +148,8 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         final Role role = new Role("employee");
         final Role role1 = new Role("administrator");
 
-        roleRepository.create(role);
-        roleRepository.create(role1);
+        roleRepository.saveAndFlush(role);
+        roleRepository.saveAndFlush(role1);
     }
 
 }

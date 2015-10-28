@@ -1,6 +1,5 @@
 package com.serpics.core.data;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +29,7 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	Map<String , Repository> entityRepositoryMapping = new HashMap<String, Repository>();
 	
 	ApplicationContext applicationContext;
+	@SuppressWarnings("unchecked")
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		CommerceEngine engine = applicationContext.getBean(CommerceEngine.class);

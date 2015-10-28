@@ -3,6 +3,7 @@ package com.serpics.commerce.data.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -81,7 +82,7 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
     protected Suborder suborder;
 
     // bi-directional many-to-one association to OrderitemsAttribute
-    @OneToMany(mappedBy = "orderitem")
+    @OneToMany(mappedBy = "orderitem", cascade = CascadeType.REMOVE)
     protected Set<OrderitemsAttribute> orderitemsAttributes;
 
     @ManyToOne

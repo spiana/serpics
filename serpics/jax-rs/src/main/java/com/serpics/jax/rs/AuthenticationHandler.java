@@ -23,6 +23,7 @@ public class AuthenticationHandler implements RequestHandler {
 	@Resource
 	BaseService baseService;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly=true)
 	public Response handleRequest(final Message message, final ClassResourceInfo resourceClass) {

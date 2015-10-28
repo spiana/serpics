@@ -171,7 +171,7 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
       Iterable<String> idAttributeNames = this.entityInformation.getIdAttributeNames();
       String existsQuery = QueryUtils.getExistsQueryString(entityName, placeholder, idAttributeNames);
 
-      TypedQuery query = this.em.createQuery(existsQuery, Long.class);
+      TypedQuery<Long> query = this.em.createQuery(existsQuery, Long.class);
 
       if (this.entityInformation.hasCompositeId()) {
         for (String idAttributeName : idAttributeNames)
@@ -195,7 +195,7 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
   {
     return getQuery(new Specification<T>() {
       public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-        Path path = root.get(CustomJpaRepository.this.entityInformation.getIdAttribute());
+        Path<?> path = root.get(CustomJpaRepository.this.entityInformation.getIdAttribute());
         return path.in(new Expression[] { cb.parameter(Iterable.class, "ids") });
       }
     }
@@ -210,7 +210,7 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
   public Page<T> findAll(Pageable pageable)
   {
     if (null == pageable) {
-      return new PageImpl(findAll());
+      return new PageImpl<T>(findAll());
     }
 
     return findAll(null, pageable);
@@ -232,8 +232,8 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
 
   public Page<T> findAll(Specification<T> spec, Pageable pageable)
   {
-    TypedQuery query = getQuery(spec, pageable);
-    return ((pageable == null) ? new PageImpl(query.getResultList()) : readPage(query, pageable, spec));
+    TypedQuery<T> query = getQuery(spec, pageable);
+    return ((pageable == null) ? new PageImpl<T>(query.getResultList()) : readPage(query, pageable, spec));
   }
 
   public List<T> findAll(Specification<T> spec, Sort sort)
@@ -287,13 +287,13 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
   @Transactional
   public <S extends T> List<S> save(Iterable<S> entities)
   {
-    List result = new ArrayList();
+    List<S> result = new ArrayList<S>();
 
     if (entities == null) {
       return result;
     }
 
-    for (Iterator i$ = entities.iterator(); i$.hasNext(); ) { T entity = (T) i$.next();
+    for (Iterator<S> i$ = entities.iterator(); i$.hasNext(); ) { S entity = (S) i$.next();
       result.add(save(entity));
     }
 
@@ -306,15 +306,16 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
     this.em.flush();
   }
 
-  private Page<T> readPage(TypedQuery<T> query, Pageable pageable, Specification<T> spec)
+  @SuppressWarnings("unchecked")
+private Page<T> readPage(TypedQuery<T> query, Pageable pageable, Specification<T> spec)
   {
     query.setFirstResult(pageable.getOffset());
     query.setMaxResults(pageable.getPageSize());
 
     Long total = QueryUtils.executeCountQuery(getCountQuery(spec));
-    List content = (total.longValue() > pageable.getOffset()) ? query.getResultList() : Collections.emptyList();
+    List<T> content = (List<T>) ((total.longValue() > pageable.getOffset()) ? query.getResultList() : Collections.emptyList());
 
-    return new PageImpl(content, pageable, total.longValue());
+    return new PageImpl<T>(content, pageable, total.longValue());
   }
 
   private TypedQuery<T> getQuery(Specification<T> spec, Pageable pageable)
@@ -323,7 +324,8 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
     return getQuery(spec, sort);
   }
 
-  private TypedQuery<T> getQuery(Specification<T> spec, Sort sort)
+  @SuppressWarnings("unchecked")
+private TypedQuery<T> getQuery(Specification<T> spec, Sort sort)
   {
     CriteriaBuilder builder = this.em.getCriteriaBuilder();
     CriteriaQuery<T> query = builder.createQuery(getDomainClass());
@@ -346,7 +348,8 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
     return applyLockMode(this.em.createQuery(query));
   }
 
-  private TypedQuery<Long> getCountQuery(Specification<T> spec)
+  @SuppressWarnings("unchecked")
+private TypedQuery<Long> getCountQuery(Specification<T> spec)
   {
 	 Specification<T> defaultSpec = initializer.getSpecificationForClass(getDomainClass()) ;
 	 
@@ -358,9 +361,9 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
 	 
 	  
     CriteriaBuilder builder = this.em.getCriteriaBuilder();
-    CriteriaQuery query = builder.createQuery(Long.class);
+    CriteriaQuery<Long> query = builder.createQuery(Long.class);
 
-    Root root = applySpecificationToCriteria(spec, query);
+    Root<T> root = applySpecificationToCriteria(spec, query);
 
     if (query.isDistinct())
       query.select(builder.countDistinct(root));
@@ -374,7 +377,7 @@ public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
   private <S> Root<T> applySpecificationToCriteria(Specification<T> spec, CriteriaQuery<S> query)
   {
     Assert.notNull(query);
-    Root root = query.from(getDomainClass());
+    Root<T> root = query.from(getDomainClass());
 
     if (spec == null) {
       return root;

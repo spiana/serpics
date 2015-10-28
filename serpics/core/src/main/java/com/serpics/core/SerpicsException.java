@@ -2,6 +2,8 @@ package com.serpics.core;
 
 public abstract class SerpicsException extends Exception {
 
+	private static final long serialVersionUID = -1075271340522172790L;
+
 	public SerpicsException() {
 		super();
 		

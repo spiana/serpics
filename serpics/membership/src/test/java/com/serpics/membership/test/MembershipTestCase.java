@@ -84,9 +84,10 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
     @Test
     @Transactional
     public void test0() throws SerpicsException{
-        final CommerceSessionContext context = ce.connect("default-store",
+//        final CommerceSessionContext context = 
+        		ce.connect("default-store",
                 "superuser", "admin".toCharArray());
-        final Page p = userService.findAll(new PageRequest(0, 10));
+        final Page<User> p = userService.findAll(new PageRequest(0, 10));
         assertEquals(0, p.getContent().size());
         final List<User> l = userService.findAll();
         assertEquals(0, l.size());
@@ -140,7 +141,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
 
         u.setEmail("aaaa");
 
-        final UsersReg u1 = userRegRepository.update(u);
+        final UsersReg u1 = userRegRepository.saveAndFlush(u);
         assertEquals("aaaa", u1.getEmail());
 
         // assertEquals(0, l1.get(0).getPermanentAddresses().size());
@@ -168,7 +169,8 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
     	CommerceSessionContext context = ce.connect("default-store",
                 "superuser", "admin".toCharArray());
     	Assert.assertNotNull(context.getUserPrincipal().getUuid());
-    	String sessionid = context.getSessionId();
+//    	String sessionid = 
+    			context.getSessionId();
     	serialize(context);	
     	CommerceSessionContext context1 = deserialize();
     	

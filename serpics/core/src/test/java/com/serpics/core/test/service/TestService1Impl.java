@@ -4,7 +4,6 @@ package com.serpics.core.test.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.core.service.AbstractService;
 import com.serpics.core.test.hook.TestHook;
 import com.serpics.stereotype.StoreService;
 

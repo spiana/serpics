@@ -10,6 +10,8 @@ import com.serpics.core.data.jpa.AbstractEntity;
 //@Entity
 public class Currencylookup extends AbstractEntity{
 
+	private static final long serialVersionUID = 5123294972931944960L;
+
 	@Id
 	CurrencyLookupPK id;
 	
