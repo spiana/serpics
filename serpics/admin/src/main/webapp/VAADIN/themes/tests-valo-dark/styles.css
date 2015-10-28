@@ -7829,9 +7829,9 @@ div.v-layout.v-horizontal.v-widget {
 	background-image: radial-gradient(  circle at 50% 50%, #222, #030303);
 	opacity: 0.68;
 	filter: alpha(opacity=68) ;
-	-webkit-animation: valo-animate-in-fade 400ms 100ms;
-	-moz-animation: valo-animate-in-fade 400ms 100ms;
-	animation: valo-animate-in-fade 400ms 100ms;
+	-webkit-animation: valo-animate-in-fade 400ms;
+	-moz-animation: valo-animate-in-fade 400ms;
+	animation: valo-animate-in-fade 400ms;
 }
 
 .v-op12 .tests-valo-dark .v-window-modalitycurtain {
