@@ -261,7 +261,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     
     //Rimuovere l'ignore dopo aver messo a posto i cascade sulle relazioni
     @Test
-    @Ignore
+    @Transactional
     public void testDeleteProduct() {
     	ProductData product = productFacade.findByName("PROD1");
     	String productUuid = product.getUuid();

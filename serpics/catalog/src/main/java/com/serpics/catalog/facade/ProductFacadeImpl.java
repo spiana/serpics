@@ -204,7 +204,10 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	public ProductData findByName(final String name) {
 		Product product = productService.findOne(ProductSpecification.findByName(name));
-		ProductData p = productConverter.convert(product);
+		ProductData p = null;
+		if(product !=null){
+			p = productConverter.convert(product);
+		}
 		return p; 
 	}
 
