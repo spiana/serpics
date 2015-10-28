@@ -3,9 +3,9 @@ package com.serpics.commerce.data.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -58,7 +58,7 @@ public class Suborder extends com.serpics.core.data.jpa.AbstractEntity implement
     private BigDecimal subtotalTax;
 
     // bi-directional many-to-one association to Orderitem
-    @OneToMany(mappedBy = "suborder")
+    @OneToMany(mappedBy = "suborder", cascade = CascadeType.REMOVE)
     private Set<AbstractOrderitem> orderitems;
 
     // bi-directional many-to-one association to Order

@@ -1,6 +1,5 @@
 package com.serpics.core.test.service;
 
-import com.serpics.core.service.AbstractService;
 import com.serpics.stereotype.StoreService;
 
 @StoreService(value="testService", stores={"store5"})

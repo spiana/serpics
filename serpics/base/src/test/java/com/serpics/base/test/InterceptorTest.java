@@ -41,7 +41,7 @@ public class InterceptorTest extends AbstractTransactionalJunit4SerpicTest{
 		Assert.assertEquals(2, l.get(Locale.class.getName()).size());
 		
 		Locale locale = new Locale();
-		locale = localeRepository.create(locale);
+		locale = localeRepository.saveAndFlush(locale);
 		Assert.assertEquals("test", locale.getName());
 		
 		List<Locale> l1 = localeRepository.findAll();

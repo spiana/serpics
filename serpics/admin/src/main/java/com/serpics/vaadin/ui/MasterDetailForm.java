@@ -45,7 +45,6 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
     }
     
     
-    @SuppressWarnings("unused")
 	private EntityItem<DETAIL> createEntityItem(JPAContainer<DETAIL> container) {
 
         EntityItem<DETAIL> entityItem = null;
@@ -63,7 +62,8 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
         return entityItem;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void save() throws CommitException {
     	if (isInitialized()){
 	    	super.save();
@@ -88,7 +88,8 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
 	    return getType().getSimpleName().toLowerCase();
 	  }
 	
-	 private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)
+	 @SuppressWarnings("unchecked")
+	private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)
 	  {
 	    Annotation annotation = getAnnotationFromPropertyGetter(annotationType, entityClass, propertyName);
 	    

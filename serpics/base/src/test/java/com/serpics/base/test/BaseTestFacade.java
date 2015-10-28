@@ -117,7 +117,6 @@ public class BaseTestFacade extends AbstractTransactionalJunit4SerpicTest{
 		
 		
 		Page<CountryData> lc = countryFacade.findAll(new PageRequest(0,10));
-		CountryData c = lc.getContent().get(0);
 		Assert.assertNotNull("Coluntry list  is null" , lc);
 		Assert.assertNotNull("not geocode set" , lc.getContent().get(0).getGeocode().getUuid());
 		

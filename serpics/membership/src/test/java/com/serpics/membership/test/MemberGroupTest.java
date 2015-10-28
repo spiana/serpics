@@ -42,7 +42,7 @@ public class MemberGroupTest extends AbstractTransactionalJunit4SerpicTest{
 		Membergroup m = new Membergroup();
 		m.setName("test");
 		m.setStore((Store) context.getStoreRealm());
-		memberGroupRepository.create(m);
+		memberGroupRepository.saveAndFlush(m);
 		
 		List<Membergroup> l= memberGroupRepository.findAll();
 		Assert.assertEquals(1, l.size());

@@ -37,7 +37,7 @@ public class EngineFactory implements ApplicationContextAware{
 				document = reader.read(l);
 				  
 			     Element root = document.getRootElement();
-			     for ( Iterator i = root.elementIterator( "module" ); i.hasNext(); ) {
+			     for ( Iterator<?> i = root.elementIterator( "module" ); i.hasNext(); ) {
 			            Element node = (Element) i.next();
 			            String module = node.getText();
 						LOG.info("adding module : {}" , module);

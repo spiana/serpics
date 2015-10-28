@@ -7,7 +7,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.cxf.interceptor.OutInterceptors;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.serpics.membership.data.model.User;

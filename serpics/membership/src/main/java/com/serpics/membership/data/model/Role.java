@@ -31,7 +31,7 @@ public class Role extends com.serpics.core.data.jpa.AbstractEntity implements Se
 	private String name;
 
 	//bi-directional many-to-one association to MembersRole
-	@OneToMany(mappedBy="role")
+	@OneToMany(mappedBy="role",cascade = CascadeType.REMOVE)
 	private Set<MembersRole> membersRoles;
 
     public Role() {

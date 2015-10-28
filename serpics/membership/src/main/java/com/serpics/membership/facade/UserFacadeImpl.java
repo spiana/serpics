@@ -244,7 +244,7 @@ public class UserFacadeImpl implements UserFacade{
 	@Override
 	@Transactional
 	public void updateDestinationAddress(AddressData a, String uuid) {
-		User _u = userService.getCurrentCustomer();
+//		User _u = userService.getCurrentCustomer();
 		PermanentAddress _address = permanentAddressService.findByUUID(uuid);
 		_address = (PermanentAddress) buildAddress(a, _address);
 		permanentAddressService.update(_address);

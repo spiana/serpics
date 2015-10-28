@@ -1,6 +1,5 @@
 package com.serpics.commerce.data.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity(name = "Order")
 @DiscriminatorValue(value = "0")
@@ -69,7 +66,8 @@ public class Order extends AbstractOrder {
     }
 
  
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Set<Orderitem> getOrderitems() {
         return (Set<Orderitem>) super.getOrderitems();
     }

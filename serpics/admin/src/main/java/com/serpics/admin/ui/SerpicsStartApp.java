@@ -35,6 +35,7 @@ import com.vaadin.ui.VerticalLayout;
 
 @Theme("tests-valo-dark")
 @Component
+@SuppressWarnings("rawtypes")
 @SpringUI
 public class SerpicsStartApp extends UI {
 

@@ -17,7 +17,10 @@ import com.serpics.base.data.model.MultilingualString;
 
 @Entity
 public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
-    @Id
+   
+	private static final long serialVersionUID = -7524207490009840876L;
+
+	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 

@@ -61,13 +61,15 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return this.applicationContext;
     }
 
-    protected T doConnection(String storeName) throws SerpicsException{
+    @SuppressWarnings("unchecked")
+	protected T doConnection(String storeName) throws SerpicsException{
     	final StoreRealm s = membershipService.fetchStoreByName(storeName);
         Assert.notNull(s);
         final SessionContext context = getSessionManager().createSessionContext(s);
     	return (T) context;
     }
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public T connect(final String storeName) throws SerpicsException {
        
     	final SessionContext context = doConnection(storeName);
@@ -79,7 +81,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return (T) context;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public T connect(final String storeName, final String loginId, final char[] password) throws SerpicsException {
     	final SessionContext context = doConnection(storeName);
         final UserDetail user = membershipService.login(loginId, password);
@@ -88,7 +91,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return (T) context;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public T connect(final String storeName, final Principal principal) throws SerpicsException {
     	final SessionContext context = doConnection(storeName);
         final UserDetail user = membershipService.connect(principal);
@@ -97,7 +101,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return (T) context;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public T connect(final SessionContext context, final String loginId, final char[] password)
             throws SerpicsException {
         context.setLastAccess(new Date());
@@ -107,7 +112,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return (T) context;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public T bind(final String sessionId) {
         final SessionContext _s = this.sessionManager.getSessionContext(sessionId);
 
