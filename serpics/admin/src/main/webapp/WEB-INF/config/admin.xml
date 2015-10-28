@@ -14,11 +14,24 @@ http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<context:annotation-config />
-	<bean class="com.serpics.admin.ui.SerpicsStartApp.MyConfiguration" />
+	<bean class="com.serpics.admin.ui.SerpicsStartApp.MyConfiguration"  scope="store"/>
 
 <context:component-scan base-package="com.serpics.admin.ui"/>
 	
 	
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+    <property name="scopes">
+        <map>
+            <entry key="commercesession">
+                <bean class="com.serpics.core.scope.CommerceSessionScope"/>
+            </entry>
+            <entry key="store">
+           <bean class="com.serpics.core.scope.StoreScope"/>
+            </entry>
+        </map>
+    </property>
+</bean>
+
 
   <bean id="commerceSessionFilter" class="com.serpics.system.web.CommerceSessionFilter"/>
   <bean id ="userDatailsService" class="com.serpics.system.services.UserDetailsServiceImpl"/>

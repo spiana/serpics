@@ -231,9 +231,13 @@ public class One2oneField<M, T> extends CustomField<T> {
 	    }
 	    catch (Exception e)
 	    {
+	    		
 	    }
 	    if ((field != null) && (field.isAnnotationPresent(annotationType))) {
 	      return field.getAnnotation(annotationType);
+	    } else{
+	    	if (entityClass.getSuperclass() != null )
+	    		return getAnnotationFromField(annotationType, entityClass.getSuperclass(), propertyName);
 	    }
 	    return null;
 	  }
@@ -259,7 +263,10 @@ public class One2oneField<M, T> extends CustomField<T> {
 	      if  (getter.isAnnotationPresent(annotationType))
 	    	  return getter.getAnnotation(annotationType);
 	      else{
-	    	  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
+	    	  if (entityClass.getSuperclass() != null )
+	    		return getAnnotationFromPropertyGetter(annotationType, entityClass.getSuperclass(), propertyName);	  
+	    	else
+	    		  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
 	      }
 	    }
 	    return null;

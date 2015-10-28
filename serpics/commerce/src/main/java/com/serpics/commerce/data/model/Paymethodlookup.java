@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.serpics.membership.data.model.Store;
 
@@ -31,11 +32,13 @@ public class Paymethodlookup extends com.serpics.core.data.jpa.AbstractEntity im
 
 	//bi-directional many-to-one association to Store
     @ManyToOne
+    @NotNull
 	@JoinColumn(name="store_id", insertable=false, updatable=false)
 	private Store store;
 
 	//bi-directional many-to-one association to Paymethod
     @ManyToOne
+    @NotNull
 	@JoinColumn(name="paymethod_id", insertable=false, updatable=false)
 	private Paymethod paymethod;
 

@@ -1,6 +1,5 @@
 package com.serpics.vaadin.ui;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,15 +14,10 @@ import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.data.util.filter.Like;
-import com.vaadin.data.util.filter.Or;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
@@ -31,14 +25,9 @@ import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.ValoTheme;
-
-import de.steinwedel.messagebox.ButtonId;
-import de.steinwedel.messagebox.Icon;
-import de.steinwedel.messagebox.MessageBox;
-import de.steinwedel.messagebox.MessageBoxListener;
 
 public abstract class MasterTable<T> extends CustomComponent implements MasterTableComponent<T> {
+
 
 	private static final long serialVersionUID = 8614651463123352933L;
 
@@ -116,12 +105,14 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 			for (String string : displayProperties) {
 				if (string.contains(".")) {
+
 					container.addNestedContainerProperty(string);
 					propertyList.addNestedProperty(string);
 				}
 				if (propertyList.getPropertyType(string).isAssignableFrom(MultilingualString.class)) {
 					entityList.setConverter(string, new MultilingualStringConvert());
 				}
+
 
 				String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + string, null);
 				if (message != null)
@@ -206,6 +197,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		final TextField serchField = (TextField) masterTableListner.get().buildFilterField();
 		final ComboBox filterType = (ComboBox) masterTableListner.get().createComboFilterType();
 		final ComboBox propertiesToFilter = (ComboBox) masterTableListner.get().buildComboByMXL(this.displayProperties);
+		
 		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
 		masterTableListner.get().searchButtonClickListener(container, _search , propertiesToFilter, serchField , filterType);
 		masterTableListner.get().resetButtonClickListener(container, _reset);

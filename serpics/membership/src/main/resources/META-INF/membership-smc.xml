@@ -2,6 +2,38 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
+<entity name="user">
+		<table action="append">
+			<display>
+				<property name="firstname" />
+				<property name="lastname" />
+				<property name="created" />
+			</display>
+			<search>
+				<property name="firstname" />
+				<property name="lastname" />
+				<property name="created" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="firstname" />
+				<property name="lastname" />
+				<property name="phone" />
+				<property name="email" />
+				<property name="primaryAddress" />
+				<property name="permanentAddresses"/>
+				<property name="created" />
+			</display>
+			<readonly>
+				<property name="created" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="lastname" />
+		</select>
+	</entity>
+	
 	<entity name="usersreg">
 		<table action="append">
 			<display>

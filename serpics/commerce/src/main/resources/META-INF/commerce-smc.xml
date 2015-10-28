@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="" xsi:schemaLocation="xmc.xsd">
+
+	<entity name="order">
+		<table action="append">
+			<display>
+				<property name="customer.firstname" />
+				<property name="status" />
+				<property name="billingAddress" />
+				<property name="shippingAddress" />
+				<property name="created" />
+			</display>
+			<search>
+				<property name="status" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="customer" />
+				<property name="status" />
+				<property name="billingAddress" />
+				<property name="shippingAddress" />
+				<property name="created" />
+				<property name="orderitems"/>
+				<property name="totalProduct"/>
+				<property name="totalService"/>
+				<property name="totalShipping"/>
+				<property name="totalTax"/>
+				<property name="orderAmount"/>
+			</display>
+			<readonly>
+				<property name="billingAddress" />
+				<property name="shippingAddress" />
+				<property name="created" />
+				<property name="orderitems"/>
+				<property name="totalProduct"/>
+				<property name="totalService"/>
+				<property name="totalShipping"/>
+				<property name="totalTax"/>
+				<property name="orderAmount"/>
+			</readonly>
+		</editor>
+		
+	</entity>
+	
+		<entity name="abstractOrderitem">
+		<table action="append">
+			<display>
+				<property name="sku" />
+				<property name="skuDescription" />
+				<property name="skuNetPrice" />
+				<property name="skuPrice" />
+				<property name="discountAmount" />
+			</display>
+			<search>
+				<property name="status" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="sku" />
+				<property name="skuDescription" />
+				<property name="skuNetPrice" />
+				<property name="skuPrice" />
+				<property name="discountAmount" />
+			</display>
+			<readonly>
+				<property name="sku" />
+				<property name="skuDescription" />
+				<property name="skuNetPrice" />
+				<property name="skuPrice" />
+				<property name="discountAmount" />
+			</readonly>
+		</editor>
+		
+	</entity>
+
+</smc-definition>

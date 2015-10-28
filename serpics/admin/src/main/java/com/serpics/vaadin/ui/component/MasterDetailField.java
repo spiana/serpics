@@ -194,8 +194,8 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	      EntityItem item = this.container.getItem(itemId);
 	     // item.getItemProperty(this.backReferencePropertyId).setValue(null);
 	      this.container.removeItem(itemId);
-	      
 	       collection.remove(item.getEntity());
+	      this.container.commit(); 
 	    }
 	  }
 
@@ -216,9 +216,10 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	      BeanItem beanItem = new BeanItem(newInstance);
 	      beanItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity);
 	      EntityItem<X> item = this.container.createEntityItem(newInstance);
-		      
+		 
 		  EntityFormWindow<X> editorWindow = new EntityFormWindow<X>();
-	      editorWindow.setNewItem(true);
+		  editorWindow.setContainer(this.container);
+		  editorWindow.setNewItem(true);
 	      editorWindow.setReadOnly(false);
 	      editorWindow.addTab(buildMainComponent(), "main");
 	      editorWindow.setEntityItem(item);
@@ -239,6 +240,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 			 EntityFormWindow<X> editorWindow = new EntityFormWindow<X>();
 		      editorWindow.setNewItem(false);
 		      editorWindow.setReadOnly(false);
+		      editorWindow.setContainer(this.container);
 		      editorWindow.addTab(buildMainComponent(), "main");
 		      editorWindow.setEntityItem(this.container.getItem(item));
 		      UI.getCurrent().addWindow(editorWindow);
@@ -318,9 +320,13 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    }
 	    catch (Exception e)
 	    {
+	    		
 	    }
 	    if ((field != null) && (field.isAnnotationPresent(annotationType))) {
 	      return field.getAnnotation(annotationType);
+	    } else{
+	    	if (entityClass.getSuperclass() != null )
+	    		return getAnnotationFromField(annotationType, entityClass.getSuperclass(), propertyName);
 	    }
 	    return null;
 	  }
@@ -346,7 +352,10 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	      if  (getter.isAnnotationPresent(annotationType))
 	    	  return getter.getAnnotation(annotationType);
 	      else{
-	    	  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
+	    	  if (entityClass.getSuperclass() != null )
+	    		return getAnnotationFromPropertyGetter(annotationType, entityClass.getSuperclass(), propertyName);	  
+	    	else
+	    		  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
 	      }
 	    }
 	    return null;

@@ -3,32 +3,21 @@
 
 <!-- da definire come fare il bind con i bean -->
 	<navigator name="mainNav">
-		<navigator-item 	allow-child="true"  	bean=""					name="admin" 		parent="" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="users" 		parent="admin" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="currency" 	parent="admin" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="userReg" 		parent="admin" />		
-		<navigator-item 	allow-child="false" 	bean="" 				name="relation" 	parent="admin" />		
-		<navigator-item 	allow-child="false" 	bean="" 				name="country" 		parent="admin" />		
-		<navigator-item 	allow-child="false" 	bean="" 				name="geocode" 		parent="admin" />		
-		<navigator-item 	allow-child="true"  	bean="" 				name="catalog" 		parent="" />	
-		<navigator-item 	allow-child="false" 	bean="" 				name="category"		parent="catalog" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="product" 		parent="catalog" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="featureModel" parent="catalog" />
-		<navigator-item 	allow-child="true"  	bean="" 				name="order" 		parent="" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="orderEntry" 	parent="order" />	
-		<navigator-item 	allow-child="false" 	bean="" 				name="dataEntry"	parent="order" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="orderStatus" 	parent="order" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="missing" 		parent="order" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="cancelled" 	parent="order" />
-		<navigator-item 	allow-child="true"  	bean="" 				name="consignement" parent="" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="entry" 		parent="consignement" />	
-		<navigator-item 	allow-child="false" 	bean="" 				name="dateCreation" parent="consignement" />		
-		<navigator-item 	allow-child="true"  	bean="" 				name="wharehouse" 	parent="" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="stockId" 		parent="wharehouse" />	
-		<navigator-item 	allow-child="false" 	bean="" 				name="stockLevel" 	parent="wharehouse" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="inStock" 		parent="wharehouse" />
-		<navigator-item 	allow-child="false" 	bean="" 				name="outStock" 	parent="wharehouse" />
-		<navigator-item 	allow-child="false" 	bean=""					name="lowStock" 	parent="wharehouse" />						
-	</navigator>
+		<navigator-item	allow-child="true"  name="admin" parent="" />
+		<navigator-item	allow-child="false" bean="userTableEditor" 	name="users" parent="admin" />
+		<navigator-item	allow-child="false" bean="membergroupTableEditor" name="group" 		parent="admin" />
+		<navigator-item	allow-child="false" bean="currencyTable" name="currency" parent="admin" />
+		<navigator-item	allow-child="false" bean="countryTable"	name="country" parent="admin" />		
+		<navigator-item	allow-child="false" bean="geocodeTable"	name="geocode" parent="admin" />
+		<navigator-item	allow-child="true" 	name="catalog" 	parent="" />	
+		<navigator-item	allow-child="false" bean="categoryTable" name="category" parent="catalog" />
+		<navigator-item allow-child="false" bean="productTable" name="product" parent="catalog" />
+		<navigator-item allow-child="false" bean="featureModelTable" name="featureModel" parent="catalog" />
+		<navigator-item allow-child="true" 	name="orders" parent="" />
+		<navigator-item	allow-child="false" bean="orderMasterTable"	name="order" parent="orders" />
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethod" name="payMethod" parent="orders" />
 	
+		
+	</navigator>
+
 </navigator-definition>
