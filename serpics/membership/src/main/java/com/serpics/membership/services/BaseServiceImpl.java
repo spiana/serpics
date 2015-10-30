@@ -89,6 +89,13 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         s.setName("default-store");
         s.setCurrency(currency);
         s = m.createStore(s);
+        
+        
+        Store s1 = new Store();
+        s1.setName("test-store");
+        s1.setCurrency(currency);
+        s1 = m.createStore(s1);
+        
         final User anonymous = new User();
         anonymous.setMemberType(MemberType.USER);
         anonymous.setLastname("Anonymous");

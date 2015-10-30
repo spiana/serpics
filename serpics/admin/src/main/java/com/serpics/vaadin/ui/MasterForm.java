@@ -113,11 +113,14 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 
 	private void addField(final String[] propertyNames) {
 		for (final String pid : propertyNames) {
-			if (propertyList.getClassMetadata().getProperty(pid) == null)
+			if (pid.contains("."))
+				propertyList.addNestedProperty(pid);
+			
+			if (propertyList.getPropertyKind(pid) == null)
 				LOG.error("properity {} not found !", pid);
 
-			else if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null)
-				if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(EmbeddedId.class) == null)
+			else if (propertyList.getClassMetadata().getProperty(pid) == null || propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null)
+				if (propertyList.getClassMetadata().getProperty(pid) == null || propertyList.getClassMetadata().getProperty(pid).getAnnotation(EmbeddedId.class) == null)
 					if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)
 							|| propertyList.getPropertyKind(pid).equals(PropertyKind.ONE_TO_MANY)
 							|| propertyList.getPropertyKind(pid).equals(PropertyKind.MANY_TO_ONE)

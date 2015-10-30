@@ -36,10 +36,8 @@ public class ProductTable extends MasterTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"description","buyable","prices" });
-              //  setHideProperties(new String[] {  "field2", "productType", "ctentryType" , "ctentryAttributes" , "productffmts","medias" , "ctentryid" });
+                setDisplayProperties(new String[]{"code" ,"description","buyable" });
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
-
             }
         };
     }

@@ -29,8 +29,6 @@ public class CommerceSessionFilter implements Filter {
     @Autowired 
     BaseService baseService;
 
-
-
     @Override
     public void doFilter(final ServletRequest req, final ServletResponse resp,
             final FilterChain chain) throws IOException, ServletException {
@@ -47,12 +45,22 @@ public class CommerceSessionFilter implements Filter {
         final String id = (String) httpReq.getSession().getAttribute(
                 WebCostant.SERPICS_SESSION);
 
-        String realm = (String) httpReq.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
-        if (realm == null)
-            realm = "default-store";
-
+        
+        
         CommerceSessionContext context = null;
+        
         if (id == null) {
+        	String realm = null;
+            String pathInfo = ((HttpServletRequest)req).getRequestURI();
+        	logger.info("current URL {} !", pathInfo);
+        	String[] _temp = pathInfo.split(";");
+        	if(_temp.length==2)
+        		realm = _temp[1];
+            if(realm == null)
+    	         realm = (String) httpReq.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
+            
+            if (realm == null)
+                realm = "default-store";
 
             try {
                 context = ce.connect(realm);
@@ -60,6 +68,7 @@ public class CommerceSessionFilter implements Filter {
             } catch (final SerpicsException e) {
                 throw new ServletException(e);
             }
+            httpReq.getSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, realm);
             httpReq.getSession().setAttribute(WebCostant.SERPICS_SESSION, context.getSessionId());
         } else {
 

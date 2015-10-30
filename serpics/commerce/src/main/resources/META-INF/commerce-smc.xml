@@ -75,5 +75,54 @@
 		</editor>
 		
 	</entity>
+	
+	<entity name="paymethod">
+		<table action="append">
+			<display>
+				<property name="name" />
+				<property name="description" />
+				<property name="created" />
+			</display>
+			<search>
+				<property name="name" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="name" />
+				<property name="description" />
+				<property name="paymethlookups"/>
+			</display>
+			
+		</editor>
+		<select>
+			<property name="name" />
+		</select>
+	</entity>
+	
+	<entity name="paymethodlookup">
+		<table action="append">
+			<display>
+				<property name="paymethod.name" />
+				<property name="active" />
+				<property name="created" />
+			</display>
+			<search>
+				<property name="paymethod.name" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="paymethod.name" />
+				<property name="active" />
+			</display>
+			<readonly>
+				<property name="paymethod.name" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="paymethod.name" />
+		</select>
+	</entity>
 
 </smc-definition>

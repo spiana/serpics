@@ -2,6 +2,12 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
+<entity name="store">
+		<select>
+			<property name="name" />
+		</select>
+	</entity>
+
 <entity name="user">
 		<table action="append">
 			<display>

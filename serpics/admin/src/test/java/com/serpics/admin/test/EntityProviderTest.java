@@ -77,6 +77,40 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 	}
 	
 	
+	@Test
+	@Transactional
+	public void EntityProviderTest1 () throws SerpicsException{
+		if (!baseService.isInitialized())
+			baseService.initIstance();
+		
+		engine.connect("default-store");
+		
+		UsersReg u = new UsersReg();
+		u.setLogonid("test12");
+		JPAContainer c = ServiceContainerFactory.make(UsersReg.class);
+		int i = c.getItemIds().size();
+		Assert.assertEquals(0, i);
+		
+		userService.registerUser(u, new PrimaryAddress());
+		
+		engine.connect("test-store");
+		UsersReg u1 = new UsersReg();
+		u1.setLogonid("test13");
+		userService.registerUser(u1, new PrimaryAddress());
+		
+		UsersReg u2 = new UsersReg();
+		u2.setLogonid("test131");
+		userService.registerUser(u2, new PrimaryAddress());
+		
+		c.refresh();
+		i = c.getItemIds().size();
+		Assert.assertEquals(2, i);
+		
+		engine.connect("default-store");
+		c.refresh();
+		i = c.getItemIds().size();
+		Assert.assertEquals(1, i);
+	}
 	
 	
 }

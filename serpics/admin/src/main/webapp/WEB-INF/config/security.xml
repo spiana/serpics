@@ -24,11 +24,14 @@
 	<http auto-config="true" >
 	 	<csrf disabled="true"/>
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
-		<form-login authentication-success-handler-ref="successAuthenticationHandler"  />
+	
+		<form-login authentication-success-handler-ref="successAuthenticationHandler" />
+			
 	</http>
  
 	<authentication-manager alias="authenticationManager" >
 	  <authentication-provider user-service-ref="userDatailsService"  />
 	</authentication-manager>
+
  
 </beans:beans>

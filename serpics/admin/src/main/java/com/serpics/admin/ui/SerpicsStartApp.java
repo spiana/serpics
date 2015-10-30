@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 
@@ -35,10 +36,11 @@ import com.vaadin.ui.VerticalLayout;
 
 @Theme("tests-valo-dark")
 @Component
+@Scope("prototype")
 @SpringUI
 public class SerpicsStartApp extends UI {
 
-	private static final long serialVersionUID = -5966946454650068735L;
+	private static final long serialVersionUID = 690159590436610258L;
 
 	Logger LOG = LoggerFactory.getLogger(SerpicsStartApp.class);
 
@@ -53,7 +55,7 @@ public class SerpicsStartApp extends UI {
 	private final Map<String, EntityComponent> activeComponent = new HashMap<String, EntityComponent>(
 			0);
 
-	@WebServlet(value = "/*", asyncSupported = true)
+	@WebServlet(value = {"/*"}, asyncSupported = true)
 	public static class Servlet extends SpringVaadinServlet {
 	}
 
@@ -74,13 +76,23 @@ public class SerpicsStartApp extends UI {
 		layout.setSizeFull();
 		setContent(layout);
 
+		final HorizontalLayout topbar = new HorizontalLayout();
+		topbar.setWidth("100%");
+		topbar.setHeight("30px");
+		
 		final Label title = new Label("Serpics Admin Console");
-		title.setWidth("100%");
-		title.setHeight("30px");
+		title.setWidth("80%");
+		title.setHeight("100%");
 		title.setStyleName("Apptitle");
-		layout.addComponent(title);
-
-
+		topbar.addComponent(title);
+		
+		final Label selectedStore = new Label(commerceEngine.getCurrentContext().getStoreRealm().getName());
+		selectedStore.setWidth("20%");
+		selectedStore.setHeight("100%");
+		topbar.addComponent(selectedStore);
+		
+		layout.addComponent(topbar);
+		
 		final HorizontalLayout content = new HorizontalLayout();
 		content.setSizeFull();
 

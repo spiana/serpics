@@ -3,6 +3,7 @@
  */
 package com.serpics.vaadin.ui;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -27,9 +28,11 @@ import de.steinwedel.messagebox.MessageBoxListener;
  * @author christian
  *
  */
-@SuppressWarnings("serial")
-public class MasterTableListner {
 
+public class MasterTableListner implements Serializable{
+	
+	private static final long serialVersionUID = -2736583181645447496L;
+	
 	private static MasterTableListner instance;
 
 	public static MasterTableListner get() {

@@ -117,7 +117,8 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		
 		 for (String pid : displayProperties) {
 			if (pid.contains(".")){
-				container.addNestedContainerProperty(pid);
+				propertyList.addNestedProperty(pid);
+	    		container.addNestedContainerProperty(pid);
 			}	
 		} 
 		
@@ -201,10 +202,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 
 	  private EntityComponent<X> buildMainComponent(){
 		  MasterForm<X> form = new MasterForm<X>(this.container.getEntityClass()) {
-			  @Override
-			public void init() {
-				 setReadOnlyProperties(new String[] { "updated", "created" });
-	     	}
+		
 		};
 		return form;
 	  }
