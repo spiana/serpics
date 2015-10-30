@@ -26,7 +26,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     Logger logger = LoggerFactory.getLogger(AbstractEngine.class);
 
-    private static final ThreadLocal<SessionContext> threadLocal = new ThreadLocal<SessionContext>();
+    private transient static final ThreadLocal<SessionContext> threadLocal = new ThreadLocal<SessionContext>();
 
     private Membership membershipService;
     
@@ -41,7 +41,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         this.sessionManager = sessionManager;
     }
 
-    private BeanFactory beanFactory;
+    private transient BeanFactory beanFactory;
 
     @Override
     public void setBeanFactory(final BeanFactory arg0) throws BeansException {
@@ -49,7 +49,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     }
 
-    private ApplicationContext applicationContext;
+    private transient ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(final ApplicationContext arg0) throws BeansException {
@@ -63,7 +63,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     protected T doConnection(String storeName) throws SerpicsException{
     	final StoreRealm s = membershipService.fetchStoreByName(storeName);
-        Assert.notNull(s);
+        Assert.notNull(s , "invalid store ! connection rejected !");
         final SessionContext context = getSessionManager().createSessionContext(s);
     	return (T) context;
     }
