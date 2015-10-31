@@ -15,48 +15,73 @@ public class InterceptorManager<Z> {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Z performBeforeSaveInterceptor(final Z entity) {
 		checkInitialize();
+		
 		final InterceptorEntityMapping beforeCreate = interceptorMappingInitializer
 				.getCreateInterceptor();
-
-		final List<InterceptorMapping> interceptorMapping = beforeCreate.get(entity
-				.getClass().getName());
-		if (interceptorMapping != null) {
-			for (InterceptorMapping beforeSaveInterceptor : interceptorMapping) {
-				if(LOG.isDebugEnabled())
-					LOG.debug("perform before create interceptor {} for entity {}" ,
-							beforeSaveInterceptor.getInterceptor().getClass().getName(),
-							entity.getClass().getName());
-				((SaveInterceptor) beforeSaveInterceptor.getInterceptor()).beforeSave(entity);
-			}
-		}else{
-			if(LOG.isDebugEnabled())
-				LOG.debug("interceptorMapping for entity {} non found in context !" ,entity.getClass().getName()); 
-		}
+		
+		executeBeforeSave(entity, entity.getClass(), beforeCreate);
+		
 		return entity;
 
 	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	public Z performAfterSaveInterceptor(final Z entity) {
 		checkInitialize();
 		final InterceptorEntityMapping afterCreate = interceptorMappingInitializer
 				.getCreateInterceptor();
 		
-		final List<InterceptorMapping>  interceptorMapping = afterCreate.get(entity
-				.getClass().getName());
+		executeAfterSave(entity, entity.getClass(), afterCreate);
+	
+		return entity;
+	}
+
+
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected void executeBeforeSave(final Z entity , Class<?> clazz  ,InterceptorEntityMapping mapping ){
+		
+		if (clazz.getSuperclass() != null && !clazz.getSuperclass().isInstance(Object.class))
+			executeBeforeSave(entity, clazz.getSuperclass(), mapping);
+		
+		final List<InterceptorMapping> interceptorMapping = mapping.get(clazz.getName());
+		
 		if (interceptorMapping != null) {
 			for (InterceptorMapping beforeSaveInterceptor : interceptorMapping) {
 				if(LOG.isDebugEnabled())
-					LOG.debug("perform after create interceptor {} for entity {}" ,
+					LOG.debug("perform before create interceptor {} for entity {}" ,
 							beforeSaveInterceptor.getInterceptor().getClass().getName(),
-							entity.getClass().getName());
+							clazz.getName());
+				
+				((SaveInterceptor) beforeSaveInterceptor.getInterceptor()).beforeSave(entity);
+			}
+		}else{
+			if(LOG.isDebugEnabled())
+				LOG.debug("interceptorMapping for entity {} non found in context !" ,clazz.getName()); 
+		}
+		
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected void executeAfterSave(final Z entity , Class<?> clazz  ,InterceptorEntityMapping mapping ){
+		
+		if (clazz.getSuperclass() != null && !clazz.getSuperclass().isInstance(Object.class))
+			executeAfterSave(entity, clazz.getSuperclass(), mapping);
+		
+		final List<InterceptorMapping> interceptorMapping = mapping.get(clazz.getName());
+		
+		if (interceptorMapping != null) {
+			for (InterceptorMapping beforeSaveInterceptor : interceptorMapping) {
+				if(LOG.isDebugEnabled())
+					LOG.debug("perform before create interceptor {} for entity {}" ,
+							beforeSaveInterceptor.getInterceptor().getClass().getName(),
+							clazz.getName());
 				((SaveInterceptor) beforeSaveInterceptor.getInterceptor()).afterSave(entity);
 			}
 		}else{
 			if(LOG.isDebugEnabled())
-				LOG.debug("interceptorMapping for entity {} non found in context !" ,entity.getClass().getName()); 
+				LOG.debug("interceptorMapping for entity {} non found in context !" ,clazz.getName()); 
 		}
-		return entity;
+		
 	}
 
 	private void checkInitialize() {
@@ -66,4 +91,5 @@ public class InterceptorManager<Z> {
 							InterceptorMappingInitializer.class);
 		}
 	}
+	
 }

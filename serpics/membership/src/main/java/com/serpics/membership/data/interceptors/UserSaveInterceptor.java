@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
+import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.StoreRepository;
@@ -18,8 +19,10 @@ public class UserSaveInterceptor  implements SaveInterceptor<User> {
 	
 	@Override
 	public void beforeSave(User entity) {
-		Store _s = storeRepository.findOne(ce.getCurrentContext().getStoreId());
-		entity.getStores().add(_s);
+		if(entity.getUserType() != UserType.SUPERSUSER && entity.getUserType() != UserType.ANONYMOUS){
+			//Store _s = storeRepository.findOne(ce.getCurrentContext().getStoreId());
+			entity.getStores().add((Store)ce.getCurrentContext().getStoreRealm());
+		}
 		
 	}
 
