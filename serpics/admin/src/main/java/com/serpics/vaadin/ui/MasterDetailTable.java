@@ -40,7 +40,8 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
     }
    
    
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public EntityItem<T> createEntityItem() {
      try{
     	  T newInstance = container.getEntityClass().newInstance();
@@ -63,7 +64,8 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
 	    return getType().getSimpleName().toLowerCase();
 	  }
 	
-	 private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)
+	 @SuppressWarnings("unchecked")
+	private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)
 	  {
 	    Annotation annotation = getAnnotationFromPropertyGetter(annotationType, entityClass, propertyName);
 	    

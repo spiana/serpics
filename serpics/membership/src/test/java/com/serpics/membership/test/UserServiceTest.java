@@ -92,7 +92,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
         final Role r = new Role();
         r.setName("user");
         r.setDescription("User");
-        roleRepository.create(r);
+        roleRepository.saveAndFlush(r);
 
         u = userService.create(u);
         final java.util.List<User> l0 = userService.findAll();
@@ -130,7 +130,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
         // try add role
         final Role r1 = new Role();
         r1.setName("employer");
-        roleRepository.create(r1);
+        roleRepository.saveAndFlush(r1);
 
         final MembersRole m1 = new MembersRole();
         m1.setRole(r1);
@@ -146,7 +146,7 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 
         //try nother role
         Role r2 = new Role("boss");
-        r2 =roleRepository.create(r2);
+        r2 =roleRepository.saveAndFlush(r2);
 
         u = userService.addRole(r2, u);
         final java.util.List<User> l2 = userService.findByexample(new User(
@@ -186,14 +186,14 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
 		Geocode g = new Geocode();
 		g.setDescription(new MultilingualString("it","geo ita"));
 		g.setCode("it");
-		g = geocodeRepository.create(g);
+		g = geocodeRepository.saveAndFlush(g);
 		
 		Country c = new Country();
 		c.setDescription(new MultilingualString("it","ITALIA"));
 		c.setIso2Code("it");
 		c.setIso3Code("ita");
 		c.setGeocode(g);
-		c = coutnryRepository.create(c);
+		c = coutnryRepository.saveAndFlush(c);
 		
 		PrimaryAddress pa = new PrimaryAddress();
 		
@@ -229,11 +229,12 @@ public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     	log.info("elenco utenti numero " + l.size());
     	
 		int i = 0;
-		String guuid = null;
-    	for (Iterator iterator = l.iterator(); iterator.hasNext();) {
-			User user = (User) iterator.next();
+//		String guuid = null;
+    	for (Iterator<User> iterator = l.iterator(); iterator.hasNext();) {
+//			User user = 
+					iterator.next();
 			
-			i++;
+			i=i+1;
 		}
 
     	

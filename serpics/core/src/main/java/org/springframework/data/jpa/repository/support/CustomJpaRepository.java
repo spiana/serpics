@@ -93,6 +93,7 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<T> query = builder.createQuery(getDomainClass());
 
+
 		Specification<T> defaultSpec = initializer
 				.getSpecificationForClass(getDomainClass());
 

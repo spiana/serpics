@@ -15,6 +15,7 @@ import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderRepository;
 import com.serpics.core.service.AbstractService;
 
+@SuppressWarnings("rawtypes")
 @Service("orderService")
 @Scope("store")
 public class OrderServiceImpl extends AbstractService implements OrderService {
@@ -56,6 +57,6 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 		payment.setOrder(order);
 		order.getOrderpayments().add(payment);
 		
-		return orderRepository.update(order);
+		return orderRepository.saveAndFlush(order);
 	}
 }

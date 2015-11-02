@@ -21,6 +21,7 @@ public class AuthenticationHandler implements RequestHandler {
 	@Resource
 	CommerceEngine commerceEngine;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly=true)
 	public Response handleRequest(final Message message, final ClassResourceInfo resourceClass) {

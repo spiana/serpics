@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.core.Engine;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.Store;
 

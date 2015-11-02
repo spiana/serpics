@@ -190,13 +190,10 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 		Assert.assertNotNull(cart);
 		Assert.assertEquals(3, cart.getOrderItems().size());
 		
-		/* UPDATE QUANTITY */
-		String lastUuid = null;
 		for (CartItemData cartItemData : cart.getOrderItems()) {
 			log.info("RIGA CARRELLO " + cartItemData.getSku() +  "  + " +  cartItemData.getQuantity() +  " - " + cartItemData.getSkuPrice());
 			if( cartItemData.getSku().equals("PROD1")) cartItemData.setQuantity(3);
 			if(cartItemData.getSku().equals("PROD2")) cartItemData.setQuantity(0);
-			lastUuid = cartItemData.getUuid();
 		}
 		cart = cartFacade.update(cart);
 		
@@ -206,7 +203,6 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 	}
 	
 	private void setAddress() {
-		CartData cart = cartFacade.getCurrentCart();
 		AddressData billingAddress = new AddressData();
 		billingAddress.setAddress1("via di prova");
 		billingAddress.setStreetNumber("12");

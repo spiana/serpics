@@ -49,7 +49,7 @@ public class UserStoreRelation extends MemberRelation {
     }
 
     public void setUser(User user) {
-        user = user;
+        this.user = user;
     }
 
 

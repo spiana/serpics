@@ -14,6 +14,8 @@ import javax.persistence.TemporalType;
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
+	private static final long serialVersionUID = 2919265416018156932L;
+
 	@Column(name = "updated" , nullable =false)
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date updated;

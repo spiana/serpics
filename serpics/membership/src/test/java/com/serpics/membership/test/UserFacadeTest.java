@@ -31,8 +31,6 @@ import com.serpics.base.facade.data.RegionData;
 import com.serpics.base.services.CountryService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
-import com.serpics.membership.data.model.BillingAddress;
-import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.repositories.UserRepository;
 import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.facade.data.AddressData;
@@ -202,7 +200,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		
 		Assert.assertNull("Billing Address is 2  null" , userFacade.getCurrentuser().getBillingAddress());
 		
-		List<BillingAddress> l2 = billingAddressService.findAll();
+//		List<BillingAddress> l2 = billingAddressService.findAll();
 	}
 	
 	
@@ -238,7 +236,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		
 		Assert.assertNotNull("Destination Address is 3  null" , userFacade.getCurrentuser().getDestinationAddress());
 		
-		List<PermanentAddress> l2 = permanentAddressService.findAll();
+//		List<PermanentAddress> l2 = permanentAddressService.findAll();
 	}
 	private GeocodeData createGeoCode() {
 		GeocodeData g = new GeocodeData();

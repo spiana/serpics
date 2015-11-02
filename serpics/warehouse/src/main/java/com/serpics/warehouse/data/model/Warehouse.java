@@ -3,6 +3,7 @@ package com.serpics.warehouse.data.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 	private double precedence;
 
 	// bi-directional many-to-one association to Inventory
-	@OneToMany(mappedBy = "warehouse")
+	@OneToMany(mappedBy = "warehouse",cascade = CascadeType.REMOVE)
 	private Set<Inventory> inventories;
 
 	public Warehouse() {

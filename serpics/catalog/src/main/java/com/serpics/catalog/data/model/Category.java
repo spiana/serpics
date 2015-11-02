@@ -3,6 +3,7 @@ package com.serpics.catalog.data.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -27,12 +28,12 @@ public class Category extends Ctentry implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // bi-directional many-to-one association to CtentryRelation
-    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, targetEntity = CategoryRelation.class)
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, targetEntity = CategoryRelation.class, cascade = CascadeType.REMOVE)
     @OrderBy("sequence desc")
     private Set<CategoryRelation> childCategories;
 
     // bi-directional many-to-one association to CtentryRelation
-    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, targetEntity = CategoryProductRelation.class)
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, targetEntity = CategoryProductRelation.class,cascade = CascadeType.REMOVE)
     @OrderBy("sequence desc")
     private Set<CategoryProductRelation> childProducts;
 
