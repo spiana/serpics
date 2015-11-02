@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>
+	<module>core-serpics.xml</module>
+	<module>base-serpics.xml</module>
+	<module>membership-serpics.xml</module>
+	<module>catalog-serpics.xml</module>
+	<module>warehouse-serpics.xml</module>
+	<module>commerce-serpics.xml</module>
+	<module>system-serpics.xml</module>
+	<module>jax-rs-serpics.xml</module>
+</modules>
