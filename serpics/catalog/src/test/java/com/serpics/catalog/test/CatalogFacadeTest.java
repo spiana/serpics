@@ -81,7 +81,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	Assert.assertEquals("Url of category UOMO",listOfCategoriesForTest.get("UOMO").getUrl(),cat.getUrl());
     	Assert.assertEquals("UUID of category UOMO",listOfCategoriesForTest.get("UOMO").getUuid(),cat.getUuid());
     	
-    	List<CategoryData> childU = categoryFacade.listChildCategories(cat.getUuid());
+    	List<CategoryData> childU = categoryFacade.listChildCategories(cat.getId());
     	Assert.assertNotNull("SUB UOMO NULL", childU);
     	Assert.assertEquals("Number of childs", 1, childU.size());
     	
@@ -97,11 +97,11 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     @Transactional
     public void testProductByCategory(){
     	CategoryData c = categoryFacade.findCategoryByCode("BLUES");
-    	Page<ProductData> list = productFacade.listProductByCategory(c.getUuid(), new PageRequest(0, 10));
+    	Page<ProductData> list = productFacade.listProductByCategory(c.getId(), new PageRequest(0, 10));
     	
     	Assert.assertEquals(2, list.getNumberOfElements());
     	
-    	list = productFacade.listProductByCategory(c.getUuid(), new PageRequest(0, 1));
+    	list = productFacade.listProductByCategory(c.getId(), new PageRequest(0, 1));
     	Assert.assertEquals(1, list.getNumberOfElements());
     }
     
@@ -116,7 +116,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	Assert.assertEquals("Number of products", 2, p.getTotalElements());
     	
     	CategoryData category = categoryFacade.findCategoryByCode("BLUES");
-    	Page<ProductData> lp = productFacade.listProductByCategory(category.getUuid(), new PageRequest(0, 10));
+    	Page<ProductData> lp = productFacade.listProductByCategory(category.getId(), new PageRequest(0, 10));
     	Assert.assertNotNull("list product is null", lp);
     	Assert.assertEquals("Number of products under category BLUES",2, lp.getTotalElements());
     	
@@ -146,7 +146,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	catA.setCode("ABB");
     	catA.setDescription("ABBIGLIAMNTO");
     	catA.setUrl("http://prova cateogrty3");
-    	catA = categoryFacade.create(catA,catU.getUuid());
+    	catA = categoryFacade.create(catA,catU.getId());
     	
     	listOfCategoriesForTest.put("ABB",catA);
     	
@@ -156,7 +156,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
      	catB.setUrl("http://prova cateogrty5");
      	catB.setMetaDescription("meta bo");
      	catB.setMetaKey("bo");
-     	catB = categoryFacade.create(catB, catA.getUuid());
+     	catB = categoryFacade.create(catB, catA.getId());
      	
      	listOfCategoriesForTest.put("BOTTOM",catB);
      	
@@ -172,7 +172,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	catAD.setCode("ABBD");
     	catAD.setDescription("ABBIGLIAMNTO");
     	catAD = categoryFacade.create(catAD);
-    	categoryFacade.addCategoryParent( catAD.getUuid(), catD.getUuid());
+    	categoryFacade.addCategoryParent( catAD.getId(), catD.getId());
     	
     	listOfCategoriesForTest.put("ABBD",catAD);
     	
@@ -180,7 +180,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	catBL.setCode("BLUES");
     	catBL.setDescription("BLUES");
     	catBL.setUrl("http://prova cateogrty4");
-    	categoryFacade.create(catBL, catAD.getUuid());
+    	categoryFacade.create(catBL, catAD.getId());
     	
     	listOfCategoriesForTest.put("BLUES",catBL);
 
@@ -211,38 +211,38 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	entry.setWeightMeas("KG");
     	entry.setBrand(b);
     	entry  = productFacade.create(entry);
-    	productFacade.addEntryCategoryParent( entry.getUuid(), c.getUuid());
+    	productFacade.addEntryCategoryParent( entry.getId(), c.getId());
     	
     	PriceData price = new PriceData();
     	price.setCurrentPrice(10.00);
     	price.setPrecedence(1);
-    	productFacade.addPrice(entry.getUuid(), price);
+    	productFacade.addPrice(entry.getId(), price);
     	
     	MediaData media = new MediaData();
     	media.setSrc("prova.jpg");
     	media.setName("imgthmb");
     	media.setSequence(1);
-    	productFacade.addMedia(entry.getUuid(),media);
+    	productFacade.addMedia(entry.getId(),media);
     	
     	entry = new ProductData();
     	entry.setCode("PROD2");
     	entry.setDescription("PRODOTTO DI TEST NUMERO 2");
     	entry.setBuyable(1);
     	entry.setPublished(1); 
-    	entry = productFacade.create(entry,c.getUuid());
+    	entry = productFacade.create(entry,c.getId());
     	
-    	productFacade.addEntryCategoryParent( entry.getUuid(), c2.getUuid());
+    	productFacade.addEntryCategoryParent( entry.getId(), c2.getId());
     	
     	 price = new PriceData();
      	price.setCurrentPrice(20.00);
      	price.setPrecedence(1);
-     	productFacade.addPrice(entry.getUuid(), price);
+     	productFacade.addPrice(entry.getId(), price);
      	
      	MediaData media1 = new MediaData();
     	media1.setSrc("prova.jpg");
     	media1.setName("imgthmb");
     	media1.setSequence(1);
-     	productFacade.addMedia(entry.getUuid(),media1);
+     	productFacade.addMedia(entry.getId(),media1);
     }
     
     @Test
@@ -261,7 +261,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     @Transactional
     public void testDeleteProduct() {
     	ProductData product = productFacade.findByName("PROD1");
-    	String productUuid = product.getUuid();
+    	Long productUuid = product.getId();
     	productFacade.deleteProduct(productUuid);
     	product = productFacade.findByName("PROD1");
     	Assert.assertNull(product);

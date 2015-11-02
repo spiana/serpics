@@ -14,20 +14,19 @@ public interface ProductFacade {
 
 	
 	public Page<ProductData> listProduct(Pageable page);
-	public Page<ProductData> listProductByCategory(String cUuid, Pageable page);
+	public Page<ProductData> listProductByCategory(Long cId, Pageable page);
 	
 	public ProductData create(ProductData product);
-	public ProductData create(ProductData product, String categoryUid);
+	public ProductData create(ProductData product, Long categoryId);
 	public ProductData updateProduct(ProductData product);
-	public void deleteProduct(String  uuid);
+	public void deleteProduct(Long  id);
 	
-	public void addEntryCategoryParent(String childUuid, String parentUiid);
-	public void addPrice(String productUuid, PriceData price);
+	public void addEntryCategoryParent(Long childId, Long parentId);
+	public void addPrice(Long productId, PriceData price);
 	public  List<CategoryData>  getParentCategory(ProductData product);
 	public ProductData findByName(String name);
 	
 	
-	public void addMedia(String productUuid, MediaData media);
-	
+	public void addMedia(Long productId, MediaData media);
 	
 }

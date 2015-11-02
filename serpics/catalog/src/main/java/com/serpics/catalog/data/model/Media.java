@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.core.data.jpa.AbstractEntity;
 
 
 /**
@@ -23,10 +24,11 @@ import com.serpics.base.data.model.MultilingualString;
  */
 @Entity
 @Table(name="media")
-public class Media implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Media extends AbstractEntity {
 
-    @Id
+	private static final long serialVersionUID = -952890230499530957L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="media_id")
     private Long id;
@@ -42,8 +44,6 @@ public class Media implements Serializable {
     private double sequence;
 
     private String src;
-
-    private Timestamp updated;
 
     //bi-directional many-to-one association to Ctentry
     @ManyToOne
@@ -103,14 +103,6 @@ public class Media implements Serializable {
 
     public void setSrc(final String src) {
         this.src = src;
-    }
-
-    public Timestamp getUpdated() {
-        return this.updated;
-    }
-
-    public void setUpdated(final Timestamp updated) {
-        this.updated = updated;
     }
 
     public Ctentry getCtentry() {

@@ -12,7 +12,9 @@ public class BrandPopulator implements Populator<Brand, BrandData> {
 			target.setLogo(source.getLogoSrc());
 		target.setName(source.getName());
 		target.setId(source.getId());
-		
+		target.setUuid(source.getUuid());
+		target.setCreated(source.getCreated());
+		target.setUpdated(source.getUpdated());
 		
 	}
 

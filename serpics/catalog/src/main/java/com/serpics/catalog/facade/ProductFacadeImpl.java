@@ -72,9 +72,9 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	
 	@Transactional
-	public void addCategoryParent(String parentUui, String childUuid) {
-		Category parent = categoryService.findByUUID(parentUui);
-		Category child = categoryService.findByUUID(childUuid);
+	public void addCategoryParent(Long parentId, Long childId) {
+		Category parent = categoryService.findOne(parentId);
+		Category child = categoryService.findOne(childId);
 		
 		Assert.notNull(parent,"parent not found");
 		Assert.notNull(child,"child not found");
@@ -93,8 +93,8 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	@Override
 	@Transactional
-	public ProductData create(ProductData product, String parentUuid) {
-		Category parent = categoryService.findByUUID(parentUuid);
+	public ProductData create(ProductData product, Long parentId) {
+		Category parent = categoryService.findOne(parentId);
 		Product entity = buildProduct(product, new Product());
 		entity = productService.create(entity, parent);
 		product = productConverter.convert(entity);
@@ -104,7 +104,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override 
 	@Transactional
 	public ProductData updateProduct(ProductData product) {
-		Product entity = productService.findByUUID(product.getUuid());
+		Product entity = productService.findOne(product.getId());
 		entity = buildProduct(product, entity);
 		entity =productService.update(entity);
 		product = productConverter.convert(entity);
@@ -113,50 +113,23 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	@Override 
 	@Transactional
-	public void deleteProduct(String uuid) {
-		Product entity = productService.findByUUID(uuid);
-		productService.delete(entity);
-	}
-	
-	
-	private Product buildProduct(ProductData source, Product destination) {
-		Brand b = null;
-		if(source.getBrand() != null)
-			b = brandService.findOne(source.getBrand().getId());
-		String locale = "it";
-		//if(engine.getCurrentContext() != null) locale = engine.getCurrentContext().getLocale().getLanguage();
-		final MultilingualString description = new MultilingualString(locale, source.getDescription());
-		destination.setCode(source.getCode());
-		destination.setDescription(description);
-		destination.setUrl(source.getUrl());
-
-		destination.setBuyable(source.getBuyable());
-		//entity.setDownlodable(product.getDowloadable());
-		destination.setManufacturerSku(source.getManufacturSku());
-		destination.setPublished(source.getPublished());
-		destination.setUnitMeas(source.getUnitMeas());
-		destination.setWeight(source.getWeight());
-		destination.setWeightMeas(source.getWeightMeas());
-		//entity.setPrices(p);
-		destination.setBrand(b);
-		destination.setMetaDescription(source.getMetaDescription());
-		destination.setMetaKeyword(source.getMetaKey());
-		return destination;
+	public void deleteProduct(Long id) {
+		productService.delete(id);
 	}
 	
 	@Transactional
-	public void addEntryCategoryParent(String ctentryUuid, String categoryUuid) {
-		Assert.notNull(ctentryUuid,"Entry is null");
-		Assert.notNull(categoryUuid,"Category is null");
-		Product product = productService.findByUUID(ctentryUuid);
-		Category category = categoryService.findByUUID(categoryUuid);
+	public void addEntryCategoryParent(Long ctentryId, Long categoryId) {
+		Assert.notNull(ctentryId,"Entry is null");
+		Assert.notNull(categoryId,"Category is null");
+		Product product = productService.findOne(ctentryId);
+		Category category = categoryService.findOne(categoryId);
 		
 		productService.addParentCategory(product, category);
 	}
 	
 	@Transactional
-	public void  addPrice(String  entryId, PriceData priceData) {
-			AbstractProduct product = productService.findByUUID(entryId);
+	public void  addPrice(Long  entryId, PriceData priceData) {
+			AbstractProduct product = productService.findOne(entryId);
 			Price price = new Price();
 			price.setCurrentPrice(priceData.getCurrentPrice());
 			price.setMinQty(new Double(priceData.getMinQty()).doubleValue());
@@ -168,7 +141,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	
 	public List<CategoryData> getParentCategory(ProductData productData) {
-		Product product = productService.findByUUID(productData.getUuid());
+		Product product = productService.findOne(productData.getId());
 		List<Category> list = categoryService.getCategoriesByProduct(product);
 		List<CategoryData> categories = new ArrayList<CategoryData>();
 		for (Category category : list) {
@@ -190,14 +163,22 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override
-	public Page<ProductData> listProductByCategory(final String cUuid,Pageable page) {
-		Category category = categoryService.findByUUID(cUuid);
-		Page<Product> products = productService.findProductByCategory(category,page);
+	public Page<ProductData> listProductByCategory(final Long categoryId,Pageable page) {
+		Category category = categoryService.findOne(categoryId);
 		List<ProductData> l = new ArrayList<ProductData>();
-		for (Product product : products.getContent()) {
-			l.add(productConverter.convert(product));
+		long totalElements = 0 ;
+		if(category!=null){
+			Page<Product> products = productService.findProductByCategory(category,page);
+			
+			totalElements = products.getTotalElements();
+			
+			for (Product product : products.getContent()) {
+				l.add(productConverter.convert(product));
+			}
 		}
-		Page<ProductData> list = new PageImpl<ProductData>(l, page, products.getTotalElements());
+		
+		Page<ProductData> list = new PageImpl<ProductData>(l, page, totalElements);
+		
 		return list; 
 	}
 	
@@ -213,8 +194,8 @@ public class ProductFacadeImpl implements ProductFacade {
 
 	@Override
 	@Transactional
-	public void addMedia(String productUuid, MediaData mediaData) {
-		Product product = productService.findByUUID(productUuid);
+	public void addMedia(Long productId, MediaData mediaData) {
+		Product product = productService.findOne(productId);
 		Media media = new Media();
 		media.setCtentry(product);
 		media.setName(mediaData.getName());
@@ -223,5 +204,36 @@ public class ProductFacadeImpl implements ProductFacade {
 		product = productService.addMedia(product, media);
 	}
 	
+	/**
+	 * Convert ProductData into Product entity for saving
+	 * @param source
+	 * @param destination
+	 * @return
+	 */
+	protected Product buildProduct(ProductData source, Product destination) {
+		Brand b = null;
+		if(source.getBrand() != null)
+			b = brandService.findOne(source.getBrand().getId());
+		
+//		String locale = "it";
+		String locale = engine.getCurrentContext().getLocale().getLanguage();
+		final MultilingualString description = new MultilingualString(locale, source.getDescription());
+		destination.setCode(source.getCode());
+		destination.setDescription(description);
+		destination.setUrl(source.getUrl());
+
+		destination.setBuyable(source.getBuyable());
+		//entity.setDownlodable(product.getDowloadable());
+		destination.setManufacturerSku(source.getManufacturSku());
+		destination.setPublished(source.getPublished());
+		destination.setUnitMeas(source.getUnitMeas());
+		destination.setWeight(source.getWeight());
+		destination.setWeightMeas(source.getWeightMeas());
+		//entity.setPrices(p);
+		destination.setBrand(b);
+		destination.setMetaDescription(source.getMetaDescription());
+		destination.setMetaKeyword(source.getMetaKey());
+		return destination;
+	}
 	
 }

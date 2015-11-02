@@ -43,8 +43,8 @@ public class PriceFacadeImpl implements PriceFacade {
 		return price;
 	}*/
 	
-	public PriceData findPriceByProduct(String prouctUuid) throws PriceNotFoundException {
-		AbstractProduct product = (AbstractProduct) productService.findByUUID(prouctUuid);
+	public PriceData findPriceByProduct(Long prouctId) throws PriceNotFoundException {
+		AbstractProduct product = (AbstractProduct) productService.findOne(prouctId);
 		Price _p = priceService.findProductPrice(product);
 		PriceData price = priceConverter.convert(_p);
 		return price;

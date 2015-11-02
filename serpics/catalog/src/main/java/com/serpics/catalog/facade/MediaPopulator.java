@@ -12,6 +12,11 @@ public class MediaPopulator implements Populator<Media, MediaData> {
 			target.setSrc(source.getSrc());
 		target.setName(source.getName());
 		
+		target.setId(source.getId());
+		target.setUuid(source.getUuid());
+		target.setCreated(source.getCreated());
+		target.setUpdated(source.getUpdated());
+		
 		target.setSequence((int)source.getSequence());
 		target.setDescription(source.getDescription().getText("it"));
 		target.setContentType(source.getContentType());

@@ -1,6 +1,8 @@
 package com.serpics.catalog.facade.data;
 
-public class MediaData {
+import com.serpics.core.facade.AbstractData;
+
+public class MediaData extends AbstractData {
 	
 	protected String contentType;
 	protected short mediaType;

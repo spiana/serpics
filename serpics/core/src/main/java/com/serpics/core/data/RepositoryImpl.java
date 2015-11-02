@@ -156,4 +156,22 @@ public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaReposi
         else
             return null;
 	}
+	
+//	@Override
+//	public Z findById(final Long id) {
+//		Assert.notNull(id);
+//		List<Z> entities = findAll(new Specification<Z>() {
+//			@Override
+//			public Predicate toPredicate(Root<Z> root,
+//					CriteriaQuery<?> cq, CriteriaBuilder cb) {
+//				return cb.equal(root.get("id"), id) ;
+//			}
+//			
+//		}) ;
+//		Assert.state(entities.size() == 1, String.format("found more than object for ID %l" , id));
+//    	if (!entities.isEmpty())
+//            return entities.get(0);
+//        else
+//            return null;
+//	}
 }

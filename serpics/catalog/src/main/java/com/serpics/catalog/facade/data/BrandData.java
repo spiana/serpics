@@ -1,7 +1,8 @@
 package com.serpics.catalog.facade.data;
 
-public class BrandData {
-	protected long id;
+import com.serpics.core.facade.AbstractData;
+
+public class BrandData extends AbstractData{
 	
 	protected String logo;
 	protected String name;
@@ -18,10 +19,4 @@ public class BrandData {
 		this.name = name;
 	}
 	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
 }

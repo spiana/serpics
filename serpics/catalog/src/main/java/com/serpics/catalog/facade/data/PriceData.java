@@ -2,7 +2,9 @@ package com.serpics.catalog.facade.data;
 
 import java.util.Date;
 
-public class PriceData {
+import com.serpics.core.facade.AbstractData;
+
+public class PriceData extends AbstractData{
 	protected Double productCost;
 	//protected CurrencyData currency;
 	protected Double currentPrice;
