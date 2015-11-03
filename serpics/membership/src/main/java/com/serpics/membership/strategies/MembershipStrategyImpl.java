@@ -24,9 +24,31 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
     @Resource
     CommerceEngine commerceEngine;
     
+    @Override
+    public UsersReg loadUserByUserName(final String userName) throws SerpicsException{
+    	 UsersReg ur = userRegRepository.findBylogonid(userName);
+    	 
+    	// if not superuser test store
+         if (ur != null && !ur.getUserType().equals(UserType.SUPERSUSER)) {
+        	 boolean found = false;
+        	 for (Store store : ur.getStores()) {
+				if (store.equals((Store)commerceEngine.getCurrentContext().getStoreRealm() )){
+					found = true ;
+					break;
+				}
+        	 }
+			if (!found) {
+                 throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
+                         ur.getLogonid(), commerceEngine.getCurrentContext().getRealm()));
+             }
+			
+             
+         }
+    	return ur;
+    }
     
     @Override
-    public UserDetail login(final Store store, final String username, final char[] password) throws SerpicsException {
+    public UserDetail login( final String username, final char[] password) throws SerpicsException {
         UsersReg ur = userRegRepository.findBylogonid(username);
         
         if (ur != null) {
@@ -39,10 +61,17 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
 
             // if not superuser test store
             if (!ur.getUserType().equals(UserType.SUPERSUSER)) {
-                if (!ur.getStores().contains((Store) commerceEngine.getCurrentContext().getStoreRealm())) {
-                    throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
-                            ur.getLogonid(), commerceEngine.getCurrentContext().getRealm()));
-                }
+            	 boolean found = false;
+            	 for (Store store : ur.getStores()) {
+    				if (store.equals((Store)commerceEngine.getCurrentContext().getStoreRealm() )){
+    					found = true ;
+    					break;
+    				}
+            	 }
+    			if (!found) {
+                     throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
+                             ur.getLogonid(), commerceEngine.getCurrentContext().getRealm()));
+                 }
             }
         } else {
             throw new MembershipException("no user found for loginid [" + username + "] !");
@@ -70,4 +99,5 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
         return userRegRepository.save(ur);
     }
 
+	
 }

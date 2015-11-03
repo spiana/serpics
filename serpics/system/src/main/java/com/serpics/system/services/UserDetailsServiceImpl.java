@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.MembersRole;
@@ -45,17 +46,13 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
     @Transactional(readOnly=true)
     public UserDetails loadUserByUsername(final String userName) throws UsernameNotFoundException {
       try{
-        final UsersReg ur = userRegRepository.findBylogonid(userName);
-        if (ur == null) {
-            throw new UsernameNotFoundException("username :" + userName + " not found !");
-        }
-        return buildUser(ur);
-  
-
-      }catch(Throwable e){
-    	  e.printStackTrace();
+    	 UsersReg ur= membershipService.loadUserByUserName(userName); 
+    	 return buildUser(ur);
+        }catch(SerpicsException e){
+        	e.printStackTrace();
+    	 throw new UsernameNotFoundException(userName);
       }
-      return null;
+         
     }    
 
     private UserDetails buildUser(final UsersReg user) {

@@ -37,7 +37,7 @@ public class MembershipServiceImpl extends AbstractCommerceService implements Me
     private UserregRepository userRegRepository;
 
     @Resource
-    private MembershipStrategy membershipHook;
+    private MembershipStrategy membershipStrategy;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -75,7 +75,7 @@ public class MembershipServiceImpl extends AbstractCommerceService implements Me
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public UserDetail login(final String username, final char[] password) throws SerpicsException {
-        return membershipHook.login((Store) getCurrentContext().getStoreRealm(), username, password);
+        return membershipStrategy.login(username, password);
     }
 
     @Override
@@ -90,6 +90,12 @@ public class MembershipServiceImpl extends AbstractCommerceService implements Me
     public UserDetail createAnonymous() {
         return userService.findAnonymous();
     }
+
+
+	@Override
+	public UsersReg loadUserByUserName(String userName) throws SerpicsException {
+		return membershipStrategy.loadUserByUserName(userName);
+	}
 
 
 	
