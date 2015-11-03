@@ -16,11 +16,10 @@ import com.serpics.core.facade.Populator;
 
 
 @SuppressWarnings("rawtypes")
-public  class AbstractOrderPopulator implements Populator<AbstractOrder,  AbstractOrdersData>{
+public  class AbstractOrderPopulator {
 	private AbstractPopulatingConverter<AbstractOrderitem, AbstractOrderItemData> abstractOrderItemConverter;
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public void populate(AbstractOrder source, AbstractOrdersData target) {
 		target.setBillingAddress(source.getBillingAddress());
 		target.setId(source.getId());

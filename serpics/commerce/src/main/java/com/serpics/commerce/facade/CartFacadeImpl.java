@@ -4,6 +4,8 @@ import java.util.Hashtable;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -31,6 +33,9 @@ import com.serpics.warehouse.InventoryNotAvailableException;
 @StoreFacade("cartFacade")
 @Transactional(readOnly=true)
 public class CartFacadeImpl implements CartFacade {
+	
+	private Logger LOG = LoggerFactory.getLogger(CartFacadeImpl.class);
+			
 	@Autowired
 	UserFacade usersFacade;
 	
@@ -112,9 +117,8 @@ public class CartFacadeImpl implements CartFacade {
 	
 	@Override
 	@Transactional
-	public CartData addAddress(AddressData shippingAddress,
-			AddressData billingAddress) {
-		
+	public CartData addBillingAddress(AddressData billingAddress){
+		CartData cartdata = null;
 		User user = userService.getCurrentCustomer();
 		usersFacade.addBillingAddress(billingAddress);
 	
@@ -124,12 +128,40 @@ public class CartFacadeImpl implements CartFacade {
 		
 		// cartService.setDestinationAddress(shippingAddress);
 		try {
-			cartService.prepareCart();
+			
+			Cart cart = cartService.prepareCart();
+			cartdata = cartConverter.convert(cart);
+			
 		} catch (InventoryNotAvailableException | ProductNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Error to add Biling Address into cart", e);
 		}
-		return null;
+		
+		return cartdata;
+	}
+	@Override
+	@Transactional
+	public CartData addShippingAddress(AddressData shippingAddress){
+		CartData cartdata = null;
+		usersFacade.addDestinationAddress(shippingAddress);
+		 
+	try {
+			
+			Cart cart = cartService.prepareCart();
+			cartdata = cartConverter.convert(cart);
+			
+		} catch (InventoryNotAvailableException | ProductNotFoundException e) {
+			LOG.error("Error to add Biling Address into cart", e);
+		}
+		
+		return cartdata;
+	}
+	
+	@Override
+	@Transactional
+	public CartData addAddress(AddressData shippingAddress,
+			AddressData billingAddress) {
+		addBillingAddress(billingAddress);
+		return addShippingAddress(shippingAddress);
 	}
 	
 	

@@ -8,4 +8,5 @@ public interface OrderService {
 
 	public Order createOrder(Cart cart);
 	public Order addPayment( Order order,Orderpayment payment );
+	public Order getOrder(Long id);
 }
