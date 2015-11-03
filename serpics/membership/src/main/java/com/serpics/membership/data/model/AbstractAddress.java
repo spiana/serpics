@@ -351,5 +351,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     public void setFax(final String fax) {
         this.fax = fax;
     }
-
+    
+    public abstract void setMember(Member member);
+    public abstract Member getMember();
 }

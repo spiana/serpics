@@ -19,12 +19,20 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
    
   <bean name="memberService" class="com.serpics.membership.services.MembershipServiceImpl" scope="store" /> 
     
-  <!--  Interceptor  definition  -->   
+  <!--  Interceptor  definition  --> 
+  <bean name="addressInterceptor" class="com.serpics.membership.data.interceptors.AbstractAddressSaveInterceptor" />   
   <bean name="memberroleBeforeCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberRoleSaveInterceptor" />
   <bean name="membegroupCreateInterceptor" class="com.serpics.membership.data.interceptors.MembergroupSaveInterceptor"/>
   <bean name="userCreateInterceptor" class="com.serpics.membership.data.interceptors.UserSaveInterceptor"/>
   <bean name="memberGrouprelCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberGroupRelSaveInterceptor" />
   
+  
+  <bean name="addressMapping" class="com.serpics.core.data.InterceptorMapping" >
+	  <property name="targetEntity" value="com.serpics.membership.data.model.AbstractAddress" />
+	  <property name="order" value="100"/>
+	  <property name="interceptor" ref="addressInterceptor" />
+ </bean> 
+ 
   <bean name="memberRoleMapping" class="com.serpics.core.data.InterceptorMapping" >
 	  <property name="targetEntity" value="com.serpics.membership.data.model.MembersRole" />
 	  <property name="order" value="100"/>

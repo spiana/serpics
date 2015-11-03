@@ -175,6 +175,7 @@ public class UserFacadeImpl implements UserFacade{
 			userService.update((User) _ur);
 			
 	}
+	
 	private AbstractAddress buildAddress(AddressData source ,  AbstractAddress destination){
 		destination.setFirstname(source.getFirstname());
 		destination.setLastname(source.getLastname());
