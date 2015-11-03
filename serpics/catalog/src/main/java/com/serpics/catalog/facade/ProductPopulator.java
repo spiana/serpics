@@ -32,6 +32,13 @@ public class ProductPopulator implements Populator<AbstractProduct, ProductData>
 	PriceService priceService;
 	@Override
 	public void populate(AbstractProduct source, ProductData target) {
+		
+		target.setCode(source.getCode());
+		target.setUuid(source.getUuid());
+		target.setId(source.getId());
+		target.setCreated(source.getCreated());
+		target.setUpdated(source.getUpdated());
+		
 		target.setBuyable(source.getBuyable());
 		//target.setDowloadable(source.getDownlodable());
 		target.setManufacturSku(source.getManufacturerSku());
@@ -57,8 +64,6 @@ public class ProductPopulator implements Populator<AbstractProduct, ProductData>
 		if(source.getBrand() != null)
 			target.setBrand(brandConverter.convert(source.getBrand()));
 		
-		target.setCode(source.getCode());
-		target.setUuid(source.getUuid());
 		target.setUrl(source.getUrl());
 		if(source.getDescription() != null)
 			target.setDescription(source.getDescription().getText("it"));

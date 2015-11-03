@@ -12,10 +12,10 @@ public interface CategoryFacade {
 	
 	public Page<CategoryData> listCategory(Pageable page);
 	public List<CategoryData> listTopCategory();
-	public List<CategoryData> listChildCategories(String uuid);
+	public List<CategoryData> listChildCategories(Long id);
 	public CategoryData create(CategoryData category);
-	public CategoryData create(CategoryData category, String parentUid);
-	public void addCategoryParent(String childUuid, String parentUuid);
+	public CategoryData create(CategoryData category, Long parentId);
+	public void addCategoryParent(Long childId, Long parentId);
 	
 	
 }

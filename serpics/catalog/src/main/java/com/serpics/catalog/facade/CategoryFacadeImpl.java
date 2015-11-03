@@ -41,8 +41,6 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Autowired
 	ProductService productService;
 	
-	
-	
 	@Autowired
 	BrandService brandService;
 	
@@ -54,10 +52,6 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	
 	@Resource(name="categoryConverter")
 	AbstractPopulatingConverter<Category, CategoryData> categoryConverter;
-	
-	
-	
-	
 	
 	@Autowired
 	Engine<CommerceSessionContext> engine;
@@ -84,9 +78,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		return list;
 	}
 	@Override
-	public List<CategoryData> listChildCategories(String uuid) {
+	public List<CategoryData> listChildCategories(Long id) {
 		List<CategoryData> list = new ArrayList<CategoryData>();
-		Category parent = categoryService.findByUUID(uuid);
+		Category parent = categoryService.findOne(id);
 		List<Category> categories = categoryService.getChildCategories(parent);
 		for (Category category : categories) {
 			list.add(categoryConverter.convert(category));
@@ -123,24 +117,24 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	}
 	
 	@Override
-	public CategoryData create(CategoryData category, String parentUuid) {
-		Category parent = categoryService.findByUUID(parentUuid);
+	public CategoryData create(CategoryData category, Long parentId) {
+		Category parent = categoryService.findOne(parentId);
 		Category entity = buildCategory(category, new Category());
 		entity = categoryService.create(entity, parent);
 		category = categoryConverter.convert(entity);
 		return category;
 	} 
 	
-	private Category buildCategory(CategoryData category, Category entity){
+	protected Category buildCategory(CategoryData category, Category entity){
 		entity.setCode(category.getCode());
 		entity.setUrl(category.getUrl());
 		return entity;
 	}
 	
 	
-	public void addCategoryParent(String childUuid, String parentUui) {
-		Category parent = categoryService.findByUUID(parentUui);
-		Category child = categoryService.findByUUID(childUuid);
+	public void addCategoryParent(Long childId, Long parentId) {
+		Category parent = categoryService.findOne(parentId);
+		Category child = categoryService.findOne(childId);
 		
 		Assert.notNull(parent , "parent not found");
 		Assert.notNull(child , "child not found");

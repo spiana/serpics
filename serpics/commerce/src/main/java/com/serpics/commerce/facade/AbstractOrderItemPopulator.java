@@ -3,9 +3,8 @@ package com.serpics.commerce.facade;
 
 import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.facade.data.AbstractOrderItemData;
-import com.serpics.core.facade.Populator;
 
-public   class AbstractOrderItemPopulator implements Populator< AbstractOrderitem, AbstractOrderItemData>{
+public class AbstractOrderItemPopulator{
 
 	
 	

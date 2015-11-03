@@ -5,6 +5,6 @@ import com.serpics.catalog.facade.data.PriceData;
 
 public interface PriceFacade {
 	//public PriceData addPrice(PriceData price, String prouctUiid);
-	public PriceData findPriceByProduct(String productUiid) throws PriceNotFoundException;
+	public PriceData findPriceByProduct(Long productId) throws PriceNotFoundException;
 	
 }

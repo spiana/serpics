@@ -59,4 +59,13 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 		
 		return orderRepository.saveAndFlush(order);
 	}
+
+	@Override
+	public Order getOrder(Long id) {
+		Assert.notNull(id,"id order must not be null");
+		
+		Order order =orderRepository.findOne(id);
+		
+		return order;
+	}
 }

@@ -90,7 +90,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	</bean>
 	
 	<alias name="defaultCategoryPopulator" alias="categoryPopulator"/>
-    <bean name="defaultCategoryPopulator" class="com.serpics.catalog.facade.CategoryPopulator" />
+    <bean name="defaultCategoryPopulator" class="com.serpics.catalog.facade.CategoryPopulator" >
+    	<property name="engine" ref="engine" />
+    </bean>
       
 
     <alias name="defaultCategoryConverter" alias="categoryConverter"/>

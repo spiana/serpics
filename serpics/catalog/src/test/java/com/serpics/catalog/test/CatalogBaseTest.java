@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -30,12 +31,16 @@ public abstract class CatalogBaseTest extends AbstractTransactionalJunit4SerpicT
     
     CommerceSessionContext context ;
     
+    @Autowired
+    LocaleRepository localeRepository;
+    
     @Before
     public void beforeTest() throws SerpicsException {
     	if (!baseService.isInitialized()){
     		baseService.initIstance();
     	}
     	context = commerceEngine.connect("default-store", "superuser", "admin".toCharArray());
+    	context.setLocale(localeRepository.findByLanguage("en"));
 		catalogService.initialize();
     }
 

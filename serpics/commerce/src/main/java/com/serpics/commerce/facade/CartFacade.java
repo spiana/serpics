@@ -15,4 +15,7 @@ public interface CartFacade {
 	public CartItemModification cartItemDelete(Long uuid);
 	
 	public CartData addAddress(AddressData shippingAddress, AddressData buildingAddress);
+	
+	public CartData addBillingAddress(AddressData billingAddress);
+	public CartData addShippingAddress(AddressData shippingAddress);
 }

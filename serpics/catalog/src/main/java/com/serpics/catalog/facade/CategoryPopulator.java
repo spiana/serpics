@@ -2,11 +2,15 @@ package com.serpics.catalog.facade;
 
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.facade.data.CategoryData;
+import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.Engine;
 import com.serpics.core.facade.Populator;
 
 
 public class CategoryPopulator implements Populator<Category, CategoryData>    {
  
+	Engine<CommerceSessionContext> engine;
+	
 	@Override
 	public void populate(Category source, CategoryData target)  {
 		target.setUuid(source.getUuid());
@@ -21,9 +25,18 @@ public class CategoryPopulator implements Populator<Category, CategoryData>    {
 		
 		target.setUrl(source.getUrl());
 		target.setCatalogId(source.getCatalog().getCode());
+		String locale = engine.getCurrentContext().getLocale().getLanguage();
 		
 		if(source.getDescription() != null)
-			target.setDescription(source.getDescription().getText("it"));
+			target.setDescription(source.getDescription().getText(locale));
+	}
+
+	public Engine<CommerceSessionContext> getEngine() {
+		return engine;
+	}
+
+	public void setEngine(Engine<CommerceSessionContext> engine) {
+		this.engine = engine;
 	}
 
 }

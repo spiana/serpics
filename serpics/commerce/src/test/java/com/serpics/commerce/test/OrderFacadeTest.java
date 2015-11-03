@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
@@ -58,12 +59,15 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 	 
 	CommerceSessionContext context;
 
+	@Autowired
+	LocaleRepository localeRepository;
 	 
 	 @Before
 	public void beforeTest() throws SerpicsException {
 		 if (!baseService.isInitialized())
 			 baseService.initIstance();
 	    context = commerceEngine.connect("default-store", "superuser", "admin".toCharArray());
+	    context.setLocale(localeRepository.findByLanguage("en"));
 	    catalogService.initialize();
 	}
 	    
@@ -104,13 +108,13 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	price.setCurrentPrice(10.00);
     	price.setProductCost(5.00);
     	price.setPrecedence(1);
-    	productFacade.addPrice(entry.getUuid(), price);
+    	productFacade.addPrice(entry.getId(), price);
     	
     	MediaData media = new MediaData();
     	media.setSrc("prova.jpg");
     	media.setName("imgthmb");
     	media.setSequence(1);
-    	productFacade.addMedia(entry.getUuid(),media);
+    	productFacade.addMedia(entry.getId(),media);
     	
     	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode());
     	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
@@ -136,13 +140,13 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	price.setCurrentPrice(10.00);
     	price.setPrecedence(1);
     	price.setProductCost(5.00);
-    	productFacade.addPrice(entry.getUuid(), price);
+    	productFacade.addPrice(entry.getId(), price);
     	
     	MediaData media = new MediaData();
     	media.setSrc("prova2.jpg");
     	media.setName("imgthmb2");
     	media.setSequence(1);
-    	productFacade.addMedia(entry.getUuid(),media);
+    	productFacade.addMedia(entry.getId(),media);
     	
     	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode(), 2);
     	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
@@ -168,13 +172,13 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	price.setCurrentPrice(10.00);
     	price.setProductCost(5.00);
     	price.setPrecedence(1);
-    	productFacade.addPrice(entry.getUuid(), price);
+    	productFacade.addPrice(entry.getId(), price);
     	
     	MediaData media = new MediaData();
     	media.setSrc("prova3.jpg");
     	media.setName("imgthmb3");
     	media.setSequence(1);
-    	productFacade.addMedia(entry.getUuid(),media);
+    	productFacade.addMedia(entry.getId(),media);
     	
     	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode());
     	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());

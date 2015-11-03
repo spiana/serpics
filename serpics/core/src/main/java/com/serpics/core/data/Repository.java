@@ -47,5 +47,7 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	public EntityManager getEntityManager();
 	
 	public T findByUUID(String uuid);
+	
+//	public T findById(final Long id);
    
  }
