@@ -215,7 +215,8 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 		shippingAddress.setAddress1("via di destinazione");
 		shippingAddress.setStreetNumber("12");
 		shippingAddress.setCity("Verbania");
-		cartFacade.addAddress(shippingAddress, billingAddress);
+		cartFacade.addShippingAddress(shippingAddress);
+		cartFacade.addBillingAddress(billingAddress);
 		
 	}
 	
@@ -225,21 +226,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 	}
 
 	private void confirmOrder() {
-		
-    
 		// TODO Auto-generated method stub
-    	
-		
 	}
-
-
-	
-
-	
-
-
-	
-
-
 	
 }

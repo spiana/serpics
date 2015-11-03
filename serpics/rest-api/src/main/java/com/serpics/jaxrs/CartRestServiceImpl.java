@@ -9,12 +9,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemModification;
+import com.serpics.membership.facade.data.AddressData;
 
 
 @Path("/cartService")
@@ -49,6 +51,18 @@ public class CartRestServiceImpl implements CartRestService {
 
 	@Override
 	public CartItemModification cartUpdate(Long cartUtemID, int quantity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response setBillingAddress(AddressData billingAddress) {
+		cartFacade.addBillingAddress(billingAddress);
+		return null;
+	}
+
+	@Override
+	public Response setDestinationAddrress(AddressData destinationAddress) {
 		// TODO Auto-generated method stub
 		return null;
 	}

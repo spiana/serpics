@@ -351,6 +351,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		Cart c = getSessionCart();
 		c.setBillingAddress(address);
 		cartRepository.saveAndFlush(c);
+		putCartinSession(c);
 	}
 
 	@Override
@@ -358,8 +359,10 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	public void setDestinationAddress(Address address) {
 		Assert.notNull(address, "Destination address can not be null !");
 		Cart c = getSessionCart();
+		address= addressRepository.save(address);
 		c.setShippingAddress(address);
 		cartRepository.saveAndFlush(c);
+		putCartinSession(c);
 	}	
     	
 }

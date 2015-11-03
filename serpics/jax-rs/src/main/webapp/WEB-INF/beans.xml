@@ -11,6 +11,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
+
  <bean id="commerceFilter" class="com.serpics.system.web.CommerceRequestFilter"/>
  
   <import resource="classpath:META-INF/cxf/cxf.xml" />
