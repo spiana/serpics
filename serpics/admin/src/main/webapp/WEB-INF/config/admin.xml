@@ -38,7 +38,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="successAuthenticationHandler" class="com.serpics.system.security.AuthenticationHandler"/> 
   
 
-  
+  <tx:annotation-driven/>
   
 <!--   <bean id="propertiesUtils" class="com.serpics.vaadin.ui.PropertiesUtils"> -->
 <!--   <property name="tableProperties"> -->

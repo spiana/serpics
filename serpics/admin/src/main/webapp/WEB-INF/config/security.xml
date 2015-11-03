@@ -23,7 +23,7 @@
 
 	<http auto-config="true" >
 	 	<csrf disabled="true"/>
-		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
 	
 		<form-login authentication-success-handler-ref="successAuthenticationHandler" />
 			

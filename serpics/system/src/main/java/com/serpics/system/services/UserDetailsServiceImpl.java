@@ -14,10 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
+import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
@@ -40,6 +42,7 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
     MembersRoleRepository membersRoleRepository;
 
     @Override
+    @Transactional(readOnly=true)
     public UserDetails loadUserByUsername(final String userName) throws UsernameNotFoundException {
       try{
         final UsersReg ur = userRegRepository.findBylogonid(userName);
@@ -66,6 +69,7 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
     }
 
     @Override
+    @Transactional(readOnly=true)
     public void setCredentials(final Authentication authentication) {
         final UsersReg reg = userRegRepository.findBylogonid(authentication.getName());
 
@@ -73,11 +77,15 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
                 .getStoreRealm());
         final Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>(0);
         for (final MembersRole role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRole().getName()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" +role.getRole().getName().toUpperCase()));
         }
-
+        
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
+        
+        if(reg.getUserType() ==  UserType.SUPERSUSER){
+        	authorities.add(new SimpleGrantedAuthority("ROLE_SUPERUSER"));	
+        }
+        
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 authentication.getPrincipal(), authentication.getCredentials(),
                 authorities);
@@ -86,6 +94,7 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
     }
 
 	@Override
+	@Transactional
 	public void updateLastVisit(UsersReg user) {
 		Assert.notNull(user);
 		user.setLastLogin(new Date());

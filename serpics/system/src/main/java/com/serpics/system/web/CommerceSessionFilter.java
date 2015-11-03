@@ -42,10 +42,7 @@ public class CommerceSessionFilter implements Filter {
         }
         
         final HttpServletRequest httpReq = (HttpServletRequest) req;
-        final String id = (String) httpReq.getSession().getAttribute(
-                WebCostant.SERPICS_SESSION);
-
-        
+        final String id = (String) httpReq.getSession().getAttribute(WebCostant.SERPICS_SESSION);
         
         CommerceSessionContext context = null;
         
@@ -56,6 +53,7 @@ public class CommerceSessionFilter implements Filter {
         	String[] _temp = pathInfo.split(";");
         	if(_temp.length==2)
         		realm = _temp[1];
+        	
             if(realm == null)
     	         realm = (String) httpReq.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
             
@@ -64,12 +62,12 @@ public class CommerceSessionFilter implements Filter {
 
             try {
                 context = ce.connect(realm);
-
+                httpReq.getSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, realm);
+                httpReq.getSession().setAttribute(WebCostant.SERPICS_SESSION, context.getSessionId());
             } catch (final SerpicsException e) {
                 throw new ServletException(e);
             }
-            httpReq.getSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, realm);
-            httpReq.getSession().setAttribute(WebCostant.SERPICS_SESSION, context.getSessionId());
+            
         } else {
 
             if (logger.isDebugEnabled())
