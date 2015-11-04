@@ -50,8 +50,9 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
     @Column(name = "shipping_address_id")
     protected Long shippingAddressId;
 
-    @Column(name = "product_id", nullable = true)
-    AbstractProduct product;
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = true)
+    protected AbstractProduct product;
 
     @Column(nullable = false, length = 250)
     protected String sku;

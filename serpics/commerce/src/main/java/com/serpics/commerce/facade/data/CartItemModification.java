@@ -3,22 +3,22 @@ package com.serpics.commerce.facade.data;
 public class CartItemModification {
 
 	CartModificationStatus modificationStatus;
-	CartItemData cartItem;
+	CartData cart;
 	String errorMessage;
 	
 	public CartItemModification(CartModificationStatus modificationStatus,
-			CartItemData cartItem, String errorMessage) {
+			CartData cart, String errorMessage) {
 		super();
 		this.modificationStatus = modificationStatus;
-		this.cartItem = cartItem;
+		this.cart = cart;
 		this.errorMessage = errorMessage;
 	}
 	
 	public CartItemModification(CartModificationStatus modificationStatus,
-			CartItemData cartItem) {
+			CartData cart) {
 		super();
 		this.modificationStatus = modificationStatus;
-		this.cartItem = cartItem;
+		this.cart = cart;
 	}
 
 	public CartModificationStatus getModificationStatus() {
@@ -27,12 +27,15 @@ public class CartItemModification {
 	public void setModificationStatus(CartModificationStatus modificationStatus) {
 		this.modificationStatus = modificationStatus;
 	}
-	public CartItemData getCartItem() {
-		return cartItem;
+	
+	public CartData getCart() {
+		return cart;
 	}
-	public void setCartItem(CartItemData cartItem) {
-		this.cartItem = cartItem;
+
+	public void setCart(CartData cart) {
+		this.cart = cart;
 	}
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}

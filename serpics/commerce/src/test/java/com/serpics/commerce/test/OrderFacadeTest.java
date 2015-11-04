@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.repositories.LocaleRepository;
+import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
@@ -21,16 +22,19 @@ import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.facade.CartFacade;
+import com.serpics.commerce.facade.OrderFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartItemModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
+import com.serpics.commerce.facade.data.OrderData;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
+import com.serpics.warehouse.InventoryNotAvailableException;
 
 
 @ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
@@ -56,6 +60,9 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 	
 	@Resource
 	CartFacade cartFacade;
+	
+	@Resource
+	OrderFacade orderFacade;
 	 
 	CommerceSessionContext context;
 
@@ -188,7 +195,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	
     	
 	}
-	private void displayCart() {
+	private void displayCart()  {
 		CartData cart = cartFacade.getCurrentCart();
 		
 		Assert.assertNotNull(cart);
@@ -196,10 +203,23 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 		
 		for (CartItemData cartItemData : cart.getOrderItems()) {
 			log.info("RIGA CARRELLO " + cartItemData.getSku() +  "  + " +  cartItemData.getQuantity() +  " - " + cartItemData.getSkuPrice());
-			if( cartItemData.getSku().equals("PROD1")) cartItemData.setQuantity(3);
-			if(cartItemData.getSku().equals("PROD2")) cartItemData.setQuantity(0);
+			if( cartItemData.getSku().equals("PROD1")) {
+				cartItemData.setQuantity(3);
+				try {
+					cart = cartFacade.update(cartItemData);
+				} catch (InventoryNotAvailableException | ProductNotFoundException e) {
+					Assert.fail("Unexpected exception in update cartItemData with quantity 3");
+				}
+			}
+			if(cartItemData.getSku().equals("PROD2")){
+				cartItemData.setQuantity(0);
+				try {
+					cart = cartFacade.update(cartItemData);
+				} catch (InventoryNotAvailableException | ProductNotFoundException e) {
+					Assert.fail("Unexpected exception in update cartItemData to remove");
+				}
+			}
 		}
-		cart = cartFacade.update(cart);
 		
 		Assert.assertEquals(2, cart.getOrderItems().size());
 		
@@ -222,6 +242,12 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 	private void prepareOrder() {
 		CartData cart = cartFacade.getCurrentCart();
 		Assert.assertNotNull("BILLING ADDRESS NOT SET" + cart.getBillingAddress());
+		Assert.assertEquals("Numbers of row's cart is not like expected",2, cart.getOrderItems().size());
+		
+		OrderData order = orderFacade.placeOrder();
+		
+		Assert.assertEquals("Numbers of row's orders is not like expected",2, cart.getOrderItems().size());
+		Assert.assertNotNull("ID ordine non salvato",order.getId());
 	}
 
 	private void confirmOrder() {
