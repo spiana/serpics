@@ -3,24 +3,37 @@
  */
 package com.serpics.vaadin.ui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
+import javax.persistence.Transient;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.serpics.base.data.model.MultilingualString;
+import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.filter.Filters;
 import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.Not;
+import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
 import de.steinwedel.messagebox.ButtonId;
@@ -29,13 +42,25 @@ import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 
 /**
+ * SerpicsStartApp
+ * 
  * @author christian
+ * @param <T>
  *
  */
 @SuppressWarnings("serial")
-public class MasterTableListner {
+public class MasterTableListner extends FormLayout {
 
+	private static Logger LOG = LoggerFactory.getLogger(MasterTableListner.class);
+
+	@Transient
+	private transient String[] searchProperties;
+	
 	private static MasterTableListner instance;
+	
+	public MasterTableListner() {
+		super();
+	}
 
 	public static MasterTableListner get() {
 		if (instance == null)
@@ -77,45 +102,46 @@ public class MasterTableListner {
 	 */
 	public <T> void searchButtonClickListener(final JPAContainer<T> container, final Button search,
 			final ComboBox propertyId, final TextField field, final ComboBox filterType) {
-
-		search.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				if (propertyId.getValue() != null && filterType.getValue() != null) {
-					switch ((String) filterType.getValue()) {
-					case "inizia con":
-						container.addContainerFilter(
-								new SimpleStringFilter(propertyId.getValue(), field.getValue(), false, true));
-						break;
-					case "contiene":
-						container
-								.addContainerFilter(new SimpleStringFilter(propertyId, field.getValue(), false, false));
-						break;
-					case "è uguale a":
-						container.addContainerFilter(new Compare.Equal(propertyId, field.getValue()));
-						break;
-					case "è diverso da":
-						container.addContainerFilter(new Not(new Compare.Equal(propertyId, field.getValue())));
-						break;
-					case "è maggiore di":
-						container.addContainerFilter(new Compare.Greater(propertyId, field.getValue()));
-						break;
-					case "è minore di":
-						container.addContainerFilter(new Compare.Less(propertyId, field.getValue()));
-						break;
-					case "è maggiore o uguale a":
-						container.addContainerFilter(new Compare.GreaterOrEqual(propertyId, field.getValue()));
-						break;
-					case "è minore o uguale a":
-						container.addContainerFilter(new Compare.LessOrEqual(propertyId, field.getValue()));
-						break;
-					default:
-						break;
+		
+		if (propertyId.getValue() != null && filterType.getValue() != null) {
+			search.addClickListener(new Button.ClickListener() {
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					if (propertyId.getValue() != null && filterType.getValue() != null) {
+						switch ((String) filterType.getValue()) {
+						case "inizia con":
+							container.addContainerFilter(
+									new SimpleStringFilter(propertyId.getValue(), field.getValue(), false, true));
+							break;
+						case "contiene":
+							container.addContainerFilter(
+									new SimpleStringFilter(propertyId, field.getValue(), false, false));
+							break;
+						case "è uguale a":
+							container.addContainerFilter(new Compare.Equal(propertyId, field.getValue()));
+							break;
+						case "è diverso da":
+							container.addContainerFilter(new Not(new Compare.Equal(propertyId, field.getValue())));
+							break;
+						case "è maggiore di":
+							container.addContainerFilter(new Compare.Greater(propertyId, field.getValue()));
+							break;
+						case "è minore di":
+							container.addContainerFilter(new Compare.Less(propertyId, field.getValue()));
+							break;
+						case "è maggiore o uguale a":
+							container.addContainerFilter(new Compare.GreaterOrEqual(propertyId, field.getValue()));
+							break;
+						case "è minore o uguale a":
+							container.addContainerFilter(new Compare.LessOrEqual(propertyId, field.getValue()));
+							break;
+						default:
+							break;
+						}
 					}
-				} else
-					container.applyFilters();
-			}
-		});
+				}
+			});
+		}
 	}
 
 	/**
@@ -168,43 +194,55 @@ public class MasterTableListner {
 		return propertiesId;
 	}
 
+	public void showNotificationMessage() {
+		Notification.show("Commerce Notification", "Message", Notification.Type.TRAY_NOTIFICATION);
+	}
+
 	/**
 	 * 
 	 * @param container
-	 * @param field
 	 * @param property
+	 * @param field
 	 * @param properties
 	 */
-	public <T> void showNotificationOnSystemTray(final JPAContainer<T> container, final TextField field,
-			final ComboBox property, final String[] properties) {
+	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final TextField filter,
+			final String[] properties) {
 
-		property.addValueChangeListener(new ValueChangeListener() {
+	
+
+		filter.addTextChangeListener(new TextChangeListener() {
+
 			@Override
-			public void valueChange(Property.ValueChangeEvent event) {
-				String propertySelected = (String) property.getValue();
-				if (propertySelected == null) {
-					Notification.show("Commerce Notification", "Filter All container: ",
-							Notification.Type.TRAY_NOTIFICATION);
-					filterAllContainerJPA(container, property, field);
-				} else
-					Notification.show("Commerce Notification", "Filter container by property " + propertySelected,
-							Notification.Type.TRAY_NOTIFICATION);
+			public void textChange(final TextChangeEvent event) {
+
+				String filterField = "%" + event.getText() + "%";
+
+				List<Filter> filters = new ArrayList<Filter>();
+				
+				Locale locale = UI.getCurrent().getSession().getLocale();
+				
+				Filter filter = null;
+
+				container.removeAllContainerFilters();
+
+				if (properties != null) {
+					for (String entry : properties) {
+						if (container.getType(entry).isAssignableFrom(MultilingualString.class)) {
+							filter = new Or(new MultilingualLikeFilter(entry, locale.getLanguage(), filterField));
+						} else {
+							filter = new Or(new SimpleStringFilter(entry, filterField, true, false));
+						}
+						filters.add(filter);
+					}
+				}
+				container.addContainerFilter(Filters.or(filters));
+
+				if (event.getText().equals("")) {
+					container.removeAllContainerFilters();
+					showNotificationMessage();
+				}
 			}
 		});
-
 	}
 
-	/**
-	 * 
-	 * @param container
-	 * @param property
-	 * @param field
-	 * @param properties
-	 */
-	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final ComboBox property,
-			final TextField field) {	
-				Filter filterLike = Filters.like("firstname", field.getValue()+"%", false);				
-				container.addContainerFilter(Filters.or(filterLike));		
-
-	}
 }

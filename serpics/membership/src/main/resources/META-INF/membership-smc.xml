@@ -2,7 +2,7 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
-<entity name="user">
+	<entity name="user">
 		<table action="append">
 			<display>
 				<property name="firstname" />
@@ -12,7 +12,7 @@
 			<search>
 				<property name="firstname" />
 				<property name="lastname" />
-				<property name="created" />
+				<property name="logonid" />
 			</search>
 		</table>
 		<editor>
@@ -22,7 +22,7 @@
 				<property name="phone" />
 				<property name="email" />
 				<property name="primaryAddress" />
-				<property name="permanentAddresses"/>
+				<property name="permanentAddresses" />
 				<property name="created" />
 			</display>
 			<readonly>
@@ -33,7 +33,7 @@
 			<property name="lastname" />
 		</select>
 	</entity>
-	
+
 	<entity name="usersreg">
 		<table action="append">
 			<display>
@@ -45,7 +45,7 @@
 			<search>
 				<property name="firstname" />
 				<property name="lastname" />
-				<property name="created" />
+				<property name="logonid" />
 			</search>
 		</table>
 		<editor>
@@ -56,7 +56,7 @@
 				<property name="phone" />
 				<property name="email" />
 				<property name="primaryAddress" />
-				<property name="permanentAddresses"/>
+				<property name="permanentAddresses" />
 				<property name="created" />
 			</display>
 			<readonly>
@@ -105,7 +105,22 @@
 		</editor>
 
 	</entity>
-	
+
+	<entity name="membergroup">
+		<table>
+			<display>
+			</display>
+			<search>
+				<property name="name" />
+				<property name="description" />
+			</search>
+		</table>
+		<select>
+			<property name="name" />
+		</select>
+	</entity>
+
+
 	<entity name="permanentAddress">
 		<table>
 			<display>
@@ -143,10 +158,7 @@
 			</readonly>
 		</editor>
 	</entity>
-	<entity name="membergroup">
-		<select>
-			<property name="name" />
-		</select>
-	</entity>
+
+
 
 </smc-definition>
