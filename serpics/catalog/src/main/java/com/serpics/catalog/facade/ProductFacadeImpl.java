@@ -191,6 +191,16 @@ public class ProductFacadeImpl implements ProductFacade {
 		}
 		return p; 
 	}
+	
+	@Override
+	public ProductData findById(final Long id) {
+		Product product = productService.findOne(id);
+		ProductData p = null;
+		if(product !=null){
+			p = productConverter.convert(product);
+		}
+		return p; 
+	}
 
 	@Override
 	@Transactional

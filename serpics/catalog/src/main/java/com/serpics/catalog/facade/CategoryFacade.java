@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import com.serpics.catalog.facade.data.CategoryData;
 
 public interface CategoryFacade {
+	
 	public CategoryData findCategoryByCode(String code);
+	public CategoryData findCategoryById(Long id);
 	
 	public Page<CategoryData> listCategory(Pageable page);
 	public List<CategoryData> listTopCategory();
@@ -17,5 +19,7 @@ public interface CategoryFacade {
 	public CategoryData create(CategoryData category, Long parentId);
 	public void addCategoryParent(Long childId, Long parentId);
 	
+	public CategoryData updateCategory(CategoryData category);
+	public void deleteCategory(Long id);
 	
 }

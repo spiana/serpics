@@ -7,6 +7,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -19,6 +22,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Resource
 	CatalogService catalogService;
+	
+	@Autowired
+	LocaleRepository localeRepository;
 	
 	@Override
 	@GET
@@ -33,6 +39,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			CommerceSessionContext context= commerceEngine.connect(store);
 			// Initialize the default-catalog
 			catalogService.initialize();
+			context.setLocale(localeRepository.findByLanguage("it"));
+			
 			return context.getSessionId();
 		} catch (SerpicsException e) {
 			// TODO Auto-generated catch block
