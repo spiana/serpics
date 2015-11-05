@@ -107,8 +107,19 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		return entity;
 	}
 	
+	@Override 
+	public CategoryData findCategoryById(final Long id){ 
+		Category category = categoryService.findOne(id);
+		CategoryData entity = null;
+		if(category != null)
+			entity = categoryConverter.convert(category);
+		
+		return entity;
+	}
+	
 	
 	@Override
+	@Transactional
 	public CategoryData create(CategoryData category) {
 		Category  entity = buildCategory(category, new Category());
 		entity = categoryService.create(entity); 
@@ -117,6 +128,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	}
 	
 	@Override
+	@Transactional
 	public CategoryData create(CategoryData category, Long parentId) {
 		Category parent = categoryService.findOne(parentId);
 		Category entity = buildCategory(category, new Category());
@@ -131,7 +143,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		return entity;
 	}
 	
-	
+	@Transactional
 	public void addCategoryParent(Long childId, Long parentId) {
 		Category parent = categoryService.findOne(parentId);
 		Category child = categoryService.findOne(childId);
@@ -142,5 +154,20 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		categoryService.addRelationCategory(child, parent);
 	}
 	
+	@Override
+	@Transactional
+	public CategoryData updateCategory(CategoryData category){
+		Category entity = categoryService.findOne(category.getId());
+		entity = buildCategory(category, entity);
+		entity = categoryService.update(entity);
+		category = categoryConverter.convert(entity);
+		return category;
+	}
+	
+	@Override
+	@Transactional
+	public void deleteCategory(Long id){
+		categoryService.delete(id);
+	}
 
 }

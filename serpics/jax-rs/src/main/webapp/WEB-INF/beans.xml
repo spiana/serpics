@@ -32,6 +32,8 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
       <bean class="com.serpics.jaxrs.CustomerServiceImpl" />
       <bean class="com.serpics.jaxrs.TestRestServiceImpl"/>
       <bean class="com.serpics.jaxrs.CartRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.ProductRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.CategoryRestServiceImpl" />
     </jaxrs:serviceBeans>
    
    
