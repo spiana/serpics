@@ -1,5 +1,8 @@
 package com.serpics.jaxrs;
 
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
@@ -17,7 +20,11 @@ public class JaxbMapper  extends ObjectMapper{
 		configure(SerializationConfig.Feature.USE_ANNOTATIONS, true);
 		configure(SerializationConfig.Feature.AUTO_DETECT_FIELDS , true);
 		configure(SerializationConfig.Feature.AUTO_DETECT_GETTERS, true);
-		getSerializationConfig().withSerializationInclusion(Inclusion.NON_NULL);
+		setSerializationInclusion(Inclusion.NON_NULL);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss z");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		setDateFormat(dateFormat);
+		
 	}
 
 

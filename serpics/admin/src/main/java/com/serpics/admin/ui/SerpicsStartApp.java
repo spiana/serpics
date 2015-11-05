@@ -23,6 +23,8 @@ import com.serpics.vaadin.ui.NavigatorMenuTree;
 import com.vaadin.annotations.Theme;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.server.Page;
+import com.vaadin.server.Page.Styles;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringUI;
@@ -73,6 +75,13 @@ public class SerpicsStartApp extends UI {
 	@Override
 	protected void init(final VaadinRequest request) {
 
+		
+		Styles styles = Page.getCurrent().getStyles();
+        // inject the new background color
+        styles.add(".store-name { text-align:right; }");
+        styles.add(".Apptitle { font-size:22px; font-weight:bold;}");
+        
+        
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSizeFull();
@@ -87,10 +96,13 @@ public class SerpicsStartApp extends UI {
 		title.setHeight("100%");
 		title.setStyleName("Apptitle");
 		topbar.addComponent(title);
+
+	
 		
 		final Label selectedStore = new Label(commerceEngine.getCurrentContext().getStoreRealm().getName());
-		selectedStore.setWidth("20%");
-		selectedStore.setHeight("100%");
+//		selectedStore.setWidth("100%");
+//		selectedStore.setHeight("100%");
+		selectedStore.addStyleName("store-name");
 		topbar.addComponent(selectedStore);
 		
 		layout.addComponent(topbar);
