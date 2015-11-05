@@ -1,18 +1,14 @@
 package com.serpics.commerce.facade;
 
-import java.util.Hashtable;
-
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.specification.ProductSpecification;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
@@ -59,17 +55,18 @@ public class CartFacadeImpl implements CartFacade {
 	
 	@Transactional
 	public CartItemModification cartAdd(String sku, int quantity) {
-		Cartitem c = null;
+		Cart c = null;
 		try {
-			c = cartService.cartAdd(sku, quantity, true);
-			cartService.prepareCart();
+			cartService.cartAdd(sku, quantity, true);
+			c = cartService.prepareCart();
+			return new CartItemModification(CartModificationStatus.OK , cartConverter.convert(c));
 		} catch (InventoryNotAvailableException e){
-			return new CartItemModification(CartModificationStatus.ERROR, new CartItemData(), "not avialable !");
+			return new CartItemModification(CartModificationStatus.ERROR, new CartData(), "not available !");
 		}catch (ProductNotFoundException e) {
-			return new CartItemModification(CartModificationStatus.ERROR, new CartItemData(), "product not found !");
+			return new CartItemModification(CartModificationStatus.ERROR, new CartData(), "product not found !");
 		} 
 		
-		return new CartItemModification(CartModificationStatus.OK , cartItemConverter.convert(c));
+		
 	}
 	
 	
@@ -81,37 +78,38 @@ public class CartFacadeImpl implements CartFacade {
 	}
 	
 	@Override
-	public CartData update(CartData cart) {
-		Hashtable<Product, Double> list = new Hashtable<Product, Double>();
+	public CartData update(CartItemData cartItem) throws InventoryNotAvailableException, ProductNotFoundException{
 		
-		for (CartItemData cartItemData : cart.getOrderItems()) {
-			//String uuid = cartItemData.getProduct().getUuid();
-			String sku = cartItemData.getSku();
-			//Product product =  productService.findByUUID(uuid);
-			Product product = productService.findOne(ProductSpecification.findByName(sku));
-			double q = cartItemData.getQuantity();
-			list.put(product, q);
-		}
-			try {
-				Cart ca = cartService.cartUpdateProduct(list);
-				Assert.notNull(ca);
-			} catch (InventoryNotAvailableException | ProductNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		Cart cart = cartService.cartUpdate(convertCartItemData(cartItem));
 		
-		Cart c = cartService.getSessionCart();
-		cart =  cartConverter.convert(c);
-		return cart;
+		return cartConverter.convert(cart);
 	}
 	
+	protected Cartitem convertCartItemData(CartItemData cartItemData){
+		Cartitem cartItem = new Cartitem();
+		cartItem.setId(cartItemData.getId());
+		cartItem.setUuid(cartItemData.getUuid());
+		cartItem.setProduct(new Product());
+		cartItem.getProduct().setCode(cartItemData.getProduct().getCode());
+		
+		cartItem.setQuantity(cartItemData.getQuantity());
+		
+		return cartItem;
+	}
 	
 	@Override
 	@Transactional
 	public CartItemModification cartItemDelete(Long id) {
-		cartService.cartItemDelete(id);
-		return new CartItemModification(CartModificationStatus.OK, null);
+		CartItemModification resultModification = null;
+		
+		try{
+			cartService.cartItemDelete(id);
+			resultModification = new CartItemModification(CartModificationStatus.OK, null);
+		}catch(InventoryNotAvailableException e){
+			resultModification = new CartItemModification(CartModificationStatus.LOW_STOCK, null);
+		}
+		
+		return resultModification;
 	}
 	
 	@Override

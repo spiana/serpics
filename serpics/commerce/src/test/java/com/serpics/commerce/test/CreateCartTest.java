@@ -179,8 +179,8 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
         priceService.addPrice(p1 ,price1);
 
         Cart cart = cs.createSessionCart();
-        Cartitem c = cs.cartAdd("product", 1, false);
-        Assert.assertNotNull(c);
+        cart = cs.cartAdd("product", 1, false);
+        Assert.assertTrue(cart.getCartitems().size()>0);
         cs.cartDelete(cart);
     }
 }

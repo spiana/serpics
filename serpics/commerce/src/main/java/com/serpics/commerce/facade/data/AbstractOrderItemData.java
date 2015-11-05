@@ -1,6 +1,7 @@
 package com.serpics.commerce.facade.data;
 
 import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.facade.data.AbstractProductData;
 import com.serpics.core.facade.AbstractData;
 
 
@@ -10,7 +11,7 @@ public abstract  class AbstractOrderItemData extends AbstractData{
 	
 	protected double quantity;
 	
-	protected AbstractProduct product;
+	protected AbstractProductData product;
 	protected String sku;
 	protected Double skuCost;
 	protected String skuDescription;
@@ -39,10 +40,10 @@ public abstract  class AbstractOrderItemData extends AbstractData{
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-	public AbstractProduct getProduct() {
+	public AbstractProductData getProduct() {
 		return product;
 	}
-	public void setProduct(AbstractProduct product) {
+	public void setProduct(AbstractProductData product) {
 		this.product = product;
 	}
 	public String getSku() {

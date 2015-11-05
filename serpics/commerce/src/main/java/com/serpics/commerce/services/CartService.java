@@ -1,10 +1,7 @@
 package com.serpics.commerce.services;
 
-import java.util.Hashtable;
-
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
-import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Shipmode;
@@ -20,41 +17,44 @@ public interface CartService {
 
     public Cart getSessionCart();
 
+    //Delete Commands
     public void cartDelete();
 
     public void cartDelete(Cart cart); 
 
-    public Cartitem cartUpdate(Cartitem orderitem, Cart cart) throws InventoryNotAvailableException,
-    ProductNotFoundException;
+    public void cartItemDelete(Cartitem item) throws InventoryNotAvailableException;
     
-    public Cart cartUpdateProduct(Hashtable<Product, Double> cart) throws InventoryNotAvailableException,
-    ProductNotFoundException;
+    public void cartItemDelete(Long id) throws InventoryNotAvailableException;
     
-    public Cartitem cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
+    // Add Commands with create new row, and if merge set true, merge evenutaly product in cart's row
+    public Cart cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
             throws InventoryNotAvailableException, ProductNotFoundException;
 
-    public Cartitem cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
+    public Cart cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException;
 
-    public Cartitem cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
+    public Cart cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException;
 
-    public Cartitem cartUpdate(Cartitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException;
-
-    public Cartitem cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException, 
+    public Cart cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException, 
     ProductNotFoundException;
-
+    
+    //Update row in cart and remove if quantity is zero
+    public Cart cartUpdate(Cartitem orderitem, Cart cart) throws InventoryNotAvailableException,
+    ProductNotFoundException;
+    
+    public Cart cartUpdate(Cartitem orderitem) throws InventoryNotAvailableException, ProductNotFoundException;
+    
+    //Refresh cart
+    public Cart prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
+    ProductNotFoundException;
+    
+    //Refresh cart withous update Inventory
     public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException;
 
     public Cart prepareCart(Cart cart) throws InventoryNotAvailableException, ProductNotFoundException;
 
-    public Cart prepareCart(Cart cart, boolean updateInventory) throws InventoryNotAvailableException,
-    ProductNotFoundException;
-    
-    public void cartItemDelete(Cartitem item);
-    
-    public void cartItemDelete(Long id);
-    
+    //Setting information commands to cart
     public void setBillingAddress(BillingAddress address);
     public void setDestinationAddress(PermanentAddress address);
     public void setBillingAddress(Address address);

@@ -17,6 +17,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     @Override
     @Transactional
     public Order createOrderFromcart(final Cart cart) {
+    	 entityManager.detach(cart);
         final Query query = entityManager.createNativeQuery("update orders set pending=0 where order_id = :orderid ");
         final Query queryRow = entityManager
                 .createNativeQuery("update orderitems set pending=0 where order_id = :orderid ");
@@ -26,7 +27,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         query.executeUpdate();
         queryRow.executeUpdate();
         entityManager.flush();
-        entityManager.detach(cart);
+       
 
         return entityManager.find(Order.class, cart.getId());
     }

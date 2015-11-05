@@ -66,7 +66,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<alias name="defaultOrderItemPopulator" alias="orderItemPopulator"/>
     <bean name="defaultOrderItemPopulator" class="com.serpics.commerce.facade.OrderItemPopulator" />
 	
-	<alias name="defaultOrderItemConverter" alias="orderItemConvert"/>
+	<alias name="defaultOrderItemConverter" alias="orderItemConverter"/>
 	  <bean name="defaultOrderItemConverter" parent="abstractConverter">
 	       <property name="targetClass" value="com.serpics.commerce.facade.data.OrderItemData"/>
 	       <property name="populators">
@@ -80,7 +80,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     
     <alias name="defaultOrderPopulator" alias="orderPopulator"/>
 	<bean name="defaultOrderPopulator" class="com.serpics.commerce.facade.OrderPopulator">
-	   <property name="abstractOrderItemConverter" ref="orderItemConvert"/>
+	   <property name="abstractOrderItemConverter" ref="orderItemConverter"/>
 	</bean>
 	
 	<alias name="defaulOrderConverter" alias="orderConverter"/>
