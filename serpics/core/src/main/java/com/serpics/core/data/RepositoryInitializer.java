@@ -40,8 +40,7 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 			Object _m = specs.get(string);	
 			Class<?>  c = _m.getClass().getAnnotation(DefaultSpec.class).value();
 			
-			if(LOG.isInfoEnabled())
-				LOG.debug("Found Specification for class {}" , c.getName());
+			LOG.info("Found Specification for class {}" , c.getName());
 			
 			if (_m instanceof  Specification){
 				if (!entitySpecifications.containsKey(c.getName())){
