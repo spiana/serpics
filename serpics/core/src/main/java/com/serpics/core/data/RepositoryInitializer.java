@@ -1,6 +1,8 @@
 package com.serpics.core.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +27,7 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	
 	private static final Map<ClassLoader, RepositoryInitializer> currentContextPerThread = new ConcurrentHashMap<ClassLoader, RepositoryInitializer>(1);
 	
-	Map<String , Specification> entitySpecifications = new HashMap<String, Specification>();
+	Map<String , List<Specification>> entitySpecifications = new HashMap<String, List<Specification>>();
 	Map<String , Repository> entityRepositoryMapping = new HashMap<String, Repository>();
 	
 	ApplicationContext applicationContext;
@@ -43,10 +45,14 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 			LOG.info("Found Specification for class {}" , c.getName());
 			
 			if (_m instanceof  Specification){
-				if (!entitySpecifications.containsKey(c.getName())){
-					entitySpecifications.put(c.getName(), (Specification) _m);
+				if (!entitySpecifications.containsKey(c.getName()) ){
+					List<Specification> l = new ArrayList<Specification>();
+					l.add((Specification) _m);
+					entitySpecifications.put(c.getName(), l);
 				}else{
-					LOG.warn("Specification for entity {} already exist with value {}", c.getName() , _m.getClass().getName() );
+					List<Specification> l = entitySpecifications.get(c.getName() );
+					l.add((Specification) _m);
+					//LOG.warn("Specification for entity {} already exist with value {}", c.getName() , _m.getClass().getName() );
 				}
 			}else{
 				LOG.error("Specification found for entity {} is not instance of {}" , c.getClass(), Specification.class.getName());
@@ -71,21 +77,21 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 		currentContextPerThread.put(Thread.currentThread().getContextClassLoader() , this);
 	}
 
-	public Map<String, Specification> getEntitySpecifications() {
+	public Map<String, List<Specification>> getEntitySpecifications() {
 		return entitySpecifications;
 	}
 	
-	public Specification getSpecificationForClass(Class<?> clazz){
+	public List<Specification> getSpecificationForClass(Class<?> clazz){
 		Assert.notNull(clazz);
-		Specification spec =entitySpecifications.get(clazz.getName());
+		List<Specification> specs =entitySpecifications.get(clazz.getName());
 		if(LOG.isDebugEnabled()){
-			if(spec != null){
-				LOG.debug("found specification {} for entity {}" , spec.getClass().getName() , clazz.getName());
+			if(specs != null){
+				LOG.debug("found specification {} for entity {}" , specs.getClass().getName() , clazz.getName());
 			}else{
 				LOG.debug("not found specification for entity {}", clazz.getName() );
 			}
 		}
-		return spec;
+		return specs;
 		
 	}
 	

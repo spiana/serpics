@@ -61,44 +61,54 @@ public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaReposi
     @Override
     public <T> Specification<T> makeSpecification(final T example) {
         return new Specification<T>() {
+        	
+        	private Predicate makePredicate ( final CriteriaBuilder cb , Predicate p , Root<T> root){
+        				
+        		
+        		EntityType<T> et = root.getModel();
+        		
+        		try{
+		                final Set<SingularAttribute<? super T, ?>> attrs = et.getSingularAttributes();
+		                logger.info("create specification for model {} with {} attributes", et.getName(), attrs.size());
+		                for (final SingularAttribute<? super T, ?> singleAttribute : attrs) {
+		                    final String name = singleAttribute.getName();
+		                    final String javaName = singleAttribute.getJavaMember().getName();
+		                    final String getter = "get" + javaName.substring(0, 1).toUpperCase() + javaName.substring(1);
+		                    final Method m = example.getClass().getMethod(getter, (Class<?>[]) null);
+		                    if (logger.isDebugEnabled())
+		                        logger.debug("Invoke method [{}] , with result [{}]", m.getName(),
+		                                m.invoke(example, (Object[]) null));
+		
+		                    if (m.invoke(example, (Object[]) null) != null) {
+		                        p = cb.and(p, cb.equal(root.get(name), m.invoke(example, (Object[]) null)));
+		                        if (logger.isDebugEnabled())
+		                            logger.debug("add condition for attribute [{}] with value [{}]", name,
+		                                    m.invoke(example, (Object[]) null));
+		                    }
+		
+		                }
+		            } catch (final NoSuchMethodException e) {
+		                new RuntimeException(e);
+		            } catch (final SecurityException e) {
+		                new RuntimeException(e);
+		            } catch (final IllegalAccessException e) {
+		                new RuntimeException(e);
+		            } catch (final IllegalArgumentException e) {
+		                new RuntimeException(e);
+		            } catch (final InvocationTargetException e) {
+		                new RuntimeException(e);
+		            }
+		
+		        	
+		        	return p;	
+        	}
+        	
             @Override
             public Predicate toPredicate(final Root<T> root, final CriteriaQuery<?> query, final CriteriaBuilder cb) {
 
                 Predicate p = cb.conjunction();
-                try {
-                    final EntityType<T> et = root.getModel();
-                    final Set<SingularAttribute<? super T, ?>> attrs = et.getSingularAttributes();
-                    logger.info("create specification for model {} with {} attributes", et.getName(), attrs.size());
-                    for (final SingularAttribute<? super T, ?> singleAttribute : attrs) {
-                        final String name = singleAttribute.getName();
-                        final String javaName = singleAttribute.getJavaMember().getName();
-                        final String getter = "get" + javaName.substring(0, 1).toUpperCase() + javaName.substring(1);
-                        final Method m = example.getClass().getMethod(getter, (Class<?>[]) null);
-                        if (logger.isDebugEnabled())
-                            logger.debug("Invoke method [{}] , with result [{}]", m.getName(),
-                                    m.invoke(example, (Object[]) null));
-
-                        if (m.invoke(example, (Object[]) null) != null) {
-                            p = cb.and(p, cb.equal(root.get(name), m.invoke(example, (Object[]) null)));
-                            if (logger.isDebugEnabled())
-                                logger.debug("add condition for attribute [{}] with value [{}]", name,
-                                        m.invoke(example, (Object[]) null));
-                        }
-
-                    }
-                } catch (final NoSuchMethodException e) {
-                    new RuntimeException(e);
-                } catch (final SecurityException e) {
-                    new RuntimeException(e);
-                } catch (final IllegalAccessException e) {
-                    new RuntimeException(e);
-                } catch (final IllegalArgumentException e) {
-                    new RuntimeException(e);
-                } catch (final InvocationTargetException e) {
-                    new RuntimeException(e);
-                }
-
-                return p;
+                return makePredicate( cb, p, root);
+                
             }
 
         };

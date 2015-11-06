@@ -1,6 +1,7 @@
 package org.springframework.data.jpa.repository.support;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -55,18 +56,32 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 	}
 
 	 protected TypedQuery<Long> getCountQuery(Specification<T> spec){
-	 
-	 Specification<T> defaultSpec = initializer
-				.getSpecificationForClass(getDomainClass());
-
-		if (defaultSpec != null)
-			if (spec != null)
-				spec = Specifications.where(defaultSpec).and(spec);
-			else
-				spec = defaultSpec;
-		return super.getCountQuery(spec);
+		return super.getCountQuery(getMergedSpecification(spec));
 	 }
 	 
+	 private Specification<T> getMergedSpecification(Specification<T> spec) {
+		 
+		 List<Specification> defaultSpecs = initializer
+					.getSpecificationForClass(getDomainClass());
+
+			if (defaultSpecs != null)
+				if (spec != null){
+					spec = Specifications.where(spec);
+					for (Specification specification : defaultSpecs) {
+						spec = ((Specifications<T>) spec).and(specification);
+					}	
+				}else{
+					if (defaultSpecs.size() == 1)
+						spec = defaultSpecs.get(0);
+					else{
+						spec = Specifications.where(defaultSpecs.get(0));
+						for (int x=1 ; x < defaultSpecs.size() ; x++)
+							spec =((Specifications<T>) spec).and(defaultSpecs.get(x));
+					}
+						
+				}
+			return spec;
+	 }
 	
 	@Override
 	public void setRepositoryIniziatializer(RepositoryInitializer inizializer) {
@@ -94,14 +109,8 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 		CriteriaQuery<T> query = builder.createQuery(getDomainClass());
 
 
-		Specification<T> defaultSpec = initializer
-				.getSpecificationForClass(getDomainClass());
-
-		if (defaultSpec != null)
-			if (spec != null)
-				spec = Specifications.where(defaultSpec).and(spec);
-			else
-				spec = defaultSpec;
+		
+		spec = getMergedSpecification(spec);
 
 		Root<T> root = applySpecificationToCriteria(spec, query);
 		query.select(root);

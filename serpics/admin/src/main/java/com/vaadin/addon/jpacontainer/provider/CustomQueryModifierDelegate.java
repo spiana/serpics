@@ -23,12 +23,16 @@ public class CustomQueryModifierDelegate extends DefaultQueryModifierDelegate {
 	public void filtersWillBeAdded(CriteriaBuilder criteriaBuilder,
 			CriteriaQuery<?> query, List<Predicate> predicates) {
 		if (query != null) {
-			Specification s = getInitializer().getSpecificationForClass(mappedClass);
-			if (s != null) {
+			List<Specification> specifications = getInitializer().getSpecificationForClass(mappedClass);
+			
+			if (specifications != null) {
 				Root root = query.getRoots().iterator().next();
-				Predicate p = s.toPredicate(root, query, criteriaBuilder);
-				if( p != null)
-					predicates.add(p);
+				for (Specification specification : specifications) {
+					Predicate p = specification.toPredicate(root, query, criteriaBuilder);
+					if( p != null)
+						predicates.add(p);
+				}
+				
 			}
 		}
 		

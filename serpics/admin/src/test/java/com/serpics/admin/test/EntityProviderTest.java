@@ -1,28 +1,44 @@
 package com.serpics.admin.test;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.MultilingualString;
+import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.services.CatalogService;
+import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
+import com.serpics.vaadin.data.utils.MultilingualLikeFilter;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.util.filter.Compare.Equal;
 
 
 
 @ContextConfiguration({ "classpath:META-INF/base-serpics.xml" ,
-						"classpath:META-INF/membership-serpics.xml"})
+						"classpath:META-INF/membership-serpics.xml","classpath:META-INF/catalog-serpics.xml"})
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
@@ -30,11 +46,17 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 	@Resource
 	BaseService baseService;
 	
+	@Autowired
+	CatalogService catalogService;
+	
 	@Resource
 	UserService userService;
 	
 	@Resource
 	CommerceEngine engine;
+	
+	@Autowired
+	ProductService productService;
 	
 	@Test
 	@Transactional
@@ -42,7 +64,8 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 		if (!baseService.isInitialized())
 			baseService.initIstance();
 		
-		engine.connect("default-store");
+		CommerceSessionContext context = engine.connect("default-store");
+		
 		
 		UsersReg u = new UsersReg();
 		u.setLogonid("test12");
@@ -112,5 +135,64 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 		Assert.assertEquals(1, i);
 	}
 	
-	
+	@Test
+	@Transactional
+	public void multilingualTest() throws SerpicsException{
+		if (!baseService.isInitialized())
+			baseService.initIstance();
+		catalogService.initialize();
+		CommerceSessionContext context = engine.connect("default-store");
+		context.setCatalog(catalogService.findByCode("default-catalog"));
+		Product p = new Product();
+		p.setCode("p1");
+		p.setDescription(new MultilingualString("en", "test"));
+		
+		productService.create(p);
+		
+		Product p2 = new Product();
+		p2.setCode("p2");
+		p2.setDescription(new MultilingualString("en", "test"));
+		
+		productService.create(p2);
+		
+		Product p3 = new Product();
+		p3.setCode("p3");
+		p3.setDescription(new MultilingualString("it", "test"));
+		
+		productService.create(p3);
+		
+		List<Product> page =productService.findAll(new Specification<Product>() {
+			
+			@Override
+			public Predicate toPredicate(Root<Product> arg0, CriteriaQuery<?> arg1,
+					CriteriaBuilder arg2) {
+				
+				Predicate p1 = arg2.equal(arg0.join("description").join("map").get("language"), "en");
+				Predicate p2 = arg2.equal(arg0.join("description").join("map").get("text"), "test");
+				
+				
+				return arg2.and(p1,p2);
+				
+				
+			}
+		}, new PageRequest(0, 100));
+		
+		Assert.assertEquals(2, page.size());
+		
+		JPAContainer c = ServiceContainerFactory.make(Product.class);
+		MultilingualLikeFilter j = new MultilingualLikeFilter("description", "en", "%est%");
+		c.addContainerFilter(j);
+		Assert.assertEquals(2, c.getItemIds().size());
+		
+		MultilingualLikeFilter j0 = new MultilingualLikeFilter("description", "en", "%est%");
+		c.removeAllContainerFilters();
+		c.addContainerFilter(j0);
+		c.addContainerFilter(new Equal("code" , "p2"));
+		Assert.assertEquals(1, c.getItemIds().size());
+		
+		MultilingualLikeFilter j1 = new MultilingualLikeFilter("description", "it", "%est%");
+		c.removeAllContainerFilters();
+		c.addContainerFilter(j1);
+		Assert.assertEquals(1, c.getItemIds().size());
+	}
 }
