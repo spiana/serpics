@@ -141,7 +141,7 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 		if (!baseService.isInitialized())
 			baseService.initIstance();
 		catalogService.initialize();
-		CommerceSessionContext context = engine.connect("default-store");
+		CommerceSessionContext context = engine.connect("default-store" ,"superuser" ,"admin".toCharArray());
 		context.setCatalog(catalogService.findByCode("default-catalog"));
 		Product p = new Product();
 		p.setCode("p1");

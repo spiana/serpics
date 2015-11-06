@@ -163,9 +163,9 @@ public class CatalogServiceTest extends CatalogBaseTest {
         // Assert.assertEquals("bundle-sku", b2.getCode());
 
 
-        final AbstractProduct p3 = abstractProductRepository.findOne(abstractProductRepository.makeSpecification( (AbstractProduct) p1));
-        Assert.assertNotNull(p3);
-        Assert.assertEquals("test-sku", p3.getCode());
+//        final AbstractProduct p3 = abstractProductRepository.findOne(abstractProductRepository.makeSpecification( (AbstractProduct) p1));
+//        Assert.assertNotNull(p3);
+//        Assert.assertEquals("test-sku", p3.getCode());
 
 
 
