@@ -42,7 +42,7 @@ public abstract class AbstractOrdersData<T extends AbstractOrderItemData> extend
 	public void setShippingAddress(Address shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
-	public double getDiscountAmount() {
+	public Double getDiscountAmount() {
 		return discountAmount;
 	}
 	public Double getDiscountPerc() {
