@@ -14,6 +14,7 @@ public interface ProductFacade {
 	
 	public Page<ProductData> listProduct(Pageable page);
 	public Page<ProductData> listProductByCategory(Long cId, Pageable page);
+	public Page<ProductData> listProductByBrand(Long brandId, Pageable page);
 	
 	public ProductData create(ProductData product);
 	public ProductData create(ProductData product, Long categoryId);

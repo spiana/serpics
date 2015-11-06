@@ -24,7 +24,6 @@ import org.springframework.util.Assert;
 
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.data.CategoryData;
-import com.serpics.catalog.facade.data.ProductData;
 
 @Path("/categoryService")
 @Transactional(readOnly=true)

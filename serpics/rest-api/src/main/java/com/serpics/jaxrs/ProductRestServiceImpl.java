@@ -159,4 +159,14 @@ public class ProductRestServiceImpl implements ProductRestService{
 		return productFacade.listProductByCategory(categoryId, pageable);
 	}
 	
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("pageBrand/{brand}")
+	public Page<ProductData> findByBrand(@PathParam("brand") Long brandId, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
+		Pageable pageable = new PageRequest(page, size);
+		return productFacade.listProductByBrand(brandId, pageable);
+	}
+	
 }
