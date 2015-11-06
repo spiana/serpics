@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.core.Engine;
-import com.serpics.core.session.SessionContext;
 
 
 public interface Repository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T>  {
@@ -36,9 +34,6 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	@Deprecated
 	public T update(T entity);
     
-    //public Specification<T> getDefaultSpecification();
-  
-    public void  setEngine(Engine<SessionContext> engine);
 	public void setRepositoryIniziatializer(RepositoryInitializer inizializer);
 	public CommerceSessionContext getCurrentContext();
 

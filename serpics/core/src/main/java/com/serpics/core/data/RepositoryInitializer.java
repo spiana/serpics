@@ -63,7 +63,6 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	
 		for (String repository : m.keySet()) {
 			Repository i = m.get(repository);
-			i.setEngine(engine);
 			i.setRepositoryIniziatializer(this);
 			entityRepositoryMapping.put(i.getDomainClass().getName() , i);
 		}
