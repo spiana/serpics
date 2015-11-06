@@ -36,4 +36,15 @@ public class ProductSpecification {
 			}
 		};
 	}
+	
+	public static Specification<Product> findByBrand(final String brand) {
+		return new Specification<Product>() {
+			@Override
+			public Predicate toPredicate(final Root<Product> root, final CriteriaQuery<?> query, 
+					final CriteriaBuilder cb) {
+						Predicate p = cb.equal(root.get("brand"), brand);
+						return p;
+			}
+		};
+	}
 }

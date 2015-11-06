@@ -20,7 +20,6 @@ import com.serpics.catalog.data.model.Ctentry;
 import com.serpics.catalog.data.model.Media;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.specification.ProductSpecification;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.CtentryData;
 import com.serpics.catalog.facade.data.MediaData;
@@ -182,9 +181,27 @@ public class ProductFacadeImpl implements ProductFacade {
 		return list; 
 	}
 	
+	@Override
+	public Page<ProductData> listProductByBrand(Long brandId, Pageable page){
+		Brand brand = brandService.findOne(brandId);
+		List<ProductData> productDataList = new ArrayList<ProductData>();
+		long totalElements = 0 ;
+		if(brand!=null){
+			Page<Product> products = productService.findProductByBrand(brand, page);
+			
+			totalElements = products.getTotalElements();
+			
+			for (Product product : products.getContent()) {
+				productDataList.add(productConverter.convert(product));
+			}
+		}		
+		Page<ProductData> pageProduct = new PageImpl<ProductData>(productDataList, page, totalElements);
+		return pageProduct;
+	}
 	
+	@Override
 	public ProductData findByName(final String name) {
-		Product product = productService.findOne(ProductSpecification.findByName(name));
+		Product product = productService.findByName(name);
 		ProductData p = null;
 		if(product !=null){
 			p = productConverter.convert(product);

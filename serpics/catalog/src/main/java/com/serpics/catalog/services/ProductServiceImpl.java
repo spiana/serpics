@@ -1,6 +1,7 @@
 package com.serpics.catalog.services;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -8,11 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.Media;
@@ -20,6 +23,7 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.BrandRepository;
 import com.serpics.catalog.data.repositories.Category2ProductRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
+import com.serpics.catalog.data.specification.ProductSpecification;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.data.Repository;
 import com.serpics.core.service.AbstractEntityService;
@@ -82,6 +86,13 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 		return l;
 	}
 
+	@Override
+	public Page<Product> findProductByBrand(Brand brand, Pageable pagination){
+		List<Product> listProduct =  findAll(ProductSpecification.findByBrand(brand.getName()), pagination);
+		Page<Product> page = new PageImpl<Product>(listProduct, pagination, listProduct.size());
+		return page;
+	}
+
 
 	@Override
 	@Transactional
@@ -94,6 +105,11 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 		product.setMedias(list);
 		product = productRepository.saveAndFlush(product);
 		return product;
+	}
+	
+	@Override
+	public Product findByName(String name){
+		return findOne(ProductSpecification.findByName(name));
 	}
 	
 }

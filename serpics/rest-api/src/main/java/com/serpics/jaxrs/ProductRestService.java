@@ -23,5 +23,6 @@ public interface ProductRestService {
 	public Response addPrice(Long productId, PriceData price);
 	public Page<ProductData> findAll(int page, int size);
 	public Page<ProductData> findByCategory(Long categoryId, int page, int size);
+	public Page<ProductData> findByBrand(Long brandId, int page, int size);
 	
 }
