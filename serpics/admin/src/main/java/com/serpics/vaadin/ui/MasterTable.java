@@ -17,7 +17,6 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
@@ -39,15 +38,16 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	private transient PropertyList<T> propertyList;
 
 	private String[] displayProperties;
+	@SuppressWarnings("unused")
 	private final Set<String> hideProperties = new HashSet<String>();
 	private boolean editable = true;
-	private boolean searchFormEnable = false;
-
-	private MasterTableListner masterTableListner;
+	private boolean searchFormEnable = true;
+	
+	private String[] searchProperties;
+		private MasterTableListner masterTableListner;
 	protected Table entityList;
 
 	private final HorizontalLayout editButtonPanel = new HorizontalLayout();
-	private final HorizontalLayout searchPanel = new HorizontalLayout();
 
 	protected transient JPAContainer<T> container;
 
@@ -55,7 +55,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		super();
 		this.entityClass = entityClass;
 		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(entityClass));
-
+		
 	}
 
 	@Override
@@ -80,14 +80,23 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 	}
 
+	@SuppressWarnings("serial")
 	public EntityFormWindow<T> buildEntityWindow() {
 		EntityFormWindow<T> editorWindow = new EntityFormWindow<T>();
 		editorWindow.addTab(new MasterForm<T>(entityClass) {
 		}, entityClass.getSimpleName());
 		return editorWindow;
 	}
+	
+	@SuppressWarnings("serial")
+	public EntityFormWindow<T> buildSearchForm() {
+		EntityFormWindow<T> editorWindow = new EntityFormWindow<T>();
+		editorWindow.addTab(new AdvanceSearchForm<T>(entityClass, createEntityItem()) {
+		}, entityClass.getSimpleName());
+		return editorWindow;
+	}
 
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "serial" })
 	protected void buildContent() {
 		this.entityList = new Table();
 		entityList.setSelectable(true);
@@ -96,7 +105,14 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		entityList.setColumnCollapsingAllowed(true);
 		entityList.setColumnReorderingAllowed(true);
 		entityList.setContainerDataSource(this.container);
+		
+		
+		 final HorizontalLayout searchPanel = new HorizontalLayout();
 
+		if(this.searchProperties==null)
+			this.searchProperties = PropertiesUtils.get().getSearchProperty(this.entityClass.getSimpleName());
+
+		
 		if (this.displayProperties == null)
 			this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
 
@@ -123,16 +139,15 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		final VerticalLayout v = new VerticalLayout();
 		v.setSizeFull();
 
-		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
-		this.editButtonPanel.setEnabled(isEnabled());
-
-		if (searchFormEnable) {
-			this.searchPanel.addComponent(new SearchForm<T>(entityClass, createEntityItem()) {
-			});
-			this.searchPanel.setCaption("search");
-			v.addComponent(searchPanel);
-		}
-		v.addComponent(editButtonPanel);
+		HorizontalLayout commandBar = new HorizontalLayout();
+		editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+		editButtonPanel.setEnabled(isEnabled());
+		searchPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+		
+		commandBar.addComponent(editButtonPanel);
+		commandBar.addComponent(searchPanel);
+		v.addComponent(commandBar);
+		
 		v.addComponent(entityList);
 
 		v.setExpandRatio(entityList, 1);
@@ -162,7 +177,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 					EntityFormWindow<T> editorWindow = buildEntityWindow();
 					editorWindow.setNewItem(true);
 					editorWindow.setReadOnly(false);
-					editorWindow.setEntityItem(createEntityItem());
+					editorWindow.setEntityItem(createEntityItem());					
 					UI.getCurrent().addWindow(editorWindow);
 				} else {
 					// createEntityItem();
@@ -180,7 +195,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			public void buttonClick(final ClickEvent event) {
 				if (entityList.getValue() == null)
 					return;
-				if (!entityList.isEditable()) {
+				if (!entityList.isEditable()) {					
 					EntityFormWindow<T> editorWindow = buildEntityWindow();
 					editorWindow.setNewItem(false);
 					editorWindow.setReadOnly(false);
@@ -189,26 +204,39 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				}
 			}
 		});
-
-		final Button _delete = new Button(I18nUtils.getMessage("button.remove", "Remove"));
-		final Button _search = new Button(I18nUtils.getMessage("button.search", "Search"));
-		final Button _reset = new Button(I18nUtils.getMessage("button.reset", "Reset"));
-		final TextField serchField = (TextField) masterTableListner.get().buildFilterField();
-		final ComboBox filterType = (ComboBox) masterTableListner.get().createComboFilterType();
-		final ComboBox propertiesToFilter = (ComboBox) masterTableListner.get().buildComboByMXL(this.displayProperties);
 		
-		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
-		masterTableListner.get().searchButtonClickListener(container, _search , propertiesToFilter, serchField , filterType);
-		masterTableListner.get().resetButtonClickListener(container, _reset);
+		final Button _advanceSearch = new Button(I18nUtils.getMessage("button.advanceSearch", "Advance Search"));
+		_advanceSearch.addClickListener(new Button.ClickListener() {
 
-		editButtonPanel.addComponent(_delete);
-		editButtonPanel.addComponent(propertiesToFilter);
-		editButtonPanel.addComponent(filterType);
-		editButtonPanel.addComponent(serchField);
-		editButtonPanel.addComponent(_search);
-		editButtonPanel.addComponent(_reset);
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				if (!entityList.isEditable()) {
+					EntityFormWindow<T> editorWindow = buildSearchForm();				
+					editorWindow.setNewItem(true);
+					editorWindow.setReadOnly(false);
+					editorWindow.setEntityItem(createEntityItem());					
+					UI.getCurrent().addWindow(editorWindow);
+				} else {
+					// createEntityItem();
+					// entityList.refreshRowCache();
+				}
+			}
+		});
+	
+		final Button _delete = new Button(I18nUtils.getMessage("button.remove", "Remove"));		
+		editButtonPanel.addComponent(_delete);	
+	    if(searchFormEnable == true){
+	    	
+			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
+			masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
+			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
+			serchField.setWidth("100%");
+			searchPanel.addComponent(serchField);
+			//editButtonPanel.addComponent(_advanceSearch);
+	    }
 		setCompositionRoot(v);
 		setSizeFull();
+	
 	}
 
 	@Override
@@ -246,11 +274,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 	public void addFilter(final Filter filter) {
 		container.addContainerFilter(filter);
-	}
-
-	public void addFilter(String propertyId, String filterString, boolean ignoreCase, boolean onlyMatchPrefix) {
-		container.addContainerFilter(propertyId, filterString, ignoreCase, onlyMatchPrefix);
-		;
 	}
 
 	public void removeFilter(final Filter filter) {
@@ -306,5 +329,5 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	public void setSearchFormEnable(boolean searchFormEnable) {
 		this.searchFormEnable = searchFormEnable;
 	}
-
+		
 }

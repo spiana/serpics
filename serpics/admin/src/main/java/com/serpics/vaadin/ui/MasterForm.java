@@ -44,14 +44,11 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 
 	public MasterForm(final Class<T> clazz) {
 		propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(clazz));
-
 		this.entityClass = clazz;
-
 		setWidth("100%");
 		setImmediate(false);
 		setMargin(true);
 		setSpacing(true);
-
 	}
 
 	/*

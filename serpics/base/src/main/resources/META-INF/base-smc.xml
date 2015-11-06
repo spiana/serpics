@@ -7,9 +7,8 @@
 				<property name="geocode.code" />
 				<property name="description" />
 			</display>
-			<search>
-				<property name="geocode" />
-				<property name="iso2Code" />
+			<search>				
+				<property name="iso2Code" />							
 			</search>
 		</table>
 		<editor>
@@ -40,8 +39,8 @@
 				<property name="descriprion" />
 			</display>
 			<search>
-				<property name="isoCode" />
-	
+				<property name="isoCode" />	
+				<property name="descriprion" />
 			</search>
 		</table>
 		<editor>
@@ -60,6 +59,21 @@
 		</editor>
 		<select>
 			<property name="isoCode" />
+		</select>
+	</entity>
+
+<entity name="geocode">
+		<table>
+			<display>
+				<property name="code" />
+				<property name="description" />
+			</display>
+			<search>
+				<property name="code" />										
+			</search>
+		</table>		
+		<select>
+			<property name="code" />
 		</select>
 	</entity>
 
