@@ -213,7 +213,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 			}
 		}
 		
-		Assert.assertEquals(2, cart.getOrderItems().size());
+		Assert.assertEquals(3, cart.getOrderItems().size());
 		
 		
 	}
