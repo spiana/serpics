@@ -14,7 +14,7 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.stereotype.DefaultSpec;
 
-@DefaultSpec(Product.class)
+@DefaultSpec(Brand.class)
 public class DefaultBrandSpecification implements Specification<Brand>{
 	@Autowired
 	CommerceEngine engine;
@@ -24,5 +24,8 @@ public class DefaultBrandSpecification implements Specification<Brand>{
 			CriteriaBuilder cb) {
 		return cb.equal(root.get("catalog"),(Catalog)engine.getCurrentContext().getCatalog());
 	}
+	
+	
+
 
 }

@@ -108,7 +108,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     @Test
     @Transactional
     public void testListProduct() {
-    	Page<BrandData> lb = brandFacade.findAll(new PageRequest(0, 10));
+    	Page<BrandData> lb = brandFacade.listBrand(new PageRequest(0, 10));
     	Assert.assertEquals("Number of brand", 1, lb.getTotalElements());
     	
     	Page<ProductData> p = productFacade.listProduct(new PageRequest(0, 10));

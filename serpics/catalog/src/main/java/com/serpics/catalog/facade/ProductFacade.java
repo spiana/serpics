@@ -11,10 +11,10 @@ import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 
 public interface ProductFacade {
-
 	
 	public Page<ProductData> listProduct(Pageable page);
 	public Page<ProductData> listProductByCategory(Long cId, Pageable page);
+	public Page<ProductData> listProductByBrand(Long brandId, Pageable page);
 	
 	public ProductData create(ProductData product);
 	public ProductData create(ProductData product, Long categoryId);
@@ -26,6 +26,7 @@ public interface ProductFacade {
 	public  List<CategoryData>  getParentCategory(ProductData product);
 	public ProductData findByName(String name);
 	
+	public ProductData findById(Long id);
 	
 	public void addMedia(Long productId, MediaData media);
 	

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.repositories.BrandRepository;
+import com.serpics.catalog.data.specification.BrandSpecification;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 
@@ -16,11 +17,16 @@ import com.serpics.core.data.Repository;
 public class BrandServiceImpl extends AbstractCommerceEntityService<Brand, Long> implements BrandService {
 	@Autowired
 	BrandRepository brandRepository;
-	
+
 	@Override
 	public Repository<Brand, Long> getEntityRepository() {
 		return brandRepository;
 	}
 
-   
+	@Override
+	public Brand findOneByName(String name) {
+
+		return brandRepository.findOne(BrandSpecification.findOneByName(name));
+	}
+
 }

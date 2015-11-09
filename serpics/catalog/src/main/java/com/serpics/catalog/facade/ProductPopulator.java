@@ -3,6 +3,8 @@ package com.serpics.catalog.facade;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -27,6 +29,7 @@ public class ProductPopulator implements Populator<AbstractProduct, ProductData>
 	private AbstractPopulatingConverter<Price, PriceData> priceConverter;
 	private AbstractPopulatingConverter<Media, MediaData> mediaConverter;
 	private AbstractPopulatingConverter<Category, CategoryData> categoryConverter;
+	private static Logger LOG = LoggerFactory.getLogger(ProductPopulator.class);
 	
 	@Autowired
 	PriceService priceService;
@@ -50,15 +53,11 @@ public class ProductPopulator implements Populator<AbstractProduct, ProductData>
 		target.setMetaKey(source.getMetaKeyword());
 		target.setMetaDescription(source.getMetaDescription());
 		
-		if(source.getPrices() != null) {
-			Price price = null;
-			try {
-				price = priceService.findProductPrice(source);
-			} catch (PriceNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			Price price = priceService.findProductPrice(source);
 			target.setPrice(priceConverter.convert(price));
+		} catch (PriceNotFoundException e) {
+			LOG.warn("Price not found for product {}", source.getCode());
 		}
 		
 		if(source.getBrand() != null)

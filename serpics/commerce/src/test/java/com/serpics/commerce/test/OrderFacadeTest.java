@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.repositories.LocaleRepository;
-import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
@@ -34,7 +33,6 @@ import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
-import com.serpics.warehouse.InventoryNotAvailableException;
 
 
 @ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
@@ -205,23 +203,17 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 			log.info("RIGA CARRELLO " + cartItemData.getSku() +  "  + " +  cartItemData.getQuantity() +  " - " + cartItemData.getSkuPrice());
 			if( cartItemData.getSku().equals("PROD1")) {
 				cartItemData.setQuantity(3);
-				try {
-					cart = cartFacade.update(cartItemData);
-				} catch (InventoryNotAvailableException | ProductNotFoundException e) {
-					Assert.fail("Unexpected exception in update cartItemData with quantity 3");
-				}
+					CartItemModification cartmod = cartFacade.update(cartItemData);
+			    	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
 			}
 			if(cartItemData.getSku().equals("PROD2")){
 				cartItemData.setQuantity(0);
-				try {
-					cart = cartFacade.update(cartItemData);
-				} catch (InventoryNotAvailableException | ProductNotFoundException e) {
-					Assert.fail("Unexpected exception in update cartItemData to remove");
-				}
+				CartItemModification cartmod = cartFacade.update(cartItemData);
+		    	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
 			}
 		}
 		
-		Assert.assertEquals(2, cart.getOrderItems().size());
+		Assert.assertEquals(3, cart.getOrderItems().size());
 		
 		
 	}

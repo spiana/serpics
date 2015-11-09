@@ -54,6 +54,7 @@ public class CartFacadeImpl implements CartFacade {
 		 return cartAdd(sku, 1);
 	}
 	
+	@Override
 	@Transactional
 	public CartItemModification cartAdd(String sku, int quantity) {
 		Cart c = null;
@@ -62,7 +63,7 @@ public class CartFacadeImpl implements CartFacade {
 			c = cartService.prepareCart();
 			return new CartItemModification(CartModificationStatus.OK , cartConverter.convert(c));
 		} catch (InventoryNotAvailableException e){
-			return new CartItemModification(CartModificationStatus.ERROR, new CartData(), "not available !");
+			return new CartItemModification(CartModificationStatus.LOW_STOCK, new CartData(), "not available !");
 		}catch (ProductNotFoundException e) {
 			return new CartItemModification(CartModificationStatus.ERROR, new CartData(), "product not found !");
 		} 
@@ -72,6 +73,7 @@ public class CartFacadeImpl implements CartFacade {
 	
 	
 	@Override
+	@Transactional
 	public CartData getCurrentCart() {
 		Cart c = cartService.getSessionCart();
 		CartData cart = cartConverter.convert(c);
@@ -79,12 +81,16 @@ public class CartFacadeImpl implements CartFacade {
 	}
 	
 	@Override
-	@Transactional
-	public CartData update(CartItemData cartItem) throws InventoryNotAvailableException, ProductNotFoundException{
-		
-		Cart cart = cartService.cartUpdate(convertCartItemData(cartItem));
-		
-		return cartConverter.convert(cart);
+	public CartItemModification update(CartItemData cartItem){	
+		Cart cart = null;
+		try {
+			cart = cartService.cartUpdate(convertCartItemData(cartItem));
+			return new CartItemModification(CartModificationStatus.OK , cartConverter.convert(cart));
+		} catch (InventoryNotAvailableException e){
+			return new CartItemModification(CartModificationStatus.LOW_STOCK, new CartData(), "not available !");
+		}catch (ProductNotFoundException e) {
+			return new CartItemModification(CartModificationStatus.ERROR, new CartData(), "product not found !");
+		} 
 	}
 	
 	protected Cartitem convertCartItemData(CartItemData cartItemData){
@@ -137,6 +143,7 @@ public class CartFacadeImpl implements CartFacade {
 		
 		return cartdata;
 	}
+	
 	@Override
 	@Transactional
 	public CartData addShippingAddress(AddressData shippingAddress){
