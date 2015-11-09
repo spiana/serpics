@@ -142,7 +142,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 		if (String.class.isAssignableFrom(p.getType())) {
 			f.setWidth("80%");
 		}
-		if (readOnlyProperties.contains(pid))
+		if (readOnlyProperties.contains(pid) || isReadOnly())
 			f.setReadOnly(true);
 		
 		String message = I18nUtils.getMessage(getType().getSimpleName().toLowerCase() +"." + pid , null);
@@ -167,7 +167,8 @@ public class One2oneField<M, T> extends CustomField<T> {
 					.getItemProperty(parentPropertyId).getType());
 			if (value == null){
 				this.entityItem = createEntityItem(container);
-				 this.entityItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity.getEntity());
+				if (this.backReferencePropertyId != null)
+					this.entityItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity.getEntity());
 			}else{
 				this.entityItem = container.getItem(container.getEntityProvider()
 					.getIdentifier(value));
@@ -208,7 +209,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 	    if ((otm != null) && (!("".equals(otm.mappedBy())))) {
 	      return otm.mappedBy();
 	    }
-	    return getType().getSimpleName().toLowerCase();
+	    return null; // getType().getSimpleName().toLowerCase(); //if not found mappedBy is not bidirectional
 	  }
 	
 	 private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)

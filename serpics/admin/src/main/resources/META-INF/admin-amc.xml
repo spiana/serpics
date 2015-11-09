@@ -16,7 +16,7 @@
 		<navigator-item allow-child="true" 	name="orders" parent="" />
 		<navigator-item	allow-child="false" bean="orderMasterTable"	name="order" parent="orders" />
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethod" name="payMethod" parent="orders" />
-	
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Cart" name="cart" parent="orders" />
 		
 	</navigator>
 

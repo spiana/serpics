@@ -256,7 +256,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 
 	    CssLayout buttons = new CssLayout();
 	    // disable buttons for new item
-	    if(!entityItem.isPersistent())
+	    if(!entityItem.isPersistent() || isReadOnly())
 	    	buttons.setEnabled(false);
 	    
 	    buttons.addComponent(new Button(I18nUtils.getMessage("button.add", "Add"), new Button.ClickListener()
