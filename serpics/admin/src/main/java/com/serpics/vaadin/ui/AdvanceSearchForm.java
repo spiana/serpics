@@ -37,6 +37,7 @@ import com.vaadin.ui.themes.ValoTheme;
  * @param <T>
  *
  */
+@SuppressWarnings("unused")
 public class AdvanceSearchForm<T> extends MasterForm<T> {
 
 	private static transient Logger LOG = LoggerFactory.getLogger(AdvanceSearchForm.class);
@@ -112,6 +113,8 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 		addComponent(search);
 		final Button reset = new Button("reset");
 		reset.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				MasterTableListner.get().resetButtonClickListener(container, reset);

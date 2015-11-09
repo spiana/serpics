@@ -44,7 +44,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	private boolean searchFormEnable = false;
 	
 	private String[] searchProperties;
-		private MasterTableListner masterTableListner;
+	private MasterTableListner masterTableListner;
 	protected Table entityList;
 
 	private final HorizontalLayout editButtonPanel = new HorizontalLayout();

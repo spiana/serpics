@@ -23,6 +23,8 @@ import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
@@ -159,6 +161,7 @@ public class MasterTableListner extends FormLayout {
 			@Override
 			public void buttonClick(final ClickEvent event) {
 				container.removeAllContainerFilters();
+				showNotificationMessage("Romove all filter from container!!");
 			}
 		});
 	}
@@ -199,8 +202,17 @@ public class MasterTableListner extends FormLayout {
 		return propertiesId;
 	}
 
-	public void showNotificationMessage() {
-		Notification.show("Commerce Notification", "Message", Notification.Type.TRAY_NOTIFICATION);
+	/**
+	 * 
+	 * @param message
+	 */
+	public void showNotificationMessage(String message) {
+		Notification notification = new Notification("Commerce PlaTform Notification");		
+		notification.setHtmlContentAllowed(true);
+		notification.setDescription("<br /><span><p>"+message+"<br /></p></span>");
+		notification.setPosition(Position.BOTTOM_RIGHT);
+		notification.setDelayMsec(6000);
+		notification.show(Page.getCurrent());		
 	}
 
 	/**
@@ -242,7 +254,7 @@ public class MasterTableListner extends FormLayout {
 
 				if (event.getText().equals("")) {
 					container.removeAllContainerFilters();
-					showNotificationMessage();
+					showNotificationMessage("Roove all filter from container!!");
 				}
 			}
 		});
