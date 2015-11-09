@@ -79,6 +79,7 @@ public class CartFacadeImpl implements CartFacade {
 	}
 	
 	@Override
+	@Transactional
 	public CartData update(CartItemData cartItem) throws InventoryNotAvailableException, ProductNotFoundException{
 		
 		Cart cart = cartService.cartUpdate(convertCartItemData(cartItem));
