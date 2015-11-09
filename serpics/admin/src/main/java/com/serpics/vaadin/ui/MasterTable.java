@@ -41,13 +41,14 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	@SuppressWarnings("unused")
 	private final Set<String> hideProperties = new HashSet<String>();
 	private boolean editable = true;
-	private boolean searchFormEnable = true;
+	private boolean searchFormEnable = false;
 	
 	private String[] searchProperties;
 		private MasterTableListner masterTableListner;
 	protected Table entityList;
 
 	private final HorizontalLayout editButtonPanel = new HorizontalLayout();
+	private final HorizontalLayout searchPanel = new HorizontalLayout();
 
 	protected transient JPAContainer<T> container;
 
@@ -89,8 +90,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	}
 	
 	@SuppressWarnings("serial")
-	public EntityFormWindow<T> buildSearchForm() {
-		EntityFormWindow<T> editorWindow = new EntityFormWindow<T>();
+	public CustomModalComponent<T> buildSearchForm() {
+		CustomModalComponent<T> editorWindow = new CustomModalComponent<T>();
 		editorWindow.addTab(new AdvanceSearchForm<T>(entityClass, createEntityItem()) {
 		}, entityClass.getSimpleName());
 		return editorWindow;
@@ -105,9 +106,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		entityList.setColumnCollapsingAllowed(true);
 		entityList.setColumnReorderingAllowed(true);
 		entityList.setContainerDataSource(this.container);
-		
-		
-		 final HorizontalLayout searchPanel = new HorizontalLayout();
 
 		if(this.searchProperties==null)
 			this.searchProperties = PropertiesUtils.get().getSearchProperty(this.entityClass.getSimpleName());
@@ -139,15 +137,16 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		final VerticalLayout v = new VerticalLayout();
 		v.setSizeFull();
 
-		HorizontalLayout commandBar = new HorizontalLayout();
-		editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
-		editButtonPanel.setEnabled(isEnabled());
-		searchPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
-		
-		commandBar.addComponent(editButtonPanel);
-		commandBar.addComponent(searchPanel);
-		v.addComponent(commandBar);
-		
+		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+		this.editButtonPanel.setEnabled(isEnabled());
+
+		if (searchFormEnable) {
+			this.searchPanel.addComponent(new SearchForm<T>(entityClass, createEntityItem()) {
+			});
+			this.searchPanel.setCaption("search");
+			v.addComponent(searchPanel);
+		}
+		v.addComponent(editButtonPanel);
 		v.addComponent(entityList);
 
 		v.setExpandRatio(entityList, 1);
@@ -211,7 +210,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			@Override
 			public void buttonClick(final ClickEvent event) {
 				if (!entityList.isEditable()) {
-					EntityFormWindow<T> editorWindow = buildSearchForm();				
+					CustomModalComponent<T> editorWindow = buildSearchForm();				
 					editorWindow.setNewItem(true);
 					editorWindow.setReadOnly(false);
 					editorWindow.setEntityItem(createEntityItem());					
@@ -223,20 +222,16 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 	
+	    
 		final Button _delete = new Button(I18nUtils.getMessage("button.remove", "Remove"));		
-		editButtonPanel.addComponent(_delete);	
-	    if(searchFormEnable == true){
-	    	
-			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
-			masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
-			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
-			serchField.setWidth("100%");
-			searchPanel.addComponent(serchField);
-			//editButtonPanel.addComponent(_advanceSearch);
-	    }
+		final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
+		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
+		masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
+		editButtonPanel.addComponent(_delete);		
+		editButtonPanel.addComponent(serchField);
+		editButtonPanel.addComponent(_advanceSearch);
 		setCompositionRoot(v);
 		setSizeFull();
-	
 	}
 
 	@Override
