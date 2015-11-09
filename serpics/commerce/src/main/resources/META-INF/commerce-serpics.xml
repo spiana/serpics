@@ -18,6 +18,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
      <bean name="defaultPaymethodlookupSpecification" class="com.serpics.commerce.data.specifications.DefaultPaymethodlookupSpecification"/>
     
     <!-- Interceptor Mapping -->
+    <bean name="abstractOrderSaveInterceptor" class="com.serpics.commerce.data.interceptors.AbstractOrderSaveInterceptor"/>
 	<bean name="paymethodlookupCreateInterceptor"
 		class="com.serpics.commerce.data.interceptors.PaymethodlookupSaveInterceptor" />
 	
@@ -27,6 +28,11 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="interceptor" ref="paymethodlookupCreateInterceptor" />
 	</bean> 
 	
+	<bean name="abstractOrderlookupCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.commerce.data.model.AbstractOrder" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="abstractOrderSaveInterceptor" />
+	</bean> 
 	
 	<!-- facade -->
 	<!-- Cart Item Converter -->

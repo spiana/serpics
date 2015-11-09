@@ -27,6 +27,15 @@
 		</select>
 	</entity>
 	
+	<entity name="product">
+		<table>
+			<search>
+				<property name="code"/>
+				<property name="description"/>
+			</search>
+		</table>
+	</entity>
+	
 	<entity name="featuregroup">
 		<table action="append">
 			<display>

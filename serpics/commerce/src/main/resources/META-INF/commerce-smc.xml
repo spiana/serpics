@@ -2,13 +2,13 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
-	<entity name="order">
+	<entity name="cart">
 		<table action="append">
 			<display>
 				<property name="customer.firstname" />
 				<property name="status" />
-				<property name="billingAddress" />
-				<property name="shippingAddress" />
+<!-- 				<property name="billingAddress" /> -->
+<!-- 				<property name="shippingAddress" /> -->
 				<property name="created" />
 			</display>
 			<search>
@@ -19,6 +19,53 @@
 			<display>
 				<property name="customer" />
 				<property name="status" />
+				<property name="currency" />
+				<property name="cookie" />
+				
+				<property name="billingAddress" />
+				<property name="shippingAddress" />
+				<property name="created" />
+				<property name="orderitems"/>
+				<property name="totalProduct"/>
+				<property name="totalService"/>
+				<property name="totalShipping"/>
+				<property name="totalTax"/>
+				<property name="orderAmount"/>
+			</display>
+			<readonly>
+				<property name="billingAddress" />
+				<property name="shippingAddress" />
+				<property name="created" />
+				<property name="orderitems"/>
+				<property name="totalProduct"/>
+				<property name="totalService"/>
+				<property name="totalShipping"/>
+				<property name="totalTax"/>
+				<property name="orderAmount"/>
+			</readonly>
+		</editor>
+		
+	</entity>	
+
+	<entity name="order">
+		<table action="append">
+			<display>
+				<property name="customer.firstname" />
+				<property name="status" />
+<!-- 				<property name="billingAddress" /> -->
+<!-- 				<property name="shippingAddress" /> -->
+				<property name="created" />
+			</display>
+			<search>
+				<property name="status" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="customer" />
+				<property name="status" />
+				<property name="cookie" />
+				<property name="currency" />
 				<property name="billingAddress" />
 				<property name="shippingAddress" />
 				<property name="created" />

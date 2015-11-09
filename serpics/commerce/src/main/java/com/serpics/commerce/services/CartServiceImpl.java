@@ -98,12 +98,12 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
     @Override
     public Cart getSessionCart() {
         Cart currentCart = (Cart) getCurrentContext().getAttribute(SESSION_CART);
-
         if (currentCart == null) {
             LOG.info("NOT found cart in commerce session for user {}",
                     ((User) getCurrentContext().getUserPrincipal()).getUuid());
             currentCart = createSessionCart();
         } else {
+            currentCart = cartRepository.findOne(currentCart.getId());
             LOG.info("found cart in commerce session for user {}", currentCart.getUser().getUuid());
 
         }

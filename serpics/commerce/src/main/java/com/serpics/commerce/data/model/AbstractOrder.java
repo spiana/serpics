@@ -18,7 +18,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.membership.data.model.AbstractAddress;
@@ -46,17 +48,20 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @Column(name = "order_id", unique = true, nullable = false)
     protected Long id;
 
-    @Column(name = "cookie", length = 250, unique = false, nullable = false)
+    @Column(name = "cookie", length = 250, unique = false, nullable = true)
     protected String cookie;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false, targetEntity = Currency.class)
     @JoinColumn(name = "currency_id")
     private Currency currency;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id")
     protected User customer;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     protected User user;
@@ -67,12 +72,13 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @Column(name = "discount_perc", precision = 10, scale = 4)
     protected double discountPerc = 0;
 
-    @Column(name = "order_amount", nullable = false, precision = 10, scale = 4)
+    @Column(name = "order_amount", nullable = true, precision = 10, scale = 4)
     protected Double orderAmount ;
     
     // @Column(name="shipping_address_id")
     // private Long shippingAddressId;
 
+    @NotNull
     @Column(nullable = false, length = 2)
     protected String status;
 
@@ -111,13 +117,19 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     protected Set<Suborder> suborders = new HashSet<Suborder>(0);
 
-    @ManyToOne(fetch=FetchType.LAZY )
-    @JoinColumn(name = "billing_address_id" )
-    //protected Address billingAddress;
+//    @ManyToOne(fetch=FetchType.LAZY )
+//    @JoinColumn(name = "billing_address_id" )
+    @OneToOne(optional=true)
+    @JoinColumn(
+        name="billing_address_id", unique=true, nullable=true, updatable=true)
     protected Address  billingAddress;
 
-    @ManyToOne(fetch=FetchType.LAZY )
-    @JoinColumn(name = "shipping_address_id")
+//    @ManyToOne(fetch=FetchType.LAZY )
+//    @JoinColumn(name = "shipping_address_id")
+    
+    @OneToOne(optional=true)
+    @JoinColumn(
+        name="shipping_address_id", unique=true, nullable=true, updatable=true)
     protected Address shippingAddress;
 
     // bi-directional many-to-one association to Orderitem
