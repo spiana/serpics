@@ -11,9 +11,6 @@ import java.util.Locale;
 
 import javax.persistence.Transient;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -43,18 +40,15 @@ import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 
 /**
- * SerpicsStartApp
+ * 
  * 
  * @author christian
  * @param <T>
  *
  */
-
-
 public class MasterTableListner extends FormLayout {
 
 	private static final long serialVersionUID = -2736583181645447496L;
-	private static Logger LOG = LoggerFactory.getLogger(MasterTableListner.class);
 
 	@Transient
 	private transient String[] searchProperties;
@@ -71,7 +65,8 @@ public class MasterTableListner extends FormLayout {
 			instance = new MasterTableListner();
 		return instance;
 	}
-
+	
+	
 	/**
 	 * 
 	 * @param container
@@ -80,7 +75,9 @@ public class MasterTableListner extends FormLayout {
 	public <T> void deleteButtonClickListener(final JPAContainer<T> container, final Table entityList,
 			final Button delete) {
 
-		delete.addClickListener(new Button.ClickListener() {
+		delete.addClickListener(new Button.ClickListener() {			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(final ClickEvent event) {
 				if (entityList.getValue() == null)
@@ -105,39 +102,41 @@ public class MasterTableListner extends FormLayout {
 	 * @param _search
 	 */
 	public <T> void searchButtonClickListener(final JPAContainer<T> container, final Button search,
-			final ComboBox propertyId, final TextField field, final ComboBox filterType) {
+			 final TextField field, final ComboBox filterType) {
 		
-		if (propertyId.getValue() != null && filterType.getValue() != null) {
-			search.addClickListener(new Button.ClickListener() {
+		if ( filterType.getValue() != null) {
+			search.addClickListener(new Button.ClickListener() {				
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void buttonClick(final ClickEvent event) {
-					if (propertyId.getValue() != null && filterType.getValue() != null) {
+					if (filterType.getValue() != null) {
 						switch ((String) filterType.getValue()) {
 						case "inizia con":
 							container.addContainerFilter(
-									new SimpleStringFilter(propertyId.getValue(), field.getValue(), false, true));
+									new SimpleStringFilter(filterType.getValue(), field.getValue(), false, true));
 							break;
 						case "contiene":
 							container.addContainerFilter(
-									new SimpleStringFilter(propertyId, field.getValue(), false, false));
+									new SimpleStringFilter(filterType, field.getValue(), false, false));
 							break;
 						case "è uguale a":
-							container.addContainerFilter(new Compare.Equal(propertyId, field.getValue()));
+							container.addContainerFilter(new Compare.Equal(filterType, field.getValue()));
 							break;
 						case "è diverso da":
-							container.addContainerFilter(new Not(new Compare.Equal(propertyId, field.getValue())));
+							container.addContainerFilter(new Not(new Compare.Equal(filterType, field.getValue())));
 							break;
 						case "è maggiore di":
-							container.addContainerFilter(new Compare.Greater(propertyId, field.getValue()));
+							container.addContainerFilter(new Compare.Greater(filterType, field.getValue()));
 							break;
 						case "è minore di":
-							container.addContainerFilter(new Compare.Less(propertyId, field.getValue()));
+							container.addContainerFilter(new Compare.Less(filterType, field.getValue()));
 							break;
 						case "è maggiore o uguale a":
-							container.addContainerFilter(new Compare.GreaterOrEqual(propertyId, field.getValue()));
+							container.addContainerFilter(new Compare.GreaterOrEqual(filterType, field.getValue()));
 							break;
 						case "è minore o uguale a":
-							container.addContainerFilter(new Compare.LessOrEqual(propertyId, field.getValue()));
+							container.addContainerFilter(new Compare.LessOrEqual(filterType, field.getValue()));
 							break;
 						default:
 							break;
@@ -154,7 +153,9 @@ public class MasterTableListner extends FormLayout {
 	 * @param _search
 	 */
 	public <T> void resetButtonClickListener(final JPAContainer<T> container, final Button reset) {
-		reset.addClickListener(new Button.ClickListener() {
+		reset.addClickListener(new Button.ClickListener() {			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(final ClickEvent event) {
 				container.removeAllContainerFilters();
@@ -215,18 +216,16 @@ public class MasterTableListner extends FormLayout {
 	
 
 		filter.addTextChangeListener(new TextChangeListener() {
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void textChange(final TextChangeEvent event) {
 
 				String filterField = "%" + event.getText() + "%";
-
 				List<Filter> filters = new ArrayList<Filter>();
 				
-				Locale locale = UI.getCurrent().getSession().getLocale();
-				
+				Locale locale = UI.getCurrent().getSession().getLocale();				
 				Filter filter = null;
-
 				container.removeAllContainerFilters();
 
 				if (properties != null) {
