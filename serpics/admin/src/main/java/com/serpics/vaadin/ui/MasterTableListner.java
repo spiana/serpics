@@ -3,7 +3,6 @@
  */
 package com.serpics.vaadin.ui;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,9 +54,8 @@ public class MasterTableListner extends FormLayout {
 	@Transient
 	private transient String[] searchProperties;
 
-	
 	private static MasterTableListner instance;
-	
+
 	public MasterTableListner() {
 		super();
 	}
@@ -67,8 +65,7 @@ public class MasterTableListner extends FormLayout {
 			instance = new MasterTableListner();
 		return instance;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param container
@@ -77,7 +74,7 @@ public class MasterTableListner extends FormLayout {
 	public <T> void deleteButtonClickListener(final JPAContainer<T> container, final Table entityList,
 			final Button delete) {
 
-		delete.addClickListener(new Button.ClickListener() {			
+		delete.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -103,50 +100,46 @@ public class MasterTableListner extends FormLayout {
 	 * @param container
 	 * @param _search
 	 */
-	public <T> void searchButtonClickListener(final JPAContainer<T> container, final Button search,
-			 final TextField field, final ComboBox filterType) {
-		
-		if ( filterType.getValue() != null) {
-			search.addClickListener(new Button.ClickListener() {				
-				private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
+	public <T> void addClickListnerOnSearchButton(final JPAContainer<T> container, final Button search,
+			final TextField field, final ComboBox filterType, final String property) {
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					if (filterType.getValue() != null) {
-						switch ((String) filterType.getValue()) {
-						case "inizia con":
-							container.addContainerFilter(
-									new SimpleStringFilter(filterType.getValue(), field.getValue(), false, true));
-							break;
-						case "contiene":
-							container.addContainerFilter(
-									new SimpleStringFilter(filterType, field.getValue(), false, false));
-							break;
-						case "è uguale a":
-							container.addContainerFilter(new Compare.Equal(filterType, field.getValue()));
-							break;
-						case "è diverso da":
-							container.addContainerFilter(new Not(new Compare.Equal(filterType, field.getValue())));
-							break;
-						case "è maggiore di":
-							container.addContainerFilter(new Compare.Greater(filterType, field.getValue()));
-							break;
-						case "è minore di":
-							container.addContainerFilter(new Compare.Less(filterType, field.getValue()));
-							break;
-						case "è maggiore o uguale a":
-							container.addContainerFilter(new Compare.GreaterOrEqual(filterType, field.getValue()));
-							break;
-						case "è minore o uguale a":
-							container.addContainerFilter(new Compare.LessOrEqual(filterType, field.getValue()));
-							break;
-						default:
-							break;
-						}
-					}
-				}
-			});
+		List<Filter> filters = new ArrayList<Filter>();
+		Filter filter = null;
+
+		if (filterType.getValue() != null) {
+			switch ((String) filterType.getValue()) {
+			case "inizia con":
+				filter = new SimpleStringFilter(property, field.getValue(), false, true);
+				break;
+			case "contiene":
+				filter = new SimpleStringFilter(property, field.getValue(), false, false);
+				break;
+			case "è uguale a":
+				filter = new Compare.Equal(property, field.getValue());
+				break;
+			case "è diverso da":
+				filter = new Not(new Compare.Equal(property, field.getValue()));
+				break;
+			case "è maggiore di":
+				filter = new Compare.Greater(property, field.getValue());
+				break;
+			case "è minore di":
+				filter = new Compare.Less(property, field.getValue());
+				break;
+			case "è maggiore o uguale a":
+				filter = new Compare.GreaterOrEqual(property, field.getValue());
+				break;
+			case "è minore o uguale a":
+				filter = new Compare.LessOrEqual(property, field.getValue());
+				break;
+			default:
+				break;				
+			}
+			filters.add(filter);
+			showNotificationMessage("Add filter on property: " + property);
 		}
+		container.addContainerFilter(Filters.or(filters));
 	}
 
 	/**
@@ -155,13 +148,12 @@ public class MasterTableListner extends FormLayout {
 	 * @param _search
 	 */
 	public <T> void resetButtonClickListener(final JPAContainer<T> container, final Button reset) {
-		reset.addClickListener(new Button.ClickListener() {			
+		reset.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void buttonClick(final ClickEvent event) {
+			public void buttonClick(final ClickEvent event) {				
 				container.removeAllContainerFilters();
-				showNotificationMessage("Romove all filter from container!!");
 			}
 		});
 	}
@@ -207,12 +199,13 @@ public class MasterTableListner extends FormLayout {
 	 * @param message
 	 */
 	public void showNotificationMessage(String message) {
-		Notification notification = new Notification("Commerce PlaTform Notification");		
+		Notification notification = new Notification("Commerce PlaTform Notification");
 		notification.setHtmlContentAllowed(true);
-		notification.setDescription("<br /><span><p>"+message+"<br /></p></span>");
+		notification.setDescription("<br /><span><p>" + message + "<br /></p></span>");
 		notification.setPosition(Position.BOTTOM_RIGHT);
 		notification.setDelayMsec(6000);
-		notification.show(Page.getCurrent());		
+		notification.setStyleName("commerce-notification");
+		notification.show(Page.getCurrent());
 	}
 
 	/**
@@ -225,8 +218,6 @@ public class MasterTableListner extends FormLayout {
 	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final TextField filter,
 			final String[] properties) {
 
-	
-
 		filter.addTextChangeListener(new TextChangeListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -235,8 +226,8 @@ public class MasterTableListner extends FormLayout {
 
 				String filterField = "%" + event.getText() + "%";
 				List<Filter> filters = new ArrayList<Filter>();
-				
-				Locale locale = UI.getCurrent().getSession().getLocale();				
+
+				Locale locale = UI.getCurrent().getSession().getLocale();
 				Filter filter = null;
 				container.removeAllContainerFilters();
 

@@ -5,7 +5,10 @@ package com.serpics.vaadin.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
@@ -49,7 +52,9 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	protected transient EntityItem<T> item;
 	private MasterTableListner masterTableListner;
 	private transient String[] searchProperties;
+	protected transient JPAContainer<T> container;
 
+	
 	public AdvanceSearchForm(Class<T> clazz, EntityItem<T> item) {
 		super(clazz);
 		this.entityClass = clazz;
@@ -62,11 +67,11 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 		}
 	}
 
-	public JPAContainer<T> makeJPAContainer(Class<T> clazz) {
+	public JPAContainer<T> makeJPAContainer(Class<T> clazz) {		
 		JPAContainer<T> container = ServiceContainerFactory.make(clazz);
 		return container;
 	}
-	
+
 	private String[] buildDisplayProperties(Class<?> referencedType) {
 		List<String> properties = new ArrayList<String>();
 		for (Object pid : propertyList.getAllAvailablePropertyNames()) {
@@ -83,46 +88,61 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	protected void buildContent() {
 		formFiledBinding = new BeanFieldGroup<T>(entityClass);
 		formFiledBinding.setItemDataSource(createEmptyInstance());
+		final Map<TextField, ComboBox> map = new HashMap<TextField, ComboBox>();
 		for (String pid : searchProperties) {
 			if (pid.contains("."))
 				propertyList.addNestedProperty(pid);
-			HorizontalLayout h = new HorizontalLayout();			
-			ComboBox filterProperty = new ComboBox("", Arrays.asList(new String[] { "iniza con", "contiene", "finisce con", "è uguale a",
-					"è diverso da", "è maggiore di", "è maggiore o uguale a", "è minore o uguale a" }));
+			HorizontalLayout searchForm = new HorizontalLayout();
+			searchForm.addStyleName("form-search");
+			ComboBox filterProperty = new ComboBox("",
+					Arrays.asList(new String[] { "iniza con", "contiene", "finisce con", "è uguale a", "è diverso da",
+							"è maggiore di", "è maggiore o uguale a", "è minore o uguale a" }));
 			filterProperty.setCaption("Choose type of filter");
 			filterProperty.setInputPrompt("filter");
-			Field<?> field = createField(pid, h);
+			Field<?> field = createField(pid, searchForm);
 			field.setCaption("Property to filter: " + pid);
 			field.setIcon(FontAwesome.SEARCH);
 			field.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
-			h.addComponent(filterProperty);
-			h.addComponent(field);
+			map.put((TextField) field, filterProperty);
+			searchForm.addComponent(filterProperty);
+			searchForm.addComponent(field);
 			formFiledBinding.bind(field, pid);
-			h.setWidth("100%");
-			addComponent(h);
+			searchForm.setWidth("100%");
+			addComponent(searchForm);
 
 		}
-		
-		final JPAContainer<T> container = makeJPAContainer(entityClass); 
-		
+
+		final JPAContainer<T> container = makeJPAContainer(this.entityClass);
+
 		HorizontalLayout buttonPanel = new HorizontalLayout();
 		buttonPanel.setSpacing(true);
 		buttonPanel.setStyleName("buttonPanelOnModal");
-		Button search = new Button("search");
-	
-		addComponent(search);
+		
+		final Button search = new Button("search");
+		search.addClickListener(new Button.ClickListener() {
+		private static final long serialVersionUID = -2221265605196009394L;
+			@Override
+			public void buttonClick(ClickEvent event) {
+				for (String property : searchProperties) {
+					for (Entry<TextField, ComboBox> entry : map.entrySet())
+						MasterTableListner.get().addClickListnerOnSearchButton(container, search, entry.getKey(),
+								entry.getValue(), property);
+				}
+			}
+		});
+		
 		final Button reset = new Button("reset");
-		reset.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
+		reset.addClickListener(new Button.ClickListener() {		
+			private static final long serialVersionUID = 4768573772242735353L;
 			@Override
 			public void buttonClick(ClickEvent event) {
 				MasterTableListner.get().resetButtonClickListener(container, reset);
+				MasterTableListner.get().showNotificationMessage("Remove all filter from the container!");
 			}
 		});
 		buttonPanel.addComponent(search);
 		buttonPanel.addComponent(reset);
-		addComponent(buttonPanel);	
+		addComponent(buttonPanel);
 	}
 
 	/**

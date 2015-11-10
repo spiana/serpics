@@ -34,7 +34,7 @@ public class CustomModalComponent<T> extends Window implements Handler {
     }
 
     protected void build() {
-        final VerticalLayout layout = new VerticalLayout();
+        final VerticalLayout layout = new VerticalLayout();        
         layout.setSizeFull();
         setContent(layout);
         tabSheet.setWidth("100%");
