@@ -11,8 +11,8 @@ import com.serpics.core.service.EntityService;
 
 public interface ProductService extends EntityService<Product, Long> {
 	
-	public Product create( Product product);
-	public Product create(Product product, Category parent);
+	public Product create(Product product);
+	public Product create(Product product, Category category, Brand brand);
 	
 	public Product addParentCategory(Product product, Category category);
 
@@ -22,5 +22,6 @@ public interface ProductService extends EntityService<Product, Long> {
 	public Product addMedia(Product product, Media media);
 
 	public Product findByName(String name);
-	
+
+	public Product addBrand(Product product, Brand brand);
 }

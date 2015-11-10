@@ -92,10 +92,31 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	@Override
 	@Transactional
-	public ProductData create(ProductData product, Long parentId) {
+	public ProductData create(ProductData product, Long parentId, Long brandId) {
+		Category parent = categoryService.findOne(parentId);
+		Brand brand = brandService.findOne(brandId);
+		Product entity = buildProduct(product, new Product());
+		entity = productService.create(entity, parent, brand);
+		product = productConverter.convert(entity);
+		return product;
+	}
+	
+	@Override
+	@Transactional
+	public ProductData createWithCategory(ProductData product, Long parentId) {
 		Category parent = categoryService.findOne(parentId);
 		Product entity = buildProduct(product, new Product());
-		entity = productService.create(entity, parent);
+		entity = productService.create(entity, parent, null);
+		product = productConverter.convert(entity);
+		return product;
+	}
+	
+	@Override
+	@Transactional
+	public ProductData createWithBrand(ProductData product, Long brandId) {
+		Brand brand = brandService.findOne(brandId);
+		Product entity = buildProduct(product, new Product());
+		entity = productService.create(entity, null, brand);
 		product = productConverter.convert(entity);
 		return product;
 	}
@@ -229,6 +250,21 @@ public class ProductFacadeImpl implements ProductFacade {
 		media.setSrc(mediaData.getSrc());
 		media = mediaService.create(media);
 		product = productService.addMedia(product, media);
+	}
+	
+	@Override
+	@Transactional
+	public ProductData addBrand(Long productId, Long brandId){
+		Assert.notNull(productId);
+		Assert.notNull(brandId);
+		Product product = productService.findOne(productId);
+		Brand brand = brandService.findOne(brandId);		
+		product = productService.addBrand(product, brand);
+		ProductData productData = null;
+		if(product !=null){
+			productData = productConverter.convert(product);
+		}
+		return productData; 
 	}
 	
 	/**

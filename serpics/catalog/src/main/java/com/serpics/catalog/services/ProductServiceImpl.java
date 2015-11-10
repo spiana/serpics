@@ -52,13 +52,16 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 	
 	@Override
 	@Transactional
-	public Product create(Product product, final Category category) {
+	public Product create(Product product, final Category category, final Brand brand) {
 	    product = this.create(product);
 	    if (category != null)
 	    	addCategoryRelation(product, category);
+	    if (brand != null)
+	    	addBrand(product, brand);
 	    return product;
 	   
 	}
+
 	
 	@Transactional
 	public Product addParentCategory(Product product,  Category category) {
@@ -88,7 +91,7 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 
 	@Override
 	public Page<Product> findProductByBrand(Brand brand, Pageable pagination){
-		List<Product> listProduct =  findAll(ProductSpecification.findByBrand(brand.getName()), pagination);
+		List<Product> listProduct =  findAll(ProductSpecification.findByBrand(brand), pagination);
 		Page<Product> page = new PageImpl<Product>(listProduct, pagination, listProduct.size());
 		return page;
 	}
@@ -110,6 +113,15 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 	@Override
 	public Product findByName(String name){
 		return findOne(ProductSpecification.findByName(name));
+	}
+
+
+	@Override
+	@Transactional
+	public Product addBrand(Product product, Brand brand) {
+		product.setBrand(brand);
+		productRepository.saveAndFlush(product);
+		return product;
 	}
 	
 }

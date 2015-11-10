@@ -7,6 +7,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.Product;
@@ -37,7 +38,7 @@ public class ProductSpecification {
 		};
 	}
 	
-	public static Specification<Product> findByBrand(final String brand) {
+	public static Specification<Product> findByBrand(final Brand brand) {
 		return new Specification<Product>() {
 			@Override
 			public Predicate toPredicate(final Root<Product> root, final CriteriaQuery<?> query, 
