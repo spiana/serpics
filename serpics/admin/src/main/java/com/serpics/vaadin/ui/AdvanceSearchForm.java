@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.serpics.vaadin.ui;
 
 import java.util.ArrayList;
@@ -46,13 +43,13 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	private transient PropertyList<T> propertyList;
 	protected transient Class<T> entityClass;
 
-
 	private MasterTableListner masterTableListner;
 	private transient String[] searchProperties;
 	
 
 	
 	public AdvanceSearchForm(Class<T> clazz) {
+
 		super(clazz);
 		this.entityClass = clazz;
 		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(entityClass));
@@ -72,6 +69,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	}
 
 	private JPAContainer<T> makeJPAContainer(Class<T> clazz) {		
+
 		JPAContainer<T> container = ServiceContainerFactory.make(clazz);
 		return container;
 	}
@@ -104,6 +102,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 			filterProperty.setCaption("Choose type of filter");
 			filterProperty.setInputPrompt("filter");
 			Field<?> field = createField(pid, searchForm );
+
 			field.setCaption("Property to filter: " + pid);
 			field.setIcon(FontAwesome.SEARCH);
 			field.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
@@ -113,10 +112,8 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 			formFiledBinding.bind(field, pid);
 			searchForm.setWidth("100%");
 			addComponent(searchForm);
-
 		}
 
-		
 
 		HorizontalLayout buttonPanel = new HorizontalLayout();
 		buttonPanel.setSpacing(true);
@@ -150,4 +147,5 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 		addComponent(buttonPanel);
 		}
 		
+
 }

@@ -2718,7 +2718,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .tests-valo-dark .v-filterselect {
 	position: relative;
-	width: 200px;
+	width: 330px;
 	height: 40px;
 	border-radius: 10px;
 	white-space: nowrap;
@@ -14202,4 +14202,46 @@ div.v-layout.v-horizontal.v-widget {
 	max-width: 960px;
 	display: block;
 	margin: 0 auto;
+}
+.tests-valo-dark .v-Notification p {
+	margin: 0;
+	display: block;
+	vertical-align: middle;
+	max-width: 30em;
+	text-align: left;
+	max-height: 20em;
+	overflow: auto;
+}
+
+.form-search span.v-captiontext{
+	color: #07A9CA;
+}
+
+
+.tests-valo-dark .v-Notification.v-position-right {
+	right: 53px;
+}
+
+.tests-valo-dark .v-Notification.v-position-bottom {
+	bottom: 53px;
+}
+
+.tests-valo-dark .v-Notification.v-position-left {
+	left: 53px;
+}
+
+.tests-valo-dark .v-Notification {	
+	padding: 40px 54px;
+	border: 1px solid #07A9CA;
+	border-radius: 10px;
+}
+.tests-valo-dark .v-window-modalitycurtain {
+	-webkit-animation: valo-animate-in-fade 400ms;
+	-moz-animation: valo-animate-in-fade 400ms;
+	animation: valo-animate-in-fade 400ms;
+}
+.buttonPanelOnModal {
+	float: right;
+	margin-right: 75px;
+	margin-top: 20px;
 }

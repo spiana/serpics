@@ -142,7 +142,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
 		this.editButtonPanel.setEnabled(isEnabled());
 
-
 		v.addComponent(editButtonPanel);
 		v.addComponent(entityList);
 
@@ -232,6 +231,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			editButtonPanel.addComponent(searchPanel);
 			//editButtonPanel.addComponent(_advanceSearch);
 	    }
+
 		setCompositionRoot(v);
 		setSizeFull();
 	}
