@@ -224,11 +224,11 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		});
 	
 		final Button _delete = new Button(I18nUtils.getMessage("button.remove", "Remove"));		
+		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
 		editButtonPanel.addComponent(_delete);	
-	    if(searchFormEnable == true){
-	    	
+	    
+		if(searchFormEnable == true){
 			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
-			masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
 			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
 			serchField.setWidth("100%");
 			searchPanel.addComponent(serchField);

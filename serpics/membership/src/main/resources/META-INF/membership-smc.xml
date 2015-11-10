@@ -63,7 +63,7 @@
 				<property name="phone" />
 				<property name="email" />
 				<property name="primaryAddress" />
-				<property name="permanentAddresses" />
+<!-- 				<property name="permanentAddresses" /> -->
 				<property name="created" />
 			</display>
 			<readonly>
