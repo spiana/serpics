@@ -3,16 +3,12 @@
  */
 package com.serpics.vaadin.ui;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import javax.persistence.Transient;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
@@ -26,6 +22,8 @@ import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
@@ -43,25 +41,21 @@ import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 
 /**
- * SerpicsStartApp
+ * 
  * 
  * @author christian
  * @param <T>
  *
  */
-
-
 public class MasterTableListner extends FormLayout {
 
 	private static final long serialVersionUID = -2736583181645447496L;
-	private static Logger LOG = LoggerFactory.getLogger(MasterTableListner.class);
 
 	@Transient
 	private transient String[] searchProperties;
 
-	
 	private static MasterTableListner instance;
-	
+
 	public MasterTableListner() {
 		super();
 	}
@@ -81,6 +75,8 @@ public class MasterTableListner extends FormLayout {
 			final Button delete) {
 
 		delete.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(final ClickEvent event) {
 				if (entityList.getValue() == null)
@@ -104,48 +100,46 @@ public class MasterTableListner extends FormLayout {
 	 * @param container
 	 * @param _search
 	 */
-	public <T> void searchButtonClickListener(final JPAContainer<T> container, final Button search,
-			final ComboBox propertyId, final TextField field, final ComboBox filterType) {
-		
-		if (propertyId.getValue() != null && filterType.getValue() != null) {
-			search.addClickListener(new Button.ClickListener() {
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					if (propertyId.getValue() != null && filterType.getValue() != null) {
-						switch ((String) filterType.getValue()) {
-						case "inizia con":
-							container.addContainerFilter(
-									new SimpleStringFilter(propertyId.getValue(), field.getValue(), false, true));
-							break;
-						case "contiene":
-							container.addContainerFilter(
-									new SimpleStringFilter(propertyId, field.getValue(), false, false));
-							break;
-						case "è uguale a":
-							container.addContainerFilter(new Compare.Equal(propertyId, field.getValue()));
-							break;
-						case "è diverso da":
-							container.addContainerFilter(new Not(new Compare.Equal(propertyId, field.getValue())));
-							break;
-						case "è maggiore di":
-							container.addContainerFilter(new Compare.Greater(propertyId, field.getValue()));
-							break;
-						case "è minore di":
-							container.addContainerFilter(new Compare.Less(propertyId, field.getValue()));
-							break;
-						case "è maggiore o uguale a":
-							container.addContainerFilter(new Compare.GreaterOrEqual(propertyId, field.getValue()));
-							break;
-						case "è minore o uguale a":
-							container.addContainerFilter(new Compare.LessOrEqual(propertyId, field.getValue()));
-							break;
-						default:
-							break;
-						}
-					}
-				}
-			});
+	@SuppressWarnings("unused")
+	public <T> void addClickListnerOnSearchButton(final JPAContainer<T> container, final Button search,
+			final TextField field, final ComboBox filterType, final String property) {
+
+		List<Filter> filters = new ArrayList<Filter>();
+		Filter filter = null;
+
+		if (filterType.getValue() != null) {
+			switch ((String) filterType.getValue()) {
+			case "inizia con":
+				filter = new SimpleStringFilter(property, field.getValue(), false, true);
+				break;
+			case "contiene":
+				filter = new SimpleStringFilter(property, field.getValue(), false, false);
+				break;
+			case "è uguale a":
+				filter = new Compare.Equal(property, field.getValue());
+				break;
+			case "è diverso da":
+				filter = new Not(new Compare.Equal(property, field.getValue()));
+				break;
+			case "è maggiore di":
+				filter = new Compare.Greater(property, field.getValue());
+				break;
+			case "è minore di":
+				filter = new Compare.Less(property, field.getValue());
+				break;
+			case "è maggiore o uguale a":
+				filter = new Compare.GreaterOrEqual(property, field.getValue());
+				break;
+			case "è minore o uguale a":
+				filter = new Compare.LessOrEqual(property, field.getValue());
+				break;
+			default:
+				break;				
+			}
+			filters.add(filter);
+			showNotificationMessage("Add filter on property: " + property);
 		}
+		container.addContainerFilter(Filters.or(filters));
 	}
 
 	/**
@@ -155,8 +149,10 @@ public class MasterTableListner extends FormLayout {
 	 */
 	public <T> void resetButtonClickListener(final JPAContainer<T> container, final Button reset) {
 		reset.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
-			public void buttonClick(final ClickEvent event) {
+			public void buttonClick(final ClickEvent event) {				
 				container.removeAllContainerFilters();
 			}
 		});
@@ -198,8 +194,18 @@ public class MasterTableListner extends FormLayout {
 		return propertiesId;
 	}
 
-	public void showNotificationMessage() {
-		Notification.show("Commerce Notification", "Message", Notification.Type.TRAY_NOTIFICATION);
+	/**
+	 * 
+	 * @param message
+	 */
+	public void showNotificationMessage(String message) {
+		Notification notification = new Notification("Commerce PlaTform Notification");
+		notification.setHtmlContentAllowed(true);
+		notification.setDescription("<br /><span><p>" + message + "<br /></p></span>");
+		notification.setPosition(Position.BOTTOM_RIGHT);
+		notification.setDelayMsec(6000);
+		notification.setStyleName("commerce-notification");
+		notification.show(Page.getCurrent());
 	}
 
 	/**
@@ -212,21 +218,17 @@ public class MasterTableListner extends FormLayout {
 	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final TextField filter,
 			final String[] properties) {
 
-	
-
 		filter.addTextChangeListener(new TextChangeListener() {
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void textChange(final TextChangeEvent event) {
 
 				String filterField = "%" + event.getText() + "%";
-
 				List<Filter> filters = new ArrayList<Filter>();
-				
-				Locale locale = UI.getCurrent().getSession().getLocale();
-				
-				Filter filter = null;
 
+				Locale locale = UI.getCurrent().getSession().getLocale();
+				Filter filter = null;
 				container.removeAllContainerFilters();
 
 				if (properties != null) {
@@ -243,7 +245,7 @@ public class MasterTableListner extends FormLayout {
 
 				if (event.getText().equals("")) {
 					container.removeAllContainerFilters();
-					showNotificationMessage();
+					showNotificationMessage("Roove all filter from container!!");
 				}
 			}
 		});
