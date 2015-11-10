@@ -5,10 +5,7 @@ package com.serpics.vaadin.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
@@ -16,16 +13,15 @@ import javax.persistence.Id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.component.CustomFieldFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
@@ -40,7 +36,6 @@ import com.vaadin.ui.themes.ValoTheme;
  * @param <T>
  *
  */
-@SuppressWarnings("unused")
 public class AdvanceSearchForm<T> extends MasterForm<T> {
 
 	private static transient Logger LOG = LoggerFactory.getLogger(AdvanceSearchForm.class);
@@ -50,11 +45,9 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	private transient PropertyList<T> propertyList;
 	protected transient Class<T> entityClass;
 	protected transient EntityItem<T> item;
-	private MasterTableListner masterTableListner;
-	private transient String[] searchProperties;
-	protected transient JPAContainer<T> container;
 
-	
+	private transient String[] searchProperties;
+
 	public AdvanceSearchForm(Class<T> clazz, EntityItem<T> item) {
 		super(clazz);
 		this.entityClass = clazz;
@@ -65,11 +58,6 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 			this.searchProperties = buildDisplayProperties(entityClass);
 			buildContent();
 		}
-	}
-
-	public JPAContainer<T> makeJPAContainer(Class<T> clazz) {		
-		JPAContainer<T> container = ServiceContainerFactory.make(clazz);
-		return container;
 	}
 
 	private String[] buildDisplayProperties(Class<?> referencedType) {
@@ -88,61 +76,44 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	protected void buildContent() {
 		formFiledBinding = new BeanFieldGroup<T>(entityClass);
 		formFiledBinding.setItemDataSource(createEmptyInstance());
-		final Map<TextField, ComboBox> map = new HashMap<TextField, ComboBox>();
 		for (String pid : searchProperties) {
 			if (pid.contains("."))
 				propertyList.addNestedProperty(pid);
-			HorizontalLayout searchForm = new HorizontalLayout();
-			searchForm.addStyleName("form-search");
-			ComboBox filterProperty = new ComboBox("",
-					Arrays.asList(new String[] { "iniza con", "contiene", "finisce con", "è uguale a", "è diverso da",
-							"è maggiore di", "è maggiore o uguale a", "è minore o uguale a" }));
+			HorizontalLayout h = new HorizontalLayout();			
+			ComboBox filterProperty = new ComboBox("", Arrays.asList(new String[] { "iniza con", "contiene", "finisce con", "è uguale a",
+					"è diverso da", "è maggiore di", "è maggiore o uguale a", "è minore o uguale a" }));
 			filterProperty.setCaption("Choose type of filter");
 			filterProperty.setInputPrompt("filter");
-			Field<?> field = createField(pid, searchForm);
+			Field<?> field = createField(pid, h);
 			field.setCaption("Property to filter: " + pid);
 			field.setIcon(FontAwesome.SEARCH);
 			field.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
-			map.put((TextField) field, filterProperty);
-			searchForm.addComponent(filterProperty);
-			searchForm.addComponent(field);
+			h.addComponent(filterProperty);
+			h.addComponent(field);
 			formFiledBinding.bind(field, pid);
-			searchForm.setWidth("100%");
-			addComponent(searchForm);
+			h.setWidth("100%");
+			addComponent(h);
 
 		}
-
-		final JPAContainer<T> container = makeJPAContainer(this.entityClass);
-
 		HorizontalLayout buttonPanel = new HorizontalLayout();
 		buttonPanel.setSpacing(true);
 		buttonPanel.setStyleName("buttonPanelOnModal");
-		
-		final Button search = new Button("search");
+		Button search = new Button("search");
 		search.addClickListener(new Button.ClickListener() {
-		private static final long serialVersionUID = -2221265605196009394L;
 			@Override
 			public void buttonClick(ClickEvent event) {
-				for (String property : searchProperties) {
-					for (Entry<TextField, ComboBox> entry : map.entrySet())
-						MasterTableListner.get().addClickListnerOnSearchButton(container, search, entry.getKey(),
-								entry.getValue(), property);
-				}
 			}
 		});
-		
-		final Button reset = new Button("reset");
-		reset.addClickListener(new Button.ClickListener() {		
-			private static final long serialVersionUID = 4768573772242735353L;
+		addComponent(search);
+		Button reset = new Button("search");
+		reset.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				MasterTableListner.get().resetButtonClickListener(container, reset);
-				MasterTableListner.get().showNotificationMessage("Remove all filter from the container!");
 			}
 		});
 		buttonPanel.addComponent(search);
 		buttonPanel.addComponent(reset);
-		addComponent(buttonPanel);
+		addComponent(buttonPanel);	
 	}
 
 	/**
