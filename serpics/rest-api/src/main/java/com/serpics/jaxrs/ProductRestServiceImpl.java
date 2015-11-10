@@ -43,11 +43,35 @@ public class ProductRestServiceImpl implements ProductRestService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{category}")
+	@Path("/{category}/{brand}")
+	public Response insert(ProductData product, @PathParam("category") Long categoryId, @PathParam("brand") Long brandId){
+		Assert.notNull(product);
+		ProductData productData = null;
+		productData = productFacade.create(product, categoryId, brandId);
+		return Response.ok(productData).build();
+	}
+	
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/category/{category}")
 	public Response insertCategory(ProductData product, @PathParam("category") Long categoryId){
 		Assert.notNull(product);
 		ProductData productData = null;
-		productData = productFacade.create(product, categoryId);
+		productData = productFacade.createWithCategory(product, categoryId);
+		return Response.ok(productData).build();
+	}
+	
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/brand/{brand}")
+	public Response insertBrand(ProductData product, @PathParam("brand") Long brandId){
+		Assert.notNull(product);
+		ProductData productData = null;
+		productData = productFacade.createWithBrand(product, brandId);
 		return Response.ok(productData).build();
 	}
 	
@@ -106,6 +130,17 @@ public class ProductRestServiceImpl implements ProductRestService{
 		} else {
 			return new ArrayList<CategoryData>();
 		}
+	}
+	
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("addBrand/{product}/{brand}")
+	public Response addBrand(@PathParam("product") Long productId, @PathParam("brand") Long brandId){
+		Assert.notNull(productId);
+		Assert.notNull(brandId);
+		productFacade.addBrand(productId, brandId);
+		return Response.ok().build();
 	}
 	
 	@Override

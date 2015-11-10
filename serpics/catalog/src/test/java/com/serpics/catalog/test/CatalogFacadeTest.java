@@ -229,7 +229,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	entry.setDescription("PRODOTTO DI TEST NUMERO 2");
     	entry.setBuyable(1);
     	entry.setPublished(1); 
-    	entry = productFacade.create(entry,c.getId());
+    	entry = productFacade.createWithCategory(entry,c.getId());
     	
     	productFacade.addEntryCategoryParent( entry.getId(), c2.getId());
     	
