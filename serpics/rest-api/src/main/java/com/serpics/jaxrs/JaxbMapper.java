@@ -26,6 +26,4 @@ public class JaxbMapper  extends ObjectMapper{
 		setDateFormat(dateFormat);
 		
 	}
-
-
 }

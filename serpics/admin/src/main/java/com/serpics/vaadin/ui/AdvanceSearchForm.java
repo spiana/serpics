@@ -19,13 +19,16 @@ import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -43,7 +46,6 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	protected transient Class<T> entityClass;
 	protected transient EntityItem<T> item;
 
-	private MasterTableListner masterTableListner;
 	private transient String[] searchProperties;
 
 	public AdvanceSearchForm(Class<T> clazz, EntityItem<T> item) {
@@ -72,50 +74,67 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 
 	@Override
 	protected void buildContent() {
-		removeAllComponents();
 		formFiledBinding = new BeanFieldGroup<T>(entityClass);
-		ComboBox c;
-		Field<?> field;
-
+		formFiledBinding.setItemDataSource(createEmptyInstance());
 		for (String pid : searchProperties) {
 			if (pid.contains("."))
 				propertyList.addNestedProperty(pid);
-			VerticalLayout h = new VerticalLayout();
-			h.addComponent(new Label(pid));
-			c = new ComboBox("", Arrays.asList(new String[] { "iniza con", "contiene", "finisce con", "è uguale a",
+			HorizontalLayout h = new HorizontalLayout();			
+			ComboBox filterProperty = new ComboBox("", Arrays.asList(new String[] { "iniza con", "contiene", "finisce con", "è uguale a",
 					"è diverso da", "è maggiore di", "è maggiore o uguale a", "è minore o uguale a" }));
-			field = createField(pid);
-			field.setCaption("");
-			((TextField) field).setInputPrompt("Filter");
-			((TextField) field).setIcon(FontAwesome.SEARCH);
-			((TextField) field).addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
-
-			h.addComponent(c);
+			filterProperty.setCaption("Choose type of filter");
+			filterProperty.setInputPrompt("filter");
+			Field<?> field = createField(pid, h);
+			field.setCaption("Property to filter: " + pid);
+			field.setIcon(FontAwesome.SEARCH);
+			field.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+			h.addComponent(filterProperty);
 			h.addComponent(field);
 			formFiledBinding.bind(field, pid);
 			h.setWidth("100%");
-			h.setHeight("50%");
 			addComponent(h);
-			h.removeComponent(new Button("Cancel"));
+
 		}
-
+		HorizontalLayout buttonPanel = new HorizontalLayout();
+		buttonPanel.setSpacing(true);
+		buttonPanel.setStyleName("buttonPanelOnModal");
 		Button search = new Button("search");
-		//masterTableListner.get().searchButtonClickListener(this.container, search, field, c);
-
+		search.addClickListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+			}
+		});
 		addComponent(search);
-
+		Button reset = new Button("search");
+		reset.addClickListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+			}
+		});
+		buttonPanel.addComponent(search);
+		buttonPanel.addComponent(reset);
+		addComponent(buttonPanel);	
 	}
 
-	@Override
-	protected Field<?> createField(final String pid) {
+	/**
+	 * 
+	 * @param pid
+	 * @param uicontext
+	 * @return
+	 */
+	protected Field<?> createField(final String pid, Component uicontext) {
 		@SuppressWarnings("rawtypes")
 		final Property p = item.getItemProperty(pid);
-		final Field<?> f = CustomFieldFactory.get().createField(item, pid, this);
+		LOG.info("create field : {}", pid);
+		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
 		f.setBuffered(true);
 
 		if (f instanceof TextField) {
 			((TextField) f).setNullRepresentation("");
 		}
+
+		f.addValidator(new BeanValidator(entityClass, pid));
+
 		if (String.class.isAssignableFrom(p.getType())) {
 			f.setWidth("80%");
 		}
@@ -125,7 +144,20 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 		return f;
 	}
 
-	public String[] searchProperties() {
-		return this.searchProperties;
+	/**
+	 * 
+	 * @return
+	 */
+	private T createEmptyInstance() {
+		try {
+			return (T) entityClass.newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
