@@ -31,7 +31,7 @@ public class BrandFacadeImpl implements BrandFacade {
 	public BrandData addBrand(BrandData brand) {
 
 		Brand b = new Brand();
-		b.setLogoSrc(brand.getName());
+		b.setLogoSrc(brand.getLogo());
 		b.setName(brand.getName());
 		b = brandService.create(b);
 		brand = brandConverter.convert(b);
@@ -43,8 +43,7 @@ public class BrandFacadeImpl implements BrandFacade {
 	public BrandData updateBrand(BrandData entity) {
 
 		Brand b = new Brand();
-		// b.setId(brand.getId());
-		b.setLogoSrc(entity.getName());
+		b.setLogoSrc(entity.getLogo());
 		b.setName(entity.getName());
 		b = brandService.update(b);
 
@@ -77,18 +76,27 @@ public class BrandFacadeImpl implements BrandFacade {
 	public BrandData findBrandByName(String name) {
 		
 		Brand b = new Brand();
+		BrandData brand = new BrandData();
 		b = brandService.findOneByName(name);
-		return brandConverter.convert(b);
-		
+
+		if (b != null ){
+			brand=brandConverter.convert(b);
+		}
+		return brand;
+	
 	}
 
 	@Override
 	public BrandData findBrandById(Long id) {
 
 		Brand b = new Brand();
+		BrandData brand = new BrandData();
 		b = brandService.findOne(id);
-		return brandConverter.convert(b);
-
+		
+		if (b != null ){
+			brand=brandConverter.convert(b);
+		}
+		return brand;
 	}
 
 }
