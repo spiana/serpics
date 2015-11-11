@@ -17,7 +17,10 @@ public interface ProductFacade {
 	public Page<ProductData> listProductByBrand(Long brandId, Pageable page);
 	
 	public ProductData create(ProductData product);
-	public ProductData create(ProductData product, Long categoryId);
+	public ProductData create(ProductData product, Long categoryId, Long brandId);
+	public ProductData createWithCategory(ProductData product, Long brandId);
+	public ProductData createWithBrand(ProductData product, Long category);
+	
 	public ProductData updateProduct(ProductData product);
 	public void deleteProduct(Long  id);
 	
@@ -29,5 +32,7 @@ public interface ProductFacade {
 	public ProductData findById(Long id);
 	
 	public void addMedia(Long productId, MediaData media);
+	
+	public ProductData addBrand(Long productId, Long brandId);
 	
 }

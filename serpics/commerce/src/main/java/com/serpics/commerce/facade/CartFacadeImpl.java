@@ -81,6 +81,7 @@ public class CartFacadeImpl implements CartFacade {
 	}
 	
 	@Override
+	@Transactional
 	public CartItemModification update(CartItemData cartItem){	
 		Cart cart = null;
 		try {
