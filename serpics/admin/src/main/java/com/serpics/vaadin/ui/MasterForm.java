@@ -22,6 +22,7 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.data.validator.BeanValidator;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
@@ -134,10 +135,13 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 	}
 
 	protected Field<?> createField(final String pid) {
+		return createField(pid, this);
+	}
+	protected Field<?> createField(final String pid , Component uicontext) {
 		@SuppressWarnings("rawtypes")
 		final Property p = entityItem.getItemProperty(pid);
 		LOG.debug("create field : {}", pid);
-		final Field<?> f = CustomFieldFactory.get().createField(entityItem, pid, this);
+		final Field<?> f = CustomFieldFactory.get().createField(entityItem, pid, uicontext);
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 

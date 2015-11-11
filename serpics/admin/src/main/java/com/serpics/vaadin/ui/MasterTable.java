@@ -92,7 +92,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	@SuppressWarnings("serial")
 	public CustomModalComponent<T> buildSearchForm() {
 		CustomModalComponent<T> editorWindow = new CustomModalComponent<T>();
-		editorWindow.addTab(new AdvanceSearchForm<T>(entityClass, createEntityItem()) {
+		editorWindow.addTab(new AdvanceSearchForm<T>(entityClass) {
 		}, entityClass.getSimpleName());
 		return editorWindow;
 	}
