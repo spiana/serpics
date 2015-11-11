@@ -138,10 +138,15 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		return createField(pid, this);
 	}
 	protected Field<?> createField(final String pid , Component uicontext) {
+		return createField(pid, uicontext , this.entityItem);
+	}
+	
+	
+	protected Field<?> createField(final String pid , Component uicontext , EntityItem<T> item) {
 		@SuppressWarnings("rawtypes")
-		final Property p = entityItem.getItemProperty(pid);
+		final Property p = item.getItemProperty(pid);
 		LOG.debug("create field : {}", pid);
-		final Field<?> f = CustomFieldFactory.get().createField(entityItem, pid, uicontext);
+		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 

@@ -41,7 +41,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	@SuppressWarnings("unused")
 	private final Set<String> hideProperties = new HashSet<String>();
 	private boolean editable = true;
-	private boolean searchFormEnable = false;
+	private boolean searchFormEnable = true;
 	
 	private String[] searchProperties;
 		private MasterTableListner masterTableListner;
@@ -140,12 +140,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
 		this.editButtonPanel.setEnabled(isEnabled());
 
-		if (searchFormEnable) {
-			this.searchPanel.addComponent(new SearchForm<T>(entityClass, createEntityItem()) {
-			});
-			this.searchPanel.setCaption("search");
-			v.addComponent(searchPanel);
-		}
+
 		v.addComponent(editButtonPanel);
 		v.addComponent(entityList);
 
@@ -232,6 +227,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
 			serchField.setWidth("100%");
 			searchPanel.addComponent(serchField);
+			editButtonPanel.addComponent(searchPanel);
 			//editButtonPanel.addComponent(_advanceSearch);
 	    }
 		setCompositionRoot(v);

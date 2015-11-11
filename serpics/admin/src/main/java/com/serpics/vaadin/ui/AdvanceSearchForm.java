@@ -58,7 +58,15 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 		searchProperties = PropertiesUtils.get().getSearchProperty(entityClass.getSimpleName());
 		if (searchProperties == null) {
 			this.searchProperties = buildDisplayProperties(entityClass);
-			buildContent();
+			
+			final JPAContainer<T> container = makeJPAContainer(this.entityClass);
+			try {
+				setEntityItem(container.createEntityItem(entityClass.newInstance()));
+				formFiledBinding.setItemDataSource(this.entityItem);
+				
+			} catch (InstantiationException | IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
@@ -82,12 +90,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	@Override
 	protected void buildContent() {
 		formFiledBinding = new BeanFieldGroup<T>(entityClass);
-		try {
-			formFiledBinding.setItemDataSource(entityClass.newInstance());
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
-
+	
 		final Map<TextField, ComboBox> map = new HashMap<TextField, ComboBox>();
 		for (String pid : searchProperties) {
 			if (pid.contains("."))
@@ -99,7 +102,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 							"è maggiore di", "è maggiore o uguale a", "è minore o uguale a" }));
 			filterProperty.setCaption("Choose type of filter");
 			filterProperty.setInputPrompt("filter");
-			Field<?> field = createField(pid, searchForm);
+			Field<?> field = createField(pid, searchForm );
 			field.setCaption("Property to filter: " + pid);
 			field.setIcon(FontAwesome.SEARCH);
 			field.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
@@ -112,7 +115,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 
 		}
 
-		final JPAContainer<T> container = makeJPAContainer(this.entityClass);
+		
 
 		HorizontalLayout buttonPanel = new HorizontalLayout();
 		buttonPanel.setSpacing(true);
@@ -125,7 +128,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 			public void buttonClick(ClickEvent event) {
 				for (String property : searchProperties) {
 					for (Entry<TextField, ComboBox> entry : map.entrySet())
-						MasterTableListner.get().addClickListnerOnSearchButton(container, search, entry.getKey(),
+						MasterTableListner.get().addClickListnerOnSearchButton((JPAContainer)entityItem.getContainer(), search, entry.getKey(),
 								entry.getValue(), property);
 				}
 			}
@@ -137,7 +140,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				MasterTableListner.get().resetButtonClickListener(container, reset);
+				MasterTableListner.get().resetButtonClickListener((JPAContainer)entityItem.getContainer(), reset);
 				MasterTableListner.get().showNotificationMessage("Remove all filter from the container!");
 			}
 		});
