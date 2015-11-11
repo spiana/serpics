@@ -80,18 +80,30 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 		return entitySpecifications;
 	}
 	
-	public List<Specification> getSpecificationForClass(Class<?> clazz){
+	public List<Specification> getSpecificationForClass(Class<?> clazz ){
 		Assert.notNull(clazz);
-		List<Specification> specs =entitySpecifications.get(clazz.getName());
-		if(LOG.isDebugEnabled()){
-			if(specs != null){
-				LOG.debug("found specification {} for entity {}" , specs.getClass().getName() , clazz.getName());
-			}else{
-				LOG.debug("not found specification for entity {}", clazz.getName() );
-			}
-		}
+		List<Specification> specs = new ArrayList<Specification>(0);
+		recorsiveLoadSpecification(clazz, specs);
 		return specs;
 		
+	}
+	
+	private void recorsiveLoadSpecification(Class<?> clazz , List<Specification> defaultSepcificationList){
+
+		if (clazz.getSuperclass() != null &&  !clazz.getSuperclass().isAssignableFrom(Object.class))
+				recorsiveLoadSpecification(clazz.getSuperclass(), defaultSepcificationList);
+			
+			List<Specification> specs =entitySpecifications.get(clazz.getName());
+			
+			if(specs != null){
+				defaultSepcificationList.addAll(specs);
+				if(LOG.isDebugEnabled()){
+					LOG.debug("found specification {} for entity {}" , specs.getClass().getName() , clazz.getName());
+				}
+			}else {
+				if(LOG.isDebugEnabled())	
+					LOG.debug("not found specification for entity {}", clazz.getName() );
+			}
 	}
 	
 	public Repository getRepositoryForEntity(Class<?> clazz){
