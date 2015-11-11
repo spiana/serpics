@@ -87,7 +87,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{name}")
+	@Path("/name/{name}")
 	public BrandData findBrandByName(@PathParam("name") String name) {
 
 		Assert.notNull(name,"name can not be null !");
