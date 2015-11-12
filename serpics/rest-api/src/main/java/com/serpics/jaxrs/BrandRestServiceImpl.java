@@ -58,6 +58,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	public Response updateBrand(BrandData brand) {
 
 		Assert.notNull(brand, "brand can not be null !");
+		Assert.notNull(brand.getId(), "brandId can not be null !");
 		BrandData brandData = null;
 		brandData = brandFacade.updateBrand(brand);
 		return Response.ok(brandData).build();
