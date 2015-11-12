@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Transient;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.vaadin.data.utils.I18nUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -160,7 +162,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 
-		final Button _new = new Button(I18nUtils.getMessage("button.add", "Add"));
+		final Button _new = new Button(I18nUtils.getMessage("smc.button.add", "Add"));
 		editButtonPanel.addComponent(_new);
 
 		_new.addClickListener(new Button.ClickListener() {
@@ -180,7 +182,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 
-		final Button _edit = new Button(I18nUtils.getMessage("button.modify", "Modify"));
+		final Button _edit = new Button(I18nUtils.getMessage("smc.button.modify", "Modify"));
 		editButtonPanel.addComponent(_edit);
 
 		_edit.addClickListener(new Button.ClickListener() {
@@ -199,7 +201,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 		
-		final Button _advanceSearch = new Button(I18nUtils.getMessage("button.advanceSearch", "Advance Search"));
+		final Button _advanceSearch = new Button(I18nUtils.getMessage("smc.button.advanceSearch", "Advance Search"));
 		_advanceSearch.addClickListener(new Button.ClickListener() {
 
 			@Override
@@ -218,7 +220,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		});
 	
 	    
-		final Button _delete = new Button(I18nUtils.getMessage("button.remove", "Remove"));		
+		final Button _delete = new Button(I18nUtils.getMessage("smc.button.remove", "Remove"));		
 		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
 		editButtonPanel.addComponent(_delete);	
 	    

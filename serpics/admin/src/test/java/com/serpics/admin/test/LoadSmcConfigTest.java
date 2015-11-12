@@ -15,8 +15,8 @@ import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
+import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
-import com.serpics.vaadin.ui.PropertiesUtils;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 
 

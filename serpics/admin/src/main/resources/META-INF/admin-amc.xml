@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<navigator-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	xmlns="" xsi:schemaLocation="amc.xsd">
+<navigator-definition 
+xmlns="http://www.serpicsframework.org/schema/smc" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	
+xsi:schemaLocation="http://www.serpicsframework.org/schema/smc/amc.xsd">
+
 
 <!-- da definire come fare il bind con i bean -->
 	<navigator name="mainNav">
@@ -17,7 +21,7 @@
 <!-- 		<navigator-item	allow-child="false" bean="orderMasterTable"	name="order" parent="orders" /> -->
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethod" name="payMethod" parent="orders" />
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Cart" name="cart" parent="orders" />
-		
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethodlookup" name="payMethods" parent="orders" />
 	</navigator>
 
 </navigator-definition>

@@ -1,4 +1,4 @@
-package com.serpics.vaadin.ui;
+package com.serpics.vaadin.data.utils;
 
 import com.serpics.core.EngineFactory;
 import com.vaadin.ui.UI;

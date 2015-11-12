@@ -12,7 +12,7 @@ http://www.springframework.org/schema/aop
  http://www.springframework.org/schema/aop/spring-aop.xsd">
 	
 <!-- <import resource="local-datasource.xml"/> -->
-<bean id="propertiesUtils" class="com.serpics.vaadin.ui.PropertiesUtils"/>
+<bean id="propertiesUtils" class="com.serpics.vaadin.data.utils.PropertiesUtils"/>
 
 <bean id="navGeneratoFactory" class="com.serpics.vaadin.ui.NavigatorMenuTree"  scope="prototype"/>   
 
