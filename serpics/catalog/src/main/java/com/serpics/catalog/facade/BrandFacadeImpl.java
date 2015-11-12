@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.data.model.Brand;
+import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.services.BrandService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
@@ -25,29 +26,33 @@ public class BrandFacadeImpl implements BrandFacade {
 
 	@Resource(name = "brandConverter")
 	AbstractPopulatingConverter<Brand, BrandData> brandConverter;
-
-	@Override
-	@Transactional
-	public BrandData addBrand(BrandData brand) {
-
-		Brand b = new Brand();
-		b.setLogoSrc(brand.getLogo());
-		b.setName(brand.getName());
-		b = brandService.create(b);
-		brand = brandConverter.convert(b);
-		return brand;
+	
+	protected Brand buildBrand(BrandData brandData, Brand entity){
+		entity.setName(brandData.getName());
+		entity.setLogoSrc(brandData.getLogo());
+		return entity;
 	}
 
 	@Override
 	@Transactional
-	public BrandData updateBrand(BrandData entity) {
+	public BrandData addBrand(BrandData brandData) {
 
-		Brand b = new Brand();
-		b.setLogoSrc(entity.getLogo());
-		b.setName(entity.getName());
-		b = brandService.update(b);
+		Brand brand = new Brand();
+		buildBrand(brandData,brand);
+		brand = brandService.create(brand);
+		brandData = brandConverter.convert(brand);
+		return brandData;
+	}
 
-		return brandConverter.convert(b);
+	@Override
+	@Transactional
+	public BrandData updateBrand(BrandData brandData) {
+		
+		Brand brand = brandService.findOne(brandData.getId());
+		brand = buildBrand(brandData, brand);
+		brand = brandService.update(brand);
+		brandData = brandConverter.convert(brand);
+		return brandData;
 
 	}
 
@@ -75,14 +80,14 @@ public class BrandFacadeImpl implements BrandFacade {
 	@Override
 	public BrandData findBrandByName(String name) {
 		
-		Brand b = new Brand();
-		BrandData brand = new BrandData();
-		b = brandService.findOneByName(name);
+		Brand brand = new Brand();
+		BrandData brandData = new BrandData();
+		brand = brandService.findOneByName(name);
 
-		if (b != null ){
-			brand=brandConverter.convert(b);
+		if (brand != null ){
+			brandData=brandConverter.convert(brand);
 		}
-		return brand;
+		return brandData;
 	
 	}
 
