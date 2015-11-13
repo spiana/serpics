@@ -94,8 +94,8 @@ public class BrandFacadeImpl implements BrandFacade {
 	@Override
 	public BrandData findBrandById(Long id) {
 
-		Brand b = new Brand();
-		BrandData brand = new BrandData();
+		Brand b = null;
+		BrandData brand = null;
 		b = brandService.findOne(id);
 
 		if (b != null) {

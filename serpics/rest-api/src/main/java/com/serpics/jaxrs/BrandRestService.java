@@ -11,8 +11,8 @@ public interface BrandRestService {
 	public Response addBrand(BrandData brand);
 	public Response updateBrand(BrandData brand);
 	public Response deleteBrand(Long id);
-	public Page<BrandData> findAll(int page , int size);
-	public BrandData findBrandById(Long id);
+	public Response findAll(int page , int size);
+	public Response findBrandById(Long id);
 	public Response findBrandByName(String name);
 	
 
