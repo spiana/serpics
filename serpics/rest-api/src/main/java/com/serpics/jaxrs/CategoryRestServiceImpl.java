@@ -189,7 +189,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	public Response getTop(){
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, list all category ");
+		apiRestResponse.setMessage("OK, list top category ");
 		apiRestResponse.setResponseObject(categoryFacade.listTopCategory());
 		return Response.ok(apiRestResponse).build();
 	}
