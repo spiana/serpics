@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.data.model.Brand;
+import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.services.BrandService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
@@ -26,29 +27,32 @@ public class BrandFacadeImpl implements BrandFacade {
 	@Resource(name = "brandConverter")
 	AbstractPopulatingConverter<Brand, BrandData> brandConverter;
 
-	@Override
-	@Transactional
-	public BrandData addBrand(BrandData brand) {
+	protected Brand buildBrand(BrandData brandData, Brand entity) {
 
-		Brand b = new Brand();
-		b.setLogoSrc(brand.getName());
-		b.setName(brand.getName());
-		b = brandService.create(b);
-		brand = brandConverter.convert(b);
-		return brand;
+			entity.setName(brandData.getName());
+			entity.setLogoSrc(brandData.getLogo());
+		return entity;
 	}
 
 	@Override
 	@Transactional
-	public BrandData updateBrand(BrandData entity) {
+	public BrandData addBrand(BrandData brandData) {
 
-		Brand b = new Brand();
-		// b.setId(brand.getId());
-		b.setLogoSrc(entity.getName());
-		b.setName(entity.getName());
-		b = brandService.update(b);
+		Brand brand = buildBrand(brandData, new Brand());
+		brand = brandService.create(brand);
+		brandData = brandConverter.convert(brand);
+		return brandData;
+	}
 
-		return brandConverter.convert(b);
+	@Override
+	@Transactional
+	public BrandData updateBrand(BrandData brandData) {
+
+		Brand brand = brandService.findOne(brandData.getId());
+		brand = buildBrand(brandData, brand);
+		brand = brandService.update(brand);
+		brandData = brandConverter.convert(brand);
+		return brandData;
 
 	}
 
@@ -75,20 +79,29 @@ public class BrandFacadeImpl implements BrandFacade {
 
 	@Override
 	public BrandData findBrandByName(String name) {
-		
-		Brand b = new Brand();
-		b = brandService.findOneByName(name);
-		return brandConverter.convert(b);
-		
+
+		Brand brand = null;
+		BrandData brandData = null;
+		brand = brandService.findOneByName(name);
+
+		if (brand != null) {
+			brandData = brandConverter.convert(brand);
+		}
+		return brandData;
+
 	}
 
 	@Override
 	public BrandData findBrandById(Long id) {
 
-		Brand b = new Brand();
+		Brand b = null;
+		BrandData brand = null;
 		b = brandService.findOne(id);
-		return brandConverter.convert(b);
 
+		if (b != null) {
+			brand = brandConverter.convert(b);
+		}
+		return brand;
 	}
 
 }
