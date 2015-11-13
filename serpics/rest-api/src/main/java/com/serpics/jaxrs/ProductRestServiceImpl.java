@@ -1,6 +1,5 @@
 package com.serpics.jaxrs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -19,7 +18,6 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -28,180 +26,298 @@ import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
+import com.serpics.jaxrs.data.ApiRestResponse;
+import com.serpics.jaxrs.data.ApiRestResponseStatus;
 
 @Path("/productService")
-@Transactional(readOnly=true)
-public class ProductRestServiceImpl implements ProductRestService{
+@Transactional(readOnly = true)
+public class ProductRestServiceImpl implements ProductRestService {
 
 	@Autowired
 	ProductFacade productFacade;
-	
+
 	@Autowired
 	CategoryFacade categoryFacade;
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{category}/{brand}")
-	public Response insert(ProductData product, @PathParam("category") Long categoryId, @PathParam("brand") Long brandId){
+	public Response insert(ProductData product, @PathParam("category") Long categoryId,
+			@PathParam("brand") Long brandId) {
+		
 		Assert.notNull(product);
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
 		ProductData productData = null;
+
 		productData = productFacade.create(product, categoryId, brandId);
-		return Response.ok(productData).build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, createWithCategory added");
+		apiRestResponse.setResponseObject(productData);
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/category/{category}")
-	public Response insertCategory(ProductData product, @PathParam("category") Long categoryId){
+	public Response insertCategory(ProductData product, @PathParam("category") Long categoryId) {
 		Assert.notNull(product);
+
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
 		ProductData productData = null;
+
 		productData = productFacade.createWithCategory(product, categoryId);
-		return Response.ok(productData).build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, createWithCategory added");
+		apiRestResponse.setResponseObject(productData);
+		return Response.ok(apiRestResponse).build();
+
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/brand/{brand}")
-	public Response insertBrand(ProductData product, @PathParam("brand") Long brandId){
+	public Response insertBrand(ProductData product, @PathParam("brand") Long brandId) {
 		Assert.notNull(product);
+
 		ProductData productData = null;
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
 		productData = productFacade.createWithBrand(product, brandId);
-		return Response.ok(productData).build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, createWithBrand added");
+		apiRestResponse.setResponseObject(productData);
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response insert(ProductData product){
+	public Response insert(ProductData product) {
 		Assert.notNull(product);
 		ProductData productData = null;
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+		
 		productData = productFacade.create(product);
-		return Response.ok(productData).build();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, Product created");
+		apiRestResponse.setResponseObject(productData);
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(ProductData product){
+	public Response update(ProductData product) {
 		Assert.notNull(product);
 		ProductData productData = null;
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
 		productData = productFacade.updateProduct(product);
-		return Response.ok(productData).build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, updateProduct added");
+		apiRestResponse.setResponseObject(productData);
+		return Response.ok(apiRestResponse).build();
+
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{product}")
-	public ProductData getProduct(@PathParam("product") Long productId){
-		Assert.notNull(productId);
-		return productFacade.findById(productId);
+	public Response getProduct(@PathParam("product") Long productId) {
+
+		// Assert.notNull(productId);
+
+		ProductData productData = null;
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
+		productData = productFacade.findById(productId);
+		if (productData != null) {
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setMessage("OK, Product found");
+			apiRestResponse.setResponseObject(productData);
+			return Response.ok(apiRestResponse).build();
+		} else {
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, Product not found");
+			return Response.status(404).entity(apiRestResponse).build();
+		}
+
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@DELETE
 	@Path("/{product}")
-	public Response delete(@PathParam("product") Long productId){
+	public Response delete(@PathParam("product") Long productId) {
 		Assert.notNull(productId);
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+		
 		productFacade.deleteProduct(productId);
-		return Response.ok().build();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, Product deleted");
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("getCategory/{product}")
-	public List<CategoryData> getCategory(@PathParam("product") Long productId){
+	public Response getCategory(@PathParam("product") Long productId) {
 		Assert.notNull(productId);
+
+		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
+
 		ProductData product = productFacade.findById(productId);
-		if (product != null){
-		return productFacade.getParentCategory(product);
+		if (product != null) {
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setMessage("OK, Product found");
+			apiRestResponse.setResponseObject(productFacade.getParentCategory(product));
+			return Response.ok(apiRestResponse).build();
 		} else {
-			return new ArrayList<CategoryData>();
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, Product not found");
+			return Response.status(404).entity(apiRestResponse).build();
 		}
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("addBrand/{product}/{brand}")
-	public Response addBrand(@PathParam("product") Long productId, @PathParam("brand") Long brandId){
+	public Response addBrand(@PathParam("product") Long productId, @PathParam("brand") Long brandId) {
+
 		Assert.notNull(productId);
 		Assert.notNull(brandId);
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
 		productFacade.addBrand(productId, brandId);
-		return Response.ok().build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, Brand added to Product");
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("addCategory/{product}/{category}")
-	public Response addCategory(@PathParam("product") Long productId, @PathParam("category") Long categoryId){
+	public Response addCategory(@PathParam("product") Long productId, @PathParam("category") Long categoryId) {
+
 		Assert.notNull(productId);
 		Assert.notNull(categoryId);
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
 		productFacade.addEntryCategoryParent(productId, categoryId);
-		return Response.ok().build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, Category added to Product");
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("addPrice/{product}")
-	public Response addPrice(@PathParam("product") Long productId, PriceData price){
+	public Response addPrice(@PathParam("product") Long productId, PriceData price) {
+
 		Assert.notNull(productId);
 		Assert.notNull(price);
+
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
 		productFacade.addPrice(productId, price);
-		return Response.ok().build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, Product added");
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("byCode/{product}")
-	public ProductData getProductByName(@PathParam("product") String name){
+	public Response getProductByName(@PathParam("product") String name) {
 		Assert.notNull(name);
-		return productFacade.findByName(name);
+		ProductData productData = null;
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
+		productData = productFacade.findByName(name);
+
+		if (productData != null) {
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setMessage("OK, Product found");
+			apiRestResponse.setResponseObject(productData);
+			return Response.ok(apiRestResponse).build();
+		} else {
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, Product not found");
+			return Response.status(404).entity(apiRestResponse).build();
+		}
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Page<ProductData> findAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
-		Pageable pageable = new PageRequest(page, size);
-		return productFacade.listProduct(pageable);
+	public Response findAll(@QueryParam("page") @DefaultValue("0") int page,
+			@QueryParam("size") @DefaultValue("10") int size) {
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, Products List");
+		apiRestResponse.setResponseObject(productFacade.listProduct(new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("pageCategory/{category}")
-	public Page<ProductData> findByCategory(@PathParam("category") Long categoryId, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
-		Pageable pageable = new PageRequest(page, size);
-		return productFacade.listProductByCategory(categoryId, pageable);
+	public Response findByCategory(@PathParam("category") Long categoryId,
+			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size) {
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, Products List");
+		apiRestResponse.setResponseObject(productFacade.listProductByCategory(categoryId, new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("pageBrand/{brand}")
-	public Page<ProductData> findByBrand(@PathParam("brand") Long brandId, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
-		Pageable pageable = new PageRequest(page, size);
-		return productFacade.listProductByBrand(brandId, pageable);
+	public Response findByBrand(@PathParam("brand") Long brandId, @QueryParam("page") @DefaultValue("0") int page,
+			@QueryParam("size") @DefaultValue("10") int size) {
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, Products List");
+		apiRestResponse.setResponseObject(productFacade.listProductByBrand(brandId, new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 }

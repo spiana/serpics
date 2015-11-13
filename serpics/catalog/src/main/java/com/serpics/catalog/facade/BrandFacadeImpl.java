@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.data.model.Brand;
-import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.services.BrandService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
