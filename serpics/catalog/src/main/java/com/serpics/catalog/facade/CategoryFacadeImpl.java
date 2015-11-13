@@ -81,6 +81,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	public List<CategoryData> listChildCategories(Long id) {
 		List<CategoryData> list = new ArrayList<CategoryData>();
 		Category parent = categoryService.findOne(id);
+		Assert.notNull(parent);
 		List<Category> categories = categoryService.getChildCategories(parent);
 		for (Category category : categories) {
 			list.add(categoryConverter.convert(category));
@@ -131,6 +132,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Transactional
 	public CategoryData create(CategoryData category, Long parentId) {
 		Category parent = categoryService.findOne(parentId);
+		Assert.notNull(parent);
 		Category entity = buildCategory(category, new Category());
 		entity = categoryService.create(entity, parent);
 		category = categoryConverter.convert(entity);

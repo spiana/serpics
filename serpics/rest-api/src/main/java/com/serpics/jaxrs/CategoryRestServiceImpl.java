@@ -18,12 +18,13 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.data.CategoryData;
+import com.serpics.jaxrs.data.ApiRestResponse;
+import com.serpics.jaxrs.data.ApiRestResponseStatus;
 
 @Path("/categoryService")
 @Transactional(readOnly=true)
@@ -37,9 +38,22 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/code/{category}")
-	public CategoryData getCategoryByCode(@PathParam("category") String code){
-		Assert.notNull(code);
-		return categoryFacade.findCategoryByCode(code);
+	public Response getCategoryByCode(@PathParam("category") String code){
+		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
+		CategoryData categoryData = categoryFacade.findCategoryByCode(code);
+		if (categoryData != null) {
+			// 200 OK
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setMessage("OK, category found");
+			apiRestResponse.setResponseObject(categoryData);
+			return Response.ok(apiRestResponse).build();
+
+		} else {
+			// 404 Not Found - Category Not Found
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, category not found");
+			return Response.status(404).entity(apiRestResponse).build();
+		}
 	}
 	
 	@Override
@@ -47,9 +61,22 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{category}")
-	public CategoryData getCategoryById(@PathParam("category") Long categoryId){
-		Assert.notNull(categoryId);
-		return categoryFacade.findCategoryById(categoryId);
+	public Response getCategoryById(@PathParam("category") Long categoryId){
+		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
+		CategoryData categoryData = categoryFacade.findCategoryById(categoryId);
+		if (categoryData != null) {
+			// 200 OK
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setMessage("OK, category found");
+			apiRestResponse.setResponseObject(categoryData);
+			return Response.ok(apiRestResponse).build();
+
+		} else {
+			// 404 Not Found - Category Not Found
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, category not found");
+			return Response.status(404).entity(apiRestResponse).build();
+		}
 	}
 		
 	@Override
@@ -60,9 +87,13 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	public Response createParent(CategoryData category, @PathParam("parent") Long parentId){
 		Assert.notNull(category);
 		Assert.notNull(parentId);
+		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = null;
 		categoryData = categoryFacade.create(category, parentId);
-		return Response.ok(categoryData).build();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, category added");
+		apiRestResponse.setResponseObject(categoryData);
+		return Response.ok(apiRestResponse).build();
 	}
 	
 	@Override
@@ -71,9 +102,13 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(CategoryData category){
 		Assert.notNull(category);
+		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = null;
 		categoryData = categoryFacade.create(category);
-		return Response.ok(categoryData).build();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, category added");
+		apiRestResponse.setResponseObject(categoryData);
+		return Response.ok(apiRestResponse).build();
 	}
 	
 	@Override
@@ -84,7 +119,10 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		Assert.notNull(childId);
 		Assert.notNull(parentId);
 		categoryFacade.addCategoryParent(childId, parentId);
-		return Response.ok().build();
+		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, category relation added");
+		return Response.ok(apiRestResponse).build();
 	}
 	
 	@Override
@@ -92,9 +130,14 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getChild/{parent}")
-	public List<CategoryData> getChild(@PathParam("parent") Long parentId){
+	public Response getChild(@PathParam("parent") Long parentId){
 		Assert.notNull(parentId);
-		return categoryFacade.listChildCategories(parentId);
+		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(parentId);
+		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, category relation added");
+		apiRestResponse.setResponseObject(listCategoryData);
+		return Response.ok(apiRestResponse).build();
 	}
 	
 	@Override
@@ -103,9 +146,13 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(CategoryData category){
 		Assert.notNull(category);
+		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = null;
 		categoryData = categoryFacade.updateCategory(category);
-		return Response.ok(categoryData).build();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, category updated");
+		apiRestResponse.setResponseObject(categoryData);
+		return Response.ok(apiRestResponse).build();
 	}
 	
 	@Override
@@ -115,17 +162,23 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Path("/{category}")
 	public Response delete(@PathParam("category") Long categoryId){
 		Assert.notNull(categoryId);
+		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		categoryFacade.deleteCategory(categoryId);
-		return Response.ok().build();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, category deleted");
+		return Response.ok(apiRestResponse).build();
 	}
 	
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Page<CategoryData> findAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
-		Pageable pageable = new PageRequest(page, size);
-		return categoryFacade.listCategory(pageable);
+	public Response findAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
+		ApiRestResponse<Page<CategoryData> > apiRestResponse = new ApiRestResponse<Page<CategoryData> >();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, list all category ");
+		apiRestResponse.setResponseObject( categoryFacade.listCategory(new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
 	}
 	
 	@Override
@@ -133,8 +186,12 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/top")
-	public List<CategoryData> getTop(){
-		return categoryFacade.listTopCategory();
+	public Response getTop(){
+		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, list all category ");
+		apiRestResponse.setResponseObject(categoryFacade.listTopCategory());
+		return Response.ok(apiRestResponse).build();
 	}
 	
 }
