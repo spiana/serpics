@@ -13,7 +13,7 @@ public interface BrandRestService {
 	public Response deleteBrand(Long id);
 	public Page<BrandData> findAll(int page , int size);
 	public BrandData findBrandById(Long id);
-	public BrandData findBrandByName(String name);
+	public Response findBrandByName(String name);
 	
 
 }

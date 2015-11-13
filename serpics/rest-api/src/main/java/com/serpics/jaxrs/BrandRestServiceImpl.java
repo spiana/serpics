@@ -21,6 +21,8 @@ import org.springframework.util.Assert;
 
 import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.data.BrandData;
+import com.serpics.jaxrs.data.ApiRestResponse;
+import com.serpics.jaxrs.data.ApiRestResponseStatus;
 
 @Path("/brandService")
 @Transactional(readOnly = true)
@@ -77,7 +79,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
+	@Path("/code/{id}")
 	public BrandData findBrandById(@PathParam("id") Long id) {
 
 		Assert.notNull(id, "id can not be null !");
@@ -88,11 +90,36 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/name/{name}")
-	public BrandData findBrandByName(@PathParam("name") String name) {
+	//@Path("/name/{brandName : (brandName)?}")
+	@Path("/name/{brandName}")
+	public Response findBrandByName(@PathParam("brandName") String brandName) {
 
-		Assert.notNull(name,"name can not be null !");
-		return brandFacade.findBrandByName(name);
+		//Assert.notNull(brandName, "name can not be null !");
+
+		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
+		//if (brandName != null) {
+			BrandData brandData = brandFacade.findBrandByName(brandName);
+
+			if (brandData != null) {
+				// 200 OK
+				apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+				apiRestResponse.setMessage("OK, brand found");
+				apiRestResponse.setResponseObject(brandData);
+				return Response.ok(apiRestResponse).build();
+
+			} else {
+				// 404 Not Found - Brand Not Found
+				apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+				apiRestResponse.setMessage("ERROR, brand not found");
+				return Response.status(404).entity(apiRestResponse).build();
+			}
+//		} else {
+//			// 400 Bad Request - BrandName is Null
+//			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+//			apiRestResponse.setMessage("ERROR, brandName can not be null !");
+//			return Response.status(400).entity(apiRestResponse).build();
+//
+//		}	
 
 	}
 
