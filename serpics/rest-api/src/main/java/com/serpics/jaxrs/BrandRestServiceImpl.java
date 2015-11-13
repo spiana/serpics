@@ -38,18 +38,29 @@ public class BrandRestServiceImpl implements BrandRestService {
 	public Response addBrand(BrandData brand) {
 
 		Assert.notNull(brand, "brand can not be null !");
+		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
+
 		BrandData brandData = brandFacade.addBrand(brand);
-		return Response.ok(brandData).build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, brand added");
+		apiRestResponse.setResponseObject(brandData);
+		return Response.ok(apiRestResponse).build();
 
 	}
 
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Page<BrandData> findAll(@QueryParam("page") @DefaultValue("0") int page,
+	public Response findAll(@QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("size") @DefaultValue("10") int size) {
-
-		return brandFacade.listBrand(new PageRequest(page, size));
+		
+		ApiRestResponse<Page<BrandData> > apiRestResponse = new ApiRestResponse<Page<BrandData> >();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, listBrand ");
+		apiRestResponse.setResponseObject( brandFacade.listBrand(new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
 
 	}
 
@@ -61,9 +72,16 @@ public class BrandRestServiceImpl implements BrandRestService {
 
 		Assert.notNull(brand, "brand can not be null !");
 		Assert.notNull(brand.getId(), "brandId can not be null !");
+		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
 		BrandData brandData = null;
+
 		brandData = brandFacade.updateBrand(brand);
-		return Response.ok(brandData).build();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, brand updated");
+		apiRestResponse.setResponseObject(brandData);
+		return Response.ok(apiRestResponse).build();
+
 	}
 
 	@Override
@@ -71,55 +89,74 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public Response deleteBrand(@PathParam("id") Long id) {
+		
+		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
 
 		brandFacade.deleteBrand(id);
-		return Response.ok().build();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setMessage("OK, brand deleted");
+		return Response.ok(apiRestResponse).build();
+		
 	}
 
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/code/{id}")
-	public BrandData findBrandById(@PathParam("id") Long id) {
+	public Response findBrandById(@PathParam("id") Long id) {
 
-		Assert.notNull(id, "id can not be null !");
-		return brandFacade.findBrandById(id);
+		// Assert.notNull(id, "id can not be null !");
+		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
+		BrandData brandData = brandFacade.findBrandById(id);
+		if (brandData != null) {
+			// 200 OK
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setMessage("OK, brand found");
+			apiRestResponse.setResponseObject(brandData);
+			return Response.ok(apiRestResponse).build();
 
+		} else {
+			// 404 Not Found - Brand Not Found
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, brand not found");
+			return Response.status(404).entity(apiRestResponse).build();
+		}
 	}
 
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	//@Path("/name/{brandName : (brandName)?}")
+	// @Path("/name/{brandName : (brandName)?}")
 	@Path("/name/{brandName}")
 	public Response findBrandByName(@PathParam("brandName") String brandName) {
 
-		//Assert.notNull(brandName, "name can not be null !");
+		// Assert.notNull(brandName, "name can not be null !");
 
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
-		//if (brandName != null) {
-			BrandData brandData = brandFacade.findBrandByName(brandName);
+		// if (brandName != null) {
+		BrandData brandData = brandFacade.findBrandByName(brandName);
 
-			if (brandData != null) {
-				// 200 OK
-				apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-				apiRestResponse.setMessage("OK, brand found");
-				apiRestResponse.setResponseObject(brandData);
-				return Response.ok(apiRestResponse).build();
+		if (brandData != null) {
+			// 200 OK
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setMessage("OK, brand found");
+			apiRestResponse.setResponseObject(brandData);
+			return Response.ok(apiRestResponse).build();
 
-			} else {
-				// 404 Not Found - Brand Not Found
-				apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
-				apiRestResponse.setMessage("ERROR, brand not found");
-				return Response.status(404).entity(apiRestResponse).build();
-			}
-//		} else {
-//			// 400 Bad Request - BrandName is Null
-//			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
-//			apiRestResponse.setMessage("ERROR, brandName can not be null !");
-//			return Response.status(400).entity(apiRestResponse).build();
-//
-//		}	
+		} else {
+			// 404 Not Found - Brand Not Found
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, brand not found");
+			return Response.status(404).entity(apiRestResponse).build();
+		}
+		// } else {
+		// // 400 Bad Request - BrandName is Null
+		// apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+		// apiRestResponse.setMessage("ERROR, brandName can not be null !");
+		// return Response.status(400).entity(apiRestResponse).build();
+		//
+		// }
 
 	}
 
