@@ -26,10 +26,11 @@ public class BrandFacadeImpl implements BrandFacade {
 
 	@Resource(name = "brandConverter")
 	AbstractPopulatingConverter<Brand, BrandData> brandConverter;
-	
-	protected Brand buildBrand(BrandData brandData, Brand entity){
-		entity.setName(brandData.getName());
-		entity.setLogoSrc(brandData.getLogo());
+
+	protected Brand buildBrand(BrandData brandData, Brand entity) {
+
+			entity.setName(brandData.getName());
+			entity.setLogoSrc(brandData.getLogo());
 		return entity;
 	}
 
@@ -37,8 +38,7 @@ public class BrandFacadeImpl implements BrandFacade {
 	@Transactional
 	public BrandData addBrand(BrandData brandData) {
 
-		Brand brand = new Brand();
-		buildBrand(brandData,brand);
+		Brand brand = buildBrand(brandData, new Brand());
 		brand = brandService.create(brand);
 		brandData = brandConverter.convert(brand);
 		return brandData;
@@ -47,7 +47,7 @@ public class BrandFacadeImpl implements BrandFacade {
 	@Override
 	@Transactional
 	public BrandData updateBrand(BrandData brandData) {
-		
+
 		Brand brand = brandService.findOne(brandData.getId());
 		brand = buildBrand(brandData, brand);
 		brand = brandService.update(brand);
@@ -79,16 +79,16 @@ public class BrandFacadeImpl implements BrandFacade {
 
 	@Override
 	public BrandData findBrandByName(String name) {
-		
-		Brand brand = new Brand();
-		BrandData brandData = new BrandData();
+
+		Brand brand = null;
+		BrandData brandData = null;
 		brand = brandService.findOneByName(name);
 
-		if (brand != null ){
-			brandData=brandConverter.convert(brand);
+		if (brand != null) {
+			brandData = brandConverter.convert(brand);
 		}
 		return brandData;
-	
+
 	}
 
 	@Override
@@ -97,9 +97,9 @@ public class BrandFacadeImpl implements BrandFacade {
 		Brand b = new Brand();
 		BrandData brand = new BrandData();
 		b = brandService.findOne(id);
-		
-		if (b != null ){
-			brand=brandConverter.convert(b);
+
+		if (b != null) {
+			brand = brandConverter.convert(b);
 		}
 		return brand;
 	}
