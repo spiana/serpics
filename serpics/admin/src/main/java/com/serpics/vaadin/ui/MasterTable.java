@@ -43,7 +43,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	@SuppressWarnings("unused")
 	private final Set<String> hideProperties = new HashSet<String>();
 	private boolean editable = true;
-	private boolean searchFormEnable = true;
+	private boolean searchFormEnable = false;
 	
 	private String[] searchProperties;
 		private MasterTableListner masterTableListner;
@@ -95,6 +95,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	public CustomModalComponent<T> buildSearchForm() {
 		CustomModalComponent<T> editorWindow = new CustomModalComponent<T>();
 		editorWindow.addTab(new AdvanceSearchForm<T>(entityClass) {
+
 		}, entityClass.getSimpleName());
 		return editorWindow;
 	}
@@ -141,6 +142,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
 		this.editButtonPanel.setEnabled(isEnabled());
+
 
 		v.addComponent(editButtonPanel);
 		v.addComponent(entityList);
@@ -219,6 +221,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		});
 	
 	    
+
 		final Button _delete = new Button(I18nUtils.getMessage("smc.button.remove", "Remove"));		
 		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
 		editButtonPanel.addComponent(_delete);	
@@ -231,6 +234,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			editButtonPanel.addComponent(searchPanel);
 			//editButtonPanel.addComponent(_advanceSearch);
 	    }
+
 
 		setCompositionRoot(v);
 		setSizeFull();
