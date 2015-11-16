@@ -20,7 +20,7 @@ public class Cart extends AbstractOrder {
 
     public Cart(final User user, final Store store, final String userCookie) {
 
-        this.user = this.customer = user;
+        this.user = user;
         this.store = store;
         this.orderAmount = 0D;
         this.status = "P";

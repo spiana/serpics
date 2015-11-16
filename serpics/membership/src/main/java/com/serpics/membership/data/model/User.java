@@ -24,6 +24,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.serpics.commerce.core.Customer;
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MemberType;
 import com.serpics.membership.UserType;
@@ -38,7 +39,7 @@ import com.serpics.membership.UserType;
 @Table(name = "users")
 @DiscriminatorValue("USER")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends Member implements UserDetail{
+public class User extends Member implements UserDetail, Customer{
  	private static final long serialVersionUID = 545575485685613766L;
 
 	@Column(length = 200)
