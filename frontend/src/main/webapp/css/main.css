@@ -6,6 +6,11 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700);
 @import url(http://fonts.googleapis.com/css?family=Abel);
 
+@import url("prettyPhoto.css");
+@import url("price-range.css");
+@import url("animate.css");
+@import url("style.css");
+
 body {
   font-family: 'Roboto', sans-serif;
   background:;
@@ -340,7 +345,11 @@ ul.sub-menu {
     transform: translateY(0);
   }
 }
-  
+.panel-default > .panel-heading .badge{
+	color:#999;
+	background-color: transparent;
+    border-radius: 10px;
+}
 /*************************
 *******Footer CSS******
 **************************/
@@ -734,18 +743,18 @@ h2.title:before{
 }
 
 .category-products .badge {
-  background:none;
-  border-radius: 10px;
-  color: #696763;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 1;
-  min-width: 10px;
-  padding: 3px 7px;
-  text-align: center;
-  vertical-align: baseline;
-  white-space: nowrap;
+  background: transparent none repeat scroll 0% 0%;
+border-radius: 10px;
+color: #696763;
+display: inline-block;
+font-size: 12px;
+font-weight: bold;
+line-height: 1;
+min-width: 10px;
+padding: 3px 7px;
+text-align: center;
+vertical-align: baseline;
+white-space: nowrap;  
 }
 
 .panel-body ul{
@@ -2519,5 +2528,7 @@ h2.title {
 .contact-info .social-networks ul li a:hover{
   color: #FE980F;
 }
+
+@import url("responsive.css");
 
 
