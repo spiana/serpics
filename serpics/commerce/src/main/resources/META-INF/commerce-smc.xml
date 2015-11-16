@@ -12,6 +12,7 @@
 				<property name="created" />
 			</display>
 			<search>
+				<property name="customer.firstname" />
 				<property name="status" />
 			</search>
 		</table>
@@ -160,12 +161,9 @@
 		</table>
 		<editor>
 			<display>
-				<property name="paymethod.name" />
+				<property name="paymethod" />
 				<property name="active" />
 			</display>
-			<readonly>
-				<property name="paymethod.name" />
-			</readonly>
 		</editor>
 		<select>
 			<property name="paymethod.name" />

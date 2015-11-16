@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.vaadin.data.utils.I18nUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.component.CustomFieldFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -22,6 +24,7 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.data.validator.BeanValidator;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
@@ -134,10 +137,18 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 	}
 
 	protected Field<?> createField(final String pid) {
+		return createField(pid, this);
+	}
+	protected Field<?> createField(final String pid , Component uicontext) {
+		return createField(pid, uicontext , this.entityItem);
+	}
+	
+	
+	protected Field<?> createField(final String pid , Component uicontext , EntityItem<T> item) {
 		@SuppressWarnings("rawtypes")
-		final Property p = entityItem.getItemProperty(pid);
+		final Property p = item.getItemProperty(pid);
 		LOG.debug("create field : {}", pid);
-		final Field<?> f = CustomFieldFactory.get().createField(entityItem, pid, this);
+		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 

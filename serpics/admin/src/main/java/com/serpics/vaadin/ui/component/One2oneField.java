@@ -14,10 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.vaadin.data.utils.I18nUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
-import com.serpics.vaadin.ui.I18nUtils;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.serpics.vaadin.ui.PropertiesUtils;
 import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;

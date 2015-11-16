@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import com.serpics.base.data.model.Currency;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.Address;
+import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 
@@ -59,7 +60,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id")
-    protected User customer;
+    protected Member customer;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -219,11 +220,11 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.cookie = cookie;
     }
 
-    public User getCustomer() {
+    public Member getCustomer() {
         return customer;
     }
 
-    public void setCustomer(final User customer) {
+    public void setCustomer(final Member customer) {
         this.customer = customer;
     }
 

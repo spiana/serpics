@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.serpics.vaadin.ui;
 
 import java.util.ArrayList;
@@ -16,21 +13,16 @@ import javax.persistence.Id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
-import com.serpics.vaadin.ui.component.CustomFieldFactory;
-import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
@@ -43,32 +35,41 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 @SuppressWarnings("unused")
 public class AdvanceSearchForm<T> extends MasterForm<T> {
+	private static final long serialVersionUID = -2122206953286953439L;
 
 	private static transient Logger LOG = LoggerFactory.getLogger(AdvanceSearchForm.class);
 
-	private static final long serialVersionUID = 87868509261251877L;
 	private BeanFieldGroup<T> formFiledBinding;
 	private transient PropertyList<T> propertyList;
 	protected transient Class<T> entityClass;
-	protected transient EntityItem<T> item;
+
 	private MasterTableListner masterTableListner;
 	private transient String[] searchProperties;
-	protected transient JPAContainer<T> container;
+	
 
 	
-	public AdvanceSearchForm(Class<T> clazz, EntityItem<T> item) {
+	public AdvanceSearchForm(Class<T> clazz) {
+
 		super(clazz);
 		this.entityClass = clazz;
-		this.item = item;
 		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(entityClass));
 		searchProperties = PropertiesUtils.get().getSearchProperty(entityClass.getSimpleName());
 		if (searchProperties == null) {
 			this.searchProperties = buildDisplayProperties(entityClass);
-			buildContent();
+			
+			final JPAContainer<T> container = makeJPAContainer(this.entityClass);
+			try {
+				setEntityItem(container.createEntityItem(entityClass.newInstance()));
+				formFiledBinding.setItemDataSource(this.entityItem);
+				
+			} catch (InstantiationException | IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
-	public JPAContainer<T> makeJPAContainer(Class<T> clazz) {		
+	private JPAContainer<T> makeJPAContainer(Class<T> clazz) {		
+
 		JPAContainer<T> container = ServiceContainerFactory.make(clazz);
 		return container;
 	}
@@ -88,7 +89,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 	@Override
 	protected void buildContent() {
 		formFiledBinding = new BeanFieldGroup<T>(entityClass);
-		formFiledBinding.setItemDataSource(createEmptyInstance());
+	
 		final Map<TextField, ComboBox> map = new HashMap<TextField, ComboBox>();
 		for (String pid : searchProperties) {
 			if (pid.contains("."))
@@ -100,7 +101,8 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 							"è maggiore di", "è maggiore o uguale a", "è minore o uguale a" }));
 			filterProperty.setCaption("Choose type of filter");
 			filterProperty.setInputPrompt("filter");
-			Field<?> field = createField(pid, searchForm);
+			Field<?> field = createField(pid, searchForm );
+
 			field.setCaption("Property to filter: " + pid);
 			field.setIcon(FontAwesome.SEARCH);
 			field.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
@@ -110,10 +112,8 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 			formFiledBinding.bind(field, pid);
 			searchForm.setWidth("100%");
 			addComponent(searchForm);
-
 		}
 
-		final JPAContainer<T> container = makeJPAContainer(this.entityClass);
 
 		HorizontalLayout buttonPanel = new HorizontalLayout();
 		buttonPanel.setSpacing(true);
@@ -126,7 +126,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 			public void buttonClick(ClickEvent event) {
 				for (String property : searchProperties) {
 					for (Entry<TextField, ComboBox> entry : map.entrySet())
-						MasterTableListner.get().addClickListnerOnSearchButton(container, search, entry.getKey(),
+						MasterTableListner.get().addClickListnerOnSearchButton((JPAContainer)entityItem.getContainer(), search, entry.getKey(),
 								entry.getValue(), property);
 				}
 			}
@@ -138,58 +138,14 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				MasterTableListner.get().resetButtonClickListener(container, reset);
+				MasterTableListner.get().resetButtonClickListener((JPAContainer)entityItem.getContainer(), reset);
 				MasterTableListner.get().showNotificationMessage("Remove all filter from the container!");
 			}
 		});
 		buttonPanel.addComponent(search);
 		buttonPanel.addComponent(reset);
 		addComponent(buttonPanel);
-			}
-	
-
-	/**
-	 * 
-	 * @param pid
-	 * @param uicontext
-	 * @return
-	 */
-	protected Field<?> createField(final String pid, Component uicontext) {
-		@SuppressWarnings("rawtypes")
-		final Property p = item.getItemProperty(pid);
-		LOG.info("create field : {}", pid);
-		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
-		f.setBuffered(true);
-
-		if (f instanceof TextField) {
-			((TextField) f).setNullRepresentation("");
 		}
+		
 
-		f.addValidator(new BeanValidator(entityClass, pid));
-
-		if (String.class.isAssignableFrom(p.getType())) {
-			f.setWidth("80%");
-		}
-		if (Number.class.isAssignableFrom(p.getType())) {
-			f.setWidth("30%");
-		}
-		return f;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private T createEmptyInstance() {
-		try {
-			return (T) entityClass.newInstance();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 }

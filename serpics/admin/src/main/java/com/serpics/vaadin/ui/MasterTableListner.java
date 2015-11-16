@@ -11,6 +11,7 @@ import java.util.Locale;
 import javax.persistence.Transient;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.filter.Filters;
@@ -81,8 +82,8 @@ public class MasterTableListner extends FormLayout {
 			public void buttonClick(final ClickEvent event) {
 				if (entityList.getValue() == null)
 					return;
-				MessageBox.showPlain(Icon.QUESTION, I18nUtils.getMessage("messagebox.delete.title", ""),
-						I18nUtils.getMessage("messagebox.delete.text", ""), new MessageBoxListener() {
+				MessageBox.showPlain(Icon.QUESTION, I18nUtils.getMessage("smc.messagebox.delete.title", ""),
+						I18nUtils.getMessage("smc.messagebox.delete.text", ""), new MessageBoxListener() {
 					@Override
 					public void buttonClicked(final ButtonId buttonId) {
 						if (buttonId.compareTo(ButtonId.YES) == 0) {

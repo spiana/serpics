@@ -29,6 +29,7 @@ import com.serpics.commerce.strategies.ProductStrategy;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
+import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
@@ -81,7 +82,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
                     getCurrentContext().getUserCookie());
 
             cart.setCurrency((Currency) getCurrentContext().getCurrency());
-            cart.setCustomer((User)getCurrentContext().getCustomer());
+            cart.setCustomer((Member)getCurrentContext().getCustomer());
             cartRepository.save(cart);
         }
        putCartinSession(cart);

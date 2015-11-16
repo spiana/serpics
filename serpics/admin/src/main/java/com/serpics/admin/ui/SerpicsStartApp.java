@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityComponent;
-import com.serpics.vaadin.ui.I18nUtils;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.NavigatorMenuTree;
 import com.vaadin.annotations.Theme;
@@ -123,7 +123,7 @@ public class SerpicsStartApp extends UI {
 
 		for (Object id : navigatorMenuTree.getItemIds()) {
 			navigatorMenuTree.setItemCaption(id,
-					I18nUtils.getMessage(id.toString(), id.toString()));
+					I18nUtils.getMessage("smc.navigator."+id.toString(), id.toString()));
 		}
 
 		navigatorMenuTree.setWidth("150px");
@@ -143,11 +143,11 @@ public class SerpicsStartApp extends UI {
 				final String itemid = (String) event.getItemId();
 				if (navigatorMenuTree.getBeanComponent(itemid) != null)
 					addComponent(navigatorMenuTree.getBeanComponent(itemid),
-							I18nUtils.getMessage(itemid, itemid));
+							I18nUtils.getMessage("smc.navigator."+itemid, itemid));
 				else if (navigatorMenuTree.getClassComponent(itemid) != null) {
 					addComponentByClass(
 							navigatorMenuTree.getClassComponent(itemid),
-							I18nUtils.getMessage(itemid, itemid));
+							I18nUtils.getMessage("smc.navigator."+itemid, itemid));
 				}
 			}
 		});

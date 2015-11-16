@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="navigator-definition" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+<xs:schema id="navigator-definition" 
+xmlns="" 
+xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+targetNamespace="http://www.serpicsframework.org/schema/smc">
   <xs:element name="navigator-definition" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">

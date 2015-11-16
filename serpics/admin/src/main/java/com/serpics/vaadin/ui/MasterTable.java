@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Transient;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.vaadin.data.utils.I18nUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -41,7 +43,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	@SuppressWarnings("unused")
 	private final Set<String> hideProperties = new HashSet<String>();
 	private boolean editable = true;
-	private boolean searchFormEnable = false;
+	private boolean searchFormEnable =true;
 	
 	private String[] searchProperties;
 		private MasterTableListner masterTableListner;
@@ -92,7 +94,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	@SuppressWarnings("serial")
 	public CustomModalComponent<T> buildSearchForm() {
 		CustomModalComponent<T> editorWindow = new CustomModalComponent<T>();
-		editorWindow.addTab(new AdvanceSearchForm<T>(entityClass, createEntityItem()) {
+		editorWindow.addTab(new AdvanceSearchForm<T>(entityClass) {
+
 		}, entityClass.getSimpleName());
 		return editorWindow;
 	}
@@ -140,12 +143,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
 		this.editButtonPanel.setEnabled(isEnabled());
 
-		if (searchFormEnable) {
-			this.searchPanel.addComponent(new SearchForm<T>(entityClass, createEntityItem()) {
-			});
-			this.searchPanel.setCaption("search");
-			v.addComponent(searchPanel);
-		}
+
 		v.addComponent(editButtonPanel);
 		v.addComponent(entityList);
 
@@ -165,7 +163,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 
-		final Button _new = new Button(I18nUtils.getMessage("button.add", "Add"));
+		final Button _new = new Button(I18nUtils.getMessage("smc.button.add", "Add"));
 		editButtonPanel.addComponent(_new);
 
 		_new.addClickListener(new Button.ClickListener() {
@@ -185,7 +183,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 
-		final Button _edit = new Button(I18nUtils.getMessage("button.modify", "Modify"));
+		final Button _edit = new Button(I18nUtils.getMessage("smc.button.modify", "Modify"));
 		editButtonPanel.addComponent(_edit);
 
 		_edit.addClickListener(new Button.ClickListener() {
@@ -204,7 +202,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 		
-		final Button _advanceSearch = new Button(I18nUtils.getMessage("button.advanceSearch", "Advance Search"));
+		final Button _advanceSearch = new Button(I18nUtils.getMessage("smc.button.advanceSearch", "Advance Search"));
 		_advanceSearch.addClickListener(new Button.ClickListener() {
 
 			@Override
@@ -223,13 +221,21 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		});
 	
 	    
-		final Button _delete = new Button(I18nUtils.getMessage("button.remove", "Remove"));		
-		final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
+
+		final Button _delete = new Button(I18nUtils.getMessage("smc.button.remove", "Remove"));		
 		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
-		masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
-		editButtonPanel.addComponent(_delete);		
-		editButtonPanel.addComponent(serchField);
-		editButtonPanel.addComponent(_advanceSearch);
+		editButtonPanel.addComponent(_delete);	
+	    
+		if(searchFormEnable == true){
+			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
+			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
+			serchField.setWidth("100%");
+			searchPanel.addComponent(serchField);
+			editButtonPanel.addComponent(searchPanel);
+			//editButtonPanel.addComponent(_advanceSearch);
+	    }
+
+
 		setCompositionRoot(v);
 		setSizeFull();
 	}

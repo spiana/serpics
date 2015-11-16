@@ -58,7 +58,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	 </bean>
    
   <bean name="userSpecification" class="com.serpics.membership.data.specifications.DefaultUserSpecification"/>  
-  <bean name="userRegSpecification" class="com.serpics.membership.data.specifications.DefaultUserRegSpecification"/>
   
   <!-- facade -->
   <alias name="defaultAddressPopulator" alias="addressPopulator"/>

@@ -52,7 +52,7 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 		 List<Specification> defaultSpecs = initializer
 					.getSpecificationForClass(getDomainClass());
 
-			if (defaultSpecs != null){
+			if (defaultSpecs != null && !defaultSpecs.isEmpty()){
 				if(LOG.isDebugEnabled())
 					LOG.debug("Found {} defult specification for class {}" , defaultSpecs.size() , getDomainClass());
 				

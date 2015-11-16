@@ -1,17 +1,17 @@
 package com.serpics.commerce.session;
 
+import com.serpics.commerce.core.Customer;
 import com.serpics.core.data.model.Catalog;
 import com.serpics.core.data.model.Currency;
 import com.serpics.core.data.model.Locale;
 import com.serpics.core.security.StoreRealm;
-import com.serpics.core.security.UserDetail;
 import com.serpics.core.session.SessionContext;
 
 public class CommerceSessionContext extends SessionContext {
     private static final long serialVersionUID = 1L;
 
     private Catalog catalog;
-    private UserDetail customer;
+    private Customer customer;
     private Currency currency;
     private Locale locale;
     private StoreRealm storeRealm;
@@ -25,12 +25,6 @@ public class CommerceSessionContext extends SessionContext {
         super(realm.getName());
         this.storeRealm = realm;
 
-    }
-
-    @Override
-    public void setUserPrincipal(final UserDetail user) {
-        super.setUserPrincipal(user);
-        this.customer = user;
     }
 
     public Long getStoreId() {
@@ -81,11 +75,14 @@ public class CommerceSessionContext extends SessionContext {
         this.catalog = catalog;
     }
 
-    public UserDetail getCustomer() {
-        return customer;
+    public Customer getCustomer() {
+    	if (this.customer != null)
+    		return this.customer;
+    	else
+    		return (Customer) getUserPrincipal();
     }
 
-    public void setCustomer(final UserDetail customer) {
+    public void setCustomer(final Customer customer) {
         this.customer = customer;
     }
 

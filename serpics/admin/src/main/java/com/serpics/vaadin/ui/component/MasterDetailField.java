@@ -13,13 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.vaadin.data.utils.I18nUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.I18nUtils;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MultilingualStringConvert;
-import com.serpics.vaadin.ui.PropertiesUtils;
 import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;

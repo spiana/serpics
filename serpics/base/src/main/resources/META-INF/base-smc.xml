@@ -4,8 +4,9 @@
 	<entity name="country">
 		<table>
 			<display>
-				<property name="geocode.code" />
+				<property name="iso2Code" />
 				<property name="description" />
+				<property name="geocode.code" />
 			</display>
 			<search>				
 				<property name="iso2Code" />							

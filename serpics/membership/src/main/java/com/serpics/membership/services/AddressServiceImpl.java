@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Address;
+import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.AddressRepository;
 
@@ -26,12 +27,12 @@ public class AddressServiceImpl extends AbstractCommerceEntityService<Address, L
 
 
 	protected  static class AddressSpecification{
-		protected static Specification<Address> isAddressUser(final User user){
+		protected static Specification<Address> findByMeber(final Member member){
 			return new Specification<Address>() {
 				@Override
 				public Predicate toPredicate(Root<Address> root,
 						CriteriaQuery<?> cq, CriteriaBuilder cb) {
-					return cb.equal(root.get("member") ,user);
+					return cb.equal(root.get("member") ,member);
 				}
 			};
 			
@@ -41,14 +42,14 @@ public class AddressServiceImpl extends AbstractCommerceEntityService<Address, L
 	@Autowired
 	AddressRepository addressRepository;
 
-	public Address create(Address entity , User user) {
-		entity.setMember(user);
+	public Address create(Address entity , Member member) {
+		entity.setMember(member);
 		return addressRepository.saveAndFlush(entity);
 	}
 	
 	@Override
 	public Address create(Address entity) {
-		User user = (User) getCurrentContext().getCustomer();
+		Member user = (Member) getCurrentContext().getCustomer();
 		return create(entity, user);
 	}
 
@@ -60,13 +61,13 @@ public class AddressServiceImpl extends AbstractCommerceEntityService<Address, L
 	@Override
 	public Page<Address> findAll(Pageable page) {
 		User user = (User) getCurrentContext().getCustomer();
-		return addressRepository.findAll(AddressSpecification.isAddressUser(user), page);
+		return addressRepository.findAll(AddressSpecification.findByMeber(user), page);
 	}
 
 	@Override
 	public List<Address> findAll() {
 		User user = (User) getCurrentContext().getCustomer();
-		return addressRepository.findAll(AddressSpecification.isAddressUser(user));
+		return addressRepository.findAll(AddressSpecification.findByMeber(user));
 	}
 
 	@Override
