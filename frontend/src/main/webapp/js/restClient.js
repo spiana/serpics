@@ -123,11 +123,13 @@ RestClient.prototype = {
 			headers : {
 				"ssid" : randomSSId
 			},success:function(data,status,jqXHR){
+				if(data.responseObject.length>0){
 				categories = data.responseObject.content	
 				categories.forEach(function(entry){
 					buildNavSingleItem(entry.code).appendTo($('div.category-products'))
 					
 				})
+			  }
 			}			
 		})
 		
@@ -154,6 +156,7 @@ RestClient.prototype = {
 			headers : {
 				"ssid" : randomSSId
 			},success:function(data,status,jqXHR){
+				if(data.responseObject.length>0){
 				childCategories = data.responseObject	
 				childCategories.forEach(function(entry){
 					var i = 0;
@@ -161,7 +164,8 @@ RestClient.prototype = {
 					$( "#sportswear ul li a" ).each( function( index, element ){
 					    $( this ).text(entry.code);					    
 					});
-				})			
+				})		
+				}
 			}			
 		})
 		
