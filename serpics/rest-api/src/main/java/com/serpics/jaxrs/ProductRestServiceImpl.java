@@ -162,6 +162,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{product}")
 	public Response delete(@PathParam("product") Long productId) {
 		Assert.notNull(productId);
@@ -200,6 +201,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addBrand/{product}/{brand}")
 	public Response addBrand(@PathParam("product") Long productId, @PathParam("brand") Long brandId) {
 
@@ -217,6 +219,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addCategory/{product}/{category}")
 	public Response addCategory(@PathParam("product") Long productId, @PathParam("category") Long categoryId) {
 
@@ -234,6 +237,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addPrice/{product}")
 	public Response addPrice(@PathParam("product") Long productId, PriceData price) {
 

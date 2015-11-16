@@ -117,5 +117,15 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
         }
         return res;
     }
+
+	@Override
+	public int getCountChildCategory(Category category) {
+		return categoryRelationRepository.getCountCategoryChild(category);
+	}
+
+	@Override
+	public int getCountChildProduct(Category category) {
+		return category2ProductRepository.getCountChildProduct(category);
+	}
     
 }
