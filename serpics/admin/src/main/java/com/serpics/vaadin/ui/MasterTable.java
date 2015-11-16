@@ -43,7 +43,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	@SuppressWarnings("unused")
 	private final Set<String> hideProperties = new HashSet<String>();
 	private boolean editable = true;
-	private boolean searchFormEnable = false;
+	private boolean searchFormEnable =true;
 	
 	private String[] searchProperties;
 		private MasterTableListner masterTableListner;
