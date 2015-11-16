@@ -30,7 +30,7 @@ RestClient.VERSION = '1.0.0.'
 
 function RestClient(){
 	this.executeGetCategory('Application/json','Application/json','categoryService')
-	this.executeGetChildCategoryById('Application/json','Application/json','categoryService','/getChild/2')
+	this.executeGetChildCategoryById('Application/json','Application/json','categoryService','/top')
 }
 
 RestClient.prototype = {
