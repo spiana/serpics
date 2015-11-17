@@ -31,6 +31,17 @@
 		<table>
 			<search>
 				<property name="code"/>
+				<property name="name"/>
+				<property name="description"/>
+			</search>
+		</table>
+	</entity>
+	
+	<entity name="category">
+		<table>
+			<search>
+				<property name="code"/>
+				<property name="name"/>
 				<property name="description"/>
 			</search>
 		</table>
