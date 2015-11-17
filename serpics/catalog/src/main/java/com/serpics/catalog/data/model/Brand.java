@@ -34,6 +34,8 @@ public class Brand extends AbstractEntity implements Serializable {
 	private String logoSrc;
 
 	private String name;
+	
+	private Integer published;
 
 	// bi-directional many-to-one association to Product
 	@OneToMany(mappedBy = "brand" , fetch=FetchType.LAZY)
@@ -85,6 +87,14 @@ public class Brand extends AbstractEntity implements Serializable {
 
 	public void setCatalog(Catalog catalog) {
 		this.catalog = catalog;
+	}
+
+	public Integer getPublished() {
+		return published;
+	}
+
+	public void setPublished(Integer published) {
+		this.published = published;
 	}
 
 }

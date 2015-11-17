@@ -29,6 +29,8 @@ public class CategoryPopulator implements Populator<Category, CategoryData>    {
 		
 		target.setCode(source.getCode());
 		
+		target.setPublished(source.getPublished());
+		
 		target.setUrl(source.getUrl());
 		target.setCatalogId(source.getCatalog().getCode());
 		String locale = engine.getCurrentContext().getLocale().getLanguage();
