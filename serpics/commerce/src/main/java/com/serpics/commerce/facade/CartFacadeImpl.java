@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
@@ -99,8 +98,6 @@ public class CartFacadeImpl implements CartFacade {
 		Cartitem cartItem = new Cartitem();
 		cartItem.setId(cartItemData.getId());
 		cartItem.setUuid(cartItemData.getUuid());
-		cartItem.setProduct(new Product());
-		cartItem.getProduct().setCode(cartItemData.getProduct().getCode());
 		
 		cartItem.setQuantity(cartItemData.getQuantity());
 		
