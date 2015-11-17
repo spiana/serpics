@@ -101,9 +101,14 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     @SuppressWarnings("rawtypes")
 	private Field<?> createSelect(Object propertyId , JPAContainerItem item){
     	 final ComboBox combo = new ComboBox(propertyId.toString());
-         combo.setContainerDataSource(buildcontainer(item.getContainer(), propertyId));
+    	 JPAContainer referencedContainer =buildcontainer(item.getContainer(), propertyId);
+    	 String referencedPropertyId = buildReferencedPropertyToShow(item.getContainer(), propertyId);
+    	 if (referencedPropertyId.contains("."))
+    		 referencedContainer.addNestedContainerProperty(referencedPropertyId);
+    	 
+         combo.setContainerDataSource(referencedContainer);
          combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-         combo.setItemCaptionPropertyId(buildReferencedPropertyToShow(item.getContainer(), propertyId));
+         combo.setItemCaptionPropertyId(referencedPropertyId);
          combo.setFilteringMode(FilteringMode.CONTAINS);
          combo.setImmediate(true);
          combo.setConverter(new SingleSelectConverter(combo));
