@@ -16,5 +16,9 @@ public interface CategoryService extends EntityService<Category, Long> {
     public List<Category> getChildCategories(Category parent);
     
     public List<Category> getCategoriesByProduct(Product product);
+    
+    public int getCountChildCategory(Category category);
+    
+    public int getCountChildProduct(Category category);
 
 }

@@ -1,7 +1,10 @@
 package com.serpics.catalog.facade;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.facade.data.CategoryData;
+import com.serpics.catalog.services.CategoryService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.core.facade.Populator;
@@ -10,6 +13,9 @@ import com.serpics.core.facade.Populator;
 public class CategoryPopulator implements Populator<Category, CategoryData>    {
  
 	Engine<CommerceSessionContext> engine;
+	
+	@Autowired
+	CategoryService categoryService;
 	
 	@Override
 	public void populate(Category source, CategoryData target)  {
@@ -26,6 +32,10 @@ public class CategoryPopulator implements Populator<Category, CategoryData>    {
 		target.setUrl(source.getUrl());
 		target.setCatalogId(source.getCatalog().getCode());
 		String locale = engine.getCurrentContext().getLocale().getLanguage();
+		
+		target.setChildCategoryNumber(categoryService.getCountChildCategory(source));
+		
+		target.setChildProductNumber(categoryService.getCountChildProduct(source));
 		
 		if(source.getDescription() != null)
 			target.setDescription(source.getDescription().getText(locale));

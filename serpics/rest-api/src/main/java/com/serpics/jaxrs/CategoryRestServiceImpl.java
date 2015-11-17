@@ -114,6 +114,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addParent/{child}/{parent}")
 	public Response addParent(@PathParam("child") Long childId, @PathParam("parent") Long parentId){
 		Assert.notNull(childId);
