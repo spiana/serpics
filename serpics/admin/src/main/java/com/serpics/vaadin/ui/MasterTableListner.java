@@ -89,6 +89,8 @@ public class MasterTableListner extends FormLayout {
 						if (buttonId.compareTo(ButtonId.YES) == 0) {
 							if (!container.removeItem(entityList.getValue()))
 								System.out.println("Errore !");
+							else
+								container.commit();
 						}
 					}
 				}, ButtonId.NO, ButtonId.YES);

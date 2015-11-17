@@ -8,6 +8,12 @@
 		</select>
 	</entity>
 
+	<entity name="member">
+		<select>
+			<property name="primaryAddress.lastname" />
+		</select>
+	</entity>
+	
 	<entity name="user">
 
 		<table action="append">
