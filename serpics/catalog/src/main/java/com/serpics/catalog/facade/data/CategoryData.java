@@ -5,6 +5,8 @@ public class CategoryData  extends CtentryData{
 	protected String metaDescription;
 	protected String metaKey;
 	protected String catalogId;
+	protected int childCategoryNumber;
+	protected int childProductNumber;
 	public String getMetaDescription() {
 		return metaDescription;
 	}
@@ -23,8 +25,17 @@ public class CategoryData  extends CtentryData{
 	public void setCatalogId(String catalogId) {
 		this.catalogId = catalogId;
 	}
-	
-	
-	
+	public int getChildCategoryNumber() {
+		return childCategoryNumber;
+	}
+	public void setChildCategoryNumber(int childCategoryNumber) {
+		this.childCategoryNumber = childCategoryNumber;
+	}
+	public int getChildProductNumber() {
+		return childProductNumber;
+	}
+	public void setChildProductNumber(int childProductNumber) {
+		this.childProductNumber = childProductNumber;
+	}
 }
 

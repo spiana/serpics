@@ -18,8 +18,8 @@ if (typeof jQuery === 'undefined') {
 /** RestClient * */
 
 function RestClient(){	
-	this.executeGetCategory('categoryService/top',buildMenuCategoryLevelOne,error)
-	this.executeGetChildCategory('categoryService','/getChild/19', buildSubMenuCategory,error)
+	this.executeGetCategory('categoryService/top',buildAccordionPanelCategory,error)
+	this.executeGetBrand('brandService',buildBrandMenu,error)
 }
 			
 
@@ -80,7 +80,7 @@ RestClient.prototype = {
 	setPropertyInToCookie: function(nameCookie,cookieValue,expires){
 		var lifeTime = new Date();
 		var now = new Date();
-		lifeTime.setTime(now.getTime() + (parseInt(expires) * 60000));// 60 it is 1h
+		lifeTime.setTime(now.getTime() + (parseInt(expires) * 60000));
 		document.cookie = nameCookie + '=' + escape(cookieValue) + '; expires=' + lifeTime.toGMTString() + '; path=/';
 	    this.ssid = document.cookie
 	},
@@ -117,15 +117,17 @@ RestClient.prototype = {
 		this.setPropertyInToCookie('ssid',ssid,30)		
 	},
 
-	executeRestFulGetMethod : function(service,params,callbackSuccess,callbackError) {				
+	executeRestFulGetMethod : function(service,params,callbackSuccess,callbackError,other) {				
 		
 		if (this.getPropertyFromCookie('ssid').length < 1) {
+			alert('coockie scaduto')
 			this.ssid = this.connect()
 		}		
 		
 		this.ssid = this.getPropertyFromCookie('ssid')	
 		this.setRequestParam()	
-				
+		var patherId = null
+		
 			$.ajax({
 			url : this.makeServiceUrlWithParams(service,params),
 			type : RestClient.DEFAULTS.method[0],
@@ -137,7 +139,7 @@ RestClient.prototype = {
 				"ssid" : this.ssid
 			},
 			success:function(data,status,jqXHR){
-				callbackSuccess(data)
+				callbackSuccess(data,other)
 			},
 			error:function(){
 				callbackError()
@@ -148,7 +150,10 @@ RestClient.prototype = {
 	executeGetCategory : function(service,callbackSuccess,callbackError) {
 		this.executeRestFulGetMethod(service,'/',callbackSuccess,callbackError) 
 	},	
-	executeGetChildCategory : function(service,params,callbackSuccess,callbackError) {
-		this.executeRestFulGetMethod(service,params,callbackSuccess,callbackError) 
+	executeGetChildCategory : function(service,params,callbackSuccess,callbackError,other) {		
+		this.executeRestFulGetMethod(service,params,callbackSuccess,callbackError,other) 
+	},	
+	executeGetBrand : function(service,callbackSuccess,callbackError) {		
+		this.executeRestFulGetMethod(service,'/',callbackSuccess,callbackError) 
 	},	
   }

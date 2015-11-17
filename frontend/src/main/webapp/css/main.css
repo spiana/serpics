@@ -736,6 +736,7 @@ h2.title:before{
   font-size: 14px;
   text-decoration: none;
   text-transform: uppercase;
+  font-weight: 500;
 }
 
 .panel-group .panel-heading + .panel-collapse .panel-body {
@@ -784,6 +785,8 @@ white-space: nowrap;
   padding: 5px 25px;
   text-decoration: none;
   text-transform: uppercase;
+  font-weight: 500;
+  
 }
 
 .brands-name .nav-stacked li a:hover{
