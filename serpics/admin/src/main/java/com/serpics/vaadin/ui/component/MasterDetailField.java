@@ -12,14 +12,14 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -164,8 +164,8 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		
 		
 	    for (Object pid : visibleProperties) {
-	    		if(propertyList.getPropertyType((String)pid).isAssignableFrom(MultilingualString.class) ){
-					table.setConverter(pid, new MultilingualStringConvert());
+	    		if(Multilingual.class.isAssignableFrom(propertyList.getPropertyType((String)pid)) ){
+					table.setConverter(pid, new MultilingualFieldConvert());
 				}
 			}	
 	    

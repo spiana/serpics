@@ -9,7 +9,7 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -67,7 +67,7 @@ public class ParentCategoryRelationTable extends MasterDetailTable<CategoryRelat
         container.addNestedContainerProperty("parentCategory.*");
         setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description", "sequence" });
         setParentProperty("childCategory");
-        entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
+        entityList.setConverter("parentCategory.description", new MultilingualFieldConvert());
     }
 
 }

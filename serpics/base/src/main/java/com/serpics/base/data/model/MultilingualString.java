@@ -14,11 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 
-import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.base.Multilingual;
 
 @Entity
 @Table(name = "multilingual_string")
-public class MultilingualString extends AbstractEntity implements Serializable {
+public class MultilingualString extends MultilingualField<LocalizedString> implements Serializable , Multilingual {
     private static final long serialVersionUID = 7728685826544128982L;
 
    
@@ -33,42 +33,8 @@ public class MultilingualString extends AbstractEntity implements Serializable {
 
     public MultilingualString() {
     }
-
     public MultilingualString(final String lang, final String text) {
         addText(lang, text);
-    }
-
-    public void addText(final String language, final String text) {
-        map.put(language, new LocalizedString(language, text));
-    }
-
-    public String getText(final java.util.Locale locale) {
-    	
-        if (map.containsKey(locale.getLanguage())) {
-            return map.get(locale.getLanguage()).getText();
-        }
-        return null;
-    }
-
-    public String getText(final String language) {
-        if (map.containsKey(language)) {
-            return map.get(language).getText();
-        }
-        return null;
-    }
-
-    public LocalizedString getLocalizedString(final String language) {
-        if (map.get(language) == null)
-            map.put(language, new LocalizedString(language, null));
-        return map.get(language);
-    }
-
-    @Override
-    public MultilingualString clone() {
-        final MultilingualString ms = new MultilingualString();
-        for (final LocalizedString s : map.values())
-            ms.addText(s.getLanguage(), s.getText());
-        return ms;
     }
 
     public Long getId() {
@@ -79,8 +45,20 @@ public class MultilingualString extends AbstractEntity implements Serializable {
         Id = id;
     }
 
-    public Map<String, LocalizedString> getMap() {
-        return map;
+    @Override
+    public MultilingualString clone() {
+        final MultilingualString ms = new MultilingualString();
+        for (final LocalizedProperty s : getMap().values())
+            ms.addText(s.getLanguage(), s.getText());
+        return ms;
     }
-
+	@Override
+	public Map<String, LocalizedString> getMap() {
+		return this.map;
+	}
+	@Override
+	public LocalizedString getLocalizedProperty(String language, String text) {
+		return new LocalizedString(language, text);
+	}
+	
 }

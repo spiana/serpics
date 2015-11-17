@@ -10,7 +10,7 @@ import java.util.Locale;
 
 import javax.persistence.Transient;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -234,7 +234,7 @@ public class MasterTableListner extends FormLayout {
 
 				if (properties != null) {
 					for (String entry : properties) {
-						if (container.getType(entry).isAssignableFrom(MultilingualString.class)) {
+						if (Multilingual.class.isAssignableFrom(container.getType(entry))) {
 							filter = new Or(new MultilingualLikeFilter(entry, locale.getLanguage(), filterField));
 						} else {
 							filter = new Or(new SimpleStringFilter(entry, filterField, true, false));
@@ -246,7 +246,7 @@ public class MasterTableListner extends FormLayout {
 
 				if (event.getText().equals("")) {
 					container.removeAllContainerFilters();
-					showNotificationMessage("Roove all filter from container!!");
+					showNotificationMessage("Remove all filter from container!!");
 				}
 			}
 		});

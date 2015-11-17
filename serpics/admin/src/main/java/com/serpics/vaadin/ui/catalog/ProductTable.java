@@ -12,7 +12,7 @@ import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -36,7 +36,7 @@ public class ProductTable extends MasterTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"description","buyable" });
+                setDisplayProperties(new String[]{"code" ,"name","description","buyable" });
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
             }
         };
@@ -104,7 +104,7 @@ public class ProductTable extends MasterTable<Product> {
             super.init();
             container.addNestedContainerProperty("parentCategory.*");
             setPropertyToShow(new String[] { "parentCategory.code", "parentCategory.description" });
-            entityList.setConverter("parentCategory.description", new MultilingualStringConvert());
+            entityList.setConverter("parentCategory.description", new MultilingualFieldConvert());
             setParentProperty("categories");
 
            
@@ -150,8 +150,8 @@ public class ProductTable extends MasterTable<Product> {
     @Override
     public void init() {
         super.init();
-        setPropertyToShow(new String[] { "code", "description" , "buyable" });
-        entityList.setConverter("description", new MultilingualStringConvert());
+        setPropertyToShow(new String[] { "code", "name","description" , "buyable" });
+        entityList.setConverter("description", new MultilingualFieldConvert());
     }
 
 	

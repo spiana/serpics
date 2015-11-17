@@ -10,7 +10,7 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 
 
@@ -50,7 +50,7 @@ public class ChildCategoryRelationTable extends MasterDetailTable<CategoryRelati
         container.addNestedContainerProperty("childCategory.*");
         setPropertyToShow(new String[] { "childCategory.code", "childCategory.description", "sequence" });
         setParentProperty("childCategories");
-        entityList.setConverter("childCategory.description", new MultilingualStringConvert());
+        entityList.setConverter("childCategory.description", new MultilingualFieldConvert());
     }
 
    
