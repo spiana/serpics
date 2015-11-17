@@ -48,6 +48,7 @@ public class Category extends Ctentry implements Serializable {
 	@Column(name = "meta_keyword")
     private String metaKeyword;
 
+    protected Integer published;
     
 	public Category() {
         this.ctentryType = CatalogEntryType.CATEGORY;
@@ -98,5 +99,13 @@ public class Category extends Ctentry implements Serializable {
             this.url = "/" + getCatalog().getCode() + "/" + getCode();
         super.beforePersist();
     }
+
+	public Integer getPublished() {
+		return published;
+	}
+
+	public void setPublished(Integer published) {
+		this.published = published;
+	}
 
 }
