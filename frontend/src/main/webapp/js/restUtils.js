@@ -16,7 +16,7 @@ function buildNavSingleItem(code){
  * 
  * @param data response of rest call
  */
-function buildMenuCategoryLevelOne(data) {
+function retrieveAllCategory(data) {
 
 	var category = []
 
@@ -33,13 +33,34 @@ function buildMenuCategoryLevelOne(data) {
  * 
  * @param data response of rest call
  */
-function buildSubMenuCategory(data){
-	if (data.responseObject.content.length > 0) {
+function buildMenuCategoryLevelOne(data) {
 
-	 var node = document.createElement("LI");                 
+	var category = []
+
+	if (data.responseObject.length > 0) {
+		categories = data.responseObject
+		categories.forEach(function(entry) {
+			buildNavSingleItem(entry.code).appendTo($('div.category-products'))
+		})
+	}
+	
+}
+
+/**
+ * 
+ * @param data response of rest call
+ */
+function buildSubMenuCategory(data){
+	
+	if (data.responseObject.length != 0) {
+	 var node = document.createElement("li");                 
 	 var textnode = document.createTextNode("Water");         
-	 node.appendChild(textnode);                              
-	 document.getElementById("sub-category").appendChild(node);   
+	 node.appendChild(textnode); 	 
+	 var node2 = document.createElement("a");;	 
+	 var anchor = document.createElement("a");
+	 anchor.setAttribute("href", "#");	 
+	 $(anchor).wrap(node)	 
+	 document.getElementById("sub-category").appendChild(node);	 
 	}
 }
 

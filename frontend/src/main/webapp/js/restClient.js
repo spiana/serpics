@@ -18,8 +18,8 @@ if (typeof jQuery === 'undefined') {
 /** RestClient * */
 
 function RestClient(){	
-	this.executeGetCategory('categoryService',buildMenuCategoryLevelOne,error)
-	this.executeGetChildCategory('categoryService','/getChild/4', buildSubMenuCategory,error)
+	this.executeGetCategory('categoryService/top',buildMenuCategoryLevelOne,error)
+	this.executeGetChildCategory('categoryService','/getChild/19', buildSubMenuCategory,error)
 }
 			
 
@@ -77,11 +77,28 @@ RestClient.prototype = {
 								RestClient.DEFAULTS.path.concat(service))
 								.concat(params)))))
 	},
-	setSSIDInToCookie: function(ssid){
-		this.ssid = sid
+	setPropertyInToCookie: function(nameCookie,cookieValue,expires){
+		var lifeTime = new Date();
+		var now = new Date();
+		lifeTime.setTime(now.getTime() + (parseInt(expires) * 60000));// 60 it is 1h
+		document.cookie = nameCookie + '=' + escape(cookieValue) + '; expires=' + lifeTime.toGMTString() + '; path=/';
+	    this.ssid = document.cookie
 	},
-	getSSIDFromToCookie: function(){
-		return this.ssid
+	getPropertyFromCookie: function(nameCookie){
+		
+		if (document.cookie.length > 0) {
+		    var init = document.cookie.indexOf(nameCookie + "=");
+		    if (init != -1){
+		      init = init + nameCookie.length + 1;
+		      var end = document.cookie.indexOf(";",init);
+		      if (end == -1)
+		    	  end = document.cookie.length;
+		      return unescape(document.cookie.substring(init,end));
+		    }else{
+		       return "";
+		    }
+		  }
+		  return "";
 	},
 	connect : function() {
 		var ssid = ''
@@ -96,15 +113,17 @@ RestClient.prototype = {
 				ssid = data
 			}
 		})       
-		return ssid
+		
+		this.setPropertyInToCookie('ssid',ssid,30)		
 	},
 
 	executeRestFulGetMethod : function(service,params,callbackSuccess,callbackError) {				
 		
-		if (!this.ssid) {
+		if (this.getPropertyFromCookie('ssid').length < 1) {
 			this.ssid = this.connect()
-		}
-	
+		}		
+		
+		this.ssid = this.getPropertyFromCookie('ssid')	
 		this.setRequestParam()	
 				
 			$.ajax({
