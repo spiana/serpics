@@ -104,6 +104,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	@Test
 	@Transactional
 	public void createUser() throws SerpicsException{
+		ce.connect("default-store");
 		GeocodeData g = createGeoCode();
 		CountryData c = createCountry(g);
 		

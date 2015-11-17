@@ -82,7 +82,11 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<bean name="productSpecification"
 		class="com.serpics.catalog.data.specification.DefaultProductSpecification" />
 	
-	<bean name="productSpecificationRegisterd" class="com.serpics.catalog.data.specification.DefaultRegisteredProductSpecification"/>	
+	<bean name="productSpecificationRegisterd" class="com.serpics.catalog.data.specification.DefaultRegisteredProductSpecification"/>
+	
+	<bean name="categorySpecificationRegisterd" class="com.serpics.catalog.data.specification.DefaultRegisteredCategorySpecification"/>
+	
+	<bean name="brandSpecificationRegisterd" class="com.serpics.catalog.data.specification.DefaultRegisteredBrandSpecification"/>		
 		
 	<!--  facade -->
     <alias name="defaultCtentryConverter" alias="ctentryConverter"/>

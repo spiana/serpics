@@ -7,6 +7,7 @@ public class CategoryData  extends CtentryData{
 	protected String catalogId;
 	protected int childCategoryNumber;
 	protected int childProductNumber;
+	protected int published;
 	public String getMetaDescription() {
 		return metaDescription;
 	}
@@ -36,6 +37,12 @@ public class CategoryData  extends CtentryData{
 	}
 	public void setChildProductNumber(int childProductNumber) {
 		this.childProductNumber = childProductNumber;
+	}
+	public int getPublished() {
+		return published;
+	}
+	public void setPublished(int published) {
+		this.published = published;
 	}
 }
 

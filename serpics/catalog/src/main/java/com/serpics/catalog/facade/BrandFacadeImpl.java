@@ -30,6 +30,8 @@ public class BrandFacadeImpl implements BrandFacade {
 
 			entity.setName(brandData.getName());
 			entity.setLogoSrc(brandData.getLogo());
+			entity.setPublished(brandData.getPublished());
+			
 		return entity;
 	}
 

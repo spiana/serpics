@@ -18,8 +18,7 @@ if (typeof jQuery === 'undefined') {
 /** RestClient * */
 
 function RestClient(){	
-	this.executeGetCategory('categoryService/top',buildAccordionPanelCategory,error)
-	this.executeGetBrand('brandService',buildBrandMenu,error)
+	
 }
 			
 
@@ -80,8 +79,8 @@ RestClient.prototype = {
 	setPropertyInToCookie: function(nameCookie,cookieValue,expires){
 		var lifeTime = new Date();
 		var now = new Date();
-		lifeTime.setTime(now.getTime() + (parseInt(expires) * 60000));
-		document.cookie = nameCookie + '=' + escape(cookieValue) + '; expires=' + lifeTime.toGMTString() + '; path=/';
+		lifeTime.setTime(now.getTime() + (parseInt(expires) * 6000));
+		document.cookie = nameCookie + '=' + escape(cookieValue) + '; expires=' + lifeTime.toGMTString() + '; path=/frontend/';
 	    this.ssid = document.cookie
 	},
 	getPropertyFromCookie: function(nameCookie){

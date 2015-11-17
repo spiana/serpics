@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.system.web.WebCostant;
 
 public class AuthenticationHandler implements RequestHandler {
 	private static transient Logger LOG = LoggerFactory.getLogger(AuthenticationHandler.class);
@@ -33,7 +34,7 @@ public class AuthenticationHandler implements RequestHandler {
 		LOG.info("uri {}" , uri);
 		
 		String sessionId = null;
-		List<String> sessionids = headers.get("ssid");
+		List<String> sessionids = headers.get(WebCostant.SSID_SERPICS_TOKEN);
 		
 		if (sessionids != null && !sessionids.isEmpty()){
 			sessionId = sessionids.get(0);
