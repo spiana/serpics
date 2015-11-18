@@ -43,7 +43,6 @@ public class BrandRestServiceImpl implements BrandRestService {
 		BrandData brandData = brandFacade.addBrand(brand);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, brand added");
 		apiRestResponse.setResponseObject(brandData);
 		return Response.ok(apiRestResponse).build();
 
@@ -58,7 +57,6 @@ public class BrandRestServiceImpl implements BrandRestService {
 		ApiRestResponse<Page<BrandData> > apiRestResponse = new ApiRestResponse<Page<BrandData> >();
 		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, listBrand ");
 		apiRestResponse.setResponseObject( brandFacade.listBrand(new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 
@@ -78,7 +76,6 @@ public class BrandRestServiceImpl implements BrandRestService {
 		brandData = brandFacade.updateBrand(brand);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, brand updated");
 		apiRestResponse.setResponseObject(brandData);
 		return Response.ok(apiRestResponse).build();
 
@@ -95,7 +92,6 @@ public class BrandRestServiceImpl implements BrandRestService {
 		brandFacade.deleteBrand(id);
 		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, brand deleted");
 		return Response.ok(apiRestResponse).build();
 		
 	}
@@ -112,7 +108,6 @@ public class BrandRestServiceImpl implements BrandRestService {
 		if (brandData != null) {
 			// 200 OK
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-			apiRestResponse.setMessage("OK, brand found");
 			apiRestResponse.setResponseObject(brandData);
 			return Response.ok(apiRestResponse).build();
 
@@ -140,7 +135,6 @@ public class BrandRestServiceImpl implements BrandRestService {
 		if (brandData != null) {
 			// 200 OK
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-			apiRestResponse.setMessage("OK, brand found");
 			apiRestResponse.setResponseObject(brandData);
 			return Response.ok(apiRestResponse).build();
 

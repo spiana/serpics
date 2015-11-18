@@ -10,7 +10,7 @@ public interface CustomerService  {
 	
 	public Response create(UserData entity);
 	public Response update(UserData entity);
-	public UserData getCurrent();
+	public Response getCurrent();
 	public Response login(String username , String password);
 	public Response updateContactAddress(AddressData address);
 	public Response updateBillingAddress(AddressData address);
