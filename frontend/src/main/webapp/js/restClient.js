@@ -17,9 +17,8 @@ if (typeof jQuery === 'undefined') {
 
 /** RestClient * */
 
-function RestClient(){	
-	this.executeGetCategory('categoryService/top',buildAccordionPanelCategory,error)
-	this.executeGetBrand('brandService',buildBrandMenu,error)
+function RestClient(){
+	
 }
 			
 
@@ -40,7 +39,8 @@ function RestClient(){
 }
 
 
-RestClient.prototype = {
+RestClient.prototype = {	   
+			
 	constructor : RestClient,
 	
 	auth:{},
@@ -49,8 +49,17 @@ RestClient.prototype = {
 	ssid:null,
 	contentType:null,
 	accept:null,
-	response:null,
-
+	response:null,	
+    instance:null,
+	
+    /** singleton to prevent multiple instance of RestClient Object **/
+    getInstance: function(){
+		if(this.instance == null){
+				this.instance = new RestClient()
+				return this.instance
+		}else
+			return this.instance
+	},
 	
 	setRequestParam : function() {
 
@@ -61,6 +70,7 @@ RestClient.prototype = {
 			}
 		})
 	},
+	
 	makeConnectUrl : function() {
 
 		return (RestClient.DEFAULTS.protocol[0].concat('://')
@@ -81,7 +91,7 @@ RestClient.prototype = {
 		var lifeTime = new Date();
 		var now = new Date();
 		lifeTime.setTime(now.getTime() + (parseInt(expires) * 60000));
-		document.cookie = nameCookie + '=' + escape(cookieValue) + '; expires=' + lifeTime.toGMTString() + '; path=/';
+		document.cookie = nameCookie + '=' + escape(cookieValue) + '; expires=' + lifeTime.toGMTString() + '; path=/frontend/';
 	    this.ssid = document.cookie
 	},
 	getPropertyFromCookie: function(nameCookie){
@@ -147,13 +157,22 @@ RestClient.prototype = {
 		})		
 		
 	},
-	executeGetCategory : function(service,callbackSuccess,callbackError) {
-		this.executeRestFulGetMethod(service,'/',callbackSuccess,callbackError) 
+	executeGetCategory : function(service,params,callbackSuccess,callbackError) {
+		this.executeRestFulGetMethod(service,params,callbackSuccess,callbackError) 
 	},	
 	executeGetChildCategory : function(service,params,callbackSuccess,callbackError,other) {		
 		this.executeRestFulGetMethod(service,params,callbackSuccess,callbackError,other) 
 	},	
-	executeGetBrand : function(service,callbackSuccess,callbackError) {		
-		this.executeRestFulGetMethod(service,'/',callbackSuccess,callbackError) 
+	executeGetBrand : function(service,params,callbackSuccess,callbackError) {		
+		this.executeRestFulGetMethod(service,params,callbackSuccess,callbackError) 
+	},	
+	executeGetProduct : function(service,params,callbackSuccess,callbackError) {		
+		this.executeRestFulGetMethod(service,params,callbackSuccess,callbackError) 
+	},	
+	executeGetProductById : function(service,params,callbackSuccess,callbackError) {		
+		this.executeRestFulGetMethod(service,params,callbackSuccess,callbackError) 
 	},	
   }
+
+/** unique instance for all application **/
+var rest = RestClient.prototype.getInstance()
