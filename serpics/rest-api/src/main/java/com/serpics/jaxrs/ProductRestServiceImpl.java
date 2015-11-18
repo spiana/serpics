@@ -54,7 +54,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productData = productFacade.create(product, categoryId, brandId);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, createWithCategory added");
 		apiRestResponse.setResponseObject(productData);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -73,7 +72,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productData = productFacade.createWithCategory(product, categoryId);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, createWithCategory added");
 		apiRestResponse.setResponseObject(productData);
 		return Response.ok(apiRestResponse).build();
 
@@ -93,7 +91,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productData = productFacade.createWithBrand(product, brandId);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, createWithBrand added");
 		apiRestResponse.setResponseObject(productData);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -110,7 +107,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productData = productFacade.create(product);
 		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, Product created");
 		apiRestResponse.setResponseObject(productData);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -127,7 +123,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productData = productFacade.updateProduct(product);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, updateProduct added");
 		apiRestResponse.setResponseObject(productData);
 		return Response.ok(apiRestResponse).build();
 
@@ -148,7 +143,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productData = productFacade.findById(productId);
 		if (productData != null) {
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-			apiRestResponse.setMessage("OK, Product found");
 			apiRestResponse.setResponseObject(productData);
 			return Response.ok(apiRestResponse).build();
 		} else {
@@ -171,7 +165,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productFacade.deleteProduct(productId);
 		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, Product deleted");
 		return Response.ok(apiRestResponse).build();
 	}
 
@@ -188,7 +181,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ProductData product = productFacade.findById(productId);
 		if (product != null) {
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-			apiRestResponse.setMessage("OK, Product found");
 			apiRestResponse.setResponseObject(productFacade.getParentCategory(product));
 			return Response.ok(apiRestResponse).build();
 		} else {
@@ -212,7 +204,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productFacade.addBrand(productId, brandId);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, Brand added to Product");
 		return Response.ok(apiRestResponse).build();
 	}
 
@@ -230,7 +221,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productFacade.addEntryCategoryParent(productId, categoryId);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, Category added to Product");
 		return Response.ok(apiRestResponse).build();
 	}
 
@@ -249,7 +239,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		productFacade.addPrice(productId, price);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, Product added");
 		return Response.ok(apiRestResponse).build();
 	}
 
@@ -267,7 +256,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 
 		if (productData != null) {
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-			apiRestResponse.setMessage("OK, Product found");
 			apiRestResponse.setResponseObject(productData);
 			return Response.ok(apiRestResponse).build();
 		} else {
@@ -287,7 +275,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, Products List");
 		apiRestResponse.setResponseObject(productFacade.listProduct(new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
@@ -303,7 +290,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, Products List");
 		apiRestResponse.setResponseObject(productFacade.listProductByCategory(categoryId, new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
@@ -319,7 +305,6 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, Products List");
 		apiRestResponse.setResponseObject(productFacade.listProductByBrand(brandId, new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}

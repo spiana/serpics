@@ -11,6 +11,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -18,6 +20,8 @@ import org.springframework.util.Assert;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.jaxrs.data.ApiRestResponse;
+import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.membership.UserType;
 import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.facade.data.AddressData;
@@ -26,6 +30,8 @@ import com.serpics.membership.facade.data.UserData;
 @Path("/customerService")
 @Transactional(readOnly = true)
 public class CustomerServiceImpl implements CustomerService {
+	
+	Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
 	@Autowired
 	UserFacade userFacade;
 
@@ -38,39 +44,54 @@ public class CustomerServiceImpl implements CustomerService {
 	@Path("register")
 	public Response create(final UserData user) {
 		Assert.notNull(user);
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 		userFacade.registerUser(user);
-		return Response.ok().build();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		return Response.ok(apiRestResponse).build();
 	}
 
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserData getCurrent(){
-		return userFacade.getCurrentuser();
+	public Response getCurrent() {
+
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(userFacade.getCurrentuser());
+		return Response.ok(apiRestResponse).build();
 	}
-	
+
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	public Response update(final UserData entity) {
-		if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS){
+		if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS) {
 			userFacade.updateUser(entity);
 		}
-		return Response.ok().build();
+		
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+    	apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		return Response.ok(apiRestResponse).build();
 	}
 
 	@Override
 	@GET
 	@Path("login")
 	public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
+		
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 		CommerceSessionContext context = commerceEngine.getCurrentContext();
 		try {
 			commerceEngine.connect(context, username, password.toCharArray());
 		} catch (SerpicsException e) {
-			e.printStackTrace();
-			return Response.status(401).build();
+			LOG.error("Error On Connect ",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error On Connect "+e.getMessage());
+			return Response.status(401).entity(apiRestResponse).build();
 		}
-		return Response.ok().build();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		return Response.ok(apiRestResponse).build();
 	}
 
 	@Override
@@ -78,16 +99,27 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateContactAddress")
 	public Response updateContactAddress(AddressData address) {
+		
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+		
 		userFacade.updateContactAddress(address);
-		return Response.ok().build();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		return Response.ok(apiRestResponse).build();
 	}
+
 	@Override
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateBillingAddress")
 	public Response updateBillingAddress(AddressData address) {
+		
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+		
 		userFacade.updateBillingAddress(address);
-		return Response.ok().build();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		return Response.ok(apiRestResponse).build();
 	}
 
 	@Override
@@ -95,10 +127,14 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateDestinationAddress")
 	public Response updateDestinationAddress(AddressData address) {
-		Assert.notNull(address , "address can not be null !");
-		Assert.notNull(address.getUuid() , "UUID can not ve null !");
+		Assert.notNull(address, "address can not be null !");
+		Assert.notNull(address.getUuid(), "UUID can not ve null !");
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+		
 		userFacade.updateDestinationAddress(address, address.getUuid());
-		return Response.ok().build();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		return Response.ok(apiRestResponse).build();
 	}
 
 	@Override
@@ -106,9 +142,14 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("addDestinationAddress")
 	public Response addDestinationAddress(AddressData address) {
-		Assert.notNull(address , "address can not be null !");
+		
+		Assert.notNull(address, "address can not be null !");
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+		
 		userFacade.addDestinationAddress(address);
-		return Response.ok().build();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		return Response.ok(apiRestResponse).build();
 	}
 
 	@Override
@@ -116,7 +157,12 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("deleteDestinationAddress")
 	public Response deleteDestinationAddress(String addressUID) {
+		
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+		
 		userFacade.deleteDestinationAddress(addressUID);
-		return Response.ok().build();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		return Response.ok(apiRestResponse).build();
 	}
 }

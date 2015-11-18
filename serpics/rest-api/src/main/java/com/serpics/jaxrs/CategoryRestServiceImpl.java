@@ -44,7 +44,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		if (categoryData != null) {
 			// 200 OK
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-			apiRestResponse.setMessage("OK, category found");
 			apiRestResponse.setResponseObject(categoryData);
 			return Response.ok(apiRestResponse).build();
 
@@ -67,7 +66,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		if (categoryData != null) {
 			// 200 OK
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-			apiRestResponse.setMessage("OK, category found");
 			apiRestResponse.setResponseObject(categoryData);
 			return Response.ok(apiRestResponse).build();
 
@@ -91,7 +89,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		CategoryData categoryData = null;
 		categoryData = categoryFacade.create(category, parentId);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, category added");
 		apiRestResponse.setResponseObject(categoryData);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -106,7 +103,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		CategoryData categoryData = null;
 		categoryData = categoryFacade.create(category);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, category added");
 		apiRestResponse.setResponseObject(categoryData);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -121,7 +117,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		Assert.notNull(parentId);
 		categoryFacade.addCategoryParent(childId, parentId);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setMessage("OK, category relation added");
 		return Response.ok(apiRestResponse).build();
 	}
@@ -136,7 +131,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(parentId);
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, category relation added");
 		apiRestResponse.setResponseObject(listCategoryData);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -151,7 +145,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		CategoryData categoryData = null;
 		categoryData = categoryFacade.updateCategory(category);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, category updated");
 		apiRestResponse.setResponseObject(categoryData);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -166,7 +159,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		categoryFacade.deleteCategory(categoryId);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, category deleted");
 		return Response.ok(apiRestResponse).build();
 	}
 	
@@ -177,7 +169,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	public Response findAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
 		ApiRestResponse<Page<CategoryData> > apiRestResponse = new ApiRestResponse<Page<CategoryData> >();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, list all category ");
 		apiRestResponse.setResponseObject( categoryFacade.listCategory(new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
@@ -190,7 +181,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	public Response getTop(){
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setMessage("OK, list top category ");
 		apiRestResponse.setResponseObject(categoryFacade.listTopCategory());
 		return Response.ok(apiRestResponse).build();
 	}

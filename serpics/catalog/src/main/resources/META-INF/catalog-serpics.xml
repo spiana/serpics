@@ -81,6 +81,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		class="com.serpics.catalog.data.specification.DefaultCategorySpecification" />
 	<bean name="productSpecification"
 		class="com.serpics.catalog.data.specification.DefaultProductSpecification" />
+	<bean name="brandSpecification"
+		class="com.serpics.catalog.data.specification.DefaultBrandSpecification" />
 	
 	<bean name="productSpecificationRegisterd" class="com.serpics.catalog.data.specification.DefaultRegisteredProductSpecification"/>
 	
