@@ -1,5 +1,7 @@
 package com.serpics.commerce.services;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -13,7 +15,9 @@ import com.serpics.commerce.data.model.Order;
 import com.serpics.commerce.data.model.Orderpayment;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderRepository;
+import com.serpics.commerce.data.specifications.OrderSpecification;
 import com.serpics.core.service.AbstractService;
+import com.serpics.membership.data.model.User;
 
 @SuppressWarnings("rawtypes")
 @Service("orderService")
@@ -67,5 +71,10 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 		Order order =orderRepository.findOne(id);
 		
 		return order;
+	}
+
+	@Override
+	public List<Order> getOrdersByUser(User user) {
+		return orderRepository.findAll(OrderSpecification.findByUser(user));
 	}
 }

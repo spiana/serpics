@@ -12,6 +12,7 @@
 		<intercept-url pattern="/auth/connect/**" access="permitAll" />
 		<intercept-url pattern="/customerService/login**" access="isAnonymous() or isAuthenticated()" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<csrf disabled="true" />
 		
 	</http> 
 
