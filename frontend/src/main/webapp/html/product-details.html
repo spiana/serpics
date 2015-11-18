@@ -250,8 +250,8 @@
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
 								<img src="../images/product-details/new.jpg" class="newarrival" alt="" />
-								<h2>Anne Klein Sleeveless Colorblock Scuba</h2>
-								<p>Web ID: 1089772</p>
+								<h2 id="productDescription"></h2>
+								<p id="idProduct"></p>
 								<img src="../images/product-details/rating.png" alt="" />
 								<span>
 									<span>US $59</span>
@@ -262,9 +262,9 @@
 										Add to cart
 									</button>
 								</span>
-								<p><b>Availability:</b> In Stock</p>
-								<p><b>Condition:</b> New</p>
-								<p><b>Brand:</b> E-SHOPPER</p>
+								<p id="buyable"></p>
+								<p><strong>Condition:</strong> New</p>
+								<p><strong>Brand:</strong></p>
 								<a href=""><img src="../images/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							</div><!--/product-information-->
 						</div>
@@ -477,7 +477,15 @@
 												</div>
 											</div>
 										</div>
-									</div>
+									</div>{
+
+
+"code": "TASTIERA",
+"description": "Tastiera",
+
+"buyable": 1,
+}
+									
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">
@@ -724,5 +732,7 @@
     <script src="../js/restUtils.js"></script>
     <script src="../js/restClient.js"></script>
     <script src="../js/serpics.js"></script>
+    <script src="../js/productDetail.js"></script>
+    
 </body>
 </html>

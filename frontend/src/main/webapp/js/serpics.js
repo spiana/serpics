@@ -2,13 +2,13 @@
  * function from rest service
  */
 
+
 jQuery(document).ready(function() {
 
-	/** restClient instance **/
-	var rest = new RestClient()
+
 	/** call rest on startup **/
-	rest.executeGetCategory('categoryService/top',buildAccordionPanelCategory,error)
-	rest.executeGetBrand('brandService',buildBrandMenu,error)
+	rest.executeGetCategory('categoryService/top','/',buildAccordionPanelCategory,error)
+	rest.executeGetBrand('brandService','/',buildBrandMenu,error)
 	
 	
 	/** init * */
@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
 		  patherId = $(this).data("child");	
 		  /** make category sub menu from rest **/
 		  if(!document.getElementById(patherId)){
-			rest.executeGetChildCategory('categoryService/',"getChild/" + patherId,buildSubMenuCategory,error,patherId)			
+			  rest.executeGetChildCategory('categoryService/',"getChild/" + patherId,buildSubMenuCategory,error,patherId)			
 		}
 	});
 	
