@@ -215,6 +215,7 @@ function handlerImageSlideOnModal(){
 	    var currentItem  = $('body').find('[data-current-image]')
 	    /** switch image **/
 	    currentItem.attr({'src':selectedItem})
+	    console.log('image change.....new image: ' + selectedItem)
 	})
 }
 
