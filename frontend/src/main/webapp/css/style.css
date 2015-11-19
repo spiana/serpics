@@ -123,3 +123,9 @@
 strong{
 	font-weight:500;
 }
+.fade.in {
+    background-color: rgba(0, 0, 0, 0.66);
+}
+.modal-content {
+    margin-top: 100px;
+}

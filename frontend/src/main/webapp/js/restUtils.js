@@ -1,4 +1,10 @@
 /**
+ * @main  js for build every menu and other from response object pass it by rest service
+ * this are all callback necessary to create the layout "on fly" related the response of rest service
+ */
+
+
+/**
  * 
  * @param divParent
  * @param textContent
@@ -10,13 +16,13 @@ function builCategoryAccordionItem(textContent, patherId) {
 	 * make category with accordion (this is the cause of much javascript for
 	 * this function, for brand is more easy*
 	 */
-	var panelDefault = document.createElement("div")
-	var panelheading = document.createElement("div")
-	var panelTitle = document.createElement("h4")
-	var accordionItem = document.createElement("a")
-	var span = document.createElement("span")
-	var awesome = document.createElement("i")
-	var strong = document.createElement("strong")
+	var panelDefault 		= document.createElement("div")
+	var panelheading 		= document.createElement("div")
+	var panelTitle 			= document.createElement("h4")
+	var accordionItem 		= document.createElement("a")
+	var span 				= document.createElement("span")
+	var awesome 			= document.createElement("i")
+	var strong 				= document.createElement("strong")
 
 	panelDefault.setAttribute("class", "panel panel-default")
 	panelheading.setAttribute("data-child", patherId)
@@ -40,8 +46,7 @@ function builCategoryAccordionItem(textContent, patherId) {
 
 /**
  * 
- * @param data
- *            response of rest call
+ * @param data  response of rest call
  */
 function buildAccordionPanelCategory(data) {
 
@@ -58,16 +63,14 @@ function buildAccordionPanelCategory(data) {
 	}
 }
 
-/**
- * 
- * @param data
- *            response of rest call
+/** 
+ * @param data  response of rest call
  */
 function buildSubMenuCategory(data, patherId) {
 
 	if (data.responseObject.length != 0) {
-		var panelCollapse = document.createElement("div")
-		var panelBody = document.createElement("div")
+		var panelCollapse 	= document.createElement("div")
+		var panelBody 		= document.createElement("div")
 		var list = document.createElement("ul")
 		panelCollapse.setAttribute("class", "panel-collapse collapse")
 		panelCollapse.setAttribute("data-role", "child-category")
@@ -95,6 +98,10 @@ function buildSubMenuCategory(data, patherId) {
 	}
 }
 
+/**
+ * 
+ * @param data
+ */
 function buildBrandMenu(data) {
 
 	if (data.responseObject.length != 0) {
@@ -105,19 +112,72 @@ function buildBrandMenu(data) {
 		brand.forEach(function(entry) {
 			var el = document.createElement("li")
 			var anchor = document.createElement("a")
-			var span = document.createElement("span")
 			anchor.setAttribute("href", "#")
-			$(anchor).html(
-					'<span class="pull-right">' + '(' + 50 + ')' + '</span>'
-							+ entry.name)
+			$(anchor).html(	'<span class="pull-right">' + '(' + 50 + ')' + '</span>'+ entry.name)
 			$(el).html(anchor)
 			$(el).appendTo('[data-role="brand"]')
 		})
 	}
 }
 
-function buildProductDetail(data) {
+/**
+ * 
+ * @param data
+ */
+function buildProductMenu(data) {
 
+	if (data.responseObject.length != 0) {
+
+		/** brand child from rest * */
+		var product = data.responseObject.content
+
+		product.forEach(function(entry) {
+			
+			var el 		= document.createElement("li")
+			var anchor 	= document.createElement("a")		
+			anchor.setAttribute("href", "#m")					
+			$(anchor).html('<span class="pull-right"><i class="fa fa-external-link" data-product-id="'+entry.id+'"></i></span>'
+							+ entry.code)
+			$(el).html(anchor)
+			$(el).appendTo('[data-role="pruduct"]')				
+		})
+	}
+}
+
+function makeProductDetailOnModal(data){
+	
+	var product = data.responseObject
+
+	var buyable 		= document.getElementById("buyableOnModal")
+	var description 	= document.getElementById("productDescriptionOnModal")
+	var brand		 	= document.getElementById("productBrandOnModal")
+	var id 				= document.getElementById("productIdOnModal")
+	
+	var modalTitle = $('.modal-title')
+	var modalbody = $('.modal-body')	
+	
+	$(id).text('ID: ' + product.id)
+	$(brand).html('<strong>Brand: </strong>' + product.brand.name)
+	$(description).text(product.description)
+	
+	modalTitle.html(product.code)
+	
+	if (product.buyable) {
+		$(buyable).html('<strong>Availability:</strong> In Stock')
+	} else
+		$(buyable).html('<strong>Availability:</strong> Out Stock')			
+			
+	
+	$('#myModal').modal()
+}
+
+
+/**
+ * 
+ * @param data
+ */
+function buildProductDetail(data) {
+	
 	var buyable 		= document.getElementById("buyable")
 	var description 	= document.getElementById("productDescription")
 	var brand		 	= document.getElementById("productBrand")
@@ -141,17 +201,27 @@ function buildProductDetail(data) {
 
 /**
  * 
- * @param data
- *            response of rest call
+ * @param data  response of rest call
  */
 function error() {
 
 }
 
+function handlerImageSlideOnModal(){
+	
+	$('[data-role=modal] img').bind('click',function(event){
+		event.preventDefault()
+		var selectedItem = $(this).attr('src')
+	    var currentItem  = $('body').find('[data-current-image]')
+	    /** switch image **/
+	    currentItem.attr({'src':selectedItem})
+	})
+}
+
+
 /**
- * 
- * @param data
- *            response of rest call
+ *  
+ * @param data  response of rest call
  */
 function handlerLocation() {
 
@@ -162,5 +232,7 @@ function handlerLocation() {
 			window.location.href = '/frontend'
 		} else if (href.indexOf(".html") != -1)
 			window.location.href = href
+			else
+				console.log('')
 	})
 }

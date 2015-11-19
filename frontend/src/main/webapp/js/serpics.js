@@ -1,7 +1,8 @@
 /**
- * function from rest service
+ * @main  js for serpics template
+ * @use   var 'rest' object from global scope for call rest service server side
+ * @example rest.functionName(params) not instantiate new rest object such var rest = new RestClient()
  */
-
 
 jQuery(document).ready(function() {
 

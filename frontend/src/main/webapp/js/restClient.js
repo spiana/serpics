@@ -111,6 +111,7 @@ RestClient.prototype = {
 		  return "";
 	},
 	connect : function() {
+		
 		var ssid = ''
 
 		$.ajax({
@@ -121,6 +122,7 @@ RestClient.prototype = {
 			cache : false,
 			success : function(data) {				
 				ssid = data
+				return ssid
 			}
 		})       
 		
