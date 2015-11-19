@@ -211,7 +211,7 @@
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
 								  <!-- Wrapper for slides -->
-								    <div class="carousel-inner">
+								    <div class="carousel-inner" data-role="image">
 										<div class="item active">
 										  <a href=""><img src="../images/product-details/similar1.jpg" alt=""></a>
 										  <a href=""><img src="../images/product-details/similar2.jpg" alt=""></a>
@@ -247,7 +247,7 @@
 								<p id="productId"></p>
 								<img src="../images/product-details/rating.png" alt="" />
 								<span>
-									<span>US $59</span>
+									<span id="producePrice">US $59</span>
 									<label>Quantity:</label>
 									<input type="text" value="3" />
 									<button type="button" class="btn btn-fefault cart">
@@ -257,6 +257,7 @@
 								</span>
 								<p id="buyable"></p>
 								<p><strong>Condition:</strong> New</p>
+								<p id="productCategory"><strong>Category:</strong></p>								
 								<p id="productBrand"><strong>Brand:</strong></p>
 								<a href=""><img src="../images/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							</div><!--/product-information-->
@@ -722,14 +723,14 @@
 						<div class="col-sm-5">
 							<div class="view-product">
 	 								<a href="../images/product-details/1.jpg" rel="prettyPhoto" title="title here">  
-								<img src="../images/product-details/1.jpg" alt="" data-current-image>
+								<img src="../images/product-details/1.jpg" alt="" data-current-image="1.jpg">
 									</a>
 								<h3>ZOOM</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
 								  <!-- Wrapper for slides -->
-								    <div class="carousel-inner" data-role="modal">
+								    <div class="carousel-inner" data-role="image">
 										<div class="item active">
 										  <a href=""><img src="../images/product-details/similar1.jpg" alt=""></a>
 										  <a href=""><img src="../images/product-details/similar2.jpg" alt=""></a>
@@ -759,7 +760,7 @@
 								<p id="productIdOnModal"></p>
 								<img src="../images/product-details/rating.png" alt="" />
 								<span>
-									<span>US $59</span>
+									<span id="productPriceOnModal"></span>
 									<label>Quantity:</label>
 									<input type="number" value="3" />
 									<button type="button" class="btn btn-fefault cart"><i class="fa fa-check"></i>	Available

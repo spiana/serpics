@@ -14,9 +14,16 @@ jQuery(document).ready(function() {
 	/** by delegate events **/
 	jQuery(document).on("click", "i.fa-external-link",function() {		
 		var productId = $(this).data('product-id')
-		rest.executeGetProductById('productService/',productId,makeProductDetailOnModal,error)	
+	rest.executeGetProductById('productService/',productId,makeProductDetailOnModal,error)	
 			
 	});
-
+	/** by delegate events **/
+	jQuery(document).on('click', '[data-product]',function() {		
+		  productId = $(this).data("product");	
+		  /** make product detail from rest **/
+		  if(!document.getElementById(productId)){
+			  rest.executeGetProductById('productService/',productId,buildProductDetail,error)			
+		}
+	});
 	
 })

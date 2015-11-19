@@ -3,7 +3,6 @@
  * this are all callback necessary to create the layout "on fly" related the response of rest service
  */
 
-
 /**
  * 
  * @param divParent
@@ -14,7 +13,7 @@ function builCategoryAccordionItem(textContent, patherId) {
 
 	/**
 	 * make category with accordion (this is the cause of much javascript for
-	 * this function, for brand is more easy*
+	 * this function, for brand is more easy
 	 */
 	var panelDefault 		= document.createElement("div")
 	var panelheading 		= document.createElement("div")
@@ -29,6 +28,7 @@ function builCategoryAccordionItem(textContent, patherId) {
 	panelheading.setAttribute("class", "panel-heading")
 	panelTitle.setAttribute("class", "panel-title")
 	accordionItem.setAttribute("data-toggle", "collapse")
+	accordionItem.setAttribute("data-category", textContent)
 	accordionItem.setAttribute("data-parent", "#accordian")
 	accordionItem.setAttribute("href", "#" + patherId)
 	span.setAttribute("class", "badge pull-right")
@@ -97,6 +97,19 @@ function buildSubMenuCategory(data, patherId) {
 		panelCollapse.setAttribute("class", "panel-collapse collapse in")
 	}
 }
+/**
+ * 
+ */
+function createBreadCrumbsCategoryPage(){
+	
+	var category = sessionStorage.getItem("currentCategory")
+	/** make lowercase a category word and capitalize the catregory**/
+	category = category.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+    return letter.toUpperCase();
+		});
+	if($('li.categoryBreadcrumbs').length)
+		$('li.categoryBreadcrumbs').text(category)
+}
 
 /**
  * 
@@ -125,17 +138,18 @@ function buildBrandMenu(data) {
  * @param data
  */
 function buildProductMenu(data) {
-
+	
 	if (data.responseObject.length != 0) {
 
-		/** brand child from rest * */
+		/** product menu from rest * */
 		var product = data.responseObject.content
 
 		product.forEach(function(entry) {
 			
 			var el 		= document.createElement("li")
 			var anchor 	= document.createElement("a")		
-			anchor.setAttribute("href", "#m")					
+			anchor.setAttribute("href", "#m")	
+			anchor.setAttribute("data-product", entry.id)	
 			$(anchor).html('<span class="pull-right"><i class="fa fa-external-link" data-product-id="'+entry.id+'"></i></span>'
 							+ entry.code)
 			$(el).html(anchor)
@@ -146,10 +160,12 @@ function buildProductMenu(data) {
 
 function makeProductDetailOnModal(data){
 	
-	var product = data.responseObject
+	
+	 var product = data.responseObject
 
 	var buyable 		= document.getElementById("buyableOnModal")
 	var description 	= document.getElementById("productDescriptionOnModal")
+	var price 			= document.getElementById("productPriceOnModal")
 	var category	 	= document.getElementById("productBrandOnModal")
 	var brand		 	= document.getElementById("productCategoryOnModal")
 	var id 				= document.getElementById("productIdOnModal")
@@ -158,6 +174,7 @@ function makeProductDetailOnModal(data){
 	var modalbody 		= $('.modal-body')	
 	
 	$(id).text('ID: ' + product.id)
+	$(price).html('€' + product.price.currentPrice)
 	$(category).html('<strong>Category: </strong>' + product.categories[0].code)
 	$(brand).html('<strong>Brand: </strong>' + product.brand.name)
 	$(description).text(product.description)
@@ -180,25 +197,32 @@ function makeProductDetailOnModal(data){
  */
 function buildProductDetail(data) {
 	
+	var product = data.responseObject
+
 	var buyable 		= document.getElementById("buyable")
 	var description 	= document.getElementById("productDescription")
-	var brand		 	= document.getElementById("productBrand")
+	var price 			= document.getElementById("productPrice")
+	var category	 	= document.getElementById("productBrand")
+	var brand		 	= document.getElementById("productCategory")
 	var id 				= document.getElementById("productId")
 	
-	if (data.responseObject.length != 0) {
-
-	var product = data.responseObject
+	var modalTitle 		= $('.modal-title')
+	var modalbody 		= $('.modal-body')	
 	
 	$(id).text('ID: ' + product.id)
+	$(price).html('€' + product.price.currentPrice)
+	$(category).html('<strong>Category: </strong>' + product.categories[0].code)
 	$(brand).html('<strong>Brand: </strong>' + product.brand.name)
 	$(description).text(product.description)
+	
+	modalTitle.html(product.code)
 	
 	if (product.buyable) {
 		$(buyable).html('<strong>Availability:</strong> In Stock')
 	} else
-		$(buyable).html('<strong>Availability:</strong> Out Stock')			
+		$(buyable).html('<strong>Availability:</strong> Out Stock')					
 			
-	}
+	
 }
 
 /**
@@ -211,12 +235,13 @@ function error() {
 
 function handlerImageSlideOnModal(){
 	
-	$('[data-role=modal] img').bind('click',function(event){
+	$('[data-role=image] img').bind('click',function(event){
 		event.preventDefault()
 		var selectedItem = $(this).attr('src')
 	    var currentItem  = $('body').find('[data-current-image]')
 	    /** switch image **/
 	    currentItem.attr({'src':selectedItem})
+	    currentItem.attr({'data-current-image':selectedItem})
 	    console.log('image change.....new image: ' + selectedItem)
 	})
 }

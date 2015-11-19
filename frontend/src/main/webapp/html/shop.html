@@ -8,7 +8,8 @@
     <title>Shop | Serpics</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> 
-	<link href="../css/main.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+      <link href="../css/style.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -139,13 +140,27 @@
 			</div>
 	</header>
 	
-	<section id="advertisement">
-		<div class="container">
-			<img src="../images/shop/offer.jpg" alt="" />
-		</div>
-	</section>
-	
-	<section>
+<div class="container">
+    <div class="row">
+        <ul class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Categories</a></li>
+        <li class="active categoryBreadcrumbs">{category}</li>
+        <span class="pull-right">
+        <div class="[ btn-group ]" style="margin-right: -10px;">
+                <label style="margin-top: -7px;" for="fancy-checkbox-default" class="[ btn btn-default ]">
+                    <span style="margin-top: -7px;" class="[ glyphicon glyphicon-ok ]"></span>
+                    <span> </span>
+                </label>
+                <label style="margin-top: -7px;" for="fancy-checkbox-default" class="[ btn btn-default active ]">
+                    Show only available product
+                </label>
+            </div>
+
+    </ul>
+   </div>
+</div>	
+	<section style="padding-top: 50px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-3">
@@ -671,9 +686,9 @@
 	<script src="../js/jquery.scrollUp.min.js"></script>
 	<script src="../js/price-range.js"></script>
     <script src="../js/jquery.prettyPhoto.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/restUtils.js"></script>
+    <script src="../js/main.js"></script>   
     <script src="../js/restClient.js"></script>
+     <script src="../js/restUtils.js"></script>
     <script src="../js/serpics.js"></script>
 </body>
 </html>
