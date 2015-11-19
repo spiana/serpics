@@ -150,13 +150,15 @@ function makeProductDetailOnModal(data){
 
 	var buyable 		= document.getElementById("buyableOnModal")
 	var description 	= document.getElementById("productDescriptionOnModal")
-	var brand		 	= document.getElementById("productBrandOnModal")
+	var category	 	= document.getElementById("productBrandOnModal")
+	var brand		 	= document.getElementById("productCategoryOnModal")
 	var id 				= document.getElementById("productIdOnModal")
 	
-	var modalTitle = $('.modal-title')
-	var modalbody = $('.modal-body')	
+	var modalTitle 		= $('.modal-title')
+	var modalbody 		= $('.modal-body')	
 	
 	$(id).text('ID: ' + product.id)
+	$(category).html('<strong>Category: </strong>' + product.categories[0].code)
 	$(brand).html('<strong>Brand: </strong>' + product.brand.name)
 	$(description).text(product.description)
 	
