@@ -56,10 +56,10 @@ private <E> Object lazilyLoadPropertyValue(E entity, String prop)
 
 private Object recurseIfNested(String propertyName, Object value)
 {
-  if (isNestedProperty(propertyName))
+  if (isNestedProperty(propertyName) && !((List)value).isEmpty())
   {
     Object subEntity = ((List)value).get(0);
-    String subProperty = propertyName.substring(propertyName.indexOf(46) + 1);
+    String subProperty =propertyName.split("\\.")[0];
 
     value = ensureLazyPropertyLoaded(subEntity, subProperty);
   }
@@ -69,7 +69,7 @@ private Object recurseIfNested(String propertyName, Object value)
 private String getRootPropertyName(String propertyName)
 {
   if (isNestedProperty(propertyName)) {
-    return propertyName.substring(0, propertyName.indexOf(46));
+    return propertyName.split("\\.")[0];
   }
   return propertyName;
 }
