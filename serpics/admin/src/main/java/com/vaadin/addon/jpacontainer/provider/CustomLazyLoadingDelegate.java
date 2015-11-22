@@ -59,7 +59,7 @@ private Object recurseIfNested(String propertyName, Object value)
   if (isNestedProperty(propertyName) && !((List)value).isEmpty())
   {
     Object subEntity = ((List)value).get(0);
-    String subProperty =propertyName.split("\\.")[0];
+    String subProperty =propertyName.split("\\.")[1];
 
     value = ensureLazyPropertyLoaded(subEntity, subProperty);
   }
