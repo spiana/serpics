@@ -126,21 +126,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			this.displayProperties = buildDisplayProperties();
 		
 		if (this.displayProperties != null) {
-			for (String string : displayProperties) {
-				if (string.contains(".")) {
-
-					container.addNestedContainerProperty(string);
-					propertyList.addNestedProperty(string);
-				}
-				if (Multilingual.class.isAssignableFrom(propertyList.getPropertyType(string))) {
-					entityList.setConverter(string, new MultilingualFieldConvert());
-				}
-
-
-				String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + string, null);
-				if (message != null)
-					entityList.setColumnHeader(string, message);
-			}
+			initializeDisplayProperties(this.displayProperties);
 			entityList.setVisibleColumns(displayProperties);
 
 		}
@@ -259,9 +245,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 	public void setPropertyToShow(final String[] propertyToShow) {
 		this.displayProperties = propertyToShow;
-		if (initialized && container != null)
+		if (initialized && container != null){
+			initializeDisplayProperties(this.displayProperties);
 			entityList.setVisibleColumns(displayProperties);
-
+		}
 	}
 
 	public EntityItem<T> createEntityItem() {
@@ -354,5 +341,21 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		return  properties.toArray(new String[]{});
 		
 		
+	}
+	private void initializeDisplayProperties(String[] dispayProperties){
+		
+		for (String string : displayProperties) {
+			if (string.contains(".")) {
+
+				container.addNestedContainerProperty(string);
+				propertyList.addNestedProperty(string);
+			}
+			if (Multilingual.class.isAssignableFrom(propertyList.getPropertyType(string))) {
+				entityList.setConverter(string, new MultilingualFieldConvert());
+			}
+			String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + string, null);
+			if (message != null)
+				entityList.setColumnHeader(string, message);
+		}
 	}
 }

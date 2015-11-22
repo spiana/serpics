@@ -51,7 +51,7 @@ public class UserTableEditor extends MasterTable<UsersReg> {
         editorWindow.addTab(userRegEditorComponent, "userReg");
         editorWindow.addTab(addressTableEditor, "address");
         editorWindow.addTab(membergroupRelTable, "grouprelation");
-        editorWindow.addTab(memberRoleTable, "memberRole");
+      editorWindow.addTab(memberRoleTable, "memberRole");
     	
     	return editorWindow;
     }

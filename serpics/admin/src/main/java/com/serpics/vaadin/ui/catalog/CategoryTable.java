@@ -39,7 +39,7 @@ public class CategoryTable extends MasterTable<Category> {
 
             @Override
             public void init() {
-                final String[] displayProperties = { "code", "name", "description", "childCategories",
+                final String[] displayProperties = { "code", "name", "description","published", "childCategories",
                         "updated", "created" };
                 this.setReadOnlyProperties(new String[] { "updated", "created" });
                 setDisplayProperties(displayProperties);
@@ -104,7 +104,7 @@ public class CategoryTable extends MasterTable<Category> {
     @Override
     public void init() {
         super.init();
-        setPropertyToShow(new String[] { "code", "name", "description" });
+        setPropertyToShow(new String[] { "code", "name", "description" , "published"});
         entityList.setConverter("description", new MultilingualFieldConvert());
     }
 

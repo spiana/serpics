@@ -30,8 +30,8 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
-import com.serpics.vaadin.data.utils.MultilingualLikeFilter;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
+import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.util.filter.Compare.Equal;
 
