@@ -64,7 +64,7 @@ public class UserFacadeImpl implements UserFacade{
 	@Override
 	public UserData getCurrentuser() {
 		User u = userService.getCurrentCustomer();
-		return userConvert.convert(userService.findOne(u.getId()));
+		return userConvert.convert(u);
 	}
 	
 	@Override

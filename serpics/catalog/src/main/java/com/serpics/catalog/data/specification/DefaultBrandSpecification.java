@@ -10,7 +10,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Catalog;
-import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.stereotype.DefaultSpec;
 

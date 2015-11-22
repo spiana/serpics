@@ -36,6 +36,8 @@ public class CategoryServiceTest extends CatalogBaseTest {
 
     	final Locale locale = localeRepository.findByLanguage("it");
         final Catalog catalog = (Catalog) context.getCatalog();
+        
+        int categoryInit = categoryService.findAll().size(); 
 
         Category category = new Category();
         category.setCatalog(catalog);
@@ -46,11 +48,11 @@ public class CategoryServiceTest extends CatalogBaseTest {
         categoryService.detach(category);
 
         final List<Category> categories = categoryService.findAll();
-        Assert.assertEquals(1L, categories.size());
+        Assert.assertEquals(categoryInit + 1L, categories.size());
 
         Assert.assertNotNull(locale);
 
-        Assert.assertEquals("descrizione", categories.get(0).getDescription().getText(locale.getLanguage()));
+        Assert.assertEquals("descrizione", categories.get(categories.size() - 1).getDescription().getText(locale.getLanguage()));
 
     }
 

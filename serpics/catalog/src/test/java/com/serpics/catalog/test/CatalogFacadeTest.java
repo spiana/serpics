@@ -60,10 +60,18 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     CommerceSessionContext context;
 
     private HashMap<String,CategoryData> listOfCategoriesForTest = new HashMap<String,CategoryData>();
+    long categoryInit;
+    long brandInit;
+    int topCategoriesInit;
+    long productInit;
     
     @Before
     public void setUp() throws SerpicsException{
     	super.beforeTest();
+    	categoryInit = categoryFacade.listCategory(new PageRequest(0, 10)).getTotalElements();
+    	brandInit = brandFacade.listBrand(new PageRequest(0, 10)).getTotalElements();
+    	topCategoriesInit = categoryFacade.listTopCategory().size();
+    	productInit = productFacade.listProduct(new PageRequest(0, 10)).getTotalElements();
     	createCategory();
     	createProduct();
     }
@@ -74,7 +82,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	Page<CategoryData> p= categoryFacade.listCategory(new PageRequest(0, 10));
     	Assert.assertNotNull("Category not found", p);
 
-    	Assert.assertEquals("Number of categories", listOfCategoriesForTest.values().size(), p.getTotalElements());
+    	Assert.assertEquals("Number of categories", categoryInit + listOfCategoriesForTest.values().size(), p.getTotalElements());
     	
     	CategoryData cat = categoryFacade.findCategoryByCode("UOMO");
     	Assert.assertEquals("Id of category UOMO",listOfCategoriesForTest.get("UOMO").getId(),cat.getId());
@@ -89,7 +97,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	
     	List<CategoryData> categories = categoryFacade.listTopCategory();
     	Assert.assertNotNull("Empty top categories", categories);
-    	Assert.assertEquals("Number of top categories", 2, categories.size());
+    	Assert.assertEquals("Number of top categories", topCategoriesInit + 2, categories.size());
     	
     }
     
@@ -109,11 +117,11 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     @Transactional
     public void testListProduct() {
     	Page<BrandData> lb = brandFacade.listBrand(new PageRequest(0, 10));
-    	Assert.assertEquals("Number of brand", 1, lb.getTotalElements());
+    	Assert.assertEquals("Number of brand", brandInit + 1, lb.getTotalElements());
     	
     	Page<ProductData> p = productFacade.listProduct(new PageRequest(0, 10));
     	Assert.assertNotNull("Product not found", p);
-    	Assert.assertEquals("Number of products", 2, p.getTotalElements());
+    	Assert.assertEquals("Number of products", productInit + 2, p.getTotalElements());
     	
     	CategoryData category = categoryFacade.findCategoryByCode("BLUES");
     	Page<ProductData> lp = productFacade.listProductByCategory(category.getId(), new PageRequest(0, 10));

@@ -1,23 +1,23 @@
 package com.serpics.jaxrs;
 
-import com.serpics.commerce.facade.data.CartData;
+import javax.ws.rs.core.Response;
+
 import com.serpics.commerce.facade.data.CartItemData;
-import com.serpics.commerce.facade.data.CartItemModification;
 import com.serpics.membership.facade.data.AddressData;
 
 public interface CartRestService {
 	
-	public CartData getCurrentCart();
+	public Response getCurrentCart();
 	
-	public CartItemModification cartAdd(String sku , int quantity);
+	public Response cartAdd(String sku , int quantity);
 	
 
-	public CartItemModification cartUpdate(CartItemData cartItem);
+	public Response cartUpdate(CartItemData cartItem);
 	
-	public CartItemModification deleteItem(Long itemId);
+	public Response deleteItem(Long itemId);
 	
-	public CartData addBillingAddress(AddressData billingAddress);
-	public CartData addShippingAddress(AddressData shippingAddress);
+	public Response addBillingAddress(AddressData billingAddress);
+	public Response addShippingAddress(AddressData shippingAddress);
 
 	
 
