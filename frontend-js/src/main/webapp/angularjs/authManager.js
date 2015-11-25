@@ -1,9 +1,9 @@
-var app = angular.module("AuthManager", ['ngLoad'])
+var app = angular.module("AuthManager", ['ngLoad','ngCookies'])
 
 	.constant('api_endpoint', 	'http://localhost:8080/jax-rs/auth/connect/default-store')
 
- app.service("authManager",
-            function( $http, $q ,authManager,api_endpoint) {
+ app.service("authManager","$cookie","ngLoad",
+            function( $http, $q ,$cookie,authManager,ngLoad,api_endpoint) {
 	 
                 /** Return public API. **/
                 var service =({
@@ -14,10 +14,12 @@ var app = angular.module("AuthManager", ['ngLoad'])
                 /** public methods**/
                 /** create **/
                 function getSessionId() {
+                	if(!$cookie.get('ssid')){
                     var request = $http({
                         method: 'GET',
                         url: api_endpoint 
                       });
+                	}
                     return( request.then( handleSuccess, handleError ) );
                 }                
             
@@ -46,6 +48,7 @@ var app = angular.module("AuthManager", ['ngLoad'])
                  *from the API response payload.                
                  */
                 function handleSuccess( response ) {
+                	$cookie.put('ssid',response.data);
                 	return( response.data );
                 }
             }

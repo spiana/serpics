@@ -1,9 +1,9 @@
-var app = angular.module("category", ['AuthManager'])
+var app = angular.module("brand", ['AuthManager','ngload'])
 
 .constant('api_endpoint', 			'http://localhost:8080/jax-rs/brandService/')
 
- app.service("brandService",['authManager',
-            function( $http, $q ,authManager,api_endpoint) {
+ app.service("brandService",['authManager','ngload',
+            function( $http, $q ,authManager,ngload,api_endpoint) {
 	 
                 /** Return public API. **/
                 var service =({
@@ -30,7 +30,7 @@ var app = angular.module("category", ['AuthManager'])
                     return( request.then( handleSuccess, handleError ) );
                 }
                 
-                /** update **/ENDPOINT_CONNECT_URI
+                /** update **/
                 function updateBrand( data ) {
                     var request = $http({
                         method: 'PUT',
@@ -55,7 +55,7 @@ var app = angular.module("category", ['AuthManager'])
                     return( request.then( handleSuccess, handleError ) );
                 }
                 
-                /** read category**/      
+                /** read **/      
                 function findBrandById(code,brandId) {
                     var request = $http({
                         method: 'GET',
@@ -67,7 +67,7 @@ var app = angular.module("category", ['AuthManager'])
                     return( request.then( handleSuccess, handleError ) );
                 }
                 
-                /** read pather category**/      
+                /** read **/      
                 function findBrandByName(name) {
                 	 var request = $http({
                          method: 'GET',
@@ -79,7 +79,7 @@ var app = angular.module("category", ['AuthManager'])
                     return( request.then( handleSuccess, handleError ) );
                 }
                 
-                /** read child category**/      
+                /** read **/      
                 function findAll() {
                 	 var request = $http({
                          method: 	'GET',
