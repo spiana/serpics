@@ -86,7 +86,7 @@ var app = angular.module("category", ['AuthManager'])
                 }
                 
                
-                /** read pather category**/      
+                /** read **/      
                 function getTop() {
                 	 var request = $http({
                          method: 'GET',
@@ -98,7 +98,7 @@ var app = angular.module("category", ['AuthManager'])
                     return( request.then( handleSuccess, handleError ) );
                 }
                 
-                /** read child category**/      
+                /** read **/      
                 function getCategoryById(categoryId) {
                 	 var request = $http({
                          method: 	'GET',
@@ -110,7 +110,7 @@ var app = angular.module("category", ['AuthManager'])
                     return( request.then( handleSuccess, handleError ) );
                 }
                 
-                /** read child category**/      
+                /** read **/      
                 function getCategoryByCode(code,category) {
                 	 var request = $http({
                          method: 	'GET',
@@ -122,7 +122,7 @@ var app = angular.module("category", ['AuthManager'])
                     return( request.then( handleSuccess, handleError ) );
                 }
                 
-                /** read child category**/      
+                /** read **/      
                 function getChild(parent) {
                 	 var request = $http({
                          method: 	'GET',
@@ -134,7 +134,7 @@ var app = angular.module("category", ['AuthManager'])
                     return( request.then( handleSuccess, handleError ) );
                 }
                 
-                /** read child category**/      
+                /** read **/      
                 function findAll() {
                 	 var request = $http({
                          method: 	'GET',
