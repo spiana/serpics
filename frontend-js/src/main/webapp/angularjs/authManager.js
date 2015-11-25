@@ -53,15 +53,5 @@ var app = angular.module("AuthManager", ['ngLoad'])
 
 
 
-app.controller(
-        "DemoController",
-        function( $scope, authManager ) {
-        	
-        	$scope.getId = function(){
-        		authManager.
-        	}
-        	
-        	
-        })
 
 
