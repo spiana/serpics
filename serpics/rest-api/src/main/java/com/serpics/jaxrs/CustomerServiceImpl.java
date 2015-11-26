@@ -18,11 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.commerce.strategies.CartStrategy;
 import com.serpics.core.SerpicsException;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.membership.UserType;
+import com.serpics.membership.data.model.Member;
 import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
@@ -30,13 +33,16 @@ import com.serpics.membership.facade.data.UserData;
 @Path("/customerService")
 @Transactional(readOnly = true)
 public class CustomerServiceImpl implements CustomerService {
-	
+
 	Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
 	@Autowired
 	UserFacade userFacade;
 
 	@Resource
 	CommerceEngine commerceEngine;
+
+	@Autowired
+	CartStrategy cartStrategy;
 
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -69,9 +75,9 @@ public class CustomerServiceImpl implements CustomerService {
 		if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS) {
 			userFacade.updateUser(entity);
 		}
-		
+
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-    	apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
 	}
 
@@ -79,18 +85,21 @@ public class CustomerServiceImpl implements CustomerService {
 	@GET
 	@Path("login")
 	public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
-		
-		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+
+		ApiRestResponse<Cart> apiRestResponse = new ApiRestResponse<Cart>();
 		CommerceSessionContext context = commerceEngine.getCurrentContext();
 		try {
 			commerceEngine.connect(context, username, password.toCharArray());
 		} catch (SerpicsException e) {
-			LOG.error("Error On Connect ",e);
+			LOG.error("Error On Connect ", e);
 			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
-			apiRestResponse.setMessage("Error On Connect "+e.getMessage());
+			apiRestResponse.setMessage("Error On Connect " + e.getMessage());
 			return Response.status(401).entity(apiRestResponse).build();
 		}
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+
+		// Verificare se è necessario restituire il carrello
+		cartStrategy.mergeCart((Member) context.getUserPrincipal(), (Member) context.getCustomer());
 		return Response.ok(apiRestResponse).build();
 	}
 
@@ -99,11 +108,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateContactAddress")
 	public Response updateContactAddress(AddressData address) {
-		
+
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-		
+
 		userFacade.updateContactAddress(address);
-		
+
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -113,11 +122,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateBillingAddress")
 	public Response updateBillingAddress(AddressData address) {
-		
+
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-		
+
 		userFacade.updateBillingAddress(address);
-		
+
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -130,9 +139,9 @@ public class CustomerServiceImpl implements CustomerService {
 		Assert.notNull(address, "address can not be null !");
 		Assert.notNull(address.getUuid(), "UUID can not ve null !");
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-		
+
 		userFacade.updateDestinationAddress(address, address.getUuid());
-		
+
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -142,12 +151,12 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("addDestinationAddress")
 	public Response addDestinationAddress(AddressData address) {
-		
+
 		Assert.notNull(address, "address can not be null !");
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-		
+
 		userFacade.addDestinationAddress(address);
-		
+
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
 	}
@@ -157,11 +166,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("deleteDestinationAddress")
 	public Response deleteDestinationAddress(String addressUID) {
-		
+
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-		
+
 		userFacade.deleteDestinationAddress(addressUID);
-		
+
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
 	}
