@@ -5,8 +5,8 @@ var app = angular.module("category", ['AuthManager'])
  app.service("categoryService",['authManager',
             function( $http, $q ,authManager,api_endpoint) {
 	 
-                /** Return public API. **/
-                var service =({
+                /** Return public API. (like java interface)**/
+                var service = ({
                 	createCategory	  : createCategory,
                 	createParent	  : createParent,
                 	addParent 		  : addParent,
