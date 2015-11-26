@@ -98,7 +98,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
                     final CriteriaBuilder cb) {
             	Expression<String> e = root.get("code");
             		
-                return cb.like(	e, code);
+                return cb.equal(	e, code);
             }
 		});
 		CategoryData entity = null;
@@ -132,7 +132,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Transactional
 	public CategoryData create(CategoryData category, Long parentId) {
 		Category parent = categoryService.findOne(parentId);
-		Assert.notNull(parent);
+		Assert.notNull(parent , "Category parent not found !");
 		Category entity = buildCategory(category, new Category());
 		entity = categoryService.create(entity, parent);
 		category = categoryConverter.convert(entity);
@@ -151,8 +151,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		Category parent = categoryService.findOne(parentId);
 		Category child = categoryService.findOne(childId);
 		
-		Assert.notNull(parent , "parent not found");
-		Assert.notNull(child , "child not found");
+		Assert.notNull(parent , "Category parent not found !");
+		Assert.notNull(child , "Category child not found !");
 		
 		categoryService.addRelationCategory(child, parent);
 	}

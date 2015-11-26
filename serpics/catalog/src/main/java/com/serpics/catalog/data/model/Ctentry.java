@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.model.MultilingualText;
 import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
@@ -56,10 +57,14 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
 
     @Column(name = "url", nullable = false, unique = true)
     protected String url;
+    
+    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @JoinColumn(name = "name_string_id")
+    private MultilingualString name ;
 
     @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
-    private MultilingualString description ;
+    private MultilingualText description ;
 
     // bi-directional many-to-one association to CtentryAttribute
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
@@ -144,12 +149,22 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
         this.code = code;
     }
 
-    public MultilingualString getDescription() {
-        return description;
-    }
+	public MultilingualString getName() {
+		return name;
+	}
 
-    public void setDescription(final MultilingualString description) {
-        this.description = description;
-    }
+	public void setName(MultilingualString name) {
+		this.name = name;
+	}
+
+	public MultilingualText getDescription() {
+		return description;
+	}
+
+	public void setDescription(MultilingualText description) {
+		this.description = description;
+	}
+
+   
 
 }

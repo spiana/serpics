@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.model.MultilingualText;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.ProductService;
@@ -30,8 +30,8 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
-import com.serpics.vaadin.data.utils.MultilingualLikeFilter;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
+import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.util.filter.Compare.Equal;
 
@@ -145,19 +145,19 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 		context.setCatalog(catalogService.findByCode("default-catalog"));
 		Product p = new Product();
 		p.setCode("p1");
-		p.setDescription(new MultilingualString("en", "test"));
+		p.setDescription(new MultilingualText("en", "test"));
 		
 		productService.create(p);
 		
 		Product p2 = new Product();
 		p2.setCode("p2");
-		p2.setDescription(new MultilingualString("en", "test"));
+		p2.setDescription(new MultilingualText("en", "test"));
 		
 		productService.create(p2);
 		
 		Product p3 = new Product();
 		p3.setCode("p3");
-		p3.setDescription(new MultilingualString("it", "test"));
+		p3.setDescription(new MultilingualText("it", "test"));
 		
 		productService.create(p3);
 		

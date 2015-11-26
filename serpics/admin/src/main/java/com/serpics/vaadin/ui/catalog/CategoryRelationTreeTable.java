@@ -7,7 +7,7 @@ import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.CustomComponent;
@@ -49,7 +49,7 @@ public class CategoryRelationTreeTable extends CustomComponent implements Entity
 
 
 
-        treeTable.setConverter("childCategory.description", new MultilingualStringConvert());
+        treeTable.setConverter("childCategory.description", new MultilingualFieldConvert());
 
         final VerticalLayout v = new VerticalLayout();
         v.setSizeFull();

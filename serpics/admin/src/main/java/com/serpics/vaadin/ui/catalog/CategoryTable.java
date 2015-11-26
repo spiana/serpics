@@ -7,7 +7,7 @@ import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
@@ -39,7 +39,7 @@ public class CategoryTable extends MasterTable<Category> {
 
             @Override
             public void init() {
-                final String[] displayProperties = { "code", "url", "description", "field1", "childCategories",
+                final String[] displayProperties = { "code", "name", "description","published", "childCategories",
                         "updated", "created" };
                 this.setReadOnlyProperties(new String[] { "updated", "created" });
                 setDisplayProperties(displayProperties);
@@ -104,8 +104,8 @@ public class CategoryTable extends MasterTable<Category> {
     @Override
     public void init() {
         super.init();
-        setPropertyToShow(new String[] { "code", "url", "description" });
-        entityList.setConverter("description", new MultilingualStringConvert());
+        setPropertyToShow(new String[] { "code", "name", "description" , "published"});
+        entityList.setConverter("description", new MultilingualFieldConvert());
     }
 
 }

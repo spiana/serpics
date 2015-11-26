@@ -8,29 +8,29 @@ public class MultilingualTextField extends TextField {
 
     public MultilingualTextField() {
         super();
-        setConverter(new MultilingualStringConvert());
+        setConverter(new MultilingualFieldConvert());
 
     }
 
     public MultilingualTextField(final Property dataSource) {
         super(dataSource);
-        setConverter(new MultilingualStringConvert());
+        setConverter(new MultilingualFieldConvert());
 
     }
 
     public MultilingualTextField(final String caption, final Property dataSource) {
         super(caption, dataSource);
-        setConverter(new MultilingualStringConvert());
+        setConverter(new MultilingualFieldConvert());
     }
 
     public MultilingualTextField(final String caption, final String value) {
         super(caption, value);
-        setConverter(new MultilingualStringConvert());
+        setConverter(new MultilingualFieldConvert());
     }
 
     public MultilingualTextField(final String caption) {
         super(caption);
-        setConverter(new MultilingualStringConvert());
+        setConverter(new MultilingualFieldConvert());
     }
 
 }

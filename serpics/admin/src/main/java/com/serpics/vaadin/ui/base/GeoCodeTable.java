@@ -5,7 +5,7 @@ import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 
 @VaadinComponent("geocodeTable")
 public class GeoCodeTable extends MasterTable<Geocode> {
@@ -22,7 +22,7 @@ public class GeoCodeTable extends MasterTable<Geocode> {
 	public void init() {
 		super.init();
 		setPropertyToShow(new String[]{"code","description" });
-		entityList.setConverter("description", new MultilingualStringConvert());
+		entityList.setConverter("description", new MultilingualFieldConvert());
 		
 	}
 	

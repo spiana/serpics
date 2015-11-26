@@ -17,9 +17,9 @@ public class PrimaryAddressEditor extends MasterDetailForm<UsersReg,PrimaryAddre
     @Override
     public void init() {
      	setParentProperty("primaryAddress");
-    	setHideProperties(new String[] {"member"});
-    	setDisplayProperties(new String[] {"firstname", "lastname" , "company", "vatcode" , "address1" , "zipcode", "city" , "email" , "mobile" , "phone" , "fax" , "created", "updated"});
-    	setReadOnlyProperties(new String[]{"created" , "updated"});
+    	//setHideProperties(new String[] {"member"});
+    	//setDisplayProperties(new String[] {"firstname", "lastname" , "company", "vatcode" , "address1" , "zipcode", "city" , "email" , "mobile" , "phone" , "fax" , "created", "updated"});
+    	//setReadOnlyProperties(new String[]{"created" , "updated"});
        
     }
 

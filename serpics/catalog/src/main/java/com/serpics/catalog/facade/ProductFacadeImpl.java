@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.model.MultilingualText;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
@@ -280,7 +280,7 @@ public class ProductFacadeImpl implements ProductFacade {
 		
 //		String locale = "it";
 		String locale = engine.getCurrentContext().getLocale().getLanguage();
-		final MultilingualString description = new MultilingualString(locale, source.getDescription());
+		final MultilingualText description = new MultilingualText(locale, source.getDescription());
 		destination.setCode(source.getCode());
 		destination.setDescription(description);
 		destination.setUrl(source.getUrl());

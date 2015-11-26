@@ -17,9 +17,9 @@ public class BillingAddressEditor extends MasterDetailForm<UsersReg,BillingAddre
     @Override
     public void init() {
     	setParentProperty("billingAddress");
-    	setHideProperties(new String[] {"member"});
-    	setDisplayProperties(new String[] {"firstname", "lastname" , "company", "vatcode" , "address1" , "zipcode", "city" , "email" , "mobile" , "phone" , "fax" , "created", "updated"});
-    	setReadOnlyProperties(new String[]{"created" , "updated"});
+    	//setHideProperties(new String[] {"member"});
+    	//setDisplayProperties(new String[] {"firstname", "lastname" , "company", "vatcode" , "address1" , "zipcode", "city" , "email" , "mobile" , "phone" , "fax" , "created", "updated"});
+    	//setReadOnlyProperties(new String[]{"created" , "updated"});
     }
 
 }

@@ -13,11 +13,11 @@ import javax.persistence.OneToOne;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -132,8 +132,8 @@ public class One2oneField<M, T> extends CustomField<T> {
 		f.setBuffered(true);
 
 		if (f instanceof TextField) {
-			if (MultilingualString.class.isAssignableFrom(p.getType())) {
-				((TextField) f).setConverter(new MultilingualStringConvert());
+			if (Multilingual.class.isAssignableFrom(p.getType())) {
+				((TextField) f).setConverter(new MultilingualFieldConvert());
 				f.setWidth("80%");
 			}
 			((TextField) f).setNullRepresentation("");

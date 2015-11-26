@@ -8,6 +8,12 @@
 		</select>
 	</entity>
 
+	<entity name="member">
+		<select>
+			<property name="primaryAddress.lastname" />
+		</select>
+	</entity>
+	
 	<entity name="user">
 
 		<table action="append">
@@ -74,7 +80,7 @@
 			<property name="logonid" />
 		</select>
 	</entity>
-	<entity name="primaryAddress">
+	<entity name="primaryaddress">
 		<table>
 			<display>
 				<property name="firstname" />
@@ -98,10 +104,13 @@
 				<property name="address1" />
 				<property name="zipcode" />
 				<property name="city" />
+				<property name="country"/>
+				<property name="region"/>
 				<property name="email" />
 				<property name="mobile" />
 				<property name="phone" />
 				<property name="fax" />
+
 				<property name="created" />
 				<property name="updated" />
 			</display>
@@ -127,8 +136,47 @@
 		</select>
 	</entity>
 
+	<entity name="billingaddress">
+			<table>
+				<display>
+					<property name="firstname" />
+					<property name="lastname" />
+					<property name="company" />
+					<property name="address1" />
+					<property name="zipcode" />
+					<property name="city" />
+				</display>
+				<search>
+					<property name="firstname" />
+					<property name="lastname" />
+				</search>
+			</table>
+			<editor>
+				<display>
+					<property name="firstname" />
+					<property name="lastname" />
+					<property name="company" />
+					<property name="vatcode" />
+					<property name="address1" />
+					<property name="zipcode" />
+					<property name="city" />
+					<property name="country"/>
+					<property name="region"/>
+					<property name="email" />
+					<property name="mobile" />
+					<property name="phone" />
+					<property name="fax" />
+					<property name="created" />
+					<property name="updated" />
+				</display>
+				<readonly action="append">
+					<property name="created" />
+					<property name="updated" />
+				</readonly>
+			</editor>
+		</entity>
 
-	<entity name="permanentAddress">
+	<entity name="permanentaddress">
 		<table>
 			<display>
 				<property name="firstname" />
@@ -152,6 +200,8 @@
 				<property name="address1" />
 				<property name="zipcode" />
 				<property name="city" />
+				<property name="country"/>
+				<property name="region"/>
 				<property name="email" />
 				<property name="mobile" />
 				<property name="phone" />
@@ -190,6 +240,8 @@
 				<property name="address1" />
 				<property name="zipcode" />
 				<property name="city" />
+				<property name="country"/>
+				<property name="region"/>
 				<property name="email" />
 				<property name="mobile" />
 				<property name="phone" />

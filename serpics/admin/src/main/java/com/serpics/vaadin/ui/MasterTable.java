@@ -1,11 +1,15 @@
 package com.serpics.vaadin.ui;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -13,6 +17,7 @@ import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
+import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -117,22 +122,11 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		if (this.displayProperties == null)
 			this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
 
+		if (this.displayProperties == null)
+			this.displayProperties = buildDisplayProperties();
+		
 		if (this.displayProperties != null) {
-			for (String string : displayProperties) {
-				if (string.contains(".")) {
-
-					container.addNestedContainerProperty(string);
-					propertyList.addNestedProperty(string);
-				}
-				if (propertyList.getPropertyType(string).isAssignableFrom(MultilingualString.class)) {
-					entityList.setConverter(string, new MultilingualStringConvert());
-				}
-
-
-				String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + string, null);
-				if (message != null)
-					entityList.setColumnHeader(string, message);
-			}
+			initializeDisplayProperties(this.displayProperties);
 			entityList.setVisibleColumns(displayProperties);
 
 		}
@@ -251,9 +245,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 	public void setPropertyToShow(final String[] propertyToShow) {
 		this.displayProperties = propertyToShow;
-		if (initialized && container != null)
+		if (initialized && container != null){
+			initializeDisplayProperties(this.displayProperties);
 			entityList.setVisibleColumns(displayProperties);
-
+		}
 	}
 
 	public EntityItem<T> createEntityItem() {
@@ -330,5 +325,37 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	public void setSearchFormEnable(boolean searchFormEnable) {
 		this.searchFormEnable = searchFormEnable;
 	}
+	
+	private String[] buildDisplayProperties(){
+		List<String> properties = new ArrayList<String>();
+		for (Object pid : container.getContainerPropertyIds()) {
+			 if (propertyList.getClassMetadata().getProperty(pid.toString())
+					.getAnnotation(Id.class) == null)
+				if (propertyList.getClassMetadata().getProperty(pid.toString())
+						.getAnnotation(EmbeddedId.class) == null)
+					if (propertyList.getPropertyKind(pid.toString()).equals(
+							PropertyKind.SIMPLE) || Multilingual.class.isAssignableFrom(propertyList.getPropertyType(pid.toString())))
+								properties.add(pid.toString());
+		}
 		
+		return  properties.toArray(new String[]{});
+		
+		
+	}
+	private void initializeDisplayProperties(String[] dispayProperties){
+		
+		for (String string : displayProperties) {
+			if (string.contains(".")) {
+
+				container.addNestedContainerProperty(string);
+				propertyList.addNestedProperty(string);
+			}
+			if (Multilingual.class.isAssignableFrom(propertyList.getPropertyType(string))) {
+				entityList.setConverter(string, new MultilingualFieldConvert());
+			}
+			String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + string, null);
+			if (message != null)
+				entityList.setColumnHeader(string, message);
+		}
+	}
 }

@@ -6,12 +6,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.Multilingual;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
-import com.serpics.vaadin.ui.MultilingualStringConvert;
+import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -65,9 +65,9 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     
     	LOG.debug("create field {}" , propertyId);
     	
-        if (MultilingualString.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
+        if (Multilingual.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
         	Field<?> f = super.createField(item, propertyId, uiContext);
-            ((TextField) f).setConverter(new MultilingualStringConvert());
+            ((TextField) f).setConverter(new MultilingualFieldConvert());
             return f;
         }
         
@@ -101,9 +101,14 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     @SuppressWarnings("rawtypes")
 	private Field<?> createSelect(Object propertyId , JPAContainerItem item){
     	 final ComboBox combo = new ComboBox(propertyId.toString());
-         combo.setContainerDataSource(buildcontainer(item.getContainer(), propertyId));
+    	 JPAContainer referencedContainer =buildcontainer(item.getContainer(), propertyId);
+    	 String referencedPropertyId = buildReferencedPropertyToShow(item.getContainer(), propertyId);
+    	 if (referencedPropertyId.contains("."))
+    		 referencedContainer.addNestedContainerProperty(referencedPropertyId);
+    	 
+         combo.setContainerDataSource(referencedContainer);
          combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-         combo.setItemCaptionPropertyId(buildReferencedPropertyToShow(item.getContainer(), propertyId));
+         combo.setItemCaptionPropertyId(referencedPropertyId);
          combo.setFilteringMode(FilteringMode.CONTAINS);
          combo.setImmediate(true);
          combo.setConverter(new SingleSelectConverter(combo));

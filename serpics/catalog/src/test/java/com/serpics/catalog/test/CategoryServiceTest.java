@@ -9,7 +9,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Locale;
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.model.MultilingualText;
 import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
@@ -42,7 +42,7 @@ public class CategoryServiceTest extends CatalogBaseTest {
         Category category = new Category();
         category.setCatalog(catalog);
         category.setCode("cat1");
-        category.setDescription(new MultilingualString(locale.getLanguage(), "descrizione"));
+        category.setDescription(new MultilingualText(locale.getLanguage(), "descrizione"));
         category = categoryService.create(category);
 
         categoryService.detach(category);

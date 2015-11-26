@@ -5,14 +5,14 @@
 	<entity name="cart">
 		<table action="append">
 			<display>
-				<property name="customer.firstname" />
-				<property name="status" />
+				<property name="customer.primaryAddress.firstname" />
+<!-- 				<property name="status" /> -->
 <!-- 				<property name="billingAddress" /> -->
 <!-- 				<property name="shippingAddress" /> -->
 				<property name="created" />
 			</display>
 			<search>
-				<property name="customer.firstname" />
+				<property name="customer.primaryAddress.firstname" />
 				<property name="status" />
 			</search>
 		</table>
@@ -51,8 +51,8 @@
 	<entity name="order">
 		<table action="append">
 			<display>
-				<property name="customer.firstname" />
-				<property name="status" />
+				<property name="customer" />
+<!-- 				<property name="status" /> -->
 <!-- 				<property name="billingAddress" /> -->
 <!-- 				<property name="shippingAddress" /> -->
 				<property name="created" />

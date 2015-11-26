@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 
 @Embeddable
-public class LocalizedString implements Serializable {
+public class LocalizedString implements Serializable , LocalizedProperty{
     private static final long serialVersionUID = 1L;
 
     @JoinColumn(name = "locale_id")
