@@ -283,7 +283,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("pageCategory/{category}")
+	@Path("/{category}")
 	public Response findByCategory(@PathParam("category") Long categoryId,
 			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size) {
 

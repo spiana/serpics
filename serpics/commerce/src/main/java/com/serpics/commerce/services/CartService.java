@@ -7,6 +7,7 @@ import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
+import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
@@ -16,6 +17,11 @@ public interface CartService {
     public Cart createSessionCart();
 
     public Cart getSessionCart();
+    
+    //Get cart from repository identified by user and customer
+    public Cart getCartByUser(Member user, Member customer);
+    
+    public void mergeSessionRepositoryCart(Cart repositoryCart, Cart sessionCart) throws InventoryNotAvailableException, ProductNotFoundException;
 
     //Delete Commands
     public void cartDelete();
@@ -60,6 +66,6 @@ public interface CartService {
     public void setBillingAddress(Address address);
     public void setDestinationAddress(Address address);
     public void setShippingMode(Shipmode shippingMode);
-  
+      
 
 }

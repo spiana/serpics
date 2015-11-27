@@ -70,7 +70,6 @@ public class CartRestServiceImpl implements CartRestService {
 	}
 
 	@Override
-
 	@DELETE
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response deleteItem(@FormParam("itemId") Long itemId){

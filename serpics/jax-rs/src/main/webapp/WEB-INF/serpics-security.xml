@@ -11,7 +11,7 @@
 		<custom-filter ref="authenticationProcessingFilter" position="FORM_LOGIN_FILTER" />
 		<intercept-url pattern="/auth/connect/**" access="permitAll" />
 		<intercept-url pattern="/customerService/login**" access="isAnonymous() or isAuthenticated()" />
-		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<intercept-url pattern="/**" access="permitAll" />
 		<csrf disabled="true" />
 		
 	</http> 
