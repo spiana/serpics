@@ -178,7 +178,7 @@ var app = angular.module("category", ['AuthManager','ngCookies'])
         function findAll(sessionId) {
         	 var request = $http({
                  method: 	'GET',
-                 url: 	/** read **/ 	api_endpoint + 'findAll',
+                 url: 	api_endpoint + 'findAll',
                  headers: {
                  	'ssid': sessionId
                  }                         
