@@ -6,16 +6,16 @@ var app = angular.module("category", ['AuthManager','ngCookies'])
  
         /** Return public API. (like java interface)**/
         var service = ({
-        	createCategory	  : createCategory,
-        	createParent	  : createParent,
-        	addParent 		  : addParent,
-        	updateCategory	  : updateCategory,
-        	deleteCategory	  : deleteCategory,                   
-            getCategoryById	  : getCategoryById,
-            getCategoryByCode : getCategoryByCode,
-            getTop			  : getTop,
-            getChild		  : getChild,
-            findAll			  :findAll
+        	create	  			: create,
+        	createParent	  	: createParent,
+        	addParent 		  	: addParent,
+        	updateCategory	  	: updateCategory,
+        	deleteCategory	  	: deleteCategory,                   
+            getCategoryById	  	: getCategoryById,
+            getCategoryByCode 	: getCategoryByCode,
+            getTop			  	: getTop,
+            getChild		  	: getChild,
+            findAll			  	:findAll
         });                
         return service;
         
@@ -25,7 +25,7 @@ var app = angular.module("category", ['AuthManager','ngCookies'])
          * @param sessionId
          * @param data
          */
-        function createCategory(sessionId, data ) {
+        function create(sessionId, data ) {
             var request = $http({
                 method: 'POST',
                 url: api_endpoint + 'create',
@@ -212,7 +212,7 @@ var app = angular.module("category", ['AuthManager','ngCookies'])
          *from the API response payload.                
          */
         function handleSuccess( response ) {
-            return( response.data );
+            return( response.data.responseObject);
         }
     }
 );
@@ -224,71 +224,23 @@ app.controller("categoryController",['$scope','$cookies','authManagerService','c
  	
 	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
 	    	
-		$scope.data 	= {
-	    		sessionId: '',
-	    		category: []
-	    }
-	  
-	  
-	    
-	    /** implemented category service **/ 
-	    
+			    
 	    /**
 	     * @param sessionId 		a sessionId
 	     * @return 					all category pather
 	     * @use 					categoryService,authManagerService
 	     */
-		$scope.getTop = function(sessionId) {	
-			
-	    };
-	    
-	    /**
-	     * @param sessionId 			a sessionId
-	     * @param categoryId 			category id to be retrive
-	     * @return 						a category by id
-	     * @use 						categoryService,authManagerService
-	     */
-	    $scope.getCategoryById = function(sessionId,categoryId) {		
-	       	categoryService.getCategoryById(sessionId,categoryId).then( function( response ) {
-	       		/** do stuff with response **/
+		$scope.getTop = function( ) {	
+	    	authManagerService.getSessionId(endpoint)
+            .then( function( response ) {             
+            		categoryService.getTop(response).then( function( response ) {
+            			$scope.category 	= response         			
+            	})
             })
 	    };
+	    	    
 	    
-	    /**
-	     * @param sessionId 			a sessionId
-	     * @param code					code 
-	     * @param categoryId 			category id to retrieve
-	     * @return 						a category by code
-	     * @use 						categoryService,authManagerService
-	     */
-	    $scope.getCategoryByCode = function(sessionId,code,categoryId) {		
-	       	categoryService.getCategoryByCode(sessionId,code,categoryId).then( function( response ) {
-	       		/** do stuff with response **/
-            })
-	    };
-	    
-	    /**
-	     * @param sessionId 		a sessionId
-	     * @param parentId 			a parent id category
-	     * @return 					all category child
-	     * @use 					categoryService,authManagerService
-	     */
-	    $scope.getChild = function(sessionId,parentId) {		
-	       	categoryService.getChild(sessionId,parentId).then( function( response ) {
-	       		/** do stuff with response **/
-            })
-	    };
-	    
-	    /**
-	     * @param sessionId 		a sessionId
-	     * @return 					all category 
-	     * @use 					categoryService,authManagerService
-	     */
-	    $scope.findAll = function(sessionId) {		
-	       	categoryService.findAll(sessionId).then( function( response ) {
-	       		/** do stuff with response **/
-            })
-	    };
+	    /** implemented category service **/ 
 	    
 	    /**
 	     * @param sessionId 		a sessionId
@@ -296,8 +248,8 @@ app.controller("categoryController",['$scope','$cookies','authManagerService','c
 	     * @return 					new category
 	     * @use 					categoryService,authManagerService
 	     */
-	    $scope.createCategory = function(sessionId,data) {		
-	       	categoryService.createCategory(sessionId, data ).then( function( response ) {
+	    $scope.create = function(sessionId,data) {		
+	       	categoryService.create(sessionId, data ).then( function( response ) {
 	       		/** do stuff with response **/
             })
 	    };
@@ -352,5 +304,58 @@ app.controller("categoryController",['$scope','$cookies','authManagerService','c
 	       		/** do stuff with response **/
             })
 	    };
+	    
+	    
+	    /**
+	     * @param sessionId 			a sessionId
+	     * @param categoryId 			category id to be retrive
+	     * @return 						a category by id
+	     * @use 						categoryService,authManagerService
+	     */
+	    $scope.getCategoryById = function(sessionId,categoryId) {		
+	       	categoryService.getCategoryById(sessionId,categoryId).then( function( response ) {
+	       		/** do stuff with response **/
+            })
+	    };
+	    
+	    /**
+	     * @param sessionId 			a sessionId
+	     * @param code					code 
+	     * @param categoryId 			category id to retrieve
+	     * @return 						a category by code
+	     * @use 						categoryService,authManagerService
+	     */
+	    $scope.getCategoryByCode = function(sessionId,code,categoryId) {		
+	       	categoryService.getCategoryByCode(sessionId,code,categoryId).then( function( response ) {
+	       		/** do stuff with response **/
+            })
+	    };
+	    
+	    /**
+	     * @param sessionId 		a sessionId
+	     * @param parentId 			a parent id category
+	     * @return 					all category child
+	     * @use 					categoryService,authManagerService
+	     */
+	    $scope.getChild = function(sessionId,parentId) {		
+	       	categoryService.getChild(sessionId,parentId).then( function( response ) {
+	       		/** do stuff with response **/
+            })
+	    };
+	    
+	    /**
+	     * @param sessionId 		a sessionId
+	     * @return 					all category 
+	     * @use 					categoryService,authManagerService
+	     */
+	    $scope.findAll = function(sessionId) {		
+	       	categoryService.findAll(sessionId).then( function( response ) {
+	       		/** do stuff with response **/
+            })
+	    };
+	    
+	    
+	    
+	   
 }])
  

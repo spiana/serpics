@@ -141,7 +141,7 @@ var app = angular.module("brand", ['AuthManager','ngCookies'])
                  *from the API response payload.                
                  */
                 function handleSuccess( response ) {
-                    return( response.data );
+                    return( response.data.responseObject);
                 }
             }
         ]);

@@ -147,8 +147,7 @@ var app = angular.module("cart",  ['AuthManager','ngCookies'])
          *from the API response payload.                
          */
         function handleSuccess( response ) {
-        	console.log("send ssid to controller: " + response.data)
-        	return( response.data );
+            return( response.data.responseObject);
         }
     }
 );

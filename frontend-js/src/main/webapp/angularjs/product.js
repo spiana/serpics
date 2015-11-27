@@ -262,222 +262,222 @@ var app = angular.module("product", ['AuthManager'])
       	         }
       	        
    
-     /**
-      * private method.
-      * I transform the error response, unwrapping the application dta from
-      * the API response payload.
-      */                
-   
-                    
-     function handleError( response ) {
-         /**
-          * The API response from the server should be returned in a
-          * nomralized format. However, if the request was not handled by the
-          * server (or what not handles properly - ex. server error), then we
-          * may have to normalize it on our end, as best we can.
-          */ 
-         if (! angular.isObject( response.data ) || ! response.data.message ) {
-             return( $q.reject( "An unknown error occurred." ) );
-         }
-         /** Otherwise, use expected error message.**/
-         return( $q.reject( response.data.message ) );
-     }
-     /** 
-      * I transform the successful response, unwrapping the application data
-      *from the API response payload.                
-      */
-     function handleSuccess( response ) {
-         return( response.data );
-     }
- }
+		     /**
+		      * private method.
+		      * I transform the error response, unwrapping the application dta from
+		      * the API response payload.
+		      */                
+		   
+		                    
+		     function handleError( response ) {
+		         /**
+		          * The API response from the server should be returned in a
+		          * nomralized format. However, if the request was not handled by the
+		          * server (or what not handles properly - ex. server error), then we
+		          * may have to normalize it on our end, as best we can.
+		          */ 
+		         if (! angular.isObject( response.data ) || ! response.data.message ) {
+		             return( $q.reject( "An unknown error occurred." ) );
+		         }
+		         /** Otherwise, use expected error message.**/
+		         return( $q.reject( response.data.message ) );
+		     }
+		     /** 
+		      * I transform the successful response, unwrapping the application data
+		      *from the API response payload.                
+		      */
+		     function handleSuccess( response ) {
+		         return( response.data.responseObject);
+		     }
+ 		}
 );
 
 app.controller("productController",['$scope','$cookies','authManagerService','productService', 
                                   
-      function($scope,$cookies,authManagerService,productService) {	
-   	
-  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
-  	    	
-  	    $scope.data = {
-  	    		sessionIn	: '',
-  	    		pruduct		: []
-  	    }	
-  	   	  
-  	 
-  	    /** implemented order service **/ 
-  	    
-  	    /**
-  	     * @param sessionId 		a sessionId
-  	     * @param categoryId 		id of category to add
-  	     * @param brandId 			id of brand to add
-  	     * @param data				data to send
-  	     * @return 					product with new brand and new category equal @param brandId, @param categoryId
-  	     * @use 					productService,authManagerService
-  	     */
-  		$scope.insert = function( sessionId,categoryId,brandId,data ) {	
- 			productService.insert( sessionId,categoryId,brandId,data).then( function( response ) {
- 	       		/** do stuff with response **/
-             })
-  	    };
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param categoryId 			id of category to add
-  	     * @param data 					data to send
-  	     * @return 						product with new category equal @param categoryId
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.insertCategory = function(sessionId, categoryId , data) {		
-  	    	productService.insertCategory(sessionId, categoryId , data).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	   
-  	             	
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param brandId 				id of brand to add
-  	     * @param data 					data to send
-  	     * @return 						product with new brand equal @param brandId 
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.insertBrand = function(sessionId, brandId,data) {		
-  	    	productService.insertBrand(sessionId, brandId,data).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId  	    
-  	     * @param data 					data to send
-  	     * @return 						product update with data equal @param data 
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.update = function(sessionId, data) {		
-  	    	productService.update(sessionId,order,data).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param productId 			id of product 	  
-  	     * @return 						product with id equal @param productId
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.getProduct = function(sessionId, productId) {		
-  	    	productService.getProduct(sessionId, productId).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param productId 			id of product to be deleted	   
-  	     * @return 						delete product
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.deleteProduct = function(sessionId, productId) {		
-  	    	productService.deleteProduct(sessionId, productId).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param categoryId 			id of category 
-  	     * @return 						product with category equal @param categoryId
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.getCategory = function(sessionId, categoryId) {		
-  	    	productService.getCategory(sessionId, categoryId).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param productId 			id of product to add brand
-  	     * @param brandId 				if of brand
-  	     * @return 						new brand for product with productId equal @param productId 
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.addBrand = function(sessionId, productId,brandId) {		
-  	    	productService.addBrand(sessionId, productId,brandId).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param productId 			id of product to add category
-  	     * @param categoryId 			id of category 
-  	     * @return 						new category for product with productId equal @param productId 
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.addCategory = function(sessionId, productId,categoryId) {		
-  	    	productService.addCategory(sessionId, productId,categoryId).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param productId 			id of product to add price
-  	     * @param data 					data to send
-  	     * @return 						product with price equal @param data
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.addPrice = function(sessionId, productId, data) {		
-  	    	productService.addPrice(sessionId, productId, data).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param productName 			name of product to retrieve  	    
-  	     * @return 						product name equal @param productName
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.getProductByName = function(sessionId, productName) {		
-  	    	productService.getProductByName(sessionId, productName).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	  
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param categoryId 			id of category of product to retrieve  	    
-  	     * @return 						product with category equal @param categoryId
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.findByCategory = function(sessionId, categoryId) {		
-  	    	productService.findByCategory(sessionId, categoryId).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId
-  	     * @param brandId 				id of brand of product to retrieve    
-  	     * @return 						product with brand equal @param brandId
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.findByBrand = function(sessionId, brandId) {		
-  	    	productService.findByBrand(sessionId, brandId).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	
-  	    
-  	    /**
-  	     * @param sessionId 			a sessionId  	   
-  	     * @return 						all product
-  	     * @use 						productService,authManagerService
-  	     */
-  	    $scope.findAll = function(sessionId) {		
-  	    	productService.findAll(sessionId).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };  	
+	      function($scope,$cookies,authManagerService,productService) {	
+	   	
+	  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
+	  	    	
+	  	    $scope.data = {
+	  	    		sessionIn	: '',
+	  	    		pruduct		: []
+	  	    }	
+	  	   	  
+	  	 
+	  	    /** implemented order service **/ 
+	  	    
+	  	    /**
+	  	     * @param sessionId 		a sessionId
+	  	     * @param categoryId 		id of category to add
+	  	     * @param brandId 			id of brand to add
+	  	     * @param data				data to send
+	  	     * @return 					product with new brand and new category equal @param brandId, @param categoryId
+	  	     * @use 					productService,authManagerService
+	  	     */
+	  		$scope.insert = function( sessionId,categoryId,brandId,data ) {	
+	 			productService.insert( sessionId,categoryId,brandId,data).then( function( response ) {
+	 	       		/** do stuff with response **/
+	             })
+	  	    };
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param categoryId 			id of category to add
+	  	     * @param data 					data to send
+	  	     * @return 						product with new category equal @param categoryId
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.insertCategory = function(sessionId, categoryId , data) {		
+	  	    	productService.insertCategory(sessionId, categoryId , data).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	   
+	  	             	
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param brandId 				id of brand to add
+	  	     * @param data 					data to send
+	  	     * @return 						product with new brand equal @param brandId 
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.insertBrand = function(sessionId, brandId,data) {		
+	  	    	productService.insertBrand(sessionId, brandId,data).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId  	    
+	  	     * @param data 					data to send
+	  	     * @return 						product update with data equal @param data 
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.update = function(sessionId, data) {		
+	  	    	productService.update(sessionId,order,data).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param productId 			id of product 	  
+	  	     * @return 						product with id equal @param productId
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.getProduct = function(sessionId, productId) {		
+	  	    	productService.getProduct(sessionId, productId).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param productId 			id of product to be deleted	   
+	  	     * @return 						delete product
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.deleteProduct = function(sessionId, productId) {		
+	  	    	productService.deleteProduct(sessionId, productId).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param categoryId 			id of category 
+	  	     * @return 						product with category equal @param categoryId
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.getCategory = function(sessionId, categoryId) {		
+	  	    	productService.getCategory(sessionId, categoryId).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param productId 			id of product to add brand
+	  	     * @param brandId 				if of brand
+	  	     * @return 						new brand for product with productId equal @param productId 
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.addBrand = function(sessionId, productId,brandId) {		
+	  	    	productService.addBrand(sessionId, productId,brandId).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param productId 			id of product to add category
+	  	     * @param categoryId 			id of category 
+	  	     * @return 						new category for product with productId equal @param productId 
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.addCategory = function(sessionId, productId,categoryId) {		
+	  	    	productService.addCategory(sessionId, productId,categoryId).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param productId 			id of product to add price
+	  	     * @param data 					data to send
+	  	     * @return 						product with price equal @param data
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.addPrice = function(sessionId, productId, data) {		
+	  	    	productService.addPrice(sessionId, productId, data).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param productName 			name of product to retrieve  	    
+	  	     * @return 						product name equal @param productName
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.getProductByName = function(sessionId, productName) {		
+	  	    	productService.getProductByName(sessionId, productName).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	  
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param categoryId 			id of category of product to retrieve  	    
+	  	     * @return 						product with category equal @param categoryId
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.findByCategory = function(sessionId, categoryId) {		
+	  	    	productService.findByCategory(sessionId, categoryId).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId
+	  	     * @param brandId 				id of brand of product to retrieve    
+	  	     * @return 						product with brand equal @param brandId
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.findByBrand = function(sessionId, brandId) {		
+	  	    	productService.findByBrand(sessionId, brandId).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	
+	  	    
+	  	    /**
+	  	     * @param sessionId 			a sessionId  	   
+	  	     * @return 						all product
+	  	     * @use 						productService,authManagerService
+	  	     */
+	  	    $scope.findAll = function(sessionId) {		
+	  	    	productService.findAll(sessionId).then( function( response ) {
+	  	       		/** do stuff with response **/
+	              })
+	  	    };  	
 }])
   

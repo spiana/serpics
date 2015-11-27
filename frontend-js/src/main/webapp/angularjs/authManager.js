@@ -1,9 +1,7 @@
 var app = angular.module("AuthManager",  ['ngCookies'])
 
-	//.constant('api_endpoint', 	'http://localhost:8080/jax-rs/auth/connect/default-store')
-
  app.service("authManagerService",
-        function( $http, $q ,$cookies,$log,api_endpoint) {
+        function( $http, $q ,$cookies) {
  
             /** Return public API. (interfaace public service) **/
           	var service =   ({
@@ -18,12 +16,11 @@ var app = angular.module("AuthManager",  ['ngCookies'])
              * @return session id 
              */ 
             function getSessionId(endpoint) {
-            	
-                return $http({
-                    method: 'GET',
-                    url: endpoint 
-                  });
-            	
+            	 var request = $http({
+                     method: 'GET',
+                     url	: 	endpoint                                     
+                   });
+            	 return( request.then( handleSuccess, handleError ) );
             }                
         
             /** helper method for cookie life cycle expires**/ 
