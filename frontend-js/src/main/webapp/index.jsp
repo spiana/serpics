@@ -1,5 +1,1 @@
-<html>
-<body>
-<h2>Hello World!</h2>
-</body>
-</html>
+<jsp:include page="html/test.html"></jsp:include>
