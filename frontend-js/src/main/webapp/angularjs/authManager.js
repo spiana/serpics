@@ -1,6 +1,6 @@
 var app = angular.module("AuthManager",  ['ngCookies'])
 
-	.constant('api_endpoint', 	'http://localhost:8080/jax-rs/auth/connect/default-store')
+	//.constant('api_endpoint', 	'http://localhost:8080/jax-rs/auth/connect/default-store')
 
  app.service("authManagerService",
         function( $http, $q ,$cookies,$log,api_endpoint) {
@@ -11,19 +11,28 @@ var app = angular.module("AuthManager",  ['ngCookies'])
             });                
             return service
             
+           	
             /** public methods**/
-            /** create **/
-            function getSessionId() {
+            /**
+             * @param endpoint               
+             * @return session id 
+             */ 
+            function getSessionId(endpoint) {
             	
-                var request = $http({
+                return $http({
                     method: 'GET',
-                    url: api_endpoint 
+                    url: endpoint 
                   });
             	
-                return( request.then( handleSuccess, handleError ) );
             }                
         
-            /** helper method for cookie life cycle expires**/              
+            /** helper method for cookie life cycle expires**/ 
+            /**
+             * @param nameCookie  	a name of a cookie
+             * @param cookieValue 	a value of cookie
+             * @param expires		life time of a cookie 
+             * @param  
+             */
             function setCookie(nameCookie,cookieValue,expires) {
             	
             	var lifeTime = new Date();
@@ -58,25 +67,10 @@ var app = angular.module("AuthManager",  ['ngCookies'])
              *from the API response payload.                
              */
             function handleSuccess( response ) {
-            	setCookie('ssid',response.data,30)  /** expire 30 minut **/          
+            	setCookie('ssid',response.data,30)  /** expire 30 minut **/             	
             	return response.data;
             }
         }
     )
         
 
-app.controller("authController", function($scope,authManagerService) {
-	
-	 	
-    $scope.getSessionId = function(  ) {
-        // Rather than doing anything clever on the client-side, I'm just
-        // going to reload the remote data.
-    	authManagerService.getSessionId()
-            .then( function( response ) {
-            	console.log("received ssid from the service: " + response)
-            })
-        ;
-    };
-       
-})
- 
