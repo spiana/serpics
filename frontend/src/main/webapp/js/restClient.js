@@ -36,17 +36,20 @@ return {
 
 		return (this.DEFAULTS.protocol[0].concat('://')
 				.concat((this.DEFAULTS.domain.concat(':')
-						.concat(this.DEFAULTS.port
-								.concat(this.DEFAULTS.defaultpath
-										.concat(this.DEFAULTS.defaultstore))))))
+				.concat(this.DEFAULTS.port
+				.concat(this.DEFAULTS.defaultpath
+				.concat(this.DEFAULTS.defaultstore))))))
 	},			
 	makeServiceUrlWithParams : function(service, params) {
 
-		return (this.DEFAULTS.protocol[0].concat('://')
-				.concat((this.DEFAULTS.domain.concat(':')
-						.concat(this.DEFAULTS.port.concat(
-								this.DEFAULTS.path.concat(service))
-								.concat(params)))))
+		return (this.DEFAULTS.protocol[0]
+				.concat('://')
+				.concat((this.DEFAULTS.domain
+				.concat(':')
+				.concat(this.DEFAULTS.port
+				.concat(this.DEFAULTS.path
+				.concat(service))
+				.concat(params)))))
 	},
 	setPropertyInToCookie: function(nameCookie,cookieValue,expires){
 		var lifeTime = new Date();

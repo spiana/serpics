@@ -104,11 +104,13 @@ function createBreadCrumbsCategoryPage(){
 	
 	var category = sessionStorage.getItem("currentCategory")
 	/** make lowercase a category word and capitalize the catregory**/
+	if(category.length>0){
 	category = category.toLowerCase().replace(/\b[a-z]/g, function(letter) {
-    return letter.toUpperCase();
-		});
+    return letter.toUpperCase();	
+	});
 	if($('li.categoryBreadcrumbs').length)
 		$('li.categoryBreadcrumbs').text(category)
+	}
 }
 
 /**
@@ -160,7 +162,7 @@ function buildProductMenu(data) {
 
 function makeProductDetailOnModal(data){
 	
-	
+	if (data.responseObject.length != 0) {
 	 var product = data.responseObject
 
 	var buyable 		= document.getElementById("buyableOnModal")
@@ -186,7 +188,7 @@ function makeProductDetailOnModal(data){
 	} else
 		$(buyable).html('<strong>Availability:</strong> Out Stock')			
 			
-	
+	}
 	$('#myModal').modal()
 }
 
@@ -196,7 +198,7 @@ function makeProductDetailOnModal(data){
  * @param data
  */
 function buildProductDetail(data) {
-	
+	if (data.responseObject.length != 0) {
 	var product = data.responseObject
 
 	var buyable 		= document.getElementById("buyable")
@@ -221,10 +223,11 @@ function buildProductDetail(data) {
 		$(buyable).html('<strong>Availability:</strong> In Stock')
 	} else
 		$(buyable).html('<strong>Availability:</strong> Out Stock')					
-			
+	}		
 	
 }
 
+	
 /**
  * 
  * @param data  response of rest call
@@ -253,6 +256,7 @@ function handlerImageSlideOnModal(){
  */
 function handlerLocation() {
 
+	
 	jQuery('a[href$=".html"]').bind("click", function(event) {
 		event.preventDefault()
 		var href = $(this).attr('href')
@@ -263,4 +267,10 @@ function handlerLocation() {
 			else
 				console.log('')
 	})
+}
+
+
+
+function buildCategoryContainer(){
+	console.log('load content succesfully')
 }

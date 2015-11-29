@@ -29,14 +29,19 @@ jQuery(document).ready(function() {
 	});
 	
 	/** by delegate events ry pageset category in sesion storage to retrive in it's catego**/
-	jQuery(document).on("click", "[data-category]",function() {		
-		  categoryName = $(this).data("category");
+	jQuery(document).on("click", "[data-category] strong",function() {	
+		categoryName = $(this).parent().data("category");
 		if(rest.supportsHTML5Storage())
 		  rest.setSessionStorageProperty("currentCategory",categoryName)
-		  else
-			  rest.setPropertyInToCookie("currentCategory", categoryName, 30)
+		  else{
+			  rest.setPropertyInToCookie("currentCategory", categoryName, 30)			  
+		  }
+		ajaxService.loadContentInToPage($('[data-role="ajax"]'),'category.html',buildCategoryContainer)
+	
 	});	
 	
 	createBreadCrumbsCategoryPage()
+	
+	
 })
  
