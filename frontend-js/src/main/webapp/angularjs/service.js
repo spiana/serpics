@@ -63,7 +63,7 @@ app.service("authManagerService", function( $http, $q ,$cookies) {
          *from the API response payload.                
          */
         function handleSuccess( response ) {
-        	setCookie('ssid',response.data,1)  /** expire 30 minut **/             	
+        	setCookie('ssid',response.data,30)  /** expire 30 minut **/             	
         	return response.data;
             }
         })
