@@ -1,11 +1,14 @@
-var app = angular.module("serpicsRestAPP", ['serpicsService','serpicsController'])
+var app = angular.module("serpicsRestAPP", ['serpicsService','serpicsController','serpicsDirective'])
 
 app.controller("serpicsController",['$scope','$rootScope','$cookies','authManagerService','$timeout', 
                                      
      function($scope,$rootScope,$cookies,authManagerService,$timeout) {	
   	
-	      $scope.endpoint   = 'http://localhost:8080/jax-rs/auth/connect/default-store'    
-	  	  $scope.title 		= "Serpics Platform Ecommerce";
+	      endpoint   		 = 'http://localhost:8080/jax-rs/auth/connect/default-store'    
+	  	  $scope.title 		 = "Serpics Platform Ecommerce";
+	  	  $scope.loadingText = "Serpics";
+
+	     
 	  	
 	    /**
          * function to create the sessiion id , opening appliazione
@@ -19,11 +22,10 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
             	$rootScope.sessionId = $cookies.get('ssid')  
                  console.log('read session id from cookie not connect executed')
             }else {
-                authManagerService.getSessionId($scope.endpoint).then(
+                authManagerService.getSessionId(endpoint).then(
                     function( response ) {                      
                     	$rootScope.sessionId = response   
-                        console.log('create a new session id connect executed')
-
+                        console.log('create a new session id from SerpicsCtrl connect executed')                        
                 })
             }          
         }       
