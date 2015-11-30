@@ -19,7 +19,6 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @use 					categoryService,authManagerService
      	     */
      		$scope.getTop = function() {	
-				$rootScope.createSessionId()
                  	categoryService.getTop(endpoint,$rootScope.sessionId).then( function( response ) {
                  	$rootScope.category 	= response                  	
                  })
@@ -33,8 +32,8 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 					new category
      	     * @use 					categoryService,authManagerService
      	     */
-     	    $scope.create = function(sessionId,data) {		
-     	       	categoryService.create(endpoint,sessionId, data ).then( function( response ) {
+     	    $scope.create = function(sessionId,data) {
+     	       	categoryService.create(endpoint,$rootScope.sessionId, data ).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -47,8 +46,8 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						add parent to category
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.createParent = function(sessionId,parentId,data) {		
-     	       	categoryService.createParent(endpoint,sessionId, parentId , data ).then( function( response ) {
+     	    $scope.createParent = function(sessionId,parentId,data) {
+     	       	categoryService.createParent(endpoint,$rootScope.sessionId, parentId , data ).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -62,8 +61,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						add parent to category of id @param childId
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.addParent = function(sessionId, childId,parentId,data) {		
-     	       	categoryService.addParent(endpoint,sessionId, childId,parentId,data ).then( function( response ) {
+     	    $scope.addParent = function(sessionId, childId,parentId,data) {
+     	    	$rootScope.createSessionId()
+     	       	categoryService.addParent(endpoint,$rootScope.sessionId, childId,parentId,data ).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -75,8 +75,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						a category updated with @data params
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.updateCategory = function(sessionId,data) {		
-     	       	categoryService.updateCategory(endpoint,sessionId, data ).then( function( response ) {
+     	    $scope.updateCategory = function(sessionId,data) {
+     	    	$rootScope.createSessionId()
+     	       	categoryService.updateCategory(endpoint,$rootScope.sessionId, data ).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -88,8 +89,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return delete 				a category with id @categoryId
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.deleteCategory = function(sessionId,categoryId) {		
-     	       	categoryService.deleteCategory(endpoint,sessionId,categoryId).then( function( response ) {
+     	    $scope.deleteCategory = function(sessionId,categoryId) {
+     	    	$rootScope.createSessionId()
+     	       	categoryService.deleteCategory(endpoint,$rootScope.sessionId,categoryId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -102,8 +104,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						a category by id
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getCategoryById = function(sessionId,categoryId) {		
-     	       	categoryService.getCategoryById(endpoint,sessionId,categoryId).then( function( response ) {
+     	    $scope.getCategoryById = function(sessionId,categoryId) {
+     	    	$rootScope.createSessionId()
+     	       	categoryService.getCategoryById(endpoint,$rootScope.sessionId,categoryId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -116,8 +119,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						a category by code
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getCategoryByCode = function(sessionId,code,categoryId) {		
-     	       	categoryService.getCategoryByCode(endpoint,sessionId,code,categoryId).then( function( response ) {
+     	    $scope.getCategoryByCode = function(sessionId,code,categoryId) {
+     	    	$rootScope.createSessionId()
+     	       	categoryService.getCategoryByCode(endpoint,$rootScope.sessionId,code,categoryId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -129,8 +133,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						all category child
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getChild = function(sessionId,parentId) {		
-     	       	categoryService.getChild(endpoint,sessionId,parentId).then( function( response ) {
+     	    $scope.getChild = function(sessionId,parentId) {
+     	    	$rootScope.createSessionId()
+     	       	categoryService.getChild(endpoint,$rootScope.sessionId,parentId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -142,7 +147,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @use 						categoryService,authManagerService
      	     */
      	    $scope.findAll = function(sessionId) {		
-     	       	categoryService.findAll(endpoint,sessionId).then( function( response ) {
+     	       	categoryService.findAll(endpoint,$rootScope.sessionId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };     	         
@@ -183,7 +188,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @use 						brandService,authManagerService
  	     */
  		$scope.addBrand = function(sessionId,data ) {	
- 	    	brandService.addBrand(endpoint,sessionId,data).then( function( response ) {
+ 	    	brandService.addBrand(endpoint,$rootScope.sessionId,data).then( function( response ) {
  	       		/** do stuff with response **/
              })
  	    };
@@ -196,7 +201,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @use 						brandService,authManagerService
  	     */
  	    $scope.updateBrand = function(sessionId, data) {		
- 	    	brandService.updateBrand(endpoint,sessionId, data).then( function( response ) {
+ 	    	brandService.updateBrand(endpoint,$rootScope.sessionId, data).then( function( response ) {
  	       		/** do stuff with response **/
              })
  	    };
@@ -209,7 +214,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @use 						brandService,authManagerService
  	     */
  	    $scope.deleteBrand = function(sessionId,brandId ) {		
- 	    	brandService.deleteBrand(endpoint,sessionId,brandId ).then( function( response ) {
+ 	    	brandService.deleteBrand(endpoint,$rootScope.sessionId,brandId ).then( function( response ) {
  	       		/** do stuff with response **/
              })
  	    };
@@ -222,7 +227,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @use 					brandService,authManagerService
  	     */
  	    $scope.findBrandById = function(sessionId,code,brandId) {		
- 	    	brandService.findBrandById(endpoint,sessionId,code,brandId).then( function( response ) {
+ 	    	brandService.findBrandById(endpoint,$rootScope.sessionId,code,brandId).then( function( response ) {
  	       		/** do stuff with response **/
              })
  	    };
@@ -235,7 +240,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @use 					brandService,authManagerService
  	     */
  	    $scope.findBrandByName = function(sessionId,name) {		
- 	    	brandService.findBrandByName(endpoint,sessionId,name).then( function( response ) {
+ 	    	brandService.findBrandByName(endpoint,$rootScope.sessionId,name).then( function( response ) {
  	       		/** do stuff with response **/
              })
  	    };
@@ -260,7 +265,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
                                   
       function($scope,$rootScope,$cookies,authManagerService,cartService,$timeout) {	
    	
-  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
+  	    var endpoint    = 'http://localhost:8080/jax-rs/cartService'
   	    	
   	    $rootScope.cart 	= []
   	  
@@ -274,7 +279,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @use 					cartService,authManagerService
   	     */
   		$scope.getCurrentCart = function(sessionId,data ) {	
-  	    	cartService.getCurrentCart(endpoint,sessionId,data).then( function( response ) {
+  	    	cartService.getCurrentCart(endpoint,$rootScope.sessionId,data).then( function( response ) {
  	       		/** do stuff with response **/
              })
   	    };
@@ -287,7 +292,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @use 						cartService,authManagerService
   	     */
   	    $scope.cartAdd = function(sessionId, data) {		
-  	    	cartService.cartAdd(endpoint,sessionId, data).then( function( response ) {
+  	    	cartService.cartAdd(endpoint,$rootScope.sessionId, data).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -300,7 +305,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @use 						cartService,authManagerService
   	     */
   	    $scope.cartUpdate = function(sessionId, data ) {		
-  	    	cartService.cartUpdate(endpoint,sessionId,data ).then( function( response ) {
+  	    	cartService.cartUpdate(endpoint,$rootScope.sessionId,data ).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -313,7 +318,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @use 					cartService,authManagerService
   	     */
   	    $scope.deleteItem = function(sessionId,data) {		
-  	    	cartService.deleteItem(endpoint,sessionId,data).then( function( response ) {
+  	    	cartService.deleteItem(endpoint,$rootScope.sessionId,data).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -326,7 +331,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @use 					cartService,authManagerService
   	     */
   	    $scope.addBillingAddress = function(sessionId,data) {		
-  	    	cartService.addBillingAddress(endpoint,sessionId,data).then( function( response ) {
+  	    	cartService.addBillingAddress(endpoint,$rootScope.sessionId,data).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -350,7 +355,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
                                   
 	      function($scope,$cookies,authManagerService,productService,$timeout) {	
 	   	
-	  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
+	  	    var endpoint    = 'http://localhost:8080/jax-rs/productService'
 	  	    	
 	  	    $rootScope.product 	= []
 	  	   	  
@@ -552,7 +557,7 @@ vice
                                   
       function($scope,$rootScope,$cookies,authManagerService,orderService,$timeout) {	
    	
-  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'  	    	
+  	    var endpoint    = 'http://localhost:8080/jax-rs/orderService'  	    	
   	    
   	    $rootScope.order 	= []
   	    
@@ -584,6 +589,137 @@ vice
   	       		/** do stuff with response **/
               })
   	    };  	   
+  	             	    
+}])
+
+/** customerController **/
+.controller("customerController",['$scope','$rootScope','$cookies','authManagerService','customerService','$timeout', 
+                                  
+      function($scope,$rootScope,$cookies,authManagerService,orderService,$timeout) {	
+   	
+  	    var endpoint    = 'http://localhost:8080/jax-rs/customerService'  	    	
+  	    
+  	    $rootScope.user 	= []
+  	    
+  	    /** implemented customer service **/ 
+  	    
+  	    /**
+  	     * @param endpoint 		    web service rest endpoint
+  	     * @param sessionId 		a sessionId
+  	     * @return 					current Customer from session
+  	     * @use 					customerService,authManagerService
+  	     */
+  		$scope.getCurrent = function(sessionId) {	
+  	    	customerService.getCurrent(endpoint,sessionId).then( function( response ) {
+ 	       		/** do stuff with response **/
+             })
+  	    };
+  	    
+  	    /**
+  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param sessionId 			a sessionId
+  	     * @param user 				    create user
+  	     * @return 						void
+  	     * @use 						customerService,authManagerService
+  	     */
+  	    $scope.create = function(sessionId, user) {		
+  	    	customerService.create(endpoint,sessionId,user).then( function( response ) {
+  	       		/** do stuff with response **/
+              })
+  	    };
+  	    
+  	    /**
+  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param sessionId 			a sessionId
+  	     * @param user 				    update user
+  	     * @return 						void
+  	     * @use 						customerService,authManagerService
+  	     */
+  	    $scope.updateCustomer = function(sessionId, user) {		
+  	    	customerService.updateCustomer(endpoint,sessionId,user).then( function( response ) {
+  	       		/** do stuff with response **/
+              })
+  	    };
+  	    
+  	    /**
+  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param sessionId 			a sessionId
+  	     * @param username			    username for login
+  	     * @param password			    password for login
+  	     * @return 						void
+  	     * @use 						customerService,authManagerService
+  	     */
+  	    $scope.login = function(sessionId, username, passoword) {		
+  	    	customerService.login(endpoint,sessionId, username, passoword).then( function( response ) {
+  	       		/** do stuff with response **/
+              })
+  	    };
+  	    
+  	    /**
+  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param sessionId 			a sessionId
+  	     * @param address			    update contact address
+  	     * @return 						void
+  	     * @use 						customerService,authManagerService
+  	     */
+  	    $scope.updateContactAddress = function(sessionId, address) {		
+  	    	customerService.updateContactAddress(endpoint,sessionId, address).then( function( response ) {
+  	       		/** do stuff with response **/
+              })
+  	    };
+  	    
+  	    /**
+  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param sessionId 			a sessionId
+  	     * @param address			    update billing address
+  	     * @return 						void
+  	     * @use 						customerService,authManagerService
+  	     */
+  	    $scope.updateBillingAddress = function(sessionId, address) {		
+  	    	customerService.updateBillingAddress(endpoint,sessionId, address).then( function( response ) {
+  	       		/** do stuff with response **/
+              })
+  	    };
+  	    
+  	    /**
+  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param sessionId 			a sessionId
+  	     * @param address			    update destination address
+  	     * @return 						void
+  	     * @use 						customerService,authManagerService
+  	     */
+  	    $scope.updateDestinationAddress = function(sessionId, address) {		
+  	    	customerService.updateDestinationAddress(endpoint,sessionId, address).then( function( response ) {
+  	       		/** do stuff with response **/
+              })
+  	    };
+  	    
+  	    /**
+  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param sessionId 			a sessionId
+  	     * @param address			    add destination address
+  	     * @return 						void
+  	     * @use 						customerService,authManagerService
+  	     */
+  	    $scope.addDestinationAddress = function(sessionId, address) {		
+  	    	customerService.addDestinationAddress(endpoint,sessionId, address).then( function( response ) {
+  	       		/** do stuff with response **/
+              })
+  	    };
+  	    
+  	    /**
+  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param sessionId 			a sessionId
+  	     * @param address			    delete addressuid
+  	     * @return 						void
+  	     * @use 						customerService,authManagerService
+  	     */
+  	    $scope.deleteDestinationAddress = function(sessionId, addressuid) {		
+  	    	customerService.deleteDestinationAddress(endpoint,sessionId, addressuid).then( function( response ) {
+  	       		/** do stuff with response **/
+              })
+  	    };
+  	    
   	             	    
 }])
   
