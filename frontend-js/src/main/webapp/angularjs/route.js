@@ -9,22 +9,22 @@ app.config(['$routeProvider',
         controller: 'serpicsController'
      })
     .when('/login', {
-        templateUrl: 'login.html',
+        templateUrl: 'html/login.html',
         controller: 'LoginController'
-    })
-    .when('/register', {
-        templateUrl: 'register.html',
-        controller: 'RegisterController'
-      })     
-   .when('/profile', {
-       templateUrl: 'views/profile.html',
+    })      
+   .when('/contact', {
+       templateUrl: 'views/contact-us.html',
        controller: 'profileController'
     })
     .when('/category', {
        templateUrl: 'html/category.html',
        controller: 'categoryController'
     })
+     .when('/product-details.html', {
+       templateUrl: 'html/category.html',
+       controller: 'productController'
+    })
         .otherwise({
-       redirectTo: '/login'
+       redirectTo: '/'
     });
 }]);
