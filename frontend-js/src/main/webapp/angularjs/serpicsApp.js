@@ -4,13 +4,10 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
                                      
      function($scope,$rootScope,$cookies,authManagerService,$timeout) {	
   	
-	  	  var endpoint    	= 'http://localhost:8080/jax-rs/auth/connect/default-store'    
-        
+	      $scope.endpoint   = 'http://localhost:8080/jax-rs/auth/connect/default-store'    
+	  	  $scope.title 		= "Serpics Platform Ecommerce";
 	  	
-	  		  var vm = this;
-          // This is the value we will be "watching".
-          vm.fooCount = 0;
-        /**
+	    /**
          * function to create the sessiion id , opening appliazione
          * session id is created and added to a hidden field , if we
          * were to recover . For each call a check is made on cookies 
@@ -22,7 +19,7 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
             	$rootScope.sessionId = $cookies.get('ssid')  
                  console.log('read session id from cookie not connect executed')
             }else {
-                authManagerService.getSessionId(endpoint).then(
+                authManagerService.getSessionId($scope.endpoint).then(
                     function( response ) {                      
                     	$rootScope.sessionId = response   
                         console.log('create a new session id connect executed')
@@ -39,7 +36,6 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
 	  	
 	  	/** create session id on view content load **/
 	  	$timeout($rootScope.createSessionId)
- 	   
        
 }])
 

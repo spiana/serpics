@@ -1,7 +1,8 @@
 var app = angular.module("serpicsController", ['ngCookies'])
 
+
 /** categoryController **/
-.controller("categoryController",['$scope','$rootScope','$cookies','authManagerService','categoryService', 
+.controller("categoryController",['$scope','$rootScope','$cookies','authManagerService','categoryService','$timeout', 
                                      
          function($scope,$rootScope,$cookies,authManagerService,categoryService,$timeout) {	
       	
@@ -26,7 +27,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	    	         	   
      	    
      	    /**
-     	     * @param endpoint 		    	web service rest endpoint
+     	     * @param endpoint 		    web service rest endpoint
      	     * @param sessionId 		a sessionId
      	     * @param data 				data to send
      	     * @return 					new category
@@ -144,13 +145,17 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	       	categoryService.findAll(endpoint,sessionId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
-     	    };     	         	   
+     	    };     	         
+     	    
+     	    /** execute function on view content load **/
+     	   	$timeout($scope.getTop)
+
  }])
 
  /** brandController **/
-.controller("brandController",['$scope','$rootScope','$cookies','authManagerService','brandService', 
+.controller("brandController",['$scope','$rootScope','$cookies','authManagerService','brandService','$timeout', 
                                      
-     function($scope,$rootScope,$cookies,authManagerService,brandService) {	
+     function($scope,$rootScope,$cookies,authManagerService,brandService,$timeout) {	
   	
 		var endpoint    	= 'http://localhost:8080/jax-rs/brandService/'    
  	    	
@@ -245,13 +250,15 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	       		/** do stuff with response **/
              })
  	    };
- 	             	    
+ 	    
+ 	   /** execute function on view content load **/
+ 	   	$timeout($scope.getBrand)
  }])
  
  /** cartController **/
-.controller("cartController",['$scope','$rootScope','$cookies','authManagerService','cartService', 
+.controller("cartController",['$scope','$rootScope','$cookies','authManagerService','cartService', '$timeout',
                                   
-      function($scope,$rootScope,$cookies,authManagerService,cartService) {	
+      function($scope,$rootScope,$cookies,authManagerService,cartService,$timeout) {	
    	
   	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
   	    	
@@ -339,9 +346,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
 }])
 
 /** productController **/
-.controller("productController",['$scope','$cookies','authManagerService','productService', 
+.controller("productController",['$scope','$cookies','authManagerService','productService','$timeout', 
                                   
-	      function($scope,$cookies,authManagerService,productService) {	
+	      function($scope,$cookies,authManagerService,productService,$timeout) {	
 	   	
 	  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
 	  	    	
@@ -540,9 +547,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
 }])
 
 /** orderController **/
-.controller("orderController",['$scope','$rootScope','$cookies','authManagerService','orderService', 
+.controller("orderController",['$scope','$rootScope','$cookies','authManagerService','orderService','$timeout', 
                                   
-      function($scope,$rootScope,$cookies,authManagerService,orderService) {	
+      function($scope,$rootScope,$cookies,authManagerService,orderService,$timeout) {	
    	
   	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'  	    	
   	    
