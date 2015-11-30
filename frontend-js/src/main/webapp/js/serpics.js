@@ -7,10 +7,10 @@
 jQuery(document).ready(function() {
 
 	/** init * */
-	jQuery(window).load(function() {
+	
 		jQuery(".loading-container").fadeOut(3000);
 		jQuery(".loading,loading-text").delay(100).fadeOut("slow");
-	})
+	
 
 	
 })
