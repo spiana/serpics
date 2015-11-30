@@ -19,7 +19,6 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @use 					categoryService,authManagerService
      	     */
      		$scope.getTop = function() {	
-     			$rootScope.createSessionId()
                  	categoryService.getTop(endpoint,$rootScope.sessionId).then( function( response ) {
                  	$rootScope.category 	= response                  	
                  })
@@ -252,7 +251,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	    };
  	    
  	   /** execute function on view content load **/
- 	   	$timeout($scope.getBrand)
+ 	   //	$timeout($scope.getBrand)
  }])
  
  /** cartController **/
@@ -306,7 +305,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	    };
   	    
   	    /**
-  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param endpoint 		    web service rest endpoint
   	     * @param sessionId 		a sessionId
   	     * @param code 	    
   	     * @return 					all brand by @param brandId
@@ -319,7 +318,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	    };
   	    
   	    /**
-  	     * @param endpoint 		    	web service rest endpoint
+  	     * @param endpoint 		    web service rest endpoint
   	     * @param sessionId 		a sessionId
   	     * @param data    			data to send
   	     * @return 					
@@ -444,7 +443,8 @@ var app = angular.module("serpicsController", ['ngCookies'])
 	  	     * @param sessionId 			a sessionId
 	  	     * @param categoryId 			id of category 
 	  	     * @return 						product with category equal @param categoryId
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,authManagerSer  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'  	    	
+vice
 	  	     */
 	  	    $scope.getCategory = function(sessionId, categoryId) {		
 	  	    	productService.getCategory(sessionId, categoryId).then( function( response ) {
