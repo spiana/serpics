@@ -8,8 +8,7 @@
 	 */
 	var loaderDirective = function() {
 		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>" +
-						"{{ loadingText }}</div></div>"	
-			
+						"{{ loadingText }}</div></div>"				
 			return {		
 			replace: true,
 			restrict : 'EA',
@@ -29,9 +28,7 @@
 		};
 	};
 
-	/**
-	 * 
-	 */
+	
 	var middleHeaderDirective = function() {
 		return {
 			restrict : 'EA',
@@ -40,9 +37,7 @@
 		};
 	};
 
-	/**
-	 * 
-	 */
+	
 	var bottomHeaderDirective = function() {
 		return {
 			restrict : 'EA',
