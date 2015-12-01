@@ -32,7 +32,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 					new category
      	     * @use 					categoryService,authManagerService
      	     */
-     	    $scope.create = function(sessionId,data) {
+     	    $scope.create = function(endpoint,data) {
      	       	categoryService.create(endpoint,$rootScope.sessionId, data ).then( function( response ) {
      	       		/** do stuff with response **/
                  })
@@ -46,7 +46,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						add parent to category
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.createParent = function(sessionId,parentId,data) {
+     	    $scope.createParent = function(endpoint,parentId,data) {
      	       	categoryService.createParent(endpoint,$rootScope.sessionId, parentId , data ).then( function( response ) {
      	       		/** do stuff with response **/
                  })
@@ -61,7 +61,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						add parent to category of id @param childId
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.addParent = function(sessionId, childId,parentId,data) {
+     	    $scope.addParent = function(endpoint, childId,parentId,data) {
      	    	$rootScope.createSessionId()
      	       	categoryService.addParent(endpoint,$rootScope.sessionId, childId,parentId,data ).then( function( response ) {
      	       		/** do stuff with response **/
@@ -75,7 +75,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						a category updated with @data params
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.updateCategory = function(sessionId,data) {
+     	    $scope.updateCategory = function(endpoint,data) {
      	    	$rootScope.createSessionId()
      	       	categoryService.updateCategory(endpoint,$rootScope.sessionId, data ).then( function( response ) {
      	       		/** do stuff with response **/
@@ -89,7 +89,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return delete 				a category with id @categoryId
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.deleteCategory = function(sessionId,categoryId) {
+     	    $scope.deleteCategory = function(endpoint,categoryId) {
      	    	$rootScope.createSessionId()
      	       	categoryService.deleteCategory(endpoint,$rootScope.sessionId,categoryId).then( function( response ) {
      	       		/** do stuff with response **/
@@ -104,7 +104,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						a category by id
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getCategoryById = function(sessionId,categoryId) {
+     	    $scope.getCategoryById = function(endpoint,categoryId) {
      	    	$rootScope.createSessionId()
      	       	categoryService.getCategoryById(endpoint,$rootScope.sessionId,categoryId).then( function( response ) {
      	       		/** do stuff with response **/
@@ -119,7 +119,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						a category by code
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getCategoryByCode = function(sessionId,code,categoryId) {
+     	    $scope.getCategoryByCode = function(endpoint,code,categoryId) {
      	    	$rootScope.createSessionId()
      	       	categoryService.getCategoryByCode(endpoint,$rootScope.sessionId,code,categoryId).then( function( response ) {
      	       		/** do stuff with response **/
@@ -133,7 +133,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						all category child
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getChild = function(sessionId,parentId) {
+     	    $scope.getChild = function(endpoint,parentId) {
      	    	$rootScope.createSessionId()
      	       	categoryService.getChild(endpoint,$rootScope.sessionId,parentId).then( function( response ) {
      	       		/** do stuff with response **/
@@ -146,7 +146,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						all category 
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.findAll = function(sessionId) {		
+     	    $scope.findAll = function(endpoint) {		
      	       	categoryService.findAll(endpoint,$rootScope.sessionId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
@@ -174,7 +174,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @return 						new brand
  	     * @use 						brandService,authManagerService
  	     */
- 		$scope.getBrand = function(sessionId,data ) {	
+ 		$scope.getBrand = function(endpoint,data ) {	
 			$rootScope.createSessionId()
  	    	brandService.getBrand(endpoint,$rootScope.sessionId).then( function( response ) {
  	    		$rootScope.brand = response.content
@@ -187,7 +187,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @return 						new brand
  	     * @use 						brandService,authManagerService
  	     */
- 		$scope.addBrand = function(sessionId,data ) {	
+ 		$scope.addBrand = function(endpoint,data ) {	
  	    	brandService.addBrand(endpoint,$rootScope.sessionId,data).then( function( response ) {
  	       		/** do stuff with response **/
              })
@@ -200,7 +200,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @return 						a brand update with @param data
  	     * @use 						brandService,authManagerService
  	     */
- 	    $scope.updateBrand = function(sessionId, data) {		
+ 	    $scope.updateBrand = function(endpoint, data) {		
  	    	brandService.updateBrand(endpoint,$rootScope.sessionId, data).then( function( response ) {
  	       		/** do stuff with response **/
              })
@@ -213,7 +213,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @return 				
  	     * @use 						brandService,authManagerService
  	     */
- 	    $scope.deleteBrand = function(sessionId,brandId ) {		
+ 	    $scope.deleteBrand = function(endpoint,brandId ) {		
  	    	brandService.deleteBrand(endpoint,$rootScope.sessionId,brandId ).then( function( response ) {
  	       		/** do stuff with response **/
              })
@@ -226,7 +226,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @return 					all brand by @param brandId
  	     * @use 					brandService,authManagerService
  	     */
- 	    $scope.findBrandById = function(sessionId,code,brandId) {		
+ 	    $scope.findBrandById = function(endpoint,code,brandId) {		
  	    	brandService.findBrandById(endpoint,$rootScope.sessionId,code,brandId).then( function( response ) {
  	       		/** do stuff with response **/
              })
@@ -239,7 +239,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @return 					all brand by @param name
  	     * @use 					brandService,authManagerService
  	     */
- 	    $scope.findBrandByName = function(sessionId,name) {		
+ 	    $scope.findBrandByName = function(endpoint,name) {		
  	    	brandService.findBrandByName(endpoint,$rootScope.sessionId,name).then( function( response ) {
  	       		/** do stuff with response **/
              })
@@ -250,7 +250,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @return 					all brand
  	     * @use 					brandService,authManagerService
  	     */
- 	    $scope.findAll = function(sessionId) {		
+ 	    $scope.findAll = function(endpoint) {		
  	    	brandService.findAll(endpoint,sessionId).then( function( response ) {
  	       		/** do stuff with response **/
              })
@@ -278,7 +278,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @return 					current cart from session
   	     * @use 					cartService,authManagerService
   	     */
-  		$scope.getCurrentCart = function(sessionId,data ) {	
+  		$scope.getCurrentCart = function(endpoint,data ) {	
   	    	cartService.getCurrentCart(endpoint,$rootScope.sessionId,data).then( function( response ) {
  	       		/** do stuff with response **/
              })
@@ -291,7 +291,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @return 						a new cart
   	     * @use 						cartService,authManagerService
   	     */
-  	    $scope.cartAdd = function(sessionId, data) {		
+  	    $scope.cartAdd = function(endpoint, data) {		
   	    	cartService.cartAdd(endpoint,$rootScope.sessionId, data).then( function( response ) {
   	       		/** do stuff with response **/
               })
@@ -304,7 +304,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @return 						a cart update with @param data
   	     * @use 						cartService,authManagerService
   	     */
-  	    $scope.cartUpdate = function(sessionId, data ) {		
+  	    $scope.cartUpdate = function(endpoint, data ) {		
   	    	cartService.cartUpdate(endpoint,$rootScope.sessionId,data ).then( function( response ) {
   	       		/** do stuff with response **/
               })
@@ -317,7 +317,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @return 					all brand by @param brandId
   	     * @use 					cartService,authManagerService
   	     */
-  	    $scope.deleteItem = function(sessionId,data) {		
+  	    $scope.deleteItem = function(endpoint,data) {		
   	    	cartService.deleteItem(endpoint,$rootScope.sessionId,data).then( function( response ) {
   	       		/** do stuff with response **/
               })
@@ -330,7 +330,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @return 					
   	     * @use 					cartService,authManagerService
   	     */
-  	    $scope.addBillingAddress = function(sessionId,data) {		
+  	    $scope.addBillingAddress = function(endpoint,data) {		
   	    	cartService.addBillingAddress(endpoint,$rootScope.sessionId,data).then( function( response ) {
   	       		/** do stuff with response **/
               })
@@ -342,7 +342,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	     * @return 					
   	     * @use 					cartService,authManagerService
   	     */
-  	    $scope.addShippingAddress = function(sessionId,data) {		
+  	    $scope.addShippingAddress = function(endpoint,data) {		
   	    	cartService.addShippingAddress(endpoint,sessionId,data).then( function( response ) {
   	       		/** do stuff with response **/
               })
@@ -351,9 +351,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
 }])
 
 /** productController **/
-.controller("productController",['$scope','$cookies','authManagerService','productService','$timeout', 
+.controller("productController",['$scope','$cookies','$rootScope','authManagerService','productService','$timeout', 
                                   
-	      function($scope,$cookies,authManagerService,productService,$timeout) {	
+	      function($scope,$cookies,$rootScope,authManagerService,productService,$timeout) {	
 	   	
 	  	    var endpoint    = 'http://localhost:8080/jax-rs/productService'
 	  	    	
@@ -371,8 +371,8 @@ var app = angular.module("serpicsController", ['ngCookies'])
 	  	     * @return 					product with new brand and new category equal @param brandId, @param categoryId
 	  	     * @use 					productService,authManagerService
 	  	     */
-	  		$scope.insert = function( sessionId,categoryId,brandId,data ) {	
-	 			productService.insert(endpoint, sessionId,categoryId,brandId,data).then( function( response ) {
+	  		$scope.insert = function( endpoint,categoryId,brandId,data ) {	
+	 			productService.insert(endpoint, $rootScope.sessionId,categoryId,brandId,data).then( function( response ) {
 	 	       		/** do stuff with response **/
 	             })
 	  	    };
@@ -385,7 +385,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
 	  	     * @return 						product with new category equal @param categoryId
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.insertCategory = function(sessionId, categoryId , data) {		
+	  	    $scope.insertCategory = function(endpoint, categoryId , data) {		
 	  	    	productService.insertCategory(endpoint,sessionId, categoryId , data).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
@@ -399,8 +399,8 @@ var app = angular.module("serpicsController", ['ngCookies'])
 	  	     * @return 						product with new brand equal @param brandId 
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.insertBrand = function(sessionId, brandId,data) {		
-	  	    	productService.insertBrand(endpoint,sessionId, brandId,data).then( function( response ) {
+	  	    $scope.insertBrand = function(endpoint, brandId,data) {		
+	  	    	productService.insertBrand(endpoint,$rootScope.sessionId, brandId,data).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	  
@@ -412,7 +412,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
 	  	     * @return 						product update with data equal @param data 
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.update = function(sessionId, data) {		
+	  	    $scope.update = function(endpoint, data) {		
 	  	    	productService.update(endpoint,sessionId,data).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
@@ -426,7 +426,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
 	  	     * @use 						productService,authManagerService
 	  	     */
 	  	    $scope.getProduct = function(sessionId, productId) {		
-	  	    	productService.getProduct(endpoint,sessionId, productId).then( function( response ) {
+	  	    	productService.getProduct(endpoint,$rootScope.sessionId, productId).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	  
@@ -438,8 +438,8 @@ var app = angular.module("serpicsController", ['ngCookies'])
 	  	     * @return 						delete product
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.deleteProduct = function(sessionId, productId) {		
-	  	    	productService.deleteProduct(endpoint,sessionId, productId).then( function( response ) {
+	  	    $scope.deleteProduct = function(endpoint, productId) {		
+	  	    	productService.deleteProduct(endpoint,$rootScope.sessionId, productId).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	  
@@ -449,11 +449,10 @@ var app = angular.module("serpicsController", ['ngCookies'])
 	  	     * @param sessionId 			a sessionId
 	  	     * @param categoryId 			id of category 
 	  	     * @return 						product with category equal @param categoryId
-	  	     * @use 						productService,authManagerSer  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'  	    	
-vice
+	  	     * @use 						productService,authManagerSer    
 	  	     */
-	  	    $scope.getCategory = function(sessionId, categoryId) {		
-	  	    	productService.getCategory(sessionId, categoryId).then( function( response ) {
+	  	    $scope.getCategory = function(endpoint, categoryId) {		
+	  	    	productService.getCategory($rootScope.sessionId, categoryId).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	  
@@ -466,8 +465,8 @@ vice
 	  	     * @return 						new brand for product with productId equal @param productId 
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.addBrand = function(sessionId, productId,brandId) {		
-	  	    	productService.addBrand(endpoint,sessionId, productId,brandId).then( function( response ) {
+	  	    $scope.addBrand = function(endpoint, productId,brandId) {		
+	  	    	productService.addBrand(endpoint,$rootScope.sessionId, productId,brandId).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	  
@@ -480,8 +479,8 @@ vice
 	  	     * @return 						new category for product with productId equal @param productId 
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.addCategory = function(sessionId, productId,categoryId) {		
-	  	    	productService.addCategory(endpoint,sessionId, productId,categoryId).then( function( response ) {
+	  	    $scope.addCategory = function(endpoint, productId,categoryId) {		
+	  	    	productService.addCategory(endpoint,$rootScope.sessionId, productId,categoryId).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	  
@@ -494,8 +493,8 @@ vice
 	  	     * @return 						product with price equal @param data
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.addPrice = function(sessionId, productId, data) {		
-	  	    	productService.addPrice(endpoint,sessionId, productId, data).then( function( response ) {
+	  	    $scope.addPrice = function(endpoint, productId, data) {		
+	  	    	productService.addPrice(endpoint,$rootScope.sessionId, productId, data).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	  
@@ -507,8 +506,8 @@ vice
 	  	     * @return 						product name equal @param productName
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.getProductByName = function(sessionId, productName) {		
-	  	    	productService.getProductByName(endpoint,sessionId, productName).then( function( response ) {
+	  	    $scope.getProductByName = function(endpoint, productName) {		
+	  	    	productService.getProductByName(endpoint,$rootScope.sessionId, productName).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	  
@@ -520,8 +519,8 @@ vice
 	  	     * @return 						product with category equal @param categoryId
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.findByCategory = function(sessionId, categoryId) {		
-	  	    	productService.findByCategory(endpoint,sessionId, categoryId).then( function( response ) {
+	  	    $scope.findByCategory = function(endpoint, categoryId) {		
+	  	    	productService.findByCategory(endpoint,$rootScope.sessionId, categoryId).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	
@@ -533,8 +532,8 @@ vice
 	  	     * @return 						product with brand equal @param brandId
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.findByBrand = function(sessionId, brandId) {		
-	  	    	productService.findByBrand(endpoint,sessionId, brandId).then( function( response ) {
+	  	    $scope.findByBrand = function(endpoint, brandId) {		
+	  	    	productService.findByBrand(endpoint,$rootScope.sessionId, brandId).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	
@@ -545,8 +544,8 @@ vice
 	  	     * @return 						all product
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    $scope.findAll = function(sessionId) {		
-	  	    	productService.findAll(endpoint,sessionId).then( function( response ) {
+	  	    $scope.findAll = function(endpoint) {		
+	  	    	productService.findAll(endpoint,$rootScope.sessionId).then( function( response ) {
 	  	       		/** do stuff with response **/
 	              })
 	  	    };  	
@@ -570,8 +569,8 @@ vice
   	     * @return 					current cart from session
   	     * @use 					orderService,authManagerService
   	     */
-  		$scope.getOrders = function(sessionId) {	
-  	    	orderService.getOrders(endpoint,sessionId).then( function( response ) {
+  		$scope.getOrders = function(endpoint) {	
+  	    	orderService.getOrders(endpoint,$rootScope.sessionId).then( function( response ) {
  	       		/** do stuff with response **/
              })
   	    };
@@ -584,8 +583,8 @@ vice
   	     * @return 						a new cart
   	     * @use 						orderService,authManagerService
   	     */
-  	    $scope.addPayment = function(sessionId, order, data) {		
-  	    	orderService.addPayment(endpoint,sessionId,order,data).then( function( response ) {
+  	    $scope.addPayment = function(endpoint, order, data) {		
+  	    	orderService.addPayment(endpoint,$rootScope.sessionId,order,data).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };  	   
@@ -609,8 +608,8 @@ vice
   	     * @return 					current Customer from session
   	     * @use 					customerService,authManagerService
   	     */
-  		$scope.getCurrent = function(sessionId) {	
-  	    	customerService.getCurrent(endpoint,sessionId).then( function( response ) {
+  		$scope.getCurrent = function(endpoint) {	
+  	    	customerService.getCurrent(endpoint,$rootScope.sessionId).then( function( response ) {
  	       		/** do stuff with response **/
              })
   	    };
@@ -622,8 +621,8 @@ vice
   	     * @return 						void
   	     * @use 						customerService,authManagerService
   	     */
-  	    $scope.create = function(sessionId, user) {		
-  	    	customerService.create(endpoint,sessionId,user).then( function( response ) {
+  	    $scope.create = function(endpoint, user) {		
+  	    	customerService.create(endpoint,$rootScope.sessionId,user).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -635,8 +634,8 @@ vice
   	     * @return 						void
   	     * @use 						customerService,authManagerService
   	     */
-  	    $scope.updateCustomer = function(sessionId, user) {		
-  	    	customerService.updateCustomer(endpoint,sessionId,user).then( function( response ) {
+  	    $scope.updateCustomer = function(endpoint, user) {		
+  	    	customerService.updateCustomer(endpoint,$rootScope.sessionId,user).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -649,8 +648,8 @@ vice
   	     * @return 						void
   	     * @use 						customerService,authManagerService
   	     */
-  	    $scope.login = function(sessionId, username, passoword) {		
-  	    	customerService.login(endpoint,sessionId, username, passoword).then( function( response ) {
+  	    $scope.login = function(endpoint, username, passoword) {		
+  	    	customerService.login(endpoint,$rootScope.sessionId, username, passoword).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -662,8 +661,8 @@ vice
   	     * @return 						void
   	     * @use 						customerService,authManagerService
   	     */
-  	    $scope.updateContactAddress = function(sessionId, address) {		
-  	    	customerService.updateContactAddress(endpoint,sessionId, address).then( function( response ) {
+  	    $scope.updateContactAddress = function(endpoint, address) {		
+  	    	customerService.updateContactAddress(endpoint,$rootScope.sessionId, address).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -675,8 +674,8 @@ vice
   	     * @return 						void
   	     * @use 						customerService,authManagerService
   	     */
-  	    $scope.updateBillingAddress = function(sessionId, address) {		
-  	    	customerService.updateBillingAddress(endpoint,sessionId, address).then( function( response ) {
+  	    $scope.updateBillingAddress = function(endpoint, address) {		
+  	    	customerService.updateBillingAddress(endpoint,$rootScope.sessionId, address).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -688,8 +687,8 @@ vice
   	     * @return 						void
   	     * @use 						customerService,authManagerService
   	     */
-  	    $scope.updateDestinationAddress = function(sessionId, address) {		
-  	    	customerService.updateDestinationAddress(endpoint,sessionId, address).then( function( response ) {
+  	    $scope.updateDestinationAddress = function(endpoint, address) {		
+  	    	customerService.updateDestinationAddress(endpoint,$rootScope.sessionId, address).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -701,8 +700,8 @@ vice
   	     * @return 						void
   	     * @use 						customerService,authManagerService
   	     */
-  	    $scope.addDestinationAddress = function(sessionId, address) {		
-  	    	customerService.addDestinationAddress(endpoint,sessionId, address).then( function( response ) {
+  	    $scope.addDestinationAddress = function(endpoint, address) {		
+  	    	customerService.addDestinationAddress(endpoint,$rootScope.sessionId, address).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
@@ -714,8 +713,8 @@ vice
   	     * @return 						void
   	     * @use 						customerService,authManagerService
   	     */
-  	    $scope.deleteDestinationAddress = function(sessionId, addressuid) {		
-  	    	customerService.deleteDestinationAddress(endpoint,sessionId, addressuid).then( function( response ) {
+  	    $scope.deleteDestinationAddress = function(endpoint, addressid) {		
+  	    	customerService.deleteDestinationAddress(endpoint,$rootScope.sessionId, addressid).then( function( response ) {
   	       		/** do stuff with response **/
               })
   	    };
