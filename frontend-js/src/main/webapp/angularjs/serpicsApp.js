@@ -34,7 +34,7 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
 			$scope.breadcrumbs 	= function(){
 				return "Home"
 			}
-			
+				
 			
 			
 	  	 /** 
