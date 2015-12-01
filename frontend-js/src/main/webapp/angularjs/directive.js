@@ -13,7 +13,6 @@
 			replace: true,
 			restrict : 'EA',
 			template : loader,
-			controller : 'serpicsController'
 		};
 	};
 
@@ -24,7 +23,6 @@
 		return {
 			restrict : 'EA',
 			templateUrl : 'html/template/top-header.html',
-			controller : 'serpicsController'
 		};
 	};
 
@@ -33,7 +31,6 @@
 		return {
 			restrict : 'EA',
 			templateUrl : 'html/template/middle-header.html',
-			controller : 'serpicsController'
 		};
 	};
 
@@ -42,10 +39,10 @@
 		return {
 			restrict : 'EA',
 			templateUrl : 'html/template/bottom-header.html',
-			controller : 'serpicsController'
 		};
 	};
 
+	
 	/**
 	 * 
 	 */
@@ -53,38 +50,35 @@
 		return {
 			restrict : 'EA',
 			templateUrl : 'html/template/slide.html',
-			controller : 'serpicsController'
 		};
 	};
 
-	
 	/**
 	 * 
 	 */
 	var breadCrumbsDirective = function() {
 		var breadcrumbs = "<div class='container'><div class='row'><ul class='breadcrumb'>"+
-        				  "<li><a href='#'>{{breadcrumbs()}}</a></li><li><a href='#'></a></li></ul></div></div>"	
+        				  "<li><a href='#'>{{breadcrumbs}}</a></li><li><a href='#'></a></li></ul></div></div>"	
 			
 			return {		
 			replace: true,
 			restrict : 'EA',
 			template : breadcrumbs,
-			controller : 'serpicsController'
 		};
 	};
 	
-
 	/**
 	 * 
 	 */
 	var leftSidebarDirective = function() {
 		return {
-			restrict : 'EA',
-			templateUrl : "html/template/left-sidebar.html",			
-			controller : 'serpicsController'
+			restrict 	: 'EA',
+			templateUrl : "html/template/left-sidebar.html",
+			controller	:'categoryController'
 		};
 	};
 
+		
 	/**
 	 * 
 	 */
@@ -101,8 +95,9 @@
 	 */
 	var brandDirective = function() {
 		return {
-			restrict : 'EA',
-			templateUrl : 'html/brand.html'
+			restrict 	: 'EA',
+			templateUrl : 'html/template/brand-menu.html',
+			controller 	: 'brandController'
 
 		};
 	}
@@ -114,7 +109,6 @@
 		return {
 			restrict : 'EA',
 			templateUrl : "html/template/product-home.html",			
-			controller : 'serpicsController'
 		}
 	}
 
@@ -124,8 +118,7 @@
 	var cartDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : 'html/brand.html'
-
+			templateUrl : 'html/template/.html'
 		};
 	};
 
@@ -135,7 +128,7 @@
 	var orderDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : 'html/brand.html'
+			templateUrl : 'html/template/.html'
 
 		};
 	};
@@ -146,7 +139,7 @@
 	var loginDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : 'html/brand.html'
+			templateUrl : 'html/template/.html'
 
 		};
 	};
@@ -158,7 +151,6 @@
 		return {
 			restrict : 'EA',
 			templateUrl : 'html/template/recommended.html',
-			controller : 'serpicsController'
 		};
 	};
 	
@@ -168,8 +160,7 @@
 	var registerDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : 'html/brand.html'
-
+			templateUrl : 'html/template/.html'
 		};
 	};
 
@@ -180,7 +171,6 @@
 		return {
 			restrict : 'EA',
 			templateUrl : 'html/template/footer.html',			
-			controller : 'serpicsController'
 		};
 	};
 
@@ -192,6 +182,7 @@
 	.directive('bottomHeaderDirective',	bottomHeaderDirective)
 	.directive('slideDirective', 		slideDirective)
 	.directive('breadCrumbsDirective', 	breadCrumbsDirective)	
+	.directive('brandDirective', 		brandDirective)
 	.directive('leftSidebarDirective', 	leftSidebarDirective)
 	.directive('featuresDirective', 	featuresDirective)
 	.directive('productDirective', 		productDirective)
@@ -200,6 +191,7 @@
 	.directive('loginDirective', 		loginDirective)
 	.directive('registerDirective', 	registerDirective)
 	.directive('recommendedDirective', 	recommendedDirective)
-	.directive('footerDirective', 		footerDirective)
+	.directive('footerDirective', 		footerDirective)	
+	
 	
 }());

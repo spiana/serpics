@@ -1,13 +1,15 @@
 var app = angular.module("serpicsRestAPP", ['serpicsService','serpicsController','serpicsDirective'])
 
-app.controller("serpicsController",['$scope','$rootScope','$cookies','authManagerService','$timeout', 
+app.controller("serpicsController",['$scope','$rootScope','$cookies','authManagerService','$timeout','categoryService',
                                      
-     function($scope,$rootScope,$cookies,authManagerService,$timeout) {	
+     function($scope,$rootScope,$cookies,authManagerService,$timeout,categoryService) {	
   	
-			$scope.endpoint   	= 'http://localhost:8080/jax-rs/auth/connect/default-store'    
+			$scope.endpoint   	= 'http://localhost:8080/jax-rs/auth/connect/default-store' 
 			$scope.title 		= "Serpics Platform Ecommerce";
 			$scope.loadingText 	= "Serpics"     
-	  	
+			$scope.breadcrumbs 	= "Home"
+			$scope.sessionId 	= ''
+			$scope 				= $rootScope
 	    /**
          * function to create the sessiion id , opening appliazione
          * session id is created and added to a hidden field , if we
@@ -15,35 +17,17 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
          * and if there is regenerated. The hidden field is automatically
          * updated through bind with the directive ng-model
          */ 
-	  	$rootScope.createSessionId = function(){
+			$scope.createSessionId = function(){
             if($cookies.get('ssid')){
-            	$rootScope.sessionId = $cookies.get('ssid')  
-                 console.log('read session id from cookie not connect executed')
+            	$scope.sessionId = $cookies.get('ssid')  
+                 console.log('Serpics Controller: read session id from cookie ->' + $scope.sessionId)
             }else {
                 authManagerService.getSessionId($scope.endpoint).then(
                     function( response ) {                      
-                    	$rootScope.sessionId = response   
-                        console.log('create a new session id from SerpicsCtrl connect executed')                        
+                    	$scope.sessionId = response   
+                        console.log('Serpics Controller: create a new session -> ' + $scope.sessionId)                        
                 })
             }          
-        }       
-
-			/**
-			 * thi is an example for breadc rums directive, it will be replace from a breadcrumbs service
-			 */
-			$scope.breadcrumbs 	= function(){
-				return "Home"
-			}
-				
+        }   			
 			
-			
-	  	 /** 
-	  	  * function to monitor the session id , is generated when 
-	  	  * a new session id , the variable of the model page will 
-	  	  * call this function that will only log the new session id
-	  	  */ 
-	  	
-	  	/** create session id on view content load **/
-	  	$timeout($rootScope.createSessionId)
-       
-}])
+ }])

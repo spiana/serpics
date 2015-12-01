@@ -2,13 +2,13 @@ var app = angular.module("serpicsController", ['ngCookies'])
 
 
 /** categoryController **/
-.controller("categoryController",['$scope','$rootScope','$cookies','authManagerService','categoryService','$timeout', 
+.controller("categoryController",['$scope','$rootScope','$q','$cookies','authManagerService','categoryService','$timeout', 
                                      
-         function($scope,$rootScope,$cookies,authManagerService,categoryService,$timeout) {	
+         function($scope,$rootScope,$q,$cookies,authManagerService,categoryService,$timeout) {	
       	
-			var endpoint    	= 'http://localhost:8080/jax-rs/categoryService/'    
-
-			$rootScope.category 	= []	 
+			var endpoint    		= 'http://localhost:8080/jax-rs/categoryService/'    
+			var deferred 			= $q.defer();
+		 	$scope.categoryData 	= []
 	 		
 			
 			 /** implemented category service **/ 
@@ -19,11 +19,12 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @use 					categoryService,authManagerService
      	     */
      		$scope.getTop = function() {	
-                 	categoryService.getTop(endpoint,$rootScope.sessionId).then( function( response ) {
-                 	$rootScope.category 	= response                  	
+				$scope.createSessionId()
+					console.log("Category Controller: session id for top method:-> " + $scope.sessionId)
+                 	categoryService.getTop(endpoint,$scope.sessionId).then( function( response ) {
+                 	$scope.categoryData 	= response                  	
                  })
-     	    };
-     	    	         	   
+     	    };     	    	         	   
      	    
      	    /**
      	     * @param endpoint 		    web service rest endpoint
@@ -133,9 +134,9 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						all category child
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getChild = function(endpoint,parentId) {
-     	    	$rootScope.createSessionId()
-     	       	categoryService.getChild(endpoint,$rootScope.sessionId,parentId).then( function( response ) {
+     	    $scope.getChild = function(parentId) {
+     	    	$rootScope.createSessionId()     	    	
+     	       	categoryService.getChild(endpoint,$rootScope.sessionId,x).then( function( response ) {
      	       		/** do stuff with response **/
                  })
      	    };
@@ -150,10 +151,17 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	       	categoryService.findAll(endpoint,$rootScope.sessionId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
-     	    };     	         
-     	    
-     	    /** execute function on view content load **/
-     	   	$timeout($scope.getTop)
+     	    };     	           
+  	   
+     	   /** Simulate network latency with deferred resolution. **/
+            $timeout(
+                function() {
+                    deferred.resolve( data );
+                },
+                ( 2 * 1000 )
+            );
+            return( deferred.promise );
+        
 
  }])
 
@@ -164,7 +172,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
   	
 		var endpoint    	= 'http://localhost:8080/jax-rs/brandService/'    
  	    	
- 	    $rootScope.brand 	= []
+ 	    $scope.brandData 	= []
  	  
  	    /** implemented brand service **/  	    
 		
@@ -174,10 +182,10 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @return 						new brand
  	     * @use 						brandService,authManagerService
  	     */
- 		$scope.getBrand = function(endpoint,data ) {	
-			$rootScope.createSessionId()
- 	    	brandService.getBrand(endpoint,$rootScope.sessionId).then( function( response ) {
- 	    		$rootScope.brand = response.content
+ 		$scope.getBrand = function(data) {	
+			$scope.createSessionId()
+ 	    	brandService.getBrand(endpoint,$scope.sessionId).then( function( response ) {
+ 	    		$scope.brandData = response.content
  	    		})
  	    };
 		
@@ -257,7 +265,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	    };
  	    
  	   /** execute function on view content load **/
- 	   //	$timeout($scope.getBrand)
+ 	     $timeout($scope.getBrand)
  }])
  
  /** cartController **/
