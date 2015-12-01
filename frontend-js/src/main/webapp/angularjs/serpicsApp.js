@@ -4,11 +4,9 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
                                      
      function($scope,$rootScope,$cookies,authManagerService,$timeout) {	
   	
-	      endpoint   		 = 'http://localhost:8080/jax-rs/auth/connect/default-store'    
-	  	  $scope.title 		 = "Serpics Platform Ecommerce";
-	  	  $scope.loadingText = "Serpics";
-
-	     
+			$scope.endpoint   	= 'http://localhost:8080/jax-rs/auth/connect/default-store'    
+			$scope.title 		= "Serpics Platform Ecommerce";
+			$scope.loadingText 	= "Serpics"     
 	  	
 	    /**
          * function to create the sessiion id , opening appliazione
@@ -22,7 +20,7 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
             	$rootScope.sessionId = $cookies.get('ssid')  
                  console.log('read session id from cookie not connect executed')
             }else {
-                authManagerService.getSessionId(endpoint).then(
+                authManagerService.getSessionId($scope.endpoint).then(
                     function( response ) {                      
                     	$rootScope.sessionId = response   
                         console.log('create a new session id from SerpicsCtrl connect executed')                        
@@ -30,6 +28,15 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
             }          
         }       
 
+			/**
+			 * thi is an example for breadc rums directive, it will be replace from a breadcrumbs service
+			 */
+			$scope.breadcrumbs 	= function(){
+				return "Home"
+			}
+			
+			
+			
 	  	 /** 
 	  	  * function to monitor the session id , is generated when 
 	  	  * a new session id , the variable of the model page will 
@@ -40,5 +47,3 @@ app.controller("serpicsController",['$scope','$rootScope','$cookies','authManage
 	  	$timeout($rootScope.createSessionId)
        
 }])
-
-
