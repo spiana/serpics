@@ -8,9 +8,12 @@ var app = angular.module("serpicsController", ['ngCookies'])
       	
 			var endpoint    		= 'http://localhost:8080/jax-rs/categoryService/'    
 			var deferred 			= $q.defer();
-		 	$scope.categoryData 	= []
+		 	$scope.categoryData 	= [];
+		 	
 	 		
-			
+//			getTop();
+		 	getTopQ();
+
 			 /** implemented category service **/ 
 			
      	    /**
@@ -18,14 +21,21 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 					all category pather
      	     * @use 					categoryService,authManagerService
      	     */
-     		$scope.getTop = function() {	
-				$scope.createSessionId()
-					console.log("Category Controller: session id for top method:-> " + $scope.sessionId)
-                 	categoryService.getTop(endpoint,$scope.sessionId).then( function( response ) {
-                 	$scope.categoryData 	= response                  	
+		 	 function getTop(){	
+					console.log("Category Controller: session id for top method:-> ");
+
+                 	categoryService.getTop(endpoint).then( function( response ) {
+                 	$scope.categoryData 	= response.data;                  	
                  })
      	    };     	    	         	   
      	    
+     	   function getTopQ(){
+     		  console.log("topQ");
+     		   categoryService.getTopQ(endpoint).then(function(response){
+     			  console.log("topQ ramo then");
+     		   $scope.categoryData = response;
+     	   })
+     	   };
      	    /**
      	     * @param endpoint 		    web service rest endpoint
      	     * @param sessionId 		a sessionId
@@ -115,7 +125,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	    /**
      	     * @param endpoint 		    	web service rest endpoint
      	     * @param sessionId 			a sessionId
-     	     * @param code					code 
+     	     * @param code					code category
      	     * @param categoryId 			category id to retrieve
      	     * @return 						a category by code
      	     * @use 						categoryService,authManagerService
@@ -153,27 +163,27 @@ var app = angular.module("serpicsController", ['ngCookies'])
                  })
      	    };     	           
   	   
-     	   /** Simulate network latency with deferred resolution. **/
-            $timeout(
-                function() {
-                    deferred.resolve( data );
-                },
-                ( 2 * 1000 )
-            );
-            return( deferred.promise );
-        
+//     	   /** Simulate network latency with deferred resolution. **/
+//            $timeout(
+//                function() {
+//                    deferred.resolve( data );
+//                },
+//                ( 2 * 1000 )
+//            );
+//            return( deferred.promise );
+
 
  }])
 
  /** brandController **/
-.controller("brandController",['$scope','$rootScope','$cookies','authManagerService','brandService','$timeout', 
+.controller("brandController",['$scope','brandService','$timeout',
                                      
-     function($scope,$rootScope,$cookies,authManagerService,brandService,$timeout) {	
+     function($scope,brandService,$timeout) {	
   	
-		var endpoint    	= 'http://localhost:8080/jax-rs/brandService/'    
- 	    	
+		
  	    $scope.brandData 	= []
  	  
+	 	getBrandQ();
  	    /** implemented brand service **/  	    
 		
 		/**
@@ -183,11 +193,20 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	     * @use 						brandService,authManagerService
  	     */
  		$scope.getBrand = function(data) {	
-			$scope.createSessionId()
+			
+			console.log("Brand Controller: session id for top method:-> " + $scope.sessionId)
  	    	brandService.getBrand(endpoint,$scope.sessionId).then( function( response ) {
  	    		$scope.brandData = response.content
  	    		})
  	    };
+ 	    
+  	   function getBrandQ(){
+  		  console.log("Controller BrandQ");
+  		  brandService.getBrandQ().then(function(response){
+  			  console.log("BrandQ ramo then");
+  			  $scope.brandData = response;
+  			  })
+  			  };
 		
  	    /**
  	     * @param endpoint 		   		web service rest endpoint
@@ -265,7 +284,7 @@ var app = angular.module("serpicsController", ['ngCookies'])
  	    };
  	    
  	   /** execute function on view content load **/
- 	     $timeout($scope.getBrand)
+// 	     $timeout($scope.getBrand)
  }])
  
  /** cartController **/

@@ -1,23 +1,66 @@
-var app = angular.module("serpicsService", ['ngCookies'])
+var app = angular.module("serpics.Services", ['ngCookies','serpics.config'])
 
-app.service("authManagerService", function( $http, $q ,$cookies) {
+app.service("authManagerService", function( $http, $q ,$cookies,URL) {
  
+	var promiseSession = null;
+    var endpoint   	= '/jax-rs/auth/connect/default-store' 
+    	
         /** Return public API. (interface public service) **/
       	var service =   ({
         	getSessionId: getSessionId
         });                
         return service
         
-       	
-        /** public methods**/
+        
+        
+        function getSessionId(){
+        	
+        	var sessionCookie=getcookie();
+    	    if(sessionCookie===null){
+    	    	console.log('ssid non presente nel cookie');
+    	    	console.log("sessioid "+this.idendpoint+this.promiseSession);
+    	    	console.log("sessioid test "+(promiseSession==null));
+    	    	
+    	    	if(promiseSession===null){
+    	    		console.log("sessioid prima della chiamata "+promiseSession);
+    	    		promiseSession = getCallSessionId();
+    	    		console.log("sessioid dopo chiamata getcallsessionid "+promiseSession);
+    	    		return promiseSession;
+    	    	}else{
+    	    		console.log('ssid gia richiesto al server');
+    	    		return promiseSession;
+    	    	}
+    	    }else{
+    	    	console.log('ssid presente nel cookie'+sessionCookie);
+    	    	var defer = $q.defer();
+    	    	defer.resolve(sessionCookie);
+    	    	return defer.promise;
+    	    }
+        }
+        
+       
+        
+
+	        function getcookie() {
+	        	var sessionId = null;
+	        	if ($cookies.get('ssid')) {
+	        		sessionId = $cookies.get('ssid');
+	        		console.log('Serpics Controller: read session id from cookie ->'+ sessionId);
+	        		}
+	        	return sessionId;
+	        	}
+        
+        
+        
+        /** public methods* */
         /**
          * @param endpoint               
          * @return session id 
          */ 
-        function getSessionId(endpoint) {
+        function getCallSessionId() {
         	 var request = $http({
                  method: 'GET',
-                 url: endpoint                                     
+                 url: URL + endpoint                                     
                });
         	 return( request.then( handleSuccess, handleError ) );
         }                
@@ -63,7 +106,8 @@ app.service("authManagerService", function( $http, $q ,$cookies) {
          *from the API response payload.                
          */
         function handleSuccess( response ) {
-        	setCookie('ssid',response.data,30)  /** expire 30 minut **/             	
+        	setCookie('ssid',response.data,30)  /** expire 30 minut **/    
+        	promiseSession = null;
         	return response.data;
             }
         })
@@ -72,7 +116,7 @@ app.service("authManagerService", function( $http, $q ,$cookies) {
 /**
  * category service to handler rest call to category service
  */
- app.service("categoryService", function( $http, $q) {
+ app.service("categoryService", function( $http, $q,authManagerService) {
  
 	    /** Return public API. (like java interface)**/
 	    var service = ({
@@ -84,6 +128,7 @@ app.service("authManagerService", function( $http, $q ,$cookies) {
 	        getCategoryById	  	: getCategoryById,
 	        getCategoryByCode 	: getCategoryByCode,
 	        getTop			  	: getTop,
+	        getTopQ			  	: getTopQ,
 	        getChild		  	: getChild,
 	        findAll			  	: findAll
 	    });                
@@ -96,16 +141,23 @@ app.service("authManagerService", function( $http, $q ,$cookies) {
 	     * @param sessionId
 	     * @param data
 	     */
-	    function create(endpoint,sessionId, data ) {
-	        var request = $http({
-	            method: 'POST',
-	            url: endpoint + 'create',
-	            headers: {
-	            	'ssid': sessionId
-	            },   
-	            data: data
-	          });
-	        return( request.then( handleSuccess, handleError ) );
+	    function create(data ) {
+	    	var defer = $q.defer;
+	    	authManagerService.getSessionId().then(function(idSessione){
+	    		
+	    		var request = $http({
+		            method: 'POST',
+		            url: endpoint + 'create',
+		            headers: {
+		            	'ssid': sessionId
+		            },   
+		            data: data
+		          }).then(function(response){
+		        	  defer.resolve(reponse.data);
+		          });
+	    	});
+	    	
+	    	return defer.promise;
 	    }
 	    
 	    /**
@@ -187,17 +239,66 @@ app.service("authManagerService", function( $http, $q ,$cookies) {
 	     * @param sessionId                
 	     * @return 
 	     */     
-	    function getTop(endpoint,sessionId) {
-	    	 var request = $http({
-	             method: 'GET',
-	             url: 	endpoint +  'top',
-	             headers: {
-	             	'ssid': sessionId
-	             }                            
-	           });
-	        return( request.then( handleSuccess, handleError ) );
+	    function getTop(endpoint) {
+	    	var defer = $q.defer();
+	    	var response = authManagerService.getSessionId();
+	    	response.then(function(idSessione){
+	    		
+	    		var request = $http({
+		             method: 'GET',
+		             url: 	endpoint +  'top',
+		             headers: {
+		             	'ssid': idSessione
+		            }
+		          }).then(function(response){
+		        	  defer.resolve(response.data);
+		          });
+	    	});
+	    	
+	    	return defer.promise;
 	    }
 	    
+	    
+	    /**
+	     * @param endpoint
+	     * @param sessionId                
+	     * @return 
+	     */     
+	    function getTopQ(endpoint) {
+	    	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("session Id nel promise"+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: 	endpoint +  'top',
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    			
+	    		});
+    		
+	    	});
+	    }
+//	    	var defer = $q.defer;
+//	    	authManagerService.getSessionId().then(function(idSessione){
+//	    		
+//	    		var request = $http({
+//		             method: 'GET',
+//		             url: 	endpoint +  'top',
+//		             headers: {
+//		             	'ssid': sessionId
+//		            }
+//		          }).then(function(response){
+//		        	  defer.resolve(reponse.data);
+//		          });
+//	    	});
+//	    	
+//	    	return defer.promise;
+//	    }
+	    		    
 	    /**
 	     * @param endpoint
 	     * @param sessionId
@@ -300,11 +401,13 @@ app.service("authManagerService", function( $http, $q ,$cookies) {
 /**
  * brand service to handler rest call to brand service
  */
-app.service("brandService", function( $http, $q ) {
+app.service("brandService", function( $http, $q, authManagerService,URL ) {
 	 
         /** Return public API. (like java interface)**/
+	var endpoint = '/jax-rs/brandService/';
         var service =({
         	getBrand		: getBrand,
+        	getBrandQ		: getBrandQ,
         	addBrand		: addBrand,
         	updateBrand		: updateBrand,
         	deleteBrand		: deleteBrand,
@@ -332,6 +435,30 @@ app.service("brandService", function( $http, $q ) {
               });
             return( request.then( handleSuccess, handleError ) );
         }
+        
+	    /**
+	     * @param endpoint
+	     * @param sessionId                
+	     * @return 
+	     */     
+	    function getBrandQ() {
+	    	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("getbrandQService session Id nel promise"+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: 	URL+ endpoint,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    			
+	    		});
+    		
+	    	});
+	    }
         
         /**
          * @param endpoint
