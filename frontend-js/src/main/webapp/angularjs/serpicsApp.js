@@ -1,4 +1,4 @@
-var app = angular.module("serpicsRestAPP", ['serpics.Services','serpicsController','serpicsDirective'])
+var app = angular.module("serpicsRestAPP", ['serpicsService','serpicsController','serpicsDirective','serpics.config'])
 
 app.controller("serpicsController",['$scope','$rootScope','$cookies','authManagerService','$timeout','categoryService',
                                      
