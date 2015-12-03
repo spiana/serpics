@@ -1,11 +1,13 @@
- var app = angular.module("brand.Service", ['ngCookies','serpics.config'])
+ var app = angular.module("brand.Service", ['serpics.config'])
 /**
  * brand service to handler rest call to brand service
  */
 app.service("brandService", function( $http, $q, authManagerService,URL ) {
+	
+	var endpoint = '/jax-rs/brandService/';
 	 
         /** Return public API. (like java interface)**/
-	var endpoint = '/jax-rs/brandService/';
+	    
         var service =({
         	getBrand		: getBrand,
         	getBrandQ		: getBrandQ,

@@ -175,7 +175,7 @@
 	};
 
 	
-	var app = angular.module('serpicsDirective', [])
+	var app = angular.module('serpics.directive', [])
 	.directive('loaderDirective', 		loaderDirective)
 	.directive('topHeaderDirective',	topHeaderDirective)
 	.directive('middleHeaderDirective',	middleHeaderDirective)

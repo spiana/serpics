@@ -1,13 +1,15 @@
- var app = angular.module("brand.controller", ['ngCookies','brand.Service'])
+ var app = angular.module("brand.controller", ['brand.Service'])
  /** brandController **/
-.controller("brandController",['$scope','brandService','$timeout',
+.controller("brandController",['$scope','brandService',
                                      
-     function($scope,brandService,$timeout) {	
+     function($scope,brandService) {	
   	
 		
- 	    $scope.brandData 	= []
+ 	    $scope.brandData 	= [];
  	  
 	 	getBrandQ();
+ 	    
+ 	    
  	    /** implemented brand service **/  	    
 		
 		/**
@@ -29,8 +31,8 @@
   		  brandService.getBrandQ().then(function(response){
   			  console.log("BrandQ ramo then");
   			  $scope.brandData = response;
-  			  })
-  			  };
+  		  })
+  	   };
 		
  	    /**
  	     * @param endpoint 		   		web service rest endpoint
@@ -108,5 +110,5 @@
  	    };
  	    
  	   /** execute function on view content load **/
-// 	     $timeout($scope.getBrand)
+
  }])

@@ -25,15 +25,16 @@
                  	categoryService.getTop(endpoint).then( function( response ) {
                  	$scope.categoryData 	= response.data;                  	
                  })
-     	    };     	    	         	   
+     	    };
+     	    function getTopQ(){
+     	    	console.log("topQ");
+     	    	categoryService.getTopQ().then(function(response){
+     	    		console.log("topQ ramo then");
+     	    		$scope.categoryData = response;
+     	    	})
+     	    };
      	    
-     	   function getTopQ(){
-     		  console.log("topQ");
-     		   categoryService.getTopQ().then(function(response){
-     			  console.log("topQ ramo then");
-     		   $scope.categoryData = response;
-     	   })
-     	   };
+     	    
      	    /**
      	     * @param endpoint 		    web service rest endpoint
      	     * @param sessionId 		a sessionId
@@ -142,12 +143,19 @@
      	     * @return 						all category child
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getChild = function(parentId) {
-     	    	$rootScope.createSessionId()     	    	
-     	       	categoryService.getChild(endpoint,$rootScope.sessionId,x).then( function( response ) {
-     	       		/** do stuff with response **/
-                 })
+     	    
+     	    function getChild(parentId){
+     	    	console.log("getChild");
+     	    	categoryService.getChild(parentId).then(function(response){
+     	    		console.log("getChild ramo then");
+     	    		$scope.categoryData = response;
+     	    	})
      	    };
+//     	    $scope.getChild = function(parentId) {
+//     	       	categoryService.getChild(endpoint,$rootScope.sessionId,x).then( function( response ) {
+//     	       		/** do stuff with response **/
+//                 })
+//     	    };
      	    
      	    /**
      	     * @param endpoint 		    	web service rest endpoint
@@ -159,17 +167,6 @@
      	       	categoryService.findAll(endpoint,$rootScope.sessionId).then( function( response ) {
      	       		/** do stuff with response **/
                  })
-     	    };     	           
-  	   
-//     	   /** Simulate network latency with deferred resolution. **/
-//            $timeout(
-//                function() {
-//                    deferred.resolve( data );
-//                },
-//                ( 2 * 1000 )
-//            );
-//            return( deferred.promise );
-
-
+     	    };
  }])
 

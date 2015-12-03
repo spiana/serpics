@@ -228,16 +228,21 @@
 	     * @param parentId                 
 	     * @return 
 	     */      
-	    function getChild(endpoint,sessionId,parentId) {
-	    	 var request = $http({
-	             method: 	'GET',
-	             url: URL + endpoint +  'getChild/' + parentId,
-	             headers: {
-	             	'ssid': sessionId
-	             }                         
-	           });
-	        return( request.then( handleSuccess, handleError ) );
-	    }
+	    function getChild(parentId) {
+	    	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("session Id nel promise"+sessionId) ;
+	    			$http({
+	    				method: 	'GET',
+	    				url: URL + endpoint +   'pageBrand/' + brandId,
+	    				headers: {
+	    					'ssid': sessionId
+	    					}
+	    			}).then(handleSuccess, handleError).then(resolve, reject);
+    			 });
+    		 });
+    	 }
 	    
 	    /**
 	     * @param endpoint
