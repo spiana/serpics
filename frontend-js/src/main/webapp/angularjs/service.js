@@ -18,8 +18,8 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
         	var sessionCookie=getcookie();
     	    if(sessionCookie===null){
     	    	console.log('ssid non presente nel cookie');
-    	    	console.log("sessioid "+this.idendpoint+this.promiseSession);
-    	    	console.log("sessioid test "+(promiseSession==null));
+    	    	console.log("promiseSession: "+this.promiseSession);
+    	    	console.log("promiseSession test: "+(promiseSession==null));
     	    	
     	    	if(promiseSession===null){
     	    		console.log("sessioid prima della chiamata "+promiseSession);
@@ -36,7 +36,7 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
     	    	defer.resolve(sessionCookie);
     	    	return defer.promise;
     	    }
-        }
+        };
         
        
         
@@ -48,7 +48,7 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
 	        		console.log('Serpics Controller: read session id from cookie ->'+ sessionId);
 	        		}
 	        	return sessionId;
-	        	}
+	        	};
         
         
         
@@ -63,7 +63,7 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
                  url: URL + endpoint                                     
                });
         	 return( request.then( handleSuccess, handleError ) );
-        }                
+        };          
     
         /** helper method for cookie life cycle expires**/ 
         /**
@@ -81,7 +81,7 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
     		$cookies.put(nameCookie, cookieValue,{
         		  expires: lifeTime.toGMTString() 
         	});
-        }
+        };
         
         /**
          * private method.
@@ -100,7 +100,7 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
             }
             /** Otherwise, use expected error message.**/
             return( $q.reject( response.data.message ) );
-        }
+        };
         /** 
          * I transform the successful response, unwrapping the application data
          *from the API response payload.                
@@ -110,310 +110,4 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
         	promiseSession = null;
         	return response.data;
             }
-        })
-        
-
-
-
-
-app.service("orderService", function( $http, $q) {
-	 
-	    /** Return public API. (like java interface) **/
-	  	var service =   ({
-	  		getOrders: getOrders,
-	  		addPayment:addPayment
-	    	
-	    });                
-	    return service
-	    
-	    /** public methods**/
-	    
-	    /**
-	     * @param endpoint
-	     * @param sessionId      
-	     * @return 
-	     */
-	    function getOrders(endpoint,sessionId) {
-	    	
-	        var request = $http({
-	            method: 'GET',
-	            url: endpoint +  'getOrders',
-	            headers: {
-	            	'ssid': sessionId
-	            }
-	          });
-	    	
-	        return( request.then( handleSuccess, handleError ) );
-	    }                
-	
-	    /**
-	     * @param endpoint
-	     * @param sessionId    
-	     * @param order 
-	     * @param data   
-	     * @return 
-	     */
-	    function addPayment(endpoint,sessionId,order,data) {
-	    	
-	        var request = $http({
-	            method: 'POST',
-	            url: endpoint +  '/addPayment/'+ order,
-	            headers: {
-	            	'ssid': sessionId
-	            },   
-	            data: data
-	          });
-	    	
-	        return( request.then( handleSuccess, handleError ) );
-	    }           
-	    
-	    
-	    /**
-	     * private method.
-	     * I transform the error response, unwrapping the application dta from
-	     * the API response payload.
-	     */                
-	                          
-	    
-	    function handleError( response ) {
-	        /**
-	         * The API response from the server should be returned in a
-	         * nomralized format. However, if the request was not handled by the
-	         * server (or what not handles properly - ex. server error), then we
-	         * may have to normalize it on our end, as best we can.
-	         */ 
-	        if (! angular.isObject( response.data ) || ! response.data.message ) {
-	            return( $q.reject( "An unknown error occurred." ) );
-	        }
-	        /** Otherwise, use expected error message.**/
-	        return( $q.reject( response.data.message ) );
-	    }
-	    /** 
-	     * I transform the successful response, unwrapping the application data
-	     *from the API response payload.                
-	     */
-	    function handleSuccess( response ) {
-	        return( response.data.responseObject);
-	    }
-});
-
-
-/**
- * CustomerService to handler rest call to customerservice
- */
-app.service("customerService", function( $http, $q) {
-	 
-    /** Return public API. (like java interface) **/
-  	var service =   ({
-  			create:							create,
-  			update: 						update,
-  			getCurrent: 					getCurrent,
-  			updateContactAddress: 			updateContactAddress,
-  			updateBillingAddress:			updateBillingAddress,
-  			updateDestinationAddress: 		updateDestinationAddress,
-  			addDestinationAddress:			addDestinationAddress,
-  			deleteDestinationAddress:		deleteDestinationAddress   	
-    });                
-    return service
-    
-    /** public methods**/
-    
-    /**
-     * @param endpoint
-     * @param sessionId      
-     * @return 
-     */
-    function getCurrent(endpoint,sessionId) {
-    	
-        var request = $http({
-            method: 'GET',
-            url: endpoint,
-            headers: {
-            	'ssid': sessionId
-            }
-          });
-    	
-        return( request.then( handleSuccess, handleError ) );
-    }                
-
-    /**
-     * @param endpoint
-     * @param sessionId    
-     * @param user 
-     * @return 
-     */
-    function create(endpoint,sessionId,user) {
-    	
-        var request = $http({
-            method: 'POST',
-            url: endpoint +  '/register',
-            headers: {
-            	'ssid': sessionId
-            },   
-            user: user
-          });
-    	
-        return( request.then( handleSuccess, handleError ) );
-    }
-    
-    /**
-     * @param endpoint
-     * @param sessionId                
-     * @param user
-     * @return 
-     */
-    function updateCustomer(endpoint,sessionId, user ) {
-        var request = $http({
-            method: 'PUT',
-            url: endpoint,
-            headers: {
-            	'ssid': sessionId
-            },   
-            user: user
-          });
-        return( request.then( handleSuccess, handleError ) );
-    }
-    
-    /**
-     * @param endpoint
-     * @param sessionId
-     * @param username
-     * @param password  
-     * @return 
-     */
-    function login(endpoint,sessionId, username, passoword) {
-    	
-        var request = $http({
-            method: 'GET',
-            url: endpoint +  '/login' + '?username=' + username + '&passoword=' + passoword,
-            headers: {
-            	'ssid': sessionId
-            }
-          });
-    	
-        return( request.then( handleSuccess, handleError ) );
-    }  
-    
-    /**
-     * @param endpoint
-     * @param sessionId                
-     * @param address
-     * @return 
-     */
-    function updateContactAddress(endpoint,sessionId, address ) {
-        var request = $http({
-            method: 'PUT',
-            url: endpoint + '/updateContactAddress',
-            headers: {
-            	'ssid': sessionId
-            },   
-            address: address
-          });
-        return( request.then( handleSuccess, handleError ) );
-    }
-    
-    /**
-     * @param endpoint
-     * @param sessionId                
-     * @param address
-     * @return 
-     */
-    function updateBillingAddress(endpoint,sessionId, address ) {
-        var request = $http({
-            method: 'PUT',
-            url: endpoint + '/updateBillingAddress',
-            headers: {
-            	'ssid': sessionId
-            },   
-            address: address
-          });
-        return( request.then( handleSuccess, handleError ) );
-    }
-    
-    /**
-     * @param endpoint
-     * @param sessionId                
-     * @param address
-     * @return 
-     */
-    function updateDestinationAddress(endpoint,sessionId, address ) {
-        var request = $http({
-            method: 'PUT',
-            url: endpoint + '/updateDestinationAddress',
-            headers: {
-            	'ssid': sessionId
-            },   
-            address: address
-          });
-        return( request.then( handleSuccess, handleError ) );
-    }
-    
-    /**
-     * @param endpoint
-     * @param sessionId
-     * @param user
-     * @return 
-     */
-    function addDestinationAddress(endpoint,sessionId,address) {
-    	
-        var request = $http({
-            method: 'POST',
-            url: endpoint +  '/addDestinationAddress',
-            headers: {
-            	'ssid': sessionId
-            },   
-            address: address
-          });
-    	
-        return( request.then( handleSuccess, handleError ) );
-    }
-    
-    /**
-     * @param endpoint
-     * @param sessionId
-     * @param addressuid
-     * @return 
-     */
-    function deleteDestinationAddress(endpoint,sessionId,addressuid) {
-    	
-        var request = $http({
-            method: 'POST',
-            url: endpoint +  '/deleteDestinationAddress',
-            headers: {
-            	'ssid': sessionId
-            },   
-            addressuid: addressuid
-          });
-    	
-        return( request.then( handleSuccess, handleError ) );
-    }
-    
-    
-    /**
-     * private method.
-     * I transform the error response, unwrapping the application dta from
-     * the API response payload.
-     */                
-                          
-    
-    function handleError( response ) {
-        /**
-         * The API response from the server should be returned in a
-         * nomralized format. However, if the request was not handled by the
-         * server (or what not handles properly - ex. server error), then we
-         * may have to normalize it on our end, as best we can.
-         */ 
-        if (! angular.isObject( response.data ) || ! response.data.message ) {
-            return( $q.reject( "An unknown error occurred." ) );
-        }
-        /** Otherwise, use expected error message.**/
-        return( $q.reject( response.data.message ) );
-    }
-    /** 
-     * I transform the successful response, unwrapping the application data
-     *from the API response payload.                
-     */
-    function handleSuccess( response ) {
-        return( response.data.responseObject);
-    }
-});
+        });

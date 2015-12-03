@@ -1,4 +1,4 @@
- var app = angular.module("brand.controller", ['brand.Service'])
+ var app = angular.module("brand.controller", ['brand.service'])
  /** brandController **/
 .controller("brandController",['$scope','brandService',
                                      

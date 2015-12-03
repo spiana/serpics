@@ -1,4 +1,4 @@
- var app = angular.module("category.Service", ['ngCookies','serpics.config'])
+ var app = angular.module("category.service", ['ngCookies','serpics.config'])
  /**
  * category service to handler rest call to category service
  */

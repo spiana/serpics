@@ -1,12 +1,20 @@
- var app = angular.module("category.controller", ['ngCookies','category.Service'])
+ var app = angular.module("category.controller", ['ngCookies','category.service'])
 
  /** categoryController **/
-.controller("categoryController",['$scope','$rootScope','$q','$cookies','authManagerService','categoryService','$timeout', 
+.controller("categoryController",['$scope','categoryService', 
                                      
-         function($scope,$rootScope,$q,$cookies,authManagerService,categoryService,$timeout) {	
+         function($scope,categoryService) {
       	
-			var deferred 			= $q.defer();
 		 	$scope.categoryData 	= [];
+		 	$scope.subCategory			= [];
+		 	$scope.bool = false;
+		 	//auxiliary var
+		 	var cache = {
+		 			category:[],
+		 			subCategory:[],	
+		 			bool:null,
+		 			data:''
+		 	};
 		 	
 	 		
 //			getTop();
@@ -17,7 +25,7 @@
      	    /**
      	     * @param sessionId 		a sessionId
      	     * @return 					all category pather
-     	     * @use 					categoryService,authManagerService
+     	     * @use 					categoryService,
      	     */
 		 	 function getTop(){	
 					console.log("Category Controller: session id for top method:-> ");
@@ -30,8 +38,14 @@
      	    	console.log("topQ");
      	    	categoryService.getTopQ().then(function(response){
      	    		console.log("topQ ramo then");
-     	    		$scope.categoryData = response;
+     	    		
+     	    		for(var json in response){
+     	    			if(response[json].childCategoryNumber)
+     	    				cache.category.push(response[json])
+     	    				}
+     	    		$scope.categoryData = cache.category;
      	    	})
+     	    		
      	    };
      	    
      	    
@@ -40,7 +54,7 @@
      	     * @param sessionId 		a sessionId
      	     * @param data 				data to send
      	     * @return 					new category
-     	     * @use 					categoryService,authManagerService
+     	     * @use 					categoryService,
      	     */
      	    $scope.create = function(endpoint,data) {
      	       	categoryService.create(endpoint,$rootScope.sessionId, data ).then( function( response ) {
@@ -54,7 +68,7 @@
      	     * @param parentId 				a parent category
      	     * @param data 					data to send
      	     * @return 						add parent to category
-     	     * @use 						categoryService,authManagerService
+     	     * @use 						categoryService,
      	     */
      	    $scope.createParent = function(endpoint,parentId,data) {
      	       	categoryService.createParent(endpoint,$rootScope.sessionId, parentId , data ).then( function( response ) {
@@ -69,7 +83,7 @@
      	     * @param parentId 				a parent id 
      	     * @param data 					data to send
      	     * @return 						add parent to category of id @param childId
-     	     * @use 						categoryService,authManagerService
+     	     * @use 						categoryService,
      	     */
      	    $scope.addParent = function(endpoint, childId,parentId,data) {
      	    	$rootScope.createSessionId()
@@ -83,7 +97,7 @@
      	     * @param sessionId 			a sessionId
      	     * @param data 					data to send
      	     * @return 						a category updated with @data params
-     	     * @use 						categoryService,authManagerService
+     	     * @use 						categoryService,
      	     */
      	    $scope.updateCategory = function(endpoint,data) {
      	    	$rootScope.createSessionId()
@@ -97,7 +111,7 @@
      	     * @param sessionId 			a sessionId
      	     * @param categoryId 			a category id
      	     * @return delete 				a category with id @categoryId
-     	     * @use 						categoryService,authManagerService
+     	     * @use 						categoryService,
      	     */
      	    $scope.deleteCategory = function(endpoint,categoryId) {
      	    	$rootScope.createSessionId()
@@ -112,7 +126,7 @@
      	     * @param sessionId 			a sessionId
      	     * @param categoryId 			category id to be retrive
      	     * @return 						a category by id
-     	     * @use 						categoryService,authManagerService
+     	     * @use 						categoryService,
      	     */
      	    $scope.getCategoryById = function(endpoint,categoryId) {
      	    	$rootScope.createSessionId()
@@ -127,7 +141,7 @@
      	     * @param code					code category
      	     * @param categoryId 			category id to retrieve
      	     * @return 						a category by code
-     	     * @use 						categoryService,authManagerService
+     	     * @use 						categoryService,
      	     */
      	    $scope.getCategoryByCode = function(endpoint,code,categoryId) {
      	    	$rootScope.createSessionId()
@@ -141,7 +155,7 @@
      	     * @param sessionId 			a sessionId
      	     * @param parentId 				a parent id category
      	     * @return 						all category child
-     	     * @use 						categoryService,authManagerService
+     	     * @use 						categoryService,
      	     */
      	    
      	    function getChild(parentId){
@@ -161,7 +175,7 @@
      	     * @param endpoint 		    	web service rest endpoint
      	     * @param sessionId 			a sessionId
      	     * @return 						all category 
-     	     * @use 						categoryService,authManagerService
+     	     * @use 						categoryService,
      	     */
      	    $scope.findAll = function(endpoint) {		
      	       	categoryService.findAll(endpoint,$rootScope.sessionId).then( function( response ) {

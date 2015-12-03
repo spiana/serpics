@@ -1,4 +1,4 @@
- var app = angular.module("brand.Service", ['serpics.config'])
+ var app = angular.module("brand.service", ['serpics.config'])
 /**
  * brand service to handler rest call to brand service
  */
