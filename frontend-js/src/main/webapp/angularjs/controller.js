@@ -9,8 +9,16 @@ var app = angular.module("serpicsController", ['ngCookies'])
 			var endpoint    		= 'http://localhost:8080/jax-rs/categoryService/'    
 			var deferred 			= $q.defer();
 		 	$scope.categoryData 	= [];
+		 	$scope.subCategory		= []
+		 	$scope.bool = false
+		 	//auxiliary var
+		 	var cache = {
+		 			category:[],
+		 			subCategory:[],	
+		 			bool:null,
+		 			data:''
+		 	}
 		 	
-	 		
 //			getTop();
 		 	getTopQ();
 
@@ -23,19 +31,22 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     */
 		 	 function getTop(){	
 					console.log("Category Controller: session id for top method:-> ");
-
-                 	categoryService.getTop(endpoint).then( function( response ) {
-                 	$scope.categoryData 	= response.data;                  	
+                 	categoryService.getTop(endpoint).then( function( response ) {                 	
+                 		$scope.categoryData 	= response.data;                  	
                  })
      	    };     	    	         	   
      	    
      	   function getTopQ(){
      		  console.log("topQ");
      		   categoryService.getTopQ(endpoint).then(function(response){
-     			  console.log("topQ ramo then");
-     		   $scope.categoryData = response;
-     	   })
+     			for(var json in response){
+     				if(response[json].childCategoryNumber)
+     					cache.category.push(response[json])
+     			}
+     		   $scope.categoryData = cache.category;
+     		   })
      	   };
+     	   
      	    /**
      	     * @param endpoint 		    web service rest endpoint
      	     * @param sessionId 		a sessionId
@@ -144,11 +155,11 @@ var app = angular.module("serpicsController", ['ngCookies'])
      	     * @return 						all category child
      	     * @use 						categoryService,authManagerService
      	     */
-     	    $scope.getChild = function(parentId) {
-     	    	$rootScope.createSessionId()     	    	
-     	       	categoryService.getChild(endpoint,$rootScope.sessionId,x).then( function( response ) {
-     	       		/** do stuff with response **/
+     	    $scope.getChild = function(parentId) {     	 
+     	     	       	categoryService.getChild(endpoint,parentId).then( function( response ) {
+	     	        $scope.subCategory = response        
                  })
+     	    	
      	    };
      	    
      	    /**
