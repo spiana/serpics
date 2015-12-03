@@ -72,9 +72,9 @@
 	 */
 	var leftSidebarDirective = function() {
 		return {
-			restrict 	: 'EA',
-			templateUrl : "html/template/left-sidebar.html",
-			controller	:'categoryController'
+			restrict 	:	'EA',
+			templateUrl :	"html/template/left-sidebar.html",
+			controller	:	'categoryController'
 		};
 	};
 
@@ -86,7 +86,7 @@
 		return {
 			restrict : 'EA',
 			templateUrl : "html/template/features.html",			
-			controller : 'serpicsController'
+			controller : 'serpicsAppController'
 		};
 	};
 	
