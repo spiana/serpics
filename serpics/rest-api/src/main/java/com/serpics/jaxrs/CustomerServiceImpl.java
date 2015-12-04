@@ -100,7 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 
 		// Verificare se è necessario restituire il carrello
-		cartStrategy.mergeCart((Member) context.getUserPrincipal(), (Member) context.getCustomer());
+//		cartStrategy.mergeCart((Member) context.getUserPrincipal(), (Member) context.getCustomer());
 		return Response.ok(apiRestResponse).build();
 	}
 
