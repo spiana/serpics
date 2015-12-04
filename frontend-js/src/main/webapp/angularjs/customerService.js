@@ -46,19 +46,25 @@ app.service("customerService", function( $http, $q, authManagerService,URL) {
      * @param user 
      * @return 
      */
-    function create(endpoint,sessionId,user) {
+    function create(user) {
+    	var serviceSSID = authManagerService;
+    	return $q(function(resolve, reject) {
+    		
+    	serviceSSID.getSessionId().then(function(sessionId){
     	
-        var request = $http({
-            method: 'POST',
-            url: URL + endpoint +  '/register',
-            headers: {
-            	'ssid': sessionId
-            },   
-            user: user
-          });
-    	
-        return( request.then( handleSuccess, handleError ) );
-    }
+	       $http({
+	            method: 'POST',
+	            url: URL + endpoint +  'register',
+	            headers: {
+	            	'ssid': sessionId
+	            },   
+	            user: user
+       }).then(handleSuccess, handleError).then(resolve, reject);
+		
+			});
+		
+		});
+	}
     
     /**
      * @param endpoint
