@@ -45,6 +45,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         },
         templateUrl: 'html/template/brand-central.html'
         
-    });
+    })    
+
     
 });
