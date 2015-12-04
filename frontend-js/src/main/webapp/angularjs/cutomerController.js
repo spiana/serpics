@@ -75,6 +75,7 @@ var app = angular.module("customer.controller", ['customer.service'])
 	    	 customerService.login(this.username, this.password).then( function( response ) {
        		 console.log('form submitted correctly with credential:\nusername: ' 
        				 + $scope.username +'\npassword: '+ $scope.password)
+       				 /** do stuff with response 200**/
 	    	 	})
 	        }
 	      };
