@@ -235,7 +235,7 @@
 	    			console.log("session Id nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint +   'pageBrand/' + brandId,
+	    				url: URL + endpoint +   'getChild/' + parentId,
 	    				headers: {
 	    					'ssid': sessionId
 	    					}

@@ -6,14 +6,13 @@
          function($scope,categoryService) {
       	
 		 	$scope.categoryData 	= [];
-		 	$scope.subCategory			= [];
+		 	$scope.subCategory		= [];
 		 	$scope.bool = false;
 		 	//auxiliary var
 		 	var cache = {
-		 			category:[],
-		 			subCategory:[],	
+		 			category:[],		 			
 		 			bool:null,
-		 			data:''
+		 			isAdded:''
 		 	};
 		 	
 	 		
@@ -29,7 +28,6 @@
      	     */
 		 	 function getTop(){	
 					console.log("Category Controller: session id for top method:-> ");
-
                  	categoryService.getTop(endpoint).then( function( response ) {
                  	$scope.categoryData 	= response.data;                  	
                  })
@@ -158,12 +156,17 @@
      	     * @use 						categoryService,
      	     */
      	    
-     	    function getChild(parentId){
+     	   $scope.getChild = function(parentId){
      	    	console.log("getChild");
+     	    	if(cache.isAdded.indexOf(parentId)!=-1){
+     	    		return;
+     	    	}else{
      	    	categoryService.getChild(parentId).then(function(response){
      	    		console.log("getChild ramo then");
-     	    		$scope.categoryData = response;
+     	    		$scope.subCategory = response;
+     	    		cache.isAdded = cache.isAdded +'id#' + parentId
      	    	})
+     	     }
      	    };
 //     	    $scope.getChild = function(parentId) {
 //     	       	categoryService.getChild(endpoint,$rootScope.sessionId,x).then( function( response ) {
