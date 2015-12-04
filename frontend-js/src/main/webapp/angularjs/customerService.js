@@ -9,7 +9,7 @@ app.service("customerService", function( $http, $q, URL) {
     /** Return public API. (like java interface) **/
   	var service =   ({
   			create:							create,
-  			update: 						update,
+  			updateCustomer: 				updateCustomer,
   			getCurrent: 					getCurrent,
   			updateContactAddress: 			updateContactAddress,
   			updateBillingAddress:			updateBillingAddress,
