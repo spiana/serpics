@@ -6,240 +6,97 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	 
 	     /** Return public API. (loki java interface)**/
 	     var service =({
-	     		insert	  			: insert,
-	     		insertCategory	  	: createParent,
-	     		insertBrand 		: addParent,
-	     		update  			: updateCategory,
-	     		getProduct	  		: deleteCategory,                   
-	     		deleteProduct	  	: getCategoryById,
-	     		getCategory 		: getCategoryByCode,
-	     		addBrand			: getTop,
-	     		addCategory		  	: getChild,
-	     		addprice			: addPrice,
-	     		getProductByName	: getProductByName,
-	     		findByCategory		: findByCategory,
-	     		findByBrand			: findByBrand,
-	     		findAll			  	: findAll
+	     		
+	     		getProduct	  			: getProduct,                   
+	     		getCategoryProduct 		: getCategoryProduct,
+	     		getProductByName		: getProductByName,
+	     		findByCategory			: findByCategory,
+	     		findByBrand				: findByBrand,
+	     		findAll			  		: findAll
 	     });                
 	     return service;
 	     
 	   /** public methods**/
 	    
-	   /**
-	    * @param endpoint
-	     * @param sessionId  
-	     * @param categoryId  
-	     * @param brandId               
-	     * @param data
-	     * @return 
-	     */
-	     function insert( endpoint,sessionId,categoryId,brandId,data ) {
-	         var request = $http({
-	             method: 'POST',
-	             url: endpoint +   categoryId + '/' + brandId,
-	             headers: {
-	             	'ssid': sessionId
-	             },   
-	             data: data
-	           });
-	         return( request.then( handleSuccess, handleError ) );
-	     }
-	     
 	    /**
-	     * @param endpoint
-	     * @param sessionId  
-	     * @param categoryId                         
-	     * @param data
-	     * @return 
-	     */
-	     function insertCategory(endpoint, sessionId, categoryId , data ) {
-	         var request = $http({
-	             method: 'POST',
-	             url: endpoint +   'category/' + categoryId,
-	             headers: {
-	             	'ssid': sessionId
-	             },   
-	             data: data
-	           });
-	         return( request.then( handleSuccess, handleError ) );
-	     }
-	     
-	    /**
-	     * @param endpoint
-	     * @param sessionId                
-	     * @param brandId               
-	     * @param data
-	     * @return 
-	     */
-	     function insertBrand( endpoint,sessionId, brandId,data ) {
-	         var request = $http({
-	             method: 'POST',
-	             url: endpoint +   'brand/' + brandId ,
-	             headers: {
-	             	'ssid': sessionId
-	             },   
-	             data: data
-	           });
-	         return( request.then( handleSuccess, handleError ) );
-	     }
-	     
-	    /**
-	     * @param endpoint
-	     * @param sessionId                        
-	     * @param data
-	     * @return 
-	     */
-	     function update( endpoint,sessionId, data ) {
-	         var request = $http({
-	             method: 'PUT',
-	             url: endpoint +   'update',
-	             headers: {
-	             	'ssid': sessionId
-	             },   
-	             data: data
-	           });
-	         return( request.then( handleSuccess, handleError ) );
-	     }
-	     
-	    /**
-	     * @param endpoint
-	     * @param sessionId                      
-	     * @param productId
-	     * @return 
-	     */
-	     function deleteProduct(endpoint,sessionId, productId) {
-	         var request = $http({
-	             method: 'DELETE',
-	             url: endpoint +   'delete/' + productId,
-	             headers: {
-	             	'ssid': sessionId
-	             }                        
-	           });
-	         return( request.then( handleSuccess, handleError ) );
-	     }
-	     
-	    
-	    /**
-		 * @param endpoint
-	     * @param sessionId                       
 	     * @param productId
 	     * @return 
 	     */      
-	     function getProduct(endpoint,sessionId, productId) {
-	     	 var request = $http({
-	              method: 'GET',
-	              url: endpoint +  productId,
-	              headers: {
-	              	'ssid': sessionId
-	              }                            
-	            });
-	         return( request.then( handleSuccess, handleError ) );
+	     function getProduct(productId) {
+	    	 
+	    	 var serviceSSID = authManagerService;
+	    	 return $q(function(resolve, reject) {
+	    		 serviceSSID.getSessionId().then(function(sessionId){
+	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 $http({
+	    				 method: 	'GET',
+	    				 url: URL + endpoint +  productId,
+	    				 headers: {
+	    					 'ssid': sessionId
+	    					 }
+	    			 }).then(handleSuccess, handleError).then(resolve, reject);
+	    		 });
+	    	 });
 	     }
 	     
 	    /**
-		 * @param endpoint
-	     * @param sessionId                       
 	     * @param categoryId
 	     * @return 
 	     */      
-	     function getCategory(endpoint,sessionId, categoryId) {
-	     	 var request = $http({
-	              method: 	'GET',
-	              url: endpoint + 'getCategory/'+ categoryId,
-	              headers: {
-	              	'ssid': sessionId
-	              }                         
-	            });
-	         return( request.then( handleSuccess, handleError ) );
+	     function getCategoryProduct(productId) {
+	    	 var serviceSSID = authManagerService;
+	    	 return $q(function(resolve, reject) {
+	    		 serviceSSID.getSessionId().then(function(sessionId){
+	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 $http({
+	    				 method: 	'GET',
+	    				 url: URL + endpoint + 'getCategory/'+ productId,
+	    				 headers: {
+	    					 'ssid': sessionId
+	    					 }
+	    			 }).then(handleSuccess, handleError).then(resolve, reject);
+	    		 });
+	    	 });
 	     }
 	     
 	    /**
-	     * @param endpoint
-	     * @param sessionId 
-	     * @param productId                       
-	     * @param brandId
-	     * @return 
-	     */         
-	     function addBrand(endpoint,sessionId, productId,brandId) {
-	     	 var request = $http({
-	              method: 	'GET',
-	              url: endpoint +   'addBrand/' + productId + '/' + brandId,
-	              headers: {
-	              	'ssid': sessionId
-	              }                         
-	            });
-	         return( request.then( handleSuccess, handleError ) );
-	     }
-	     
-	    /**
-	     * @param endpoint
-	     * @param sessionId
-	     * @param productId                       
-	     * @param categoryId
-	     * @return 
-	     */           
-	     function addCategory(endpoint,sessionId, productId,category) {
-	     	 var request = $http({
-	              method: 	'GET',
-	              url: endpoint +  'addCategory/' + productId + '/' + category,
-	              headers: {
-	              	'ssid': sessionId
-	              }                         
-	            });
-	         return( request.then( handleSuccess, handleError ) );
-	     }
-	     
-	    /**
-	     * @param endpoint
-	     * @param sessionId                       
-	     * @param productId
-	     * @param data
-	     * @return 
-	     */             
-	     function addPrice(endpoint,sessionId, productId,data) {
-	     	 var request = $http({
-	              method: 	'GET',
-	              url: endpoint +  'addPrice/' + productId,
-	              headers: {
-	              	'ssid': sessionId
-	              }, 
-	     	 	data: data
-	            });
-	         return( request.then( handleSuccess, handleError ) );
-	     }
-	     
-	    /**
-	     * @param endpoint
-	     * @param sessionId                       
 	     * @param productName
 	     * @return 
 	     */              
-	     function getProductByName(endpoint,sessionId, productName) {
-	     	 var request = $http({
-	              method: 	'GET',
-	              url: endpoint + 	  'byCode/' + productName ,
-	              headers: {
-	              	'ssid': sessionId
-	              }                         
-	            });
-	         return( request.then( handleSuccess, handleError ) );
+	     function getProductByName(productName) {
+	    	 var serviceSSID = authManagerService;
+	    	 return $q(function(resolve, reject) {
+	    		 serviceSSID.getSessionId().then(function(sessionId){
+	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 $http({
+	    				 method: 	'GET',
+	    				 url: URL + endpoint + 	  'byCode/' + productName ,
+	    				 headers: {
+	    					 'ssid': sessionId
+	    					 }
+	    			 }).then(handleSuccess, handleError).then(resolve, reject);
+	    		 });
+	    	 });
 	     }
 	     
 	     /**
-	     * @param endpoint
-	     * @param sessionId                       
 	     * @param categoryId
 	     * @return 
 	     */              
-	     function findByCategory(endpoint,sessionId, categoryId) {
-	     	 var request = $http({
-	              method: 	'GET',
-	              url: endpoint +   'pageCategory/' + categoryId,
-	              headers: {
-	              	'ssid': sessionId
-	              }                         
-	            });
-	         return( request.then( handleSuccess, handleError ) );
+	     function findByCategory(categoryId) {
+	    	 var serviceSSID = authManagerService;
+	    	 return $q(function(resolve, reject) {
+	    		 serviceSSID.getSessionId().then(function(sessionId){
+	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 $http({
+	    				 method: 	'GET',
+	    				 url: 	URL + endpoint +   'pageCategory/' + categoryId,
+	    				 headers: {
+	    					 'ssid': sessionId
+	    					 }
+	    			 }).then(handleSuccess, handleError).then(resolve, reject);
+	    		 });
+	    	 });
 	     }
 	     
 	   /**
@@ -253,30 +110,34 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	    			 console.log("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: URL + endpoint +   'pageBrand/' + brandId,
+	    				 url:	URL + endpoint +   'pageBrand/' + brandId,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
 	    			 }).then(handleSuccess, handleError).then(resolve, reject);
-	    			 });
 	    		 });
-	    	 }
+	    	 });
+	     }
 
 	   /**
-	     * @param endpoint
-	     * @param sessionId      
 	     * @return 
 	     */         
-	     function findAll(endpoint,sessionId) {
-	     	 var request = $http({
-	              method: 	'GET',
-	              url: endpoint + 'findAll',
-	              headers: {
-	              	'ssid': sessionId
-	              }                         
-	            });
-	         return( request.then( handleSuccess, handleError ) );
-	         }
+	     function findAll() {
+	    	 
+	    	 var serviceSSID = authManagerService;
+	    	 return $q(function(resolve, reject) {
+	    		 serviceSSID.getSessionId().then(function(sessionId){
+	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 $http({
+	    				 method: 	'GET',
+	    				 url: URL + endpoint + 'findAll',
+	    				 headers: {
+	    					 'ssid': sessionId
+	    					 }
+	    			 }).then(handleSuccess, handleError).then(resolve, reject);
+	    		 });
+	    	 });
+	     }
 	        
 
     /**
