@@ -83,14 +83,14 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	     * @param categoryId
 	     * @return 
 	     */              
-	     function findByCategory(categoryId) {
+	     function findByCategory(categoryId, page, size) {
 	    	 var serviceSSID = authManagerService;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: 	URL + endpoint +   'pageCategory/' + categoryId,
+	    				 url: 	URL + endpoint +   'pageCategory/' + categoryId + '?page=' + page + '&size=' + size,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
@@ -103,14 +103,14 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	     * @param brandId
 	     * @return 
 	     */         
-	     function findByBrand(brandId) {
+	     function findByBrand(brandId, page, size) {
 	    	 var serviceSSID = authManagerService;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url:	URL + endpoint +   'pageBrand/' + brandId,
+	    				 url:	URL + endpoint +   'pageBrand/' + brandId + '?page=' + page + '&size=' + size,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
@@ -122,7 +122,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	   /**
 	     * @return 
 	     */         
-	     function findAll() {
+	     function findAll(page, size) {
 	    	 
 	    	 var serviceSSID = authManagerService;
 	    	 return $q(function(resolve, reject) {
@@ -130,7 +130,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	    			 console.log("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: URL + endpoint + 'findAll',
+	    				 url: URL + endpoint + '?page=' + page + '&size=' + size,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
