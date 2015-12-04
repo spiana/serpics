@@ -17,10 +17,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.serpics.base.AttributeType;
 import com.serpics.base.data.model.MultilingualString;
 
+
 @Entity
-public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
+public class Feature  extends com.serpics.core.data.jpa.AbstractEntity {
 
 	private static final long serialVersionUID = -1111581062897750056L;
 
@@ -35,7 +37,7 @@ public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
 
     private String name;
 
-    private short type;
+    private AttributeType type;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_stringid")
@@ -45,7 +47,11 @@ public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
     private boolean sequence;
 
     @ManyToOne
-    @JoinColumn(name="featureGroup_id")
+    @JoinColumn(name="featureModel_id" , nullable=false)
+    private FeatureModel featureModel;
+    
+    @ManyToOne
+    @JoinColumn(name="featureGroup_id" ,nullable=false)
     private FeatureGroup featureGroup;
 
     @OneToMany(mappedBy="feature" ,fetch= FetchType.LAZY, cascade = CascadeType.ALL)
@@ -84,11 +90,11 @@ public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
         this.name = name;
     }
 
-    public short getType() {
+    public AttributeType getType() {
         return type;
     }
 
-    public void setType(final short type) {
+    public void setType(final AttributeType type) {
         this.type = type;
     }
 
@@ -109,5 +115,14 @@ public class Feature  extends com.serpics.core.data.jpa.AbstractEntity{
         this.description = description;
     }
 
+	public FeatureModel getFeatureModel() {
+		return featureModel;
+	}
+
+	public void setFeatureModel(FeatureModel featureModel) {
+		this.featureModel = featureModel;
+	}
+
+	
 
 }

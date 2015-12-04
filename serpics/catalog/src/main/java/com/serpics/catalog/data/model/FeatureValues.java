@@ -1,23 +1,19 @@
 package com.serpics.catalog.data.model;
 
-import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.model.MultiValueAttribute;
+
 
 @Entity
-public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity {
+public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity{
 
 	private static final long serialVersionUID = 5102019790904200289L;
 
@@ -34,20 +30,8 @@ public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity {
     @JoinColumn(name = "product_id" , nullable=false)
     private AbstractProduct product;
 
-    @Temporal(TemporalType.DATE)
-    private Date dateValue;
-    
-    private Long longValue;
-    private Double decimalValue;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "value_string_id")
-    private MultilingualString stringValue;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "text_string_id")
-    private MultilingualString textValue;
-
+    @Embedded
+    MultiValueAttribute value = new MultiValueAttribute();
 
     public Long getId() {
         return id;
@@ -67,40 +51,11 @@ public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity {
     public void setProduct(final AbstractProduct product) {
         this.product = product;
     }
-
-    public Date getDateValue() {
-        return dateValue;
-    }
-    public void setDateValue(final Date dateValue) {
-        this.dateValue = dateValue;
-    }
-    public Long getLongValue() {
-        return longValue;
-    }
-    public void setLongValue(final Long longValue) {
-        this.longValue = longValue;
-    }
-    public Double getDecimalValue() {
-        return decimalValue;
-    }
-    public void setDecimalValue(final Double decimalValue) {
-        this.decimalValue = decimalValue;
-    }
-
-    public MultilingualString getStringValue() {
-        return stringValue;
-    }
-
-    public void setStringValue(final MultilingualString stringValue) {
-        this.stringValue = stringValue;
-    }
-
-    public MultilingualString getTextValue() {
-        return textValue;
-    }
-
-    public void setTextValue(final MultilingualString textValue) {
-        this.textValue = textValue;
-    }
-
+	public MultiValueAttribute getValue() {
+		return value;
+	}
+	public void setValue(MultiValueAttribute value) {
+		this.value = value;
+	}
+	
 }

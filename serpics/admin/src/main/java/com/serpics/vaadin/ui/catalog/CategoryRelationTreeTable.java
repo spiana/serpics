@@ -7,7 +7,7 @@ import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
-import com.serpics.vaadin.ui.MultilingualFieldConvert;
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.CustomComponent;

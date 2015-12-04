@@ -1,8 +1,11 @@
 package com.serpics.vaadin.ui.catalog;
 
+import com.serpics.base.MultiValueField;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
+import com.serpics.catalog.data.model.Feature;
+import com.serpics.catalog.data.model.FeatureValues;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.CategoryRepository;
@@ -12,9 +15,13 @@ import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
-import com.serpics.vaadin.ui.MultilingualFieldConvert;
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
+import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.ComboBox;
@@ -36,7 +43,7 @@ public class ProductTable extends MasterTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"name","description","buyable" });
+                setDisplayProperties(new String[]{"code" ,"name","description","buyable","featureModel" });
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
             }
         };
@@ -51,7 +58,89 @@ public class ProductTable extends MasterTable<Product> {
     	 editorWindow.addTab(buildPriceTab(), "prices");
     	 
     	 editorWindow.addTab(buildCategoriesTab(), "categories");
- //   	 editorWindow.addTab(buildPriceTab(), "prices");
+    	
+    	 
+    	 editorWindow.addTab(new MasterDetailTable<FeatureValues , AbstractProduct>(FeatureValues.class) {
+    		@Override
+    		public void setParentEntity(EntityItem<AbstractProduct> parent) {
+    			super.setParentEntity(parent);
+    		}
+    		@Override
+    		public void init() {
+    			super.init();
+    			setParentProperty("featureValues");
+    		}
+    		
+    		
+    		 @Override
+    		public EntityFormWindow<FeatureValues> buildEntityWindow() {
+    			 
+    			 EntityFormWindow<FeatureValues> w =  new EntityFormWindow<FeatureValues>();
+    			
+    			
+    			
+    			w.addTab(new MasterForm<FeatureValues>(FeatureValues.class) {
+    				@Override
+    				public void init() {
+    					super.init();
+    					setDisplayProperties(new String[]{"feature" , "value"});
+    				}
+    				private void addvalueField(){
+    	    			Field <?>  f = fieldGroup.getField("value");
+    	    			if(f != null){
+    	    				fieldGroup.unbind(f);
+    	    				removeComponent(f);
+    	    			}
+    	    	
+    	    			addComponent(super.createField("value"));
+    	    				
+    				}
+    			
+    				@Override
+    				protected Field<?> createField(String pid) {
+    					if (pid.equals("feature")){
+    								 final JPAContainer<Feature> features=ServiceContainerFactory.make(Feature.class);
+    								 
+    								 features.addContainerFilter(new Compare.Equal("featureModel" , masterEntity.getfeautureModel()));
+									final ComboBox combo = new ComboBox(
+											"feature");
+									combo.setContainerDataSource(features);
+									combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+									combo.setItemCaptionPropertyId("name");
+									combo.setFilteringMode(FilteringMode.CONTAINS);
+									combo.setImmediate(true);
+									combo.setConverter(new SingleSelectConverter(
+											combo));
+									fieldGroup.bind(combo, "feature");
+									
+									combo.addValueChangeListener(new ValueChangeListener() {
+										
+										@Override
+										public void valueChange(ValueChangeEvent event) {
+											EntityItem<Feature> feature = features.getItem(event.getProperty().getValue());
+											
+											MultiValueField f = (MultiValueField) entityItem.getItemProperty("value").getValue();
+											
+											if (f != null)
+												f.setAttributeType(feature.getEntity().getType());
+											
+												// entityItem.getItemProperty("value").setValue(feature.getEntity().getType());
+												addvalueField();
+											
+										}
+									});
+									return combo;
+    					}else	
+    						return super.createField(pid);
+    				}
+    			
+				}, "main");
+    			 
+    			 return w;
+    		}
+    		
+    		
+		}, "features");
     	 
     	return editorWindow;
     }

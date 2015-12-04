@@ -7,7 +7,7 @@ import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
-import com.serpics.vaadin.ui.MultilingualFieldConvert;
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;

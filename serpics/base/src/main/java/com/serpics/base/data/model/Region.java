@@ -25,7 +25,7 @@ public class Region extends com.serpics.core.data.jpa.AbstractEntity implements 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "regions_id", unique = true, nullable = false)
-    private Long regionsId;
+    private Long Id;
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -42,12 +42,12 @@ public class Region extends com.serpics.core.data.jpa.AbstractEntity implements 
     public Region() {
     }
 
-    public Long getRegionsId() {
-        return this.regionsId;
+    public Long getId() {
+        return this.Id;
     }
 
-    public void setRegionsId(final Long regionsId) {
-        this.regionsId = regionsId;
+    public void setId(final Long Id) {
+        this.Id =Id;
     }
 
     public MultilingualString getDescription() {

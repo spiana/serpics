@@ -60,7 +60,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
     }
     @SuppressWarnings("serial")
     protected void build() {
-
+    	
+    	
         final VerticalLayout vl = new VerticalLayout();
         vl.setSizeFull();
         setContent(vl);

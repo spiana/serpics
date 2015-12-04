@@ -1,5 +1,6 @@
-package com.serpics.vaadin.ui;
+package com.serpics.vaadin.ui.component;
 
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.data.Property;
 import com.vaadin.ui.TextField;
 

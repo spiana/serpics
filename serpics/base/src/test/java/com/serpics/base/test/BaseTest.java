@@ -103,7 +103,7 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		 
 		 List<Region> lr = regionService.findAll();
 		 for (Region  region: lr) {
-				LOGGER.info("REGIONE" + region.getRegionsId() + "-" + region.getName() + " - " + region.getDescription().getText("it"));
+				LOGGER.info("REGIONE" + region.getId() + "-" + region.getName() + " - " + region.getDescription().getText("it"));
 		
 		}
 	}

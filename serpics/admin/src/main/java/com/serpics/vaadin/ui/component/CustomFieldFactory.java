@@ -1,17 +1,23 @@
 package com.serpics.vaadin.ui.component;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
-import com.serpics.vaadin.ui.MultilingualFieldConvert;
+import com.serpics.vaadin.ui.converters.AttributeTypeDateConverter;
+import com.serpics.vaadin.ui.converters.AttributeTypeDoubleConverter;
+import com.serpics.vaadin.ui.converters.AttributeTypeIntegerConverter;
+import com.serpics.vaadin.ui.converters.AttributeTypeStringConverter;
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -21,6 +27,7 @@ import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.ComboBox;
@@ -50,9 +57,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     
     
 	@Override
-	public Field createField(Container container, Object itemId,
-			Object propertyId, Component uiContext) {
-		// TODO Auto-generated method stub
+	public Field createField(Container container, Object itemId, Object propertyId, Component uiContext) {
 		
 		Item item = container.getItem(itemId);
 		if (item != null)
@@ -69,6 +74,11 @@ public class CustomFieldFactory extends DefaultFieldFactory{
         	Field<?> f = super.createField(item, propertyId, uiContext);
             ((TextField) f).setConverter(new MultilingualFieldConvert());
             return f;
+        }
+        
+        if (MultiValueField.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
+        	Field<?> f = createMultiValueAttribute(item, propertyId);
+        	return f;
         }
         
         if (Enum.class.isAssignableFrom(item.getItemProperty(propertyId).getType() )) {
@@ -157,6 +167,47 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 			referencedProperty = "code"; // this is default
 		
 		return referencedProperty;
+	}
+	
+	private Field<?> createMultiValueAttribute(Item item , Object propertyId){
+			Field<?> field;
+			
+			//if entity is null return default Field
+			if (((EntityItem)item).getEntity() == null){
+				field = createFieldByPropertyType(item.getItemProperty(propertyId).getType());
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				field.setCaption(createCaptionByPropertyId(propertyId));
+				return field;
+			}
+			
+			MultiValueField _f = (MultiValueField)((EntityItem)item).getItemProperty(propertyId).getValue();
+			
+			switch (_f.getAttributeType()) {
+			case STRING:
+				field = createFieldByPropertyType(String.class);
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				break;
+			case INTEGER:
+				field = createFieldByPropertyType(Integer.class);
+				((AbstractField) field).setConverter(new AttributeTypeIntegerConverter());
+				break;
+			case DOUBLE:
+				field = createFieldByPropertyType(Double.class);
+				((AbstractField) field).setConverter(new AttributeTypeDoubleConverter());
+				break;
+			case DATE:
+				field = createFieldByPropertyType(Date.class);
+				((AbstractField) field).setConverter(new AttributeTypeDateConverter());
+				break;
+		
+			default:
+				field = createFieldByPropertyType(String.class);
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				break;
+			}
+			
+			field.setCaption(createCaptionByPropertyId(propertyId));
+			return field;
 	}
 
 }

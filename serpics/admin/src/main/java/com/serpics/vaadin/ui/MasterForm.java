@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.component.CustomFieldFactory;
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
@@ -124,7 +126,9 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 					if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)
 							|| propertyList.getPropertyKind(pid).equals(PropertyKind.ONE_TO_MANY)
 							|| propertyList.getPropertyKind(pid).equals(PropertyKind.MANY_TO_ONE)
+							|| propertyList.getPropertyKind(pid).equals(PropertyKind.NONPERSISTENT)
 							|| Multilingual.class.isAssignableFrom(propertyList.getPropertyType(pid))
+							|| MultiValueField.class.isAssignableFrom(propertyList.getPropertyType(pid))
 							|| entityItem.isPersistent())
 						if (!hideProperties.contains(pid)) {
 							Field<?> f = createField(pid);

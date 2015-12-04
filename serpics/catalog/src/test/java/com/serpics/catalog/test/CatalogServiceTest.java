@@ -72,13 +72,13 @@ public class CatalogServiceTest extends CatalogBaseTest {
         commerceEngine.connect("test-store");
 
         final BaseAttribute attribute1 = new BaseAttribute();
-        attribute1.setAttributeType(AttributeType.TEXT);
+        attribute1.setAttributeType(AttributeType.STRING);
         attribute1.setAvailablefor(AvailableforType.USER);
         attribute1.setName("test");
         attributeRepository.save(attribute1);
 
         final BaseAttribute attribute2 = new BaseAttribute();
-        attribute2.setAttributeType(AttributeType.TEXT);
+        attribute2.setAttributeType(AttributeType.STRING);
         attribute2.setAvailablefor(AvailableforType.FEATURE);
         attribute2.setName("test1");
         attributeRepository.save(attribute2);

@@ -108,6 +108,7 @@
 			<display>
 				<property name="name" />
 				<property name="description" />
+				<property name="type" />
 				<property name="sequence" />
 			</display>
 			<search>
@@ -119,6 +120,7 @@
 				<property name="name" />
 				<property name="description" />
 				<property name="sequence" />
+				<property name="type" />
 				<property name="created" />
 			</display>
 			<readonly>
@@ -128,6 +130,24 @@
 		<select>
 			<property name="name" />
 		</select>
+	</entity>
+	
+	<entity name="featureValues">
+		<table action="append">
+			<display>
+				<property name="feature.name" />
+				<property name="value" />
+			</display>
+			<search>
+				<property name="name" />
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="feature" />
+				<property name="value" />
+			</display>
+		</editor>
 	</entity>
 	
 </smc-definition>

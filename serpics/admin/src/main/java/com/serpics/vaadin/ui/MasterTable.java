@@ -9,11 +9,14 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
+import com.serpics.vaadin.ui.converters.AttributeTypeValueConverter;
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
@@ -353,6 +356,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			if (Multilingual.class.isAssignableFrom(propertyList.getPropertyType(string))) {
 				entityList.setConverter(string, new MultilingualFieldConvert());
 			}
+			
+			if(MultiValueField.class.isAssignableFrom(propertyList.getPropertyType(string)))
+				entityList.setConverter(string, new AttributeTypeValueConverter());
+			
 			String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + string, null);
 			if (message != null)
 				entityList.setColumnHeader(string, message);

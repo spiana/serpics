@@ -9,7 +9,7 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
-import com.serpics.vaadin.ui.MultilingualFieldConvert;
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;

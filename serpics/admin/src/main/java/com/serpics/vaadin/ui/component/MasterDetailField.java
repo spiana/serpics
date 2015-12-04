@@ -19,8 +19,8 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
-import com.serpics.vaadin.ui.MultilingualFieldConvert;
 import com.serpics.vaadin.ui.PropertyList;
+import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
@@ -57,6 +57,8 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	public Table getTable() {
 		return table;
 	}
+
+	
 
 	@SuppressWarnings("unchecked")
 	public MasterDetailField(

@@ -34,6 +34,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<bean name="featureModelInterceptor"
 		class="com.serpics.catalog.data.interceptors.FeatureModelSaveInterceptor" />
 
+	<bean name="featureInterceptor"
+		class="com.serpics.catalog.data.interceptors.FeatureSaveInterceptor" />
+		
 	<bean name="productCreateMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.catalog.data.model.Product" />
 		<property name="order" value="10" />
@@ -75,6 +78,11 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 			<property name="interceptor" ref="featureModelInterceptor" />
 		</bean>
 
+	<bean name="featureSaveMapping" class="com.serpics.core.data.InterceptorMapping">
+			<property name="targetEntity" value="com.serpics.catalog.data.model.Feature" />
+			<property name="order" value="10" />
+			<property name="interceptor" ref="featureInterceptor" />
+	</bean>
 
 	<!-- default specification -->
 	<bean name="categorySpecification"

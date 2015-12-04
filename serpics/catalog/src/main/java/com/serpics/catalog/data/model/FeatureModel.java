@@ -34,6 +34,8 @@ public class FeatureModel extends Ctentry{
 	@OneToMany(mappedBy="model" ,cascade=CascadeType.REMOVE , orphanRemoval=true)
 	private Set<FeatureGroup> featureGroups = new HashSet<FeatureGroup>(0);
 	
+	@OneToMany(mappedBy="featureModel" ,cascade=CascadeType.REMOVE , orphanRemoval=true)
+	private Set<Feature> features = new HashSet<Feature>(0);
 
 	public Set<FeatureGroup> getFeatureGroups() {
 		return featureGroups;
@@ -51,9 +53,17 @@ public class FeatureModel extends Ctentry{
 		this.catalog = catalog;
 	}
 	
-	 @PrePersist
-	 @Override
-	public void beforePersist() {
+	public Set<Feature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(Set<Feature> features) {
+		this.features = features;
+	}
+	
+		@PrePersist
+	    @Override
+	    public void beforePersist() {
 	        if (this.url == null)
 	            this.url = "/" + getCatalog().getCode() + "/" + getCode();
 	        super.beforePersist();

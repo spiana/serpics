@@ -1,4 +1,7 @@
-package com.serpics.vaadin.ui;
+
+
+
+package com.serpics.vaadin.ui.converters;
 
 import com.serpics.base.data.model.MultilingualField;
 import com.vaadin.data.util.converter.Converter;
