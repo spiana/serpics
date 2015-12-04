@@ -164,7 +164,7 @@
      	    	categoryService.getChild(parentId).then(function(response){
      	    		console.log("getChild ramo then");
      	    		$scope.subCategory = response;
-     	    		cache.isAdded = cache.isAdded +'id#' + parentId
+     	    		cache.isAdded += '#' + parentId
      	    	})
      	     }
      	    };
