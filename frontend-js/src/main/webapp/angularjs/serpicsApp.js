@@ -1,4 +1,4 @@
-var app = angular.module("serpics.App", ['serpics.Services','category.controller','brand.controller','product.controller','order.controller','customer.controller','serpics.directive','serpics.config'])
+var app = angular.module("serpics.App", ['serpics.Services','category.controller','brand.controller','product.controller','order.controller','customer.controller','serpics.directive','serpics.config','serpics.router'])
 
 app.controller("serpicsAppController",['$scope','TITLE','BREADCRUMBS','LOADINGTEXT',
                                      

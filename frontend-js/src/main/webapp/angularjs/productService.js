@@ -6,7 +6,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	 
 	     /** Return public API. (loki java interface)**/
 	     var service =({
-	     		
+	    	 
 	     		getProduct	  			: getProduct,                   
 	     		getCategoryProduct 		: getCategoryProduct,
 	     		getProductByName		: getProductByName,

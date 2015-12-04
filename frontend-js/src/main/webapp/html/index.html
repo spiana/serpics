@@ -23,6 +23,7 @@
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-cookies.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-loader.min.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-route.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
 
 <link rel="shortcut icon" href="images/ico/favicon.ico">
 <link rel="apple-touch-icon-pre0composed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
@@ -32,6 +33,7 @@
 
 	<script src="angularjs/config.js"></script>
 	<script src="angularjs/serpicsApp.js"></script>
+	<script src="angularjs/router.js"></script>
 	
 <!-- 	<script src="angularjs/controller.js"></script> -->
 	<script src="angularjs/categoryController.js"></script>
@@ -100,8 +102,7 @@
 					</div>			
 
 			<div class="col-sm-9 padding-right">
-				<div features-directive></div>
-				<div product-directive></div>
+				<div ui-view></div>
 				<div recommended-directive></div>
 			</div>
 		</div>

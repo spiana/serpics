@@ -173,6 +173,14 @@
 			templateUrl : 'html/template/footer.html',			
 		};
 	};
+	
+	var singleProductDirective = function() {
+		return {
+			restrict: 'EA',
+			templateUrl: 'html/template/single-product.html',
+			controller: 'productController',
+		}
+	}
 
 	
 	var app = angular.module('serpics.directive', [])
@@ -191,7 +199,8 @@
 	.directive('loginDirective', 		loginDirective)
 	.directive('registerDirective', 	registerDirective)
 	.directive('recommendedDirective', 	recommendedDirective)
-	.directive('footerDirective', 		footerDirective)	
+	.directive('footerDirective', 		footerDirective)
+	.directive('singleProductDirective', 		singleProductDirective)	
 	
 	
 }());
