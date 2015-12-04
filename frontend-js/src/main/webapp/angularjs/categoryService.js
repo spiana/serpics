@@ -8,11 +8,6 @@
  
 	    /** Return public API. (like java interface)**/
 	    var service = ({
-	    	create	  			: create,
-	    	createParent	  	: createParent,
-	    	addParent 		  	: addParent,
-	    	updateCategory	  	: updateCategory,
-	    	deleteCategory	  	: deleteCategory,                   
 	        getCategoryById	  	: getCategoryById,
 	        getCategoryByCode 	: getCategoryByCode,
 	        getTop			  	: getTop,
@@ -23,104 +18,6 @@
 	    return service;
 	    
 	    /** public methods**/
-	    
-	    /**
-	     * @param endpoint
-	     * @param sessionId
-	     * @param data
-	     */
-	    function create(data ) {
-	    	var defer = $q.defer;
-	    	authManagerService.getSessionId().then(function(idSessione){
-	    		
-	    		var request = $http({
-		            method: 'POST',
-		            url: URL + endpoint + 'create',
-		            headers: {
-		            	'ssid': sessionId
-		            },   
-		            data: data
-		          }).then(function(response){
-		        	  defer.resolve(reponse.data);
-		          });
-	    	});
-	    	
-	    	return defer.promise;
-	    }
-	    
-	    /**
-	     * @param endpoint
-	     * @param sessionId
-	     * @param parentId
-	     * @param data
-	     */
-	    function createParent(endpoint,sessionId, parentId , data ) {
-	        var request = $http({
-	            method: 'POST',
-	            url: URL + endpoint +  parentId,
-	            headers: {
-	            	'ssid': sessionId
-	            },   
-	            data: data
-	          });
-	        return( request.then( handleSuccess, handleError ) );
-	    }
-	    
-	    /**
-	     * @param endpoint
-	     * @param sessionId
-	     * @param childId
-	     * @param parentId
-	     * @param data
-	     * @return 
-	     */
-	    function addParent(endpoint,sessionId, childId,parentId,data ) {
-	        var request = $http({
-	            method: 'POST',
-	            url: URL + endpoint + 'addParent/' + childId +'/' + parentId,
-	            headers: {
-	            	'ssid': sessionId
-	            },   
-	            data: data
-	          });
-	        return( request.then( handleSuccess, handleError ) );
-	    }
-	    
-	    /**
-	     * @param endpoint
-	     * @param sessionId                
-	     * @param data
-	     * @return 
-	     */
-	    function updateCategory(endpoint,sessionId, data ) {
-	        var request = $http({
-	            method: 'PUT',
-	            url: URL + endpoint + 'update',
-	            headers: {
-	            	'ssid': sessionId
-	            },   
-	            data: data
-	          });
-	        return( request.then( handleSuccess, handleError ) );
-	    }
-	    
-	    /**
-	     * @param endpoint
-	     * @param sessionId
-	     * @param categoryId            
-	     * @return 
-	     */
-	    function deleteCategory(endpoint,sessionId,categoryId) {
-	        var request = $http({
-	            method: 'DELETE',
-	            url: URL + endpoint + 'delete/' + categoryId,
-	            headers: {
-	            	'ssid': sessionId
-	            }                        
-	          });
-	        return( request.then( handleSuccess, handleError ) );
-	    }
-	    
 	   
 	    /**
 	     * @param endpoint
@@ -170,61 +67,49 @@
     		
 	    	});
 	    }
-//	    	var defer = $q.defer;
-//	    	authManagerService.getSessionId().then(function(idSessione){
-//	    		
-//	    		var request = $http({
-//		             method: 'GET',
-//		             url: 	endpoint +  'top',
-//		             headers: {
-//		             	'ssid': sessionId
-//		            }
-//		          }).then(function(response){
-//		        	  defer.resolve(reponse.data);
-//		          });
-//	    	});
-//	    	
-//	    	return defer.promise;
-//	    }
 	    		    
 	    /**
-	     * @param endpoint
-	     * @param sessionId
 	     * @param categoryId                
 	     * @return 
 	     */      
-	    function getCategoryById(endpoint,sessionId,categoryId) {
-	    	 var request = $http({
-	             method: 	'GET',
-	             url: URL + endpoint + categoryId,
-	             headers: {
-	             	'ssid': sessionId
-	             }                         
-	           });
-	        return( request.then( handleSuccess, handleError ) );
+	    function getCategoryById(categoryId) {
+	    	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("session Id nel promise"+sessionId) ;
+	    			$http({
+	    				method: 	'GET',
+	    				url: URL + endpoint + categoryId,
+	    				headers: {
+	    					'ssid': sessionId
+	    					}
+	    			}).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
 	    }
 	    
 	    /**
-	     * @param endpoint
-	     * @param sessionId
 	     * @param code
 	     * @param category                
 	     * @return 
 	     */      
-	    function getCategoryByCode(sessionId,code,category) {
-	    	 var request = $http({
-	             method: 	'GET',
-	             url: URL + endpoint +  code + '/' + category,
-	             headers: {
-	             	'ssid': sessionId
-	             }                         
-	           });
-	        return( request.then( handleSuccess, handleError ) );
+	    function getCategoryByCode(code,category) {
+	    	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("session Id nel promise"+sessionId) ;
+	    			$http({
+	    				method: 	'GET',
+	    				url: URL + endpoint +  code + '/' + category,
+	    				headers: {
+	    					'ssid': sessionId
+	    					}
+	    			}).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
 	    }
 	    
 	    /**
-	     * @param endpoint
-	     * @param sessionId               
 	     * @param parentId                 
 	     * @return 
 	     */      
@@ -245,19 +130,23 @@
     	 }
 	    
 	    /**
-	     * @param endpoint
 	     * @param sessionId               
 	     * @return 
 	     */     
-	    function findAll(endpoint,sessionId) {
-	    	 var request = $http({
-	             method: 	'GET',
-	             url: URL +  endpoint +  'findAll',
-	             headers: {
-	             	'ssid': sessionId
-	             }                         
-	           });
-	        return( request.then( handleSuccess, handleError ) );
+	    function findAll(sessionId) {
+	    	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("session Id nel promise"+sessionId) ;
+	    			$http({
+	    				method: 	'GET',
+	    				url: URL +  endpoint +  'findAll',
+	    				headers: {
+	    					'ssid': sessionId
+	    					}
+	    			}).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
 	    }
 	    
 	    /**
