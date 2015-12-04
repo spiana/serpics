@@ -5,23 +5,25 @@ var app = angular.module("customer.controller", ['customer.service'])
                                   
       function($scope,customerService) {	
    	
-  	    $scope.user 	= [];
-  	    
+			$scope.form = {
+		  		  username:'',
+		  		  password:''
+		    }
+	 
   	    /** implemented customer service **/ 
   	    
   	    
-  	  /**
- 	     * @param sessionId 		a sessionId
- 	     * @return 					all category pather
- 	     * @use 					categoryService,
- 	     */
-	 	 function getCurrent(){	
-				console.log("Category Controller: session id for top method:-> ");
-
-             	categoryService.getTop(endpoint).then( function( response ) {
-             	$scope.categoryData 	= response.data;                  	
-             })
- 	    };
+//  	  /**
+// 	     * @param sessionId 		a sessionId
+// 	     * @return 					all category pather
+// 	     * @use 					categoryService,
+// 	     */
+//	 	 function getCurrent(){	
+//				console.log("Category Controller: session id for top method:-> ");
+//             	categoryService.getTop(endpoint).then( function( response ) {
+//             	$scope.categoryData 	= response.data;                 	
+//             })
+// 	    };
   	    /**
   	     * @param endpoint 		    web service rest endpoint
   	     * @param sessionId 		a sessionId
@@ -67,12 +69,16 @@ var app = angular.module("customer.controller", ['customer.service'])
   	     * @param password			    password for login
   	     * @return 						void
   	     * @use 						customerService,
-  	     */
-  	    $scope.login = function(endpoint, username, passoword) {		
-  	    	customerService.login(endpoint,$rootScope.sessionId, username, passoword).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
-  	    };
+  	     */      
+	      $scope.login = function() {	    	
+	        if ($scope.username && $scope.password) {	         
+	    	 customerService.login(this.username, this.password).then( function( response ) {
+       		 console.log('form submitted correctly with credential:\nusername: ' 
+       				 + $scope.username +'\npassword: '+ $scope.password)
+	    	 	})
+	        }
+	      };
+
   	    
   	    /**
   	     * @param endpoint 		    	web service rest endpoint

@@ -2,7 +2,7 @@
 /**
  * CustomerService to handler rest call to customerservice
  */
-app.service("customerService", function( $http, $q, URL) {
+app.service("customerService", function( $http, $q, authManagerService,URL) {
 	
 	var endpoint = '/jax-rs/customerService/';
 	 
@@ -10,6 +10,7 @@ app.service("customerService", function( $http, $q, URL) {
   	var service =   ({
   			create:							create,
   			updateCustomer: 				updateCustomer,
+  			login:							login,
   			getCurrent: 					getCurrent,
   			updateContactAddress: 			updateContactAddress,
   			updateBillingAddress:			updateBillingAddress,
@@ -84,19 +85,27 @@ app.service("customerService", function( $http, $q, URL) {
      * @param password  
      * @return 
      */
-    function login(endpoint,sessionId, username, passoword) {
+   
+    function login(username, password) {
     	
-        var request = $http({
-            method: 'GET',
-            url: URL + endpoint +  '/login' + '?username=' + username + '&passoword=' + passoword,
-            headers: {
-            	'ssid': sessionId
-            }
-          });
-    	
-        return( request.then( handleSuccess, handleError ) );
-    }  
-    
+    	var serviceSSID = authManagerService;
+    	return $q(function(resolve, reject) {
+    		
+    	serviceSSID.getSessionId().then(function(sessionId){
+    		
+	       $http({
+	            method: 'GET',
+	            url: URL + endpoint +  'login' + '?username=' + username + '&password=' + password,
+	            headers: {
+	            	'ssid': sessionId
+	            }
+	        }).then(handleSuccess, handleError).then(resolve, reject);
+				
+			});
+		
+		});
+	}
+	    
     /**
      * @param endpoint
      * @param sessionId                

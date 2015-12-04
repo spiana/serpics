@@ -139,7 +139,10 @@
 	var loginDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : 'html/template/.html'
+			template : "<form action='#'><input type='text' placeholder='Name' name='username' />" +
+						"<input type='password' name='password'	placeholder='password' />"+
+						"<span><input	type='checkbox' class='checkbox'> Keep me signed in	</span>"+
+						"<button type='submit' class='btn btn-default'>Login</button></form>"
 
 		};
 	};
