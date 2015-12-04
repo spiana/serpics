@@ -6,11 +6,37 @@
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
+			var page = getPage();
+			var size = getSize();
 	
 	  	    $scope.product 	= [];
 	  	    
-	  	    findAllQ();
-	  	   	  
+	  	    findAllQ(page, size);
+	  	    
+	  	   	function getPage(){
+					if ($scope.product) {
+						return $scope.product.number;
+					} else {
+						return 0;
+					}
+			};
+			
+	  	   	function getSize(){
+				if ($scope.product) {
+					return $scope.product.size;
+				} else {
+					return 10;
+				}
+	  	   	};
+	  	   	
+	  	  $scope.range = function(totalPages){
+	  	   		var input = [];
+	  	      for (var i=0; i<totalPages; i++) {
+	  	        input.push(i);
+	  	      }
+
+	  	      return input;
+	  	   	}
 	  	 
 	  	    /** implemented order service **/ 
 	  	    
@@ -53,8 +79,8 @@
 	  	     * @return 						product with category equal @param categoryId
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    function findByCategory(categoryId) {		
-	  	    	productService.findByCategory(categoryId).then( function( response ) {
+	  	    function findByCategory(categoryId, page, size) {		
+	  	    	productService.findByCategory(categoryId, page, size).then( function( response ) {
 	  	    		$scope.product 	= response;
 	              })
 	  	    };  	  	
@@ -64,8 +90,8 @@
 	  	     * @return 						product with brand equal @param brandId
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    function findByBrand(brandId) {		
-	  	    	productService.findByBrand(brandId).then( function( response ) {
+	  	    function findByBrand(brandId, page, size) {		
+	  	    	productService.findByBrand(brandId, page, size).then( function( response ) {
 	  	    		$scope.product 	= response;
 	              })
 	  	    };  	
@@ -74,23 +100,27 @@
 	  	     * @return 						all product
 	  	     * @use 						productService,authManagerService
 	  	     */
-	  	    function findAll() {		
-	  	    	productService.findAll().then( function( response ) {
+	  	    function findAll(page, size) {		
+	  	    	productService.findAll(page, size).then( function( response ) {
 	  	    		$scope.product 	= response;
 	              })
 	  	    };
 	  	    
-	  	    function findAllQ($scope){
+	  	    function findAllQ(page, size){
 	  	    	console.log("Controller ProductQ");
 	  	    	if (!categoryId && brandId){
-	  	    		findByBrand(brandId);
+	  	    		findByBrand(brandId, page, size);
 	  	    	}
 	  	    	if (categoryId && !brandId){
-	  	    		findByCategory(categoryId);
+	  	    		findByCategory(categoryId, page, size);
 	  	    	}
 	  	    	if (!categoryId && !brandId){
-	  	    		findAll(brandId);
+	  	    		findAll(page, size);
 	  	    	}
 	  	    };
+	  	    
+	  	    $scope.findAllQ = function (page,size) {
+	  	    	findAllQ(page,size);
+	  	    }
 	  	    	
 }])

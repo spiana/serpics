@@ -114,6 +114,7 @@
 	     * @return 
 	     */      
 	    function getChild(parentId) {
+	    	console.log("getChild(parentId): "+parentId) ;
 	    	var serviceSSID = authManagerService;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){

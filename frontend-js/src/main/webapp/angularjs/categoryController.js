@@ -156,15 +156,17 @@
      	     * @use 						categoryService,
      	     */
      	    
-     	   $scope.getChild = function(parentId){
-     	    	console.log("getChild");
+     	   $scope.getChild = function(parentId,indice){
+     	    	console.log("getChild"+indice);
      	    	if(cache.isAdded.indexOf(parentId)!=-1){
+     	    		console.log("getChild ramo then"+cache.isAdded.indexOf(parentId)+cache.isAdded);
      	    		return;
      	    	}else{
      	    	categoryService.getChild(parentId).then(function(response){
      	    		console.log("getChild ramo then");
-     	    		$scope.subCategory = response;
-     	    		cache.isAdded += '#' + parentId
+     	    		//$scope.subCategory = response;
+     	    		cache.isAdded += '#' + parentId;
+     	    		$scope.subCategory[indice]= response;
      	    	})
      	     }
      	    };
