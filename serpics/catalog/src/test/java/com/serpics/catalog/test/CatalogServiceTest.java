@@ -79,14 +79,14 @@ public class CatalogServiceTest extends CatalogBaseTest {
 
         final BaseAttribute attribute2 = new BaseAttribute();
         attribute2.setAttributeType(AttributeType.STRING);
-        attribute2.setAvailablefor(AvailableforType.FEATURE);
+        attribute2.setAvailablefor(AvailableforType.PRODUCT);
         attribute2.setName("test1");
         attributeRepository.save(attribute2);
 
         final List<BaseAttribute> al1 = attributeRepository.findAll();
         Assert.assertEquals(2, al1.size());
 
-        final List<BaseAttribute> al2 = attributeRepository.findByAvailablefor(AvailableforType.FEATURE);
+        final List<BaseAttribute> al2 = attributeRepository.findByAvailablefor(AvailableforType.PRODUCT);
         Assert.assertEquals(1, al2.size());
     }
 

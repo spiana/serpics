@@ -15,14 +15,7 @@
 		<class>com.serpics.membership.data.model.MembersRole</class>
 		<class>com.serpics.membership.data.model.Membergroup</class>
 		<class>com.serpics.membership.data.model.MemberRelationPK</class>
-		<!-- <class>com.serpics.membership.data.model.MemberRelation</class> -->
 		<class>com.serpics.membership.data.model.User2UserRelation</class>
-		<!-- <class>com.serpics.membership.data.model.UserStoreRelation</class> -->
-		<class>com.serpics.membership.data.model.MemberAttributeValueVarchar</class>
-		<class>com.serpics.membership.data.model.MemberAttributeValueText</class>
-		<class>com.serpics.membership.data.model.MemberAttributeValueLong</class>
-		<class>com.serpics.membership.data.model.MemberAttributeValueDecimal</class>
-		<class>com.serpics.membership.data.model.MemberAttributeValueDatetime</class>
 		<class>com.serpics.membership.data.model.MemberAttribute</class>
 		<!-- <class>com.serpics.membership.data.model.Member</class> -->
 		<class>com.serpics.membership.data.model.AbstractAddress</class>

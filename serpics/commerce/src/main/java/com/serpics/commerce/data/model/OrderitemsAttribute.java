@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.serpics.base.data.model.MultiValueAttribute;
 
 /**
  * The persistent class for the orderitems_attribute database table.
@@ -34,26 +36,9 @@ public class OrderitemsAttribute extends com.serpics.core.data.jpa.AbstractEntit
     @JoinColumn(name = "orderitems_id", nullable = false)
     private AbstractOrderitem orderitem;
 
-    // bi-directional one-to-one association to OrderitemsAttributeValueDatetime
-    @OneToOne(mappedBy = "orderitemsAttribute")
-    private OrderitemsAttributeValueDatetime orderitemsAttributeValueDatetime;
-
-    // bi-directional one-to-one association to OrderitemsAttributeValueDecimal
-    @OneToOne(mappedBy = "orderitemsAttribute")
-    private OrderitemsAttributeValueDecimal orderitemsAttributeValueDecimal;
-
-    // bi-directional one-to-one association to OrderitemsAttributeValueLong
-    @OneToOne(mappedBy = "orderitemsAttribute")
-    private OrderitemsAttributeValueLong orderitemsAttributeValueLong;
-
-    // bi-directional one-to-one association to OrderitemsAttributeValueText
-    @OneToOne(mappedBy = "orderitemsAttribute")
-    private OrderitemsAttributeValueText orderitemsAttributeValueText;
-
-    // bi-directional one-to-one association to OrderitemsAttributeValueVarchar
-    @OneToOne(mappedBy = "orderitemsAttribute")
-    private OrderitemsAttributeValueVarchar orderitemsAttributeValueVarchar;
-
+    @Embedded
+    private MultiValueAttribute value;
+   
     public OrderitemsAttribute() {
     }
 
@@ -89,44 +74,14 @@ public class OrderitemsAttribute extends com.serpics.core.data.jpa.AbstractEntit
         this.orderitem = orderitem;
     }
 
-    public OrderitemsAttributeValueDatetime getOrderitemsAttributeValueDatetime() {
-        return this.orderitemsAttributeValueDatetime;
-    }
+	public MultiValueAttribute getValue() {
+		return value;
+	}
 
-    public void setOrderitemsAttributeValueDatetime(final OrderitemsAttributeValueDatetime orderitemsAttributeValueDatetime) {
-        this.orderitemsAttributeValueDatetime = orderitemsAttributeValueDatetime;
-    }
+	public void setValue(MultiValueAttribute value) {
+		this.value = value;
+	}
 
-    public OrderitemsAttributeValueDecimal getOrderitemsAttributeValueDecimal() {
-        return this.orderitemsAttributeValueDecimal;
-    }
-
-    public void setOrderitemsAttributeValueDecimal(final OrderitemsAttributeValueDecimal orderitemsAttributeValueDecimal) {
-        this.orderitemsAttributeValueDecimal = orderitemsAttributeValueDecimal;
-    }
-
-    public OrderitemsAttributeValueLong getOrderitemsAttributeValueLong() {
-        return this.orderitemsAttributeValueLong;
-    }
-
-    public void setOrderitemsAttributeValueLong(final OrderitemsAttributeValueLong orderitemsAttributeValueLong) {
-        this.orderitemsAttributeValueLong = orderitemsAttributeValueLong;
-    }
-
-    public OrderitemsAttributeValueText getOrderitemsAttributeValueText() {
-        return this.orderitemsAttributeValueText;
-    }
-
-    public void setOrderitemsAttributeValueText(final OrderitemsAttributeValueText orderitemsAttributeValueText) {
-        this.orderitemsAttributeValueText = orderitemsAttributeValueText;
-    }
-
-    public OrderitemsAttributeValueVarchar getOrderitemsAttributeValueVarchar() {
-        return this.orderitemsAttributeValueVarchar;
-    }
-
-    public void setOrderitemsAttributeValueVarchar(final OrderitemsAttributeValueVarchar orderitemsAttributeValueVarchar) {
-        this.orderitemsAttributeValueVarchar = orderitemsAttributeValueVarchar;
-    }
+   
 
 }

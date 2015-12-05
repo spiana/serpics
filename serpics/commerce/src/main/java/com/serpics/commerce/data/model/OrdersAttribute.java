@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.serpics.base.data.model.MultiValueAttribute;
 
 /**
  * The persistent class for the orders_attribute database table.
@@ -34,25 +36,8 @@ public class OrdersAttribute extends com.serpics.core.data.jpa.AbstractEntity im
 	@JoinColumn(name = "orders_id", nullable = false)
 	private AbstractOrder order;
 
-	// bi-directional one-to-one association to OrdersAttributeValueDatetime
-	@OneToOne(mappedBy = "ordersAttribute")
-	private OrdersAttributeValueDatetime ordersAttributeValueDatetime;
-
-	// bi-directional one-to-one association to OrdersAttributeValueDecimal
-	@OneToOne(mappedBy = "ordersAttribute")
-	private OrdersAttributeValueDecimal ordersAttributeValueDecimal;
-
-	// bi-directional one-to-one association to OrdersAttributeValueLong
-	@OneToOne(mappedBy = "ordersAttribute")
-	private OrdersAttributeValueLong ordersAttributeValueLong;
-
-	// bi-directional one-to-one association to OrdersAttributeValueText
-	@OneToOne(mappedBy = "ordersAttribute")
-	private OrdersAttributeValueText ordersAttributeValueText;
-
-	// bi-directional one-to-one association to OrdersAttributeValueVarchar
-	@OneToOne(mappedBy = "ordersAttribute")
-	private OrdersAttributeValueVarchar ordersAttributeValueVarchar;
+	@Embedded
+	private MultiValueAttribute value;
 
 	public OrdersAttribute() {
 	}
@@ -89,44 +74,13 @@ public class OrdersAttribute extends com.serpics.core.data.jpa.AbstractEntity im
 		this.order = order;
 	}
 
-	public OrdersAttributeValueDatetime getOrdersAttributeValueDatetime() {
-		return this.ordersAttributeValueDatetime;
+	public MultiValueAttribute getValue() {
+		return value;
 	}
 
-	public void setOrdersAttributeValueDatetime(OrdersAttributeValueDatetime ordersAttributeValueDatetime) {
-		this.ordersAttributeValueDatetime = ordersAttributeValueDatetime;
+	public void setValue(MultiValueAttribute value) {
+		this.value = value;
 	}
 
-	public OrdersAttributeValueDecimal getOrdersAttributeValueDecimal() {
-		return this.ordersAttributeValueDecimal;
-	}
-
-	public void setOrdersAttributeValueDecimal(OrdersAttributeValueDecimal ordersAttributeValueDecimal) {
-		this.ordersAttributeValueDecimal = ordersAttributeValueDecimal;
-	}
-
-	public OrdersAttributeValueLong getOrdersAttributeValueLong() {
-		return this.ordersAttributeValueLong;
-	}
-
-	public void setOrdersAttributeValueLong(OrdersAttributeValueLong ordersAttributeValueLong) {
-		this.ordersAttributeValueLong = ordersAttributeValueLong;
-	}
-
-	public OrdersAttributeValueText getOrdersAttributeValueText() {
-		return this.ordersAttributeValueText;
-	}
-
-	public void setOrdersAttributeValueText(OrdersAttributeValueText ordersAttributeValueText) {
-		this.ordersAttributeValueText = ordersAttributeValueText;
-	}
-
-	public OrdersAttributeValueVarchar getOrdersAttributeValueVarchar() {
-		return this.ordersAttributeValueVarchar;
-	}
-
-	public void setOrdersAttributeValueVarchar(OrdersAttributeValueVarchar ordersAttributeValueVarchar) {
-		this.ordersAttributeValueVarchar = ordersAttributeValueVarchar;
-	}
-
+	
 }

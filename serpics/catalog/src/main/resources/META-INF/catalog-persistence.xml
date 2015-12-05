@@ -7,11 +7,6 @@
 		<class>com.serpics.catalog.data.model.Catalog</class>
 		<class>com.serpics.catalog.data.model.Category</class>
 		<class>com.serpics.catalog.data.model.Ctentry</class>
-		<class>com.serpics.catalog.data.model.CtentryAttributeValueDatetime</class>
-		<class>com.serpics.catalog.data.model.CtentryAttributeValueDecimal</class>
-		<class>com.serpics.catalog.data.model.CtentryAttributeValueLong</class>
-		<class>com.serpics.catalog.data.model.CtentryAttributeValueText</class>
-		<class>com.serpics.catalog.data.model.CtentryAttributeValueVarchar</class>
 		<class>com.serpics.catalog.data.model.CtentryAttribute</class>
 <!-- 		<class>com.serpics.catalog.data.model.CtentryDescr</class> -->
 <!-- 		<class>com.serpics.catalog.data.model.CtentryDescrPK</class> -->

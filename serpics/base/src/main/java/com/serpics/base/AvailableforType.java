@@ -2,7 +2,7 @@ package com.serpics.base;
 
 public enum AvailableforType {
 
-    PRODUCT, USER, CATEGORY, ORDER, ORDERITEM, FEATURE;
+    PRODUCT, USER, CATEGORY, ORDER, ORDERITEM;
 
 
 }

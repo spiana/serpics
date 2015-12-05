@@ -8,19 +8,9 @@
 		<class>com.serpics.commerce.data.model.Cartitem</class>
 		<class>com.serpics.commerce.data.model.Orderitem</class>
 		<class>com.serpics.commerce.data.model.OrderitemsAttribute</class>
-		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueDatetime</class>
-		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueDecimal</class>
-		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueLong</class>
-		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueText</class>
-		<class>com.serpics.commerce.data.model.OrderitemsAttributeValueVarchar</class>
 		<class>com.serpics.commerce.data.model.Orderpayment</class>
 		<class>com.serpics.commerce.data.model.Order</class>
 		<class>com.serpics.commerce.data.model.OrdersAttribute</class>
-		<class>com.serpics.commerce.data.model.OrdersAttributeValueDatetime</class>
-		<class>com.serpics.commerce.data.model.OrdersAttributeValueDecimal</class>
-		<class>com.serpics.commerce.data.model.OrdersAttributeValueLong</class>
-		<class>com.serpics.commerce.data.model.OrdersAttributeValueText</class>
-		<class>com.serpics.commerce.data.model.OrdersAttributeValueVarchar</class>
 		<class>com.serpics.commerce.data.model.Shipmode</class>
 		<class>com.serpics.commerce.data.model.Shipmodelookup</class>
 		<class>com.serpics.commerce.data.model.Shipping</class>
