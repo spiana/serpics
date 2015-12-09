@@ -2,22 +2,6 @@ var routerApp = angular.module('serpics.router', ['ui.router'])
 
 routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
 	
-	 
-	
-    $urlRouterProvider.otherwise(function ($injector, $location) {
-    
-        //what this function returns will be set as the $location.url
-         var path = $location.path(), normalized = path.toLowerCase();
-         if (path != normalized) {
-             //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
-             $location.replace().path(normalized);
-         }
-         $locationProvider.html5Mode({
-        	    enabled: true,
-        	  });
-     });
-   
-   
     $stateProvider
     
      .state('home', {
@@ -30,7 +14,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
     })
     
     .state('category', {
-    	url: 'category/:name/:id',
+    	url: '/category/:name/:id',
         controller: function ($stateParams, $scope) {
         	$scope.name = $stateParams.name;
         	$scope.categoryId = $stateParams.id;
@@ -40,7 +24,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
     })
     
     .state('brand', {
-    	url: 'brand/:name/:id',
+    	url: '/brand/:name/:id',
         controller: function ($stateParams, $scope) {
         	$scope.name = $stateParams.name;
         	$scope.brandId = $stateParams.id;
@@ -50,7 +34,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
     })    
 
     .state('product', {
-    	url: 'product/:name/:id',
+    	url: '/product/:name/:id',
         controller: function ($stateParams, $scope) {
         	$scope.name = $stateParams.name;
         	$scope.productId = $stateParams.id;
@@ -59,14 +43,16 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
     })
     
     .state('login', {
-    	url: 'login/',       
+    	url: '/login/',       
         templateUrl: 'html/template/login.html'
     })
     
     .state('register', {
-    	url: 'register/',        
+    	url: '/register/',        
         templateUrl: 'html/template/register.html'
     })
- 
+
+	$urlRouterProvider.otherwise('/');
+    
     });
     

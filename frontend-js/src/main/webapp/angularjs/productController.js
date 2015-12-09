@@ -26,7 +26,7 @@
 				if ($scope.product) {
 					return $scope.product.size;
 				} else {
-					return 10;
+					return 9;
 				}
 	  	   	};
 	  	   	
