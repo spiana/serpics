@@ -29,7 +29,6 @@ public class ClasspathDiscoverer extends Discoverer {
 	 * 
 	 * @return the URL[]
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	public final URL[] findResources() {
 		List<URL> list = new ArrayList<URL>();
@@ -46,7 +45,7 @@ public class ClasspathDiscoverer extends Discoverer {
 			if (!fp.exists())
 				throw new RuntimeException("File in java.class.path does not exist: " + fp);
 			try {
-				list.add(fp.toURL());
+				list.add(fp.toURI().toURL());
 			} catch (MalformedURLException e) {
 				throw new RuntimeException(e);
 			}
