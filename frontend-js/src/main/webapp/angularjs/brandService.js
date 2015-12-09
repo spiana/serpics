@@ -46,7 +46,7 @@ app.service("brandService", function( $http, $q, serpicsServices,URL ) {
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("getbrandQService session Id nel promise"+sessionId) ;
+	    			console.log("getbrandQService session Id nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: 	URL + endpoint +'?page=0&size=10',
@@ -120,7 +120,7 @@ app.service("brandService", function( $http, $q, serpicsServices,URL ) {
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("Service findBrandById ssid nel promise"+sessionId) ;
+	    			console.log("Service findBrandById ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: endpoint +   'code/' + brandId,
@@ -141,7 +141,7 @@ app.service("brandService", function( $http, $q, serpicsServices,URL ) {
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("Service findBrandByName ssid nel promise"+sessionId) ;
+	    			console.log("Service findBrandByName ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: 	endpoint +  name,
@@ -163,7 +163,7 @@ app.service("brandService", function( $http, $q, serpicsServices,URL ) {
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("Service findAll ssid nel promise"+sessionId) ;
+	    			console.log("Service findAll ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: endpoint +  '?page=' + page + '&size=' +size,
