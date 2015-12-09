@@ -15,15 +15,24 @@
 		};
 	};
 	
+	var actionUserDirective = function() {
+		var user = 	"<a ui-sref='login'><i class='{{action.actionClass}}'></i> {{action.actionName}}</a>"				
+			return {		
+			restrict : 'EA',
+			template : user,
+			controller	:'loginController'
+		};
+	};
+	
 	/**
 	 * 
 	 */
 	var welcomeUserDirective = function() {
-		var user = 	"<span class='current-user'>Welcome  <span ng-bind='currentUser'>  {{currentUser}}</span></span>"				
+		var user = 	"<span class='current-user'>Welcome  <span ng-bind='globals.currentUser.username'>  {{globals.currentUser.username}}</span></span>"				
 			return {		
 			restrict : 'EA',
 			template : user,
-			controller	:	'customerController'
+			controller	:'loginController'
 		};
 	};
 
@@ -150,11 +159,8 @@
 	var loginDirective = function() {
 		return {
 			restrict : 'EA',
-			template : "<form action='#'><input type='text' placeholder='Name' name='username' />" +
-						"<input type='password' name='password'	placeholder='password' />"+
-						"<span><input	type='checkbox' class='checkbox'> Keep me signed in	</span>"+
-						"<button type='submit' class='btn btn-default'>Login</button></form>"
-
+			templateUrl : 'html/template/login.html',
+			controller:'loginController'
 		};
 	};
 
@@ -205,7 +211,8 @@
 	}
 
 	
-	var app = angular.module('serpics.directive', [])	
+	var app = angular.module('serpics.directive', [])		
+	.directive('actionUserDirective', 	actionUserDirective)
 	.directive('welcomeUserDirective', 	welcomeUserDirective)
 	.directive('loaderDirective', 		loaderDirective)
 	.directive('topHeaderDirective',	topHeaderDirective)

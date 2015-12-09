@@ -78,17 +78,17 @@ var app = angular.module("customer.controller", ['customer.service'])
   	     * @param password			    password for login
   	     * @return 						void
   	     * @use 						customerService,
-  	     */      
-	      $scope.login = function() {	    	
-	        if ($scope.form.username && $scope.form.password) {	         
-	    	 customerService.login(this.form.username, this.form.password).then( function( response ) {
-       		 console.log('form submitted correctly with credential:\nusername: ' 
-       				 + $scope.form.username +'\npassword: '+ $scope.form.password)
-       				 $rootScope.currentUser = $scope.form.username 
-       				 $location.path('/');
-	    	 	})
-	        }
-	      };
+//  	     */      
+//	      $scope.login = function() {	    	
+//	        if ($scope.form.username && $scope.form.password) {	         
+//	    	 customerService.login(this.form.username, this.form.password).then( function( response ) {
+//       		 console.log('form submitted correctly with credential:\nusername: ' 
+//       				 + $scope.form.username +'\npassword: '+ $scope.form.password)
+//       				 $rootScope.currentUser = $scope.form.username 
+//       				 $location.path('/');
+//	    	 	})
+//	        }
+//	      };
 	      
 	      /**
 	  	     * @param endpoint 		    	web service rest endpoint

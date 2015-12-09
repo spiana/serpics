@@ -43,16 +43,32 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
     })
     
     .state('login', {
-    	url: '/login/',       
-        templateUrl: 'html/template/login.html'
+    	url: '/login/', 
+        templateUrl: 'html/template/login.html' ,        	 
+        controller: function ($rootScope, $location, $cookieStore) {        	
+            $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
+            if ($rootScope.globals.currentUser) {
+            	console.log('user loggedin')
+            	$location.path('/'); 
+            }else{
+            	$rootScope.$on('$locationChangeStart', function (event, next, current) {                   
+                    if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {  // redirect to login page if not logged in
+                        $location.path('/login');
+                        console.log('user must do login')
+                    }
+                });
+            }
+         }
     })
     
     .state('register', {
     	url: '/register/',        
-        templateUrl: 'html/template/register.html'
+        templateUrl: 'html/template/register.html'        
     })
 
-	$urlRouterProvider.otherwise('/');
+	
+})
+   
+      
     
-    });
     
