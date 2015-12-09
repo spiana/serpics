@@ -2,7 +2,7 @@
 /**
  * order service to handler rest call to order service
  */
-app.service("orderService", function( $http, $q, authManagerService,URL ) {
+app.service("orderService", function( $http, $q, serpicsServices,URL ) {
 	
 	var endpoint = '/jax-rs/orderService/';
 	 

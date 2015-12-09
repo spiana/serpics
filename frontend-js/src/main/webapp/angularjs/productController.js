@@ -1,8 +1,8 @@
  var app = angular.module("product.controller", ['product.service'])
 /** productController **/
-.controller("productController",['$scope','authManagerService','productService', 
+.controller("productController",['$scope','serpicsServices','productService', 
                                   
-	      function($scope,authManagerService,productService) {	
+	      function($scope,serpicsServices,productService) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -45,7 +45,7 @@
 	  	    /**
 	  	     * @param productId 			id of product 	  
 	  	     * @return 						product with id equal @param productId
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	    function getProduct(productId) {		
 	  	    	productService.getProduct(productId).then( function( response ) {
@@ -56,7 +56,7 @@
 	  	    /**
 	  	     * @param productId 			id of product 
 	  	     * @return 						product's main category
-	  	     * @use 						productService,authManagerSer    
+	  	     * @use 						productService,serpicsServices    
 	  	     */
 	  	   function getCategory(productId) {		
 	  	    	productService.getCategoryProduct(productId).then( function( response ) {
@@ -67,7 +67,7 @@
 	  	    /**
 	  	     * @param productName 			name of product to retrieve  	    
 	  	     * @return 						product name equal @param productName
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	   function getProductByName(productName) {		
 	  	    	productService.getProductByName(productName).then( function( response ) {
@@ -78,7 +78,7 @@
 	  	    /**
 	  	     * @param categoryId 			id of category of product to retrieve  	    
 	  	     * @return 						product with category equal @param categoryId
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	    function findByCategory(categoryId, page, size) {		
 	  	    	productService.findByCategory(categoryId, page, size).then( function( response ) {
@@ -89,7 +89,7 @@
 	  	    /**
 	  	     * @param brandId 				id of brand of product to retrieve    
 	  	     * @return 						product with brand equal @param brandId
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	    function findByBrand(brandId, page, size) {		
 	  	    	productService.findByBrand(brandId, page, size).then( function( response ) {
@@ -99,7 +99,7 @@
 	  	    
 	  	    /**
 	  	     * @return 						all product
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	    function findAll(page, size) {		
 	  	    	productService.findAll(page, size).then( function( response ) {

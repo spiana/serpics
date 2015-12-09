@@ -1,6 +1,6 @@
 var app = angular.module("serpics.Services", ['ngCookies','serpics.config'])
 
-app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPES) {
+app.service("serpicsServices", function( $http, $q ,$cookies,URL,COOKIE_EXIPES) {
  
 	var promiseSession = null;
     var endpoint   	= '/jax-rs/auth/connect/default-store' 
@@ -22,16 +22,16 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
     	    	console.log("promiseSession test: "+(promiseSession==null));
     	    	
     	    	if(promiseSession===null){
-    	    		console.log("sessioid prima della chiamata "+promiseSession);
+    	    		console.log("serpicsServices getSessionId(): ssid prima della chiamata getCallSessionId() "+promiseSession);
     	    		promiseSession = getCallSessionId();
-    	    		console.log("sessioid dopo chiamata getcallsessionid "+promiseSession);
+    	    		console.log("serpicsServices getSessionId(): ssid dopo chiamata getCallSessionId() "+promiseSession);
     	    		return promiseSession;
     	    	}else{
-    	    		console.log('ssid gia richiesto al server');
+    	    		console.log('serpicsServices getSessionId(): ssid gia richiesto al server');
     	    		return promiseSession;
     	    	}
     	    }else{
-    	    	console.log('ssid presente nel cookie'+sessionCookie);
+    	    	console.log('serpicsServices getSessionId(): ssid presente nel cookie'+sessionCookie);
     	    	var defer = $q.defer();
     	    	defer.resolve(sessionCookie);
     	    	return defer.promise;
@@ -45,7 +45,7 @@ app.service("authManagerService", function( $http, $q ,$cookies,URL,COOKIE_EXIPE
 	        	var sessionId = null;
 	        	if ($cookies.get('ssid')) {
 	        		sessionId = $cookies.get('ssid');
-	        		console.log('Serpics Controller: read session id from cookie ->'+ sessionId);
+	        		console.log('serpicsServices getcookie(): ssid from cookie ->'+ sessionId);
 	        		}
 	        	return sessionId;
 	        	};

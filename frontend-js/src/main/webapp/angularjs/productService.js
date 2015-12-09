@@ -1,6 +1,6 @@
  var app = angular.module("product.service", ['serpics.config'])
  
-app.service("productService",function( $http, $q, authManagerService, URL) {
+app.service("productService",function( $http, $q, serpicsServices, URL) {
 	
 	var endpoint = '/jax-rs/productService/';
 	 
@@ -24,7 +24,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	     */      
 	     function getProduct(productId) {
 	    	 
-	    	 var serviceSSID = authManagerService;
+	    	 var serviceSSID = serpicsServices;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
@@ -44,7 +44,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	     * @return 
 	     */      
 	     function getCategoryProduct(productId) {
-	    	 var serviceSSID = authManagerService;
+	    	 var serviceSSID = serpicsServices;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
@@ -64,7 +64,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	     * @return 
 	     */              
 	     function getProductByName(productName) {
-	    	 var serviceSSID = authManagerService;
+	    	 var serviceSSID = serpicsServices;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
@@ -84,7 +84,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	     * @return 
 	     */              
 	     function findByCategory(categoryId, page, size) {
-	    	 var serviceSSID = authManagerService;
+	    	 var serviceSSID = serpicsServices;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
@@ -104,7 +104,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	     * @return 
 	     */         
 	     function findByBrand(brandId, page, size) {
-	    	 var serviceSSID = authManagerService;
+	    	 var serviceSSID = serpicsServices;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
@@ -124,7 +124,7 @@ app.service("productService",function( $http, $q, authManagerService, URL) {
 	     */         
 	     function findAll(page, size) {
 	    	 
-	    	 var serviceSSID = authManagerService;
+	    	 var serviceSSID = serpicsServices;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;

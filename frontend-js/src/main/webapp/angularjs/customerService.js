@@ -2,7 +2,7 @@
 /**
  * CustomerService to handler rest call to customerservice
  */
-app.service("customerService", function( $http, $q, authManagerService,URL) {
+app.service("customerService", function( $http, $q, serpicsServices,URL) {
 	
 	var endpoint = '/jax-rs/customerService/';
 	 
@@ -47,7 +47,7 @@ app.service("customerService", function( $http, $q, authManagerService,URL) {
      * @return 
      */
     function create(user) {
-    	var serviceSSID = authManagerService;
+    	var serviceSSID = getCallSessionId;
     	return $q(function(resolve, reject) {
     		
     	serviceSSID.getSessionId().then(function(sessionId){
@@ -94,7 +94,7 @@ app.service("customerService", function( $http, $q, authManagerService,URL) {
    
     function login(username, password) {
     	
-    	var serviceSSID = authManagerService;
+    	var serviceSSID = getCallSessionId;
     	return $q(function(resolve, reject) {
     		
     	serviceSSID.getSessionId().then(function(sessionId){
