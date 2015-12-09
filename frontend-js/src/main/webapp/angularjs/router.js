@@ -2,12 +2,13 @@ var routerApp = angular.module('serpics.router', ['ui.router'])
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
 	
-	$urlRouterProvider.otherwise('');
+    $urlRouterProvider.otherwise('/');
+
 	
     $stateProvider
     
      .state('home', {
-    	url: '',
+    	url: '/',
         controller: function ($scope) {
         	$scope.name = 'Home Page';
         },
@@ -35,8 +36,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         
     })    
 
-
-    
     .state('product', {
     	url: 'product/:name/:id',
         controller: function ($stateParams, $scope) {
@@ -45,6 +44,21 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         },
         templateUrl: 'html/template/product-central.html'
     })
-
+    
+    .state('login', {
+    	url: 'login/',
+        controller:  function ($stateParams, $scope) {
+        	
+        },
+        templateUrl: 'html/template/login.html'
+    })
+    
+    .state('register', {
+    	url: 'register/',
+        controller: function ($stateParams, $scope) {
+        	
+        },
+        templateUrl: 'html/template/register.html'
+    })
     });
     

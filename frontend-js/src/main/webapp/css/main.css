@@ -2141,7 +2141,9 @@ padding:16px 42px;
   color: #fff
 }
 
-
+.loginBtn,.registerBtn{
+ width:100%;
+}
 
 /*************************
 *******Blog Single CSS******
