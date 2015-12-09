@@ -1,6 +1,5 @@
 package com.serpics.commerce.facade.data;
 
-import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.facade.data.AbstractProductData;
 import com.serpics.core.facade.AbstractData;
 
