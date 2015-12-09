@@ -356,6 +356,7 @@ ul.sub-menu {
 	color:#999;
 	background-color: transparent;
     border-radius: 10px;
+    cursor: pointer;
 }
 /*************************
 *******Footer CSS******
