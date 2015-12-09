@@ -115,53 +115,67 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
         }
         
         /**
-         * @param endpoint
-         * @param sessionId               
-         * @param code
          * @param brandId
          * @return 
          */      
-        function findBrandById(endpoint,sessionId,code,brandId) {
-            var request = $http.get({                
-                url: endpoint +   code + '/' + brandId,
-                headers: {
-                	'ssid': auurlthManager.getsessionId
-                }                         
-              });
-            return( request.then( handleSuccess, handleError ) );
+        function findBrandById(brandId) {
+	    	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("Service findBrandById ssid nel promise"+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: endpoint +   'code/' + brandId,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
         }
         
         /**
-         * @param endpoint
-         * @param sessionId               
          * @param name
          * @return 
          */      
-        function findBrandByName(endpoint,sessionId,name) {
-        	 var request = $http.get({                
-                 url: 	endpoint +  name,
-                 headers: {
-                 	'ssid': sessionId
-                 }                            
-               });
-            return( request.then( handleSuccess, handleError ) );
+        function findBrandByName(name) {
+        	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("Service findBrandByName ssid nel promise"+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: 	endpoint +  name,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
         }
         
         /**
-         * @param endpoint
-         * @param sessionId 
          * @param page
          * @param size        
          * @return 
          */      
-        function findAll(endpoint,sessionId,page,size) {
-        	 var request = $http.get({                
-                 url: endpoint +  'findAll?page=' + page + '&size=' +size,
-                 headers: {
-                 	'ssid': sessionId
-                 }                         
-               });
-            return( request.then( handleSuccess, handleError ) );
+        function findAll(page,size) {
+        	var serviceSSID = authManagerService;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("Service findAll ssid nel promise"+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: endpoint +  '?page=' + page + '&size=' +size,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
         }
         
         /**
