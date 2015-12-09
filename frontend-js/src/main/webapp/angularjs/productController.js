@@ -6,6 +6,7 @@
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
+			var productId = $scope.productId;
 			var page = getPage();
 			var size = getSize();
 	
@@ -108,14 +109,18 @@
 	  	    
 	  	    function findAllQ(page, size){
 	  	    	console.log("Controller ProductQ");
-	  	    	if (!categoryId && brandId){
-	  	    		findByBrand(brandId, page, size);
-	  	    	}
-	  	    	if (categoryId && !brandId){
-	  	    		findByCategory(categoryId, page, size);
-	  	    	}
-	  	    	if (!categoryId && !brandId){
-	  	    		findAll(page, size);
+	  	    	if (productId){
+	  	    		getProduct(productId);
+	  	    	} else {
+		  	    	if (!categoryId && brandId){
+		  	    		findByBrand(brandId, page, size);
+		  	    	}
+		  	    	if (categoryId && !brandId){
+		  	    		findByCategory(categoryId, page, size);
+		  	    	}
+		  	    	if (!categoryId && !brandId){
+		  	    		findAll(page, size);
+		  	    	}
 	  	    	}
 	  	    };
 	  	    

@@ -6,18 +6,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
 	
     $stateProvider
     
-//    .state('home', {
-//    	url: '',
-//        views: {
-//            '': {  templateUrl: 'html/template/home-central.html' },
-//            'product@home': { 
-//                templateUrl: 'html/template/central-product.html',
-//                controller: 'productController'
-//            }
-//        }
-//        
-//    })
-    
      .state('home', {
     	url: '',
         controller: function ($scope) {
@@ -47,5 +35,16 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         
     })    
 
+    })
+    
+    .state('product', {
+    	url: 'product/:name/:id',
+        controller: function ($stateParams, $scope) {
+        	$scope.name = $stateParams.name;
+        	$scope.productId = $stateParams.id;
+        },
+        templateUrl: 'html/template/product-central.html'
+
+    });
     
 });
