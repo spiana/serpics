@@ -29,4 +29,9 @@ public class BrandServiceImpl extends AbstractCommerceEntityService<Brand, Long>
 		return brandRepository.findOne(BrandSpecification.findOneByName(name));
 	}
 
+	@Override
+	public int getBrandProduct(Brand brand) {
+		return brandRepository.getCountBrandProduct(brand);
+	}
+	
 }

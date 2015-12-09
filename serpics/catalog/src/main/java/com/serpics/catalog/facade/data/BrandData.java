@@ -6,6 +6,7 @@ public class BrandData extends AbstractData{
 	
 	protected String logo;
 	protected String name;
+	protected int brandProductNumber;
 	protected int published;
 	
 	public String getLogo() {
@@ -25,6 +26,12 @@ public class BrandData extends AbstractData{
 	}
 	public void setPublished(int published) {
 		this.published = published;
+	}
+	public int getBrandProductNumber() {
+		return brandProductNumber;
+	}
+	public void setBrandProductNumber(int brandProductNumber) {
+		this.brandProductNumber = brandProductNumber;
 	}
 	
 }
