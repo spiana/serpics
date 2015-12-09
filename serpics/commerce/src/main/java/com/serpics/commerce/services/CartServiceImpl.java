@@ -103,7 +103,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	public Cart getSessionCart() {
 		Cart currentCart = (Cart) getCurrentContext().getAttribute(SESSION_CART);
 		if (currentCart == null) {
-			LOG.info("NOT found cart in commerce session for user {}",
+			LOG.warn("NOT found cart in commerce session for user {}",
 					((User) getCurrentContext().getUserPrincipal()).getUuid());
 			currentCart = createSessionCart();
 		} else {
@@ -358,14 +358,24 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 		Page<Cart> resultPage = cartRepository.findAllCartByUserId(userId, customerId,
 				new PageRequest(0, 10, Sort.Direction.DESC, "updated"));
-		if (resultPage.getContent().size() > 1) {
-			LOG.warn("ci sono più carrelli associati all'utente {} e al customer {}", userId, customerId);
+		Cart result = new Cart();
+		if (resultPage.getContent().size() == 0 ) {
+			LOG.warn("Non ci sono carrelli associati all'utente {} e al customer {} nel repository", userId, customerId);
 			// devo prendere il primo carrello della lista
+			result = null;
+			
 		} else {
-			LOG.warn("Singolo Carrello associato all'utente {} e al customer {}", userId, customerId);
-			// carrello singolo
+			if(resultPage.getContent().size() >1){
+				LOG.warn("Ci sono più carrelli associati all'utente {} e al customer {} nel repository", userId, customerId);
+				result = resultPage.getContent().get(0);
+			}else{
+				LOG.warn("Singolo Carrello associato all'utente {} e al customer {}", userId, customerId);
+				// carrello singolo	
+				result = resultPage.getContent().get(0);
+			}
+			
 		}
-		return resultPage.getContent().get(0);
+		return result;
 	}
 
 	@Override
