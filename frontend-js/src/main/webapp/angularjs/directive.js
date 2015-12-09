@@ -12,7 +12,6 @@
 			replace: true,
 			restrict : 'A',
 			template : loader,
-//			controller : 'serpicsAppController'
 		};
 	};
 
