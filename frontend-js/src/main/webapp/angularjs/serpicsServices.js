@@ -36,8 +36,7 @@ app.service("serpicsServices", function( $http, $q ,$cookies,URL,COOKIE_EXIPES) 
     	    	defer.resolve(sessionCookie);
     	    	return defer.promise;
     	    }
-        };
-        
+    	    };      
        
         
 

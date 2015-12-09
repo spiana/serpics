@@ -17,7 +17,8 @@ app.service("customerService", function( $http, $q, serpicsServices,URL) {
   			updateDestinationAddress: 		updateDestinationAddress,
   			addDestinationAddress:			addDestinationAddress,
   			deleteDestinationAddress:		deleteDestinationAddress   	
-    });                
+    }); 
+  	
     return service
     
     /** public methods**/
@@ -47,7 +48,7 @@ app.service("customerService", function( $http, $q, serpicsServices,URL) {
      * @return 
      */
     function create(user) {
-    	var serviceSSID = getCallSessionId;
+//    	var serviceSSID = serpicsServices.getCallSessionId();
     	return $q(function(resolve, reject) {
     		
     	serviceSSID.getSessionId().then(function(sessionId){
@@ -94,7 +95,7 @@ app.service("customerService", function( $http, $q, serpicsServices,URL) {
    
     function login(username, password) {
     	
-    	var serviceSSID = getCallSessionId;
+    	var serviceSSID = serpicsServices;
     	return $q(function(resolve, reject) {
     		
     	serviceSSID.getSessionId().then(function(sessionId){
