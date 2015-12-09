@@ -1,10 +1,23 @@
 var routerApp = angular.module('serpics.router', ['ui.router'])
 
-routerApp.config(function($stateProvider, $urlRouterProvider) {
+routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
 	
-    $urlRouterProvider.otherwise('/');
-
+	 
 	
+    $urlRouterProvider.otherwise(function ($injector, $location) {
+    
+        //what this function returns will be set as the $location.url
+         var path = $location.path(), normalized = path.toLowerCase();
+         if (path != normalized) {
+             //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
+             $location.replace().path(normalized);
+         }
+         $locationProvider.html5Mode({
+        	    enabled: true,
+        	  });
+     });
+   
+   
     $stateProvider
     
      .state('home', {
@@ -46,19 +59,14 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     })
     
     .state('login', {
-    	url: 'login/',
-        controller:  function ($stateParams, $scope) {
-        	
-        },
+    	url: 'login/',       
         templateUrl: 'html/template/login.html'
     })
     
     .state('register', {
-    	url: 'register/',
-        controller: function ($stateParams, $scope) {
-        	
-        },
+    	url: 'register/',        
         templateUrl: 'html/template/register.html'
     })
+ 
     });
     

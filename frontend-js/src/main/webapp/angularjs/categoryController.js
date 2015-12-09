@@ -28,6 +28,7 @@
                  	$scope.categoryData 	= response.data;                  	
                  })
      	    };
+     	    
      	    function getTopQ(){
      	    	console.log("topQ");
      	    	categoryService.getTopQ().then(function(response){

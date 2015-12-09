@@ -75,11 +75,13 @@ var app = angular.module("customer.controller", ['customer.service'])
   	     * @use 						customerService,
   	     */      
 	      $scope.login = function() {	    	
-	        if ($scope.username && $scope.password) {	         
-	    	 customerService.login(this.username, this.password).then( function( response ) {
+	        if ($scope.form.username && $scope.form.password) {	         
+	    	 customerService.login(this.form.username, this.form.password).then( function( response ) {
        		 console.log('form submitted correctly with credential:\nusername: ' 
-       				 + $scope.username +'\npassword: '+ $scope.password)
-       				 /** do stuff with response 200**/
+       				 + $scope.form.username +'\npassword: '+ $scope.form.password)
+       				 
+       				 
+       				 
 	    	 	})
 	        }
 	      };
