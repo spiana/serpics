@@ -1,9 +1,9 @@
-var app = angular.module("customer.controller", ['customer.service','serpics.Authentication','ngCookies'])
+var app = angular.module("customer.controller", ['customer.service',])
 
 /** customerController **/
-.controller("customerController",['$scope','$rootScope','customerService', '$location','authenticationService',
+.controller("customerController",['$scope','$rootScope','customerService', '$location',
                                   
-      function($scope,$rootScope,customerService,$location,authenticationService) {	
+      function($scope,$rootScope,customerService,$location) {	
    	
 	
 			$scope.form = {
