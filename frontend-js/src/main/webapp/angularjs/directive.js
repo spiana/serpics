@@ -184,6 +184,14 @@
 			controller: 'productController',
 		}
 	}
+	
+	var detailProductDirective = function() {
+		return {
+			restrict: 'EA',
+			templateUrl: 'html/template/detail-product.html',
+			controller: 'productController',
+		}
+	}
 
 	
 	var app = angular.module('serpics.directive', [])
@@ -204,6 +212,7 @@
 	.directive('recommendedDirective', 	recommendedDirective)
 	.directive('footerDirective', 		footerDirective)
 	.directive('singleProductDirective', 		singleProductDirective)	
+	.directive('detailProductDirective', 		detailProductDirective)	
 	
 	
 }());

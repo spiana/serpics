@@ -6,8 +6,12 @@ var app = angular.module("customer.controller", ['customer.service'])
       function($scope,customerService) {	
    	
 			$scope.form = {
-		  		  username:'',
-		  		  password:''
+						logonid:'',
+				  		username:'',
+				  		password:'',
+				  		email:'',
+				  		status:'',
+				  		member_id:''
 		    }
 	 
   	    /** implemented customer service **/ 
@@ -80,7 +84,31 @@ var app = angular.module("customer.controller", ['customer.service'])
 	        }
 	      };
 
-  	    
+	      
+	      /**
+	  	     * @param endpoint 		    	web service rest endpoint
+	  	     * @param sessionId 			a sessionId
+	  	     * @param username			    username for login
+	  	     * @param password			    password for login
+	  	     * @return 						void
+	  	     * @use 						customerService,
+	  	     */      
+		      $scope.register = function() {
+		    	  $scope.user ={
+		    			  username:$scope.username,
+		    			  password:$scope.password,
+		    			  email:$scope.email,
+		    			  status:'ACTIVE',
+		    			  member_id:'10'
+		    	  }
+		        if ($scope.user!=null) {	         
+		    	 customerService.create($scope.user).then( function( response ) {
+	       		 console.log('create new user with credential:\nusername: ' 
+	       				 + $scope.username +'\npassword: '+ $scope.password +'\nemail: '+ $scope.email)
+	       				 /** do stuff with response 200**/
+		    	 	})
+		        }
+		      };
   	    /**
   	     * @param endpoint 		    	web service rest endpoint
   	     * @param sessionId 			a sessionId

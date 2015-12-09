@@ -6,16 +6,13 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
 	
     $stateProvider
     
-    .state('home', {
+     .state('home', {
     	url: '',
-        views: {
-            '': {  templateUrl: 'html/template/home-central.html' },
-            'product@home': { 
-                templateUrl: 'html/template/central-product.html',
-                controller: 'productController'
-            }
-        }
-        
+        controller: function ($scope) {
+        	$scope.name = 'Home Page';
+        },
+        templateUrl: 'html/template/home-central.html'
+
     })
     
     .state('category', {
@@ -36,6 +33,17 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         },
         templateUrl: 'html/template/brand-central.html'
         
+    })    
+
+    })
+    
+    .state('product', {
+    	url: 'product/:name/:id',
+        controller: function ($stateParams, $scope) {
+        	$scope.name = $stateParams.name;
+        	$scope.productId = $stateParams.id;
+        },
+        templateUrl: 'html/template/product-central.html'
+
     });
     
-});
