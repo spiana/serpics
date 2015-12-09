@@ -1,8 +1,8 @@
  var app = angular.module("order.controller", ['order.service'])
 /** orderController **/
-.controller("orderController",['$scope','authManagerService','orderService', 
+.controller("orderController",['$scope','serpicsServices','orderService', 
                                   
-      function($scope,authManagerService,orderService) {	
+      function($scope,serpicsServices,orderService) {	
    	
   	    $scope.order 	= [];
   	    
@@ -13,7 +13,7 @@
   	     * @param sessionId 		a sessionId
   	     * @param data				data to send
   	     * @return 					current cart from session
-  	     * @use 					orderService,authManagerService
+  	     * @use 					orderService,serpicsServices
   	     */
   		$scope.getOrders = function(endpoint) {	
   	    	orderService.getOrders(endpoint,$rootScope.sessionId).then( function( response ) {
@@ -27,7 +27,7 @@
   	     * @param order 				add payment for @param order
   	     * @param data 					data to send
   	     * @return 						a new cart
-  	     * @use 						orderService,authManagerService
+  	     * @use 						orderService,serpicsServices
   	     */
   	    $scope.addPayment = function(endpoint, order, data) {		
   	    	orderService.addPayment(endpoint,$rootScope.sessionId,order,data).then( function( response ) {

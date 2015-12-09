@@ -16,7 +16,7 @@
 		 * @param endpoint 		    	web service rest endpoint
  	     * @param sessionId 			a sessionId
  	     * @return 						new brand
- 	     * @use 						brandService,authManagerService
+ 	     * @use 						brandService,serpicsServices
  	     */
  		$scope.getBrand = function(data) {	
 			
@@ -55,7 +55,7 @@
  	    /**
  	     * @param name 				name of brand to retrieve
  	     * @return 					all brand by @param name
- 	     * @use 					brandService,authManagerService
+ 	     * @use 					brandService,serpicsServices
  	     */
  	    $scope.findBrandByName = function(name) {
  	    	console.log("Brand Controller findBrandByName: "+name);
@@ -67,7 +67,7 @@
  	    
  	    /**
  	     * @return 					all brand
- 	     * @use 					brandService,authManagerService
+ 	     * @use 					brandService,serpicsServices
  	     */
  	    $scope.findAll = function(page,size) {
  	    	console.log("Brand Controller findAll: page:"+page+" size: "+size);

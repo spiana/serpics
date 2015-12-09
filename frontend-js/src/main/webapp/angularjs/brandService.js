@@ -2,7 +2,7 @@
 /**
  * brand service to handler rest call to brand service
  */
-app.service("brandService", function( $http, $q, authManagerService,URL ) {
+app.service("brandService", function( $http, $q, serpicsServices,URL ) {
 	
 	var endpoint = '/jax-rs/brandService/';
 	 
@@ -11,9 +11,6 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
         var service =({
         	getBrand		: getBrand,
         	getBrandQ		: getBrandQ,
-        	addBrand		: addBrand,
-        	updateBrand		: updateBrand,
-        	deleteBrand		: deleteBrand,
         	findBrandById	: findBrandById,
         	findBrandByName	: findBrandByName,
         	findAll			: findAll
@@ -45,7 +42,7 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
 	     * @return 
 	     */     
 	    function getBrandQ() {
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -119,7 +116,7 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
          * @return 
          */      
         function findBrandById(brandId) {
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -140,7 +137,7 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
          * @return 
          */      
         function findBrandByName(name) {
-        	var serviceSSID = authManagerService;
+        	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -162,7 +159,7 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
          * @return 
          */      
         function findAll(page,size) {
-        	var serviceSSID = authManagerService;
+        	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){

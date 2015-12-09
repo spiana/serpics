@@ -2,7 +2,7 @@
  /**
  * category service to handler rest call to category service
  */
- app.service("categoryService", function( $http, $q,authManagerService,URL) {
+ app.service("categoryService", function( $http, $q,serpicsServices,URL) {
 	 
 	 var endpoint   	= '/jax-rs/categoryService/'
  
@@ -26,7 +26,7 @@
 	     */     
 	    function getTop() {
 	    	var defer = $q.defer();
-	    	var response = authManagerService.getSessionId();
+	    	var response = serpicsServices.getSessionId();
 	    	response.then(function(idSessione){
 	    		
 	    		var request = $http({
@@ -50,11 +50,11 @@
 	     * @return 
 	     */     
 	    function getTopQ() {
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("BrandService getTopQ() ssid nel promise"+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: 	URL + endpoint +  'top',
@@ -73,10 +73,10 @@
 	     * @return 
 	     */      
 	    function getCategoryById(categoryId) {
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("BrandService getCategoryById(categoryId) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL + endpoint + categoryId,
@@ -93,14 +93,14 @@
 	     * @param category                
 	     * @return 
 	     */      
-	    function getCategoryByCode(code,category) {
-	    	var serviceSSID = authManagerService;
+	    function getCategoryByCode(code) {
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("BrandService getCategoryByCode(code) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint +  code + '/' + category,
+	    				url: URL + endpoint +  'code/' + category,
 	    				headers: {
 	    					'ssid': sessionId
 	    					}
@@ -115,10 +115,10 @@
 	     */      
 	    function getChild(parentId) {
 	    	console.log("getChild(parentId): "+parentId) ;
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("BrandService getChild(parentId) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL + endpoint +   'getChild/' + parentId,
@@ -131,14 +131,13 @@
     	 }
 	    
 	    /**
-	     * @param sessionId               
 	     * @return 
 	     */     
-	    function findAll(sessionId) {
-	    	var serviceSSID = authManagerService;
+	    function findAll() {
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("BrandService findAll() ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL +  endpoint +  'findAll',
@@ -150,14 +149,13 @@
 	    	});
 	    }
 	    
+	    
 	    /**
 	     * private method.
 	     * I transform the error response, unwrapping the application dta from
 	     * the API response payload.
 	     */                
 	  
-	   
-	    	
 	    function handleError( response ) {
 	        /**
 	         * The API response from the server should be returned in a
