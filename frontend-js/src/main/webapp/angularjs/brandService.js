@@ -52,7 +52,7 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
 	    			console.log("getbrandQService session Id nel promise"+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: 	URL + endpoint,
+			             url: 	URL + endpoint +'?page=0&size=10',
 			             headers: {
 			             	'ssid': sessionId
 			            }
