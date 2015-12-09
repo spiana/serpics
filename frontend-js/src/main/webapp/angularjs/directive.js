@@ -10,7 +10,7 @@
 		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>{{ loadingText }}</div></div>"				
 			return {		
 			replace: true,
-			restrict : 'A',
+			restrict : 'EA',
 			template : loader,
 		};
 	};

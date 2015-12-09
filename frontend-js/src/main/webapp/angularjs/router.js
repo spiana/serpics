@@ -1,4 +1,4 @@
-var routerApp = angular.module('serpics.router', ['ui.router']);
+var routerApp = angular.module('serpics.router', ['ui.router'])
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
 	
@@ -35,7 +35,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         
     })    
 
-    })
+
     
     .state('product', {
     	url: 'product/:name/:id',
@@ -44,6 +44,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         	$scope.productId = $stateParams.id;
         },
         templateUrl: 'html/template/product-central.html'
+    })
 
     });
     
