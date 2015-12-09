@@ -1,10 +1,11 @@
-var app = angular.module("customer.controller", ['customer.service'])
+var app = angular.module("customer.controller", ['customer.service',])
 
 /** customerController **/
-.controller("customerController",['$scope','customerService', 
+.controller("customerController",['$scope','$rootScope','customerService', '$location',
                                   
-      function($scope,customerService) {	
+      function($scope,$rootScope,customerService,$location) {	
    	
+	
 			$scope.form = {
 						logonid:'',
 				  		username:'',
@@ -13,7 +14,9 @@ var app = angular.module("customer.controller", ['customer.service'])
 				  		status:'',
 				  		member_id:''
 		    }
-	 
+			
+			$rootScope.currentUser = $scope.form.username
+			
   	    /** implemented customer service **/ 
   	    
   	    
@@ -79,9 +82,8 @@ var app = angular.module("customer.controller", ['customer.service'])
 	    	 customerService.login(this.form.username, this.form.password).then( function( response ) {
        		 console.log('form submitted correctly with credential:\nusername: ' 
        				 + $scope.form.username +'\npassword: '+ $scope.form.password)
-       				 
-       				 
-       				 
+       				 $rootScope.currentUser = $scope.form.username 
+       				 $location.path('/');
 	    	 	})
 	        }
 	      };

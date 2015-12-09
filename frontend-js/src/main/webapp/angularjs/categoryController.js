@@ -87,7 +87,7 @@
      					   console.log("getChild(parentId,index,category) ramo then");
      					   cache.isAdded += '#' + parentId;
      					   $scope.categoryData[index].subCategory=response;
-     					   console.log("Request effettuata"+$scope.categoryData[index].active);
+     					   console.log("Request effettuata "+$scope.categoryData[index].active);
      				   });
      			   }
      	    };
