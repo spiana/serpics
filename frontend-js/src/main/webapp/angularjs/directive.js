@@ -7,12 +7,12 @@
 	 * 
 	 */
 	var loaderDirective = function() {
-		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>" +
-						"{{ loadingText }}</div></div>"				
+		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>{{ loadingText }}</div></div>"				
 			return {		
 			replace: true,
-			restrict : 'EA',
+			restrict : 'A',
 			template : loader,
+//			controller : 'serpicsAppController'
 		};
 	};
 
@@ -64,6 +64,7 @@
 			replace: true,
 			restrict : 'EA',
 			template : breadcrumbs,
+			
 		};
 	};
 	
@@ -86,7 +87,6 @@
 		return {
 			restrict : 'EA',
 			templateUrl : "html/template/features.html",			
-			controller : 'serpicsAppController'
 		};
 	};
 	
