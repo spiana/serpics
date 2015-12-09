@@ -14,6 +14,18 @@
 			template : loader,
 		};
 	};
+	
+	/**
+	 * 
+	 */
+	var welcomeUserDirective = function() {
+		var user = 	"<span class='current-user'>Welcome  <span ng-bind='currentUser'>  {{currentUser}}</span></span>"				
+			return {		
+			restrict : 'EA',
+			template : user,
+			controller	:	'customerController'
+		};
+	};
 
 	/**
 	 * 
@@ -193,7 +205,8 @@
 	}
 
 	
-	var app = angular.module('serpics.directive', [])
+	var app = angular.module('serpics.directive', [])	
+	.directive('welcomeUserDirective', 	welcomeUserDirective)
 	.directive('loaderDirective', 		loaderDirective)
 	.directive('topHeaderDirective',	topHeaderDirective)
 	.directive('middleHeaderDirective',	middleHeaderDirective)
