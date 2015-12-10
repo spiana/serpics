@@ -1,8 +1,8 @@
- var app = angular.module("product.controller", ['product.service'])
+ var app = angular.module("product.controller", ['product.service', 'cart.service'])
 /** productController **/
-.controller("productController",['$scope','serpicsServices','productService', 
+.controller("productController",['$scope','serpicsServices','productService', '$state', 'cartService',
                                   
-	      function($scope,serpicsServices,productService) {	
+	      function($scope,serpicsServices,productService,$state,cartService) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -38,6 +38,14 @@
 
 	  	      return input;
 	  	   	}
+	  	  
+	  	  $scope.addToCart = function(sku,quantity){
+	  	    	console.log("ProductController cartAdd(sku ,quantity)");
+	  			cartService.cartAdd(sku ,quantity).then(function(response){
+	    			  console.log("ProductController cartAdd(sku ,quantity): ramo then");
+	    			  $state.go('cart')
+	  		});
+	  	  }
 	  	 
 	  	    /** implemented order service **/ 
 	  	    

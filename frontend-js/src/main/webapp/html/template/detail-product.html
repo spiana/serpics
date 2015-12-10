@@ -48,8 +48,8 @@
 								<span>
 									<span id="producePrice">&euro; {{product.price.currentPrice}}</span>
 									<label>Quantity:</label>
-									<input type="text" />
-									<button type="button" class="btn btn-fefault cart">
+									<input type="text" value="1" name="quantity">
+									<button type="button" class="btn btn-fefault cart" ng-click="cartController.cartAdd(product.code,${quantity})" ui-sref="cart">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
 									</button>

@@ -117,7 +117,8 @@
 	var featuresDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : "html/template/features.html",			
+			templateUrl : "html/template/features.html",
+			controller: 'productController',
 		};
 	};
 	
@@ -210,7 +211,6 @@
 		return {
 			restrict: 'EA',
 			templateUrl: 'html/template/single-product.html',
-			controller: 'productController',
 		}
 	}
 	

@@ -73,6 +73,12 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 				}
 	        }
 	    })
+    
+    .state('cart', {
+    	url: '/cart/',       
+        templateUrl: 'html/template/cart.html',
+        controller: 'cartController',
+    })
 
 	    .state('register', {
 	    	url: '/register',	        

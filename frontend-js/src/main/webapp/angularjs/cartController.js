@@ -4,8 +4,9 @@
                                   
       function($scope,cartService) {	
    	
-  	    $scope.cart 	= [];
-  	    $scope.cartItemModification =[];
+  	    $scope.cart 	= {};
+  	    
+  	    getCurrentCart();
   	  
   	    /** implemented cart service **/ 
   	    
@@ -15,24 +16,20 @@
   	     * @use 					cartService,
   	     */
   		$scope.getCurrentCart = function() {
-  			console.log("CartController getCurrentCart()");
-  			cartService.getCurrentCart().then(function(response){
-    			  console.log("CartController getCurrentCart(): ramo then");
-    			  $scope.cart = response;
-    		  })
+  	    	getCurrentCart();
   	    };
   	    
   	    /**
   	     * @param sku 					sku to send
   	     * @param quantity 		        quantity to send
-  	     * @return 						a new cart
+  	     * @return 						a new cartItemModification
   	     * @use 						cartService,
   	     */
   	    $scope.cartAdd = function(sku ,quantity) {
   	    	console.log("CartController cartAdd(sku ,quantity)");
   			cartService.cartAdd(sku ,quantity).then(function(response){
     			  console.log("CartController cartAdd(sku ,quantity): ramo then");
-    			  $scope.cart = response;
+    			  $scope.cart = response.cart;
     		  })
   	    };
   	    
@@ -58,7 +55,7 @@
   	    	console.log("CartController deleteItem(itemId)");
   			cartService.deleteItem(itemId).then(function(response){
     			  console.log("CartController deleteItem(itemId): ramo then");
-    			  $scope.cartItemModification = response;
+    			  $scope.cart = response.cart;
     		  })
   	    };
   	    
@@ -87,5 +84,13 @@
     			  $scope.cart = response;
     		  })
   	    };
+  	    
+  	    function getCurrentCart() {
+  			console.log("CartController getCurrentCart()");
+  			cartService.getCurrentCart().then(function(response){
+    			  console.log("CartController getCurrentCart(): ramo then");
+    			  $scope.cart = response;
+    		  })
+  	    }
   	             	    
 }])

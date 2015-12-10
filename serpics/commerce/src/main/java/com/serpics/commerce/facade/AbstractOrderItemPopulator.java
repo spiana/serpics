@@ -4,6 +4,7 @@ package com.serpics.commerce.facade;
 import javax.annotation.Resource;
 
 import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.facade.data.AbstractProductData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.facade.data.AbstractOrderItemData;
@@ -24,7 +25,7 @@ public class AbstractOrderItemPopulator{
 		
 		target.setQuantity(source.getQuantity());
 		
-		//target.setProduct((AbstractProductData)productConverter.convert((Product)source.getProduct()));
+		target.setProduct((AbstractProductData)productConverter.convert((Product)source.getProduct()));
 		target.setSku(source.getSku());
 		target.setSkuCost(source.getSkuCost());
 		target.setSkuDescription(source.getSkuDescription());

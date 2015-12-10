@@ -1,12 +1,12 @@
 package com.serpics.commerce.facade.data;
 
-public class CartItemModification {
+public class CartModification {
 
 	CartModificationStatus modificationStatus;
 	CartData cart;
 	String errorMessage;
 	
-	public CartItemModification(CartModificationStatus modificationStatus,
+	public CartModification(CartModificationStatus modificationStatus,
 			CartData cart, String errorMessage) {
 		super();
 		this.modificationStatus = modificationStatus;
@@ -14,7 +14,7 @@ public class CartItemModification {
 		this.errorMessage = errorMessage;
 	}
 	
-	public CartItemModification(CartModificationStatus modificationStatus,
+	public CartModification(CartModificationStatus modificationStatus,
 			CartData cart) {
 		super();
 		this.modificationStatus = modificationStatus;

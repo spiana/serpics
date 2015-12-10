@@ -31,7 +31,7 @@ app.service("cartService", function( $http, $q, serpicsServices, URL) {
 	    			console.log("cartService getCurrentCart() ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: URL + endpoint +   'getCurrentCart/' , 
+			             url: URL + endpoint , 
 			             headers: {
 			             	'ssid': sessionId
 			            }
