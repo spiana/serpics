@@ -1,8 +1,9 @@
  var app = angular.module("product.service", ['serpics.config'])
  
-app.service("productService",function( $http, $q, serpicsServices, URL) {
+app.service("productService",function( $http, $q, serpicsServices, URL,COOKIE_EXPIRES) {
 	
 	var endpoint = '/jax-rs/productService/';
+	var localSessionId = '';
 	 
 	     /** Return public API. (loki java interface)**/
 	     var service =({
@@ -28,6 +29,7 @@ app.service("productService",function( $http, $q, serpicsServices, URL) {
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 localSessionId= sessionId; 
 	    			 $http({
 	    				 method: 	'GET',
 	    				 url: URL + endpoint +  productId,
@@ -48,6 +50,7 @@ app.service("productService",function( $http, $q, serpicsServices, URL) {
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 localSessionId= sessionId; 
 	    			 $http({
 	    				 method: 	'GET',
 	    				 url: URL + endpoint + 'getCategory/'+ productId,
@@ -68,6 +71,7 @@ app.service("productService",function( $http, $q, serpicsServices, URL) {
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 localSessionId= sessionId; 
 	    			 $http({
 	    				 method: 	'GET',
 	    				 url: URL + endpoint + 	  'byCode/' + productName ,
@@ -88,6 +92,7 @@ app.service("productService",function( $http, $q, serpicsServices, URL) {
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 localSessionId= sessionId; 
 	    			 $http({
 	    				 method: 	'GET',
 	    				 url: 	URL + endpoint +   'pageCategory/' + categoryId + '?page=' + page + '&size=' + size,
@@ -108,6 +113,7 @@ app.service("productService",function( $http, $q, serpicsServices, URL) {
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 localSessionId= sessionId; 
 	    			 $http({
 	    				 method: 	'GET',
 	    				 url:	URL + endpoint +   'pageBrand/' + brandId + '?page=' + page + '&size=' + size,
@@ -128,6 +134,7 @@ app.service("productService",function( $http, $q, serpicsServices, URL) {
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
+	    			 localSessionId= sessionId; 
 	    			 $http({
 	    				 method: 	'GET',
 	    				 url: URL + endpoint + '?page=' + page + '&size=' + size,
@@ -165,6 +172,8 @@ app.service("productService",function( $http, $q, serpicsServices, URL) {
      * from the API response payload.                
      */
     function handleSuccess( response ) {
+    	var serviceSSID = serpicsServices;
+    	serviceSSID.setCookie('ssid',localSessionId,COOKIE_EXPIRES)  /** expire 20 minut **/ 
         return( response.data.responseObject);
     }
 });

@@ -13,22 +13,8 @@
  	    /** implemented brand service **/  	    
 		
 		/**
-		 * @param endpoint 		    	web service rest endpoint
- 	     * @param sessionId 			a sessionId
- 	     * @return 						new brand
- 	     * @use 						brandService,serpicsServices
- 	     */
- 		$scope.getBrand = function(data) {	
-			
-			console.log("Brand Controller: session id for top method:-> " + $scope.sessionId)
- 	    	brandService.getBrand(endpoint,$scope.sessionId).then( function( response ) {
- 	    		$scope.brandData = response.content
- 	    		})
- 	    };
- 	    
-		/**
- 	     * @return 						all brands list
- 	     * @use 						brandService
+ 	     * @return 					all brands list
+ 	     * @use 					brandService
  	     */
   	   function getBrandQ(){
   		  console.log("Brand Controller getBrandQ()");
@@ -38,7 +24,6 @@
   		  })
   	   };
 		
-	    
  	    /**
  	     * @param brandId 		   	brandId to search
  	     * @return 					all brand by @param brandId

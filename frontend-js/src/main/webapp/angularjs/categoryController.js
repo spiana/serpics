@@ -22,9 +22,10 @@
      	     * @use 					categoryService,
      	     */
 		 	function getTop(){	
-					console.log("Category Controller: session id for top method:-> ");
-                 	categoryService.getTop(endpoint).then( function( response ) {
-                 	$scope.categoryData 	= response.data;                  	
+		 		console.log("Category Controller getTop()");
+                 	categoryService.getTop().then( function( response ) {
+                 		console.log("Category Controller getTop() ramo then");
+                 		$scope.categoryData 	= response.data;                  	
                  })
      	    };
      	    
