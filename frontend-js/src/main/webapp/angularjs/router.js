@@ -43,7 +43,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
     })
     
     .state('login', {
-    	url: '/login/', 
+    	url: '/login', 
         templateUrl: 'html/template/login.html' ,        	 
         controller: function ($rootScope, $location, $cookieStore) {        	
             $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
@@ -61,8 +61,10 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
          }
     })
     
+  
+    
     .state('register', {
-    	url: '/register/',        
+    	url: '/register',        
         templateUrl: 'html/template/register.html'        
     })
 

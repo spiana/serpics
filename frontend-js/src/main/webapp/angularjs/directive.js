@@ -28,7 +28,7 @@
 	 * 
 	 */
 	var welcomeUserDirective = function() {
-		var user = 	"<span class='current-user'>{{messagge}}  <span ng-bind='globals.currentUser.username'>  {{globals.currentUser.username}}</span></span>"				
+		var user = 	"<span class='current-user'><span ng-bind='messagge'>  {{messagge}}</span></span>"				
 			return {		
 			restrict : 'EA',
 			template : user,

@@ -1,14 +1,17 @@
 var app = angular.module("login.controller", ['serpics.Authentication'])
 
-.controller("loginController",['$scope','$rootScope', '$location','authenticationService',
+.controller("loginController",['$scope','$rootScope', '$location','authenticationService','$timeout','$cookieStore',
                                   
-      function($scope,$rootScope,$location,authenticationService) {	
+      function($scope,$rootScope,$location,authenticationService,$timeout,$cookieStore) {	
    	
+	
 			$rootScope.messagge = 'Guest Access'
+				
+				
 			
 			$rootScope.action = {
 					actionName:'Login',
-					actionClass:'fa fa-lock'
+					actionClass:'fa fa-lock'					
 			}
 				
 	
@@ -21,10 +24,20 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
 				  		member_id:null
 		    }
 			
-			$rootScope.globals = null;
+            $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
 			
-			$scope.login = function() {	   
-				if(!$rootScope.globals.isLoggedIn){
+           
+            
+            $scope.checkLoggedUser = function() {	 
+            	 if(!$rootScope.globals.isLoggedIn){
+            		 $rootScope.messagge = 'Welcome ' + $rootScope.globals.currentUser.username
+            		 $rootScope.action.actionName  = 'Logout'
+	       			 $rootScope.action.actionClass = 'fa fa-sign-out'
+	       			 $location.path('/');
+            	 }
+            }
+            
+			$scope.login = function() {	   				
 		        if ($scope.form.username && $scope.form.password) {	         
 		        	authenticationService.login(this.form.username, this.form.password).then( function( response ) {
 		        		console.log('form submitted correctly with credential:\nusername: ' 
@@ -38,11 +51,15 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
 	       				 $location.path('/');
 		        		
 		    	 	})
-		        	}
+		        	
 		        }
 		      };
-		        	    
-  	             	    
+		      
+		      
+		      
+		      
+		      $timeout($scope.checkLoggedUser)
+		  
 }])
   
 

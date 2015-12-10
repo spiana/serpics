@@ -38,6 +38,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
             $rootScope.globals = {
                 currentUser: {
                     username: username,
+                    isLoggedIn:false,
                     authdata: authdata
                 }
             };
@@ -62,8 +63,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         function clearCredentials() {
             $rootScope.globals = {};
             $cookieStore.remove('globals');
-        };
-        
+        };      
         
         
         /**
