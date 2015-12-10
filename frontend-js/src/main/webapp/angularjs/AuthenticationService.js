@@ -32,18 +32,19 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
  
         };
   
-        function setCredential(username, password) {
+        function setCredential(username, password,isLoggedIn) {
             var authdata = Base64.encode(username + ':' + password);
   
             $rootScope.globals = {
                 currentUser: {
                     username: username,
-                    isLoggedIn:false,
+                    isLoggedIn:isLoggedIn,
                     authdata: authdata
                 }
             };
   
             $cookieStore.put('globals', $rootScope.globals);
+            $cookieStore.put('isLoggedIn', isLoggedIn);
         };
   
         function decodeCredential(authdata) {

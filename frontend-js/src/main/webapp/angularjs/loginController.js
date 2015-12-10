@@ -5,13 +5,12 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
       function($scope,$rootScope,$location,authenticationService,$timeout,$cookieStore) {	
    	
 	
-			$rootScope.messagge = 'Guest Access'
-				
-				
+			$rootScope.message = 'Guest Access'				
 			
 			$rootScope.action = {
 					actionName:'Login',
-					actionClass:'fa fa-lock'					
+					actionClass:'fa fa-lock',
+					dropMenuClass:'hidden'
 			}
 				
 	
@@ -29,10 +28,11 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
            
             
             $scope.checkLoggedUser = function() {	 
-            	 if(!$rootScope.globals.isLoggedIn){
-            		 $rootScope.messagge = 'Welcome ' + $rootScope.globals.currentUser.username
+            	 if($cookieStore.get('isLoggedIn')){
+            		 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser.username
             		 $rootScope.action.actionName  = 'Logout'
 	       			 $rootScope.action.actionClass = 'fa fa-sign-out'
+	       			 $rootScope.action.dropMenuClass = 'visible'
 	       			 $location.path('/');
             	 }
             }
@@ -43,11 +43,11 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
 		        		console.log('form submitted correctly with credential:\nusername: ' 
 	       				 + $scope.form.username +'\npassword: '+ $scope.form.password)	       				 
 	       				 $rootScope.globals.currentUser = $scope.form.username 
-	       				 $rootScope.globals.isLoggedIn 	= true
-	       				 $rootScope.messagge = 'Welcome'
-	       				 authenticationService.setCredential($scope.form.username, $scope.form.password)
+	       				 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser
+	       				 authenticationService.setCredential($scope.form.username, $scope.form.password,true)
 	       				 $rootScope.action.actionName  = 'Logout'
 	       				 $rootScope.action.actionClass = 'fa fa-sign-out'
+	    	       		 $rootScope.action.dropMenuClass = 'visible'
 	       				 $location.path('/');
 		        		
 		    	 	})

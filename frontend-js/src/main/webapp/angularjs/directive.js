@@ -15,6 +15,17 @@
 		};
 	};
 	
+	var accountMenuDirective = function(){
+		var dropdown =	"<a href='#' class='{{action.dropMenuClass}}'><i class='fa fa-user'></i> Account</a>" 				
+			return {		
+			restrict : 'EA',
+			template : dropdown,
+			controller	:'loginController'
+		};
+	}
+	
+	
+	
 	var actionUserDirective = function() {
 		var action = 	"<a ui-sref='login'><i class='{{action.actionClass}}'></i> {{action.actionName}}</a>"				
 			return {		
@@ -28,7 +39,7 @@
 	 * 
 	 */
 	var welcomeUserDirective = function() {
-		var user = 	"<span class='current-user'><span ng-bind='messagge'>  {{messagge}}</span></span>"				
+		var user = 	"<span class='current-user'><span ng-bind='message'>  {{message}}</span></span>"				
 			return {		
 			restrict : 'EA',
 			template : user,
@@ -212,6 +223,7 @@
 
 	
 	var app = angular.module('serpics.directive', [])		
+	.directive('accountMenuDirective', 	accountMenuDirective)
 	.directive('actionUserDirective', 	actionUserDirective)
 	.directive('welcomeUserDirective', 	welcomeUserDirective)
 	.directive('loaderDirective', 		loaderDirective)
