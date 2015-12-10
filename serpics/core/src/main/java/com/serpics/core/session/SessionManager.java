@@ -8,7 +8,7 @@ public interface SessionManager {
 	public void putSessionContext(String sessionId , SessionContext context);
 	
 
-	public SessionContext createSessionContext(StoreRealm realm);
+	public SessionContext createSessionContext(StoreRealm realm , String sessionId);
 	
 	public void removeSessionContext(String sessionId);
 }

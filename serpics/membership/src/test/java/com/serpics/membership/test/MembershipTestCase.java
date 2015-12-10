@@ -178,6 +178,16 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
     	
     }
     
+    @Test
+    public void reconnectService() throws SerpicsException{
+    	CommerceSessionContext context = ce.connect("default-store","superuser", "admin".toCharArray());
+    	String sessionId = context.getSessionId();
+    	Assert.assertEquals(UserType.SUPERSUSER, ((User)context.getUserPrincipal()).getUserType());
+    	ce.disconnect(sessionId);
+    	context = ce.bind(sessionId);
+    	Assert.assertEquals(UserType.ANONYMOUS, ((User)context.getUserPrincipal()).getUserType());
+    	Assert.assertEquals(sessionId, context.getSessionId());
+    }
     
     private void serialize(CommerceSessionContext e) throws IOException{
     

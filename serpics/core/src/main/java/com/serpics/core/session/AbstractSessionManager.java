@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.UUID;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.scope.SessionScopeAttributes;
@@ -20,26 +22,42 @@ public abstract class AbstractSessionManager implements SessionManager {
     private String generateSessionID() {
         return UUID.randomUUID().toString();
     }
+    
+    private SessionContext makeSessionContext(String sessionId , StoreRealm realm){
+    	   Assert.notNull(sessionId, "sessionId can non be null !");
+    	   
+    	  	final SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
+    	   commerceScopeAttributes.setConversationId(sessionId);
+    	   
+    	   SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
+
+           
+           final CommerceSessionContext context = new CommerceSessionContext();
+           context.setStoreRealm(realm);
+           context.setSessionId(sessionId);
+           context.setUserCookie(sessionId);
+           context.setLastAccess(new Date());
+
+           context.setCommerceScopeAttribute(commerceScopeAttributes);
+
+           sessionList.put(sessionId, context);
+           logger.info("create new session with id [{}]", sessionId);
+           return context;
+    	
+    }
 
     @Override
-    public SessionContext createSessionContext(final StoreRealm realm) {
-        final String sessionId = generateSessionID();
-        final SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
-        commerceScopeAttributes.setConversationId(sessionId);
-
-        SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
-
-        final CommerceSessionContext context = new CommerceSessionContext();
-        context.setStoreRealm(realm);
-        context.setSessionId(sessionId);
-        context.setUserCookie(sessionId);
-        context.setLastAccess(new Date());
-
-        context.setCommerceScopeAttribute(commerceScopeAttributes);
-
-        sessionList.put(sessionId, context);
-        logger.info("create new session with id [{}]", sessionId);
-        return context;
+    public SessionContext createSessionContext(final StoreRealm realm , String sessionId) {
+    	if (sessionId == null){
+    		sessionId = generateSessionID();
+    		String token_prefix = Base64.encodeBase64String(realm.getName().getBytes());
+    		sessionId = token_prefix + "-"+ sessionId;
+    	}
+    	String[] tokens = sessionId.split("-");
+    	if (tokens.length != 6)
+    		throw new RuntimeException("invalid sessionId format !");
+    	
+        return makeSessionContext(sessionId , realm);
     }
 
     @Override

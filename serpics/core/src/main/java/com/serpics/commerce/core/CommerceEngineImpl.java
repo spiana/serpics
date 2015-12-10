@@ -8,10 +8,10 @@ public class CommerceEngineImpl  extends AbstractEngine<CommerceSessionContext> 
 
 	
 	@Override
-	protected CommerceSessionContext doConnection(String storeName)
+	protected CommerceSessionContext doConnection(String storeName , String sessionId)
 			throws SerpicsException {
 	
-		CommerceSessionContext context = super.doConnection(storeName);
+		CommerceSessionContext context = super.doConnection(storeName , sessionId);
 		context.setCurrency(context.getStoreRealm().getCurrency());
 		return context;
 	}

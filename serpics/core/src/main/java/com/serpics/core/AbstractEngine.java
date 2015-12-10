@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -62,17 +63,17 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
     }
 
     @SuppressWarnings("unchecked")
-	protected T doConnection(String storeName) throws SerpicsException{
+	protected T doConnection(String storeName , String sessionId) throws SerpicsException{
     	final StoreRealm s = membershipService.fetchStoreByName(storeName);
         Assert.notNull(s , "invalid store ! connection rejected !");
-        final SessionContext context = getSessionManager().createSessionContext(s);
+        final SessionContext context = getSessionManager().createSessionContext(s , sessionId);
     	return (T) context;
     }
     @SuppressWarnings("unchecked")
 	@Override
     public T connect(final String storeName) throws SerpicsException {
        
-    	final SessionContext context = doConnection(storeName);
+    	final SessionContext context = doConnection(storeName, null);
         final UserDetail user = membershipService.createAnonymous();
         context.setUserPrincipal(user);
         context.setLastAccess(new Date());
@@ -81,10 +82,20 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return (T) context;
     }
 
+    protected T connect(final String storeName , String sessionId) throws SerpicsException {
+    	final SessionContext context = doConnection(storeName, sessionId);
+        final UserDetail user = membershipService.createAnonymous();
+        context.setUserPrincipal(user);
+        context.setLastAccess(new Date());
+     
+        bind(context);
+        return (T) context;
+    }
+    
     @SuppressWarnings("unchecked")
 	@Override
     public T connect(final String storeName, final String loginId, final char[] password) throws SerpicsException {
-    	final SessionContext context = doConnection(storeName);
+    	final SessionContext context = doConnection(storeName, null);
         final UserDetail user = membershipService.login(loginId, password);
         context.setUserPrincipal(user);
         bind(context);
@@ -94,7 +105,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
     @SuppressWarnings("unchecked")
 	@Override
     public T connect(final String storeName, final Principal principal) throws SerpicsException {
-    	final SessionContext context = doConnection(storeName);
+    	final SessionContext context = doConnection(storeName, null);
         final UserDetail user = membershipService.connect(principal);
         context.setUserPrincipal(user);
         bind(context);
@@ -122,7 +133,19 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
             return (T) _s;
         } else {
             logger.warn("session id [{}] is expired !");
-            return null;
+            String[] tokens = sessionId.split("-");
+            if (tokens.length != 6){
+            	throw new RuntimeException("illegal sessionId format !");
+            }
+            
+            String storeName = new String(Base64.decodeBase64(tokens[0]));
+            logger.info("try to reconnect to store {}" , storeName);
+            try {
+				return connect(storeName , sessionId);
+			} catch (SerpicsException e) {
+				logger.error("could not connect to store {}" , storeName);
+				return null;
+			}
         }
     }
 
