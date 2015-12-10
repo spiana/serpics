@@ -85,6 +85,8 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 	        templateUrl: 'html/template/register.html'
 	    })
 	
+	    $urlRouterProvider.otherwise("/");
+	    
 })
    
     

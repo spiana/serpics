@@ -46,21 +46,20 @@
 
 					</tbody>
 				</table>
-				<table class="table table-condensed" >
-					<thead>
-						<tr class="cart_menu" >
-							<td class="total image">Total</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="cart_total" >
-								<p class="cart_total_price">&euro;{{cart.totalProduct}}</p>
-							</td>
-						</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	</section>
+	<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span>&euro;{{cart.totalProduct}}</span></li>
+							<li>Services Sub Total <span>&euro;{{cart.totalService || 0}}</span></li>
+							<li>Tax Sub Total <span>&euro;{{cart.totalTax}}</span></li>
+							<li>Shipping Cost <span>&euro;{{cart.totalShipping}}</span></li>
+							<li>Total <span>&euro;{{cart.orderAmount || cart.totalProduct}}</span></li>
+						</ul>
+						<a class="btn btn-default update" ng-click="cartUpdate()">Update</a> <a
+							class="btn btn-default check_out" href="">Check Out</a>
+					</div>
+	</div>
 	<!--/#cart_items-->
