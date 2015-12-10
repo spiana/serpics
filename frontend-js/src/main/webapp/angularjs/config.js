@@ -7,6 +7,5 @@ var app = angular.module('serpics.config', [])
 			.constant('BREADCRUMBS','Home') //[serpicsApp constant]
 			.constant('LOADINGTEXT','Serpics') //[rotating loadingtext label]
 			.constant('TITLE','Serpics Platform Ecommerce') //[rotating loadingtext label]
-			.constant('WELCOME','Welcome') //welcome for user logged in
 
 
