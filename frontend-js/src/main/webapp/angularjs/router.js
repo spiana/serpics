@@ -4,8 +4,15 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 	
     $stateProvider
     
-     .state('home', {
-    	url: '/',
+    .state('shop', {
+    	abstract: true,
+    	url: '',
+        templateUrl: 'html/template/shop.html'
+
+    })
+    
+     .state('shop.home', {
+    	url: '/home',
         controller: function ($scope) {
         	$scope.name = 'Home Page';
         },
@@ -13,7 +20,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 
     })
     
-    .state('category', {
+    .state('shop.category', {
     	url: '/category/:name/:id',
         controller: function ($stateParams, $scope) {
         	$scope.name = $stateParams.name;
@@ -23,7 +30,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 
     })
     
-    .state('brand', {
+    .state('shop.brand', {
     	url: '/brand/:name/:id',
         controller: function ($stateParams, $scope) {
         	$scope.name = $stateParams.name;
@@ -33,7 +40,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
         
     })    
 
-    .state('product', {
+    .state('shop.product', {
     	url: '/product/:name/:id',
         controller: function ($stateParams, $scope) {
         	$scope.name = $stateParams.name;
@@ -42,7 +49,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
         templateUrl: 'html/template/product-central.html'
     })
     
-    .state('login', {
+    .state('shop.login', {
     	url: '/login', 
         templateUrl: 'html/template/login.html' ,        	 
         controller: function ($rootScope, $location, $cookieStore) {        	
@@ -59,7 +66,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 	         }
 	    })
     
-    .state('logout', {
+    .state('shop.logout', {
     	url: '/logout',        
         templateUrl: 'html/template/home-central.html',
         controller: function ($rootScope, $cookieStore) {
@@ -74,18 +81,18 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 	        }
 	    })
     
-    .state('cart', {
+    .state('shop.cart', {
     	url: '/cart/',       
         templateUrl: 'html/template/cart.html',
         controller: 'cartController',
     })
 
-	.state('register', {
+	.state('shop.register', {
 	    	url: '/register',	        
 	        templateUrl: 'html/template/register.html'
 	})
 	
-	$urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/home");
 	    
 })
    

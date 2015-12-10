@@ -4,14 +4,14 @@
 				<div class="productinfo text-center">
 					<img src="images/home/product1.jpg" alt="" />
 					<h2>&euro;{{product.price.currentPrice}}</h2>
-					<p><a ui-sref="product({id: product.id, name: product.code})">{{product.code}}</a></p>
+					<p><a ui-sref="shop.product({id: product.id, name: product.code})">{{product.code}}</a></p>
 					<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
 						class="fa fa-shopping-cart"></i>Add to cart</a>
 				</div>
 				<div class="product-overlay">
 					<div class="overlay-content">
 						<h2>&euro;{{product.price.currentPrice}}</h2>
-						<p><a ui-sref="product({id: product.id, name: product.code})">{{product.code}}</a></p>
+						<p><a ui-sref="shop.product({id: product.id, name: product.code})">{{product.code}}</a></p>
 						<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
 							class="fa fa-shopping-cart"></i>Add to cart</a>
 					</div>

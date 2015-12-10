@@ -2,7 +2,7 @@
 		<div class="container">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
-					<li><a ui-sref="home">Home</a></li>
+					<li><a ui-sref="shop.home">Home</a></li>
 					<li class="active">Shopping Cart</li>
 				</ol>
 			</div>
@@ -22,11 +22,11 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="item in cart.orderItems">
-							<td class="cart_product"><a ui-sref="product({id: item.product.id, name: item.product.code})"><img
+							<td class="cart_product"><a ui-sref="shop.product({id: item.product.id, name: item.product.code})"><img
 									src="/frontend-js/images/cart/two.png" alt=""></a></td>
 							<td class="cart_description">
 								<h4>
-									<a ui-sref="product({id: item.product.id, name: item.product.code})">{{item.sku}}</a>
+									<a ui-sref="shop.product({id: item.product.id, name: item.product.code})">{{item.sku}}</a>
 									<p>Web ID: {{item.product.id}}</p>
 								</h4>
 							</td>

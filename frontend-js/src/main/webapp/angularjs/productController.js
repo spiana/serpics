@@ -43,7 +43,7 @@
 	  	    	console.log("ProductController cartAdd(sku ,quantity)");
 	  			cartService.cartAdd(sku ,quantity).then(function(response){
 	    			  console.log("ProductController cartAdd(sku ,quantity): ramo then");
-	    			  $state.go('cart')
+	    			  $state.go('shop.cart')
 	  		});
 	  	  }
 	  	 
