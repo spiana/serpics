@@ -64,6 +64,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         function clearCredentials() {
             $rootScope.globals = {};
             $cookieStore.remove('globals');
+            $cookieStore.remove('isLoggedIn');
         };      
         
         

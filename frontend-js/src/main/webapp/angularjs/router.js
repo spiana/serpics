@@ -48,24 +48,32 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
         controller: function ($rootScope, $location, $cookieStore) {        	
             $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
             if ($rootScope.globals.currentUser) {
-            	console.log('user loggedin')
-            	$location.path('/'); 
+            	console.log('user is loggedin')
+            	$location.path('/logout'); 
             }else{
             	$rootScope.$on('$locationChangeStart', function (event, next, current) {                   
                     if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {  // redirect to login page if not logged in
                         $location.path('/login');
-                        console.log('user must do login')
+                        console.log('user is not logged in')
                     }
                 });
             }
          }
     })
     
-  
-    
-    .state('register', {
-    	url: '/register',        
-        templateUrl: 'html/template/register.html'        
+    .state('logout', {
+    	url: '/logout',        
+        templateUrl: 'html/template/home-central.html',
+        controller: function ($rootScope, $cookieStore) {
+        	$rootScope.message = 'Guest Access' 
+            $cookieStore.remove('globals');
+            $cookieStore.remove('isLoggedIn');
+        	$rootScope.action = {
+					actionName:'Login',
+					actionClass:'fa fa-lock',
+					dropMenuClass:'hidden'
+			}
+        }
     })
 
 	

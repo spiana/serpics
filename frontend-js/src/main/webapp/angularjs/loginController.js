@@ -23,9 +23,7 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
 				  		member_id:null
 		    }
 			
-            $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
-			
-           
+            $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh          
             
             $scope.checkLoggedUser = function() {	 
             	 if($cookieStore.get('isLoggedIn')){
@@ -53,10 +51,7 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
 		    	 	})
 		        	
 		        }
-		      };
-		      
-		      
-		      
+		      };		          
 		      
 		      $timeout($scope.checkLoggedUser)
 		  
