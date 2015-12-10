@@ -16,10 +16,10 @@
 	};
 	
 	var actionUserDirective = function() {
-		var user = 	"<a ui-sref='login'><i class='{{action.actionClass}}'></i> {{action.actionName}}</a>"				
+		var action = 	"<a ui-sref='login'><i class='{{action.actionClass}}'></i> {{action.actionName}}</a>"				
 			return {		
 			restrict : 'EA',
-			template : user,
+			template : action,
 			controller	:'loginController'
 		};
 	};
@@ -28,7 +28,7 @@
 	 * 
 	 */
 	var welcomeUserDirective = function() {
-		var user = 	"<span class='current-user'>Welcome  <span ng-bind='globals.currentUser.username'>  {{globals.currentUser.username}}</span></span>"				
+		var user = 	"<span class='current-user'>{{messagge}}  <span ng-bind='globals.currentUser.username'>  {{globals.currentUser.username}}</span></span>"				
 			return {		
 			restrict : 'EA',
 			template : user,
