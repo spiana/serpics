@@ -114,10 +114,10 @@
 	/**
 	 * 
 	 */
-	var featuresDirective = function() {
+	var productListDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : "html/template/features.html",
+			templateUrl : "html/template/product-list.html",
 			controller: 'productController',
 		};
 	};
@@ -235,7 +235,7 @@
 	.directive('breadCrumbsDirective', 	breadCrumbsDirective)	
 	.directive('brandDirective', 		brandDirective)
 	.directive('leftSidebarDirective', 	leftSidebarDirective)
-	.directive('featuresDirective', 	featuresDirective)
+	.directive('productListDirective', 	productListDirective)
 	.directive('productDirective', 		productDirective)
 	.directive('cartDirective', 		cartDirective)
 	.directive('orderDirective',		orderDirective)

@@ -80,12 +80,12 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
         controller: 'cartController',
     })
 
-	    .state('register', {
+	.state('register', {
 	    	url: '/register',	        
 	        templateUrl: 'html/template/register.html'
-	    })
+	})
 	
-	    $urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/");
 	    
 })
    
