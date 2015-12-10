@@ -47,19 +47,17 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
         templateUrl: 'html/template/login.html' ,        	 
         controller: function ($rootScope, $location, $cookieStore) {        	
             $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
-            if ($rootScope.globals.currentUser) {
-            	console.log('user is loggedin')
+            if ($rootScope.globals.currentUser) {            
             	$location.path('/logout'); 
-            }else{
+            } else {
             	$rootScope.$on('$locationChangeStart', function (event, next, current) {                   
                     if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {  // redirect to login page if not logged in
-                        $location.path('/login');
-                        console.log('user is not logged in')
+                        $location.path('/login');                       
                     }
-                });
-            }
-         }
-    })
+	                });
+	            }
+	         }
+	    })
     
     .state('logout', {
     	url: '/logout',        
@@ -72,13 +70,15 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 					actionName:'Login',
 					actionClass:'fa fa-lock',
 					dropMenuClass:'hidden'
-			}
-        }
-    })
+				}
+	        }
+	    })
 
+	    .state('register', {
+	    	url: '/register',	        
+	        templateUrl: 'html/template/register.html'
+	    })
 	
 })
    
-      
-    
     

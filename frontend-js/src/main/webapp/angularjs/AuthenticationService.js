@@ -7,6 +7,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
 	
         var service = {        	
         		login:				login,
+        		register:			register,
         		setCredential:		setCredential,
         		decodeCredential:	decodeCredential,
         		clearCredentials:	clearCredentials        		
@@ -26,12 +27,29 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
 	   	            headers: {
 	   	            	'ssid': sessionId
 	   	            }
-	   	        }).then(handleSuccess, handleError).then(resolve, reject);	   				
+	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
 	   			});   		
-   		});        	
+	       	});        	
  
         };
   
+        function register(userData) {  
+     	   
+        	var serviceSSID = serpicsServices;
+    	       	return $q(function(resolve, reject) {    	       		
+    	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+    	   	       $http({
+    	   	            method: 'POST',
+    	   	            url: URL + ENDPOINT +  'register',
+    	   	            headers: {
+    	   	            	'ssid': sessionId
+    	   	            },
+    	   	            data:userData
+    	   	        }).then(handleSuccess, handleError).then(resolve, reject);	   				
+    	   		});   		
+       		});        	
+         };
+            
         function setCredential(username, password,isLoggedIn) {
             var authdata = Base64.encode(username + ':' + password);
   
@@ -47,6 +65,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
             $cookieStore.put('isLoggedIn', isLoggedIn);
         };
   
+        
         function decodeCredential(authdata) {
         	
             var authdata = Base64.decode(authdata);
@@ -99,7 +118,6 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
     }])
   
 .factory('Base64', function () {
-    /* jshint ignore:start */
   
     var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
   

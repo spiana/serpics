@@ -191,7 +191,8 @@
 	var registerDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : 'html/template/.html'
+			templateUrl : 'html/template/register.html',
+			controller:'loginController'
 		};
 	};
 
@@ -242,8 +243,8 @@
 	.directive('registerDirective', 	registerDirective)
 	.directive('recommendedDirective', 	recommendedDirective)
 	.directive('footerDirective', 		footerDirective)
-	.directive('singleProductDirective', 		singleProductDirective)	
-	.directive('detailProductDirective', 		detailProductDirective)	
+	.directive('singleProductDirective',singleProductDirective)	
+	.directive('detailProductDirective',detailProductDirective)	
 	
 	
 }());
