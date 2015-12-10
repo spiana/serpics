@@ -14,6 +14,16 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <data:repositories base-package="com.serpics.base.data.repositories" 
      base-class="com.serpics.core.data.RepositoryImpl"/>
     
+    
+    <bean name="baseAttributeSaveInterceptor"
+		class="com.serpics.base.data.interceptor.BaseAttributeSaveInterceptor" />
+		
+		<bean name="baseAttributeSaveMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.base.data.model.BaseAttribute" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="baseAttributeSaveInterceptor" />
+	</bean>
+    
 <!--     					 factory-class="com.serpics.core.data.RepositoryFactoryBean"/> -->
      <!--  facade -->
      <alias name="defaultCountryPopulator" alias="countryPopulator"/>

@@ -29,6 +29,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.server.SpringVaadinServlet;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
@@ -54,7 +55,7 @@ public class SerpicsStartApp extends UI {
 	@Autowired
 	private NavigatorMenuTree navigatorMenuTree;
 
-	private final TabSheet leftContentPanel = new TabSheet();
+	private final TabSheet rightContentPanel = new TabSheet();
 	@SuppressWarnings("rawtypes")
 	private final Map<String, EntityComponent> activeComponent = new HashMap<String, EntityComponent>(
 			0);
@@ -100,8 +101,6 @@ public class SerpicsStartApp extends UI {
 	
 		
 		final Label selectedStore = new Label(commerceEngine.getCurrentContext().getStoreRealm().getName());
-//		selectedStore.setWidth("100%");
-//		selectedStore.setHeight("100%");
 		selectedStore.addStyleName("store-name");
 		topbar.addComponent(selectedStore);
 		
@@ -114,20 +113,29 @@ public class SerpicsStartApp extends UI {
 		final com.serpics.base.data.model.Locale locale = (com.serpics.base.data.model.Locale) commerceEngine
 				.getCurrentContext().getLocale();
 
-		Locale _locale = new Locale("it", "IT");
+		
 		if (locale != null) {
-			_locale = new Locale(locale.getLanguage(), locale.getCountry());
+			Locale _locale = new Locale(locale.getLanguage(), locale.getCountry());
+			getSession().setLocale(_locale);
 		}
 
-		getSession().setLocale(_locale);
 
 		for (Object id : navigatorMenuTree.getItemIds()) {
 			navigatorMenuTree.setItemCaption(id,
 					I18nUtils.getMessage("smc.navigator."+id.toString(), id.toString()));
 		}
 
-		navigatorMenuTree.setWidth("150px");
-		content.addComponent(navigatorMenuTree);
+		navigatorMenuTree.setWidth("100%");
+		
+		VerticalLayout leftPanel = new VerticalLayout();
+		
+		CssLayout topbanner= new CssLayout();
+		topbanner.setHeight("50px");
+		
+		leftPanel.addComponent(topbanner);
+		leftPanel.addComponent(navigatorMenuTree);
+		
+		content.addComponent(leftPanel);
 
 		navigatorMenuTree.addItemClickListener(new ItemClickListener() {
 
@@ -152,11 +160,12 @@ public class SerpicsStartApp extends UI {
 			}
 		});
 
-		leftContentPanel.setSizeFull();
+		rightContentPanel.setSizeFull();
 
-		content.addComponent(leftContentPanel);
-		content.setExpandRatio(leftContentPanel, 1);
-
+		content.addComponent(rightContentPanel);
+		content.setExpandRatio(rightContentPanel, 5);
+		content.setExpandRatio(leftPanel, 1);
+//
 		layout.addComponent(content);
 		layout.setExpandRatio(content, 1);
 
@@ -165,12 +174,12 @@ public class SerpicsStartApp extends UI {
 	private void addComponent(final String id, final String caption) {
 		final EntityComponent<?> _component = getComponent(id);
 
-		final Tab t = leftContentPanel.getTab(_component);
+		final Tab t = rightContentPanel.getTab(_component);
 		if (t == null) {
-			leftContentPanel.addTab(_component, caption);
-			leftContentPanel.getTab(_component).setClosable(true);
+			rightContentPanel.addTab(_component, caption);
+			rightContentPanel.getTab(_component).setClosable(true);
 		}
-		leftContentPanel.setSelectedTab(_component);
+		rightContentPanel.setSelectedTab(_component);
 	}
 
 	private void addComponentByClass(final String clazz, final String caption) {
@@ -191,12 +200,12 @@ public class SerpicsStartApp extends UI {
 
 		if (_component != null) {
 			activeComponent.put(clazz, _component);
-			final Tab t = leftContentPanel.getTab(_component);
+			final Tab t = rightContentPanel.getTab(_component);
 			if (t == null) {
-				leftContentPanel.addTab(_component, caption);
-				leftContentPanel.getTab(_component).setClosable(true);
+				rightContentPanel.addTab(_component, caption);
+				rightContentPanel.getTab(_component).setClosable(true);
 			}
-			leftContentPanel.setSelectedTab(_component);
+			rightContentPanel.setSelectedTab(_component);
 		}
 
 	}

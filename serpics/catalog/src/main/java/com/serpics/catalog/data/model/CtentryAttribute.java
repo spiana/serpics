@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,11 +32,9 @@ public class CtentryAttribute extends AbstractEntity implements Serializable {
     @Column(name="attribute_id")
     private Long id;
 
-    @Column(name = "base_attributes_id")
+    @ManyToOne(fetch= FetchType.EAGER)
+    @JoinColumn(name="base_attribute_id" ,updatable=false)
     private BaseAttribute baseAttribute;
-
-    private short islogical;
-
     private double sequence;
 
     //bi-directional many-to-one association to Ctentry
@@ -57,14 +56,6 @@ public class CtentryAttribute extends AbstractEntity implements Serializable {
         this.id = id;
     }
 
-
-    public short getIslogical() {
-        return this.islogical;
-    }
-
-    public void setIslogical(final short islogical) {
-        this.islogical = islogical;
-    }
 
     public double getSequence() {
         return this.sequence;
@@ -97,5 +88,6 @@ public class CtentryAttribute extends AbstractEntity implements Serializable {
 	public void setValue(MultiValueAttribute value) {
 		this.value = value;
 	}
+
 
 }

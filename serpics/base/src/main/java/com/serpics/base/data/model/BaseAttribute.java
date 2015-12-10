@@ -30,7 +30,7 @@ public class BaseAttribute extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "base_attributes_id", unique = true, nullable = false)
-    private Long baseAttributesId;
+    private Long id;
 
     @Column(name = "attribute_type", nullable = false)
     @Enumerated(EnumType.ORDINAL)
@@ -40,20 +40,10 @@ public class BaseAttribute extends AbstractEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private AvailableforType availablefor;
 
-    @Column(nullable = false)
-    private short displayas;
-
-    @Column(nullable = false)
-    private short issearchable;
-
     @Column(nullable = false, length = 100)
     private String name;
-
-    // bi-directional many-to-one association to AttributeLookup
-    //	@OneToMany(mappedBy = "baseAttribute")
-    //	private Set<AttributeLookup> attributeLookups;
-
-    @Column(name="store_id" , nullable=false)
+    
+    @Column(name="store_id" , nullable= false)
     private Long storeId;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -63,12 +53,12 @@ public class BaseAttribute extends AbstractEntity implements Serializable {
     public BaseAttribute() {
     }
 
-    public Long getBaseAttributesId() {
-        return this.baseAttributesId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setBaseAttributesId(final Long baseAttributesId) {
-        this.baseAttributesId = baseAttributesId;
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public AttributeType getAttributeType() {
@@ -80,22 +70,6 @@ public class BaseAttribute extends AbstractEntity implements Serializable {
     }
 
 
-    public short getDisplayas() {
-        return this.displayas;
-    }
-
-    public void setDisplayas(final short displayas) {
-        this.displayas = displayas;
-    }
-
-    public short getIssearchable() {
-        return this.issearchable;
-    }
-
-    public void setIssearchable(final short issearchable) {
-        this.issearchable = issearchable;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -105,14 +79,7 @@ public class BaseAttribute extends AbstractEntity implements Serializable {
     }
 
 
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(final Long storeId) {
-        this.storeId = storeId;
-    }
-
+   
     public AvailableforType getAvailablefor() {
         return availablefor;
     }
@@ -129,5 +96,12 @@ public class BaseAttribute extends AbstractEntity implements Serializable {
         this.description = description;
     }
 
+	public Long getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(Long storeId) {
+		this.storeId = storeId;
+	}
 
 }

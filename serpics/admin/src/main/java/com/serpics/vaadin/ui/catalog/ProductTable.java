@@ -1,9 +1,14 @@
 package com.serpics.vaadin.ui.catalog;
 
+import com.serpics.base.AvailableforType;
 import com.serpics.base.MultiValueField;
+import com.serpics.base.data.model.BaseAttribute;
+import com.serpics.base.data.model.MultiValueAttribute;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
+import com.serpics.catalog.data.model.Ctentry;
+import com.serpics.catalog.data.model.CtentryAttribute;
 import com.serpics.catalog.data.model.Feature;
 import com.serpics.catalog.data.model.FeatureValues;
 import com.serpics.catalog.data.model.Price;
@@ -56,91 +61,9 @@ public class ProductTable extends MasterTable<Product> {
     	 
     	 editorWindow.addTab(buildMainTab(), "main");
     	 editorWindow.addTab(buildPriceTab(), "prices");
-    	 
     	 editorWindow.addTab(buildCategoriesTab(), "categories");
-    	
-    	 
-    	 editorWindow.addTab(new MasterDetailTable<FeatureValues , AbstractProduct>(FeatureValues.class) {
-    		@Override
-    		public void setParentEntity(EntityItem<AbstractProduct> parent) {
-    			super.setParentEntity(parent);
-    		}
-    		@Override
-    		public void init() {
-    			super.init();
-    			setParentProperty("featureValues");
-    		}
-    		
-    		
-    		 @Override
-    		public EntityFormWindow<FeatureValues> buildEntityWindow() {
-    			 
-    			 EntityFormWindow<FeatureValues> w =  new EntityFormWindow<FeatureValues>();
-    			
-    			
-    			
-    			w.addTab(new MasterForm<FeatureValues>(FeatureValues.class) {
-    				@Override
-    				public void init() {
-    					super.init();
-    					setDisplayProperties(new String[]{"feature" , "value"});
-    				}
-    				private void addvalueField(){
-    	    			Field <?>  f = fieldGroup.getField("value");
-    	    			if(f != null){
-    	    				fieldGroup.unbind(f);
-    	    				removeComponent(f);
-    	    			}
-    	    	
-    	    			addComponent(super.createField("value"));
-    	    				
-    				}
-    			
-    				@Override
-    				protected Field<?> createField(String pid) {
-    					if (pid.equals("feature")){
-    								 final JPAContainer<Feature> features=ServiceContainerFactory.make(Feature.class);
-    								 
-    								 features.addContainerFilter(new Compare.Equal("featureModel" , masterEntity.getfeautureModel()));
-									final ComboBox combo = new ComboBox(
-											"feature");
-									combo.setContainerDataSource(features);
-									combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-									combo.setItemCaptionPropertyId("name");
-									combo.setFilteringMode(FilteringMode.CONTAINS);
-									combo.setImmediate(true);
-									combo.setConverter(new SingleSelectConverter(
-											combo));
-									fieldGroup.bind(combo, "feature");
-									
-									combo.addValueChangeListener(new ValueChangeListener() {
-										
-										@Override
-										public void valueChange(ValueChangeEvent event) {
-											EntityItem<Feature> feature = features.getItem(event.getProperty().getValue());
-											
-											MultiValueField f = (MultiValueField) entityItem.getItemProperty("value").getValue();
-											
-											if (f != null)
-												f.setAttributeType(feature.getEntity().getType());
-											
-												// entityItem.getItemProperty("value").setValue(feature.getEntity().getType());
-												addvalueField();
-											
-										}
-									});
-									return combo;
-    					}else	
-    						return super.createField(pid);
-    				}
-    			
-				}, "main");
-    			 
-    			 return w;
-    		}
-    		
-    		
-		}, "features");
+    	 editorWindow.addTab(buildFeatureValueTab(), "features");
+    	// editorWindow.addTab(buildProductAttributeTab(), "attributes");
     	 
     	return editorWindow;
     }
@@ -243,5 +166,163 @@ public class ProductTable extends MasterTable<Product> {
         entityList.setConverter("description", new MultilingualFieldConvert());
     }
 
+	private MasterDetailTable<FeatureValues, AbstractProduct> buildFeatureValueTab(){
+		
+		return new MasterDetailTable<FeatureValues , AbstractProduct>(FeatureValues.class) {
+    		
+    		@Override
+    		public void init() {
+    			super.init();
+    			setParentProperty("featureValues");
+    		}
+    		
+    		
+    		 @Override
+    		public EntityFormWindow<FeatureValues> buildEntityWindow() {
+    			 
+    			 EntityFormWindow<FeatureValues> w =  new EntityFormWindow<FeatureValues>();
+    			
+    			
+    			
+    			w.addTab(new MasterForm<FeatureValues>(FeatureValues.class) {
+    				@Override
+    				public void init() {
+    					super.init();
+    					setDisplayProperties(new String[]{"feature" , "value"});
+    				}
+    				private void addvalueField(){
+    	    			Field <?>  f = fieldGroup.getField("value");
+    	    			if(f != null){
+    	    				fieldGroup.unbind(f);
+    	    				removeComponent(f);
+    	    			}
+    	    	
+    	    			addComponent(super.createField("value"));
+    	    				
+    				}
+    			
+    				@Override
+    				protected Field<?> createField(String pid) {
+    					if (pid.equals("feature")){
+    								 final JPAContainer<Feature> features=ServiceContainerFactory.make(Feature.class);
+    								 
+    								 features.addContainerFilter(new Compare.Equal("featureModel" , masterEntity.getfeautureModel()));
+									final ComboBox combo = new ComboBox(
+											"feature");
+									combo.setContainerDataSource(features);
+									combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+									combo.setItemCaptionPropertyId("name");
+									combo.setFilteringMode(FilteringMode.CONTAINS);
+									combo.setImmediate(true);
+									combo.setConverter(new SingleSelectConverter(
+											combo));
+									fieldGroup.bind(combo, "feature");
+									
+									combo.addValueChangeListener(new ValueChangeListener() {
+										
+										@Override
+										public void valueChange(ValueChangeEvent event) {
+											EntityItem<Feature> feature = features.getItem(event.getProperty().getValue());
+											
+											MultiValueField f = (MultiValueField) entityItem.getItemProperty("value").getValue();
+											
+											if (f != null)
+												f.setAttributeType(feature.getEntity().getType());
+												addvalueField();
+											
+										}
+									});
+									return combo;
+    					}else	
+    						return super.createField(pid);
+    				}
+    			
+				}, "main");
+    			 
+    			 return w;
+    		}
+    		
+    		
+		};
+	}
 	
+private MasterDetailTable<CtentryAttribute, ? extends Ctentry> buildProductAttributeTab(){
+		
+		return new MasterDetailTable<CtentryAttribute , Ctentry>(CtentryAttribute.class) {
+    	
+    		@Override
+    		public void init() {
+    			super.init();
+    			setParentProperty("ctentryAttributes");
+    			setPropertyToShow(new String[] {"baseAttribute.name","value", "sequence"});
+    		}
+    		
+    		
+    		 @Override
+    		public EntityFormWindow<CtentryAttribute> buildEntityWindow() {
+    			 EntityFormWindow<CtentryAttribute> w =  new EntityFormWindow<CtentryAttribute>();
+    			 w.addTab(new MasterForm<CtentryAttribute>(CtentryAttribute.class) {
+    				@Override
+    				public void init() {
+    					super.init();
+    					setDisplayProperties(new String[]{"baseAttribute" , "sequence","value"});
+    				}
+    				private void addvalueField(){
+    	    			Field <?>  f = fieldGroup.getField("value");
+    	    			if(f != null){
+    	    				fieldGroup.unbind(f);
+    	    				removeComponent(f);
+    	    			}
+    	    	
+    	    			addComponent(super.createField("value"));
+    	    				
+    				}
+    			
+    				@Override
+    				protected Field<?> createField(String pid) {
+    					if (pid.equals("baseAttribute")){
+    								 final JPAContainer<BaseAttribute> baseAttributeses=ServiceContainerFactory.make(BaseAttribute.class);
+    								 
+    								 baseAttributeses.addContainerFilter(new Compare.Equal("availablefor" ,AvailableforType.PRODUCT ));
+									final ComboBox combo = new ComboBox(
+											"baseAttribute");
+									combo.setContainerDataSource(baseAttributeses);
+									combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+									combo.setItemCaptionPropertyId("name");
+									combo.setFilteringMode(FilteringMode.CONTAINS);
+									combo.setImmediate(true);
+									combo.setConverter(new SingleSelectConverter(combo));
+									fieldGroup.bind(combo, "baseAttribute");
+									
+									combo.addValueChangeListener(new ValueChangeListener() {
+										
+										@Override
+										public void valueChange(ValueChangeEvent event) {
+											EntityItem<BaseAttribute> attribute = baseAttributeses.getItem(event.getProperty().getValue());
+											
+											MultiValueField f = (MultiValueField) entityItem.getItemProperty("value").getValue();
+											if (f == null){
+												f = new MultiValueAttribute();
+												 entityItem.getItemProperty("value").setValue(f);
+											}
+												
+											f.setAttributeType(attribute.getEntity().getAttributeType());
+											addvalueField();
+											
+										}
+									});
+									return combo;
+    					}else	
+    						return super.createField(pid);
+    				}
+    			
+				}, "main");
+    			 
+    			 return w;
+    		}
+    		
+    		
+		};
+	}
 }
+

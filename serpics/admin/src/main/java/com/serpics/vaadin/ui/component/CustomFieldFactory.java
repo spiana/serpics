@@ -182,6 +182,13 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 			
 			MultiValueField _f = (MultiValueField)((EntityItem)item).getItemProperty(propertyId).getValue();
 			
+			if (_f == null){
+				field = createFieldByPropertyType(item.getItemProperty(propertyId).getType());
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				field.setCaption(createCaptionByPropertyId(propertyId));
+				return field;
+			}
+				
 			switch (_f.getAttributeType()) {
 			case STRING:
 				field = createFieldByPropertyType(String.class);
