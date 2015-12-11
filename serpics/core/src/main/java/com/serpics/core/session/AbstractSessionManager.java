@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -86,6 +87,7 @@ public abstract class AbstractSessionManager implements SessionManager {
 		return generateSessionIdStrategy;
 	}
 
+	@Required
 	public void setGenerateSessionIdStrategy(
 			GenerateSessionIdStrategy generateSessionIdStrategy) {
 		this.generateSessionIdStrategy = generateSessionIdStrategy;

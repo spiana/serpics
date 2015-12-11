@@ -12,6 +12,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 <!--   <bean name="initApp" class="com.serpics.system.web.InitializeTestWebApplication"/> -->
      
-     <bean id="sessionManager" class="com.serpics.system.web.WebSessionManager"/>
+     <bean id="sessionManager" class="com.serpics.system.web.WebSessionManager">
+     	<property name="generateSessionIdStrategy" ref="generateSessionIdStrategy"/>
+    </bean>
      
  </beans>    
