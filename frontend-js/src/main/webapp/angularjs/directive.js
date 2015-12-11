@@ -7,12 +7,43 @@
 	 * 
 	 */
 	var loaderDirective = function() {
-		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>" +
-						"{{ loadingText }}</div></div>"				
+		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>{{ loadingText }}</div></div>"				
 			return {		
 			replace: true,
 			restrict : 'EA',
 			template : loader,
+		};
+	};
+	
+	var accountMenuDirective = function(){
+		var dropdown =	"<a href='#' class='{{action.dropMenuClass}}'><i class='fa fa-user'></i> Account</a>" 				
+			return {		
+			restrict : 'EA',
+			template : dropdown,
+			controller	:'loginController'
+		};
+	}
+	
+	
+	
+	var actionUserDirective = function() {
+		var action = 	"<a ui-sref='shop.login'><i class='{{action.actionClass}}'></i> {{action.actionName}}</a>"				
+			return {		
+			restrict : 'EA',
+			template : action,
+			controller	:'loginController'
+		};
+	};
+	
+	/**
+	 * 
+	 */
+	var welcomeUserDirective = function() {
+		var user = 	"<span class='current-user'><span ng-bind='message'>  {{message}}</span></span>"				
+			return {		
+			restrict : 'EA',
+			template : user,
+			controller	:'loginController'
 		};
 	};
 
@@ -64,6 +95,7 @@
 			replace: true,
 			restrict : 'EA',
 			template : breadcrumbs,
+			
 		};
 	};
 	
@@ -82,11 +114,11 @@
 	/**
 	 * 
 	 */
-	var featuresDirective = function() {
+	var productListDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : "html/template/features.html",			
-			controller : 'serpicsAppController'
+			templateUrl : "html/template/product-list.html",
+			controller: 'productController',
 		};
 	};
 	
@@ -139,11 +171,8 @@
 	var loginDirective = function() {
 		return {
 			restrict : 'EA',
-			template : "<form action='#'><input type='text' placeholder='Name' name='username' />" +
-						"<input type='password' name='password'	placeholder='password' />"+
-						"<span><input	type='checkbox' class='checkbox'> Keep me signed in	</span>"+
-						"<button type='submit' class='btn btn-default'>Login</button></form>"
-
+			templateUrl : 'html/template/login.html',
+			controller:'loginController'
 		};
 	};
 
@@ -163,7 +192,8 @@
 	var registerDirective = function() {
 		return {
 			restrict : 'EA',
-			templateUrl : 'html/template/.html'
+			templateUrl : 'html/template/register.html',
+			controller:'loginController'
 		};
 	};
 
@@ -181,12 +211,22 @@
 		return {
 			restrict: 'EA',
 			templateUrl: 'html/template/single-product.html',
+		}
+	}
+	
+	var detailProductDirective = function() {
+		return {
+			restrict: 'EA',
+			templateUrl: 'html/template/detail-product.html',
 			controller: 'productController',
 		}
 	}
 
 	
-	var app = angular.module('serpics.directive', [])
+	var app = angular.module('serpics.directive', [])		
+	.directive('accountMenuDirective', 	accountMenuDirective)
+	.directive('actionUserDirective', 	actionUserDirective)
+	.directive('welcomeUserDirective', 	welcomeUserDirective)
 	.directive('loaderDirective', 		loaderDirective)
 	.directive('topHeaderDirective',	topHeaderDirective)
 	.directive('middleHeaderDirective',	middleHeaderDirective)
@@ -195,7 +235,7 @@
 	.directive('breadCrumbsDirective', 	breadCrumbsDirective)	
 	.directive('brandDirective', 		brandDirective)
 	.directive('leftSidebarDirective', 	leftSidebarDirective)
-	.directive('featuresDirective', 	featuresDirective)
+	.directive('productListDirective', 	productListDirective)
 	.directive('productDirective', 		productDirective)
 	.directive('cartDirective', 		cartDirective)
 	.directive('orderDirective',		orderDirective)
@@ -203,7 +243,8 @@
 	.directive('registerDirective', 	registerDirective)
 	.directive('recommendedDirective', 	recommendedDirective)
 	.directive('footerDirective', 		footerDirective)
-	.directive('singleProductDirective', 		singleProductDirective)	
+	.directive('singleProductDirective',singleProductDirective)	
+	.directive('detailProductDirective',detailProductDirective)	
 	
 	
 }());

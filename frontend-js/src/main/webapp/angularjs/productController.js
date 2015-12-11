@@ -1,11 +1,12 @@
- var app = angular.module("product.controller", ['product.service'])
+ var app = angular.module("product.controller", ['product.service', 'cart.service'])
 /** productController **/
-.controller("productController",['$scope','authManagerService','productService', 
+.controller("productController",['$scope','serpicsServices','productService', '$state', 'cartService',
                                   
-	      function($scope,authManagerService,productService) {	
+	      function($scope,serpicsServices,productService,$state,cartService) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
+			var productId = $scope.productId;
 			var page = getPage();
 			var size = getSize();
 	
@@ -25,7 +26,7 @@
 				if ($scope.product) {
 					return $scope.product.size;
 				} else {
-					return 10;
+					return 9;
 				}
 	  	   	};
 	  	   	
@@ -37,6 +38,14 @@
 
 	  	      return input;
 	  	   	}
+	  	  
+	  	  $scope.addToCart = function(sku,quantity){
+	  	    	console.log("ProductController cartAdd(sku ,quantity)");
+	  			cartService.cartAdd(sku ,quantity).then(function(response){
+	    			  console.log("ProductController cartAdd(sku ,quantity): ramo then");
+	    			  $state.go('shop.cart')
+	  		});
+	  	  }
 	  	 
 	  	    /** implemented order service **/ 
 	  	    
@@ -44,7 +53,7 @@
 	  	    /**
 	  	     * @param productId 			id of product 	  
 	  	     * @return 						product with id equal @param productId
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	    function getProduct(productId) {		
 	  	    	productService.getProduct(productId).then( function( response ) {
@@ -55,7 +64,7 @@
 	  	    /**
 	  	     * @param productId 			id of product 
 	  	     * @return 						product's main category
-	  	     * @use 						productService,authManagerSer    
+	  	     * @use 						productService,serpicsServices    
 	  	     */
 	  	   function getCategory(productId) {		
 	  	    	productService.getCategoryProduct(productId).then( function( response ) {
@@ -66,7 +75,7 @@
 	  	    /**
 	  	     * @param productName 			name of product to retrieve  	    
 	  	     * @return 						product name equal @param productName
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	   function getProductByName(productName) {		
 	  	    	productService.getProductByName(productName).then( function( response ) {
@@ -77,7 +86,7 @@
 	  	    /**
 	  	     * @param categoryId 			id of category of product to retrieve  	    
 	  	     * @return 						product with category equal @param categoryId
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	    function findByCategory(categoryId, page, size) {		
 	  	    	productService.findByCategory(categoryId, page, size).then( function( response ) {
@@ -88,7 +97,7 @@
 	  	    /**
 	  	     * @param brandId 				id of brand of product to retrieve    
 	  	     * @return 						product with brand equal @param brandId
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	    function findByBrand(brandId, page, size) {		
 	  	    	productService.findByBrand(brandId, page, size).then( function( response ) {
@@ -98,7 +107,7 @@
 	  	    
 	  	    /**
 	  	     * @return 						all product
-	  	     * @use 						productService,authManagerService
+	  	     * @use 						productService,serpicsServices
 	  	     */
 	  	    function findAll(page, size) {		
 	  	    	productService.findAll(page, size).then( function( response ) {
@@ -108,14 +117,18 @@
 	  	    
 	  	    function findAllQ(page, size){
 	  	    	console.log("Controller ProductQ");
-	  	    	if (!categoryId && brandId){
-	  	    		findByBrand(brandId, page, size);
-	  	    	}
-	  	    	if (categoryId && !brandId){
-	  	    		findByCategory(categoryId, page, size);
-	  	    	}
-	  	    	if (!categoryId && !brandId){
-	  	    		findAll(page, size);
+	  	    	if (productId){
+	  	    		getProduct(productId);
+	  	    	} else {
+		  	    	if (!categoryId && brandId){
+		  	    		findByBrand(brandId, page, size);
+		  	    	}
+		  	    	if (categoryId && !brandId){
+		  	    		findByCategory(categoryId, page, size);
+		  	    	}
+		  	    	if (!categoryId && !brandId){
+		  	    		findAll(page, size);
+		  	    	}
 	  	    	}
 	  	    };
 	  	    

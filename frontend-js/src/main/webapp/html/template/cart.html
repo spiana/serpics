@@ -1,0 +1,65 @@
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+					<li><a ui-sref="shop.home">Home</a></li>
+					<li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			<div>
+				<h4 ng-hide="cart.orderItems.length">Carrello vuoto!<br><br></h4>
+			</div>
+			<div class="table-responsive cart_info" style="width: 73%; overflow-x: hidden;">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in cart.orderItems">
+							<td class="cart_product"><a ui-sref="shop.product({id: item.product.id, name: item.product.code})"><img
+									src="/frontend-js/images/cart/two.png" alt=""></a></td>
+							<td class="cart_description">
+								<h4>
+									<a ui-sref="shop.product({id: item.product.id, name: item.product.code})">{{item.sku}}</a>
+									<p>Web ID: {{item.product.id}}</p>
+								</h4>
+							</td>
+							<td class="cart_price">
+								<p>&euro;{{item.skuNetPrice}}</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<input class="cart_quantity_input" type="text" name="quantity"
+										value="{{item.quantity}}" autocomplete="off" size="2" readonly> <a
+										class="cart_quantity_down" ng-click="cartAdd(item.sku,1)"> + </a>
+								</div>
+							</td>
+							<td class="cart_delete"><a class="cart_quantity_delete"
+								ng-click="deleteItem(item.id)"><i class="fa fa-times">  REMOVE</i></a></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span>&euro;{{cart.totalProduct}}</span></li>
+							<li>Services Sub Total <span>&euro;{{cart.totalService || 0}}</span></li>
+							<li>Tax Sub Total <span>&euro;{{cart.totalTax}}</span></li>
+							<li>Shipping Cost <span>&euro;{{cart.totalShipping}}</span></li>
+							<li id="total">Total <span>&euro;{{cart.orderAmount || cart.totalProduct}}</span></li>
+						</ul>
+						<a class="btn btn-default update" ng-click="cartUpdate()">Update</a> <a
+							class="btn btn-default check_out" href="">Check Out</a>
+					</div>
+	</div>
+	<!--/#cart_items-->

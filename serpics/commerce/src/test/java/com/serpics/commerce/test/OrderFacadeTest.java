@@ -24,7 +24,7 @@ import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.facade.OrderFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
-import com.serpics.commerce.facade.data.CartItemModification;
+import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
 import com.serpics.commerce.facade.data.OrderData;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -121,7 +121,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	media.setSequence(1);
     	productFacade.addMedia(entry.getId(),media);
     	
-    	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode());
+    	CartModification cartmod = cartFacade.cartAdd(entry.getCode());
     	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
     	
     	log.info("**** carrello " + cartFacade.getCurrentCart().getTotalProduct());
@@ -153,7 +153,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	media.setSequence(1);
     	productFacade.addMedia(entry.getId(),media);
     	
-    	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode(), 2);
+    	CartModification cartmod = cartFacade.cartAdd(entry.getCode(), 2);
     	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
     	
     	log.info("**** carrello " + cartFacade.getCurrentCart().getTotalProduct());
@@ -185,7 +185,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	media.setSequence(1);
     	productFacade.addMedia(entry.getId(),media);
     	
-    	CartItemModification cartmod = cartFacade.cartAdd(entry.getCode());
+    	CartModification cartmod = cartFacade.cartAdd(entry.getCode());
     	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
     	
     	log.info("**** carrello " + cartFacade.getCurrentCart().getTotalProduct());
@@ -203,12 +203,12 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
 			log.info("RIGA CARRELLO " + cartItemData.getSku() +  "  + " +  cartItemData.getQuantity() +  " - " + cartItemData.getSkuPrice());
 			if( cartItemData.getSku().equals("PROD1")) {
 				cartItemData.setQuantity(3);
-					CartItemModification cartmod = cartFacade.update(cartItemData);
+					CartModification cartmod = cartFacade.update(cartItemData);
 			    	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
 			}
 			if(cartItemData.getSku().equals("PROD2")){
 				cartItemData.setQuantity(0);
-				CartItemModification cartmod = cartFacade.update(cartItemData);
+				CartModification cartmod = cartFacade.update(cartItemData);
 		    	Assert.assertEquals(CartModificationStatus.OK, cartmod.getModificationStatus());
 			}
 		}

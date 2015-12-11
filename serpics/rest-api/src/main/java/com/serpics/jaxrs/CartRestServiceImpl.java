@@ -19,7 +19,7 @@ import org.springframework.util.Assert;
 import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
-import com.serpics.commerce.facade.data.CartItemModification;
+import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.membership.facade.data.AddressData;
@@ -49,8 +49,8 @@ public class CartRestServiceImpl implements CartRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response cartAdd(@FormParam("sku") String sku, @FormParam("qty") @DefaultValue("1") int quantity ) {
 		Assert.notNull(sku);
-		ApiRestResponse<CartItemModification> apiRestResponse = new ApiRestResponse<CartItemModification>();
-		CartItemModification  cartItemModification = cartFacade.cartAdd(sku, quantity);
+		ApiRestResponse<CartModification> apiRestResponse = new ApiRestResponse<CartModification>();
+		CartModification  cartItemModification = cartFacade.cartAdd(sku, quantity);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(cartItemModification);
 		return Response.ok(apiRestResponse).build();
@@ -62,8 +62,8 @@ public class CartRestServiceImpl implements CartRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response cartUpdate(CartItemData cartItem) {
 		Assert.notNull(cartItem);
-		ApiRestResponse<CartItemModification> apiRestResponse = new ApiRestResponse<CartItemModification>();
-		CartItemModification  cartItemModification = cartFacade.update(cartItem);
+		ApiRestResponse<CartModification> apiRestResponse = new ApiRestResponse<CartModification>();
+		CartModification  cartItemModification = cartFacade.update(cartItem);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(cartItemModification);
 		return Response.ok(apiRestResponse).build();
@@ -74,8 +74,8 @@ public class CartRestServiceImpl implements CartRestService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response deleteItem(@FormParam("itemId") Long itemId){
 		Assert.notNull(itemId);
-		ApiRestResponse<CartItemModification> apiRestResponse = new ApiRestResponse<CartItemModification>();
-		CartItemModification  cartItemModification = cartFacade.cartItemDelete(itemId);
+		ApiRestResponse<CartModification> apiRestResponse = new ApiRestResponse<CartModification>();
+		CartModification  cartItemModification = cartFacade.cartItemDelete(itemId);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(cartItemModification);
 		return Response.ok(apiRestResponse).build();

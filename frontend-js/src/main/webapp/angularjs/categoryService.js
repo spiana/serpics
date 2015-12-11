@@ -2,9 +2,10 @@
  /**
  * category service to handler rest call to category service
  */
- app.service("categoryService", function( $http, $q,authManagerService,URL) {
+ app.service("categoryService", function( $http, $q,serpicsServices,URL,COOKIE_EXPIRES) {
 	 
-	 var endpoint   	= '/jax-rs/categoryService/'
+	 var endpoint   	= '/jax-rs/categoryService/';
+	 var localSessionId = '';
  
 	    /** Return public API. (like java interface)**/
 	    var service = ({
@@ -26,9 +27,9 @@
 	     */     
 	    function getTop() {
 	    	var defer = $q.defer();
-	    	var response = authManagerService.getSessionId();
+	    	var response = serpicsServices.getSessionId();
 	    	response.then(function(idSessione){
-	    		
+	    		localSessionId= sessionId; 	    		
 	    		var request = $http({
 		             method: 'GET',
 		             url: 	URL + endpoint +  'top',
@@ -50,11 +51,12 @@
 	     * @return 
 	     */     
 	    function getTopQ() {
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("CategoryService getTopQ() ssid nel promise"+sessionId) ;
+	    			localSessionId= sessionId; 
 	    			$http({
 			             method: 'GET',
 			             url: 	URL + endpoint +  'top',
@@ -62,7 +64,6 @@
 			             	'ssid': sessionId
 			            }
 			          }).then(handleSuccess, handleError).then(resolve, reject);
-	    			
 	    		});
     		
 	    	});
@@ -73,10 +74,11 @@
 	     * @return 
 	     */      
 	    function getCategoryById(categoryId) {
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("CategoryService getCategoryById(categoryId) ssid nel promise"+sessionId) ;
+	    			localSessionId= sessionId; 
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL + endpoint + categoryId,
@@ -93,14 +95,15 @@
 	     * @param category                
 	     * @return 
 	     */      
-	    function getCategoryByCode(code,category) {
-	    	var serviceSSID = authManagerService;
+	    function getCategoryByCode(code) {
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("CategoryService getCategoryByCode(code) ssid nel promise"+sessionId) ;
+	    			localSessionId= sessionId; 
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint +  code + '/' + category,
+	    				url: URL + endpoint +  'code/' + category,
 	    				headers: {
 	    					'ssid': sessionId
 	    					}
@@ -115,10 +118,11 @@
 	     */      
 	    function getChild(parentId) {
 	    	console.log("getChild(parentId): "+parentId) ;
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("CategoryService getChild(parentId) ssid nel promise"+sessionId) ;
+	    			localSessionId= sessionId; 
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL + endpoint +   'getChild/' + parentId,
@@ -131,14 +135,14 @@
     	 }
 	    
 	    /**
-	     * @param sessionId               
 	     * @return 
 	     */     
-	    function findAll(sessionId) {
-	    	var serviceSSID = authManagerService;
+	    function findAll() {
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("session Id nel promise"+sessionId) ;
+	    			console.log("CategoryService findAll() ssid nel promise"+sessionId) ;
+	    			localSessionId= sessionId; 
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL +  endpoint +  'findAll',
@@ -150,14 +154,13 @@
 	    	});
 	    }
 	    
+	    
 	    /**
 	     * private method.
 	     * I transform the error response, unwrapping the application dta from
 	     * the API response payload.
 	     */                
 	  
-	   
-	    	
 	    function handleError( response ) {
 	        /**
 	         * The API response from the server should be returned in a
@@ -166,7 +169,7 @@
 	         * may have to normalize it on our end, as best we can.
 	         */ 
 	        if (! angular.isObject( response.data ) || ! response.data.message ) {
-	            return( $q.reject( "An unknown error occurred." ) );
+	            return( $q.reject( "CategoryService: An unknown error occurred." ) );
 	        }
 	        /** Otherwise, use expected error message.**/
 	        return( $q.reject( response.data.message ) );
@@ -176,6 +179,8 @@
 	     *from the API response payload.                
 	     */
 	    function handleSuccess( response ) {
+        	var serviceSSID = serpicsServices;
+        	serviceSSID.setCookie('ssid',localSessionId,COOKIE_EXPIRES)  /** expire 20 minut **/ 
 	        return( response.data.responseObject);
 	    }
 	}

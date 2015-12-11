@@ -2,14 +2,15 @@
 /**
  * order service to handler rest call to order service
  */
-app.service("orderService", function( $http, $q, authManagerService,URL ) {
+app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPIRES ) {
 	
 	var endpoint = '/jax-rs/orderService/';
-	 
+	var localSessionId = '';
+	
 	    /** Return public API. (like java interface) **/
 	  	var service =   ({
-	  		getOrders: getOrders,
-	  		addPayment:addPayment
+	  		getOrders:		getOrders,
+	  		addPayment:		addPayment
 	    	
 	    });                
 	    return service
@@ -17,42 +18,48 @@ app.service("orderService", function( $http, $q, authManagerService,URL ) {
 	    /** public methods**/
 	    
 	    /**
-	     * @param endpoint
-	     * @param sessionId      
 	     * @return 
 	     */
-	    function getOrders(endpoint,sessionId) {
-	    	
-	        var request = $http({
-	            method: 'GET',
-	            url: endpoint +  'getOrders',
-	            headers: {
-	            	'ssid': sessionId
-	            }
-	          });
-	    	
-	        return( request.then( handleSuccess, handleError ) );
+	    function getOrders() {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("OrderService getOrders() ssid nel promise"+sessionId) ;
+	    			localSessionId= sessionId; 
+	    			$http({
+			             method: 'GET',
+			             url: 	URL + endpoint +  'getOrders',
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
 	    }                
 	
 	    /**
-	     * @param endpoint
-	     * @param sessionId    
 	     * @param order 
 	     * @param data   
 	     * @return 
 	     */
-	    function addPayment(endpoint,sessionId,order,data) {
-	    	
-	        var request = $http({
-	            method: 'POST',
-	            url: endpoint +  '/addPayment/'+ order,
-	            headers: {
-	            	'ssid': sessionId
-	            },   
-	            data: data
-	          });
-	    	
-	        return( request.then( handleSuccess, handleError ) );
+	    function addPayment(order,data) {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("OrderService addPayment(order,data) ssid nel promise"+sessionId) ;
+	    			localSessionId= sessionId; 
+	    			$http({
+			             method: 'POST',
+			             url: 	URL + endpoint +  '/addPayment/'+ order,
+			             data: data,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
 	    }           
 	    
 	    
@@ -61,8 +68,6 @@ app.service("orderService", function( $http, $q, authManagerService,URL ) {
 	     * I transform the error response, unwrapping the application dta from
 	     * the API response payload.
 	     */                
-	                          
-	    
 	    function handleError( response ) {
 	        /**
 	         * The API response from the server should be returned in a
@@ -81,6 +86,8 @@ app.service("orderService", function( $http, $q, authManagerService,URL ) {
 	     *from the API response payload.                
 	     */
 	    function handleSuccess( response ) {
+	    	var serviceSSID = serpicsServices;
+        	serviceSSID.setCookie('ssid',localSessionId,COOKIE_EXPIRES)  /** expire 20 minut **/ 
 	        return( response.data.responseObject);
 	    }
 });

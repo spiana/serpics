@@ -3,6 +3,7 @@ package com.serpics.commerce.strategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.commerce.data.model.Cart;
@@ -25,6 +26,7 @@ public class CartStrategyImpl extends AbstractStrategy implements CartStrategy {
 	
 
 	@Override
+	@Transactional
 	public void mergeCart(Member user, Member customer){
 		
 		// TODO implementare un metodo che faccia il merge del carrello in

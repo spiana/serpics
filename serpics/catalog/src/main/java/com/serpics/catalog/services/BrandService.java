@@ -7,5 +7,7 @@ public interface BrandService extends EntityService<Brand, Long> {
 	
 	
 	public Brand findOneByName(String name);
+
+	public int getBrandProduct(Brand brand);
 	
 }

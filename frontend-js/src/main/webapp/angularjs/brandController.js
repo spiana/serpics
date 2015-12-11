@@ -13,102 +13,53 @@
  	    /** implemented brand service **/  	    
 		
 		/**
-		 * @param endpoint 		    	web service rest endpoint
- 	     * @param sessionId 			a sessionId
- 	     * @return 						new brand
- 	     * @use 						brandService,authManagerService
+ 	     * @return 					all brands list
+ 	     * @use 					brandService
  	     */
- 		$scope.getBrand = function(data) {	
-			
-			console.log("Brand Controller: session id for top method:-> " + $scope.sessionId)
- 	    	brandService.getBrand(endpoint,$scope.sessionId).then( function( response ) {
- 	    		$scope.brandData = response.content
- 	    		})
- 	    };
- 	    
   	   function getBrandQ(){
-  		  console.log("Controller BrandQ");
+  		  console.log("Brand Controller getBrandQ()");
   		  brandService.getBrandQ().then(function(response){
-  			  console.log("BrandQ ramo then");
+  			  console.log("Brand Controller getBrandQ(): ramo then");
   			  $scope.brandData = response;
   		  })
   	   };
 		
  	    /**
- 	     * @param endpoint 		   		web service rest endpoint
- 	     * @param sessionId 			a sessionId
- 	     * @return 						new brand
- 	     * @use 						brandService,authManagerService
- 	     */
- 		$scope.addBrand = function(endpoint,data ) {	
- 	    	brandService.addBrand(endpoint,$rootScope.sessionId,data).then( function( response ) {
- 	       		/** do stuff with response **/
-             })
- 	    };
- 	    
- 	    /**
- 	     * @param endpoint 		    	web service rest endpoint
- 	     * @param sessionId 			a sessionId
- 	     * @param data 					data to send
- 	     * @return 						a brand update with @param data
- 	     * @use 						brandService,authManagerService
- 	     */
- 	    $scope.updateBrand = function(endpoint, data) {		
- 	    	brandService.updateBrand(endpoint,$rootScope.sessionId, data).then( function( response ) {
- 	       		/** do stuff with response **/
-             })
- 	    };
- 	    
- 	   /**
- 	     * @param endpoint 		    	web service rest endpoint
- 	     * @param sessionId 			a sessionId
- 	     * @param brandId    			id of brand to be deleted
- 	     * @return 				
- 	     * @use 						brandService,authManagerService
- 	     */
- 	    $scope.deleteBrand = function(endpoint,brandId ) {		
- 	    	brandService.deleteBrand(endpoint,$rootScope.sessionId,brandId ).then( function( response ) {
- 	       		/** do stuff with response **/
-             })
- 	    };
- 	    
- 	    /**
- 	     * @param endpoint 		    	web service rest endpoint
- 	     * @param sessionId 		a sessionId
- 	     * @param code 	    
+ 	     * @param brandId 		   	brandId to search
  	     * @return 					all brand by @param brandId
- 	     * @use 					brandService,authManagerService
+ 	     * @use 					brandService
  	     */
- 	    $scope.findBrandById = function(endpoint,code,brandId) {		
- 	    	brandService.findBrandById(endpoint,$rootScope.sessionId,code,brandId).then( function( response ) {
- 	       		/** do stuff with response **/
-             })
+ 	    $scope.findBrandById = function(brandId)  {
+ 	    	console.log("Brand Controller findBrandById: "+brandId);
+ 	    	brandService.findBrandById(brandId).then(function(response){
+ 	    		console.log("Brand Controller findBrandById(): ramo then");
+ 	    		$scope.brandData = response;
+ 	    	});
  	    };
  	    
  	    /**
- 	     * @param endpoint 		    	web service rest endpoint
- 	     * @param sessionId 		a sessionId
  	     * @param name 				name of brand to retrieve
  	     * @return 					all brand by @param name
- 	     * @use 					brandService,authManagerService
+ 	     * @use 					brandService,serpicsServices
  	     */
- 	    $scope.findBrandByName = function(endpoint,name) {		
- 	    	brandService.findBrandByName(endpoint,$rootScope.sessionId,name).then( function( response ) {
- 	       		/** do stuff with response **/
-             })
+ 	    $scope.findBrandByName = function(name) {
+ 	    	console.log("Brand Controller findBrandByName: "+name);
+ 	    	brandService.findBrandByName(name).then(function(response){
+ 	    		console.log("Brand Controller findBrandByName(): ramo then");
+ 	    		$scope.brandData = response;
+ 	    	});
  	    };
  	    
  	    /**
- 	     * @param sessionId 		a sessionId         	    
  	     * @return 					all brand
- 	     * @use 					brandService,authManagerService
+ 	     * @use 					brandService,serpicsServices
  	     */
- 	    $scope.findAll = function(endpoint) {		
- 	    	brandService.findAll(endpoint,sessionId).then( function( response ) {
- 	       		/** do stuff with response **/
-             })
+ 	    $scope.findAll = function(page,size) {
+ 	    	console.log("Brand Controller findAll: page:"+page+" size: "+size);
+ 	    	brandService.findAll(page,size).then(function(response){
+ 	    		console.log("Brand Controller findAll(): ramo then");
+ 	    		$scope.brandData = response;
+ 	    	});
  	    };
  	    
- 	   /** execute function on view content load **/
-
  }])

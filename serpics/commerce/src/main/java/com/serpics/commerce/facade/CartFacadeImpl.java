@@ -13,7 +13,7 @@ import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
-import com.serpics.commerce.facade.data.CartItemModification;
+import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
 import com.serpics.commerce.services.CartService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
@@ -49,22 +49,22 @@ public class CartFacadeImpl implements CartFacade {
 	@Resource(name="cartItemConvert")
 	AbstractPopulatingConverter<Cartitem , CartItemData> cartItemConverter;
 	
-	public CartItemModification cartAdd(String sku){ 
+	public CartModification cartAdd(String sku){ 
 		 return cartAdd(sku, 1);
 	}
 	
 	@Override
 	@Transactional
-	public CartItemModification cartAdd(String sku, int quantity) {
+	public CartModification cartAdd(String sku, int quantity) {
 		Cart c = null;
 		try {
 			cartService.cartAdd(sku, quantity, true);
 			c = cartService.prepareCart();
-			return new CartItemModification(CartModificationStatus.OK , cartConverter.convert(c));
+			return new CartModification(CartModificationStatus.OK , cartConverter.convert(c));
 		} catch (InventoryNotAvailableException e){
-			return new CartItemModification(CartModificationStatus.LOW_STOCK, new CartData(), "not available !");
+			return new CartModification(CartModificationStatus.LOW_STOCK, getCurrentCart(), "not available !");
 		}catch (ProductNotFoundException e) {
-			return new CartItemModification(CartModificationStatus.ERROR, new CartData(), "product not found !");
+			return new CartModification(CartModificationStatus.ERROR, getCurrentCart(), "product not found !");
 		} 
 		
 		
@@ -81,15 +81,15 @@ public class CartFacadeImpl implements CartFacade {
 	
 	@Override
 	@Transactional
-	public CartItemModification update(CartItemData cartItem){	
+	public CartModification update(CartItemData cartItem){	
 		Cart cart = null;
 		try {
 			cart = cartService.cartUpdate(convertCartItemData(cartItem));
-			return new CartItemModification(CartModificationStatus.OK , cartConverter.convert(cart));
+			return new CartModification(CartModificationStatus.OK , cartConverter.convert(cart));
 		} catch (InventoryNotAvailableException e){
-			return new CartItemModification(CartModificationStatus.LOW_STOCK, new CartData(), "not available !");
+			return new CartModification(CartModificationStatus.LOW_STOCK, getCurrentCart(), "not available !");
 		}catch (ProductNotFoundException e) {
-			return new CartItemModification(CartModificationStatus.ERROR, new CartData(), "product not found !");
+			return new CartModification(CartModificationStatus.ERROR, getCurrentCart(), "product not found !");
 		} 
 
 	}
@@ -106,14 +106,14 @@ public class CartFacadeImpl implements CartFacade {
 	
 	@Override
 	@Transactional
-	public CartItemModification cartItemDelete(Long id) {
-		CartItemModification resultModification = null;
+	public CartModification cartItemDelete(Long id) {
+		CartModification resultModification = null;
 		
 		try{
 			cartService.cartItemDelete(id);
-			resultModification = new CartItemModification(CartModificationStatus.OK, null);
+			resultModification = new CartModification(CartModificationStatus.OK, getCurrentCart());
 		}catch(InventoryNotAvailableException e){
-			resultModification = new CartItemModification(CartModificationStatus.LOW_STOCK, null);
+			resultModification = new CartModification(CartModificationStatus.LOW_STOCK, getCurrentCart());
 		}
 		
 		return resultModification;

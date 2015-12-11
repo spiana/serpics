@@ -4,85 +4,93 @@
                                   
       function($scope,cartService) {	
    	
-  	    $rootScope.cart 	= [];
+  	    $scope.cart 	= {};
+  	    
+  	    getCurrentCart();
   	  
   	    /** implemented cart service **/ 
   	    
   	    /**
-  	     * @param endpoint 		    	web service rest endpoint
-  	     * @param sessionId 		a sessionId
   	     * @param data				data to send
   	     * @return 					current cart from session
   	     * @use 					cartService,
   	     */
-  		$scope.getCurrentCart = function(endpoint,data ) {	
-  	    	cartService.getCurrentCart(endpoint,$rootScope.sessionId,data).then( function( response ) {
- 	       		/** do stuff with response **/
-             })
+  		$scope.getCurrentCart = function() {
+  	    	getCurrentCart();
   	    };
   	    
   	    /**
-  	     * @param endpoint 		    	web service rest endpoint
-  	     * @param sessionId 			a sessionId
-  	     * @param data 					data to send
-  	     * @return 						a new cart
+  	     * @param sku 					sku to send
+  	     * @param quantity 		        quantity to send
+  	     * @return 						a new cartItemModification
   	     * @use 						cartService,
   	     */
-  	    $scope.cartAdd = function(endpoint, data) {		
-  	    	cartService.cartAdd(endpoint,$rootScope.sessionId, data).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
+  	    $scope.cartAdd = function(sku ,quantity) {
+  	    	console.log("CartController cartAdd(sku ,quantity)");
+  			cartService.cartAdd(sku ,quantity).then(function(response){
+    			  console.log("CartController cartAdd(sku ,quantity): ramo then");
+    			  $scope.cart = response.cart;
+    		  })
   	    };
   	    
   	   /**
-  	    * @param endpoint 		    	web service rest endpoint
-  	     * @param sessionId 			a sessionId
-  	     * @param data    				data to send
+  	     * @param cartItem    			cartItem to send
   	     * @return 						a cart update with @param data
   	     * @use 						cartService,
   	     */
-  	    $scope.cartUpdate = function(endpoint, data ) {		
-  	    	cartService.cartUpdate(endpoint,$rootScope.sessionId,data ).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
+  	    $scope.cartUpdate = function( cartItem ) {		
+  	    	console.log("CartController cartUpdate(cartItem)");
+  			cartService.cartUpdate(cartItem).then(function(response){
+    			  console.log("CartController cartUpdate(cartItem): ramo then");
+    			  $scope.cart = response;
+    		  })
   	    };
   	    
   	    /**
-  	     * @param endpoint 		    web service rest endpoint
-  	     * @param sessionId 		a sessionId
-  	     * @param code 	    
-  	     * @return 					all brand by @param brandId
+  	     * @param itemId 	    	itemId to delete
+  	     * @return 					cartItemModification
   	     * @use 					cartService,
   	     */
-  	    $scope.deleteItem = function(endpoint,data) {		
-  	    	cartService.deleteItem(endpoint,$rootScope.sessionId,data).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
+  	    $scope.deleteItem = function(itemId) {		
+  	    	console.log("CartController deleteItem(itemId)");
+  			cartService.deleteItem(itemId).then(function(response){
+    			  console.log("CartController deleteItem(itemId): ramo then");
+    			  $scope.cart = response.cart;
+    		  })
   	    };
   	    
   	    /**
-  	     * @param endpoint 		    web service rest endpoint
-  	     * @param sessionId 		a sessionId
-  	     * @param data    			data to send
-  	     * @return 					
+  	     * @param billingAddress    billingAddress to send
+  	     * @return 					cartData
   	     * @use 					cartService,
   	     */
-  	    $scope.addBillingAddress = function(endpoint,data) {		
-  	    	cartService.addBillingAddress(endpoint,$rootScope.sessionId,data).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
+  	    $scope.addBillingAddress = function(billingAddress) {		
+  	    	console.log("CartController addBillingAddress(billingAddress)");
+  			cartService.addBillingAddress(billingAddress).then(function(response){
+    			  console.log("CartController addBillingAddress(billingAddress): ramo then");
+    			  $scope.cart = response;
+    		  })
   	    };
   	    
   	  /**
-  	     * @param sessionId 		a sessionId
-  	     * @param data    			data to send
-  	     * @return 					
+  	     * @param shippingAddress 	shippingAddress to send
+  	     * @return 					cartData
   	     * @use 					cartService,
   	     */
-  	    $scope.addShippingAddress = function(endpoint,data) {		
-  	    	cartService.addShippingAddress(endpoint,sessionId,data).then( function( response ) {
-  	       		/** do stuff with response **/
-              })
+  	    $scope.addShippingAddress = function(shippingAddress) {		
+  	    	console.log("CartController addShippingAddress(shippingAddress)");
+  			cartService.addShippingAddress(shippingAddress).then(function(response){
+    			  console.log("CartController shippingAddress(shippingAddress): ramo then");
+    			  $scope.cart = response;
+    		  })
   	    };
+  	    
+  	    function getCurrentCart() {
+  			console.log("CartController getCurrentCart()");
+  			cartService.getCurrentCart().then(function(response){
+    			  console.log("CartController getCurrentCart(): ramo then");
+    			  $scope.cart = response;
+    		  })
+  	    }
   	             	    
 }])

@@ -1,4 +1,4 @@
-var app = angular.module("serpics.App", ['serpics.Services','category.controller','brand.controller','product.controller','order.controller','customer.controller','serpics.directive','serpics.config','serpics.router'])
+var app = angular.module("serpics.App", ['serpics.Services','category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','serpics.directive','serpics.config','serpics.router']);
 
 app.controller("serpicsAppController",['$scope','TITLE','BREADCRUMBS','LOADINGTEXT',
                                      
@@ -6,6 +6,5 @@ app.controller("serpicsAppController",['$scope','TITLE','BREADCRUMBS','LOADINGTE
   	
 			$scope.title 		= TITLE;
 			$scope.loadingText 	= LOADINGTEXT;     
-			$scope.breadcrumbs 	= BREADCRUMBS;
-			
- }])
+			$scope.breadcrumbs 	= BREADCRUMBS
+}]);

@@ -2,18 +2,15 @@
 /**
  * brand service to handler rest call to brand service
  */
-app.service("brandService", function( $http, $q, authManagerService,URL ) {
+app.service("brandService", function( $http, $q, serpicsServices,URL,COOKIE_EXPIRES ) {
 	
 	var endpoint = '/jax-rs/brandService/';
+	var localSessionId = '';
 	 
         /** Return public API. (like java interface)**/
 	    
         var service =({
-        	getBrand		: getBrand,
         	getBrandQ		: getBrandQ,
-        	addBrand		: addBrand,
-        	updateBrand		: updateBrand,
-        	deleteBrand		: deleteBrand,
         	findBrandById	: findBrandById,
         	findBrandByName	: findBrandByName,
         	findAll			: findAll
@@ -22,37 +19,20 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
         
         /** public methods**/
         
-        /**
-         * @param endpoint
-         * @param sessionId               
-         * @param data
-         * @return 
-         */
-        function getBrand(endpoint,sessionId) {
-            var request = $http({         
-            	method:'GET',
-                url: URL + endpoint,
-                headers: {
-                	'ssid': sessionId
-                	} 
-              });
-            return( request.then( handleSuccess, handleError ) );
-        }
-        
 	    /**
-	     * @param endpoint
 	     * @param sessionId                
 	     * @return 
 	     */     
 	    function getBrandQ() {
-	    	var serviceSSID = authManagerService;
+	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("getbrandQService session Id nel promise"+sessionId) ;
+	    			console.log("BrandService getBrandQ() ssid nel promise "+sessionId) ;
+	    			localSessionId= sessionId; 
 	    			$http({
 			             method: 'GET',
-			             url: 	URL + endpoint,
+			             url: 	URL + endpoint +'?page=0&size=10',
 			             headers: {
 			             	'ssid': sessionId
 			            }
@@ -64,104 +44,70 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
 	    }
         
         /**
-         * @param endpoint
-         * @param sessionId               
-         * @param data
-         * @return 
-         */
-        function addBrand(endpoint,sessionId,data ) {
-            var request = $http.post({              
-                url: endpoint +   'addBrand',
-                headers: {
-                	'ssid': sessionId
-                },   
-                data: data
-              });
-            return( request.then( handleSuccess, handleError ) );
-        }
-        
-        /**
-         * @param endpoint
-         * @param sessionId               
-         * @param data
-         * @return 
-         */
-        function updateBrand(endpoint,sessionId, data ) {
-            var request = $http.put({               
-                url: endpoint +  'updateBrand',
-                headers: {
-                	'ssid': sessionId
-                },   
-                data: data
-              });
-            return( request.then( handleSuccess, handleError ) );
-        }
-        
-        /**
-         * @param endpoint
-         * @param sessionId               
-         * @param brandId
-         * @return 
-         */
-        function deleteBrand(endpoint,sessionId,brandId ) {
-            var request = $http({
-                method: 'DELETE',
-                url: endpoint +   'deleteBrand/' + id,
-                headers: {
-                	'ssid': sessionId
-                }                        
-              });
-            return( request.then( handleSuccess, handleError ) );
-        }
-        
-        /**
-         * @param endpoint
-         * @param sessionId               
-         * @param code
          * @param brandId
          * @return 
          */      
-        function findBrandById(endpoint,sessionId,code,brandId) {
-            var request = $http.get({                
-                url: endpoint +   code + '/' + brandId,
-                headers: {
-                	'ssid': auurlthManager.getsessionId
-                }                         
-              });
-            return( request.then( handleSuccess, handleError ) );
+        function findBrandById(brandId) {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("BrandService findBrandById(brandId) ssid nel promise "+sessionId) ;
+	    			localSessionId= sessionId; 
+	    			$http({
+			             method: 'GET',
+			             url: endpoint +   'code/' + brandId,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
         }
         
         /**
-         * @param endpoint
-         * @param sessionId               
          * @param name
          * @return 
          */      
-        function findBrandByName(endpoint,sessionId,name) {
-        	 var request = $http.get({                
-                 url: 	endpoint +  name,
-                 headers: {
-                 	'ssid': sessionId
-                 }                            
-               });
-            return( request.then( handleSuccess, handleError ) );
+        function findBrandByName(name) {
+        	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("BrandService findBrandByName(name) ssid nel promise "+sessionId) ;
+	    			localSessionId= sessionId; 
+	    			$http({
+			             method: 'GET',
+			             url: 	endpoint +  name,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
         }
         
         /**
-         * @param endpoint
-         * @param sessionId 
          * @param page
          * @param size        
          * @return 
          */      
-        function findAll(endpoint,sessionId,page,size) {
-        	 var request = $http.get({                
-                 url: endpoint +  'findAll?page=' + page + '&size=' +size,
-                 headers: {
-                 	'ssid': sessionId
-                 }                         
-               });
-            return( request.then( handleSuccess, handleError ) );
+        function findAll(page,size) {
+        	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			console.log("BrandService findAll(page,size) ssid nel promise "+sessionId) ;
+	    			localSessionId= sessionId; 
+	    			$http({
+			             method: 'GET',
+			             url: endpoint +  '?page=' + page + '&size=' +size,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
         }
         
         /**
@@ -169,8 +115,6 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
          * I transform the error response, unwrapping the application dta from
          * the API response payload.
          */                
-                              
-        
         function handleError( response ) {
             /**
              * The API response from the server should be returned in a
@@ -179,7 +123,7 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
              * may have to normalize it on our end, as best we can.
              */ 
             if (! angular.isObject( response.data ) || ! response.data.message ) {
-                return( $q.reject( "An unknown error occurred." ) );
+                return( $q.reject( "BrandService: An unknown error occurred." ) );
             }
             /** Otherwise, use expected error message.**/
             return( $q.reject( response.data.message ) );
@@ -189,6 +133,8 @@ app.service("brandService", function( $http, $q, authManagerService,URL ) {
          *from the API response payload.                
          */
         function handleSuccess( response ) {
+        	var serviceSSID = serpicsServices;
+        	serviceSSID.setCookie('ssid',localSessionId,COOKIE_EXPIRES)  /** expire 20 minut **/ 
             return( response.data.responseObject);
         }
     }
