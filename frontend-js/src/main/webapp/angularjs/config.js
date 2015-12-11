@@ -8,6 +8,7 @@ var app = angular.module('serpics.config', [])
 			.constant('LOADINGTEXT','Serpics') //[rotating loadingtext label]
 			.constant('TITLE','Serpics Platform Ecommerce') //[rotating loadingtext label]
 			.constant('WELCOME','Welcome') //welcome for user logged in
+			.constant('ANONYMOUS','Guest Access') //Welcome message for anonymous account
 			.constant('STORE','default-store') //Store constant for Auth Connect
 
 
