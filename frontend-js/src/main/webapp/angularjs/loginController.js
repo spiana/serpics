@@ -2,11 +2,10 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
 
 .controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore',
                                   
-      function($rootScope,$rootScope,$location,authenticationService,$timeout,$cookieStore) {	
+      function($rootScope,$scope,$location,authenticationService,$timeout,$cookieStore) {	
    	
 	
-			$rootScope.message = 'Guest Access'					
-				
+			$rootScope.message = 'Guest Access'						
 				
 			$rootScope.action = {
 					actionName:'Login',

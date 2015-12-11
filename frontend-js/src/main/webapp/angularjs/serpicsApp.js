@@ -6,6 +6,5 @@ app.controller("serpicsAppController",['$scope','TITLE','BREADCRUMBS','LOADINGTE
   	
 			$scope.title 		= TITLE;
 			$scope.loadingText 	= LOADINGTEXT;     
-			$scope.breadcrumbs 	= BREADCRUMBS;
-			
+			$scope.breadcrumbs 	= BREADCRUMBS
 }]);

@@ -4,8 +4,9 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
 .factory('authenticationService',  ['Base64', '$http', '$cookieStore', '$rootScope', '$q','serpicsServices','URL','ENDPOINT',
     function (Base64, $http, $cookieStore, $rootScope, $q, serpicsServices,URL,ENDPOINT) {
 	
-		
+	
 		$rootScope.userData ={
+				
 				login:{
 					username:	null,
 			  		password:	null,		
@@ -78,7 +79,9 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
        		});        	
          };
             
-         
+         /**
+          * @returns reset form after intercept 401 error
+          */
          $rootScope.resetformOnIntercept401Error = function(){
         	 $rootScope.userData.login.username = ''
         	 $rootScope.userData.login.password  =''
@@ -134,14 +137,15 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
             $cookieStore.remove('isLoggedIn');
         };      
         
+        /** return the service **/
         return service;
+        
         
         /**
          * private method.
          * I transform the error response, unwrapping the application dta from
          * the API response payload.
-         */                
-                              
+         */                                
         
         function handleError( response ) {
             /**
@@ -249,7 +253,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         }
     };  
 
-/****/
+/** serpics Unauthorized interceptor **/
 }).factory('serpicsHttpResponseInterceptor',['$q','$location','$rootScope',function($q,$location,$rootScope){
     return {
         response: function(response){
@@ -270,3 +274,4 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         }
     }
 }])
+

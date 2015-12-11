@@ -56,7 +56,7 @@
 							<li>Services Sub Total <span>&euro;{{cart.totalService || 0}}</span></li>
 							<li>Tax Sub Total <span>&euro;{{cart.totalTax}}</span></li>
 							<li>Shipping Cost <span>&euro;{{cart.totalShipping}}</span></li>
-							<li>Total <span>&euro;{{cart.orderAmount || cart.totalProduct}}</span></li>
+							<li id="total">Total <span>&euro;{{cart.orderAmount || cart.totalProduct}}</span></li>
 						</ul>
 						<a class="btn btn-default update" ng-click="cartUpdate()">Update</a> <a
 							class="btn btn-default check_out" href="">Check Out</a>
