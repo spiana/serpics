@@ -1420,7 +1420,14 @@ padding:16px 42px;
 .logo-404 {
   margin-top: 60px;
 }
+.content-404{
+ margin-top:100px;
+}
 
+.content-404 i{
+ font-size:500%;
+ padding:30px;
+}
 .content-404 h1 {
   color: #363432;
   font-family: 'Roboto', sans-serif;
@@ -1443,6 +1450,52 @@ padding:16px 42px;
 }
 
 .content-404 h2 a {
+  background: #FE980F;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 44px;
+  font-weight: 300;
+  padding: 8px 40px;
+}
+
+/*************************
+*******500 CSS******
+**************************/
+
+.logo-500{
+  margin-top: 60px;
+}
+
+.content-500{
+ margin-top:100px;
+}
+.content-500 h1 {
+  color: #363432;
+  font-family: 'Roboto', sans-serif;
+  font-size: 41px;
+  font-weight: 300;
+}
+
+.content-500 i{
+ font-size:500%;
+ padding:30px;
+}
+
+.content-500 img {
+ margin:0 auto;
+}
+
+.content-500 p {
+  color: #363432;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+}
+
+.content-500  h2 {
+  margin-top:50px;
+}
+
+.content-500 h2 a {
   background: #FE980F;
   color: #FFFFFF;
   font-family: 'Roboto', sans-serif;
