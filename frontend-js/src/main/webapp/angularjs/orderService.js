@@ -2,7 +2,7 @@
 /**
  * order service to handler rest call to order service
  */
-app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPIRES ) {
+app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPIRES,$log,$cookies ) {
 	
 	var endpoint = '/jax-rs/orderService/';
 	var localSessionId = '';
@@ -25,8 +25,7 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("OrderService getOrders() ssid nel promise"+sessionId) ;
-	    			localSessionId= sessionId; 
+	    			$log.debug("OrderService getOrders() ssid nel promise"+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: 	URL + endpoint +  'getOrders',
@@ -48,8 +47,7 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("OrderService addPayment(order,data) ssid nel promise"+sessionId) ;
-	    			localSessionId= sessionId; 
+	    			$log.debug("OrderService addPayment(order,data) ssid nel promise"+sessionId) ;
 	    			$http({
 			             method: 'POST',
 			             url: 	URL + endpoint +  '/addPayment/'+ order,
@@ -86,8 +84,8 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	     *from the API response payload.                
 	     */
 	    function handleSuccess( response ) {
-	    	var serviceSSID = serpicsServices;
-        	serviceSSID.setCookie('ssid',localSessionId,COOKIE_EXPIRES)  /** expire 20 minut **/ 
+        	var serviceSSID = serpicsServices;
+        	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES)  /** expire 20 minut **/
 	        return( response.data.responseObject);
 	    }
 });

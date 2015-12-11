@@ -379,6 +379,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	}
 
 	@Override
+	@Transactional
 	public void mergeSessionRepositoryCart(Cart repositoryCart, Cart sessionCart)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 		// Merge di due carrelli repositorycart e sessioncart

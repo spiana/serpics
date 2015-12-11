@@ -2,7 +2,7 @@
 /**
  * cart service to handler rest call to cart service
  */
-app.service("cartService", function( $http, $q, serpicsServices, URL) {
+app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies) {
 	
 	var endpoint = '/jax-rs/cartService/';
 	 
@@ -181,6 +181,8 @@ app.service("cartService", function( $http, $q, serpicsServices, URL) {
 	     *from the API response payload.                
 	     */
 	    function handleSuccess( response ) {
+        	var serviceSSID = serpicsServices;
+        	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES)  /** expire 20 minut **/
 	        return( response.data.responseObject);
 	    }
 });

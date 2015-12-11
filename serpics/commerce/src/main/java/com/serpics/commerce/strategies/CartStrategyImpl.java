@@ -27,7 +27,7 @@ public class CartStrategyImpl extends AbstractStrategy implements CartStrategy {
 
 	@Override
 	@Transactional
-	public void mergeCart(Member user, Member customer){
+	public void mergeCart(Member user, Member customer) throws InventoryNotAvailableException, ProductNotFoundException{
 		
 		// TODO implementare un metodo che faccia il merge del carrello in
 		// sessione con il carrello nel repository in base allo userid e al customerid
@@ -37,15 +37,15 @@ public class CartStrategyImpl extends AbstractStrategy implements CartStrategy {
 		
 		if (repositoryCart != null){
 			//sono presenti dei carrelli nel repository devo effettuare il merge con quello in sessione
-			try {
+//			try {
 				
 				cartService.mergeSessionRepositoryCart(repositoryCart, sessionCart);
 				
-			} catch (InventoryNotAvailableException e) {
-				LOG.error("Merge Cart Error (InventoryNotAvailableException): ",e);
-			} catch (ProductNotFoundException e) {
-				LOG.error("Merge Cart Error (ProductNotFoundException): ",e);
-			}
+//			} catch (InventoryNotAvailableException e) {
+//				LOG.error("Merge Cart Error (InventoryNotAvailableException): ",e);
+//			} catch (ProductNotFoundException e) {
+//				LOG.error("Merge Cart Error (ProductNotFoundException): ",e);
+//			}
 		}else{
 			//non sono presenti non viene effettuato il merge
 			//in questo caso o è presente il carrello in sessione oppure non ci sono carrelli per l'utente loggato

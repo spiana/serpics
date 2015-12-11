@@ -2,7 +2,7 @@
 /**
  * brand service to handler rest call to brand service
  */
-app.service("brandService", function( $http, $q, serpicsServices,URL,COOKIE_EXPIRES ) {
+app.service("brandService", function( $http, $q, serpicsServices, URL, COOKIE_EXPIRES, $cookies ) {
 	
 	var endpoint = '/jax-rs/brandService/';
 	var localSessionId = '';
@@ -29,7 +29,6 @@ app.service("brandService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			console.log("BrandService getBrandQ() ssid nel promise "+sessionId) ;
-	    			localSessionId= sessionId; 
 	    			$http({
 			             method: 'GET',
 			             url: 	URL + endpoint +'?page=0&size=10',
@@ -53,7 +52,6 @@ app.service("brandService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			console.log("BrandService findBrandById(brandId) ssid nel promise "+sessionId) ;
-	    			localSessionId= sessionId; 
 	    			$http({
 			             method: 'GET',
 			             url: endpoint +   'code/' + brandId,
@@ -75,7 +73,6 @@ app.service("brandService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			console.log("BrandService findBrandByName(name) ssid nel promise "+sessionId) ;
-	    			localSessionId= sessionId; 
 	    			$http({
 			             method: 'GET',
 			             url: 	endpoint +  name,
@@ -98,7 +95,6 @@ app.service("brandService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			console.log("BrandService findAll(page,size) ssid nel promise "+sessionId) ;
-	    			localSessionId= sessionId; 
 	    			$http({
 			             method: 'GET',
 			             url: endpoint +  '?page=' + page + '&size=' +size,
@@ -134,7 +130,7 @@ app.service("brandService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
          */
         function handleSuccess( response ) {
         	var serviceSSID = serpicsServices;
-        	serviceSSID.setCookie('ssid',localSessionId,COOKIE_EXPIRES)  /** expire 20 minut **/ 
+        	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES)  /** expire 20 minut **/ 
             return( response.data.responseObject);
         }
     }

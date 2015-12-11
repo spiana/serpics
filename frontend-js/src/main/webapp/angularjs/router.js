@@ -1,4 +1,4 @@
-var routerApp = angular.module('serpics.router', ['ui.router','serpics.Authentication'])
+var routerApp = angular.module('serpics.router', ['ui.router','serpics.authentication'])
 
 routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$httpProvider) {
 	
@@ -72,7 +72,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 					dropMenuClass:'hidden'
 				}
 	        }
-	    })
+	})
     
     .state('shop.cart', {
     	url: '/cart/',       
@@ -81,18 +81,21 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     })
 
 	.state('shop.register', {
-	    	url: '/register',	        
-	        templateUrl: 'html/template/register.html'
-	})
+		url: '/register',
+		templateUrl: 'html/template/register.html'
+			
+		})
 	
 	.state('shop.500', {
-	    	url: '/500',	        
-	        templateUrl: 'html/template/500.html'
+		url: '/500',
+		templateUrl: 'html/template/500.html'
+		
 	})
-	
+	.state('shop.404', {
+	   	url: '/404',	        
+	    templateUrl: 'html/template/404.html'
+	})
 	
 	$urlRouterProvider.otherwise("/home");
 	    
-}).config(['$httpProvider',function($httpProvider) {   
-    $httpProvider.interceptors.push('serpicsHttpResponseInterceptor');
-}]);
+})
