@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<navigator-definition
-xmlns="http://www.serpicsframework.org/schema/smc" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	
-xsi:schemaLocation="http://www.serpicsframework.org/schema/smc http://www.serpicsframework.org/schema/smc-navigator.xsd">
-
-</navigator-definition>

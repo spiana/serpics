@@ -1,0 +1,14 @@
+<div class="features_items">
+	<!--features_items-->
+	<h2 class="title text-center">{{name}}</h2>
+	
+	<div single-product-directive></div>
+	
+</div>
+
+<ul class="pagination">
+    <li><a href="" ng-click="findAllQ(product.number - 1,product.size)" ng-show="product.number > 0">&laquo;</a></li>
+    <li ng-repeat="i in range(product.totalPages)" ng-class="{active: product.number == $index}"><a href="" ng-click="findAllQ($index,product.size)">{{$index+1}}</a></li>
+    <li><a href="" ng-click="findAllQ(product.number + 1,product.size)" ng-show="product.number < product.totalPages - 1">&raquo;</a></li>
+</ul>
+<!--features_items-->

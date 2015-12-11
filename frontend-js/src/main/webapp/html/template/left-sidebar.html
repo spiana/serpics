@@ -1,0 +1,24 @@
+<div class="left-sidebar">
+	<h2>Category</h2>
+	<div class="panel-group category-products" id="accordian">
+		<!--category-productsr-->
+		<div class="panel panel-default" ng-repeat="category in categoryData">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordian" href="#{{category.id}}"> 
+					<span class="badge pull-right">
+					<i class="fa fa-plus" ng-show="{{category.childCategoryNumber}} > 2" ng-click="getChild(category.id,$index)"></i></span> 
+					{{category.code}}
+					</a>
+				</h4>
+			</div>
+			<div id="{{category.id}}" class="panel-collapse collapse" >
+				<div class="panel-body">
+					<ul data-sub-category >
+						<li ng-repeat="subCat in subCategory[$index]"><a ui-sref="category({id: subCat.id, name: subCat.code})">{{subCat.code}}</a></li>						
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	<!--/category-products-->

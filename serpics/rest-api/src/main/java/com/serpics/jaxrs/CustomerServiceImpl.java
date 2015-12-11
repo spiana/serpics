@@ -2,6 +2,7 @@ package com.serpics.jaxrs;
 
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -99,7 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 
 		// Verificare se è necessario restituire il carrello
-		cartStrategy.mergeCart((Member) context.getUserPrincipal(), (Member) context.getCustomer());
+//		cartStrategy.mergeCart((Member) context.getUserPrincipal(), (Member) context.getCustomer());
 		return Response.ok(apiRestResponse).build();
 	}
 
@@ -162,7 +163,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	@POST
+	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("deleteDestinationAddress")
 	public Response deleteDestinationAddress(String addressUID) {
