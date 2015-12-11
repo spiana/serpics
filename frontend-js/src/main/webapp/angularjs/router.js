@@ -52,10 +52,10 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     .state('shop.login', {
     	url: '/login', 
         templateUrl: 'html/template/login.html' ,        	 
-        controller: function ($rootScope, $location, $cookieStore) {        	
+        controller: function ($rootScope, $location, $cookieStore,$state) {        	
             $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
             if ($rootScope.globals.currentUser) {            
-            	$location.path('/logout'); 
+            	$state.go("shop.logout");
             	} 
 	         }
 	    })
@@ -84,6 +84,12 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    	url: '/register',	        
 	        templateUrl: 'html/template/register.html'
 	})
+	
+	.state('shop.500', {
+	    	url: '/500',	        
+	        templateUrl: 'html/template/500.html'
+	})
+	
 	
 	$urlRouterProvider.otherwise("/home");
 	    
