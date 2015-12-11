@@ -1547,6 +1547,12 @@ padding:16px 42px;
 	width: 50px;
 }
 
+.help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #F01515;
+}
 
 /*************************
 *******Cart CSS******

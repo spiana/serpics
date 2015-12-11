@@ -4,6 +4,23 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
 .factory('authenticationService',  ['Base64', '$http', '$cookieStore', '$rootScope', '$q','serpicsServices','URL','ENDPOINT',
     function (Base64, $http, $cookieStore, $rootScope, $q, serpicsServices,URL,ENDPOINT) {
 	
+		
+		$rootScope.userData ={
+				login:{
+					username:	null,
+			  		password:	null,		
+				},
+				register:{
+					logonid:	null,
+					firstname:	null,
+					lastname:	null,						
+					password:	null,
+					email:		null
+				}
+			}
+		
+		$rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh    
+	   
 	
 		/** public interface **/
         var service = {        	
@@ -14,9 +31,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         		clearCredentials:	clearCredentials        		
         };
         
-        return service;
-
-        
+                 
         /** public methods**/
         
         /**
@@ -63,6 +78,12 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
        		});        	
          };
             
+         
+         $rootScope.resetformOnIntercept401Error = function(){
+        	 $rootScope.userData.login.username = ''
+        	 $rootScope.userData.login.password  =''
+         }
+         
          /**
           * @param username
           * @param password
@@ -85,6 +106,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
             $cookieStore.put('isLoggedIn', isLoggedIn);
         };
   
+                        
         /**
          * @param authdata
          * @returns data decode
@@ -112,6 +134,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
             $cookieStore.remove('isLoggedIn');
         };      
         
+        return service;
         
         /**
          * private method.
@@ -226,8 +249,8 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         }
     };  
 
-/** factory to intercetp 401 error for unautorized login **/
-}).factory('serpicsHttpResponseInterceptor',['$q','$location',function($q,$location){
+/****/
+}).factory('serpicsHttpResponseInterceptor',['$q','$location','$rootScope',function($q,$location,$rootScope){
     return {
         response: function(response){
             if (response.status === 401) {
@@ -237,8 +260,10 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         },
         responseError: function(rejection) {
             if (rejection.status === 401) {
-                console.log("Response Error 401",rejection);
-                
+            	$rootScope.error.message = rejection.data.message 
+            	$rootScope.resetformOnIntercept401Error()
+                console.log(rejection.data.message);               
+                console.log("Response Error 401",rejection);                
                 $location.path('/login').search('returnTo', $location.path());
             }
             return $q.reject(rejection);

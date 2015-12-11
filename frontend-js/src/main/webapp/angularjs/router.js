@@ -65,7 +65,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
         templateUrl: 'html/template/home-central.html',
         controller: function ($rootScope, $cookieStore,authenticationService) {
         	$rootScope.message = 'Guest Access' 
-        	authenticationService.clearCredentials()
+        		authenticationService.clearCredentials()
         		$rootScope.action = {
 					actionName:'Login',
 					actionClass:'fa fa-lock',

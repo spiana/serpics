@@ -1,41 +1,31 @@
 var app = angular.module("login.controller", ['serpics.Authentication'])
 
-.controller("loginController",['$scope','$rootScope', '$location','authenticationService','$timeout','$cookieStore',
+.controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore',
                                   
-      function($scope,$rootScope,$location,authenticationService,$timeout,$cookieStore) {	
+      function($rootScope,$rootScope,$location,authenticationService,$timeout,$cookieStore) {	
    	
 	
-			$rootScope.message = 'Guest Access'				
-			
+			$rootScope.message = 'Guest Access'					
+				
+				
 			$rootScope.action = {
 					actionName:'Login',
 					actionClass:'fa fa-lock',
 					dropMenuClass:'hidden'
-			}
+			};
 			
-			$scope.userData ={
-					login:{
-						username:	null,
-				  		password:	null,		
-					},
-					register:{
-						logonid:	null,
-						firstname:	null,
-						lastname:	null,						
-						password:	null,
-						email:		null
-					}
-				}
-			
-			$rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh          
-            
+			$rootScope.error ={					
+						statusText:null,
+			       		message:null
+							       		
+		    }
 			 /**
              * @param
              * @param
              * @use
              * @returns
              */
-            $scope.checkLoggedUser = function() {	 
+            $rootScope.checkLoggedUser = function() {	 
             	 if($cookieStore.get('isLoggedIn')){
             		 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser.username
             		 $rootScope.action.actionName  = 'Logout'
@@ -51,11 +41,12 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
              * @use
              * @returns
              */
-			$scope.login = function() {	   				
+			$rootScope.login = function() {	   				
 		        	authenticationService.login(this.userData.login.username, this.userData.login.password).then( function( response ) {		        			       				 
-			        		 $rootScope.globals.currentUser = $scope.userData.login.username 
+			        		 $rootScope.globals.currentUser = $rootScope.userData.login.username 
 		       				 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser
-		       				 authenticationService.setCredential($scope.userData.login.username, $scope.userData.login.password,true)
+		       				 authenticationService.setCredential($rootScope.userData.login.username, $rootScope.userData.login.password,true)
+		       				 $rootScope.error.message = null
 		       				 $rootScope.action.actionName  = 'Logout'
 		       				 $rootScope.action.actionClass = 'fa fa-sign-out'
 		    	       		 $rootScope.action.dropMenuClass = 'visible'
@@ -74,20 +65,20 @@ var app = angular.module("login.controller", ['serpics.Authentication'])
 	         * @use
 	         * @returns new user and route to home
 	         */
-			$scope.register = function() {	  				
+			$rootScope.register = function() {	  				
 				var userData = {									
-							logonid:	$scope.userData.register.logonid,
-							firstname:	$scope.userData.register.firstname,	
-							lastname:	$scope.userData.register.lastname,
-							password:	$scope.userData.register.password,
-							email:		$scope.userData.register.email,
+							logonid:	$rootScope.userData.register.logonid,
+							firstname:	$rootScope.userData.register.firstname,	
+							lastname:	$rootScope.userData.register.lastname,
+							password:	$rootScope.userData.register.password,
+							email:		$rootScope.userData.register.email,
 						}
 		        	authenticationService.register(userData).then( function( response ) {			        	
 	       				 $location.path('/');			        		
 		    	 	})	        
 		      };		
 		      
-		      $timeout($scope.checkLoggedUser)
+		      $timeout($rootScope.checkLoggedUser)
 		  
 }])
   
