@@ -5,6 +5,7 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
     function (Base64, $http, $cookieStore, $rootScope, $q, serpicsServices,URL,ENDPOINT) {
 	
 	
+		/** public interface **/
         var service = {        	
         		login:				login,
         		register:			register,
@@ -15,6 +16,14 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         
         return service;
 
+        
+        /** public methods**/
+        
+        /**
+         * @param username
+         * @param passwordf
+         * return 
+         */
        function login(username, password) {  
     	   
     	var serviceSSID = serpicsServices;
@@ -33,6 +42,10 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
  
         };
   
+        /**
+         * @param userData 	data send to server
+         * @returns 		new user
+         */
         function register(userData) {  
      	   
         	var serviceSSID = serpicsServices;
@@ -50,6 +63,13 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
        		});        	
          };
             
+         /**
+          * @param username
+          * @param password
+          * @param isloggedIn
+          * @returns set a credential in a global object whih write into cookie
+          * 
+          */
         function setCredential(username, password,isLoggedIn) {
             var authdata = Base64.encode(username + ':' + password);
   
@@ -65,11 +85,13 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
             $cookieStore.put('isLoggedIn', isLoggedIn);
         };
   
-        
+        /**
+         * @param authdata
+         * @returns data decode
+         */
         function decodeCredential(authdata) {
         	
-            var authdata = Base64.decode(authdata);
-  
+            var authdata = Base64.decode(authdata);  
             var credential = authdata.split(':')
                  
             $rootScope.globals = {
@@ -80,6 +102,10 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
             };
        };
         
+       
+       /**
+        * @returns clear global credential from cookie
+        */
         function clearCredentials() {
             $rootScope.globals = {};
             $cookieStore.remove('globals');
@@ -116,7 +142,8 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         }
   
     }])
-  
+ 
+  /** factory for encryption data to to client brower**/
 .factory('Base64', function () {
   
     var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
@@ -198,4 +225,23 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
             return output;
         }
     };  
-});
+
+/** factory to intercetp 401 error for unautorized login **/
+}).factory('serpicsHttpResponseInterceptor',['$q','$location',function($q,$location){
+    return {
+        response: function(response){
+            if (response.status === 401) {
+                console.log("Response 401");
+            }
+            return response || $q.when(response);
+        },
+        responseError: function(rejection) {
+            if (rejection.status === 401) {
+                console.log("Response Error 401",rejection);
+                
+                $location.path('/login').search('returnTo', $location.path());
+            }
+            return $q.reject(rejection);
+        }
+    }
+}])

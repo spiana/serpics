@@ -27,7 +27,7 @@
 	
 	
 	var actionUserDirective = function() {
-		var action = 	"<a ui-sref='login'><i class='{{action.actionClass}}'></i> {{action.actionName}}</a>"				
+		var action = 	"<a ui-sref='shop.login'><i class='{{action.actionClass}}'></i> {{action.actionName}}</a>"				
 			return {		
 			restrict : 'EA',
 			template : action,

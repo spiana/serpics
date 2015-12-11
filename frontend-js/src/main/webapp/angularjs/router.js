@@ -1,6 +1,6 @@
-var routerApp = angular.module('serpics.router', ['ui.router'])
+var routerApp = angular.module('serpics.router', ['ui.router','serpics.Authentication'])
 
-routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
+routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$httpProvider) {
 	
     $stateProvider
     
@@ -56,24 +56,17 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
             $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
             if ($rootScope.globals.currentUser) {            
             	$location.path('/logout'); 
-            } else {
-            	$rootScope.$on('$locationChangeStart', function (event, next, current) {                   
-                    if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {  // redirect to login page if not logged in
-                        $location.path('/login');                       
-                    }
-	                });
-	            }
+            	} 
 	         }
 	    })
     
     .state('shop.logout', {
     	url: '/logout',        
         templateUrl: 'html/template/home-central.html',
-        controller: function ($rootScope, $cookieStore) {
+        controller: function ($rootScope, $cookieStore,authenticationService) {
         	$rootScope.message = 'Guest Access' 
-            $cookieStore.remove('globals');
-            $cookieStore.remove('isLoggedIn');
-        	$rootScope.action = {
+        	authenticationService.clearCredentials()
+        		$rootScope.action = {
 					actionName:'Login',
 					actionClass:'fa fa-lock',
 					dropMenuClass:'hidden'
@@ -94,6 +87,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 	
 	$urlRouterProvider.otherwise("/home");
 	    
-})
-   
-    
+}).config(['$httpProvider',function($httpProvider) {   
+    $httpProvider.interceptors.push('serpicsHttpResponseInterceptor');
+}]);
