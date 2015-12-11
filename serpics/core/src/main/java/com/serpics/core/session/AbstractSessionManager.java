@@ -2,9 +2,7 @@ package com.serpics.core.session;
 
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.UUID;
 
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -18,20 +16,20 @@ public abstract class AbstractSessionManager implements SessionManager {
     private static transient Logger logger = LoggerFactory.getLogger(AbstractSessionManager.class);
 
     protected final Hashtable<String, SessionContext> sessionList = new Hashtable<String, SessionContext>();
+    
+    private GenerateSessionIdStrategy generateSessionIdStrategy ;
 
-    private String generateSessionID() {
-        return UUID.randomUUID().toString();
+    protected String generateSessionID(String realm) {
+        return getGenerateSessionIdStrategy().generate(realm);
     }
     
     private SessionContext makeSessionContext(String sessionId , StoreRealm realm){
     	   Assert.notNull(sessionId, "sessionId can non be null !");
-    	   
     	  	final SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
-    	   commerceScopeAttributes.setConversationId(sessionId);
-    	   
-    	   SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
 
-           
+    	  	commerceScopeAttributes.setConversationId(sessionId);
+    	  
+    	  	SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
            final CommerceSessionContext context = new CommerceSessionContext();
            context.setStoreRealm(realm);
            context.setSessionId(sessionId);
@@ -49,14 +47,8 @@ public abstract class AbstractSessionManager implements SessionManager {
     @Override
     public SessionContext createSessionContext(final StoreRealm realm , String sessionId) {
     	if (sessionId == null){
-    		sessionId = generateSessionID();
-    		String token_prefix = Base64.encodeBase64String(realm.getName().getBytes());
-    		sessionId = token_prefix + "-"+ sessionId;
+    		sessionId = generateSessionID(realm.getName());
     	}
-    	String[] tokens = sessionId.split("-");
-    	if (tokens.length != 6)
-    		throw new RuntimeException("invalid sessionId format !");
-    	
         return makeSessionContext(sessionId , realm);
     }
 
@@ -89,4 +81,13 @@ public abstract class AbstractSessionManager implements SessionManager {
     public void putSessionContext(String sessionId, SessionContext context) {
     	sessionList.put(sessionId, context);
     }
+
+	public GenerateSessionIdStrategy getGenerateSessionIdStrategy() {
+		return generateSessionIdStrategy;
+	}
+
+	public void setGenerateSessionIdStrategy(
+			GenerateSessionIdStrategy generateSessionIdStrategy) {
+		this.generateSessionIdStrategy = generateSessionIdStrategy;
+	}
 }

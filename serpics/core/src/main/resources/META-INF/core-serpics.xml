@@ -13,10 +13,15 @@ http://www.springframework.org/schema/aop
 	
 
     
-    <bean name="sessionManager" class="com.serpics.core.session.ContextSessionManager" />
+    <bean name="sessionManager" class="com.serpics.core.session.ContextSessionManager" >
+    	<property name="generateSessionIdStrategy" ref="generateSessionIdStrategy"/>
+    </bean>
     <bean name="engineFactory" class="com.serpics.core.EngineFactory" />
     <alias name="commerceEngine" alias="engine"/>
     <bean name="commerceEngine" class="com.serpics.commerce.core.CommerceEngineImpl"  lazy-init="true"/>
+    
+    <alias name ="DefaultGenerateSessionIdStrategy" alias="generateSessionIdStrategy"/>
+    <bean name="DefaultGenerateSessionIdStrategy" class="com.serpics.core.session.GenerateSessionIdStrategyImpl" />
     
     <bean name="postprocessor" class="com.serpics.core.SerpicsPostProcessor"/>
     <bean name="componetScanner" class="com.serpics.config.StoreComponentScannerPostProcessor" scope="prototype"/>

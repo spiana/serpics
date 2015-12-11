@@ -31,6 +31,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     private Membership membershipService;
     
+    private boolean reconnectEnable = true;
+    
     @Resource
     SessionManager sessionManager;
 
@@ -82,7 +84,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         return (T) context;
     }
 
-    protected T connect(final String storeName , String sessionId) throws SerpicsException {
+    protected T re_connect(final String storeName , String sessionId) throws SerpicsException {
     	final SessionContext context = doConnection(storeName, sessionId);
         final UserDetail user = membershipService.createAnonymous();
         context.setUserPrincipal(user);
@@ -133,20 +135,22 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
             return (T) _s;
         } else {
             logger.warn("session id [{}] is expired !");
-            String[] tokens = sessionId.split("-");
-            if (tokens.length != 6){
-            	throw new RuntimeException("illegal sessionId format !");
+            if(reconnectEnable){
+	            String[] tokens = sessionId.split("-");
+	            if (tokens.length != 6){
+	            	throw new RuntimeException("illegal sessionId format !");
+	            }
+	            String storeName = new String(Base64.decodeBase64(tokens[0]));
+	            logger.info("try to reconnect to store {}" , storeName);
+	            try {
+					return re_connect(storeName , sessionId);
+				} catch (SerpicsException e) {
+					logger.error("could not connect to store {}" , storeName);
+					
+				}
             }
-            
-            String storeName = new String(Base64.decodeBase64(tokens[0]));
-            logger.info("try to reconnect to store {}" , storeName);
-            try {
-				return connect(storeName , sessionId);
-			} catch (SerpicsException e) {
-				logger.error("could not connect to store {}" , storeName);
-				return null;
-			}
         }
+            return null;
     }
 
     private void bind(final SessionContext context) {

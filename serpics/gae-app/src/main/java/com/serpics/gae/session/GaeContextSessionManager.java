@@ -3,6 +3,7 @@ package com.serpics.gae.session;
 import java.util.Date;
 import java.util.UUID;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -40,9 +41,17 @@ public class GaeContextSessionManager implements
 	}
 
 	@Override
-	public SessionContext createSessionContext(StoreRealm realm) {
-		final String sessionId = UUID.randomUUID().toString();
-        final SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
+	public SessionContext createSessionContext(StoreRealm realm , String sessionId) {
+		if (sessionId == null){
+			sessionId = UUID.randomUUID().toString();
+			String prefix = Base64.encodeBase64String(realm.getName().getBytes());
+			sessionId = prefix+"-"+sessionId;
+		}
+		String[] tokens = sessionId.split("-");
+		if(tokens.length != 6)
+			throw new RuntimeException("invalid sessiondId format !");
+
+		final SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
         commerceScopeAttributes.setConversationId(sessionId);
 
         SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
