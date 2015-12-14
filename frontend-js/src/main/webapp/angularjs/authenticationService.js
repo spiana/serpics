@@ -1,5 +1,5 @@
 
-var app = angular.module('serpics.Authentication',['serpics.config'])
+var app = angular.module('serpics.authentication',['serpics.config'])
   
 .factory('authenticationService',  ['Base64', '$http', '$cookieStore', '$rootScope', '$q','serpicsServices','URL','ENDPOINT',
     function (Base64, $http, $cookieStore, $rootScope, $q, serpicsServices,URL,ENDPOINT) {
@@ -253,25 +253,6 @@ var app = angular.module('serpics.Authentication',['serpics.config'])
         }
     };  
 
-/** serpics Unauthorized interceptor **/
-}).factory('serpicsHttpResponseInterceptor',['$q','$location','$rootScope',function($q,$location,$rootScope){
-    return {
-        response: function(response){
-            if (response.status === 401) {
-                console.log("Response 401");
-            }
-            return response || $q.when(response);
-        },
-        responseError: function(rejection) {
-            if (rejection.status === 401) {
-            	$rootScope.error.message = rejection.data.message 
-            	$rootScope.resetformOnIntercept401Error()
-                console.log(rejection.data.message);               
-                console.log("Response Error 401",rejection);                
-                $location.path('/login').search('returnTo', $location.path());
-            }
-            return $q.reject(rejection);
-        }
-    }
-}])
+})
+
 

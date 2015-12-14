@@ -1,4 +1,4 @@
-var app = angular.module("serpics.Services", ['ngCookies','serpics.config'])
+var app = angular.module("serpics.Services", ['ngCookies','serpics.config','serpics.authentication'])
 
 app.service("serpicsServices", function( $http, $q ,$cookies,URL,COOKIE_EXPIRES,STORE) {
  
@@ -8,7 +8,8 @@ app.service("serpicsServices", function( $http, $q ,$cookies,URL,COOKIE_EXPIRES,
         /** Return public API. (interface public service) **/
       	var service =   ({
         	getSessionId:	getSessionId,
-        	setCookie:		setCookie
+        	setCookie:		setCookie,
+        	removeCookie:	removeCookie
         });                
         return service
         
@@ -81,6 +82,16 @@ app.service("serpicsServices", function( $http, $q ,$cookies,URL,COOKIE_EXPIRES,
     		$cookies.put(nameCookie, cookieValue,{
         		  expires: lifeTime.toGMTString() 
     		});
+        };
+        
+        /** helper method for cookie remove**/ 
+        /**
+         * @param nameCookie  	a name of a cookie
+         * @param  
+         */
+        function removeCookie(nameCookie) {
+        	
+    		$cookies.remove(nameCookie);
         };
         
         /**

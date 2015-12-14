@@ -2,7 +2,7 @@
  /**
  * category service to handler rest call to category service
  */
- app.service("categoryService", function( $http, $q,serpicsServices,URL,COOKIE_EXPIRES) {
+ app.service("categoryService", function( $http, $q,serpicsServices,URL,COOKIE_EXPIRES,$cookies,$log ) {
 	 
 	 var endpoint   	= '/jax-rs/categoryService/';
 	 var localSessionId = '';
@@ -29,7 +29,7 @@
 	    	var defer = $q.defer();
 	    	var response = serpicsServices.getSessionId();
 	    	response.then(function(idSessione){
-	    		localSessionId= sessionId; 	    		
+	    			    		
 	    		var request = $http({
 		             method: 'GET',
 		             url: 	URL + endpoint +  'top',
@@ -55,8 +55,7 @@
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("CategoryService getTopQ() ssid nel promise"+sessionId) ;
-	    			localSessionId= sessionId; 
+	    			$log.debug("CategoryService getTopQ() ssid nel promise"+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: 	URL + endpoint +  'top',
@@ -77,8 +76,7 @@
 	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("CategoryService getCategoryById(categoryId) ssid nel promise"+sessionId) ;
-	    			localSessionId= sessionId; 
+	    			$log.debug("CategoryService getCategoryById(categoryId) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL + endpoint + categoryId,
@@ -99,8 +97,7 @@
 	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("CategoryService getCategoryByCode(code) ssid nel promise"+sessionId) ;
-	    			localSessionId= sessionId; 
+	    			$log.debug("CategoryService getCategoryByCode(code) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL + endpoint +  'code/' + category,
@@ -117,12 +114,11 @@
 	     * @return 
 	     */      
 	    function getChild(parentId) {
-	    	console.log("getChild(parentId): "+parentId) ;
+	    	$log.debug("getChild(parentId): "+parentId) ;
 	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("CategoryService getChild(parentId) ssid nel promise"+sessionId) ;
-	    			localSessionId= sessionId; 
+	    			$log.debug("CategoryService getChild(parentId) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL + endpoint +   'getChild/' + parentId,
@@ -141,8 +137,7 @@
 	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("CategoryService findAll() ssid nel promise"+sessionId) ;
-	    			localSessionId= sessionId; 
+	    			$log.debug("CategoryService findAll() ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL +  endpoint +  'findAll',
@@ -180,8 +175,10 @@
 	     */
 	    function handleSuccess( response ) {
         	var serviceSSID = serpicsServices;
-        	serviceSSID.setCookie('ssid',localSessionId,COOKIE_EXPIRES)  /** expire 20 minut **/ 
+        	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES)  /** expire 20 minut **/ 
 	        return( response.data.responseObject);
 	    }
 	}
 );
+ 
+ 

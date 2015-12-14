@@ -97,10 +97,19 @@ public class CustomerServiceImpl implements CustomerService {
 			apiRestResponse.setMessage("Error On Connect " + e.getMessage());
 			return Response.status(401).entity(apiRestResponse).build();
 		}
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		
 
 		// Verificare se è necessario restituire il carrello
-		cartStrategy.mergeCart((Member) context.getUserPrincipal(), (Member) context.getCustomer());
+		try {
+			cartStrategy.mergeCart((Member) context.getUserPrincipal(), (Member) context.getCustomer());
+		} catch (SerpicsException e) {
+			LOG.error("Error On Connect ", e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error On Connect " + e.getMessage());
+			return Response.status(501).entity(apiRestResponse).build();
+		}
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
 	}
 

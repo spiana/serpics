@@ -10,5 +10,8 @@ var app = angular.module('serpics.config', [])
 			.constant('WELCOME','Welcome') //welcome for user logged in
 			.constant('ANONYMOUS','Guest Access') //Welcome message for anonymous account
 			.constant('STORE','default-store') //Store constant for Auth Connect
+			.config(function($logProvider){
+				$logProvider.debugEnabled(true);
+				})
 
 

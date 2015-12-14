@@ -39,7 +39,11 @@ public class AuthenticationHandler implements RequestHandler {
 		if (sessionids != null && !sessionids.isEmpty()){
 			sessionId = sessionids.get(0);
 			try{
-				commerceEngine.bind(sessionId);
+				if(commerceEngine.bind(sessionId)==null){
+					//FIXME in caso di sessionexpired
+					return Response.status(503).build();
+				}
+				
 			}catch(Exception e){
 				return Response.status(412).build();
 			}
