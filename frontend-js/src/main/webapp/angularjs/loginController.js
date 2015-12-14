@@ -18,22 +18,28 @@ var app = angular.module("login.controller", ['serpics.authentication'])
 			       		message:null
 							       		
 		    }
-			 /**
-             * @param
-             * @param
-             * @use
-             * @returns
-             */
-            $rootScope.checkLoggedUser = function() {	 
-            	 if($cookieStore.get('isLoggedIn')){
-            		 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser.username
+			
+			checkLoggedUser()
+			
+				 /**
+	             * @param
+	             * @param
+	             * @use
+	             * @returns
+	             */
+              function checkLoggedUser() {	 
+            	 if($cookieStore.get('isLoggedIn')){            		 
+            		 authenticationService.checkCurrentUser().then( function( response ) {//from rest customer ser vice
+            			 $rootScope.message = 'Welcome ' + response.logonid + ' ' + response.lastname            		            		
             		 $rootScope.action.actionName  = 'Logout'
 	       			 $rootScope.action.actionClass = 'fa fa-sign-out'
 	       			 $rootScope.action.dropMenuClass = 'visible'
 	       			 $location.path('/');
+            		 })
             	 }
             }
-            
+			
+			           
             /**
              * @param
              * @param
@@ -42,17 +48,9 @@ var app = angular.module("login.controller", ['serpics.authentication'])
              */
 			$rootScope.login = function() {	   				
 		        	authenticationService.login(this.userData.login.username, this.userData.login.password).then( function( response ) {		        			       				 
-			        		 $rootScope.globals.currentUser = $rootScope.userData.login.username 
-		       				 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser
-		       				 authenticationService.setCredential($rootScope.userData.login.username, $rootScope.userData.login.password,true)
-		       				 $rootScope.error.message = null
-		       				 $rootScope.action.actionName  = 'Logout'
-		       				 $rootScope.action.actionClass = 'fa fa-sign-out'
-		    	       		 $rootScope.action.dropMenuClass = 'visible'
-		       				 $location.path('/');
-			        		        		
-		    	 	})		        	
-		        
+			        		 authenticationService.setCredential($rootScope.userData.login.username, $rootScope.userData.login.password,true)
+		       					    checkLoggedUser()    		        		
+		    	 	})		        			        
 		      };		          		      
 		      
 	      /**
@@ -77,7 +75,6 @@ var app = angular.module("login.controller", ['serpics.authentication'])
 		    	 	})	        
 		      };		
 		      
-		      $timeout($rootScope.checkLoggedUser)
 		  
 }])
   

@@ -59,6 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@GET
+	@Path("getCurrent")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCurrent() {
 
@@ -67,6 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(userFacade.getCurrentuser());
 		return Response.ok(apiRestResponse).build();
+		
 	}
 
 	@Override
@@ -96,8 +98,7 @@ public class CustomerServiceImpl implements CustomerService {
 			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
 			apiRestResponse.setMessage("Error On Connect " + e.getMessage());
 			return Response.status(401).entity(apiRestResponse).build();
-		}
-		
+		}		
 
 		// Verificare se è necessario restituire il carrello
 		try {

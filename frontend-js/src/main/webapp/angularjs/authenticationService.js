@@ -27,6 +27,7 @@ var app = angular.module('serpics.authentication',['serpics.config'])
         var service = {        	
         		login:				login,
         		register:			register,
+        		checkCurrentUser:	checkCurrentUser,
         		setCredential:		setCredential,
         		decodeCredential:	decodeCredential,
         		clearCredentials:	clearCredentials        		
@@ -48,7 +49,7 @@ var app = angular.module('serpics.authentication',['serpics.config'])
 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
 	   	       $http({
 	   	            method: 'GET',
-	   	            url: URL + ENDPOINT +  'login' + '?username=' + username + '&password=' + password,
+	   	            url: URL + ENDPOINT +  'customerService/login' + '?username=' + username + '&password=' + password,
 	   	            headers: {
 	   	            	'ssid': sessionId
 	   	            }
@@ -69,7 +70,7 @@ var app = angular.module('serpics.authentication',['serpics.config'])
     	       	serviceSSID.getSessionId().then(function(sessionId){	       		
     	   	       $http({
     	   	            method: 'POST',
-    	   	            url: URL + ENDPOINT +  'register',
+    	   	            url: URL + ENDPOINT +  'customerService/register',
     	   	            headers: {
     	   	            	'ssid': sessionId
     	   	            },
@@ -79,6 +80,30 @@ var app = angular.module('serpics.authentication',['serpics.config'])
        		});        	
          };
             
+         
+         /**
+          * @param username
+          * @param passwordf
+          * return 
+          */
+        function checkCurrentUser() {  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	       	return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'GET',
+ 	   	            url: URL + ENDPOINT +  'customerService/getCurrent' ,
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            }
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
+         
          /**
           * @returns reset form after intercept 401 error
           */
@@ -126,7 +151,8 @@ var app = angular.module('serpics.authentication',['serpics.config'])
                 }
             };
        };
-        
+       
+       
        
        /**
         * @returns clear global credential from cookie
