@@ -48,14 +48,8 @@ var app = angular.module("login.controller", ['serpics.authentication'])
              */
 			$rootScope.login = function() {	   				
 		        	authenticationService.login(this.userData.login.username, this.userData.login.password).then( function( response ) {		        			       				 
-			        		 $rootScope.globals.currentUser = $rootScope.userData.login.username 
-		       				 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser
-		       				 authenticationService.setCredential($rootScope.userData.login.username, $rootScope.userData.login.password,true)
-		       				 $rootScope.error.message = null
-		       				 $rootScope.action.actionName  = 'Logout'
-		       				 $rootScope.action.actionClass = 'fa fa-sign-out'
-		    	       		 $rootScope.action.dropMenuClass = 'visible'
-		       				 $location.path('/');			        		        		
+			        		 authenticationService.setCredential($rootScope.userData.login.username, $rootScope.userData.login.password,true)
+		       					    checkLoggedUser()    		        		
 		    	 	})		        			        
 		      };		          		      
 		      
