@@ -91,6 +91,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 		templateUrl: 'html/template/500.html'
 		
 	})
+	
 	.state('shop.404', {
 	   	url: '/404',	        
 	    templateUrl: 'html/template/404.html'
@@ -99,6 +100,30 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	.state('shop.403', {
 	   	url: '/403',	        
 	    templateUrl: 'html/template/403.html'
+	})
+	    	
+	.state('checkout', {
+    	abstract: true,
+	   	url: '/checkout',	        
+	    templateUrl: 'html/template/checkout.html', 
+	    controller: 'cartController'
+	})
+	
+	.state('checkout.address', {
+	   	url: '/address',	        
+	    templateUrl: 'html/template/checkoutAddress.html',
+	})
+	
+	.state('checkout.login', {
+	   	url: '/login',	        
+	    templateUrl: 'html/template/login.html',
+	    controller: 'loginController'
+	})
+	
+	.state('checkout.register', {
+	   	url: '/register',	        
+	    templateUrl: 'html/template/register.html',
+	    controller: 'loginController'
 	})
 	
 	$urlRouterProvider.otherwise("/home");
