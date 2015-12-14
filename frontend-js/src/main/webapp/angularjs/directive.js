@@ -20,7 +20,6 @@
 			return {		
 			restrict : 'EA',
 			template : dropdown,
-			controller	:'loginController'
 		};
 	}
 	
@@ -31,7 +30,6 @@
 			return {		
 			restrict : 'EA',
 			template : action,
-			controller	:'loginController'
 		};
 	};
 	
@@ -43,7 +41,6 @@
 			return {		
 			restrict : 'EA',
 			template : user,
-			controller	:'loginController'
 		};
 	};
 
