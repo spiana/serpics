@@ -2,7 +2,7 @@
 /**
  * cart service to handler rest call to cart service
  */
-app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies) {
+app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES) {
 	
 	var endpoint = '/jax-rs/cartService/';
 	 

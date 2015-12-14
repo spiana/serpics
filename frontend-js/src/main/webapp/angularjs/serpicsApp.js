@@ -11,10 +11,11 @@ app.controller("serpicsAppController",['$scope','TITLE','BREADCRUMBS','LOADINGTE
 		 	var counter=0;
 			
 	        $scope.$on('event:sessiondId-expired', function() {
-	            //alert("evento scatenato");
 	        	if(counter!=0){
 	        		console.log("Evento scatenato: sessiondId-expired"+counter);
 	        	}else{
+	        		console.log("Evento scatenato: sessiondId-expired ramo else"+counter);
+	        		counter+=1;
 	        		serpicsServices. removeCookie('ssid');
 	        		serpicsServices.getSessionId().then(function(data, configUpdater) {
 	        	        var updater = configUpdater || function(config) {return config;};

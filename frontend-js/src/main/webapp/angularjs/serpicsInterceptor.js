@@ -1,6 +1,6 @@
 var app= angular.module('serpics.interceptor', [])
 
-  .factory("serpicsHttpBuffer", ['$injector', function($injector) {
+  .factory("serpicsHttpBuffer", ['$injector','$cookies', function($injector,$cookies) {
     /** Holds all the requests, so they can be re-requested in future. */
     var buffer = [];
 
@@ -46,7 +46,8 @@ var app= angular.module('serpics.interceptor', [])
        */
       retryAll: function(updater) {
         for (var i in buffer) {
-          retryHttpRequest(updater(buffer[i].config), buffer[i].deferred);
+        	buffer[i].config.headers.ssid=$cookies.get('ssid');
+        	retryHttpRequest(updater(buffer[i].config), buffer[i].deferred);
         }
         buffer = [];
       }
@@ -61,27 +62,30 @@ var app= angular.module('serpics.interceptor', [])
                              return {
                             	 
 
-                               'request' : function(response){
-                                 $log.debug("intercept request", response.url,response)
-                                 // Your token shall be retreive in this part
-                                 $log.debug("intercept request: uguale ssid", response.headers.ssid,$cookies.get('ssid'))
-                                 if (response.headers.ssid===$cookies.get('ssid')){
-                                	 $log.debug("intercept request: uguale ssid", response.headers.ssid,response,$cookies.get('ssid'));
-                                 }else{
-                                	 response.headers.ssid=$cookies.get('ssid');
-                                 }
-                                 return response
-                               },
+//                               'request' : function(response){
+//                                 $log.debug("intercept request 200: ", response.url,response)
+//                                 // Your token shall be retreive in this part
+////                                 $log.debug("intercept request: uguale ssid", response.headers.ssid,$cookies.get('ssid'))
+//                                 
+//                                 if (response.headers.ssid===null ||  response.headers.ssid===$cookies.get('ssid')){
+//                                	 $log.debug("intercept request: 200 ssid detected ", response.headers.ssid,response,$cookies.get('ssid'));
+//                                 }else{
+//                                	 response.headers.ssid=$cookies.get('ssid');
+//                                 }
+//                                 return response
+//                               },
+                               
+                               
                                'response' : function(response){
                                  //$myService= $myService|| $injector.get('$myService'); // inject the service manually if constant is undefined
-                                 $log.debug("intercept response:", response.status);
+                                 $log.debug("intercept response: "+response.status+"intercept response:"+response.url);
                                  // Your token shall be retreive in this part
 
                                  return response
                                },
                                  'responseError': function(rejection) {
                                 	 $log.debug("interceptor rocks!!");
-                                     $log.debug("responseError intercepted:" , rejection);
+                                     $log.debug("responseError intercepted:" + rejection.status+" "+ rejection.config.url);
                                      
                                      if (rejection.status === 500){
                                     	 $log.debug("responseError intercepted: 500: " , rejection);
@@ -91,13 +95,13 @@ var app= angular.module('serpics.interceptor', [])
                                     	 
                                      }
                                      
-                                       if (rejection.status === 503){
-                                    	   $log.debug("responseError intercepted: 503: " , rejection);
+                                       if (rejection.status === 403){
+                                    	   $log.debug("responseError intercepted: 403: " , rejection);
                                        	   var deferred = $q.defer();
-                                       	serpicsHttpBuffer.append(rejection.config, deferred);
+                                       	   serpicsHttpBuffer.append(rejection.config, deferred);
                                            $rootScope.$broadcast('event:sessiondId-expired', rejection);                                           
                                            return deferred.promise;
-                                    	   return $q.reject(rejection);
+                                    	   //return $q.reject(rejection);
                                        	
                                        }
                                       if (rejection.status === 401) {
