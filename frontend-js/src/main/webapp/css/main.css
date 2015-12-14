@@ -1411,7 +1411,50 @@ padding:16px 42px;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
 }
+/*************************
+*******403 CSS******
+**************************/
 
+.logo-403{
+  margin-top: 60px;
+}
+.content-403{
+ margin-top:100px;
+}
+
+.content-403 i{
+ font-size:500%;
+ padding:30px;
+}
+.content-403 h1 {
+  color: #363432;
+  font-family: 'Roboto', sans-serif;
+  font-size: 41px;
+  font-weight: 300;
+}
+
+.content-403 img {
+ margin:0 auto;
+}
+
+.content-403 p {
+  color: #363432;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+}
+
+.content-403  h2 {
+  margin-top:50px;
+}
+
+.content-403 h2 a {
+  background: #FE980F;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 44px;
+  font-weight: 300;
+  padding: 8px 40px;
+}
 
 /*************************
 *******404 CSS******
