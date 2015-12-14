@@ -96,6 +96,11 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    templateUrl: 'html/template/404.html'
 	})
 	
+	.state('shop.403', {
+	   	url: '/403',	        
+	    templateUrl: 'html/template/403.html'
+	})
+	
 	$urlRouterProvider.otherwise("/home");
 	    
 })
