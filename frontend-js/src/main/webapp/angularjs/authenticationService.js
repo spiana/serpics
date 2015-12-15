@@ -104,14 +104,7 @@ var app = angular.module('authentication.service',['serpics.config'])
   
          };
          
-         /**
-          * @returns reset form after intercept 401 error
-          */
-         $rootScope.resetformOnIntercept401Error = function(){
-        	 $rootScope.userData.login.username = ''
-        	 $rootScope.userData.login.password  =''
-         }
-         
+                 
          /**
           * @param username
           * @param password
@@ -152,9 +145,7 @@ var app = angular.module('authentication.service',['serpics.config'])
             };
        };
        
-       
-       
-       /**
+        /**
         * @returns clear global credential from cookie
         */
         function clearCredentials() {
