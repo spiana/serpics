@@ -76,7 +76,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	})
     
     .state('shop.cart', {
-    	url: '/cart/',       
+    	url: '/cart',       
         templateUrl: 'html/template/cart.html',
         controller: 'cartController',
     })
@@ -115,16 +115,25 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    templateUrl: 'html/template/checkoutAddress.html',
 	})
 	
+	.state('checkout.shipping', {
+	   	url: '/shipping',	        
+	    templateUrl: 'html/template/checkoutShippingAddress.html',
+	})
+	
 	.state('checkout.login', {
 	   	url: '/login',	        
 	    templateUrl: 'html/template/login.html',
-	    controller: 'loginController'
 	})
 	
 	.state('checkout.register', {
 	   	url: '/register',	        
 	    templateUrl: 'html/template/register.html',
-	    controller: 'loginController'
+	})
+	
+	.state('complete' , {
+		url: '/complete',
+		templateUrl: 'html/template/orderComplete.html',
+		controller: 'orderController'
 	})
 	
 	$urlRouterProvider.otherwise("/home");

@@ -1,9 +1,9 @@
- var app = angular.module("checkout.controller", ['order.service', 'cart.service', 'authentication.service'])
+ var app = angular.module("checkout.controller", ['cart.service', 'authentication.service'])
 
  /** checkoutController **/
-.controller("checkoutController",['$state','$scope','authenticationService', 'orderService', 'cartService',
+.controller("checkoutController",['$state','$scope','authenticationService', 'cartService',
                                   
-    function($state,$scope,authenticationService,orderService,cartService) {
+    function($state,$scope,authenticationService,cartService) {
 	
 	$scope.cart = {}
 	$scope.currentUser = {}
@@ -37,11 +37,13 @@
      * @use
      * @returns
      */
-	$scope.login = function() {	   				
-        	authenticationService.login(this.userData.login.username, this.userData.login.password).then( function( response ) {		        			       				 
-	        		 authenticationService.setCredential(userData.login.username, userData.login.password,true)
-	        		 getUser().then($state.go('checkout.address'))	        		      			    		        		
-    	 	})		        			        
+	$scope.login = function() {
+        	authenticationService.login(this.userData.login.username, this.userData.login.password).then(function(response) {
+        		getUser()
+        	}    			       				 
+////	        		 authenticationService.setCredential(userData.login.username, userData.login.password,true).then(
+//	        		 getUser().then($state.go('checkout.address')))	        		      			    		        		
+    	 	)		        			        
       };		          		      
       
   /**
@@ -64,5 +66,41 @@
         	authenticationService.register(userData).then( function( response ) {			        	
    				 $state.go('checkout.address')			        		
     	 	})	        
-      };		
+      };
+      
+	    $scope.addBillingAddress = function(billingAddress) {		
+  	    	console.log("CartController addBillingAddress(billingAddress)");
+  			cartService.addBillingAddress(billingAddress).then(function(response){
+    			  console.log("CartController addBillingAddress(billingAddress): ramo then");
+    			  $scope.cart = response;
+    		  })
+  	    };
+  	    
+  	 $scope.submitForm = function (billingAddress,shippingToBill){
+//  		if ($rootScope.currentUser.userType == 'REGISTERED'){
+//  			
+//  		}
+  		cartService.addBillingAddress(billingAddress).then(function(response){
+			  console.log("checkoutController addBillingAddress(billingAddress): ramo then");
+			  if (shippingToBill) {
+				  cartService.addShippingAddress(billingAddress).then(function(response){
+	    			  console.log("checkoutController shippingAddress(shippingAddress): ramo then");
+	    			  $scope.cart = response;
+	    			  $state.go('complete')
+				  })
+			  } else {
+				  $scope.cart = response;
+    			  $state.go('checkout.shipping')
+			  }
+		 })
+  	 };
+		 
+	$scope.submitShippingForm = function (shippingAddress){
+  			cartService.addShippingAddress(shippingAddress).then(function(response){
+  			  console.log("checkoutController shippingAddress(shippingAddress): ramo then");
+  			  $scope.cart = response;
+  			  $state.go('complete')
+  		  })
+  	};
+  		
 }])

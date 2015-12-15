@@ -10,8 +10,8 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    /** Return public API. (like java interface) **/
 	  	var service =   ({
 	  		getOrders:		getOrders,
-	  		addPayment:		addPayment
-	    	
+	  		addPayment:		addPayment,
+	    	placeOrder:		placeOrder
 	    });                
 	    return service
 	    
@@ -28,7 +28,7 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    			$log.debug("OrderService getOrders() ssid nel promise"+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: 	URL + endpoint +  'getOrders',
+			             url: 	URL + endpoint,
 			             headers: {
 			             	'ssid': sessionId
 			            }
@@ -50,7 +50,7 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    			$log.debug("OrderService addPayment(order,data) ssid nel promise"+sessionId) ;
 	    			$http({
 			             method: 'POST',
-			             url: 	URL + endpoint +  '/addPayment/'+ order,
+			             url: 	URL + endpoint +  'addPayment/'+ order,
 			             data: data,
 			             headers: {
 			             	'ssid': sessionId
@@ -58,7 +58,27 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 			          }).then(handleSuccess, handleError).then(resolve, reject);
 	    		});
 	    	});
-	    }           
+	    }
+	    
+	    /**
+	     * @return order from currentCart
+	     */
+	    function placeOrder() {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("OrderService placeOrder() ssid nel promise"+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: 	URL + endpoint +  'placeOrder',
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
+	    }  
 	    
 	    
 	    /**

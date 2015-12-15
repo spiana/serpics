@@ -1,0 +1,64 @@
+<div class="shopper-informations">
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="shopper-info">
+							<input type="submit" id="submit" value="Continue"  ng-click="submitShippingForm(currentUser.shippingAddress[0])" class="btn btn-primary">
+						</div>
+					</div>
+					<div class="col-sm-5 clearfix">
+						<div class="bill-to">
+							<p>Ship To</p>
+							<div class="form-one">
+								<form>
+									<input type="text" name="company" placeholder="Company Name" ng-model="currentUser.shippingAddress[0].company">
+									<input type="text" name="email" placeholder="Email *" ng-model="currentUser.shippingAddress[0].email">
+									<input type="text" name="firstname" placeholder="First Name *" ng-model="currentUser.shippingAddress[0].firstname">
+									<input type="text" name="lastname" placeholder="Last Name *" ng-model="currentUser.shippingAddress[0].lastname">
+									<input type="text" name="address1" placeholder="Address *" ng-model="currentUser.shippingAddress[0].address1">
+									<input type="text" name="address2" placeholder="Address 2 *" ng-model="currentUser.shippingAddress[0].address2">
+									<input type="text" name="streetNumber" placeholder="Street Number *" ng-model="currentUser.shippingAddress[0].streetNumber">
+								</form>
+							</div>
+							<div class="form-two">
+								<form>
+									<input type="text" name="city" placeholder="City *" ng-model="currentUser.shippingAddress[0].city">
+									<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="currentUser.shippingAddress[0].zipcode">
+									<select>
+										<option>-- Country --</option>
+										<option>Italy</option>
+										<option>United States</option>
+										<option>Bangladesh</option>
+										<option>UK</option>
+										<option>India</option>
+										<option>Pakistan</option>
+										<option>Ucrane</option>
+										<option>Canada</option>
+										<option>Dubai</option>
+									</select>
+									<select>
+										<option>-- State / Province / Region --</option>
+										<option>Italy</option>
+										<option>United States</option>
+										<option>Bangladesh</option>
+										<option>UK</option>
+										<option>India</option>
+										<option>Pakistan</option>
+										<option>Ucrane</option>
+										<option>Canada</option>
+										<option>Dubai</option>
+									</select>
+									<input type="text" name="phone" placeholder="Phone *" ng-model="currentUser.shippingAddress[0].phone">
+									<input type="text" name="mobile" placeholder="Mobile Phone" ng-model="currentUser.shippingAddress[0].mobile">
+									<input type="text" name="fax" placeholder="Fax" ng-model="currentUser.shippingAddress[0].fax">
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="order-message">
+							<p>Shipping Order</p>
+							<textarea name="message" name="field1" placeholder="Notes about your order, Special Notes for Delivery" ng-model="currentUser.contactAddress.field1" rows="16"></textarea>
+						</div>	
+					</div>					
+				</div>
+			</div>

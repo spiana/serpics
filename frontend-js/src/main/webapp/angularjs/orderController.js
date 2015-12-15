@@ -2,9 +2,18 @@
 /** orderController **/
 .controller("orderController",['$scope','orderService', 
                                   
-      function($scope,serpicsServices,orderService) {	
+      function($scope,orderService) {	
    	
   	    $scope.order 	= [];
+  	    
+  	    placeOrder();
+  	    
+  	    function placeOrder() {
+  	    	orderService.placeOrder().then( function( response) {
+  	    		console.log("orderController: placeOrder()")
+  	    		$scope.order = response;
+  	    	})
+  	    }
   	    
   	    /** implemented order service **/ 
   	    
