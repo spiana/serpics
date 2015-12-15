@@ -185,4 +185,20 @@ public class CustomerServiceImpl implements CustomerService {
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
 	}
+
+
+	@Override
+	@POST
+	@Path("logout")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response logout(String sessionId) {
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		commerceEngine.disconnect(sessionId);
+		apiRestResponse.setMessage("Disconnect current user logged with session id:  " + sessionId);
+		return Response.ok(apiRestResponse).build();
+	}
+
 }

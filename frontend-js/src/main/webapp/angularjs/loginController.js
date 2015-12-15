@@ -1,4 +1,4 @@
-var app = angular.module("login.controller", ['serpics.authentication'])
+var app = angular.module("login.controller", ['authentication.service'])
 
 .controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore','$state','$log',
                                   
@@ -24,7 +24,7 @@ var app = angular.module("login.controller", ['serpics.authentication'])
 				 /**
 	             * @param
 	             * @param
-	             * @use
+	             * @use authenticationService
 	             * @returns
 	             */
               function checkLoggedUser() {	 
@@ -40,6 +40,16 @@ var app = angular.module("login.controller", ['serpics.authentication'])
             	 }
             }
 			
+			 /**
+             * @param 	sessionId             
+             * @use 	authenticationService
+             * @returns logout message
+             */
+			function logout(sessionId){
+				authenticationService.logout().then( function( response ) {   
+					$state.go('shop.home');
+				})
+			}
 			           
             /**
              * @param
@@ -54,6 +64,7 @@ var app = angular.module("login.controller", ['serpics.authentication'])
 		    	 	})		        			        
 		      };		          		      
 		      
+		      		      
 	      /**
 	         * @param name
 	         * @param lastname

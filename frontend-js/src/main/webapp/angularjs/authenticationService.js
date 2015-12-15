@@ -1,5 +1,5 @@
 
-var app = angular.module('serpics.authentication',['serpics.config'])
+var app = angular.module('authentication.service',['serpics.config'])
   
 .factory('authenticationService',  ['Base64', '$http', '$cookieStore', '$rootScope', '$q','serpicsServices','URL','ENDPOINT',
     function (Base64, $http, $cookieStore, $rootScope, $q, serpicsServices,URL,ENDPOINT) {
@@ -26,6 +26,7 @@ var app = angular.module('serpics.authentication',['serpics.config'])
 		/** public interface **/
         var service = {        	
         		login:				login,
+        		logout:				logout,
         		register:			register,
         		checkCurrentUser:	checkCurrentUser,
         		setCredential:		setCredential,
@@ -104,6 +105,30 @@ var app = angular.module('serpics.authentication',['serpics.config'])
   
          };
          
+         
+         /**
+          * @param username
+          * @param passwordf
+          * return 
+          */
+        function logout() {  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	       	return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'POST',
+ 	   	            url: URL + ENDPOINT +  'customerService/logout' ,
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            },
+ 	   	            data:sessionId
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
                  
          /**
           * @param username
@@ -182,6 +207,7 @@ var app = angular.module('serpics.authentication',['serpics.config'])
          *from the API response payload.                
          */
         function handleSuccess( response ) {
+        	console.log(response.data.message)
             return( response.data.responseObject);
         }
   

@@ -2,13 +2,46 @@
 		<div class="container">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
-					<li><a ui-sref="shop.home">Home</a></li>
-					<li class="active">Shopping Cart</li>
+				  <li><a href="#">Home</a></li>
+				  <li class="active">Check out</li>
 				</ol>
+			</div><!--/breadcrums-->
+			
+			<div class="step-one">
+				<h2 class="heading">Step1</h2>
 			</div>
-			<div>
-				<h4 ng-hide="cart.orderItems.length">Carrello vuoto!<br><br></h4>
+			
+			<div ng-show="currentUser.userType == 'ANONYMOUS'">
+						
+			<div class="checkout-options">
+				<h3>New User</h3>
+				<p>Checkout options</p>
+				<ul class="nav">
+					<li>
+						<label><a ui-sref="checkout.address" > Guest checkout</a></label>
+					</li>
+					<li>
+						<label><a ui-sref="checkout.login" > Login</a></label>
+					</li>
+					<li>
+						<label><a ui-sref="checkout.register" > Register</a></label>
+					</li>
+				</ul>
+			</div><!--/checkout-options-->
+
+			<div class="register-req">
+				<p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
+			</div><!--/register-req-->
+			
 			</div>
+			
+			<div ui-view></div>
+
+			
+			<div class="review-payment">
+				<h2>Review & Payment</h2>
+			</div>
+
 			<div class="table-responsive cart_info" style="width: 73%; overflow-x: hidden;">
 				<table class="table table-condensed">
 					<thead>
@@ -43,23 +76,22 @@
 							<td class="cart_delete"><a class="cart_quantity_delete"
 								ng-click="deleteItem(item.id)"><i class="fa fa-times">  REMOVE</i></a></td>
 						</tr>
-
-					</tbody>
+						
+												<tr>
+							<td colspan="4">&nbsp;</td>
+							<td colspan="2">
+								<table class="table table-condensed total-result">
+										<tr>
+											<td>Total</td>
+											<td><span>&euro;{{cart.totalProduct || 0}}</span></td>
+										</tr>
+									</table>
+							</td>
+						</tr>
+						</tbody>
 				</table>
 			</div>
+		
 		</div>
-	</section>
-	<div class="col-sm-6">
-					<div class="total_area">
-						<ul>
-							<li>Cart Sub Total <span>&euro;{{cart.totalProduct}}</span></li>
-							<li>Services Sub Total <span>&euro;{{cart.totalService || 0}}</span></li>
-							<li>Tax Sub Total <span>&euro;{{cart.totalTax}}</span></li>
-							<li>Shipping Cost <span>&euro;{{cart.totalShipping}}</span></li>
-							<li id="total">Total <span>&euro;{{cart.orderAmount || cart.totalProduct}}</span></li>
-						</ul>
-						<a class="btn btn-default update" ng-click="cartUpdate()">Update</a> <a
-							class="btn btn-default check_out" ui-sref="checkout.address">Check Out</a>
-					</div>
-	</div>
-	<!--/#cart_items-->
+	</section> <!--/#cart_items-->
+
