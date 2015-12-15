@@ -34,7 +34,7 @@ var app = angular.module("login.controller", ['serpics.authentication'])
             		$rootScope.action.actionName  = 'Logout'
 	       			$rootScope.action.actionClass = 'fa fa-sign-out'
 	       			$rootScope.action.dropMenuClass = 'visible'
-	       			debugUserLogged(response)
+	       			debugUserLogged(response)//only for the test
 	       			$state.go('shop.home');
             		 })
             	 }
@@ -80,13 +80,14 @@ var app = angular.module("login.controller", ['serpics.authentication'])
 		       * debug current user for test
 		       */
 		      function debugUserLogged(response){
-          		$log.debug("Current User -> {   name:" 		+ response.firstname
-          									+'  lastname: ' + response.lastname
-          									+'  email: ' 	+ response.email
-          									+'  created: '  + response.created
-          									+'  id: ' 		+ response.id
-          									+'  userType: ' + response.userType
-          									+'  logonid: '  + response.logonid +' }');    }
+          		$log.debug(
+          				"Found Current User id[[" 	+ response.id + "]]--> " 
+          				+ "{{  name-> [" 			+ response.firstname
+						+ ']  lastname-> [' 		+ response.lastname
+						+ ']  email-> [' 			+ response.email
+						+ ']  created: ['  			+ response.created						
+						+ ']  userType: [' 			+ response.userType
+						+ ']  logonid: ['  			+ response.logonid +'] }}');    }
 		  
 }])
   
