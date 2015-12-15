@@ -1,8 +1,8 @@
 var app = angular.module("login.controller", ['serpics.authentication'])
 
-.controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore',
+.controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore','$state','$log',
                                   
-      function($rootScope,$scope,$location,authenticationService,$timeout,$cookieStore) {	
+      function($rootScope,$scope,$location,authenticationService,$timeout,$cookieStore,$state,$log) {	
    	
 	
 			$rootScope.message = 'Guest Access'						
@@ -29,12 +29,13 @@ var app = angular.module("login.controller", ['serpics.authentication'])
 	             */
               function checkLoggedUser() {	 
             	 if($cookieStore.get('isLoggedIn')){            		 
-            		 authenticationService.checkCurrentUser().then( function( response ) {//from rest customer ser vice
-            			 $rootScope.message = 'Welcome ' + response.logonid + ' ' + response.lastname            		            		
-            		 $rootScope.action.actionName  = 'Logout'
-	       			 $rootScope.action.actionClass = 'fa fa-sign-out'
-	       			 $rootScope.action.dropMenuClass = 'visible'
-	       			 $location.path('/');
+            		authenticationService.checkCurrentUser().then( function( response ) {//from rest customer service            			
+            		$rootScope.message = 'Welcome ' + response.logonid + ' ' + response.lastname            		            		
+            		$rootScope.action.actionName  = 'Logout'
+	       			$rootScope.action.actionClass = 'fa fa-sign-out'
+	       			$rootScope.action.dropMenuClass = 'visible'
+	       			debugUserLogged(response)
+	       			$state.go('shop.home');
             		 })
             	 }
             }
@@ -71,10 +72,19 @@ var app = angular.module("login.controller", ['serpics.authentication'])
 							email:		$rootScope.userData.register.email,
 						}
 		        	authenticationService.register(userData).then( function( response ) {			        	
-	       				 $location.path('/');			        		
-		    	 	})	        
+		        	$state.go('shop.home');	
+		        	})	        
 		      };		
 		      
+		      
+		      function debugUserLogged(response){
+          		$log.debug("Current User -> {   name:" 		+ response.firstname
+          									+'  lastname: ' + response.lastname
+          									+'  email: ' 	+ response.email
+          									+'  created: '  + response.created
+          									+'  id: ' 		+ response.id
+          									+'  userType: ' + response.userType
+          									+'  logonid: '  + response.logonid +' }');    }
 		  
 }])
   
