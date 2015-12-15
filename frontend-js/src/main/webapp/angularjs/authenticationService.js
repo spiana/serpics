@@ -1,5 +1,5 @@
 
-var app = angular.module('serpics.authentication',['serpics.config'])
+var app = angular.module('authentication.service',['serpics.config'])
   
 .factory('authenticationService',  ['Base64', '$http', '$cookieStore', '$rootScope', '$q','serpicsServices','URL','ENDPOINT',
     function (Base64, $http, $cookieStore, $rootScope, $q, serpicsServices,URL,ENDPOINT) {

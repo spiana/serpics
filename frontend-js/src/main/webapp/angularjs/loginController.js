@@ -1,4 +1,4 @@
-var app = angular.module("login.controller", ['serpics.authentication'])
+var app = angular.module("login.controller", ['authentication.service'])
 
 .controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore',
                                   

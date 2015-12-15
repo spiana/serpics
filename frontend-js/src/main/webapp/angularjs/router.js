@@ -1,4 +1,4 @@
-var routerApp = angular.module('serpics.router', ['ui.router','serpics.authentication'])
+var routerApp = angular.module('serpics.router', ['ui.router','authentication.service'])
 
 routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$httpProvider) {
 	
@@ -106,7 +106,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     	abstract: true,
 	   	url: '/checkout',	        
 	    templateUrl: 'html/template/checkout.html', 
-	    controller: 'cartController'
+	    controller: 'checkoutController'
 	})
 	
 	.state('checkout.address', {
