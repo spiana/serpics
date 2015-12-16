@@ -80,6 +80,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 							password:	$rootScope.currentUser.password,
 							email:		$rootScope.currentUser.email,
 						}
+
 		        	authenticationService.register(userData).then( function( response ) {
 		        		resetFieldAfterRegistration()
 			        	showModalOnSuccess();

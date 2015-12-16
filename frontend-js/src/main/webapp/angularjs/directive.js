@@ -74,7 +74,10 @@
 	var modalDirective = function() {
 		return {
 			restrict 	:	'EA',
-			templateUrl :	"html/template/modal.html",			
+			templateUrl :	"html/template/modal.html",	
+			templateUrl :	"html/template/modal.html",
+			controller	:	'loginController'
+
 		};
 	};
 	
