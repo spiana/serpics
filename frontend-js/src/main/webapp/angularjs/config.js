@@ -13,5 +13,3 @@ var app = angular.module('serpics.config', [])
 			.config(function($logProvider){
 				$logProvider.debugEnabled(true);
 				})
-
-

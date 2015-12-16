@@ -1,23 +1,29 @@
-var app = angular.module("login.controller", ['authentication.service'])
+var app = angular.module("login.controller", ['authentication.service','ngDialog'])
 
-.controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore','$state','$log',
+.controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore','$state','$log','ngDialog',
                                   
-      function($rootScope,$scope,$location,authenticationService,$timeout,$cookieStore,$state,$log) {	
+      function($rootScope,$scope,$location,authenticationService,$timeout,$cookieStore,$state,$log,ngDialog) {	
    	
 	
-			$rootScope.message = 'Guest Access'						
-				
 			$rootScope.action = {
 					actionName:'Login',
-					actionClass:'fa fa-lock',
-					dropMenuClass:'hidden'
+					actionRoute:'shop.login',									
 			};
+					
+			$rootScope.currentUser = {
+						id:			null,
+						username:	null,
+				  		password:	null,					
+						firstname:	null,
+						lastname:	null,						
+						email:		null,
+						created:	null,
+						userType:   null,
+						message:	null,
+						successRegister:null	
+			       		}
 			
-			$rootScope.error ={					
-						statusText:null,
-			       		message:null
-							       		
-		    }
+		   
 			
 			checkLoggedUser()
 			
@@ -27,17 +33,15 @@ var app = angular.module("login.controller", ['authentication.service'])
 	             * @use authenticationService
 	             * @returns
 	             */
-              function checkLoggedUser() {	 
-            	 if($cookieStore.get('isLoggedIn')){            		 
-            		authenticationService.checkCurrentUser().then( function( response ) {//from rest customer service            			
-            		$rootScope.message = 'Welcome ' + response.logonid + ' ' + response.lastname            		            		
-            		$rootScope.action.actionName  = 'Logout'
-	       			$rootScope.action.actionClass = 'fa fa-sign-out'
-	       			$rootScope.action.dropMenuClass = 'visible'
-	       			debugUserLogged(response)//only for the test
-	       			$state.go('shop.home');
-            		 })
-            	 }
+              function checkLoggedUser() {	            	   		 
+            		authenticationService.getCurrentUser().then( function( response ) { //from rest customer service              			
+            		setCredential(response)  
+            		if($rootScope.currentUser.userType == 'REGISTERED'){
+            			$rootScope.action.actionName ='Logout'
+                		$rootScope.action.functionName ='logout()'
+            		}
+            				$state.go('shop.home');
+            	})            	
             }
 			
 			 /**
@@ -45,9 +49,11 @@ var app = angular.module("login.controller", ['authentication.service'])
              * @use 	authenticationService
              * @returns logout message
              */
-			function logout(sessionId){
-				authenticationService.logout().then( function( response ) {   
-					$state.go('shop.home');
+			$rootScope.logout = function(){
+				authenticationService.logout().then( function( response ) {
+					$rootScope.action.actionName ='Login'
+                	$rootScope.action.functionName =''
+            		$state.go('shop.home');	            	            	
 				})
 			}
 			           
@@ -57,11 +63,15 @@ var app = angular.module("login.controller", ['authentication.service'])
              * @use
              * @returns
              */
-			$rootScope.login = function() {	   				
-		        	authenticationService.login(this.userData.login.username, this.userData.login.password).then( function( response ) {		        			       				 
-			        		 authenticationService.setCredential($rootScope.userData.login.username, $rootScope.userData.login.password,true)
-		       					    checkLoggedUser()    		        		
-		    	 	})		        			        
+			$rootScope.login = function() {
+					var loginData = {
+							username:$rootScope.currentUser.username,
+							password:$rootScope.currentUser.password
+					}   				
+		        	authenticationService.login(loginData.username, loginData.password).then( function( response ) { 
+		        		checkLoggedUser()		        		
+		        	$state.go('shop.home');
+		       	})		        			        
 		      };		          		      
 		      
 		      		      
@@ -76,30 +86,45 @@ var app = angular.module("login.controller", ['authentication.service'])
 	         */
 			$rootScope.register = function() {	  				
 				var userData = {									
-							logonid:	$rootScope.userData.register.logonid,
-							firstname:	$rootScope.userData.register.firstname,	
-							lastname:	$rootScope.userData.register.lastname,
-							password:	$rootScope.userData.register.password,
-							email:		$rootScope.userData.register.email,
+							logonid:	$rootScope.currentUser.username,
+							firstname:	$rootScope.currentUser.firstname,	
+							lastname:	$rootScope.currentUser.lastname,
+							password:	$rootScope.currentUser.password,
+							email:		$rootScope.currentUser.email,
 						}
-		        	authenticationService.register(userData).then( function( response ) {			        	
+		        	authenticationService.register(userData).then( function( response ) {
+		        		     $rootScope.currentUser.successRegister ='User registered succesfully'
+		        			 showModalOnSuccess()
 		        	$state.go('shop.home');	
 		        	})	        
 		      };		
 		      
-		      /***
-		       * debug current user for test
+		      /**
+		       * 
 		       */
-		      function debugUserLogged(response){
-          		$log.debug(
-          				"Found Current User id[[" 	+ response.id + "]]--> " 
-          				+ "{{  name-> [" 			+ response.firstname
-						+ ']  lastname-> [' 		+ response.lastname
-						+ ']  email-> [' 			+ response.email
-						+ ']  created: ['  			+ response.created						
-						+ ']  userType: [' 			+ response.userType
-						+ ']  logonid: ['  			+ response.logonid +'] }}');    }
-		  
+		      function setCredential(response){
+		    	  $rootScope.currentUser = {	
+		    			  	id:			response.id,
+							username:	response.logonid,							
+							firstname:	response.firstname,
+							lastname:	response.lastname,								
+							email:		response.email,
+							userType:   response.userType,
+							created: 	response.created,
+				       	}		    	  
+		    	  $log.debug('Found Current User -> ',  $rootScope.currentUser)
+		      }    
+		      
+		      /**
+		       * show success message on modal angular
+		       */
+		      function showModalOnSuccess(){		    	  
+		    	  ngDialog.open({
+		    		  template: 'successDialog',
+		    		  scope:    $rootScope  			  
+		    		  });		    	 
+		      }
+		      
 }])
   
 

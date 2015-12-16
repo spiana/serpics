@@ -17,7 +17,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
         	$scope.name = 'Home Page';
         },
         templateUrl: 'html/template/home-central.html'
-
     })
     
     .state('shop.category', {
@@ -51,32 +50,17 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     
     .state('shop.login', {
     	url: '/login', 
-        templateUrl: 'html/template/login.html' ,        	 
-        controller: function ($rootScope, $location, $cookieStore,$state) {        	
-            $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
-            if ($rootScope.globals.currentUser) {            
-            	$state.go("shop.logout");
-            	} 
-	         }
+        templateUrl: 'html/template/login.html'        
 	    })
     
     .state('shop.logout', {
     	url: '/logout',        
         templateUrl: 'html/template/home-central.html',
-        controller: function ($rootScope, $cookieStore,authenticationService) {
-        	$rootScope.message = 'Guest Access' 
-        		authenticationService.clearCredentials()
-        		authenticationService.logout()
-        		$rootScope.action = {
-					actionName:'Login',
-					actionClass:'fa fa-lock',
-					dropMenuClass:'hidden'
-				}
-	        }
+        controller: 'loginController'	       
 	})
     
     .state('shop.cart', {
-    	url: '/cart',       
+    	url: '/cart/',       
         templateUrl: 'html/template/cart.html',
         controller: 'cartController',
     })
@@ -115,25 +99,16 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    templateUrl: 'html/template/checkoutAddress.html',
 	})
 	
-	.state('checkout.shipping', {
-	   	url: '/shipping',	        
-	    templateUrl: 'html/template/checkoutShippingAddress.html',
-	})
-	
 	.state('checkout.login', {
 	   	url: '/login',	        
 	    templateUrl: 'html/template/login.html',
+	    controller: 'loginController'
 	})
 	
 	.state('checkout.register', {
 	   	url: '/register',	        
 	    templateUrl: 'html/template/register.html',
-	})
-	
-	.state('complete' , {
-		url: '/complete',
-		templateUrl: 'html/template/orderComplete.html',
-		controller: 'orderController'
+	    controller: 'loginController'
 	})
 	
 	$urlRouterProvider.otherwise("/home");

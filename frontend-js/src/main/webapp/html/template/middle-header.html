@@ -4,16 +4,20 @@
 		<div class="row" ng-controller="loginController">
 			<div class="col-sm-4">
 				<div class="logo pull-left">
-					<div welcome-user-directive></div>				
+					<span class="current-user">
+					<span  ng-show="currentUser.userType=='REGISTERED'">Welcome  {{currentUser.firstname + ' ' + currentUser.lastname}}</span>								
+					<span  ng-show="currentUser.userType=='ANONYMOUS'">Guest Access</span>						
+				
+				</span>
 				</div>				
 			</div>
 			<div class="col-sm-8">
 				<div class="shop-menu pull-right">
 					<ul class="nav navbar-nav">
-						<li class="dropdown" account-menu-directive></li>						
-						<li><a ui-sref="checkout.address"><i	class="fa fa-crosshairs"></i> Checkout</a></li>
-						<li><a ui-sref="shop.cart"><i	class="fa fa-shopping-cart"></i> Cart</a></li>
-						<li action-user-directive></li>
+						<li ng-click="showModalOnSuccess()"><a href="#l"><i	class="fa fa-crosshairs"></i> Checkout</a></li>
+						<li><a href="#"><i	class="fa fa-shopping-cart"></i> Cart</a></li>
+						<li><a ui-sref="shop.login"><i ng-class="{ 'fa fa-sign-out': currentUser.userType=='REGISTERED', 'fa fa-sign-in': currentUser.userType=='ANONYMOUS' }" ></i> {{action.actionName}}</a></li>
+						<li ng-click="logout()"><a ui-sref="shop.logout"><i class="fa fa-sign-out"></i> Logout</a></li>
 					</ul>
 				</div>
 			</div>

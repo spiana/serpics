@@ -6,12 +6,12 @@
 				<div class="signup-form">
 					<!--sign up form-->
 					<h2>New User Signup!</h2>
-					<form  ng-submit="register()">
-						<input type="text" ng-model="userData.register.firstname" name="userData.register.firstname" placeholder="Name"  required/> 
-						<input type="text" ng-model="userData.register.lastname" name="userData.register.lastname" placeholder="Last Name"  required/> 
-						<input type="email" ng-model="userData.register.email" name="userData.register.email"	placeholder="Email" required/> 
-						<input type="text" ng-model="userData.register.logonid" name="userData.register.logonid" placeholder="Username"  required/> 
-						<input type="password" ng-model="userData.register.password" name="userData.register.password"	placeholder="Password" required/>
+						<form  ng-submit="register()">
+						<input type="text" ng-model="currentUser.firstname" name="currentUser.firstname" placeholder="Name"  required/> 
+						<input type="text" ng-model="currentUser.lastname" name="currentUser.lastname" placeholder="Last Name"  required/> 
+						<input type="email" ng-model="currentUser.email" name="currentUser.email"	placeholder="Email" required/> 
+						<input type="text" ng-model="currentUser.logonid" name="currentUser.logonid" placeholder="Username"  required/> 
+						<input type="password" ng-model="currentUser.password" name="currentUser.password"	placeholder="Password" required/>
 						<button type="submit" class="btn btn-default" id="submit">Register</button>
 					</form>	
 				</div>

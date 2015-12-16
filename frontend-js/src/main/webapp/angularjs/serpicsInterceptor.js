@@ -107,11 +107,11 @@ var app= angular.module('serpics.interceptor', [])
                                       if (rejection.status === 401) {
                                     	  $log.debug("responseError intercepted: 401: " , rejection);
                                     	  
-                                    	  $rootScope.error.message = rejection.data.message;
+                                    	  $rootScope.message = rejection.data.message;
 //                                    	  $rootScope.resetformOnIntercept401Error();
-                                    	  $rootScope.userData.login.username = '';
-                                          $rootScope.userData.login.password  ='';
-                                    	  $log.debug(rejection.data.message);               
+                                    	  $rootScope.currentUser.username = '';
+                                          $rootScope.currentUser.password ='';
+                                    	  $log.debug(rejection.message);               
                                     	  $log.debug("Response Error 401",rejection);                
 
                                     	  

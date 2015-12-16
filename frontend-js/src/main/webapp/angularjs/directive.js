@@ -14,37 +14,11 @@
 			template : loader,
 		};
 	};
+		
 	
-	var accountMenuDirective = function(){
-		var dropdown =	"<a href='#' class='{{action.dropMenuClass}}'><i class='fa fa-user'></i> Account</a>" 				
-			return {		
-			restrict : 'EA',
-			template : dropdown,
-		};
-	}
-	
-	
-	
-	var actionUserDirective = function() {
-		var action = 	"<a ui-sref='shop.login'><i class='{{action.actionClass}}'></i> {{action.actionName}}</a>"				
-			return {		
-			restrict : 'EA',
-			template : action,
-		};
-	};
-	
-	/**
-	 * 
-	 */
-	var welcomeUserDirective = function() {
-		var user = 	"<span class='current-user'><span ng-bind='message'>  {{message}}</span></span>"				
-			return {		
-			restrict : 'EA',
-			template : user,
-		};
-	};
 
-	/**
+	
+		/**
 	 * 
 	 */
 	var topHeaderDirective = function() {
@@ -221,9 +195,6 @@
 
 	
 	var app = angular.module('serpics.directive', [])		
-	.directive('accountMenuDirective', 	accountMenuDirective)
-	.directive('actionUserDirective', 	actionUserDirective)
-	.directive('welcomeUserDirective', 	welcomeUserDirective)
 	.directive('loaderDirective', 		loaderDirective)
 	.directive('topHeaderDirective',	topHeaderDirective)
 	.directive('middleHeaderDirective',	middleHeaderDirective)
