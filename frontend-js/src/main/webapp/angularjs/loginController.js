@@ -5,11 +5,6 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
       function($rootScope,$scope,$location,authenticationService,$timeout,$cookieStore,$state,$log,ngDialog) {	
    	
 	
-			$rootScope.action = {
-					actionName:'Login',
-					actionRoute:'shop.login',									
-			};
-			
 			
 					
 			$rootScope.currentUser = {
@@ -21,13 +16,10 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 						email:		null,
 						created:	null,
 						userType:   null,
-						message:	null,
-						successRegister:''	
+						message:	null					
 			       		}
 			
-		   
-			
-			checkLoggedUser()
+		   	checkLoggedUser()
 			
 				 /**
 	             * @param
@@ -37,11 +29,8 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 	             */
               function checkLoggedUser() {	            	   		 
             		authenticationService.getCurrentUser().then( function( response ) { //from rest customer service              			
-            		setCredential(response)  
-            		if($rootScope.currentUser.userType == 'REGISTERED'){
-            			$rootScope.action.actionName ='Logout'
-            		}
-            				$state.go('shop.home');
+            		setCredential(response)             		
+            		$state.go('shop.home');
             	})            	
             }
 			
@@ -51,8 +40,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
              * @returns logout message
              */
 			$rootScope.logout = function(){
-				authenticationService.logout().then( function( response ) {
-					$rootScope.action.actionName = 'Login'
+				authenticationService.logout().then( function( response ) {				
             		$state.go('shop.home');	            	            	
 				})
 			}

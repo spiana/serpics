@@ -16,8 +16,8 @@
 					<ul class="nav navbar-nav">
 						<li ng-click="showModalOnSuccess()"><a href="#l"><i	class="fa fa-crosshairs"></i> Checkout</a></li>
 						<li><a href="#"><i	class="fa fa-shopping-cart"></i> Cart</a></li>
-						<li><a ui-sref="shop.login"><i ng-class="{ 'fa fa-sign-out': currentUser.userType=='REGISTERED', 'fa fa-sign-in': currentUser.userType=='ANONYMOUS' }" ></i> {{action.actionName}}</a></li>
-						<li ng-click="logout()"><a ui-sref="shop.logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+						<li ng-show="currentUser.userType=='ANONYMOUS'"><a ui-sref="shop.login"><i ng-class="{ 'fa fa-sign-out': currentUser.userType=='REGISTERED', 'fa fa-sign-in': currentUser.userType=='ANONYMOUS' }" ></i> Login</a></li>
+						<li ng-show="currentUser.userType=='REGISTERED'" ng-click="logout()"><a ui-sref="shop.logout"><i class="fa fa-sign-out"></i> Logout</a></li>
 					</ul>
 				</div>
 			</div>
