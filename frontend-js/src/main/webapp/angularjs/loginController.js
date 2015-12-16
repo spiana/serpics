@@ -92,11 +92,10 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 							password:	$rootScope.currentUser.password,
 							email:		$rootScope.currentUser.email,
 						}
-		        	authenticationService.register(userData).then( function( response ) {
-		        		     $rootScope.currentUser.successRegister ='User registered succesfully'
+		        	
 		        			 showModalOnSuccess()
 		        	$state.go('shop.home');	
-		        	})	        
+		        	        
 		      };		
 		      
 		      /**

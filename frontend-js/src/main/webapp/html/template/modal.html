@@ -1,20 +1,16 @@
-<!-- Modal -->
-<div id="templateId" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
+<script type="text/ng-template" id="successDialog">
+   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
+        <button type="button" class="close" data-dismiss="modal" ng-click="closeThisDialog()">&times;</button>
+        <h4 class="modal-title">Serpics Platform Ecommerce</h4>
+      	</div>
+      	<div class="modal-body">
+        <p>User Registered Succesfully. Back To Home Or Login Please!!!</p>
+		</div>
+		<div class="modal-footer">
+		<a ui-sref="shop.login" class="btn btn-default" id="modalGo" ng-click="closeThisDialog()">Login</a>
+	</div>
+ </div>          
 </div>
+</script>
