@@ -15,10 +15,8 @@
 		};
 	};
 		
-	
-
-	
-		/**
+		
+	/**
 	 * 
 	 */
 	var topHeaderDirective = function() {
@@ -69,6 +67,17 @@
 			
 		};
 	};
+	
+	/**
+	 * 
+	 */
+	var modalDirective = function() {
+		return {
+			restrict 	:	'EA',
+			templateUrl :	"html/template/modal.html",			
+		};
+	};
+	
 	
 	/**
 	 * 
@@ -196,6 +205,7 @@
 	
 	var app = angular.module('serpics.directive', [])		
 	.directive('loaderDirective', 		loaderDirective)
+	.directive('modalDirective', 		modalDirective)
 	.directive('topHeaderDirective',	topHeaderDirective)
 	.directive('middleHeaderDirective',	middleHeaderDirective)
 	.directive('bottomHeaderDirective',	bottomHeaderDirective)

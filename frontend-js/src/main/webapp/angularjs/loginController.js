@@ -9,6 +9,8 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 					actionName:'Login',
 					actionRoute:'shop.login',									
 			};
+			
+			
 					
 			$rootScope.currentUser = {
 						id:			null,
@@ -20,7 +22,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 						created:	null,
 						userType:   null,
 						message:	null,
-						successRegister:null	
+						successRegister:''	
 			       		}
 			
 		   
@@ -38,7 +40,6 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
             		setCredential(response)  
             		if($rootScope.currentUser.userType == 'REGISTERED'){
             			$rootScope.action.actionName ='Logout'
-                		$rootScope.action.functionName ='logout()'
             		}
             				$state.go('shop.home');
             	})            	
@@ -51,8 +52,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
              */
 			$rootScope.logout = function(){
 				authenticationService.logout().then( function( response ) {
-					$rootScope.action.actionName ='Login'
-                	$rootScope.action.functionName =''
+					$rootScope.action.actionName = 'Login'
             		$state.go('shop.home');	            	            	
 				})
 			}
@@ -66,7 +66,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 			$rootScope.login = function() {
 					var loginData = {
 							username:$rootScope.currentUser.username,
-							password:$rootScope.currentUser.password
+							password:$rootScope.currentUser.password,
 					}   				
 		        	authenticationService.login(loginData.username, loginData.password).then( function( response ) { 
 		        		checkLoggedUser()		        		
@@ -93,9 +93,9 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 							email:		$rootScope.currentUser.email,
 						}
 		        	authenticationService.register(userData).then( function( response ) {
-		        		     $rootScope.currentUser.successRegister ='User registered succesfully'
-		        			 showModalOnSuccess()
-		        	$state.go('shop.home');	
+		        		resetFieldAfterRegistration()
+			        	showModalOnSuccess();
+						$timeout( function(){ $state.go('shop.home'); }, 5000);
 		        	})	        
 		      };		
 		      
@@ -115,16 +115,23 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 		    	  $log.debug('Found Current User -> ',  $rootScope.currentUser)
 		      }    
 		      
-		      /**
-		       * show success message on modal angular
-		       */
-		      function showModalOnSuccess(){		    	  
-		    	  ngDialog.open({
-		    		  template: 'successDialog',
-		    		  scope:    $rootScope  			  
-		    		  });		    	 
-		      }
-		      
+			      /**
+			       * show success message on modal angular with ngModal
+			       */
+			      function showModalOnSuccess(){		    	  
+			    	  ngDialog.open({
+			    		  template: 'successDialog',
+			    		  scope:    $rootScope  			  
+			    		  });		    	 
+			      }
+			      
+			     /**
+			      * reset form after submit 
+			      */
+			      function resetFieldAfterRegistration() {
+			    	  $rootScope.currentUser = {}
+			     }
+			      		      
 }])
   
 
