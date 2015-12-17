@@ -15,7 +15,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 						created:	null,
 						userType:   null,
 						message:	null,
-						registerMessage:null
+						registerMesage:null
 			       		}
 			
 		   	checkLoggedUser()
