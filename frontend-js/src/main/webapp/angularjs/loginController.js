@@ -108,7 +108,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 			    	  var dialog = ngDialog.open({
 				    		  template: 'registerSuccessDialog',
 				    		  keyboard: true,
-				    		  class:'',
+				    		  className:'',
 				    		  scope:    $rootScope  			  
 				    		  });		
 
