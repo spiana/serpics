@@ -19,7 +19,7 @@ import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml", "classpath:META-INF/base-serpics-test.xml"})
+@ContextConfiguration({  "classpath:META-INF/base-serpics-test.xml"})
 @SerpicsTest("default-store")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class InterceptorTest extends AbstractTransactionalJunit4SerpicTest{

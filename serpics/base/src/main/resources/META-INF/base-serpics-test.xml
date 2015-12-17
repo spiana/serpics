@@ -10,6 +10,11 @@ http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+
+<context:component-scan base-package="com.serpics.base.services" />
+    <data:repositories base-package="com.serpics.base.data.repositories" 
+     base-class="com.serpics.core.data.RepositoryImpl"/>
+     
 	<bean name= "localeCreateInterceptor" class="com.serpics.base.test.interceptor.LocaleCreateInterceptor"/>
 	
    <bean name="languageBeforeSave" class="com.serpics.core.data.InterceptorMapping" >
