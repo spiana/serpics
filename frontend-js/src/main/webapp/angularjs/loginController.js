@@ -7,7 +7,8 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 	
 			$rootScope.currentUser = {
 						id:			null,
-				  		password:	null,					
+				  		password:	null,
+				  		lastname:   null,
 						firstname:	null,
 						logonid:	null,						
 						email:		null,
@@ -78,7 +79,6 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 							password:	$rootScope.currentUser.password,
 							email:		$rootScope.currentUser.email,
 						}
-
 		        	authenticationService.register(userData).then( function( response ) {
 		        		showModalOnSuccess();						
 		        	})	        
