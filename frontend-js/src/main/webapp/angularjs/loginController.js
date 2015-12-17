@@ -39,7 +39,8 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
              * @returns logout message
              */
 			$rootScope.logout = function(){
-				authenticationService.logout().then( function( response ) {				
+				authenticationService.logout().then( function( response ) {	
+					setCredential(response) 
             		$state.go('shop.home');	            	            	
 				})
 			}
@@ -111,7 +112,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 				    		  scope:    $rootScope  			  
 				    		  });		
 
-			    	  dialog.closePromise.then(function (data) {			    	     
+			    	  dialog.closePromise.then(function (response) {			    	     
 			    	      $state.go('shop.home')
 			    	  })
 			      }
