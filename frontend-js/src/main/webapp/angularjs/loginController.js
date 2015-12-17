@@ -80,8 +80,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 						}
 
 		        	authenticationService.register(userData).then( function( response ) {
-		        		resetFieldAfterRegistration()
-			        	showModalOnSuccess();						
+		        		showModalOnSuccess();						
 		        	})	        
 		      };		
 		      
@@ -117,12 +116,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 			    	  })
 			      }
 			      
-			     /**
-			      * reset form after submit 
-			      */
-			      function resetFieldAfterRegistration() {
-			    	  $rootScope.currentUser = {}
-			     }
+			  
 			      		      
 }])
   
