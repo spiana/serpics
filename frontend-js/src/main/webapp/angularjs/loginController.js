@@ -7,10 +7,9 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 	
 			$rootScope.currentUser = {
 						id:			null,
-						username:	null,
 				  		password:	null,					
 						firstname:	null,
-						lastname:	null,						
+						logonid:	null,						
 						email:		null,
 						created:	null,
 						userType:   null,
@@ -52,10 +51,10 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
              */
 			$rootScope.login = function() {
 					var loginData = {
-							username:$rootScope.currentUser.username,
+							logonid:$rootScope.currentUser.logonid,
 							password:$rootScope.currentUser.password,
 					}   				
-		        	authenticationService.login(loginData.username, loginData.password).then( function( response ) { 
+		        	authenticationService.login(loginData.logonid, loginData.password).then( function( response ) { 
 		        		checkLoggedUser()		        		
 		        	$state.go('shop.home');
 		       	})		        			        
@@ -73,7 +72,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 	         */
 			$rootScope.register = function() {	  				
 				var userData = {									
-							logonid:	$rootScope.currentUser.username,
+							logonid:	$rootScope.currentUser.logonid,
 							firstname:	$rootScope.currentUser.firstname,	
 							lastname:	$rootScope.currentUser.lastname,
 							password:	$rootScope.currentUser.password,
@@ -92,7 +91,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 		      function setCredential(response){
 		    	  $rootScope.currentUser = {	
 		    			  	id:			response.id,
-							username:	response.logonid,							
+		    			  	logonid:	response.logonid,							
 							firstname:	response.firstname,
 							lastname:	response.lastname,								
 							email:		response.email,
@@ -107,7 +106,9 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 			       */
 			      function showModalOnSuccess(){		    	  
 			    	  var dialog = ngDialog.open({
-				    		  template: 'successDialog',
+				    		  template: 'registerSuccessDialog',
+				    		  keyboard: true,
+				    		  class:'',
 				    		  scope:    $rootScope  			  
 				    		  });		
 
