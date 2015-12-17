@@ -111,7 +111,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 				    		  scope:    $rootScope  			  
 				    		  });		
 
-			    	  dialog.closePromise.then(function (data) {			    	     
+			    	  dialog.closePromise.then(function (response) {			    	     
 			    	      $state.go('shop.home')
 			    	  })
 			      }
