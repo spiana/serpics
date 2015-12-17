@@ -82,8 +82,7 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 
 		        	authenticationService.register(userData).then( function( response ) {
 		        		resetFieldAfterRegistration()
-			        	showModalOnSuccess();
-						$timeout( function(){ $state.go('shop.home'); }, 5000);
+			        	showModalOnSuccess();						
 		        	})	        
 		      };		
 		      
@@ -107,10 +106,14 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 			       * show success message on modal angular with ngModal
 			       */
 			      function showModalOnSuccess(){		    	  
-			    	  ngDialog.open({
-			    		  template: 'successDialog',
-			    		  scope:    $rootScope  			  
-			    		  });		    	 
+			    	  var dialog = ngDialog.open({
+				    		  template: 'successDialog',
+				    		  scope:    $rootScope  			  
+				    		  });		
+
+			    	  dialog.closePromise.then(function (data) {			    	     
+			    	      $state.go('shop.home')
+			    	  })
 			      }
 			      
 			     /**
