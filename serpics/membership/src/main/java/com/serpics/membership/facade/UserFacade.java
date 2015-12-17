@@ -3,6 +3,7 @@ package com.serpics.membership.facade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.serpics.core.SerpicsException;
 import com.serpics.membership.UserType;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
@@ -16,7 +17,7 @@ public interface UserFacade {
 	
 	public UserData getCurrentuser();
 	
-	public void registerUser(UserData user);
+	public void registerUser(UserData user) throws SerpicsException;
 	public void updateUser(UserData user);
 	public void updateContactAddress(AddressData address);
 	
