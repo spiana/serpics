@@ -94,6 +94,16 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    controller: 'checkoutController'
 	})
 	
+	.state('shop.orderError', {    	
+	   	url: '/orderError',	        
+	    templateUrl: 'html/template/orderError.html', 
+	})
+	
+	.state('shop.orderConfirm', {
+	   	url: '/orderConfirm',	        
+	    templateUrl: 'html/template/orderConfirm.html', 
+	})
+	
 	.state('checkout.address', {
 	   	url: '/address',	        
 	    templateUrl: 'html/template/checkoutAddress.html',
