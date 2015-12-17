@@ -5,8 +5,6 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
       function($rootScope,$scope,$location,authenticationService,$timeout,$cookieStore,$state,$log,ngDialog) {	
    	
 	
-			
-					
 			$rootScope.currentUser = {
 						id:			null,
 						username:	null,
@@ -16,7 +14,8 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
 						email:		null,
 						created:	null,
 						userType:   null,
-						message:	null					
+						message:	null,
+						registerMessage:null
 			       		}
 			
 		   	checkLoggedUser()
