@@ -161,7 +161,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
     @Override
     public UsersReg findByLogonid(String logonid) {  
        UsersReg users = userRegrepository.findBylogonid(logonid);
-       Assert.notNull(users);
+       //Assert.notNull(users);
        return users;
     }
 
