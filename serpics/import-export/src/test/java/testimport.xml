@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<importdefinition>
+	<importentry name="category" cvs="category.csv" class="com.serpics.catalog.data.model.Category" />
+	<importentry name="category_en" cvs="category_en.csv" class="com.serpics.catalog.data.model.Category" />
+</importdefinition>
