@@ -50,4 +50,9 @@ public class CustomQueryModifierDelegate extends DefaultQueryModifierDelegate {
 	public void setClassMetadata(Class<?> clazz) {
 		this.mappedClass = clazz;
 	}
+	@Override
+	public void queryHasBeenBuilt(CriteriaBuilder criteriaBuilder,
+			CriteriaQuery<?> query) {
+		query.distinct(true);
+	}
 }
