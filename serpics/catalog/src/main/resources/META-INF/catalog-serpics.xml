@@ -16,6 +16,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		  base-class="com.serpics.core.data.RepositoryImpl"/>
 
 	<!-- Interceptor Mapping -->
+	<bean name="ctentrySaveInterceptor" class="com.serpics.catalog.data.interceptors.CtentrySaveInterceptor" />
+	
 	<bean name="productCreateInterceptor"
 		class="com.serpics.catalog.data.interceptors.ProductSaveInterceptor" />
 	
@@ -36,6 +38,12 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<bean name="featureInterceptor"
 		class="com.serpics.catalog.data.interceptors.FeatureSaveInterceptor" />
+		
+	<bean name="ctentrySaveMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.catalog.data.model.Ctentry" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="ctentrySaveInterceptor" />
+	</bean>
 		
 	<bean name="productCreateMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.catalog.data.model.Product" />

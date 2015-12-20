@@ -58,11 +58,11 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
     @Column(name = "url", nullable = false, unique = true)
     protected String url;
     
-    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.LAZY)
     @JoinColumn(name = "name_string_id")
     private MultilingualString name ;
 
-    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @OneToOne( cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.LAZY)
     @JoinColumn(name = "description_string_id")
     private MultilingualText description ;
 

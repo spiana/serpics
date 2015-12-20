@@ -1,7 +1,9 @@
 package com.serpics.catalog.data.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  * The primary key class for the ctentry_relation database table.
@@ -12,11 +14,11 @@ public class CtentryRelationPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="ctentry_id_parent")
-	private Long ctentryIdParent;
-
 	@Column(name="ctentry_id_child")
 	private Long ctentryIdChild;
+	
+	@Column(name="ctentry_id_parent")
+	private Long ctentryIdParent;
 
     public CtentryRelationPK() {
     	
