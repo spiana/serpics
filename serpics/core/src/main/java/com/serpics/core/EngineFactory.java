@@ -1,6 +1,9 @@
 package com.serpics.core;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +28,27 @@ public class EngineFactory implements ApplicationContextAware{
 	public static void init()  {
 		List<String> modules = new ArrayList<String>();
 		modules.add("classpath:META-INF/applicationContext.xml");
-		URL l = Thread.currentThread().getContextClassLoader().getResource("META-INF/modules.xml");
+		String home_directory  = System.getProperty("serpics.home");
+		LOG.info("home directory [{}]" , home_directory);
+		URL l = null;
+		if (home_directory != null){
+			if(!home_directory.endsWith(File.separator))
+				home_directory += File.separator;
+				File f = new File(home_directory +"config/modules.xml");
+				if(f.exists()){
+					try {
+						l = Paths.get(f.getPath()).toUri().toURL();
+					} catch (MalformedURLException e) {
+							
+					}
+				}else{
+					LOG.info("file modules.xml not found in home directory try to load from classpath !");
+				}
+		}
+			
+		if (l == null)
+			l = Thread.currentThread().getContextClassLoader().getResource("META-INF/modules.xml");
+		
 		if(l == null)
 			LOG.info("no modules.xml found in classpath !");
 		else{	
