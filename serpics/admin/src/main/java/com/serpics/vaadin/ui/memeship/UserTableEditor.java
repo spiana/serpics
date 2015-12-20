@@ -6,7 +6,6 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
-import com.vaadin.addon.jpacontainer.EntityItem;
 
 
 @VaadinComponent(value = "userTableEditor" )
@@ -56,19 +55,6 @@ public class UserTableEditor extends MasterTable<UsersReg> {
     	return editorWindow;
     }
 
-    @Override
-    public void init() {
-        super.init();
-//        container.addNestedContainerProperty("primaryAddress.*");
-//        final String[] p = { "firstname", "lastname", "created" };
-//        setPropertyToShow(p);
-//        
 
-    }
-
-    @Override
-    public EntityItem<UsersReg> createEntityItem() {
-        final UsersReg u = new UsersReg();
-        return container.createEntityItem(u);
-    }
+   
 }
