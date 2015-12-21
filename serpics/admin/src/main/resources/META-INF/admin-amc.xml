@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigator-definition 
+xmlns="http://www.serpicsframework.org/schema/smc" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	
+xsi:schemaLocation="http://www.serpicsframework.org/schema/smc/amc.xsd">
+
+
+<!-- da definire come fare il bind con i bean -->
+	<navigator name="mainNav">
+		<navigator-item	allow-child="true"  name="admin" parent="" />
+		<navigator-item	allow-child="false" bean="userTableEditor" 	name="users" parent="admin" />
+		<navigator-item	allow-child="false" bean="membergroupTableEditor" name="group" 		parent="admin" />
+		<navigator-item	allow-child="false" bean="currencyTable" name="currency" parent="admin" />
+		<navigator-item	allow-child="false" bean="countryTable"	name="country" parent="admin" />		
+		<navigator-item	allow-child="false" bean="geocodeTable"	name="geocode" parent="admin" />
+		<navigator-item	allow-child="false"	class="com.serpics.base.data.model.BaseAttribute" name="baseAttribute" parent="system" />
+		
+		<navigator-item	allow-child="true" 	name="catalog" 	parent="" />	
+		<navigator-item	allow-child="false" bean="categoryTable" name="category" parent="catalog" />
+		<navigator-item allow-child="false" bean="productTable" name="product" parent="catalog" />
+		<navigator-item allow-child="false" bean="featureModelTable" name="featureModel" parent="catalog" />
+		
+		<navigator-item allow-child="true" 	name="orders" parent="" />
+<!-- 		<navigator-item	allow-child="false" bean="orderMasterTable"	name="order" parent="orders" /> -->
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethod" name="payMethod" parent="orders" />
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Cart" name="cart" parent="orders" />
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethodlookup" name="payMethods" parent="orders" />
+	
+		<navigator-item	allow-child="true"  name="system" parent="" />
+		<navigator-item	allow-child="false"	class="com.serpics.base.data.model.BaseAttribute" name="baseAttribute" parent="system" />
+		
+	</navigator>
+
+</navigator-definition>
