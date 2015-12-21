@@ -287,6 +287,12 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		cartRepository.delete(cart);
 		removeCartFromSession();
 	}
+	
+	@Override
+	@Transactional
+	public void cartRepositoryDelete(final Cart cart) {
+		cartRepository.delete(cart);
+	}
 
 	@Override
 	@Transactional
@@ -354,26 +360,29 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	}
 
 	@Override
-	public Cart getCartByUser(Member userId, Member customerId) {
+	public Cart getCartByUser(Member userId, Member customerId, Store store, String sessionId) {
 
-		Page<Cart> resultPage = cartRepository.findAllCartByUserId(userId, customerId,
+		Page<Cart> resultPage = cartRepository.findAllCartByUserId(userId, customerId, store, sessionId,
 				new PageRequest(0, 10, Sort.Direction.DESC, "updated"));
 		Cart result = new Cart();
-		if (resultPage.getContent().size() == 0 ) {
-			LOG.warn("Non ci sono carrelli associati all'utente {} e al customer {} nel repository", userId, customerId);
-			// devo prendere il primo carrello della lista
-			result = null;
+		if (resultPage.getContent().size() == 0) {
+			LOG.warn("Non ci sono carrelli associati all'utente {} e al customer {} nel repository", userId,
+					customerId);
 			
+			result = null;
+
 		} else {
-			if(resultPage.getContent().size() >1){
-				LOG.warn("Ci sono più carrelli associati all'utente {} e al customer {} nel repository", userId, customerId);
+			if (resultPage.getContent().size() > 1) {
+				LOG.warn("Ci sono più carrelli associati all'utente {} e al customer {} nel repository", userId,
+						customerId);
+				// devo prendere il primo carrello della lista
 				result = resultPage.getContent().get(0);
-			}else{
+			} else {
 				LOG.warn("Singolo Carrello associato all'utente {} e al customer {}", userId, customerId);
-				// carrello singolo	
+				// carrello singolo
 				result = resultPage.getContent().get(0);
 			}
-			
+
 		}
 		return result;
 	}
@@ -384,36 +393,34 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			throws InventoryNotAvailableException, ProductNotFoundException {
 		// Merge di due carrelli repositorycart e sessioncart
 		final Iterator<Cartitem> repoItems = repositoryCart.getCartitems().iterator();
-		boolean added = false;
 
 		if (sessionCart != null) {
 			while (repoItems.hasNext()) {
-				final Iterator<Cartitem> sessionItems = sessionCart.getCartitems().iterator();
+
 				final Cartitem repoItem = repoItems.next();
-				added = false;
-				while (sessionItems.hasNext()) {
 
-					final Cartitem sessionItem = repoItems.next();
-					if (sessionItem.getSku().equals(repoItem.getSku())) {
+				Cartitem cartItem = new Cartitem();
+				AbstractProduct product = repoItem.getProduct();
+				cartItem.setSku(repoItem.getSku());
+				cartItem.setQuantity(repoItem.getQuantity());
+				cartItem.setProduct(product);
 
-						LOG.debug("Prodotto {} presente sia nel sessionCart sia nel repositoryCart", repoItem.getSku());
-						sessionItem.setQuantity(sessionItem.getQuantity() + repoItem.getQuantity());
-						added = true;
-					}
-				}
-				if (!added) {
-					LOG.debug("Prodotto {} non presente nel sessionCart, quindi lo aggiungo al sessionCart", repoItem.getSku());
-					sessionCart.getCartitems().add(repoItem);
-				}
+				cartItem = mergeCart(sessionCart, cartItem);
+
+				cartItem.setOrder(sessionCart);
+
+				sessionCart.getCartitems().add(cartItem);
+
+				cartRepository.saveAndFlush(sessionCart);
+				cartRepository.refresh(sessionCart);
+
 			}
-			
-			prepareCart(sessionCart, true);
-			cartDelete(repositoryCart);
-			
-		} else {
-			LOG.debug("Carrello in sessione nullo, inserisco nella sessione il carrello del repository");
-			putCartinSession(repositoryCart);
+			prepareCart(sessionCart);
+
+			cartRepositoryDelete(repositoryCart);
+
 		}
+		putCartinSession(sessionCart);
 
 	}
 

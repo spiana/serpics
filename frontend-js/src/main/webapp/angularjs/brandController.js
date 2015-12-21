@@ -1,8 +1,8 @@
  var app = angular.module("brand.controller", ['brand.service'])
  /** brandController **/
-.controller("brandController",['$scope','brandService',
+.controller("brandController",['$scope','brandService','$log',
                                      
-     function($scope,brandService) {	
+     function($scope,brandService,$log) {	
   	
 		
  	    $scope.brandData 	= [];
@@ -17,9 +17,9 @@
  	     * @use 					brandService
  	     */
   	   function getBrandQ(){
-  		  console.log("Brand Controller getBrandQ()");
+  		  $log.debug("Brand Controller getBrandQ()");
   		  brandService.getBrandQ().then(function(response){
-  			  console.log("Brand Controller getBrandQ(): ramo then");
+  			  $log.debug("Brand Controller getBrandQ(): ramo then");
   			  $scope.brandData = response;
   		  })
   	   };
@@ -30,9 +30,9 @@
  	     * @use 					brandService
  	     */
  	    $scope.findBrandById = function(brandId)  {
- 	    	console.log("Brand Controller findBrandById: "+brandId);
+ 	    	$log.debug("Brand Controller findBrandById: "+brandId);
  	    	brandService.findBrandById(brandId).then(function(response){
- 	    		console.log("Brand Controller findBrandById(): ramo then");
+ 	    		$log.debug("Brand Controller findBrandById(): ramo then");
  	    		$scope.brandData = response;
  	    	});
  	    };
@@ -43,9 +43,9 @@
  	     * @use 					brandService,serpicsServices
  	     */
  	    $scope.findBrandByName = function(name) {
- 	    	console.log("Brand Controller findBrandByName: "+name);
+ 	    	$log.debug("Brand Controller findBrandByName: "+name);
  	    	brandService.findBrandByName(name).then(function(response){
- 	    		console.log("Brand Controller findBrandByName(): ramo then");
+ 	    		$log.debug("Brand Controller findBrandByName(): ramo then");
  	    		$scope.brandData = response;
  	    	});
  	    };
@@ -55,9 +55,9 @@
  	     * @use 					brandService,serpicsServices
  	     */
  	    $scope.findAll = function(page,size) {
- 	    	console.log("Brand Controller findAll: page:"+page+" size: "+size);
+ 	    	$log.debug("Brand Controller findAll: page:"+page+" size: "+size);
  	    	brandService.findAll(page,size).then(function(response){
- 	    		console.log("Brand Controller findAll(): ramo then");
+ 	    		$log.debug("Brand Controller findAll(): ramo then");
  	    		$scope.brandData = response;
  	    	});
  	    };

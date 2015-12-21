@@ -11,6 +11,8 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,7 +23,9 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.services.CountryService;
 import com.serpics.base.services.RegionService;
+import com.serpics.core.SerpicsException;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.membership.MembershipException;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.BillingAddress;
@@ -38,145 +42,151 @@ import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreFacade;
 
 @StoreFacade("userFacade")
-@Transactional(readOnly=true)
-public class UserFacadeImpl implements UserFacade{
+@Transactional(readOnly = true)
+public class UserFacadeImpl implements UserFacade {
 	
+	Logger LOG = LoggerFactory.getLogger(UserFacadeImpl.class);
+
 	@Autowired
 	UserService userService;
-	
 
 	@Autowired
 	CountryService countryService;
-	
+
 	@Autowired
 	RegionService regionService;
-	
+
 	@Autowired
 	BillingAddressService billingAddressService;
-	
-	
+
 	@Autowired
 	PermanentAddressService permanentAddressService;
-	
-	@Resource(name="userConverter")
+
+	@Resource(name = "userConverter")
 	AbstractPopulatingConverter<User, UserData> userConvert;
-	
+
 	@Override
 	public UserData getCurrentuser() {
 		User u = userService.getCurrentCustomer();
 		return userConvert.convert(u);
 	}
-	
+
 	@Override
 	public Page<UserData> findAllUser(Pageable page) {
-		Page<User> users = userService.findAll(page); 
-		
+		Page<User> users = userService.findAll(page);
+
 		List<UserData> ulist = new ArrayList<UserData>();
 		for (User user : users.getContent()) {
 			ulist.add(userConvert.convert(user));
 		}
-		
-		Page<UserData> udata= new PageImpl<UserData>(ulist ,page , users.getTotalElements());
+
+		Page<UserData> udata = new PageImpl<UserData>(ulist, page, users.getTotalElements());
 		return udata;
 	}
-	
+
 	@Override
-	public Page<UserData> findAllUserByUserType(UserType userType, Pageable page) {  
+	public Page<UserData> findAllUserByUserType(UserType userType, Pageable page) {
 		List<User> users = userService.findAll(UserSpecification.findByUserType(userType), page);
-	
+
 		List<UserData> ulist = new ArrayList<UserData>();
 		for (User user : users) {
 			ulist.add(userConvert.convert(user));
 		}
-		
-		Page<UserData> udata= new PageImpl<UserData>(ulist ,page , users.size());
+
+		Page<UserData> udata = new PageImpl<UserData>(ulist, page, users.size());
 		return udata;
 	}
-	
+
 	@Override
 	public UserData findUserById(Long userId) {
 		User u = userService.findOne(userId);
-		Assert.notNull(u); 
+		Assert.notNull(u);
 		return userConvert.convert(u);
 	}
-	
+
 	@Override
-	public Page<UserData>  findUserByName(final String name, Pageable page) {  
-		List<User> lu = userService.findAll(
-				new Specification<User>() {
-		            @Override
-		            public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
-		                    final CriteriaBuilder cb) {
-		            	Expression<String> e = null;
-		            	Predicate nameLike = null;
-		            	e = root.get("email");
-		            	nameLike = cb.like(e, "%" +name +"%");
-		            	
-		            	
-		                return nameLike;
-		            }
-				} , page);
+	public Page<UserData> findUserByName(final String name, Pageable page) {
+		List<User> lu = userService.findAll(new Specification<User>() {
+			@Override
+			public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
+					final CriteriaBuilder cb) {
+				Expression<String> e = null;
+				Predicate nameLike = null;
+				e = root.get("email");
+				nameLike = cb.like(e, "%" + name + "%");
+
+				return nameLike;
+			}
+		}, page);
 
 		List<UserData> ulist = new ArrayList<UserData>();
 		Iterator<User> i = lu.iterator();
 		while (i.hasNext()) {
 			ulist.add(userConvert.convert(i.next()));
-			
+
 		}
-		Page<UserData> udata= new PageImpl<UserData>(ulist ,page , lu.size());
+		Page<UserData> udata = new PageImpl<UserData>(ulist, page, lu.size());
 		return udata;
 	}
-	
-	
-	
+
 	@Override
 	@Transactional
-	public void registerUser(UserData user) {
-		UsersReg _u = new UsersReg();
-		_u.setLastname(user.getLastname());
-		_u.setFirstname(user.getFirstname());
+	public void registerUser(UserData user) throws SerpicsException {
 
-		_u.setPhone(user.getPhone());
-		_u.setEmail(user.getEmail());
-		
-		_u.setLogonid(user.getLogonid());
-		_u.setPassword(user.getPassword());
-		_u.setChangequestion(user.getChangequestion());
-		_u.setChangeanswer(user.getChangeanswer());
-		
-		_u.setUserType(user.getUserType());
-		
-		PrimaryAddress primaryAddress;
-		
-		if (user.getContactAddress()!= null){
-			AddressData p = user.getContactAddress();
-			primaryAddress = (PrimaryAddress) buildAddress(p, new PrimaryAddress());
-		}else
-			primaryAddress = new PrimaryAddress();
-		
-		_u = userService.registerUser(_u, primaryAddress);
+		if (userService.findByLogonid(user.getLogonid()) == null) {
+
+			UsersReg _u = new UsersReg();
+			_u.setLastname(user.getLastname());
+			_u.setFirstname(user.getFirstname());
+
+			_u.setPhone(user.getPhone());
+			_u.setEmail(user.getEmail());
+
+			_u.setLogonid(user.getLogonid());
+			_u.setPassword(user.getPassword());
+			_u.setChangequestion(user.getChangequestion());
+			_u.setChangeanswer(user.getChangeanswer());
+
+			_u.setUserType(user.getUserType());
+
+			PrimaryAddress primaryAddress;
+
+			if (user.getContactAddress() != null) {
+				AddressData p = user.getContactAddress();
+				primaryAddress = (PrimaryAddress) buildAddress(p, new PrimaryAddress());
+			} else
+				primaryAddress = new PrimaryAddress();
+
+			_u = userService.registerUser(_u, primaryAddress);
+		} else{
+			LOG.error("Invalid user Logonid inserted {}: already registered",user.getLogonid());
+			
+			throw new MembershipException(String.format("Invalid user Logonid inserted %s: already registered ",
+					user.getLogonid()));
+		}
+
 	}
-	
+
 	@Override
 	@Transactional
 	public void updateUser(UserData user) {
-			User _u = userService.getCurrentCustomer();
-			
-			UsersReg _ur =  userService.findByRegUUID(_u.getUuid());
-			_ur.setLastname(user.getLastname());
-			_ur.setFirstname(user.getFirstname());
-			_ur.setEmail(user.getEmail());
-			_ur.setChangequestion(user.getChangequestion());
-			_ur.setChangeanswer(user.getChangeanswer());
-			
-			if(user.getPassword() != null)
-				_ur.setPassword(user.getPassword());
-			
-			userService.update((User) _ur);
-			
+		User _u = userService.getCurrentCustomer();
+
+		UsersReg _ur = userService.findByRegUUID(_u.getUuid());
+		_ur.setLastname(user.getLastname());
+		_ur.setFirstname(user.getFirstname());
+		_ur.setEmail(user.getEmail());
+		_ur.setChangequestion(user.getChangequestion());
+		_ur.setChangeanswer(user.getChangeanswer());
+
+		if (user.getPassword() != null)
+			_ur.setPassword(user.getPassword());
+
+		userService.update((User) _ur);
+
 	}
-	
-	private AbstractAddress buildAddress(AddressData source ,  AbstractAddress destination){
+
+	private AbstractAddress buildAddress(AddressData source, AbstractAddress destination) {
 		destination.setFirstname(source.getFirstname());
 		destination.setLastname(source.getLastname());
 		destination.setAddress1(source.getAddress1());
@@ -186,13 +196,14 @@ public class UserFacadeImpl implements UserFacade{
 		destination.setZipcode(source.getZipcode());
 		destination.setVatcode(source.getVatcode());
 		destination.setFax(source.getFax());
-		
-		if((source.getRegion() != null) && (source.getRegion().getUuid() != null)) destination.setRegion(regionService.findByUUID(source.getRegion().getUuid()));
-		if((source.getCountry() != null) && (source.getCountry().getUuid() != null)) destination.setCountry(countryService.findByUUID(source.getCountry().getUuid()));
+
+		if ((source.getRegion() != null) && (source.getRegion().getUuid() != null))
+			destination.setRegion(regionService.findByUUID(source.getRegion().getUuid()));
+		if ((source.getCountry() != null) && (source.getCountry().getUuid() != null))
+			destination.setCountry(countryService.findByUUID(source.getCountry().getUuid()));
 		return destination;
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public void updateContactAddress(AddressData a) {
@@ -201,58 +212,55 @@ public class UserFacadeImpl implements UserFacade{
 		_address = (PrimaryAddress) buildAddress(a, _address);
 		userService.updatePrimaryAddress(_address);
 	}
-	
+
 	@Override
 	@Transactional
 	public void addBillingAddress(AddressData a) {
-		Assert.notNull(a,"AddBilling address null");
+		Assert.notNull(a, "AddBilling address null");
 		BillingAddress _address = (BillingAddress) buildAddress(a, new BillingAddress());
 		userService.addBillingAddress(_address, userService.getCurrentCustomer());
-	}		
-	
+	}
+
 	@Override
 	@Transactional
 	public void updateBillingAddress(AddressData a) {
 		User _u = userService.getCurrentCustomer();
 		BillingAddress _address = _u.getBillingAddress();
-		
-		if (_address == null){
+
+		if (_address == null) {
 			_address = new BillingAddress();
 			_address = userService.addBillingAddress(_address, _u);
 		}
 		_address = (BillingAddress) buildAddress(a, _address);
 		userService.updateBillingAddress(_address);
-		
+
 	}
-	
+
 	@Override
 	@Transactional
 	public void deleteBillingAddress() {
 		User _u = userService.getCurrentCustomer();
 		userService.deleteBillingAddress(_u);
 	}
-	
-	
-	
+
 	@Override
 	@Transactional
 	public void addDestinationAddress(AddressData a) {
 		PermanentAddress _address = (PermanentAddress) buildAddress(a, new PermanentAddress());
 		userService.addPermanentAddress(_address, userService.getCurrentCustomer());
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public void updateDestinationAddress(AddressData a, String uuid) {
-//		User _u = userService.getCurrentCustomer();
+		// User _u = userService.getCurrentCustomer();
 		PermanentAddress _address = permanentAddressService.findByUUID(uuid);
 		_address = (PermanentAddress) buildAddress(a, _address);
 		permanentAddressService.update(_address);
-		
+
 	}
-	
-	@Transactional	
+
+	@Transactional
 	public void deleteDestinationAddress(String uuid) {
 		User _u = userService.getCurrentCustomer();
 		PermanentAddress _address = permanentAddressService.findByUUID(uuid);

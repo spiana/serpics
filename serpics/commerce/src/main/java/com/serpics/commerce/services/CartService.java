@@ -9,6 +9,7 @@ import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.PermanentAddress;
+import com.serpics.membership.data.model.Store;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 public interface CartService {
@@ -19,14 +20,18 @@ public interface CartService {
     public Cart getSessionCart();
     
     //Get cart from repository identified by user and customer
-    public Cart getCartByUser(Member user, Member customer);
+    public Cart getCartByUser(Member user, Member customer, Store store, String sessionId);
     
     public void mergeSessionRepositoryCart(Cart repositoryCart, Cart sessionCart) throws InventoryNotAvailableException, ProductNotFoundException;
 
     //Delete Commands
     public void cartDelete();
 
+    //Delete repository and session cart
     public void cartDelete(Cart cart); 
+    
+    //Delete only repository Car
+    public void cartRepositoryDelete(Cart cart);
 
     public void cartItemDelete(Cartitem item) throws InventoryNotAvailableException;
     
