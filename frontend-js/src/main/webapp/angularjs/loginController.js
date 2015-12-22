@@ -39,7 +39,8 @@ var app = angular.module("login.controller", ['authentication.service','ngDialog
              * @returns logout message
              */
 			$rootScope.logout = function(){
-				authenticationService.logout().then( function( response ) {				
+				authenticationService.logout().then( function( response ) {	
+					setCredential(response) 
             		$state.go('shop.home');	            	            	
 				})
 			}

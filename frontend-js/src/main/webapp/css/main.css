@@ -2602,3 +2602,88 @@ position: absolute;
 .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
     display: none;   
 }
+#payment-cardlist .title {
+    text-transform: uppercase;
+    color: #F07D00;
+    font-size: 0.9em;
+    font-family: "Gotham Rounded 5r","Gotham Rounded A","Gotham Rounded B",Arial;
+    font-weight: 500;
+    margin-bottom: 20px;
+    
+}
+#payment-cardlist,img {
+    border-top: 1px solid #CCC;
+    padding: 35px 0px;
+        margin: 0px;
+    padding: 0px;
+    border: 0px none;
+    font-style: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    font-size-adjust: inherit;
+    font-stretch: inherit;
+    font-feature-settings: inherit;
+    font-language-override: inherit;
+    font-kerning: inherit;
+    font-synthesis: inherit;
+    font-variant: inherit;
+    vertical-align: baseline;
+    font-family: "Gotham Rounded 4r","Gotham Rounded A","Gotham Rounded B",sans-serif;
+    font-weight: 400;
+
+}
+
+#payment-cardlist ul li:first-child {
+    margin-left: 0px;
+}
+#payment-cardlist ul li {
+    float: left;
+    margin: 0px 5px;
+}
+.symbols{
+  margin-top:5em;
+}
+.display-td{
+	margin-left:10px;
+}
+p {
+    margin: 0px 10px 10px;
+}
+.credit-card-box input,button,.btn-group-lg > .btn, .btn-lg{
+	border-radius:0px;
+}
+.credit-card-box > .btn-group-lg > .btn, .btn-lg{
+    background: #FE980F none repeat scroll 0% 0%;
+    border: 0px none;
+    border-radius: 0px;
+    margin-top: 6px;
+    color:#fff;
+    border:1px solid #fff;
+    
+}
+.credit-card-box > .btn-group-lg > .btn, .btn-lg:hover{
+    background: #FFF;
+    border-radius: 0px;
+    margin-top: 6px;
+    color:#FE980F;
+    border:1px solid #FE980F;
+}
+.credit-card-box .input-group-addon {
+    border-radius: 0px;
+}
+.credit-card-box .input-group{	
+	width:100%;
+}
+.credit-card-box select{
+	border: 1px solid #CCC;
+}
+.credit-card-box  input:focus,.credit-card-box .input-group:focus,.credit-card-box .input-group-addon:focus{
+	outline:none;
+}
+
+.credit-card-box .btn-group-lg > .btn, .btn-lg {   
+    padding: 10px 28px;
+}
+.payBtn{
+	margin-left:2px;
+}
