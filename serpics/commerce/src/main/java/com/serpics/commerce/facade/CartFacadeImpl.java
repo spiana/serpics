@@ -17,6 +17,7 @@ import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
 import com.serpics.commerce.services.CartService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.facade.UserFacade;
@@ -32,7 +33,7 @@ public class CartFacadeImpl implements CartFacade {
 	private Logger LOG = LoggerFactory.getLogger(CartFacadeImpl.class);
 			
 	@Autowired
-	UserFacade usersFacade;
+	UserFacade userFacade;
 	
 	@Autowired
 	ProductService productService;
@@ -124,10 +125,11 @@ public class CartFacadeImpl implements CartFacade {
 	public CartData addBillingAddress(AddressData billingAddress){
 		CartData cartdata = null;
 		User user = userService.getCurrentCustomer();
-		usersFacade.addBillingAddress(billingAddress);
-	
-		user = userService.getCurrentCustomer();
-		BillingAddress billing = user.getBillingAddress();
+		if (UserType.REGISTERED.equals(user.getUserType())) {
+			userFacade.addBillingAddress(billingAddress);
+		}
+
+		BillingAddress billing = (BillingAddress) userFacade.buildAddress(billingAddress, new BillingAddress());
 		cartService.setBillingAddress(billing);
 		
 		// cartService.setDestinationAddress(shippingAddress);
@@ -147,7 +149,7 @@ public class CartFacadeImpl implements CartFacade {
 	@Transactional
 	public CartData addShippingAddress(AddressData shippingAddress){
 		CartData cartdata = null;
-		usersFacade.addDestinationAddress(shippingAddress);
+		userFacade.addDestinationAddress(shippingAddress);
 		 
 	try {
 			

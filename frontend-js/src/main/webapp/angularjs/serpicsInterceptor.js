@@ -112,11 +112,11 @@ var app= angular.module('serpics.interceptor', [])
 			if (rejection.status === 401) {
 				
 				$log.debug("ResponseError Intercepted: 401: %s" , rejection);
-				$rootScope.error.message = rejection.data.message;
+//				$rootScope.error.message = rejection.data.message;
 				$log.debug("Messaggio d'errore 403: %s",rejection.data.message);
-				
-				$rootScope.userData.login.username = '';
-				$rootScope.userData.login.password  ='';
+//				
+//				$rootScope.userData.login.username = '';
+//				$rootScope.userData.login.password  ='';
 				
 				var stato=$injector.get('$state');
 				stato.transitionTo('shop.login');

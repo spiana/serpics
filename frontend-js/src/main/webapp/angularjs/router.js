@@ -50,14 +50,9 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     
     .state('shop.login', {
     	url: '/login', 
-        templateUrl: 'html/template/login.html'        
+        templateUrl: 'html/template/login.html',   
+        controller: 'loginController'
 	    })
-    
-    .state('shop.logout', {
-    	url: '/logout',        
-        templateUrl: 'html/template/home-central.html',
-        controller: 'loginController'	       
-	})
     
     .state('shop.cart', {
     	url: '/cart/',       
@@ -112,15 +107,21 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	.state('checkout.login', {
 	   	url: '/login',	        
 	    templateUrl: 'html/template/login.html',
-	    controller: 'loginController'
+//	    controller: 'loginController'
 	})
 	
 	.state('checkout.register', {
 	   	url: '/register',	        
 	    templateUrl: 'html/template/register.html',
-	    controller: 'loginController'
+//	    controller: 'loginController'
 	})
 	
+	.state('complete' , {
+		url: '/complete',
+		templateUrl: 'html/template/orderComplete.html',
+		controller: 'orderController'
+ 	})
+ 	
 	$urlRouterProvider.otherwise("/home");
 	    
 })

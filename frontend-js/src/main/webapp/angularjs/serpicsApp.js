@@ -1,4 +1,4 @@
-var app = angular.module("serpics.App", ['serpics.Services','authentication.service','category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','checkout.controller','serpics.directive','serpics.config','serpics.router','serpics.interceptor']);
+var app = angular.module("serpics.App", ['serpics.Services','category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','checkout.controller','serpics.directive','serpics.config','serpics.router','serpics.interceptor']);
 
 app.controller("serpicsAppController",['$scope','TITLE','BREADCRUMBS','LOADINGTEXT','serpicsServices','serpicsHttpBuffer',
                                      

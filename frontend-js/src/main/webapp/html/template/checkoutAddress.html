@@ -2,7 +2,7 @@
 				<div class="row">
 					<div class="col-sm-3">
 						<div class="shopper-info">
-							<label><input type="checkbox" ng-model="shippingToBill"> Shipping to bill address</label>
+							<label><input type="checkbox" ng-model="shippingToBill" ng-init="shippingToBill=true" ng-checked="true"> Shipping to bill address</label>
 							<input type="submit" id="submit" value="Continue"  ng-click="submitForm(currentUser.billingAddress,shippingToBill)" class="btn btn-primary">
 						</div>
 					</div>

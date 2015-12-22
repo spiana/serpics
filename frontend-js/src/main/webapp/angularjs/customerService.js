@@ -1,19 +1,12 @@
 
-var app = angular.module('authentication.service',['serpics.config'])
-  
-.factory('authenticationService',  [ '$http',  '$rootScope', '$q','serpicsServices','URL','ENDPOINT',
-    function ($http, $rootScope, $q, serpicsServices,URL,ENDPOINT) {
+var app = angular.module('customer.service',['serpics.config'])
+
+.factory('customerService',  [ '$http', '$q','serpicsServices','URL','ENDPOINT',
+    function ($http, $q, serpicsServices,URL,ENDPOINT) {
 	
-	
-			
-		/** public interface **/
-        var service = {        	
-        		login:				login,
-        		logout:				logout,
-        		register:			register,
-        		getCurrentUser:	    getCurrentUser        		       		
-        };
-        
+		var customerService = {}
+		
+		customerService.currentUser = {}
                  
         /** public methods**/
         
@@ -22,7 +15,7 @@ var app = angular.module('authentication.service',['serpics.config'])
          * @param passwordf
          * return 
          */
-       function login(username, password) {  
+		customerService.login = function(username, password) {  
     	   
     	var serviceSSID = serpicsServices;
 	       	return $q(function(resolve, reject) {
@@ -34,7 +27,7 @@ var app = angular.module('authentication.service',['serpics.config'])
 	   	            headers: {
 	   	            	'ssid': sessionId
 	   	            }
-	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+	   	        	}).then(customerService.handleSuccess, customerService.handleError).then(resolve, reject);	   				
 	   			});   		
 	       	});        	
  
@@ -44,7 +37,7 @@ var app = angular.module('authentication.service',['serpics.config'])
          * @param userData 	data send to server
          * @returns 		new user
          */
-        function register(userData) {  
+        customerService.register = function(userData) {  
      	   
         	var serviceSSID = serpicsServices;
     	       	return $q(function(resolve, reject) {    	       		
@@ -56,7 +49,7 @@ var app = angular.module('authentication.service',['serpics.config'])
     	   	            	'ssid': sessionId
     	   	            },
     	   	            data:userData
-    	   	        }).then(handleSuccess, handleError).then(resolve, reject);	   				
+    	   	        }).then(customerService.handleSuccess, customerService.handleError).then(resolve, reject);	   				
     	   		});   		
        		});        	
          };
@@ -67,10 +60,10 @@ var app = angular.module('authentication.service',['serpics.config'])
           * @param passwordf
           * return 
           */
-        function getCurrentUser() {  
+        customerService.getCurrentUser = function(){  
      	   
      	var serviceSSID = serpicsServices;
- 	       	return $q(function(resolve, reject) {
+ 	    return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
  	   	       $http({
@@ -79,7 +72,7 @@ var app = angular.module('authentication.service',['serpics.config'])
  	   	            headers: {
  	   	            	'ssid': sessionId
  	   	            }
- 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   	        	}).then(customerService.handleSuccess, customerService.handleError).then(resolve, reject);	   				
  	   			});   		
  	       	});        	
   
@@ -91,7 +84,7 @@ var app = angular.module('authentication.service',['serpics.config'])
           * @param passwordf
           * return 
           */
-        function logout() {  
+        customerService.logout = function() {  
      	   
      	var serviceSSID = serpicsServices;
  	       	return $q(function(resolve, reject) {
@@ -104,17 +97,11 @@ var app = angular.module('authentication.service',['serpics.config'])
  	   	            	'ssid': sessionId
  	   	            },
  	   	            data:sessionId
- 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   	        	}).then(customerService.handleSuccess, customerService.handleError).then(resolve, reject);	   				
  	   			});   		
  	       	});        	
   
-         };
-                 
-                
-        
-        /** return the service **/
-        return service;
-        
+         };        
         
         /**
          * private method.
@@ -122,7 +109,7 @@ var app = angular.module('authentication.service',['serpics.config'])
          * the API response payload.
          */                                
         
-        function handleError( response ) {
+         customerService.handleError = function( response ) {
             /**
              * The API response from the server should be returned in a
              * nomralized format. However, if the request was not handled by the
@@ -139,10 +126,22 @@ var app = angular.module('authentication.service',['serpics.config'])
          * I transform the successful response, unwrapping the application data
          *from the API response payload.                
          */
-        function handleSuccess( response ) {
+         
+         customerService.handleSuccess = function( response ) {
         	console.log(response.data.message)
             return( response.data.responseObject);
         }
   
-    }]) 
- 
+         customerService.updateCurrentUser = function() {
+	         customerService.getCurrentUser().then(function(data) {
+	        	 angular.copy(data, customerService.currentUser)
+	         })
+         }
+         
+         customerService.getCurrentUser().then(function(data) {
+        	 angular.copy(data, customerService.currentUser)
+         })
+         
+         return customerService;
+    }
+])

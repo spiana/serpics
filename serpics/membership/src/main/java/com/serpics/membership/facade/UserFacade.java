@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.UserType;
+import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
 
@@ -28,5 +29,6 @@ public interface UserFacade {
 	public void addDestinationAddress(AddressData address);
 	public void updateDestinationAddress(AddressData address, String uuid);
 	public void deleteDestinationAddress(String uuid);
+	public AbstractAddress buildAddress(AddressData source, AbstractAddress destination);
 	
 }

@@ -186,7 +186,8 @@ public class UserFacadeImpl implements UserFacade {
 
 	}
 
-	private AbstractAddress buildAddress(AddressData source, AbstractAddress destination) {
+	@Override
+	public AbstractAddress buildAddress(AddressData source, AbstractAddress destination) {
 		destination.setFirstname(source.getFirstname());
 		destination.setLastname(source.getLastname());
 		destination.setAddress1(source.getAddress1());
