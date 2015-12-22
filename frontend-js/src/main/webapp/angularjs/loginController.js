@@ -1,4 +1,4 @@
-var app = angular.module("login.controller", ['authentication.service','ngDialog'])
+var app = angular.module("login.controller", ['customer.service','ngDialog'])
 
 .controller("loginController",['$scope', '$location','customerService','$timeout','$cookieStore','$state','$log','ngDialog',
                                   
