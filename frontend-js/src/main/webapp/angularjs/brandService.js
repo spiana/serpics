@@ -1,11 +1,10 @@
- var app = angular.module("brand.service", ['serpics.config'])
+ var app = angular.module("brand.service", ['serpics.config','serpics.Services'])
 /**
  * brand service to handler rest call to brand service
  */
 app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXPIRES', '$cookies','$log', function( $http, $q, serpicsServices, URL, COOKIE_EXPIRES, $cookies,$log ) {
 	
 	var endpoint = '/jax-rs/brandService/';
-	var localSessionId = '';
 	 
         /** Return public API. (like java interface)**/
 	    
