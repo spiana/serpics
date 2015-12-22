@@ -103,7 +103,7 @@ public class CartRestServiceImpl implements CartRestService {
 	public Response addShippingAddress(AddressData shippingAddress){
 		Assert.notNull(shippingAddress);
 		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
-		CartData cartData = cartFacade.addBillingAddress(shippingAddress);
+		CartData cartData = cartFacade.addShippingAddress(shippingAddress);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(cartData);
 		return Response.ok(apiRestResponse).build();

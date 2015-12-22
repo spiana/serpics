@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CartStrategy;
 import com.serpics.core.SerpicsException;

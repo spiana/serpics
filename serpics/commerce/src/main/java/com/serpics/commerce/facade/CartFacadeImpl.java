@@ -17,9 +17,9 @@ import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
 import com.serpics.commerce.services.CartService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
-import com.serpics.membership.UserType;
-import com.serpics.membership.data.model.BillingAddress;
+import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.User;
+import com.serpics.membership.facade.AddressFacade;
 import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.services.UserService;
@@ -33,7 +33,10 @@ public class CartFacadeImpl implements CartFacade {
 	private Logger LOG = LoggerFactory.getLogger(CartFacadeImpl.class);
 			
 	@Autowired
-	UserFacade userFacade;
+	AddressFacade addressFacade;
+	
+	@Autowired
+	UserFacade usersFacade;
 	
 	@Autowired
 	ProductService productService;
@@ -125,14 +128,9 @@ public class CartFacadeImpl implements CartFacade {
 	public CartData addBillingAddress(AddressData billingAddress){
 		CartData cartdata = null;
 		User user = userService.getCurrentCustomer();
-		if (UserType.REGISTERED.equals(user.getUserType())) {
-			userFacade.addBillingAddress(billingAddress);
-		}
+		Address address = addressFacade.addressDataToAddress(billingAddress, user);
+		cartService.setBillingAddress(address);
 
-		BillingAddress billing = (BillingAddress) userFacade.buildAddress(billingAddress, new BillingAddress());
-		cartService.setBillingAddress(billing);
-		
-		// cartService.setDestinationAddress(shippingAddress);
 		try {
 			
 			Cart cart = cartService.prepareCart();
@@ -149,9 +147,11 @@ public class CartFacadeImpl implements CartFacade {
 	@Transactional
 	public CartData addShippingAddress(AddressData shippingAddress){
 		CartData cartdata = null;
-		userFacade.addDestinationAddress(shippingAddress);
-		 
-	try {
+		User user = userService.getCurrentCustomer();
+		Address address = addressFacade.addressDataToAddress(shippingAddress, user);
+		cartService.setDestinationAddress(address);
+
+		try {
 			
 			Cart cart = cartService.prepareCart();
 			cartdata = cartConverter.convert(cart);

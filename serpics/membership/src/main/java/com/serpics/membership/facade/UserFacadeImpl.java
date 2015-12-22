@@ -27,7 +27,6 @@ import com.serpics.core.SerpicsException;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.MembershipException;
 import com.serpics.membership.UserType;
-import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
@@ -47,6 +46,9 @@ public class UserFacadeImpl implements UserFacade {
 	
 	Logger LOG = LoggerFactory.getLogger(UserFacadeImpl.class);
 
+	@Autowired
+	AddressFacade addressFacade;
+	
 	@Autowired
 	UserService userService;
 
@@ -153,7 +155,7 @@ public class UserFacadeImpl implements UserFacade {
 
 			if (user.getContactAddress() != null) {
 				AddressData p = user.getContactAddress();
-				primaryAddress = (PrimaryAddress) buildAddress(p, new PrimaryAddress());
+				primaryAddress = (PrimaryAddress) addressFacade.buildAddress(p, new PrimaryAddress());
 			} else
 				primaryAddress = new PrimaryAddress();
 
@@ -187,30 +189,11 @@ public class UserFacadeImpl implements UserFacade {
 	}
 
 	@Override
-	public AbstractAddress buildAddress(AddressData source, AbstractAddress destination) {
-		destination.setFirstname(source.getFirstname());
-		destination.setLastname(source.getLastname());
-		destination.setAddress1(source.getAddress1());
-		destination.setStreetNumber(source.getStreetNumber());
-		destination.setCity(source.getCity());
-		destination.setCompany(source.getCompany());
-		destination.setZipcode(source.getZipcode());
-		destination.setVatcode(source.getVatcode());
-		destination.setFax(source.getFax());
-
-		if ((source.getRegion() != null) && (source.getRegion().getUuid() != null))
-			destination.setRegion(regionService.findByUUID(source.getRegion().getUuid()));
-		if ((source.getCountry() != null) && (source.getCountry().getUuid() != null))
-			destination.setCountry(countryService.findByUUID(source.getCountry().getUuid()));
-		return destination;
-	}
-
-	@Override
 	@Transactional
 	public void updateContactAddress(AddressData a) {
 		User _u = userService.getCurrentCustomer();
 		PrimaryAddress _address = _u.getPrimaryAddress();
-		_address = (PrimaryAddress) buildAddress(a, _address);
+		_address = (PrimaryAddress) addressFacade.buildAddress(a, _address);
 		userService.updatePrimaryAddress(_address);
 	}
 
@@ -218,7 +201,7 @@ public class UserFacadeImpl implements UserFacade {
 	@Transactional
 	public void addBillingAddress(AddressData a) {
 		Assert.notNull(a, "AddBilling address null");
-		BillingAddress _address = (BillingAddress) buildAddress(a, new BillingAddress());
+		BillingAddress _address = (BillingAddress) addressFacade.buildAddress(a, new BillingAddress());
 		userService.addBillingAddress(_address, userService.getCurrentCustomer());
 	}
 
@@ -232,7 +215,7 @@ public class UserFacadeImpl implements UserFacade {
 			_address = new BillingAddress();
 			_address = userService.addBillingAddress(_address, _u);
 		}
-		_address = (BillingAddress) buildAddress(a, _address);
+		_address = (BillingAddress) addressFacade.buildAddress(a, _address);
 		userService.updateBillingAddress(_address);
 
 	}
@@ -247,7 +230,7 @@ public class UserFacadeImpl implements UserFacade {
 	@Override
 	@Transactional
 	public void addDestinationAddress(AddressData a) {
-		PermanentAddress _address = (PermanentAddress) buildAddress(a, new PermanentAddress());
+		PermanentAddress _address = (PermanentAddress) addressFacade.buildAddress(a, new PermanentAddress());
 		userService.addPermanentAddress(_address, userService.getCurrentCustomer());
 	}
 
@@ -256,7 +239,7 @@ public class UserFacadeImpl implements UserFacade {
 	public void updateDestinationAddress(AddressData a, String uuid) {
 		// User _u = userService.getCurrentCustomer();
 		PermanentAddress _address = permanentAddressService.findByUUID(uuid);
-		_address = (PermanentAddress) buildAddress(a, _address);
+		_address = (PermanentAddress) addressFacade.buildAddress(a, _address);
 		permanentAddressService.update(_address);
 
 	}

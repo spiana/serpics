@@ -29,6 +29,5 @@ public interface UserFacade {
 	public void addDestinationAddress(AddressData address);
 	public void updateDestinationAddress(AddressData address, String uuid);
 	public void deleteDestinationAddress(String uuid);
-	public AbstractAddress buildAddress(AddressData source, AbstractAddress destination);
 	
 }
