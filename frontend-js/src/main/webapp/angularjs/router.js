@@ -62,9 +62,9 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 
 	.state('shop.register', {
 		url: '/register',
-		templateUrl: 'html/template/register.html'
-			
-		})
+		templateUrl: 'html/template/register.html',
+		controller: 'loginController'	
+	})
 	
 	.state('shop.500', {
 		url: '/500',
