@@ -1,4 +1,4 @@
-var app = angular.module("serpics.Services", ['ngCookies','serpics.config','authentication.service'])
+var app = angular.module("serpics.Services", ['ngCookies','serpics.config','customer.service'])
 
 app.service("serpicsServices", function( $http, $q ,$cookies,URL,COOKIE_EXPIRES,STORE) {
  

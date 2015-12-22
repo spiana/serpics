@@ -1,4 +1,4 @@
-var routerApp = angular.module('serpics.router', ['ui.router','authentication.service'])
+var routerApp = angular.module('serpics.router', ['ui.router','customer.service'])
 
 routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$httpProvider) {
 	
