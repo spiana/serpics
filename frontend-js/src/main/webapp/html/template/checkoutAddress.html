@@ -3,7 +3,20 @@
 					<div class="col-sm-3">
 						<div class="shopper-info">
 							<label><input type="checkbox" ng-model="shippingToBill" ng-init="shippingToBill=true" ng-checked="true"> Shipping to bill address</label>
-							<input type="submit" id="submit" value="Continue"  ng-click="submitBillingForm(currentUser.billingAddress,shippingToBill)" class="btn btn-primary">
+							<input ng-show="currentUser.billingAddress.firstname.length &&
+							currentUser.billingAddress.lastname.length &&
+							currentUser.billingAddress.address1.length &&
+							currentUser.billingAddress.streetNumber.length &&
+							currentUser.billingAddress.city.length &&
+							currentUser.billingAddress.zipcode.length &&
+							currentUser.billingAddress.email.length" type="submit" id="submit" value="Continue" ng-click="submitBillingForm(currentUser.billingAddress,shippingToBill)" class="btn btn-primary">
+							<input ng-hide="currentUser.billingAddress.firstname.length &&
+							currentUser.billingAddress.lastname.length &&
+							currentUser.billingAddress.address1.length &&
+							currentUser.billingAddress.streetNumber.length &&
+							currentUser.billingAddress.city.length &&
+							currentUser.billingAddress.zipcode.length &&
+							currentUser.billingAddress.email.length" type="submit" value="Continue" class="btn btn-primary" disabled>
 						</div>
 					</div>
 					<div class="col-sm-5 clearfix">
@@ -24,7 +37,7 @@
 									<input type="text" name="city" placeholder="City *" ng-model="currentUser.billingAddress.city" required>
 									<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="currentUser.billingAddress.zipcode" required>
 									<input type="text" name="email" placeholder="Email *" ng-model="currentUser.billingAddress.email" required>
-									<input type="text" name="phone" placeholder="Phone *" ng-model="currentUser.billingAddress.phone" required>
+									<input type="text" name="phone" placeholder="Phone" ng-model="currentUser.billingAddress.phone" required>
 									<input type="text" name="mobile" placeholder="Mobile Phone" ng-model="currentUser.billingAddress.mobile">
 									<input type="text" name="fax" placeholder="Fax" ng-model="currentUser.billingAddress.fax">
 								</form>
