@@ -51,8 +51,13 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     .state('shop.login', {
     	url: '/login', 
         templateUrl: 'html/template/login.html',   
-        controller: 'loginController'
-	    })
+        controller: 'loginController',
+        params: {
+        	login: "shop.home",
+        	logout: "shop.home",
+        	register: "shop.login"
+        }
+	 })
     
     .state('shop.cart', {
     	url: '/cart/',       
@@ -80,15 +85,8 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	.state('shop.403', {
 	   	url: '/403',	        
 	    templateUrl: 'html/template/403.html'
-	})
-	    	
-	.state('checkout', {
-    	abstract: true,
-	   	url: '/checkout',	        
-	    templateUrl: 'html/template/checkout.html', 
-	    controller: 'checkoutController'
-	})
-	
+	})	
+		
 	.state('shop.orderError', {    	
 	   	url: '/orderError',	        
 	    templateUrl: 'html/template/orderError.html', 
@@ -97,6 +95,13 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	.state('shop.orderConfirm', {
 	   	url: '/orderConfirm',	        
 	    templateUrl: 'html/template/orderConfirm.html', 
+	})
+	    	
+	.state('checkout', {
+    	abstract: true,
+	   	url: '/checkout',	        
+	    templateUrl: 'html/template/checkout.html', 
+	    controller: 'cartController'
 	})
 	
 	.state('checkout.address', {
@@ -112,11 +117,23 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	.state('checkout.login', {
 	   	url: '/login',	        
 	    templateUrl: 'html/template/login.html',
+	    controller: 'loginController',
+        params: {
+        	login: "checkout.address",
+        	logout: "checkout.address",
+        	register: "checkout.login"
+        }
 	})
 	
 	.state('checkout.register', {
 	   	url: '/register',	        
 	    templateUrl: 'html/template/register.html',
+	    controller: 'loginController',
+        params: {
+        	login: "checkout.address",
+        	logout: "checkout.address",
+        	register: "checkout.login"
+        }
 	})
 	
 	.state('complete' , {

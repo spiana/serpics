@@ -1,10 +1,12 @@
- var app = angular.module("cart.controller", ['cart.service'])
+ var app = angular.module("cart.controller", ['cart.service', 'customer.service'])
+ 
  /** cartController **/
-.controller("cartController",['$scope','cartService',
+.controller("cartController",['$state','$scope','customerService', 'cartService',
                                   
-      function($scope,cartService) {	
-   	
-  	    $scope.cart 	= {};
+function($state,$scope,customerService,cartService) {
+	
+	$scope.cart = {}
+	$scope.currentUser = customerService.currentUser;
   	    
   	    getCurrentCart();
   	  
@@ -59,38 +61,37 @@
     		  })
   	    };
   	    
-  	    /**
-  	     * @param billingAddress    billingAddress to send
-  	     * @return 					cartData
-  	     * @use 					cartService,
-  	     */
-  	    $scope.addBillingAddress = function(billingAddress) {		
-  	    	console.log("CartController addBillingAddress(billingAddress)");
-  			cartService.addBillingAddress(billingAddress).then(function(response){
-    			  console.log("CartController addBillingAddress(billingAddress): ramo then");
-    			  $scope.cart = response;
-    		  })
-  	    };
-  	    
-  	  /**
-  	     * @param shippingAddress 	shippingAddress to send
-  	     * @return 					cartData
-  	     * @use 					cartService,
-  	     */
-  	    $scope.addShippingAddress = function(shippingAddress) {		
-  	    	console.log("CartController addShippingAddress(shippingAddress)");
+  	 $scope.submitBillingForm = function (billingAddress,shippingToBill){
+  		 
+  		cartService.addBillingAddress(billingAddress).then(function(response){
+			  console.log("checkoutController addBillingAddress(billingAddress): ramo then");
+			  if (shippingToBill) {
+				  cartService.addShippingAddress(billingAddress).then(function(response){
+	    			  console.log("checkoutController shippingAddress(shippingAddress): ramo then");
+	    			  $scope.cart = response;
+	    			  $state.go('complete')
+				  })
+			  } else {
+				  $scope.cart = response;
+    			  $state.go('checkout.shipping')
+			  }
+		 })
+  	 };
+		 
+	$scope.submitShippingForm = function (shippingAddress){
   			cartService.addShippingAddress(shippingAddress).then(function(response){
-    			  console.log("CartController shippingAddress(shippingAddress): ramo then");
-    			  $scope.cart = response;
-    		  })
-  	    };
-  	    
-  	    function getCurrentCart() {
+  			  console.log("checkoutController shippingAddress(shippingAddress): ramo then");
+  			  $scope.cart = response;
+  			  $state.go('complete')
+  		  })
+  	};
+  	
+	    function getCurrentCart() {
   			console.log("CartController getCurrentCart()");
   			cartService.getCurrentCart().then(function(response){
     			  console.log("CartController getCurrentCart(): ramo then");
     			  $scope.cart = response;
     		  })
   	    }
-  	             	    
+  		
 }])

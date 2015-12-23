@@ -22,56 +22,46 @@
 	}
 	
 	$scope.currentUser = customerService.currentUser;
-	
-	$scope.updateUser = function() {
-		customerService.updateCurrentUser()
-	}
 	           
-    /**
-     * @param
-     * @param
-     * @use
-     * @returns
-     */
-	$scope.login = function(loginUser) {				
-        	customerService.login(loginUser.username, loginUser.password).then(function (response) {
-        		customerService.updateCurrentUser()
-        		$state.go('checkout.address')
-        	})	   	 
-	}
-      
-      		      
-  /**
-     * @param name
-     * @param lastname
-     * @param logonid (required)
-     * @param password
-     * @param email	            
-     * @use
-     * @returns new user and route to home
-     */
-	$scope.register = function(registerUser) {	  				
-        	customerService.register(registerUser).then( function( response ) {
-        		customerService.updateCurrentUser()
-	        	showModalOnSuccess();						
-        	})	        
-      };		 
-      
-/**
- * show success message on modal angular with ngModal
- */
-function showModalOnSuccess(){		    	  
-	 	var dialog = ngDialog.open({
-		    		  template: 'registerSuccessDialog',
-		    		  keyboard: true,
-		    		  className:'',
-		    		  scope:    $scope  			  
-		 });		
-	    dialog.closePromise.then(function (response) {			    	     
-	    	      $state.go('checkout.address')
-	    	  })
-}
-
+	/**
+	   * @param sku 					sku to send
+	   * @param quantity 		        quantity to send
+	   * @return 						a new cartItemModification
+	   * @use 						cartService,
+	   */
+	  $scope.cartAdd = function(sku ,quantity) {
+	  	console.log("CartController cartAdd(sku ,quantity)");
+			cartService.cartAdd(sku ,quantity).then(function(response){
+			  console.log("CartController cartAdd(sku ,quantity): ramo then");
+			  $scope.cart = response.cart;
+		  })
+	  };
+	  
+	 /**
+	   * @param cartItem    			cartItem to send
+	   * @return 						a cart update with @param data
+	   * @use 						cartService,
+	   */
+	  $scope.cartUpdate = function( cartItem ) {		
+	  	console.log("CartController cartUpdate(cartItem)");
+			cartService.cartUpdate(cartItem).then(function(response){
+			  console.log("CartController cartUpdate(cartItem): ramo then");
+			  $scope.cart = response;
+		  })
+	  };
+	  
+	  /**
+	   * @param itemId 	    	itemId to delete
+	   * @return 					cartItemModification
+	   * @use 					cartService,
+	   */
+	  $scope.deleteItem = function(itemId) {		
+	  	console.log("CartController deleteItem(itemId)");
+			cartService.deleteItem(itemId).then(function(response){
+			  console.log("CartController deleteItem(itemId): ramo then");
+			  $scope.cart = response.cart;
+		  })
+	  };
       
 	$scope.addBillingAddress = function(billingAddress) {		
   	    	console.log("CartController addBillingAddress(billingAddress)");

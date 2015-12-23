@@ -7,7 +7,7 @@
 					<!--sign up form-->
 					<h2>New User Signup!</h2>					
 					<span class="help-block" ng-model="registerUser.registerMessage">{{currentUser.registerMessage}}</span>
-						<form ng-submit="register(registerUser)">
+					<form ng-submit="register(registerUser)">
 						<input type="text" ng-model="registerUser.firstname" name="registerUser.firstname" placeholder="Name"  required/> 
 						<input type="text" ng-model="registerUser.lastname" name="registerUser.lastname" placeholder="Last Name"  required/> 
 						<input type="email" ng-model="registerUser.email" name="registerUser.email"	placeholder="Email" required/> 

@@ -1,8 +1,8 @@
 var app = angular.module("login.controller", ['customer.service','ngDialog'])
 
-.controller("loginController",['$scope', '$location','customerService','$timeout','$cookieStore','$state','$log','ngDialog',
+.controller("loginController",['$scope', '$location','customerService','$timeout','$cookieStore','$state','$log','ngDialog','$stateParams',
                                   
-      function($scope,$location,customerService,$timeout,$cookieStore,$state,$log,ngDialog) {	   	
+      function($scope,$location,customerService,$timeout,$cookieStore,$state,$log,ngDialog,$stateParams) {
 	
 			$scope.currentUser = customerService.currentUser;
 			
@@ -18,7 +18,7 @@ var app = angular.module("login.controller", ['customer.service','ngDialog'])
 			$scope.logout = function(){
 				customerService.logout().then(function (response) {
 					customerService.updateCurrentUser();
-            		$state.go('shop.home')})	   	 
+            		$state.go($stateParams.logout)})	   	 
 			}
 			           
 		    /**
@@ -30,7 +30,7 @@ var app = angular.module("login.controller", ['customer.service','ngDialog'])
 			$scope.login = function(loginUser) {				
 		        	customerService.login(loginUser.username, loginUser.password).then(function (response) {
 		        		customerService.updateCurrentUser()
-		        		$state.go('shop.home')
+		        		$state.go($stateParams.login)
 		        	})	   	 
 			}
 		      
@@ -62,7 +62,7 @@ var app = angular.module("login.controller", ['customer.service','ngDialog'])
 				    		  scope:    $scope  			  
 				 });		
 			    dialog.closePromise.then(function (response) {			    	     
-			    	      $state.go('shop.home')
+			    	      $state.go($stateParams.register)
 			    	  })
 		}
 

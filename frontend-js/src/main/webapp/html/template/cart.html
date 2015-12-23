@@ -58,7 +58,7 @@
 							<li>Shipping Cost <span>&euro;{{cart.totalShipping}}</span></li>
 							<li id="total">Total <span>&euro;{{cart.orderAmount || cart.totalProduct}}</span></li>
 						</ul>
-						<a class="btn btn-default update" ng-click="cartUpdate()">Update</a> <a
+						<a class="btn btn-default update" ng-click="getCurrentCart()">Update</a> <a
 							class="btn btn-default check_out" ui-sref="checkout.address">Check Out</a>
 					</div>
 	</div>
