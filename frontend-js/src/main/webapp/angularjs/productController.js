@@ -9,6 +9,8 @@
 			var productId = $scope.productId;
 			var page = getPage();
 			var size = getSize();
+			
+			$scope.defaultQuantity = 1;
 	
 	  	    $scope.product 	= [];
 	  	    

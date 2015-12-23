@@ -53,11 +53,12 @@ function($state,$scope,customerService,cartService,$log) {
   	     * @return 						a cart update with @param data
   	     * @use 						cartService,
   	     */
-  	    $scope.cartUpdate = function( cartItem ) {		
+  	    $scope.cartUpdate = function( cartItem, quantity ) {
+  	    	cartItem.quantity = quantity;
   	    	$log.debug("CartController cartUpdate(cartItem)");
   			cartService.cartUpdate(cartItem).then(function(response){
     			  $log.debug("CartController cartUpdate(cartItem): ramo then");
-    			  $scope.cart = response;
+    			  getCurrentCart();
     		  })
   	    };
   	    
