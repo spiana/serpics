@@ -1,12 +1,9 @@
 var app = angular.module("serpics.App", ['serpics.Services','category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','checkout.controller','serpics.directive','serpics.config','serpics.router','serpics.interceptor']);
 
-app.controller("serpicsAppController",['$scope','TITLE','BREADCRUMBS','LOADINGTEXT','serpicsServices','serpicsHttpBuffer',
+app.controller("serpicsAppController",['$scope','serpicsServices','serpicsHttpBuffer',
                                      
-     function($scope,TITLE,BREADCRUMBS,LOADINGTEXT,serpicsServices,httpBuffer) {	
+     function($scope,serpicsServices,httpBuffer) {	
   	
-			$scope.title 		= TITLE;
-			$scope.loadingText 	= LOADINGTEXT;     
-			$scope.breadcrumbs 	= BREADCRUMBS;
 			
 		 	var counter=0;
 			

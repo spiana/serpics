@@ -7,11 +7,20 @@
 	 * 
 	 */
 	var loaderDirective = function() {
-		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>{{ loadingText }}</div></div>"				
+		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>{{ loadText }}</div></div>"				
 			return {		
 			replace: true,
 			restrict : 'EA',
 			template : loader,
+			scope: {
+				loadText: '@textLoading'
+			},
+			link: function($scope, $elem, attrs){
+		           $(window).load(function() {
+		        	   $(".loading-container").fadeOut(3000);
+		       		   $(".loading,loading-text").delay(100).fadeOut("slow");
+		           });
+		       }
 		};
 	};
 		
@@ -58,7 +67,7 @@
 	 */
 	var breadCrumbsDirective = function() {
 		var breadcrumbs = "<div class='container'><div class='row'><ul class='breadcrumb'>"+
-        				  "<li><a href='#'>{{breadcrumbs}}</a></li><li><a href='#'></a></li></ul></div></div>"	
+        				  "<li><a href='#'>Home</a></li><li><a href='#'></a></li></ul></div></div>"	
 			
 			return {		
 			replace: true,
@@ -204,7 +213,7 @@
 	}
 
 	
-	var app = angular.module('serpics.directive', [])		
+	var app = angular.module('serpics.directive', ['serpics.config'])		
 	.directive('loaderDirective', 		loaderDirective)
 	.directive('modalDirective', 		modalDirective)
 	.directive('topHeaderDirective',	topHeaderDirective)

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="serpics.App">
-<head ng-controller="serpicsAppController">
+<head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,17 +25,10 @@
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-route.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
 
-<!-- <script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script> -->
-<!-- <script type="text/javascript" src="angular-spinner.min.js"></script> -->
-<!-- <script type="text/javascript" src="angular-loading-spinner.js"></script> -->
-
-  
-<link rel="shortcut icon" href="images/ico/favicon.ico">
 <link rel="apple-touch-icon-pre0composed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-
 
 	<script src="angularjs/config.js"></script>
 	<script src="angularjs/serpicsApp.js"></script>
@@ -63,29 +56,28 @@
 	
 	
 	<script src="angularjs/directive.js"></script>
-	
-	
 
-<link rel="shortcut icon" href="images/ico/favicon.ico">
-<link rel="apple-touch-icon-pre0composed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-
-
-<title class="ng-cloak" ng-bind="title"></title>
+<title>Serpics Platform Ecommerce</title>
 
 </head>
 <body class="ng-cloak" ng-controller="serpicsAppController">
      <div modal-directive></div>
+     
  <!--  dinamyc html with custom directive -->
-	<div loader-directive></div>
+	<div loader-directive text-loading="SERPICS"></div>
 	<div top-header-directive></div>
 	<div middle-header-directive></div>
 	<div bottom-header-directive></div>
-<!-- 	<div slide-directive></div> -->
 	<div bread-crumbs-directive></div>
 	
 	<div ui-view></div>
 	
 	<div footer-directive></div>
+	
+	
+	<!-- JS -->
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+
+</body>
+</html>
