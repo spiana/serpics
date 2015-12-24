@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -22,6 +23,8 @@ import com.vaadin.addon.jpacontainer.BatchableEntityProvider;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityManagerProvider;
 import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
+import com.vaadin.addon.jpacontainer.SortBy;
+import com.vaadin.addon.jpacontainer.filter.util.AdvancedFilterableSupport;
 import com.vaadin.addon.jpacontainer.util.CollectionUtil;
 import com.vaadin.data.Container.Filter;
 
@@ -143,7 +146,7 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
 
         List<Predicate> predicates = new ArrayList<Predicate>();
         if (filter != null) {
-            predicates.add(FilterConverter.convertFilter(filter, cb, root));
+            predicates.add(FilterConverter.convertFilter(filter, cb, root, query));
         }
         tellDelegateFiltersWillBeAdded(container, cb, query, predicates);
         if (!predicates.isEmpty()) {
@@ -158,14 +161,13 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
              * With this hack, this method should work with both Hibernate and
              * EclipseLink.
              */
-        	query.select(cb.countDistinct(root.get(entityIdPropertyName)));
-            query.select(cb.countDistinct(root.get(entityIdPropertyName).get(
+            query.select(cb.count(root.get(entityIdPropertyName).get(
                     getEntityClassMetadata().getIdentifierProperty()
                             .getTypeMetadata().getPersistentPropertyNames()
                             .iterator().next())));
         	
         } else {
-            query.select(cb.countDistinct(root.get(entityIdPropertyName)));
+            query.select(cb.count(root.get(entityIdPropertyName)));
         }
         
         tellDelegateQueryHasBeenBuilt(container, cb, query);
@@ -190,7 +192,7 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
         predicates.add(cb.equal(root.get(entityIdPropertyName),
                 cb.literal(entityId)));
         if (filter != null) {
-            predicates.add(FilterConverter.convertFilter(filter, cb, root));
+            predicates.add(FilterConverter.convertFilter(filter, cb, root,query));
         }
         tellDelegateFiltersWillBeAdded(container, cb, query, predicates);
         if (!predicates.isEmpty()) {
@@ -205,15 +207,14 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
              * With this hack, this method should work with both Hibernate and
              * EclipseLink.
              */
-        	query.select(cb.countDistinct(root.get(entityIdPropertyName)));
-            query.select(cb.countDistinct(root.get(entityIdPropertyName).get(
+        	query.select(cb.count(root.get(entityIdPropertyName).get(
                     getEntityClassMetadata().getIdentifierProperty()
                             .getTypeMetadata().getPersistentPropertyNames()
                             .iterator().next())));
         	
         } else {
 
-            query.select(cb.countDistinct(root.get(entityIdPropertyName)));
+            query.select(cb.count(root.get(entityIdPropertyName)));
         }
         tellDelegateQueryHasBeenBuilt(container, cb, query);
         TypedQuery<Long> tq = doGetEntityManager().createQuery(query);
@@ -275,6 +276,56 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
 	        } else if (container.getQueryModifierDelegate() != null) {
 	            container.getQueryModifierDelegate().orderByWasAdded(cb, query);
 	        }
+	    }
+	    
+
+	    protected TypedQuery<Object> createFilteredQuery(
+	            EntityContainer<T> container, List<String> fieldsToSelect,
+	            Filter filter, List<SortBy> sortBy, boolean swapSortOrder) {
+	        assert fieldsToSelect != null : "fieldsToSelect must not be null";
+	        assert sortBy == null || !sortBy.isEmpty() : "sortBy must be either null or non-empty";
+
+	        CriteriaBuilder cb = doGetEntityManager().getCriteriaBuilder();
+	        CriteriaQuery<Object> query = cb.createQuery();
+	        Root<T> root = query.from(getEntityClassMetadata().getMappedClass());
+
+	        tellDelegateQueryWillBeBuilt(container, cb, query);
+
+	        List<Predicate> predicates = new ArrayList<Predicate>();
+	        if (filter != null) {
+	            predicates.add(FilterConverter.convertFilter(filter, cb, root, query));
+	        }
+	        tellDelegateFiltersWillBeAdded(container, cb, query, predicates);
+	        if (!predicates.isEmpty()) {
+	            query.where(CollectionUtil.toArray(Predicate.class, predicates));
+	        }
+	        tellDelegateFiltersWereAdded(container, cb, query);
+
+	        List<Order> orderBy = new ArrayList<Order>();
+	        if (sortBy != null && sortBy.size() > 0) {
+	            for (SortBy sortedProperty : sortBy) {
+	                orderBy.add(translateSortBy(sortedProperty, swapSortOrder, cb,
+	                        root));
+	            }
+	        }
+	        tellDelegateOrderByWillBeAdded(container, cb, query, orderBy);
+	        query.orderBy(orderBy);
+	        tellDelegateOrderByWereAdded(container, cb, query);
+
+	        if (fieldsToSelect.size() > 1
+	                || getEntityClassMetadata().hasEmbeddedIdentifier()) {
+	            List<Path<?>> paths = new ArrayList<Path<?>>();
+	            for (String fieldPath : fieldsToSelect) {
+	                paths.add(AdvancedFilterableSupport.getPropertyPathTyped(root,
+	                        fieldPath));
+	            }
+	            query.multiselect(paths.toArray(new Path<?>[paths.size()]));
+	        } else {
+	            query.select(AdvancedFilterableSupport.getPropertyPathTyped(root,
+	                    fieldsToSelect.get(0)));
+	        }
+	        tellDelegateQueryHasBeenBuilt(container, cb, query);
+	        return doGetEntityManager().createQuery(query);
 	    }
 
 }

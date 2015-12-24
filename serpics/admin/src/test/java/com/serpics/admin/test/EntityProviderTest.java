@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +34,6 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.util.filter.Compare.Equal;
 
 
 
@@ -167,32 +167,40 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 			public Predicate toPredicate(Root<Product> arg0, CriteriaQuery<?> arg1,
 					CriteriaBuilder arg2) {
 				
-				Predicate p1 = arg2.equal(arg0.join("description").join("map").get("language"), "en");
-				Predicate p2 = arg2.equal(arg0.join("description").join("map").get("text"), "test");
+				Subquery subquery = arg1.subquery(MultilingualText.class);
+				//CriteriaQuery<MultilingualText> subquery = arg2.createQuery(MultilingualText.class);
+				Root ml = subquery.from(MultilingualText.class);
 				
+				Predicate p1 = arg2.equal(ml.join("map").get("language"), "en");
+				Predicate p2 = arg2.equal(ml.join("map").get("text"), "test");
 				
-				return arg2.and(p1,p2);
+				subquery.select(ml).where(arg2.and(p1,p2));
+				Predicate p3 = arg2.like(arg0.<String>get("code"),arg2.literal("p3%"));
+				Predicate p4 =arg2.in(arg0.get("description")).value(subquery);
+				
+				return arg2.or(p3,p4);
 				
 				
 			}
 		}, new PageRequest(0, 100));
 		
-		Assert.assertEquals(2, page.size());
-		
+		Assert.assertEquals(3, page.size());
+//		
 		JPAContainer c = ServiceContainerFactory.make(Product.class);
 		MultilingualLikeFilter j = new MultilingualLikeFilter("description", "en", "%est%");
 		c.addContainerFilter(j);
+	
 		Assert.assertEquals(2, c.getItemIds().size());
 		
-		MultilingualLikeFilter j0 = new MultilingualLikeFilter("description", "en", "%est%");
-		c.removeAllContainerFilters();
-		c.addContainerFilter(j0);
-		c.addContainerFilter(new Equal("code" , "p2"));
-		Assert.assertEquals(1, c.getItemIds().size());
-		
-		MultilingualLikeFilter j1 = new MultilingualLikeFilter("description", "it", "%est%");
-		c.removeAllContainerFilters();
-		c.addContainerFilter(j1);
-		Assert.assertEquals(1, c.getItemIds().size());
+//		MultilingualLikeFilter j0 = new MultilingualLikeFilter("name", "en", "%est%");
+//		c.removeAllContainerFilters();
+//		c.addContainerFilter(j0);
+//		c.addContainerFilter(new Equal("code" , "p2"));
+//		Assert.assertEquals(1, c.getItemIds().size());
+//		
+//		MultilingualLikeFilter j1 = new MultilingualLikeFilter("name", "it", "%est%");
+//		c.removeAllContainerFilters();
+//		c.addContainerFilter(j1);
+//		Assert.assertEquals(1, c.getItemIds().size());
 	}
 }

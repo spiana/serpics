@@ -12,9 +12,11 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import com.vaadin.addon.jpacontainer.filter.JoinFilter;
 import com.vaadin.addon.jpacontainer.filter.util.AdvancedFilterableSupport;
+import com.vaadin.addon.jpacontainer.provider.SubQueryFilter;
 import com.vaadin.addon.jpacontainer.util.CollectionUtil;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.And;
@@ -47,9 +49,11 @@ public class FilterConverter {
         public boolean canConvert(Filter filter);
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root);
+                From<X, Y> root , CriteriaQuery query);
     }
 
+   
+    
     /**
      * Converts {@link And} filters.
      */
@@ -59,9 +63,9 @@ public class FilterConverter {
         }
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root , CriteriaQuery query) {
             return cb.and(convertFiltersToArray(((And) filter).getFilters(),
-                    cb, root));
+                    cb, root, query));
         }
     }
 
@@ -74,9 +78,9 @@ public class FilterConverter {
         }
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root, CriteriaQuery query ) {
             return cb.or(convertFiltersToArray(((Or) filter).getFilters(), cb,
-                    root));
+                    root, query));
         }
     }
 
@@ -90,7 +94,7 @@ public class FilterConverter {
 
         @SuppressWarnings({ "rawtypes", "unchecked" })
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root, CriteriaQuery query) {
             Compare compare = (Compare) filter;
             Expression propertyExpr = AdvancedFilterableSupport
                     .getPropertyPath(root, compare.getPropertyId());
@@ -121,7 +125,7 @@ public class FilterConverter {
         }
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root , CriteriaQuery query) {
             return cb.isNull(AdvancedFilterableSupport.getPropertyPath(root,
                     ((IsNull) filter).getPropertyId()));
         }
@@ -136,7 +140,7 @@ public class FilterConverter {
         }
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root, CriteriaQuery query) {
             SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
             String filterString = stringFilter.getFilterString();
             if (stringFilter.isOnlyMatchPrefix()) {
@@ -166,7 +170,7 @@ public class FilterConverter {
         }
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root, CriteriaQuery query) {
             Like like = (Like) filter;
             if (like.isCaseSensitive()) {
                 return cb.like(AdvancedFilterableSupport.getPropertyPath(root,
@@ -188,7 +192,7 @@ public class FilterConverter {
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root, CriteriaQuery query) {
             Between between = (Between) filter;
             Expression<? extends Comparable> field = AdvancedFilterableSupport
                     .getPropertyPath(root, between.getPropertyId());
@@ -206,11 +210,32 @@ public class FilterConverter {
         }
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root, CriteriaQuery query) {
             JoinFilter hibernateJoin = (JoinFilter) filter;
             From<X, Y> join = root.join(hibernateJoin.getJoinProperty());
             return cb.and(convertFiltersToArray(hibernateJoin.getFilters(), cb,
-                    join));
+                    join,query));
+        }
+
+    }
+
+    
+    private static class SubQueryFilterConverter implements Converter {
+        public boolean canConvert(Filter filter) {
+            return filter instanceof SubQueryFilter;
+        }
+
+        public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
+                From<X, Y> root, CriteriaQuery query) {
+        	
+            SubQueryFilter subQueryFilter = (SubQueryFilter) filter;
+            Class<?> javaType = root.get(subQueryFilter.getSubqueryProperty()).getJavaType();
+            Subquery _squery = query.subquery(javaType) ;
+            Root _root = _squery.from(javaType);
+            
+            _squery.select(_root).where(cb.and(convertFiltersToArray(subQueryFilter.getFilters(), cb, _root, query)));
+           
+            return cb.in(root.get(subQueryFilter.getSubqueryProperty())).value(_squery);
         }
 
     }
@@ -221,9 +246,9 @@ public class FilterConverter {
         }
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
-                From<X, Y> root) {
+                From<X, Y> root, CriteriaQuery query) {
             Not not = (Not) filter;
-            return cb.not(convertFilter(not.getFilter(), cb, root));
+            return cb.not(convertFilter(not.getFilter(), cb, root,query));
         }
     }
 
@@ -233,7 +258,7 @@ public class FilterConverter {
                 new AndConverter(), new OrConverter(), new CompareConverter(),
                 new IsNullConverter(), new SimpleStringFilterConverter(),
                 new LikeConverter(), new BetweenConverter(),
-                new JoinFilterConverter(), new NotFilterConverter()));
+                new JoinFilterConverter(), new NotFilterConverter() , new SubQueryFilterConverter()));
     }
 
     /**
@@ -251,12 +276,12 @@ public class FilterConverter {
      *         conversion failed.
      */
     public static <X, Y> Predicate convertFilter(Filter filter,
-            CriteriaBuilder criteriaBuilder, From<X, Y> root) {
+            CriteriaBuilder criteriaBuilder, From<X, Y> root , CriteriaQuery query) {
         assert filter != null : "filter must not be null";
 
         for (Converter c : converters) {
             if (c.canConvert(filter)) {
-                return c.toPredicate(filter, criteriaBuilder, root);
+            		return c.toPredicate(filter, criteriaBuilder, root,query);
             }
         }
 
@@ -273,18 +298,18 @@ public class FilterConverter {
      */
     public static <X, Y> List<Predicate> convertFilters(
             Collection<Filter> filters, CriteriaBuilder criteriaBuilder,
-            From<X, Y> root) {
+            From<X, Y> root , CriteriaQuery query) {
         List<Predicate> result = new ArrayList<Predicate>();
         for (com.vaadin.data.Container.Filter filter : filters) {
-            result.add(convertFilter(filter, criteriaBuilder, root));
+            result.add(convertFilter(filter, criteriaBuilder, root, query));
         }
         return result;
     }
 
     private static <X, Y> Predicate[] convertFiltersToArray(
             Collection<Filter> filters, CriteriaBuilder criteriaBuilder,
-            From<X, Y> root) {
+            From<X, Y> root, CriteriaQuery query) {
         return CollectionUtil.toArray(Predicate.class,
-                convertFilters(filters, criteriaBuilder, root));
+                convertFilters(filters, criteriaBuilder, root , query));
     }
 }

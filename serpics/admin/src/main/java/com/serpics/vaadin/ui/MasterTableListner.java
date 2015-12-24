@@ -10,9 +10,13 @@ import java.util.Locale;
 
 import javax.persistence.Transient;
 
-import com.serpics.base.Multilingual;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
+import com.serpics.vaadin.ui.component.MultilingualTextField;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.filter.Filters;
 import com.vaadin.data.Container.Filter;
@@ -51,6 +55,7 @@ import de.steinwedel.messagebox.MessageBoxListener;
 public class MasterTableListner extends FormLayout {
 
 	private static final long serialVersionUID = -2736583181645447496L;
+	private static transient Logger LOG = LoggerFactory.getLogger(MasterTableListner.class);
 
 	@Transient
 	private transient String[] searchProperties;
@@ -236,8 +241,10 @@ public class MasterTableListner extends FormLayout {
 
 				if (properties != null) {
 					for (String entry : properties) {
-						if (Multilingual.class.isAssignableFrom(container.getType(entry))) {
+						if (MultilingualString.class.isAssignableFrom(container.getType(entry))) {
 							filter = new Or(new MultilingualLikeFilter(entry, locale.getLanguage(), filterField));
+						}else if (MultilingualTextField.class.isAssignableFrom(container.getType(entry))) {
+							LOG.warn("MultilingualTextField is not yet supported in container filters !");
 						} else {
 							filter = new Or(new SimpleStringFilter(entry, filterField, true, false));
 						}
