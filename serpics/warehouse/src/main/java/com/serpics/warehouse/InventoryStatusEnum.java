@@ -1,4 +1,4 @@
-package com.serpics.warehouse.data.model;
+package com.serpics.warehouse;
 
 public enum InventoryStatusEnum implements InventoryStatus {
 	

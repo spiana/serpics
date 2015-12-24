@@ -1,12 +1,13 @@
-package com.serpics.warehouse.strategies;
+package com.serpics.warehouse.service;
 
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.warehouse.InventoryNotAvailableException;
 import com.serpics.warehouse.InventoryStatus;
 import com.serpics.warehouse.data.model.Warehouse;
 
-public interface InventoryStrategy {
-	public InventoryStatus checkInventory(AbstractProduct product , double quantity);
+public interface InventoryService {
+
+	public boolean checkInventory(String sku , double quantity);
 	
 	public void reserve(AbstractProduct product , double quantity ) throws InventoryNotAvailableException;
 	public void reserve(AbstractProduct product , double quantity , Warehouse warehouse) throws InventoryNotAvailableException;
@@ -18,5 +19,4 @@ public interface InventoryStrategy {
 	
 	public InventoryStatus getInventoryStatus(AbstractProduct product);
 	public InventoryStatus getInventoryStatus(AbstractProduct product , Warehouse warehouse);
-
 }

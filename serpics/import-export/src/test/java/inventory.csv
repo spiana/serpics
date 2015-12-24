@@ -1,0 +1,1 @@
+warehouse[unique](name);product[unique](code);available	W1;P11;10W1;P12;20W1;P13;30

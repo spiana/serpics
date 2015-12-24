@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -38,9 +39,15 @@ import com.serpics.core.SerpicsException;
 import com.serpics.importexport.services.ImportCsvService;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
+import com.serpics.warehouse.data.model.Inventory;
+import com.serpics.warehouse.data.model.Warehouse;
+import com.serpics.warehouse.data.repositories.InventoryRepository;
+import com.serpics.warehouse.data.repositories.WarehouseRepository;
 
 @ContextConfiguration( {"classpath:META-INF/base-serpics.xml" , 
-	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml" , "classpath:META-INF/importexport-serpics.xml"})
+	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml" ,
+	"classpath:META-INF/warehouse-serpics.xml",
+	"classpath:META-INF/importexport-serpics.xml"})
 public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
 
     @Autowired
@@ -67,6 +74,11 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
     
     @Resource
     CategoryRepository categoryRepository;
+    @Resource
+    WarehouseRepository warehouseRepository;
+    
+    @Resource
+    InventoryRepository inventoryRepository;
     
     @Before
     public void beforeTest() throws SerpicsException {
@@ -168,5 +180,57 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
 				return arg2.equal(arg0.get("code"), "C19");
 			}
 		}).getName().getText("en"));
+    }
+    
+    @Test
+    @Transactional
+    public void test5(){
+    	InputStream in = this.getClass().getClassLoader()
+                .getResourceAsStream("warehouse.csv");
+    	InputStream in1 = this.getClass().getClassLoader()
+                .getResourceAsStream("inventory.csv");
+    	
+    	InputStream products = this.getClass().getClassLoader()
+                .getResourceAsStream("product.csv");
+    	
+    	importCsvService.importCsv(new InputStreamReader(in), Warehouse.class);
+    	importCsvService.importCsv(new InputStreamReader(products), Product.class);
+    	importCsvService.importCsv(new InputStreamReader(in1), Inventory.class);
+    	
+    	List<Warehouse> warehouses = warehouseRepository.findAll();
+    	for (Warehouse warehouse : warehouses) {
+			warehouseRepository.detach(warehouse);
+		}
+    	
+    	Warehouse w = warehouseRepository.findOne(new Specification<Warehouse>() {
+
+			@Override
+			public Predicate toPredicate(Root<Warehouse> arg0,
+					CriteriaQuery<?> arg1, CriteriaBuilder arg2) {
+				
+			 	return arg2.equal(arg0.get("name"), "W1");
+			}
+    		
+		});
+    	
+    	Assert.assertNotNull(w);
+    	
+    	List<Inventory> inventories = inventoryRepository.findAll();
+    	Assert.assertEquals(3, inventories.size());    	
+    	Assert.assertEquals(3, w.getInventories().size());
+    	
+    	inventoryRepository.deleteAllInBatch();
+    	
+    	for (Inventory inventory : inventories) {
+			inventoryRepository.detach(inventory);
+		}
+    	
+    	InputStream in2 = this.getClass().getClassLoader()
+                .getResourceAsStream("inventory.csv");
+    	
+    	importCsvService.importCsv(new InputStreamReader(in2), Inventory.class);
+    	
+    	inventories = inventoryRepository.findAll();
+    	Assert.assertEquals(3, inventories.size());
     }
 }

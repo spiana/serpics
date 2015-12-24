@@ -1,7 +1,20 @@
 package com.serpics.warehouse.data.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.membership.data.model.Store;
 
 
 /**
@@ -10,44 +23,85 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="inventory")
-public class Inventory extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
+public class Inventory extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@EmbeddedId
-	private InventoryPK id;
-
-	private double available;
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="inventory_id")
+	private Long id;
+	
+	private Double available;
+	private Double reserved;
+	
 	//bi-directional many-to-one association to Warehouse
-    @ManyToOne
-	@JoinColumn(name="warehouse_id" , insertable=false , updatable=false)
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name="warehouse_id" , insertable=true , updatable=true , nullable=false )
 	private Warehouse warehouse;
 
+    @NotNull
+    @ManyToOne
+	@JoinColumn(name="product_id" , insertable=true , updatable=true , nullable=false)
+    private AbstractProduct product ;
+    
+    @ManyToOne
+	@JoinColumn(name ="store_id" , insertable=true , updatable=false , nullable=false)
+    private Store store ;
+    
     public Inventory() {
+    	this.available = 0D;
+    	this.reserved = 0D;
     }
 
-	public InventoryPK getId() {
-		return this.id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setId(InventoryPK id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public double getAvailable() {
-		return this.available;
+
+	public Double getAvailable() {
+		return available;
 	}
 
-	public void setAvailable(double available) {
+	public void setAvailable(Double available) {
 		this.available = available;
 	}
 
+	public Double getReserved() {
+		return reserved;
+	}
+
+	public void setReserved(Double reserved) {
+		this.reserved = reserved;
+	}
+
 	public Warehouse getWarehouse() {
-		return this.warehouse;
+		return warehouse;
 	}
 
 	public void setWarehouse(Warehouse warehouse) {
 		this.warehouse = warehouse;
 	}
+
+	public AbstractProduct getProduct() {
+		return product;
+	}
+
+	public void setProduct(AbstractProduct product) {
+		this.product = product;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+	
+	
 	
 }
