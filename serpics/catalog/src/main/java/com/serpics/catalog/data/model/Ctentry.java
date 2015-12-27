@@ -30,7 +30,7 @@ import com.serpics.base.data.model.MultilingualText;
  * 
  */
 @Entity
-@Table(name = "ctentry" , uniqueConstraints= @UniqueConstraint(columnNames= {"catalog_id", "code"}))
+@Table(name = "ctentry" , uniqueConstraints= @UniqueConstraint(columnNames= {"catalog_id","ctentry_type", "code"}))
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "ctenytry_type", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Ctentry extends AbstractCatalogEntry implements Serializable {

@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import com.serpics.catalog.data.CatalogEntryType;
 
 /**
  * The persistent class for the brands database table.
@@ -18,18 +19,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "brands")
-public class Brand extends AbstractCatalogEntry implements Serializable {
+@DiscriminatorValue("0")
+public class Brand extends Ctentry implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "brand_id")
-	private Long id;
 
 	@Column(name = "logo_src")
 	private String logoSrc;
-
-	private String name;
 	
 	private Integer published;
 
@@ -38,6 +34,7 @@ public class Brand extends AbstractCatalogEntry implements Serializable {
 	private Set<AbstractProduct> products;
 	
 	public Brand() {
+		this.ctentryType = CatalogEntryType.BRAND;
 	}
 
 	public Long getId() {
@@ -56,14 +53,6 @@ public class Brand extends AbstractCatalogEntry implements Serializable {
 		this.logoSrc = logoSrc;
 	}
 
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public Set<AbstractProduct> getProducts() {
 		return this.products;
 	}
@@ -79,5 +68,13 @@ public class Brand extends AbstractCatalogEntry implements Serializable {
 	public void setPublished(Integer published) {
 		this.published = published;
 	}
+	
+	@PrePersist
+    @Override
+    public void beforePersist() {
+        if (this.url == null)
+            this.url = "/" + getCatalog().getCode() + "/b/" + getCode();
+        super.beforePersist();
+    }
 
 }

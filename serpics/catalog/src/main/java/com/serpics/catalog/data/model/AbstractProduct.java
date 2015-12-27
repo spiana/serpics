@@ -18,7 +18,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import com.serpics.core.datatype.CatalogEntryType;
+import com.serpics.catalog.data.CatalogEntryType;
 
 /**
  * The persistent class for the product database table.
@@ -82,12 +82,7 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
     // bi-directional many-to-one association to Productffmt
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     protected Set<Productffmt> productffmts;
-
-    // bi-directional many-to-one association to Catalog
-    @ManyToOne(optional = false  )
-    @JoinColumn(name = "catalog_id" )
-    protected Catalog catalog;
-
+    
     @ManyToOne(optional=true)
     @JoinColumn(name="featuremodel_id")
     protected FeatureModel featureModel;
@@ -194,18 +189,10 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
         this.published = published;
     }
 
-    public Catalog getCatalog() {
-        return catalog;
-    }
-
-    public void setCatalog(final Catalog catalog) {
-        this.catalog = catalog;
-    }
-
     @PrePersist
     public void prepersist(){
         if (this.url == null)
-            this.url = "/" + getCatalog().getCode() + "/product/" + getCode();
+            this.url = "/" + getCatalog().getCode() + "/p/" + getCode();
     }
 
     public FeatureModel getfeautureModel() {

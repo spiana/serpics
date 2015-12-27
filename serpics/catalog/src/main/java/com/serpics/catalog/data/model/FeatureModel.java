@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import com.serpics.core.datatype.CatalogEntryType;
+import com.serpics.catalog.data.CatalogEntryType;
 
 @Entity
 @DiscriminatorValue("2")

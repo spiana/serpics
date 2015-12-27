@@ -8,14 +8,12 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import com.serpics.core.datatype.CatalogEntryType;
+import com.serpics.catalog.data.CatalogEntryType;
 
 /**
  * The persistent class for the category database table.
@@ -36,11 +34,6 @@ public class Category extends Ctentry implements Serializable {
     @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, targetEntity = CategoryProductRelation.class,cascade = CascadeType.REMOVE)
     @OrderBy("sequence desc")
     private Set<CategoryProductRelation> childProducts;
-
-    // bi-directional many-to-one association to Catalog
-    @ManyToOne(optional = false )
-    @JoinColumn(name = "catalog_id")
-    protected Catalog catalog;
 
     @Column(name = "meta_description")
     private String metaDescription;
@@ -70,14 +63,6 @@ public class Category extends Ctentry implements Serializable {
         this.childCategories = childCategories;
     }
 
-    public Catalog getCatalog() {
-        return catalog;
-    }
-
-    public void setCatalog(final Catalog catalog) {
-        this.catalog = catalog;
-    }
-
     public String getMetaKeyword() {
 		return metaKeyword;
 	}
@@ -96,7 +81,7 @@ public class Category extends Ctentry implements Serializable {
     @Override
     public void beforePersist() {
         if (this.url == null)
-            this.url = "/" + getCatalog().getCode() + "/" + getCode();
+            this.url = "/" + getCatalog().getCode() + "/c/" + getCode();
         super.beforePersist();
     }
 
