@@ -1,0 +1,18 @@
+ALTER TABLE featurevalues  DROP FOREIGN KEY FKD985A3988491DFB7;
+ALTER TABLE featurevalues  DROP FOREIGN KEY FKD985A398E158A6FB;
+
+ALTER TABLE featurevalues DROP COLUMN decimalValue;
+ALTER TABLE featurevalues DROP COLUMN longValue;
+ALTER TABLE featurevalues DROP COLUMN value_string_id;
+ALTER TABLE featurevalues DROP COLUMN text_string_id;
+
+INSERT INTO Bundle select * FROM bundle;
+INSERT INTO CategoryProductRelation select * FROM categoryproductrelation;
+INSERT INTO CategoryRelation select * FROM categoryrelation;
+INSERT INTO FearureModelRelation select * FROM fearuremodelrelation;
+INSERT INTO Feature select * FROM feature;
+INSERT INTO FeatureGroup select * FROM featuregroup;
+INSERT INTO FeatureModel select * FROM featuremodel;
+INSERT INTO FeatureValues select * FROM featurevalues;
+INSERT INTO Product select * FROM product;
+INSERT INTO abstractProducts select * FROM abstractproducts;

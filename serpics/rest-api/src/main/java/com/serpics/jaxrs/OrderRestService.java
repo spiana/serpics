@@ -9,4 +9,6 @@ public interface OrderRestService {
 	Response getOrders();
 	
 	Response addPayment(Long orderId, OrderPaymentData paymentData);
+
+	Response placeOrder();
 }

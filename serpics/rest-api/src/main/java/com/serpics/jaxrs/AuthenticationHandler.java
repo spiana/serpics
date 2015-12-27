@@ -41,7 +41,8 @@ public class AuthenticationHandler implements RequestHandler {
 			try{
 				if(commerceEngine.bind(sessionId)==null){
 					//FIXME in caso di sessionexpired
-					return Response.status(503).build();
+					//403 Forbidden La richiesta è legittima ma il server si rifiuta di soddisfarla.
+					return Response.status(403).build();
 				}
 				
 			}catch(Exception e){

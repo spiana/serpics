@@ -131,7 +131,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	ProductData productData = lp.iterator().next();
     	Assert.assertEquals("Product code in category BLUES", "PROD1", productData.getCode());
     	Assert.assertEquals("Product price in category BLUES", 10.00 , productData.getPrice().getCurrentPrice(),0);
-    	Assert.assertEquals("Product media in category BLUES", "imgthmb", productData.getMedia().iterator().next().getName());
+    	Assert.assertEquals("Product media in category BLUES", "imgthmb", productData.getMedias().iterator().next().getName());
 		
     	List<CategoryData> cprd = productFacade.getParentCategory(productData);
 		Assert.assertNotNull("List category parent null", cprd);

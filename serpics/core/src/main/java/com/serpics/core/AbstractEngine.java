@@ -177,9 +177,10 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     @Override
     public void disconnect(final String sessionId) {
-        if (sessionId != null)
+        if (sessionId != null){
+        	unbind();
             this.sessionManager.removeSessionContext(sessionId);
-    }
+    }}
 
     @Override
     public void disconnect(final SessionContext sessionContext) {

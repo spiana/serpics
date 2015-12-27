@@ -55,5 +55,17 @@ public class OrderRestServiceImpl implements OrderRestService {
 		apiRestResponse.setResponseObject(orderData);
 		return Response.ok(apiRestResponse).build();
 	}
+	
+	@Override
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/placeOrder")
+	public Response placeOrder() {
+		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
+		OrderData orderData = orderFacade.placeOrder();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);;
+		apiRestResponse.setResponseObject(orderData);
+		return Response.ok(apiRestResponse).build();
+	}
 
 }

@@ -94,7 +94,7 @@ public class AbstractProductData  extends CtentryData{
 		this.categories = categories;
 	}
 	
-	public Set<MediaData> getMedia() {
+	public Set<MediaData> getMedias() {
 		return medias;
 	}
 	public void setMedias(Set<MediaData> medias) {

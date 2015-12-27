@@ -8,13 +8,14 @@ import org.springframework.data.repository.query.Param;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Member;
+import com.serpics.membership.data.model.Store;
 
 public interface CartRepository extends Repository<Cart, Long> {
 
 	public Cart findByCookie(String cookie);
 	
 		
-	@Query("select c from Cart c where c.user= :user and c.customer = :customer")
-	public Page<Cart> findAllCartByUserId(@Param("user") Member user, @Param("customer") Member customer, Pageable pageable );
+	@Query("select c from Cart c where c.user= :user and c.customer = :customer and c.store = :store and c.cookie != :sessionId")
+	public Page<Cart> findAllCartByUserId(@Param("user") Member user, @Param("customer") Member customer, @Param("store") Store store,@Param("sessionId") String sessionId, Pageable pageable );
 
 }

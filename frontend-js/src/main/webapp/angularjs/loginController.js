@@ -1,84 +1,71 @@
-var app = angular.module("login.controller", ['serpics.authentication'])
+var app = angular.module("login.controller", ['customer.service','ngDialog'])
 
-.controller("loginController",['$rootScope','$rootScope', '$location','authenticationService','$timeout','$cookieStore',
+.controller("loginController",['$scope', '$location','customerService','$timeout','$cookieStore','$state','$log','ngDialog','$stateParams',
                                   
-      function($rootScope,$scope,$location,authenticationService,$timeout,$cookieStore) {	
-   	
+      function($scope,$location,customerService,$timeout,$cookieStore,$state,$log,ngDialog,$stateParams) {
 	
-			$rootScope.message = 'Guest Access'						
-				
-			$rootScope.action = {
-					actionName:'Login',
-					actionClass:'fa fa-lock',
-					dropMenuClass:'hidden'
-			};
+			$scope.currentUser = customerService.currentUser;
 			
-			$rootScope.error ={					
-						statusText:null,
-			       		message:null
-							       		
-		    }
+			$scope.updateUser = function() {
+				customerService.updateCurrentUser()
+			}
+			
 			 /**
-             * @param
-             * @param
-             * @use
-             * @returns
+             * @param 	sessionId             
+             * @use 	customerService
+             * @returns logout message
              */
-            $rootScope.checkLoggedUser = function() {	 
-            	 if($cookieStore.get('isLoggedIn')){
-            		 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser.username
-            		 $rootScope.action.actionName  = 'Logout'
-	       			 $rootScope.action.actionClass = 'fa fa-sign-out'
-	       			 $rootScope.action.dropMenuClass = 'visible'
-	       			 $location.path('/');
-            	 }
-            }
-            
-            /**
-             * @param
-             * @param
-             * @use
-             * @returns
-             */
-			$rootScope.login = function() {	   				
-		        	authenticationService.login(this.userData.login.username, this.userData.login.password).then( function( response ) {		        			       				 
-			        		 $rootScope.globals.currentUser = $rootScope.userData.login.username 
-		       				 $rootScope.message = 'Welcome ' + $rootScope.globals.currentUser
-		       				 authenticationService.setCredential($rootScope.userData.login.username, $rootScope.userData.login.password,true)
-		       				 $rootScope.error.message = null
-		       				 $rootScope.action.actionName  = 'Logout'
-		       				 $rootScope.action.actionClass = 'fa fa-sign-out'
-		    	       		 $rootScope.action.dropMenuClass = 'visible'
-		       				 $location.path('/');
-			        		        		
-		    	 	})		        	
-		        
-		      };		          		      
+			$scope.logout = function(){
+				customerService.logout().then(function (response) {
+					customerService.updateCurrentUser();
+            		$state.go($stateParams.logout)})	   	 
+			}
+			           
+		    /**
+		     * @param
+		     * @param
+		     * @use
+		     * @returns
+		     */
+			$scope.login = function(loginUser) {				
+		        	customerService.login(loginUser.username, loginUser.password).then(function (response) {
+		        		customerService.updateCurrentUser()
+		        		$state.go($stateParams.login)
+		        	})	   	 
+			}
 		      
-	      /**
-	         * @param name
-	         * @param lastname
-	         * @param logonid (required)
-	         * @param password
-	         * @param email	            
-	         * @use
-	         * @returns new user and route to home
-	         */
-			$rootScope.register = function() {	  				
-				var userData = {									
-							logonid:	$rootScope.userData.register.logonid,
-							firstname:	$rootScope.userData.register.firstname,	
-							lastname:	$rootScope.userData.register.lastname,
-							password:	$rootScope.userData.register.password,
-							email:		$rootScope.userData.register.email,
-						}
-		        	authenticationService.register(userData).then( function( response ) {			        	
-	       				 $location.path('/');			        		
-		    	 	})	        
-		      };		
+		      		      
+		  /**
+		     * @param name
+		     * @param lastname
+		     * @param logonid (required)
+		     * @param password
+		     * @param email	            
+		     * @use
+		     * @returns new user and route to home
+		     */
+			$scope.register = function(registerUser) {	  				
+		        	customerService.register(registerUser).then( function( response ) {
+		        		customerService.updateCurrentUser()
+			        	showModalOnSuccess();						
+		        	})	        
+		      };		 
 		      
-		      $timeout($rootScope.checkLoggedUser)
-		  
+		/**
+		 * show success message on modal angular with ngModal
+		 */
+		function showModalOnSuccess(){		    	  
+			 	var dialog = ngDialog.open({
+				    		  template: 'registerSuccessDialog',
+				    		  keyboard: true,
+				    		  className:'',
+				    		  scope:    $scope  			  
+				 });		
+			    dialog.closePromise.then(function (response) {			    	     
+			    	      $state.go($stateParams.register)
+			    	  })
+		}
+
 }])
   
 

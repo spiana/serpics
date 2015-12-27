@@ -1,4 +1,4 @@
-var routerApp = angular.module('serpics.router', ['ui.router','serpics.authentication'])
+var routerApp = angular.module('serpics.router', ['ui.router','customer.service'])
 
 routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$httpProvider) {
 	
@@ -17,7 +17,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
         	$scope.name = 'Home Page';
         },
         templateUrl: 'html/template/home-central.html'
-
     })
     
     .state('shop.category', {
@@ -51,28 +50,14 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     
     .state('shop.login', {
     	url: '/login', 
-        templateUrl: 'html/template/login.html' ,        	 
-        controller: function ($rootScope, $location, $cookieStore,$state) {        	
-            $rootScope.globals = $cookieStore.get('globals') || {};// keep user logged in after page refresh
-            if ($rootScope.globals.currentUser) {            
-            	$state.go("shop.logout");
-            	} 
-	         }
-	    })
-    
-    .state('shop.logout', {
-    	url: '/logout',        
-        templateUrl: 'html/template/home-central.html',
-        controller: function ($rootScope, $cookieStore,authenticationService) {
-        	$rootScope.message = 'Guest Access' 
-        		authenticationService.clearCredentials()
-        		$rootScope.action = {
-					actionName:'Login',
-					actionClass:'fa fa-lock',
-					dropMenuClass:'hidden'
-				}
-	        }
-	})
+        templateUrl: 'html/template/login.html',   
+        controller: 'loginController',
+        params: {
+        	login: "shop.home",
+        	logout: "shop.home",
+        	register: "shop.login"
+        }
+	 })
     
     .state('shop.cart', {
     	url: '/cart/',       
@@ -82,20 +67,81 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 
 	.state('shop.register', {
 		url: '/register',
-		templateUrl: 'html/template/register.html'
-			
-		})
+		templateUrl: 'html/template/register.html',
+		controller: 'loginController'	
+	})
 	
 	.state('shop.500', {
 		url: '/500',
 		templateUrl: 'html/template/500.html'
 		
 	})
+	
 	.state('shop.404', {
 	   	url: '/404',	        
 	    templateUrl: 'html/template/404.html'
 	})
 	
+	.state('shop.403', {
+	   	url: '/403',	        
+	    templateUrl: 'html/template/403.html'
+	})	
+		
+	.state('shop.orderError', {    	
+	   	url: '/orderError',	        
+	    templateUrl: 'html/template/orderError.html', 
+	})
+	
+	.state('shop.orderConfirm', {
+	   	url: '/orderConfirm',	        
+	    templateUrl: 'html/template/orderConfirm.html', 
+	})
+	    	
+	.state('checkout', {
+    	abstract: true,
+	   	url: '/checkout',	        
+	    templateUrl: 'html/template/checkout.html', 
+	    controller: 'cartController'
+	})
+	
+	.state('checkout.address', {
+	   	url: '/address',	        
+	    templateUrl: 'html/template/checkoutAddress.html',
+	})
+	
+	.state('checkout.shipping', {
+	   	url: '/shipping',	        
+	    templateUrl: 'html/template/checkoutShippingAddress.html',
+	})
+	
+	.state('checkout.login', {
+	   	url: '/login',	        
+	    templateUrl: 'html/template/login.html',
+	    controller: 'loginController',
+        params: {
+        	login: "checkout.address",
+        	logout: "checkout.address",
+        	register: "checkout.login"
+        }
+	})
+	
+	.state('checkout.register', {
+	   	url: '/register',	        
+	    templateUrl: 'html/template/register.html',
+	    controller: 'loginController',
+        params: {
+        	login: "checkout.address",
+        	logout: "checkout.address",
+        	register: "checkout.login"
+        }
+	})
+	
+	.state('complete' , {
+		url: '/complete',
+		templateUrl: 'html/template/orderComplete.html',
+		controller: 'orderController'
+ 	})
+ 	
 	$urlRouterProvider.otherwise("/home");
 	    
 })
