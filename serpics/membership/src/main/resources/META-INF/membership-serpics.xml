@@ -20,13 +20,19 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   <bean name="memberService" class="com.serpics.membership.services.MembershipServiceImpl" scope="store" /> 
     
   <!--  Interceptor  definition  --> 
+  <bean name="abstractStoreEntityInterceptor" class="com.serpics.membership.data.interceptors.AbstractStoreEntitySaveInterceptor" />
   <bean name="addressInterceptor" class="com.serpics.membership.data.interceptors.AbstractAddressSaveInterceptor" />   
   <bean name="memberroleBeforeCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberRoleSaveInterceptor" />
-  <bean name="membegroupCreateInterceptor" class="com.serpics.membership.data.interceptors.MembergroupSaveInterceptor"/>
   <bean name="userCreateInterceptor" class="com.serpics.membership.data.interceptors.UserSaveInterceptor"/>
   <bean name="memberGrouprelCreateInterceptor" class="com.serpics.membership.data.interceptors.MemberGroupRelSaveInterceptor" />
   
   
+   <bean name="abstractStoreEntityMapping" class="com.serpics.core.data.InterceptorMapping" >
+	  <property name="targetEntity" value="com.serpics.membership.data.model.AbstractStoreEntity" />
+	  <property name="order" value="100"/>
+	  <property name="interceptor" ref="abstractStoreEntityInterceptor" />
+ </bean> 
+ 
   <bean name="addressMapping" class="com.serpics.core.data.InterceptorMapping" >
 	  <property name="targetEntity" value="com.serpics.membership.data.model.AbstractAddress" />
 	  <property name="order" value="100"/>
@@ -39,11 +45,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	  <property name="interceptor" ref="memberroleBeforeCreateInterceptor" />
  </bean>   
      
-  <bean name="memberGroupMapping" class="com.serpics.core.data.InterceptorMapping" >
-	  <property name="targetEntity" value="com.serpics.membership.data.model.Membergroup" />
-	  <property name="order" value="100"/>
-	  <property name="interceptor" ref="membegroupCreateInterceptor" />
- </bean>  
+  
 
 	<bean name="userMapping" class="com.serpics.core.data.InterceptorMapping" >
 		  <property name="targetEntity" value="com.serpics.membership.data.model.User" />
@@ -58,7 +60,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	 </bean>
    
   <bean name="userSpecification" class="com.serpics.membership.data.specifications.DefaultUserSpecification"/>  
-  
+  <bean name="abstractStoreEntitySpecification" class="com.serpics.membership.data.specifications.DefaultAbstractStoreEntitySpecification" />
+
   <!-- facade -->
   <alias name="defaultAddressPopulator" alias="addressPopulator"/>
   <bean name="defaultAddressPopulator" class="com.serpics.membership.facade.AddressPopulator" >

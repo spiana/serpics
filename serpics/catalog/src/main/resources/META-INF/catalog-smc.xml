@@ -42,7 +42,7 @@
 			<search>
 				<property name="code"/>
 				<property name="name"/>
-				<property name="description"/>
+<!-- 				<property name="description"/> -->
 			</search>
 		</table>
 	</entity>

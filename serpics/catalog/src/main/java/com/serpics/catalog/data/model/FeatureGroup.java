@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 import com.serpics.base.data.model.MultilingualString;
 
 @Entity
-public class FeatureGroup extends com.serpics.core.data.jpa.AbstractEntity {
+public class FeatureGroup extends AbstractCatalogEntry {
    
 	private static final long serialVersionUID = -7524207490009840876L;
 

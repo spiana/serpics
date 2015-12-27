@@ -15,7 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.serpics.base.data.model.Currency;
-import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
  * The persistent class for the prices database table.
@@ -23,7 +22,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
  */
 @Entity
 @Table(name = "prices")
-public class Price extends AbstractEntity implements Serializable {
+public class Price extends AbstractCatalogEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

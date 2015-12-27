@@ -9,12 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
  * The persistent class for the brands database table.
@@ -22,7 +18,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
  */
 @Entity
 @Table(name = "brands")
-public class Brand extends AbstractEntity implements Serializable {
+public class Brand extends AbstractCatalogEntry implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -40,11 +36,6 @@ public class Brand extends AbstractEntity implements Serializable {
 	// bi-directional many-to-one association to Product
 	@OneToMany(mappedBy = "brand" , fetch=FetchType.LAZY)
 	private Set<AbstractProduct> products;
-	
-	@ManyToOne(optional = false  )
-	@JoinColumn(name = "catalog_id" )
-	private Catalog catalog;
-	
 	
 	public Brand() {
 	}
@@ -79,14 +70,6 @@ public class Brand extends AbstractEntity implements Serializable {
 
 	public void setProducts(Set<AbstractProduct> products) {
 		this.products = products;
-	}
-
-	public Catalog getCatalog() {
-		return catalog;
-	}
-
-	public void setCatalog(Catalog catalog) {
-		this.catalog = catalog;
 	}
 
 	public Integer getPublished() {

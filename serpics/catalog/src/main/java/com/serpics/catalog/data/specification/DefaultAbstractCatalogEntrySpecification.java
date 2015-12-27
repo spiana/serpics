@@ -14,7 +14,7 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.stereotype.DefaultSpec;
 
 @DefaultSpec(Brand.class)
-public class DefaultBrandSpecification implements Specification<Brand>{
+public class DefaultAbstractCatalogEntrySpecification implements Specification<Brand>{
 	@Autowired
 	CommerceEngine engine;
 	

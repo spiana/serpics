@@ -18,24 +18,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.MultilingualText;
-import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
  * The persistent class for the ctentry database table.
  * 
  */
 @Entity
-@Table(name = "ctentry")
+@Table(name = "ctentry" , uniqueConstraints= @UniqueConstraint(columnNames= {"catalog_id", "code"}))
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "ctenytry_type", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class Ctentry extends AbstractEntity implements Serializable {
+public abstract class Ctentry extends AbstractCatalogEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ctentry_id")
@@ -164,7 +165,5 @@ public abstract class Ctentry extends AbstractEntity implements Serializable {
 	public void setDescription(MultilingualText description) {
 		this.description = description;
 	}
-
-   
 
 }

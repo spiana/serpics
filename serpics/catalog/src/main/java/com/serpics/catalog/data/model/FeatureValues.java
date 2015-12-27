@@ -13,7 +13,7 @@ import com.serpics.base.data.model.MultiValueAttribute;
 
 
 @Entity
-public class FeatureValues extends com.serpics.core.data.jpa.AbstractEntity{
+public class FeatureValues extends AbstractCatalogEntry{
 
 	private static final long serialVersionUID = 5102019790904200289L;
 

@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -18,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
  * The persistent class for the pricelist database table.
@@ -26,7 +24,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
  */
 @Entity
 @Table(name="pricelist" )
-public class Pricelist extends AbstractEntity implements Serializable {
+public class Pricelist extends AbstractCatalogEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -43,12 +41,7 @@ public class Pricelist extends AbstractEntity implements Serializable {
     @JoinColumn(name = "description_string_id")
     private MultilingualString description;
 
-    //bi-directional many-to-one association to Catalog
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "catalog_id", nullable = false)
-    private Catalog catalog;
-
-    //bi-directional many-to-one association to Price
+       //bi-directional many-to-one association to Price
     @OneToMany(mappedBy="pricelist")
     private Set<Price> prices;
 
@@ -82,14 +75,6 @@ public class Pricelist extends AbstractEntity implements Serializable {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public Catalog getCatalog() {
-        return this.catalog;
-    }
-
-    public void setCatalog(final Catalog catalog) {
-        this.catalog = catalog;
     }
 
     public Set<Price> getPrices() {

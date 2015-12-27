@@ -5,6 +5,6 @@ public interface Catalog {
 
 	public String getCode();
 
-	public short getPublished();
+	public boolean isPublished();
 
 }

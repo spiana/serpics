@@ -18,24 +18,18 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<!-- Interceptor Mapping -->
 	<bean name="ctentrySaveInterceptor" class="com.serpics.catalog.data.interceptors.CtentrySaveInterceptor" />
 	
-	<bean name="productCreateInterceptor"
-		class="com.serpics.catalog.data.interceptors.ProductSaveInterceptor" />
+	<bean name="abstractCatalogEntrySaveInterceptor"
+		class="com.serpics.catalog.data.interceptors.AbstractCatalogEntrySaveInterceptor" />
 	
-	<bean name="brandCreateInterceptor"
-		class="com.serpics.catalog.data.interceptors.BrandSaveInterceptor" />
-	
-	<bean name="categoryCreateInterceptor"
-		class="com.serpics.catalog.data.interceptors.CategorySaveInterceptor" />
 	<bean name="categoryRelationCreateInterceptor"
 		class="com.serpics.catalog.data.interceptors.CategoryRelationSaveInterceptor" />
+	
 	<bean name="category2ProductCreateInterceptor"
 		class="com.serpics.catalog.data.interceptors.Category2productSaveInterceptor" />
+	
 	<bean name="priceInterceptor"
 		class="com.serpics.catalog.data.interceptors.PriceSaveInterceptor" />
-		
-		<bean name="featureModelInterceptor"
-		class="com.serpics.catalog.data.interceptors.FeatureModelSaveInterceptor" />
-
+	
 	<bean name="featureInterceptor"
 		class="com.serpics.catalog.data.interceptors.FeatureSaveInterceptor" />
 		
@@ -44,24 +38,13 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="order" value="10" />
 		<property name="interceptor" ref="ctentrySaveInterceptor" />
 	</bean>
-		
-	<bean name="productCreateMapping" class="com.serpics.core.data.InterceptorMapping">
-		<property name="targetEntity" value="com.serpics.catalog.data.model.Product" />
+	
+	<bean name="AbstractCatalogCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.catalog.data.model.AbstractCatalogEntry" />
 		<property name="order" value="10" />
-		<property name="interceptor" ref="productCreateInterceptor" />
+		<property name="interceptor" ref="abstractCatalogEntrySaveInterceptor" />
 	</bean>
 	
-	<bean name="brandCreateMapping" class="com.serpics.core.data.InterceptorMapping">
-		<property name="targetEntity" value="com.serpics.catalog.data.model.Brand" />
-		<property name="order" value="10" />
-		<property name="interceptor" ref="brandCreateInterceptor" />
-	</bean>
-	
-	<bean name="categoryCreateMapping" class="com.serpics.core.data.InterceptorMapping">
-		<property name="targetEntity" value="com.serpics.catalog.data.model.Category" />
-		<property name="order" value="10" />
-		<property name="interceptor" ref="categoryCreateInterceptor" />
-	</bean>
 	<bean name="categoryRealationCreateMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity"
 			value="com.serpics.catalog.data.model.CategoryRelation" />
@@ -80,12 +63,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="interceptor" ref="priceInterceptor" />
 	</bean>
 
-	<bean name="featureModelSaveMapping" class="com.serpics.core.data.InterceptorMapping">
-			<property name="targetEntity" value="com.serpics.catalog.data.model.FeatureModel" />
-			<property name="order" value="10" />
-			<property name="interceptor" ref="featureModelInterceptor" />
-		</bean>
-
 	<bean name="featureSaveMapping" class="com.serpics.core.data.InterceptorMapping">
 			<property name="targetEntity" value="com.serpics.catalog.data.model.Feature" />
 			<property name="order" value="10" />
@@ -93,12 +70,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	</bean>
 
 	<!-- default specification -->
-	<bean name="categorySpecification"
-		class="com.serpics.catalog.data.specification.DefaultCategorySpecification" />
-	<bean name="productSpecification"
-		class="com.serpics.catalog.data.specification.DefaultProductSpecification" />
-	<bean name="brandSpecification"
-		class="com.serpics.catalog.data.specification.DefaultBrandSpecification" />
+	<bean name="abstractCatalogEntrySpecification"
+		class="com.serpics.catalog.data.specification.DefaultAbstractCatalogEntrySpecification" />
 	
 	<bean name="productSpecificationRegisterd" class="com.serpics.catalog.data.specification.DefaultRegisteredProductSpecification"/>
 	

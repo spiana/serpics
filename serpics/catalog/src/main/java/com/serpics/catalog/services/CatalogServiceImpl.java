@@ -47,6 +47,7 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
             catalog = new Catalog();
             catalog.setCode("default-catalog");
             catalog = catalogRepository.saveAndFlush(catalog);
+            getCurrentContext().setCatalog(catalog);
             initializeCatalog(catalog);
         }
         getCurrentContext().setCatalog(catalog);

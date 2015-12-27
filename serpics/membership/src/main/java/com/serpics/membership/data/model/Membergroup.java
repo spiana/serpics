@@ -11,8 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -29,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name="membergroups")
 @XmlRootElement
-public class Membergroup  extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
+public class Membergroup  extends AbstractStoreEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -46,11 +44,7 @@ public class Membergroup  extends com.serpics.core.data.jpa.AbstractEntity imple
     @Column(length=254)
     private String description;
 
-    //bi-directional many-to-one association to Store
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="store_id", nullable=false)
-    private Store store;
-
+   
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "membergroup", cascade = CascadeType.ALL)
     private Set<Membergrouprel> groupRelation = new HashSet<Membergrouprel>(0);
 
@@ -81,13 +75,6 @@ public class Membergroup  extends com.serpics.core.data.jpa.AbstractEntity imple
         this.name = name;
     }
 
-    public Store getStore() {
-        return this.store;
-    }
-
-    public void setStore(final Store store) {
-        this.store = store;
-    }
 
     public Set<Membergrouprel> getGroupRelation() {
         return groupRelation;
