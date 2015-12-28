@@ -127,16 +127,6 @@
 	/**
 	 * 
 	 */
-	var productDirective = function() {
-		return {
-			restrict : 'EA',
-			templateUrl : "html/template/product-home.html",			
-		}
-	}
-
-	/**
-	 * 
-	 */
 	var cartDirective = function() {
 		return {
 			restrict : 'EA',
@@ -224,7 +214,6 @@
 	.directive('brandDirective', 		brandDirective)
 	.directive('leftSidebarDirective', 	leftSidebarDirective)
 	.directive('productListDirective', 	productListDirective)
-	.directive('productDirective', 		productDirective)
 	.directive('cartDirective', 		cartDirective)
 	.directive('orderDirective',		orderDirective)
 	.directive('loginDirective', 		loginDirective)

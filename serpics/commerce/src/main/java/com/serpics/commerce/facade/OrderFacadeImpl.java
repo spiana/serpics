@@ -65,6 +65,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
+	@Transactional
 	public List<OrderData> getOrders() {
 		User currentUser = userService.getCurrentCustomer();
 		List<OrderData> orderDataList = new ArrayList<OrderData>();
