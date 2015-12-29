@@ -18,17 +18,6 @@
   	    /** implemented order service **/ 
   	    
   	    /**
-  	     * @return 					list of orders
-  	     * @use 					orderService,serpicsServices
-  	     */
-  		$scope.getOrders = function() {	
-  	    	orderService.getOrders().then( function( response ) {
-  	    		console.log("OrderController: getOrders(): ramo then");
-  	    		$scope.order = response;
-  	    	})
-  	    };
-  	    
-  	    /**
   	     * @param order 				add payment for @param order
   	     * @param data 					data to send
   	     * @return 						a new cart

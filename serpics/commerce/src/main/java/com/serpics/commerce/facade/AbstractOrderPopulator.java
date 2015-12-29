@@ -21,6 +21,7 @@ public  class AbstractOrderPopulator {
 	
 	@SuppressWarnings("unchecked")
 	public void populate(AbstractOrder source, AbstractOrdersData target) {
+		target.setShippingAddress(source.getShippingAddress());
 		target.setBillingAddress(source.getBillingAddress());
 		target.setId(source.getId());
 		target.setUuid(source.getUuid());

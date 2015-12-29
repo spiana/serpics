@@ -204,7 +204,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.billingAddress = billingAddress;
     }
 
-    public AbstractAddress getShippingAddress() {
+    public Address getShippingAddress() {
         return shippingAddress;
     }
 

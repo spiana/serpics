@@ -30,12 +30,17 @@ public class AddressFacadeImpl implements AddressFacade{
 		destination.setFirstname(source.getFirstname());
 		destination.setLastname(source.getLastname());
 		destination.setAddress1(source.getAddress1());
+		destination.setAddress2(source.getAddress2());
+		destination.setAddress3(source.getAddress3());
 		destination.setStreetNumber(source.getStreetNumber());
 		destination.setCity(source.getCity());
 		destination.setCompany(source.getCompany());
 		destination.setZipcode(source.getZipcode());
 		destination.setVatcode(source.getVatcode());
 		destination.setFax(source.getFax());
+		destination.setEmail(source.getEmail());
+		destination.setMobile(source.getMobile());
+		destination.setPhone(source.getPhone());
 
 		if ((source.getRegion() != null) && (source.getRegion().getUuid() != null))
 			destination.setRegion(regionService.findByUUID(source.getRegion().getUuid()));

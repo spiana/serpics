@@ -1,1 +1,87 @@
-<div><h4>HAI VINTO!!!</h4></div>
+<div class="container text-center">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="content-orderConfirm">
+				<h1>
+					<b>Order Confirmed Succesfully!</b>
+				</h1>
+				<i class="fa fa-check"></i>
+				<p>your order was confirmed shortly receive an email list. Thank you.</p>				
+			</div>
+			<div id="cart_items">Order summary:
+					<table class="table table-condensed">
+						<thead>
+							<tr class="cart_menu">
+								<td class="description">Product code</td>
+								<td class="quantity">Quantity</td>
+								<td class="price">Price</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in order.orderItems">
+								<td class="cart_description">
+									<h4>
+										<p>{{item.product.code}}</p>
+									</h4>
+								</td>
+								<td class="cart_quantity">
+									<h4>
+										<p>{{item.quantity}}</p>
+									</h4>
+								</td>
+								<td class="cart_price">
+									<h4>
+										<p>&euro;{{item.skuNetPrice}}</p>
+									</h4>
+								</td>
+							</tr>
+						</tbody>
+					</table>					
+			</div>
+			<div class="shopper-informations">
+				<div class="col-sm-6 clearfix">
+						<div class="bill-to">
+							<p>Bill To</p>
+							<div class="form-one">
+								<form>
+									<input type="text" name="company" placeholder="Company Name" ng-model="order.billingAddress.company" readonly>
+									<input type="text" name="firstname" placeholder="First Name *" ng-model="order.billingAddress.firstname" readonly>
+									<input type="text" name="lastname" placeholder="Last Name *" ng-model="order.billingAddress.lastname" readonly>
+									<input type="text" name="address1" placeholder="Address *" ng-model="order.billingAddress.address1" readonly>
+									<input type="text" name="address2" placeholder="Address 2" ng-model="order.billingAddress.address2" readonly>
+									<input type="text" name="streetNumber" placeholder="Street Number *" ng-model="order.billingAddress.streetNumber" readonly>
+									<input type="text" name="city" placeholder="City *" ng-model="order.billingAddress.city" required>
+									<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="order.billingAddress.zipcode" readonly>
+									<input type="text" name="email" placeholder="Email *" ng-model="order.billingAddress.email" readonly>
+									<input type="text" name="phone" placeholder="Phone" ng-model="order.billingAddress.phone" readonly>
+									<input type="text" name="mobile" placeholder="Mobile Phone" ng-model="order.billingAddress.mobile" readonly>
+									<input type="text" name="fax" placeholder="Fax" ng-model="order.billingAddress.fax" readonly>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 clearfix">
+						<div class="bill-to">
+							<p>Ship To</p>
+							<div class="form-one">
+								<form>
+									<input type="text" name="company" placeholder="Company Name" ng-model="order.shippingAddress.company" readonly>
+									<input type="text" name="firstname" placeholder="First Name *" ng-model="order.shippingAddress.firstname" readonly>
+									<input type="text" name="lastname" placeholder="Last Name *" ng-model="order.shippingAddress.lastname" readonly>
+									<input type="text" name="address1" placeholder="Address *" ng-model="order.shippingAddress.address1" readonly>
+									<input type="text" name="address2" placeholder="Address 2" ng-model="order.shippingAddress.address2" readonly>
+									<input type="text" name="streetNumber" placeholder="Street Number *" ng-model="order.shippingAddress.streetNumber" readonly>
+									<input type="text" name="city" placeholder="City *" ng-model="order.shippingAddress.city" required>
+									<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="order.shippingAddress.zipcode" readonly>
+									<input type="text" name="email" placeholder="Email *" ng-model="order.shippingAddress.email" readonly>
+									<input type="text" name="phone" placeholder="Phone" ng-model="order.shippingAddress.phone" readonly>
+									<input type="text" name="mobile" placeholder="Mobile Phone" ng-model="order.shippingAddress.mobile" readonly>
+									<input type="text" name="fax" placeholder="Fax" ng-model="order.shippingAddress.fax" readonly>
+								</form>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
