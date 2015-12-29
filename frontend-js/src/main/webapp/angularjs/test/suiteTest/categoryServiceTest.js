@@ -9,7 +9,7 @@ describe("Testing category.service module:", function() {
 			
 	
 	    	// Do some provider configuration here
-//			$provide.value('$log', mockedLogOff);
+			$provide.value('$log', mockedLog);
 	  
 		}));
 	
@@ -28,7 +28,6 @@ describe("Testing category.service module:", function() {
 	beforeEach(inject(function(_$log_){
 		
 	    // The injector unwraps the underscores (_) from around the parameter names when matching
-		
 		$log = _$log_;
     
 	}));
@@ -65,19 +64,22 @@ describe("Testing category.service module:", function() {
 
 	  it('categoryService getTopQ() with mocked getSessionId function', inject(function(categoryService,$httpBackend) {
 		  
-		  var categorys =  [];
+		  var categories =  [];
 		  categoryService.getTopQ().then(function(response){
-				  categorys = response;
+				  categories = response;
 		  });		
 		  
 		  $httpBackend.flush();
+
+		  //$log.debug('categoryService getTopQ() Test category code:'+JSON.stringify(categories));
 		  
-		  expect(categorys).not.toBeNull();
+		  expect(categories).not.toBeNull();
 		  
-		  expect(categorys.content[0].code).toEqual('PHILIPHS');
+		  expect(categories[0].code).toEqual('GUESS');
+		  expect(categories[0].id).toEqual(4);
 
 		  
-		  $log.debug("categoryService getTopQ() Test category Name: "+categorys.content[0].name);
+		  $log.debug("categoryService getTopQ() Test category Code: "+categories[0].code);
 
 	  }));
 
@@ -85,27 +87,29 @@ describe("Testing category.service module:", function() {
 	  it('categoryService getCategoryById with mocked getSessionId function', inject(function(categoryService,$httpBackend) {
 		  
 		  var category =  {};
-		  var categoryId= '1';
+		  var categoryId= '4';
 		  
 		  categoryService.getCategoryById(categoryId).then(function(response){
 				  category = response;
+				  
 		  });		
 		  
 		  $httpBackend.flush();
 		  
+	  
 		  expect(category).not.toBeNull();
 		  
-		  expect(category.content[0].code).toEqual('PHILIPHS');
+		  expect(category[0].code).toEqual('GUESS');
 
 		  
-		  $log.debug("categoryService getCategoryById() Test category Name: "+category.content[0].name);
+		  $log.debug("categoryService getCategoryById() Test category code: "+category[0].code);
 
 	  }));
 	  
 	  it('categoryService getCategoryByCode() with mocked getSessionId function', inject(function(categoryService,$httpBackend) {
 		  
 		  var category =  [];
-		  var categoryName= 'PHILIPHS';
+		  var categoryName= 'GUESS';
 		  
 		  categoryService.getCategoryByCode(categoryName).then(function(response){
 				  category = response;
@@ -115,55 +119,53 @@ describe("Testing category.service module:", function() {
 		  
 		  expect(category).not.toBeNull();
 		  
-		  expect(category.content[0].code).toEqual('PHILIPHS');
-		  expect(category.content[0].id).toEqual(1);
+		  expect(category[0].code).toEqual('GUESS');
+		  expect(category[0].id).toEqual(4);
 		  
-		  $log.debug("categoryService getCategoryByCode() Test category Name: "+category.content[0].name);
+		  $log.debug("categoryService getCategoryByCode() Test category code: "+category[0].code);
 
 	  }));
 
 	  
 	  it('categoryService findAll() with mocked getSessionId function', inject(function(categoryService,$httpBackend) {
 		  
-		  var categorys =  [];
+		  var categories =  [];
 
 		  
 		  categoryService.findAll().then(function(response){
-				  categorys = response;
+				  categories = response;
 		  });		
 		  
 		  $httpBackend.flush();
 		  
-		  expect(categorys).not.toBeNull();
+		  expect(categories).not.toBeNull();
 		  
-		  expect(categorys.content[0].name).toEqual('PHILIPHS');
-		  expect(categorys.content[0].logo).toEqual('Logo');
-		  expect(categorys.content[0].id).toEqual(1);
+		  expect(categories[0].code).toEqual('GUESS');
+		  expect(categories[0].id).toEqual(4);
 		  
-		  $log.debug("categoryService findAll() Test category Name: "+categorys.content[0].name);
+		  $log.debug("categoryService findAll() Test category code: "+categories[0].code);
 
 	  }));
 	  
 	  it('categoryService findAll(page, size) with mocked getSessionId function', inject(function(categoryService,$httpBackend) {
 		  
-		  var categorys =  [];
+		  var categories =  [];
 		  var page=0;
 		  var size=3;
 		  
 		  categoryService.findAll(page,size).then(function(response){
-				  categorys = response;
+				  categories = response;
 		  });		
 		  
 		  $httpBackend.flush();
 		  
-		  expect(categorys).not.toBeNull();
+		  expect(categories).not.toBeNull();
 		  
-		  expect(categorys.content.length).toEqual(3);
-		  expect(categorys.content[0].name).toEqual('PHILIPHS');
-		  expect(categorys.content[0].logo).toEqual('Logo');
-		  expect(categorys.content[0].id).toEqual(1);
+		  expect(categories.length).toEqual(3);
+		  expect(categories[0].code).toEqual('GUESS');
+		  expect(categories[0].id).toEqual(4);
 		  
-		  $log.debug("categoryService findAll(page, size) category Name: "+categorys.content[0].name);
+		  $log.debug("categorieservice findAll(page, size) category code: "+categories[0].code);
 
 	  }));
 	

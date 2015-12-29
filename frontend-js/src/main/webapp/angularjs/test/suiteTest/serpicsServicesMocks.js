@@ -21,7 +21,7 @@ serpicsMocks.run(function($httpBackend) {
 	var brand={ "responseObject":{"content":[{"updated":"2015-11-16T16:13:41 GMT","created":"2015-11-16T16:13:41 GMT","uuid":"3b2e4404-6ab2-43cb-97e0-148074abb9a5","id":1,"logo":"Logos","name":"PHILIPHS","brandProductNumber":0,"published":1}]}};
 	
 
-	var category={};
+	var category={"responseObject":[{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0}]};
 	
 	var categoryTop={"responseObject":[{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
 		{"updated":"2015-11-16T17:01:25 GMT","created":"2015-11-16T17:01:25 GMT","uuid":"96ea6e5a-8c10-4e29-9f02-e7e74c887d15","id":17,"code":"MENS","url":"/default-catalog/MENS","published":1,"catalogId":"default-catalog","childCategoryNumber":4,"childProductNumber":0},
@@ -33,9 +33,14 @@ serpicsMocks.run(function($httpBackend) {
 		{"updated":"2015-11-16T17:02:47 GMT","created":"2015-11-16T17:02:47 GMT","uuid":"d15d64ea-e0dd-412c-9e36-17359886ce47","id":24,"code":"SURF","url":"/default-catalog/SURF","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
 		{"updated":"2015-11-20T10:19:32 GMT","created":"2015-11-20T10:19:32 GMT","uuid":"554b81a5-7f05-484d-b245-d9e536861c98","id":780,"code":"MOBILE","url":"/default-catalog/MOBILE","published":0,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":3}]};
 	
-	var categoryList={};
+	var categoryList={"responseObject":[{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
+	                            		{"updated":"2015-11-16T17:01:25 GMT","created":"2015-11-16T17:01:25 GMT","uuid":"96ea6e5a-8c10-4e29-9f02-e7e74c887d15","id":17,"code":"MENS","url":"/default-catalog/MENS","published":1,"catalogId":"default-catalog","childCategoryNumber":4,"childProductNumber":0},
+	                            		{"updated":"2015-11-16T17:01:36 GMT","created":"2015-11-16T17:01:36 GMT","uuid":"12358ab9-0549-4d66-9f9f-fe5ba309aef3","id":18,"code":"WOMENS","url":"/default-catalog/WOMENS","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0}]};
 	
-	var categoryPageSize={};
+	var categoryPageSize={"responseObject":[{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
+		                            		{"updated":"2015-11-16T17:01:25 GMT","created":"2015-11-16T17:01:25 GMT","uuid":"96ea6e5a-8c10-4e29-9f02-e7e74c887d15","id":17,"code":"MENS","url":"/default-catalog/MENS","published":1,"catalogId":"default-catalog","childCategoryNumber":4,"childProductNumber":0},
+		                            		{"updated":"2015-11-16T17:01:36 GMT","created":"2015-11-16T17:01:36 GMT","uuid":"12358ab9-0549-4d66-9f9f-fe5ba309aef3","id":18,"code":"WOMENS","url":"/default-catalog/WOMENS","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0}]};
+		
 	
 	
 	//Authentication endpoint
@@ -73,13 +78,19 @@ serpicsMocks.run(function($httpBackend) {
 	    return [status,categoryTop];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/1').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/4').respond(function(method, url, data) {
 	    return [status,category];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/code/PHILIPHS').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/code/GUESS').respond(function(method, url, data) {
 	    return [status,category];
 	  });
+	
+	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/findAll').respond(function(method, url, data) {
+	    return [status,categoryList];
+	  });
+	
+	
 	
 	
 	
