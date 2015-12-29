@@ -71,6 +71,8 @@ public interface CartService {
     public void setBillingAddress(Address address);
     public void setDestinationAddress(Address address);
     public void setShippingMode(Shipmode shippingMode);
+
+	public void removeCartFromSession();
       
 
 }

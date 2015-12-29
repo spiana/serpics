@@ -95,7 +95,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		getCurrentContext().setAttribute(SESSION_CART, cart);
 	}
 
-	private void removeCartFromSession() {
+	@Override
+	public void removeCartFromSession() {
 		getCurrentContext().setAttribute(SESSION_CART, null);
 	}
 
