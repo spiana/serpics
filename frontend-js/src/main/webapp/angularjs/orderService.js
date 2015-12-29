@@ -1,4 +1,4 @@
- var app = angular.module("order.service", ['serpics.config'])
+ var app = angular.module("order.service", ['serpics.config','serpics.services'])
 /**
  * order service to handler rest call to order service
  */

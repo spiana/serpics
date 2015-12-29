@@ -1,4 +1,4 @@
- var app = angular.module("category.service", ['ngCookies','serpics.config'])
+ var app = angular.module("category.service", ['ngCookies','serpics.config','serpics.services'])
  /**
  * category service to handler rest call to category service
  */
@@ -100,7 +100,7 @@
 	    			$log.debug("CategoryService getCategoryByCode(code) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint +  'code/' + category,
+	    				url: URL + endpoint +  'code/' + code,
 	    				headers: {
 	    					'ssid': sessionId
 	    					}
@@ -176,7 +176,7 @@
 	    function handleSuccess( response ) {
         	var serviceSSID = serpicsServices;
         	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES)  /** expire 20 minut **/ 
-	        return( response.data.responseObject);
+	        return(response.data.responseObject);
 	    }
 	}
 );

@@ -1,5 +1,5 @@
 
-var app = angular.module('customer.service',['serpics.config'])
+var app = angular.module('customer.service',['serpics.config','serpics.services'])
 
 .factory('customerService',  [ '$http', '$q','serpicsServices','URL','ENDPOINT',
     function ($http, $q, serpicsServices,URL,ENDPOINT) {

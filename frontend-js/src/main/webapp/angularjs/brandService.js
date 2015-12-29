@@ -1,4 +1,4 @@
- var app = angular.module("brand.service", ['serpics.config','serpics.Services'])
+ var app = angular.module("brand.service", ['serpics.config','serpics.services'])
 /**
  * brand service to handler rest call to brand service
  */
@@ -53,7 +53,7 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
 	    			$log.debug("BrandService findBrandById(brandId) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: endpoint +   'code/' + brandId,
+			             url: URL + endpoint +   'code/' + brandId,
 			             headers: {
 			             	'ssid': sessionId
 			            }
@@ -74,7 +74,7 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
 	    			$log.debug("BrandService findBrandByName(name) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: 	endpoint +  name,
+			             url: 	URL + endpoint +  name,
 			             headers: {
 			             	'ssid': sessionId
 			            }
@@ -90,13 +90,21 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
          */      
         function findAll(page,size) {
         	var serviceSSID = serpicsServices;
+        	
+        	var findAllUrl='';
+        	if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
+        		findAllUrl= URL + endpoint;
+        	}else{
+        		findAllUrl = URL + endpoint +  '?page=' + page + '&size=' +size
+        	}
+        	
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			$log.debug("BrandService findAll(page,size) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: endpoint +  '?page=' + page + '&size=' +size,
+			             url: findAllUrl,
 			             headers: {
 			             	'ssid': sessionId
 			            }
@@ -130,7 +138,7 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
         function handleSuccess( response ) {
         	var serviceSSID = serpicsServices;
         	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES)  /** expire 20 minut **/ 
-            return( response.data.responseObject);
+            return(response.data.responseObject);
         }
     
 }]);
