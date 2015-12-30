@@ -7,7 +7,7 @@ describe("Testing serpics.services module:", function() {
 	var $log;
 
 	//1 Dichiaro i moduli che mi servono per i test
-	beforeEach(module('ngCookies','serpics.services','http.mocks', function($provide) {
+	beforeEach(module('ngCookies','serpics.services','http.serpics.services.mocks', function($provide) {
     
 		// Do some provider configuration here
 		

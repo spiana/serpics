@@ -1,11 +1,11 @@
-describe("Testing cart.service module:", function() {
+describe("Testing customer.service module:", function() {
 	
 	var mockedLogOff = {debug:function(){}};
 //	var mockedLog = {debug:console.log};
 	var mockedLog = {debug:function(log){console.log(log)}};
 	
 	//1 Dichiaro i moduli che mi servono per i test
-		beforeEach(module('cart.service','http.cart.mocks','serpics.services', function($provide) {
+		beforeEach(module('customer.service','http.customer.mocks','serpics.services', function($provide) {
 			
 	
 	    	// Do some provider configuration here
@@ -63,44 +63,36 @@ describe("Testing cart.service module:", function() {
 		
 	  }))
 
-	  it('cartService getCurrentCart() with mocked getSessionId function', inject(function(cartService,$httpBackend) {
+	  xit('customerService login(username, password) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
 		  
-		  var cart =  {};
-		  cartService.getCurrentCart().then(function(response){
-			  cart = response;
+		  var login =  {};
+		  var username = 'user';
+		  var password = 'password'; 
+		  
+		  customerService.login(username, password).then(function(response){
+			  login = response;
 		  });		
 		  
 		  $httpBackend.flush();
 		  
-		  expect(cart).not.toBeNull();
+		  expect(login).not.toBeNull();
 		  
-		  expect(cart.id).toEqual(1180);
+		  expect(login.id).toEqual(1180);
 		  
-		  expect(cart.orderItems[0].id).toEqual(252);
+		  expect(login.orderItems[0].id).toEqual(252);
 		  
-		  expect(cart.orderItems[0].product.code).toEqual('TASTIERA');
-		  expect(cart.orderItems[0].product.brand.name).toEqual('LOGITECH');
-		  expect(cart.orderItems[0].product.categories[0].code).toEqual('COMPUTER');
+	  
 		  
-		  expect(cart.orderItems[0].sku).toEqual('TASTIERA');
-		  expect(cart.orderItems[0].skuCost).toEqual(0);
-		  expect(cart.orderItems[0].skuNetPrice).toEqual(30.99);
-		  expect(cart.orderItems[0].skuPrice).toEqual(30.99);
-		  expect(cart.orderItems[0].shippingCost).toEqual(0);
-		  expect(cart.orderItems[0].shippingAddressId).toEqual(0);
-		  
-		  
-		  $log.debug("cartService getCurrentCart() Card id: "+cart.id);
+		  $log.debug("customerService login(username, password) login: "+login);
 
 	  }));
 
 	
-	  it('cartService deleteItem(itemId) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
+	  it('customerService logout() with mocked getSessionId function', inject(function(customerService,$httpBackend) {
 		  
-		  var cart = {};
-		  var itemId= '1';
+		  var logout = {};
 		  
-		  cartService.deleteItem(itemId).then(function(response){
+		  customerService.logout().then(function(response){
 			  cart = response;
 		  });		
 		  
@@ -109,17 +101,17 @@ describe("Testing cart.service module:", function() {
 		  expect(cart).not.toBeNull();
 		  
 	  
-		  $log.debug("cartService deleteItem(itemId) Cart : "+JSON.stringify(cart));
+		  $log.debug("customerService deleteItem(itemId) Cart : "+JSON.stringify(cart));
 
 	  }));
 	  
-	  xit('cartService cartAdd(sku ,quantity) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
+	  xit('customerService cartAdd(sku ,quantity) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
 		  
 		  var sku =  'TASTIERA';
 		  var quantity= 1;
 		  var cartModification = {};
 		  
-		  cartService.cartAdd(sku ,quantity).then(function(response){
+		  customerService.cartAdd(sku ,quantity).then(function(response){
 			  cartModification = response;
 		  });		
 		  
@@ -131,19 +123,19 @@ describe("Testing cart.service module:", function() {
 		  expect(cartModification).toEqual('Logos');
 		  expect(cartModification).toEqual(1);
 		  
-		  $log.debug("cartService cartAdd(sku ,quantity) CartModification Status: "+cartModification.status);
+		  $log.debug("customerService cartAdd(sku ,quantity) CartModification Status: "+cartModification.status);
 
 	  }));
 
 	  
-	 it('cartService cartUpdate(cartItem) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
+	 xit('customerService cartUpdate(cartItem) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
 		  
 		  var cartModification =  {};
 		  
 		  var cartItem = {"updated":"2015-12-30T12:05:37 GMT","created":"2015-12-30T12:05:37 GMT","uuid":"dce20718-a56a-438d-9efc-1a8419662fc2","id":254,"discountAmount":0,"discountPerc":0,"quantity":2,"product":{"updated":"2015-11-18T14:31:07 GMT","created":"2015-11-16T16:12:59 GMT","uuid":"80513282-94b5-4708-988d-8ae5c1919d3d","id":6,"code":"MOUSE","url":"/default-catalog/product/Mouse","published":0,"buyable":1,"dowloadable":0,"price":{"currentPrice":22.5,"minQty":0,"precedence":0},"brand":{"updated":"2015-11-16T16:01:58 GMT","created":"2015-11-16T16:01:58 GMT","uuid":"668a270b-d951-45ee-8d4e-9b4c8f716f0a","id":10,"logo":"Logo","name":"LOGITECH","brandProductNumber":3,"published":1},"medias":[],"categories":[{"updated":"2015-11-16T17:01:46 GMT","created":"2015-11-16T17:01:46 GMT","uuid":"3fd6597a-edac-4825-bed0-5245b9d81e42","id":19,"code":"COMPUTER","url":"/default-catalog/COMPUTER","published":1,"catalogId":"default-catalog","childCategoryNumber":5,"childProductNumber":11}]},"sku":"MOUSE","skuCost":0,"skuNetPrice":22.5,"skuPrice":22.5,"shippingCost":0,"shippingAddressId":0}
 
 		  
-		  cartService.cartUpdate(cartItem).then(function(response){
+		  customerService.cartUpdate(cartItem).then(function(response){
 			  cartModification = response;
 		  });		
 		  
@@ -155,15 +147,15 @@ describe("Testing cart.service module:", function() {
 		  expect(cartModification).toEqual('Logo');
 		  expect(cartModification).toEqual(1);
 		  
-		  $log.debug("cartService cartUpdate() CartModification: "+cartModification);
+		  $log.debug("customerService cartUpdate() CartModification: "+cartModification);
 
 	  }));
 	  
-	 it('cartService addBillingAddress(billingAddress) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
+	  xit('customerService addBillingAddress(billingAddress) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
 		  
-		  var billingAddress =  {"firstname":"Fede","lastname":"Pic","address1":"VIA LUIGI PIRANDELLO","address2":"6","company":"stepfour","streetNumber":"8","city":"PANDINO","zipcode":"26025","email":"fpicinelli@stepfour.it","phone":"333333333","mobile":"333333333","fax":"333333333"};
+		  var billingAddress =  {};
 		  
-		  cartService.addBillingAddress(billingAddress).then(function(response){
+		  customerService.addBillingAddress(billingAddress).then(function(response){
 			  billingAddress = response;
 		  });		
 		  
@@ -176,16 +168,16 @@ describe("Testing cart.service module:", function() {
 		  expect(addBillingAddress.content[0].logo).toEqual('Logo');
 		  expect(addBillingAddress.content[0].id).toEqual(1);
 		  
-		  $log.debug("cartService addBillingAddress(billingAddress) billingAddress: "+billingAddress.content[0].name);
+		  $log.debug("customerService addBillingAddress(billingAddress) billingAddress: "+billingAddress.content[0].name);
 
 	  }));
-	 
-	 it('cartService addShippingAddress(shippingAddress) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
+	  
+	  xit('customerService addShippingAddress(shippingAddress) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
 		  
-		  var shippingAddress =  {"firstname":"Fede","lastname":"Pic","address1":"VIA LAGO GERUNDO","address2":"6","company":"stepfour","streetNumber":"13","city":"PANDINO","zipcode":"26025","email":"fpicinelli@stepfour.it","phone":"333333333","mobile":"333333333","fax":"333333333"};
+		  var shippingAddress =  {};
 
 		  
-		  cartService.addShippingAddress(shippingAddress).then(function(response){
+		  customerService.addShippingAddress(shippingAddress).then(function(response){
 			  shippingAddress = response;
 		  });		
 		  
@@ -198,7 +190,7 @@ describe("Testing cart.service module:", function() {
 		  expect(shippingAddress.content[0].logo).toEqual('Logo');
 		  expect(shippingAddress.content[0].id).toEqual(1);
 		  
-		  $log.debug("cartService addShippingAddress(shippingAddress) shippingAddress: "+billingAddress.content[0].name);
+		  $log.debug("customerService addShippingAddress(shippingAddress) shippingAddress: "+billingAddress.content[0].name);
 
 	  }));
 

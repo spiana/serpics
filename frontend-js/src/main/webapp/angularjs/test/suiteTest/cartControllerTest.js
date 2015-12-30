@@ -1,23 +1,23 @@
-describe("Testing brand.controller module", function() {
+xdescribe("Testing cart.controller module", function() {
 	
-	var brandController;
+	var cartController;
     var $log;
 	var $controller;
     var $scope = {};
 	var mockedLog = {debug:function(log){console.log(log)}}; 
 
 	
-	beforeEach(module('brand.controller','brand.service','http.brand.mocks','serpics.services', function($provide) {
+	beforeEach(module('cart.controller','cart.service','http.cart.mocks','serpics.services', function($provide) {
     
 		// Do some other stuff before each test run if you want...
 		$provide.value('$log', mockedLog);
   
 	}));
 
-    beforeEach(inject(function(_$controller_){
-    	
+    beforeEach(inject(function(_$controller_,_$state_){
+    	$state = _$state_;
     	$controller = _$controller_;
-    	brandController = $controller('brandController', { $scope: $scope });
+    	cartController = $controller('cartController', { $scope: $scope, $state: $state });
     	
     }));
     
@@ -47,29 +47,31 @@ describe("Testing brand.controller module", function() {
 	    
 	}));
 	
-	it('brandController is registered and runs getBrandQ()', inject(function($httpBackend){
+	it('cartController is registered and runs init()', inject(function($httpBackend,$state){
 		
-		var brands = [];
-		expect(brandController).not.toBeNull();
+		var cart = {};
+		var currentUser = {};
+		
+		expect(cartController).not.toBeNull();
 
 		$httpBackend.flush();
 		
-		brands = $scope.brandData;
-		expect(brands.content.length).toEqual(10);
-		expect(brands.content[0].name).toEqual('PHILIPHS');
-		expect(brands.content[0].logo).toEqual('Logo');
-		expect(brands.content[0].id).toEqual(1);
+		cart = $scope.cart;
+		expect(cart).toEqual(10);
+		expect(cart).toEqual('PHILIPHS');
+		expect(cart).toEqual('Logo');
+		expect($scope.cart).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("cartController Test $scope.cart:"+$scope.cart);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
-	it('brandController $scope.findBrandById(brandId)', inject(function($httpBackend){
+	it('cartController $scope.findBrandById(brandId)', inject(function($httpBackend,$state){
 		
 		var brand = {};
 		var brandId= '1';
 		
-		expect(brandController).not.toBeNull();
+		expect(cartController).not.toBeNull();
 
 		$scope.findBrandById(brandId);
 		
@@ -84,16 +86,16 @@ describe("Testing brand.controller module", function() {
 		expect(brand.logo).toEqual('Logos');
 		expect(brand.id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
+		$log.debug("cartController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
-	it('brandController $scope.$scope.findBrandByName(brandName)', inject(function($httpBackend){
+	it('cartController $scope.$scope.findBrandByName(brandName)', inject(function($httpBackend){
 		
 		var brand = {};
 		var brandName= 'PHILIPHS';
 		
-		expect(brandController).not.toBeNull();
+		expect(cartController).not.toBeNull();
 
 		$scope.findBrandByName(brandName);
 		
@@ -108,15 +110,15 @@ describe("Testing brand.controller module", function() {
 		expect(brand.logo).toEqual('Logos');
 		expect(brand.id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
+		$log.debug("cartController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
-	it('brandController $scope.findAll()', inject(function($httpBackend){
+	it('cartController $scope.findAll()', inject(function($httpBackend){
 		
 		var brands = {};
 		
-		expect(brandController).not.toBeNull();
+		expect(cartController).not.toBeNull();
 
 		$scope.findAll();
 
@@ -131,16 +133,16 @@ describe("Testing brand.controller module", function() {
 		expect(brands.content[0].logo).toEqual('Logo');
 		expect(brands.content[0].id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("cartController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
 	}));
 	
-	it('brandController $scope.findAll(page,size)', inject(function($httpBackend){
+	it('cartController $scope.findAll(page,size)', inject(function($httpBackend){
 		
 		var page = 0;
 		var size= 3;
 		var brands = {};
 		
-		expect(brandController).not.toBeNull();
+		expect(cartController).not.toBeNull();
 
 		$scope.findAll(page,size);
 
@@ -155,7 +157,7 @@ describe("Testing brand.controller module", function() {
 		expect(brands.content[0].logo).toEqual('Logo');
 		expect(brands.content[0].id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("cartController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	

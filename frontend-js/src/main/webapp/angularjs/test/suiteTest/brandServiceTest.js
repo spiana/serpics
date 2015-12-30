@@ -6,7 +6,7 @@ describe("Testing brand.service module:", function() {
 	var mockedLog = {debug:function(log){console.log(log)}};
 	
 	//1 Dichiaro i moduli che mi servono per i test
-		beforeEach(module('brand.service','http.mocks','serpics.services', function($provide) {
+		beforeEach(module('brand.service','http.brand.mocks','serpics.services', function($provide) {
 			
 	
 	    	// Do some provider configuration here
