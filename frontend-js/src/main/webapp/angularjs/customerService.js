@@ -103,7 +103,30 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	   			});   		
  	       	});        	
   
-         };        
+         };
+         
+         /**
+          * @param userData
+          * return 
+          */
+        customerService.updateUserData = function(userData){  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	    return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'PUT',
+ 	   	            url: URL + endpoint,
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            },
+ 	   	       		data:userData
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
         
         /**
          * private method.

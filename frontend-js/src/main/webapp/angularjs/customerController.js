@@ -11,10 +11,9 @@
 		 init()
 		 
 		 function init(){
-			if ($scope.currentUser.userType == "REGISTERED"){
-				getOrders();
-			}
+			getOrders();
 		 }
+		 
 		 /**
   	     * @return 					list of orders
   	     * @use 					orderService,serpicsServices
@@ -25,5 +24,12 @@
   	    		$scope.orders = response;
   	    	})
   		 };
+  		 
+  		 $scope.updateUserData = function(userData) {
+  			 customerService.updateUserData(userData).then( function( response ) {
+  				console.log("customerController: update(): ramo then");
+				customerService.updateCurrentUser();
+  	    	})
+  		 }
 
 }])
