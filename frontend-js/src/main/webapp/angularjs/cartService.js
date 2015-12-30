@@ -1,4 +1,4 @@
- var app = angular.module("cart.service", ['serpics.config'])
+ var app = angular.module("cart.service", ['serpics.config','serpics.services'])
 /**
  * cart service to handler rest call to cart service
  */

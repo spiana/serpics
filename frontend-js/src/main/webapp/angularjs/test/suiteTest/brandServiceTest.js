@@ -6,7 +6,7 @@ describe("Testing brand.service module:", function() {
 	var mockedLog = {debug:function(log){console.log(log)}};
 	
 	//1 Dichiaro i moduli che mi servono per i test
-		beforeEach(module('brand.service','serpics.mocks','serpics.services', function($provide) {
+		beforeEach(module('brand.service','http.brand.mocks','serpics.services', function($provide) {
 			
 	
 	    	// Do some provider configuration here
@@ -105,7 +105,7 @@ describe("Testing brand.service module:", function() {
 	  
 	  it('BrandService findBrandByName() with mocked getSessionId function', inject(function(brandService,$httpBackend) {
 		  
-		  var brand =  [];
+		  var brand =  {};
 		  var brandName= 'PHILIPHS';
 		  
 		  brandService.findBrandByName(brandName).then(function(response){

@@ -1,28 +1,10 @@
-var serpicsMocks = angular.module('serpics.mocks', ['ngMock']);
+var httpCategoryMocks = angular.module('http.category.mocks', ['ngMock']);
 
-serpicsMocks.run(function($httpBackend) {
+httpCategoryMocks.run(function($httpBackend) {
 	
 	var status = 200;
 	var ssid = "12345";
 	
-	var brandList ={ "responseObject":{"content":[{"updated":"2015-11-16T16:13:41 GMT","created":"2015-11-16T16:13:41 GMT","uuid":"3b2e4404-6ab2-43cb-97e0-148074abb9a5","id":1,"logo":"Logo","name":"PHILIPHS","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:14:02 GMT","created":"2015-11-16T16:14:02 GMT","uuid":"bde83c7b-5503-4f4c-8c63-8b56540db517"
-		,"id":2,"logo":"Logos","name":"MICROMICRO","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:14:12 GMT","created":"2015-11-16T16:14:12 GMT","uuid":"bf05b880-5645-4821-9877-5148b6d808cc","id":3
-		,"logo":"Logos","name":"MULTITOUCH","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:01:58 GMT","created":"2015-11-16T16:01:58 GMT","uuid":"668a270b-d951-45ee-8d4e-9b4c8f716f0a","id":4,"logo"
-		:"Logo","name":"SAMSUNG","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:01:58 GMT","created":"2015-11-16T16:01:58 GMT","uuid":"668a270b-d951-45ee-8d4e-9b4c8f716f0a","id":5,"logo":"Logo","name"
-		:"APPLE","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:01:58 GMT","created":"2015-11-16T16:01:58 GMT","uuid":"668a270b-d951-45ee-8d4e-9b4c8f716f0a","id":6,"logo":"Logo","name":"NOKIA","brandProductNumber"
-		:3,"published":1},{"updated":"2015-11-16T16:01:58 GMT","created":"2015-11-16T16:01:58 GMT","uuid":"668a270b-d951-45ee-8d4e-9b4c8f716f0a","id":7,"logo":"Logo","name":"TOSHIBA","brandProductNumber":6,"published":1},{"updated":"2015-11-16T16:01:58 GMT","created":"2015-11-16T16:01:58 GMT","uuid":"668a270b-d951-45ee-8d4e-9b4c8f716f0a","id":8,"logo":"Logo","name":"LG","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:01:58 GMT","created":"2015-11-16T16:01:58 GMT","uuid":"668a270b-d951-45ee-8d4e-9b4c8f716f0a","id":9,"logo":"Logo"
-		,"name":"ASUS","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:01:58 GMT","created":"2015-11-16T16:01:58 GMT","uuid":"668a270b-d951-45ee-8d4e-9b4c8f716f0a","id":10,"logo":"Logo","name":"LOGITECH","brandProductNumber"
-		:3,"published":1}]}};
-	
-	var brandPageSize ={ "responseObject":{"content":[{"updated":"2015-11-16T16:13:41 GMT","created":"2015-11-16T16:13:41 GMT","uuid":"3b2e4404-6ab2-43cb-97e0-148074abb9a5","id":1,"logo":"Logo","name":"PHILIPHS","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:14:02 GMT","created":"2015-11-16T16:14:02 GMT","uuid":"bde83c7b-5503-4f4c-8c63-8b56540db517"
-		,"id":2,"logo":"Logos","name":"MICROMICRO","brandProductNumber":0,"published":1},{"updated":"2015-11-16T16:14:12 GMT","created":"2015-11-16T16:14:12 GMT","uuid":"bf05b880-5645-4821-9877-5148b6d808cc","id":3
-		,"logo":"Logos","name":"MULTITOUCH","brandProductNumber":0,"published":1}]}};
-	
-	
-	//contento in quanto paginato
-	var brand={ "responseObject":{"updated":"2015-11-16T16:13:41 GMT","created":"2015-11-16T16:13:41 GMT","uuid":"3b2e4404-6ab2-43cb-97e0-148074abb9a5","id":1,"logo":"Logos","name":"PHILIPHS","brandProductNumber":0,"published":1}};
-	
-
 	var category={"responseObject":{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0}};
 	
 	var categoryTop={"responseObject":[{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
@@ -35,10 +17,12 @@ serpicsMocks.run(function($httpBackend) {
 		{"updated":"2015-11-16T17:02:47 GMT","created":"2015-11-16T17:02:47 GMT","uuid":"d15d64ea-e0dd-412c-9e36-17359886ce47","id":24,"code":"SURF","url":"/default-catalog/SURF","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
 		{"updated":"2015-11-20T10:19:32 GMT","created":"2015-11-20T10:19:32 GMT","uuid":"554b81a5-7f05-484d-b245-d9e536861c98","id":780,"code":"MOBILE","url":"/default-catalog/MOBILE","published":0,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":3}]};
 	
+	//getTopQ()
 	var categoryList={"responseObject":[{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
 	                            		{"updated":"2015-11-16T17:01:25 GMT","created":"2015-11-16T17:01:25 GMT","uuid":"96ea6e5a-8c10-4e29-9f02-e7e74c887d15","id":17,"code":"MENS","url":"/default-catalog/MENS","published":1,"catalogId":"default-catalog","childCategoryNumber":4,"childProductNumber":0},
 	                            		{"updated":"2015-11-16T17:01:36 GMT","created":"2015-11-16T17:01:36 GMT","uuid":"12358ab9-0549-4d66-9f9f-fe5ba309aef3","id":18,"code":"WOMENS","url":"/default-catalog/WOMENS","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0}]};
-	//Paginato
+	
+	//Paginato content
 	var categoryPageSize={"responseObject":{"content":[{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
 	                                           		{"updated":"2015-11-16T17:01:25 GMT","created":"2015-11-16T17:01:25 GMT","uuid":"96ea6e5a-8c10-4e29-9f02-e7e74c887d15","id":17,"code":"MENS","url":"/default-catalog/MENS","published":1,"catalogId":"default-catalog","childCategoryNumber":4,"childProductNumber":0},
 	                                        		{"updated":"2015-11-16T17:01:36 GMT","created":"2015-11-16T17:01:36 GMT","uuid":"12358ab9-0549-4d66-9f9f-fe5ba309aef3","id":18,"code":"WOMENS","url":"/default-catalog/WOMENS","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
@@ -49,71 +33,47 @@ serpicsMocks.run(function($httpBackend) {
 	                                        		{"updated":"2015-11-16T17:02:47 GMT","created":"2015-11-16T17:02:47 GMT","uuid":"d15d64ea-e0dd-412c-9e36-17359886ce47","id":24,"code":"SURF","url":"/default-catalog/SURF","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
 	                                        		{"updated":"2015-11-20T10:19:32 GMT","created":"2015-11-20T10:19:32 GMT","uuid":"554b81a5-7f05-484d-b245-d9e536861c98","id":780,"code":"MOBILE","url":"/default-catalog/MOBILE","published":0,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":3},
 	                                        		{"updated":"2015-11-20T10:19:32 GMT","created":"2015-11-20T10:19:32 GMT","uuid":"554b81a5-7f05-484d-b245-d9e536861c98","id":780,"code":"MOBILE","url":"/default-catalog/MOBILE","published":0,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":3}]}};
+	//Paginato content
 	var categoryPage0Size3={"responseObject":{"content":[{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0},
 		                                           		{"updated":"2015-11-16T17:01:25 GMT","created":"2015-11-16T17:01:25 GMT","uuid":"96ea6e5a-8c10-4e29-9f02-e7e74c887d15","id":17,"code":"MENS","url":"/default-catalog/MENS","published":1,"catalogId":"default-catalog","childCategoryNumber":4,"childProductNumber":0},
 		                                        		{"updated":"2015-11-16T17:01:36 GMT","created":"2015-11-16T17:01:36 GMT","uuid":"12358ab9-0549-4d66-9f9f-fe5ba309aef3","id":18,"code":"WOMENS","url":"/default-catalog/WOMENS","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0}]}};
 			
-	
 	//Authentication endpoint
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
 	  });
 	
+	//***Category rest-api endpoint***//
 	
-	//***Brand rest-api endpoint***
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/?page=0&size=10').respond(function(method, url, data) {
-	    return [status,brandList];
-	  });
-	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/code/1').respond(function(method, url, data) {
-	    return [status,brand];
-	  });
-	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/PHILIPHS').respond(function(method, url, data) {
-	    return [status,brand];
-	  });
-	
-	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/').respond(function(method, url, data) {
-	    return [status,brandList];
-	  });
-	
-	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/?page=0&size=3').respond(function(method, url, data) {
-	    return [status,brandPageSize];
-	  });
-	
-	
-	//***Category rest-api endpoint
+	//getTopQ getTop
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/top').respond(function(method, url, data) {
 	    return [status,categoryTop];
 	  });
 	
+	//getCategoryById
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/4').respond(function(method, url, data) {
 	    return [status,category];
 	  });
 	
+	//getCategoryByCode
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/code/GUESS').respond(function(method, url, data) {
 	    return [status,category];
 	  });
 	
+	//findAll
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/').respond(function(method, url, data) {
 	    return [status,categoryPageSize];
 	  });
 	
+	//getChild
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/getChild/0').respond(function(method, url, data) {
 	    return [status,categoryList];
 	  });
 	
+	//findAll
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/?page=0&size=3').respond(function(method, url, data) {
 	    return [status,categoryPage0Size3];
 	  });
-	
-	
-	
-	
-	
-	
 	
 });
 

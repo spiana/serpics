@@ -1,13 +1,13 @@
-describe("Testing brand.controller module", function() {
+describe("Testing order.controller module", function() {
 	
-	var brandController;
+	var orderController;
     var $log;
 	var $controller;
     var $scope = {};
 	var mockedLog = {debug:function(log){console.log(log)}}; 
 
 	
-	beforeEach(module('brand.controller','brand.service','http.brand.mocks','serpics.services', function($provide) {
+	beforeEach(module('order.controller','order.service','http.order.mocks','serpics.services', function($provide) {
     
 		// Do some other stuff before each test run if you want...
 		$provide.value('$log', mockedLog);
@@ -17,7 +17,7 @@ describe("Testing brand.controller module", function() {
     beforeEach(inject(function(_$controller_){
     	
     	$controller = _$controller_;
-    	brandController = $controller('brandController', { $scope: $scope });
+    	orderController = $controller('orderController', { $scope: $scope });
     	
     }));
     
@@ -47,10 +47,10 @@ describe("Testing brand.controller module", function() {
 	    
 	}));
 	
-	it('brandController is registered and runs getBrandQ()', inject(function($httpBackend){
+	it('orderController is registered and runs getBrandQ()', inject(function($httpBackend){
 		
 		var brands = [];
-		expect(brandController).not.toBeNull();
+		expect(orderController).not.toBeNull();
 
 		$httpBackend.flush();
 		
@@ -60,16 +60,16 @@ describe("Testing brand.controller module", function() {
 		expect(brands.content[0].logo).toEqual('Logo');
 		expect(brands.content[0].id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
-	it('brandController $scope.findBrandById(brandId)', inject(function($httpBackend){
+	it('orderController $scope.findBrandById(brandId)', inject(function($httpBackend){
 		
 		var brand = {};
 		var brandId= '1';
 		
-		expect(brandController).not.toBeNull();
+		expect(orderController).not.toBeNull();
 
 		$scope.findBrandById(brandId);
 		
@@ -84,16 +84,16 @@ describe("Testing brand.controller module", function() {
 		expect(brand.logo).toEqual('Logos');
 		expect(brand.id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
+		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
-	it('brandController $scope.$scope.findBrandByName(brandName)', inject(function($httpBackend){
+	it('orderController $scope.$scope.findBrandByName(brandName)', inject(function($httpBackend){
 		
 		var brand = {};
 		var brandName= 'PHILIPHS';
 		
-		expect(brandController).not.toBeNull();
+		expect(orderController).not.toBeNull();
 
 		$scope.findBrandByName(brandName);
 		
@@ -108,15 +108,15 @@ describe("Testing brand.controller module", function() {
 		expect(brand.logo).toEqual('Logos');
 		expect(brand.id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
+		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
-	it('brandController $scope.findAll()', inject(function($httpBackend){
+	it('orderController $scope.findAll()', inject(function($httpBackend){
 		
 		var brands = {};
 		
-		expect(brandController).not.toBeNull();
+		expect(orderController).not.toBeNull();
 
 		$scope.findAll();
 
@@ -131,16 +131,16 @@ describe("Testing brand.controller module", function() {
 		expect(brands.content[0].logo).toEqual('Logo');
 		expect(brands.content[0].id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
 	}));
 	
-	it('brandController $scope.findAll(page,size)', inject(function($httpBackend){
+	it('orderController $scope.findAll(page,size)', inject(function($httpBackend){
 		
 		var page = 0;
 		var size= 3;
 		var brands = {};
 		
-		expect(brandController).not.toBeNull();
+		expect(orderController).not.toBeNull();
 
 		$scope.findAll(page,size);
 
@@ -155,7 +155,7 @@ describe("Testing brand.controller module", function() {
 		expect(brands.content[0].logo).toEqual('Logo');
 		expect(brands.content[0].id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
