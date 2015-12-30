@@ -29,7 +29,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 	   	            headers: {
 	   	            	'ssid': sessionId
 	   	            }
-	   	        	}).then(customerService.handleSuccess, customerService.handleError).then(resolve, reject);	   				
+	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
 	   			});   		
 	       	});        	
  
@@ -51,7 +51,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
     	   	            	'ssid': sessionId
     	   	            },
     	   	            data:userData
-    	   	        }).then(customerService.handleSuccess, customerService.handleError).then(resolve, reject);	   				
+    	   	        }).then(handleSuccess, handleError).then(resolve, reject);	   				
     	   		});   		
        		});        	
          };
@@ -74,7 +74,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	   	            headers: {
  	   	            	'ssid': sessionId
  	   	            }
- 	   	        	}).then(customerService.handleSuccess, customerService.handleError).then(resolve, reject);	   				
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
  	   			});   		
  	       	});        	
   
@@ -99,7 +99,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	   	            	'ssid': sessionId
  	   	            },
  	   	            data:sessionId
- 	   	        	}).then(customerService.handleSuccess, customerService.handleError).then(resolve, reject);	   				
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
  	   			});   		
  	       	});        	
   
@@ -111,7 +111,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
          * the API response payload.
          */                                
         
-         customerService.handleError = function( response ) {
+         function handleError( response ) {
             /**
              * The API response from the server should be returned in a
              * nomralized format. However, if the request was not handled by the
@@ -129,7 +129,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
          *from the API response payload.                
          */
          
-         customerService.handleSuccess = function( response ) {
+         function handleSuccess( response ) {
         	console.log(response.data.message)
             return( response.data.responseObject);
         }
