@@ -50,7 +50,7 @@
      	     * @use 						categoryService,
      	     */
      	    $scope.getCategoryById = function(categoryId) {
-     	    	console.log("Category Controller getCategoryById(categoryId)");
+     	    	console.log("Category Controller getCategoryById(categoryId)"+categoryId);
      	    	categoryService.getCategoryById(categoryId).then(function(response){
      	    		console.log("Category Controller getCategoryById(categoryId) ramo then");
      	    		$scope.categoryData = response;
@@ -63,8 +63,8 @@
      	     * @use 						categoryService,
      	     */
      	    $scope.getCategoryByCode = function(code) {
-    	    	console.log("Category Controller getCategoryByCode(code)");
-     	    	categoryService.getCategoryByCode(categoryId).then(function(response){
+    	    	console.log("Category Controller getCategoryByCode(code)"+code);
+     	    	categoryService.getCategoryByCode(code).then(function(response){
      	    		console.log("Category Controller getCategoryByCode(code) ramo then");
      	    		$scope.categoryData = response;
      	    	})
@@ -97,9 +97,9 @@
      	     * @return 						all category 
      	     * @use 						categoryService,
      	     */
-     	    $scope.findAll = function() {
+     	    $scope.findAll = function(page,size) {
      	    	console.log("Category Controller findAll()");
-     	    	categoryService.findAll().then(function(response){
+     	    	categoryService.findAll(page,size).then(function(response){
      	    		console.log("Category Controller findAll() ramo then");
      	    		$scope.categoryData = response;
      	    	})

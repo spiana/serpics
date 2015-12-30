@@ -80,11 +80,11 @@ describe("Testing brand.controller module", function() {
 		  
 		expect(brand).not.toBeNull();
 		  
-		expect(brand.content[0].name).toEqual('PHILIPHS');
-		expect(brand.content[0].logo).toEqual('Logos');
-		expect(brand.content[0].id).toEqual(1);
+		expect(brand.name).toEqual('PHILIPHS');
+		expect(brand.logo).toEqual('Logos');
+		expect(brand.id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
@@ -104,11 +104,11 @@ describe("Testing brand.controller module", function() {
 		  
 		expect(brand).not.toBeNull();
 		  
-		expect(brand.content[0].name).toEqual('PHILIPHS');
-		expect(brand.content[0].logo).toEqual('Logos');
-		expect(brand.content[0].id).toEqual(1);
+		expect(brand.name).toEqual('PHILIPHS');
+		expect(brand.logo).toEqual('Logos');
+		expect(brand.id).toEqual(1);
 		  
-		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("brandController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
 	}));
 	
 	

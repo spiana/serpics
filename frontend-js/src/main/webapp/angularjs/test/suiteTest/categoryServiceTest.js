@@ -99,10 +99,10 @@ describe("Testing category.service module:", function() {
 	  
 		  expect(category).not.toBeNull();
 		  
-		  expect(category[0].code).toEqual('GUESS');
+		  expect(category.code).toEqual('GUESS');
 
 		  
-		  $log.debug("categoryService getCategoryById() Test category code: "+category[0].code);
+		  $log.debug("categoryService getCategoryById() Test category code: "+category.code);
 
 	  }));
 	  
@@ -119,10 +119,10 @@ describe("Testing category.service module:", function() {
 		  
 		  expect(category).not.toBeNull();
 		  
-		  expect(category[0].code).toEqual('GUESS');
-		  expect(category[0].id).toEqual(4);
+		  expect(category.code).toEqual('GUESS');
+		  expect(category.id).toEqual(4);
 		  
-		  $log.debug("categoryService getCategoryByCode() Test category code: "+category[0].code);
+		  $log.debug("categoryService getCategoryByCode() Test category code: "+category.code);
 
 	  }));
 
@@ -140,10 +140,10 @@ describe("Testing category.service module:", function() {
 		  
 		  expect(categories).not.toBeNull();
 		  
-		  expect(categories[0].code).toEqual('GUESS');
-		  expect(categories[0].id).toEqual(4);
+		  expect(categories.content[0].code).toEqual('GUESS');
+		  expect(categories.content[0].id).toEqual(4);
 		  
-		  $log.debug("categoryService findAll() Test category code: "+categories[0].code);
+		  $log.debug("categoryService findAll() Test category code: "+categories.content[0].code);
 
 	  }));
 	  
@@ -161,16 +161,56 @@ describe("Testing category.service module:", function() {
 		  
 		  expect(categories).not.toBeNull();
 		  
+		  expect(categories.content.length).toEqual(3);
+		  expect(categories.content[0].code).toEqual('GUESS');
+		  expect(categories.content[0].id).toEqual(4);
+		  
+		  $log.debug("categorieservice findAll(page, size) category code: "+categories.content[0].code);
+
+	  }));
+	  
+	  it('categoryService getChild(parent) with mocked getSessionId function', inject(function(categoryService,$httpBackend) {
+		  
+		  var categories =  [];
+		  var parent=0;
+
+		  
+		  categoryService.getChild(parent).then(function(response){
+				  categories = response;
+		  });		
+		  
+		  $httpBackend.flush();
+		  
+		  expect(categories).not.toBeNull();
+		  
 		  expect(categories.length).toEqual(3);
 		  expect(categories[0].code).toEqual('GUESS');
 		  expect(categories[0].id).toEqual(4);
 		  
-		  $log.debug("categorieservice findAll(page, size) category code: "+categories[0].code);
+		  $log.debug("categorieservice getChild(parent) category code: "+categories[0].code);
 
 	  }));
-	
 	  
-	  
-	
-	
+	  it('categoryService getTop() with mocked getSessionId function', inject(function(categoryService,$httpBackend) {
+		  
+		  var categories =  [];
+		  var parent=0;
+
+		  
+		  categoryService.getTop().then(function(response){
+				  categories = response;
+		  });		
+		  
+		  $httpBackend.flush();
+		  
+		  expect(categories).not.toBeNull();
+		  
+		  expect(categories.length).toEqual(9);
+		  expect(categories[0].code).toEqual('GUESS');
+		  expect(categories[0].id).toEqual(4);
+		  
+		  $log.debug("categorieservice getTop() category code: "+categories[0].code);
+
+	  }));
+
 });

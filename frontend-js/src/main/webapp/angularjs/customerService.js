@@ -1,10 +1,12 @@
 
 var app = angular.module('customer.service',['serpics.config','serpics.services'])
 
-.factory('customerService',  [ '$http', '$q','serpicsServices','URL','ENDPOINT',
-    function ($http, $q, serpicsServices,URL,ENDPOINT) {
+.factory('customerService',  [ '$http', '$q','serpicsServices','URL',
+    function ($http, $q, serpicsServices,URL) {
 	
 		var customerService = {}
+		
+		var endpoint = '/jax-rs/categoryService/';
 		
 		customerService.currentUser = {}
                  
@@ -23,7 +25,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
 	   	       $http({
 	   	            method: 'GET',
-	   	            url: URL + ENDPOINT +  'customerService/login' + '?username=' + username + '&password=' + password,
+	   	            url: URL + endpoint + 'login' + '?username=' + username + '&password=' + password,
 	   	            headers: {
 	   	            	'ssid': sessionId
 	   	            }
@@ -44,7 +46,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
     	       	serviceSSID.getSessionId().then(function(sessionId){	       		
     	   	       $http({
     	   	            method: 'POST',
-    	   	            url: URL + ENDPOINT +  'customerService/register',
+    	   	            url: URL + endpoint + 'register',
     	   	            headers: {
     	   	            	'ssid': sessionId
     	   	            },
@@ -68,7 +70,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
  	   	       $http({
  	   	            method: 'GET',
- 	   	            url: URL + ENDPOINT +  'customerService/getCurrent' ,
+ 	   	            url: URL + endpoint + 'getCurrent' ,
  	   	            headers: {
  	   	            	'ssid': sessionId
  	   	            }
@@ -92,7 +94,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
  	   	       $http({
  	   	            method: 'POST',
- 	   	            url: URL + ENDPOINT +  'customerService/logout' ,
+ 	   	            url: URL + endpoint + 'logout' ,
  	   	            headers: {
  	   	            	'ssid': sessionId
  	   	            },

@@ -96,10 +96,10 @@ describe("Testing brand.service module:", function() {
 		  
 		  expect(brand).not.toBeNull();
 		  
-		  expect(brand.content[0].name).toEqual('PHILIPHS');
-		  expect(brand.content[0].logo).toEqual('Logos');
+		  expect(brand.name).toEqual('PHILIPHS');
+		  expect(brand.logo).toEqual('Logos');
 		  
-		  $log.debug("BrandService findBrandById() Brand Name: "+brand.content[0].name);
+		  $log.debug("BrandService findBrandById() Brand Name: "+brand.name);
 
 	  }));
 	  
@@ -116,11 +116,11 @@ describe("Testing brand.service module:", function() {
 		  
 		  expect(brand).not.toBeNull();
 		  
-		  expect(brand.content[0].name).toEqual('PHILIPHS');
-		  expect(brand.content[0].logo).toEqual('Logos');
-		  expect(brand.content[0].id).toEqual(1);
+		  expect(brand.name).toEqual('PHILIPHS');
+		  expect(brand.logo).toEqual('Logos');
+		  expect(brand.id).toEqual(1);
 		  
-		  $log.debug("BrandService findBrandByName() Brand Name: "+brand.content[0].name);
+		  $log.debug("BrandService findBrandByName() Brand Name: "+brand.name);
 
 	  }));
 

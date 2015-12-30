@@ -37,7 +37,7 @@
 		             	'ssid': idSessione
 		            }
 		          }).then(function(response){
-		        	  defer.resolve(response.data);
+		        	  defer.resolve(response.data.responseObject);
 		          });
 	    	});
 	    	
@@ -133,14 +133,22 @@
 	    /**
 	     * @return 
 	     */     
-	    function findAll() {
+	    function findAll(page,size) {
 	    	var serviceSSID = serpicsServices;
+	    	
+	    	var findAllUrl='';
+        	if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
+        		findAllUrl= URL +  endpoint;
+        	}else{
+        		findAllUrl = URL + endpoint +  '?page=' + page + '&size=' +size
+        	}
+        	
 	    	return $q(function(resolve, reject) {
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			$log.debug("CategoryService findAll() ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL +  endpoint +  'findAll',
+	    				url: findAllUrl,
 	    				headers: {
 	    					'ssid': sessionId
 	    					}
