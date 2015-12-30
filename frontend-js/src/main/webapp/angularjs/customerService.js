@@ -6,7 +6,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 	
 		var customerService = {}
 		
-		var endpoint = '/jax-rs/categoryService/';
+		var endpoint = '/jax-rs/customerService/';
 		
 		customerService.currentUser = {}
                  
