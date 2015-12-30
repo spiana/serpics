@@ -7,7 +7,7 @@ describe("Testing category.controller module", function() {
 	var mockedLog = {debug:function(log){console.log(log)}}; 
 
 	
-	beforeEach(module('category.controller','category.service','serpics.mocks','serpics.services', function($provide) {
+	beforeEach(module('category.controller','category.service','http.mocks','serpics.services', function($provide) {
     
 		// Do some other stuff before each test run if you want...
 		$provide.value('$log', mockedLog);

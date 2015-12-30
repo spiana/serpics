@@ -5,7 +5,7 @@ describe("Testing category.service module:", function() {
 	
 	
 	//1 Dichiaro i moduli che mi servono per i test
-		beforeEach(module('category.service','serpics.mocks','serpics.services', function($provide) {
+		beforeEach(module('category.service','http.mocks','serpics.services', function($provide) {
 			
 	
 	    	// Do some provider configuration here
