@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
-import com.serpics.catalog.data.model.Category;
-import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.converters.AttributeTypeDateConverter;
@@ -127,8 +125,8 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     }
     
     private MasterDetailField createOneToMany(Object propertyId , JPAContainerItem item){
-    	MasterDetailField<Category, CategoryRelation> t = 
-    			new MasterDetailField<Category, CategoryRelation>(item.getContainer(), item, propertyId);
+    	MasterDetailField t = 
+    			new MasterDetailField(item.getContainer(), item, propertyId);
     	return t;
     }
     

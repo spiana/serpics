@@ -26,7 +26,6 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * @author christian
@@ -105,7 +104,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 
 			field.setCaption("Property to filter: " + pid);
 			field.setIcon(FontAwesome.SEARCH);
-			field.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+			//field.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
 			map.put((TextField) field, filterProperty);
 			searchForm.addComponent(filterProperty);
 			searchForm.addComponent(field);

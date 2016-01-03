@@ -1,7 +1,7 @@
-package com.serpics.vaadin.ui.component;
+package com.serpics.vaadin.ui.filter;
 
+import com.serpics.vaadin.jpacontainer.filters.SubQueryFilter;
 import com.vaadin.addon.jpacontainer.filter.JoinFilter;
-import com.vaadin.addon.jpacontainer.provider.SubQueryFilter;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.Like;

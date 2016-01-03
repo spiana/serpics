@@ -1,4 +1,4 @@
-package com.vaadin.addon.jpacontainer.provider;
+package com.serpics.vaadin.jpacontainer.filters;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;

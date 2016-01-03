@@ -14,9 +14,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import com.serpics.vaadin.jpacontainer.filters.SubQueryFilter;
 import com.vaadin.addon.jpacontainer.filter.JoinFilter;
 import com.vaadin.addon.jpacontainer.filter.util.AdvancedFilterableSupport;
-import com.vaadin.addon.jpacontainer.provider.SubQueryFilter;
 import com.vaadin.addon.jpacontainer.util.CollectionUtil;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.And;

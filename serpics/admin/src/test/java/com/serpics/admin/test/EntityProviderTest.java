@@ -32,7 +32,7 @@ import com.serpics.membership.services.BaseService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
-import com.serpics.vaadin.ui.component.MultilingualLikeFilter;
+import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 
 
