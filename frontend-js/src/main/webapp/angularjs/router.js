@@ -54,7 +54,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
         controller: 'loginController',
         params: {
         	login: "shop.home",
-        	logout: "shop.home",
         	register: "shop.login"
         }
 	 })
@@ -126,7 +125,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    controller: 'loginController',
         params: {
         	login: "checkout.address",
-        	logout: "checkout.address",
         	register: "checkout.login"
         }
 	})
@@ -137,7 +135,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    controller: 'loginController',
         params: {
         	login: "checkout.address",
-        	logout: "checkout.address",
         	register: "checkout.login"
         }
 	})
