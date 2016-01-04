@@ -10,10 +10,10 @@ import javax.persistence.JoinColumn;
 public class LocalizedString implements Serializable , LocalizedProperty{
     private static final long serialVersionUID = 1L;
 
-    @JoinColumn(name = "locale_id")
+    @JoinColumn(name = "locale_id" )
     private String language;
 
-    @Column(name = "text", length = 200)
+    @Column(name = "text", length = 500)
     private String text;
 
     public LocalizedString() {

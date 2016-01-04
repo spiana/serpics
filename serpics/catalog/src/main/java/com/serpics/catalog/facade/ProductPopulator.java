@@ -8,16 +8,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.serpics.base.data.model.Media;
+import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
-import com.serpics.catalog.data.model.Media;
+import com.serpics.catalog.data.model.CtentryMedia;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.facade.data.CategoryData;
-import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.PriceService;
@@ -69,7 +70,7 @@ public class ProductPopulator implements Populator<AbstractProduct, ProductData>
 		
 		if(source.getMedias() != null) {
 			Set<MediaData> medias = new HashSet<MediaData>();
-			Set<Media> list = source.getMedias();
+			Set<CtentryMedia> list = source.getMedias();
 			for (Media media : list) {
 				medias.add(mediaConverter.convert(media));
 			}

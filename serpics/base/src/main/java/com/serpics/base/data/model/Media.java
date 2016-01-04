@@ -1,20 +1,20 @@
-package com.serpics.catalog.data.model;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
+package com.serpics.base.data.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.MediaSupportType;
 import com.serpics.core.data.jpa.AbstractEntity;
 
 
@@ -24,32 +24,33 @@ import com.serpics.core.data.jpa.AbstractEntity;
  */
 @Entity
 @Table(name="media")
-public class Media extends AbstractEntity {
-
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class Media extends AbstractEntity{
 	private static final long serialVersionUID = -952890230499530957L;
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="media_id")
     private Long id;
 
     @Column(name="content_type")
+    @NotNull
     private String contentType;
-
-    @Column(name="media_type")
-    private short mediaType;
 
     private String name;
 
     private double sequence;
 
-    private String src;
-
-    //bi-directional many-to-one association to Ctentry
-    @ManyToOne
-    @JoinColumn(name="ctentry_id")
-    private Ctentry ctentry;
-
+    @Enumerated
+	private MediaSupportType type ;
+    
+    private String source;
+    
+//    @OneToMany(mappedBy="media")
+//    Set<MediaSupport> supports ;
+    
+    @Column(name="store_id",nullable = false)
+    private Long storeId;
+   
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
     private final MultilingualString description = new MultilingualString();
@@ -73,14 +74,7 @@ public class Media extends AbstractEntity {
         this.contentType = contentType;
     }
 
-    public short getMediaType() {
-        return this.mediaType;
-    }
-
-    public void setMediaType(final short mediaType) {
-        this.mediaType = mediaType;
-    }
-
+   
     public String getName() {
         return this.name;
     }
@@ -97,25 +91,35 @@ public class Media extends AbstractEntity {
         this.sequence = sequence;
     }
 
-    public String getSrc() {
-        return this.src;
-    }
-
-    public void setSrc(final String src) {
-        this.src = src;
-    }
-
-    public Ctentry getCtentry() {
-        return this.ctentry;
-    }
-
-    public void setCtentry(final Ctentry ctentry) {
-        this.ctentry = ctentry;
-    }
+  
 
     public MultilingualString getDescription() {
         return description;
     }
+
+	public MediaSupportType getType() {
+		return type;
+	}
+
+	public void setType(MediaSupportType type) {
+		this.type = type;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public Long getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(Long storeId) {
+		this.storeId = storeId;
+	}
 
 
 

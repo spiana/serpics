@@ -1,4 +1,4 @@
-package com.serpics.catalog.facade.data;
+package com.serpics.base.facade.data;
 
 import com.serpics.core.facade.AbstractData;
 

@@ -147,16 +147,4 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     </bean>
     
     
-    <alias name="defaultMediaPopulator" alias="mediaPopulator"/> 
-    <bean name="defaultMediaPopulator" class="com.serpics.catalog.facade.MediaPopulator" />
-    
-    <alias name="defaultMediaConverter" alias="mediaConverter"/>
-    <bean name="defaultMediaConverter" parent="abstractConverter">
-    <property name="targetClass" value="com.serpics.catalog.facade.data.MediaData"/>
-    <property name="populators">
-      <list>
-          <ref bean="mediaPopulator"/>  
-      </list>
-    </property>
-    </bean>
 </beans>    

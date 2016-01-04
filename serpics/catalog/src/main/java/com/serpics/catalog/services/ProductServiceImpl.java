@@ -1,8 +1,6 @@
 package com.serpics.catalog.services;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Media;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
-import com.serpics.catalog.data.model.Media;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.BrandRepository;
 import com.serpics.catalog.data.repositories.Category2ProductRepository;
@@ -100,13 +98,14 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 	@Override
 	@Transactional
 	public Product addMedia(Product product, Media media) {
-		Set<Media> list = product.getMedias();
-		if (list == null)
-			list = new HashSet<Media>();
-		
-		list.add(media);
-		product.setMedias(list);
-		product = productRepository.saveAndFlush(product);
+		// FIXME: adjust with ctentryMedia
+//		Set<Media> list = product.getMedias();
+//		if (list == null)
+//			list = new HashSet<Media>();
+//		
+//		list.add(media);
+//		product.setMedias(list);
+//		product = productRepository.saveAndFlush(product);
 		return product;
 	}
 	

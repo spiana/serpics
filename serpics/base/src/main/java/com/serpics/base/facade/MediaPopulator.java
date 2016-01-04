@@ -1,15 +1,16 @@
-package com.serpics.catalog.facade;
+package com.serpics.base.facade;
 
-import com.serpics.catalog.data.model.Media;
-import com.serpics.catalog.facade.data.MediaData;
+import com.serpics.base.data.model.Media;
+import com.serpics.base.facade.data.MediaData;
 import com.serpics.core.facade.Populator;
 
 public class MediaPopulator implements Populator<Media, MediaData> {
 
 	@Override
 	public void populate(Media source, MediaData target) {
-		if(source.getSrc() != null)
-			target.setSrc(source.getSrc());
+		if(source.getSource() != null)
+			target.setSrc(source.getSource());
+		
 		target.setName(source.getName());
 		
 		target.setId(source.getId());

@@ -13,8 +13,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <context:component-scan base-package="com.serpics.base.services" />
     <data:repositories base-package="com.serpics.base.data.repositories" 
      base-class="com.serpics.core.data.RepositoryImpl"/>
-    
-    
+   
     <bean name="baseAttributeSaveInterceptor"
 		class="com.serpics.base.data.interceptor.BaseAttributeSaveInterceptor" />
 		
@@ -23,6 +22,18 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="order" value="10" />
 		<property name="interceptor" ref="baseAttributeSaveInterceptor" />
 	</bean>
+    
+    <bean name="mediaSaveInterceptor"
+		class="com.serpics.base.data.interceptor.MediaSaveInterceptor" />
+		
+		<bean name="mediaSaveMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.base.data.model.Media" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="mediaSaveInterceptor" />
+	</bean>
+    
+    <bean name="defaultMediaSpecification" class="com.serpics.base.data.specification.DefaultMediaSpecification"/>
+    <bean name="defaultBaseAttributeSpecification" class="com.serpics.base.data.specification.DefaultBaseAttributeSpecification"/>
     
 <!--     					 factory-class="com.serpics.core.data.RepositoryFactoryBean"/> -->
      <!--  facade -->
@@ -69,4 +80,18 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
             </list>
         </property>
     </bean>
+
+    <alias name="defaultMediaPopulator" alias="mediaPopulator"/> 
+    <bean name="defaultMediaPopulator" class="com.serpics.base.facade.MediaPopulator" />
+    
+    <alias name="defaultMediaConverter" alias="mediaConverter"/>
+    <bean name="defaultMediaConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.base.facade.data.MediaData"/>
+    <property name="populators">
+      <list>
+          <ref bean="mediaPopulator"/>  
+      </list>
+    </property>
+    
+    </bean>    
  </beans>   

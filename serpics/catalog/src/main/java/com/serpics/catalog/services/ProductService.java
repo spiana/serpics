@@ -3,9 +3,9 @@ package com.serpics.catalog.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.serpics.base.data.model.Media;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
-import com.serpics.catalog.data.model.Media;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.core.service.EntityService;
 

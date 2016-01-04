@@ -59,11 +59,11 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
     @Column(name = "url", nullable = false, unique = true)
     protected String url;
     
-    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.LAZY)
+    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
     @JoinColumn(name = "name_string_id")
     private MultilingualString name ;
 
-    @OneToOne( cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.LAZY)
+    @OneToOne( cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
     @JoinColumn(name = "description_string_id")
     private MultilingualText description ;
 
@@ -72,8 +72,8 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
     protected Set<CtentryAttribute> ctentryAttributes;
 
     // bi-directional many-to-one association to Media
-    @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY, cascade= CascadeType.REMOVE)
-    protected Set<Media> medias;
+   @OneToMany(mappedBy="ctentry" , fetch = FetchType.LAZY, cascade= CascadeType.REMOVE)
+   protected Set<CtentryMedia> medias;
 
    
     public Long getId() {
@@ -132,15 +132,6 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
         this.ctentryAttributes = ctentryAttributes;
     }
 
-
-    public Set<Media> getMedias() {
-        return this.medias;
-    }
-
-    public void setMedias(final Set<Media> medias) {
-        this.medias = medias;
-    }
-
   
       public String getCode() {
         return code;
@@ -164,6 +155,14 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
 
 	public void setDescription(MultilingualText description) {
 		this.description = description;
+	}
+
+	public Set<CtentryMedia> getMedias() {
+		return medias;
+	}
+
+	public void setMedias(Set<CtentryMedia> medias) {
+		this.medias = medias;
 	}
 
 }

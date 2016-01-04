@@ -2,6 +2,8 @@ package com.serpics.catalog.facade.data;
 
 import java.util.Set;
 
+import com.serpics.base.facade.data.MediaData;
+
 public class AbstractProductData  extends CtentryData{
 	protected int buyable;
 	protected int published;

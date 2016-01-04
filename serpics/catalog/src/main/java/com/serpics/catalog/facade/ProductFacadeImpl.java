@@ -13,21 +13,21 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.MultilingualText;
+import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Ctentry;
-import com.serpics.catalog.data.model.Media;
+import com.serpics.catalog.data.model.CtentryMedia;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.CtentryData;
-import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.BrandService;
+import com.serpics.catalog.services.CatalogMediaService;
 import com.serpics.catalog.services.CategoryService;
-import com.serpics.catalog.services.MediaService;
 import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -46,7 +46,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	ProductService productService;
 	
 	@Autowired
-	MediaService mediaService;
+	CatalogMediaService mediaService;
 	
 	@Autowired
 	BrandService brandService;
@@ -244,10 +244,10 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Transactional
 	public void addMedia(Long productId, MediaData mediaData) {
 		Product product = productService.findOne(productId);
-		Media media = new Media();
+		CtentryMedia media = new CtentryMedia();
 		media.setCtentry(product);
 		media.setName(mediaData.getName());
-		media.setSrc(mediaData.getSrc());
+		media.setSource(mediaData.getSrc());
 		media = mediaService.create(media);
 		product = productService.addMedia(product, media);
 	}

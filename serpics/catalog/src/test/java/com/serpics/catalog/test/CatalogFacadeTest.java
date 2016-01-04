@@ -16,13 +16,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.PriceFacade;
 import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.facade.data.CategoryData;
-import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.CatalogService;

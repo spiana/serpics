@@ -117,4 +117,37 @@
 		</select>
 	</entity>
 
+<entity name="mediasupport">
+		<table>
+			<display>
+				<property name="name" />
+				<property name="type" />
+				
+			</display>
+			<search>				
+				<property name="name" />							
+			</search>
+		</table>
+		<editor>
+			<display>
+				<property name="name" />
+				<property name="type" />
+				<property name="format" />
+				
+				<property name="src" />
+				<property name="created" />
+				<property name="updated" />
+			</display>
+
+			<readonly action="append">
+				<property name="created" />
+				<property name="updated" />
+			</readonly>
+		</editor>
+		<select>
+			<property name="name" />
+		</select>
+	</entity>
+
+
 </smc-definition>
