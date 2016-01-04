@@ -26,6 +26,7 @@ public class UserPopulator implements Populator<User, UserData> {
 		target.setLogonid(source.getName());
 		target.setFirstname(source.getFirstname());
 		target.setLastname(source.getLastname());
+		target.setPhone(source.getPhone());
 		target.setEmail(source.getEmail());
 		target.setUserType(source.getUserType());
 		if (source.getPrimaryAddress() != null)

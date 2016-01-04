@@ -40,8 +40,11 @@
 								<a class="cart_quantity_up" ng-click="cartUpdate(item, item.quantity + 1)"> + </a>
 								</div>
 							</td>
-							<td class="cart_delete"><a class="cart_quantity_delete"
-								ng-click="deleteItem(item.id)"><i class="fa fa-times">  REMOVE</i></a></td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" ng-click="deleteItem(item.id)">
+									<i class="fa fa-times"></i>
+								</a>
+							</td>
 						</tr>
 
 					</tbody>
@@ -52,11 +55,11 @@
 	<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>&euro;{{cart.totalProduct}}</span></li>
+							<li>Cart Sub Total <span>&euro;{{cart.totalProduct || 0}}</span></li>
 							<li>Services Sub Total <span>&euro;{{cart.totalService || 0}}</span></li>
-							<li>Tax Sub Total <span>&euro;{{cart.totalTax}}</span></li>
-							<li>Shipping Cost <span>&euro;{{cart.totalShipping}}</span></li>
-							<li id="total">Total <span>&euro;{{cart.orderAmount || cart.totalProduct}}</span></li>
+							<li>Tax Sub Total <span>&euro;{{cart.totalTax || 0}}</span></li>
+							<li>Shipping Cost <span>&euro;{{cart.totalShipping || 0}}</span></li>
+							<li id="total">Total <span>&euro;{{cart.orderAmount || cart.totalProduct || 0}}</span></li>
 						</ul>
 						<a class="btn btn-default update" ng-click="getCurrentCart()">Update</a> <a
 							class="btn btn-default check_out" ui-sref="checkout.address">Check Out</a>

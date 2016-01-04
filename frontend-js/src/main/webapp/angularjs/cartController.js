@@ -81,13 +81,13 @@ function($state,$scope,customerService,cartService,$log) {
 				  $log.debug("cartController addBillingAddress(billingAddress): ramo then");
 				  if (shippingToBill) {
 					  cartService.addShippingAddress(billingAddress).then(function(response){
-		    			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
+		    			  $log.debug("cartController billingAddress(billingAddress): ramo then");
 		    			  $scope.cart = response;
 		    			  $state.go('complete')
 					  })
 				  } else {
 					  $scope.cart = response;
-	    			  $state.go('cart.shipping')
+	    			  $state.go('checkout.shipping')
 				  }
 			 })
 	  	 };

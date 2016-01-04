@@ -178,6 +178,7 @@ public class UserFacadeImpl implements UserFacade {
 		_ur.setLastname(user.getLastname());
 		_ur.setFirstname(user.getFirstname());
 		_ur.setEmail(user.getEmail());
+		_ur.setPhone(user.getPhone());
 		_ur.setChangequestion(user.getChangequestion());
 		_ur.setChangeanswer(user.getChangeanswer());
 

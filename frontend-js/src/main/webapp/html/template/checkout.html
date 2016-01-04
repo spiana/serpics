@@ -69,9 +69,9 @@
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
-									<input class="cart_quantity_input" type="text" name="quantity"
-										value="{{item.quantity}}" autocomplete="off" size="2" readonly> <a
-										class="cart_quantity_down" ng-click="cartAdd(item.sku,1)"> + </a>
+								<a class="cart_quantity_down" ng-click="cartUpdate(item, item.quantity - 1)"> - </a>
+									<input class="cart_quantity_input" ng-pattern="/^[0-9]{1,2}$/" ng-model="item.quantity" ng-change="cartUpdate(item, item.quantity)" type="text" autocomplete="off" size="2">
+								<a class="cart_quantity_up" ng-click="cartUpdate(item, item.quantity + 1)"> + </a>
 								</div>
 							</td>
 							<td class="cart_delete"><a class="cart_quantity_delete"

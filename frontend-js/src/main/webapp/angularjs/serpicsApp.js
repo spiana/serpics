@@ -1,4 +1,4 @@
-var app = angular.module("serpics.App", ['serpics.Services','category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','serpics.directive','serpics.config','serpics.router','serpics.interceptor']);
+var app = angular.module("serpics.App", ['category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','customer.controller','serpics.directive','serpics.config','serpics.router','serpics.interceptor']);
 
 app.controller("serpicsAppController",['$scope','serpicsServices','serpicsHttpBuffer',
                                      
@@ -21,5 +21,4 @@ app.controller("serpicsAppController",['$scope','serpicsServices','serpicsHttpBu
 	        	      });
 	        	}
 	        });
-			
 }]);

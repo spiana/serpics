@@ -71,6 +71,12 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 		controller: 'loginController'	
 	})
 	
+	.state('shop.personalArea', {
+		url: '/personalArea',
+		templateUrl: 'html/template/personalArea.html',
+		controller: 'customerController'	
+	})
+	
 	.state('shop.500', {
 		url: '/500',
 		templateUrl: 'html/template/500.html'

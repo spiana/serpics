@@ -105,12 +105,18 @@ app.service("productService",function( $http, $q, serpicsServices, URL,COOKIE_EX
 	     */         
 	     function findByBrand(brandId, page, size) {
 	    	 var serviceSSID = serpicsServices;
+	    	 var findByBrandUrl='';
+	    	 if (arguments.length === 1 || arguments.length === 2 ) {
+	    		 findByBrandUrl= URL + endpoint + 'pageBrand/' + brandId;
+	    		 }else{
+	    			 findByBrandUrl = URL + endpoint + 'pageBrand/' + brandId + '?page=' + page + '&size=' + size;
+	    		 }
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url:	URL + endpoint +   'pageBrand/' + brandId + '?page=' + page + '&size=' + size,
+	    				 url: findByBrandUrl,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
@@ -125,12 +131,19 @@ app.service("productService",function( $http, $q, serpicsServices, URL,COOKIE_EX
 	     function findAll(page, size) {
 	    	 
 	    	 var serviceSSID = serpicsServices;
+	    	 var findAllUrl='';
+	    	 if (arguments.length === 0 || arguments.length === 1 ) {
+	    		 findAllUrl= URL + endpoint;
+	    		 }else{
+	    			 findAllUrl = URL + endpoint +  '?page=' + page + '&size=' +size;
+	    		 }
+	    	 
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 console.log("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: URL + endpoint + '?page=' + page + '&size=' + size,
+	    				 url: findAllUrl,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }

@@ -5,7 +5,7 @@
 			<div class="col-sm-4">
 				<div class="logo pull-left">
 					<span class="current-user">
-					<span  ng-show="currentUser.userType=='REGISTERED'">Welcome  {{currentUser.firstname + ' ' + currentUser.lastname}}</span>								
+					<span  ng-show="currentUser.userType=='REGISTERED'">Welcome  {{currentUser.firstname + ' ' + currentUser.lastname}} - <a ui-sref="shop.personalArea">Area personale</a></span>								
 					<span  ng-show="currentUser.userType=='ANONYMOUS'">Guest Access</span>										
 				</span>
 				</div>				
