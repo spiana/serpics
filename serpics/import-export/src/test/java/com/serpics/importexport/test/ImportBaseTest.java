@@ -31,8 +31,8 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.catalog.data.specification.ProductSpecification;
 import com.serpics.catalog.services.CatalogService;
+import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
@@ -70,6 +70,9 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
     ProductRepository productRepository;
     
     @Resource
+    ProductService productService;
+    
+    @Resource
     CategoryRelationRepository categoryRelationRepository;
     
     @Resource
@@ -98,8 +101,8 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
 		String b1 = "code[unique];name{en}\np1;product 1\np5;product 5\np3;product 3\np4;product four\n";
 		importCsvService.importCsv(new StringReader(b1), Product.class);
 		Assert.assertEquals(5, productRepository.findAll().size());
-		Assert.assertEquals("product 5", productRepository.findOne(ProductSpecification.findByName("p5")).getName().getText("en"));
-		Assert.assertEquals("prodotto 1", productRepository.findOne(ProductSpecification.findByName("p1")).getName().getText("it"));
+		Assert.assertEquals("product 5", productService.findByName("p5").getName().getText("en"));
+		Assert.assertEquals("prodotto 1",productService.findByName("p1").getName().getText("it"));
     }
     
 

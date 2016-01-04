@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.BaseProduct;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
@@ -38,7 +38,7 @@ import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.AddressRepository;
 import com.serpics.warehouse.InventoryNotAvailableException;
-import com.serpics.warehouse.data.model.InventoryStatusEnum;
+import com.serpics.warehouse.InventoryStatusEnum;
 import com.serpics.warehouse.strategies.InventoryStrategy;
 
 @Service("cartService")
@@ -142,7 +142,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Override
 	@Transactional
-	public Cart cartAdd(final AbstractProduct product, final double quantity, Cart cart, final boolean merge)
+	public Cart cartAdd(final BaseProduct product, final double quantity, Cart cart, final boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 
 		Cartitem cartItem = new Cartitem();
@@ -183,7 +183,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Override
 	@Transactional
-	public Cart cartAdd(final AbstractProduct product, final double quantity, final boolean merge)
+	public Cart cartAdd(final BaseProduct product, final double quantity, final boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 		final Cart cart = createSessionCart();
 		return cartAdd(product, quantity, cart, merge);
@@ -250,7 +250,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		for (final Cartitem orderitem : cart.getCartitems()) {
 			final Product product = productStrategy.resolveSKU(orderitem.getSku());
 			if (updateInventory)
-				inventoryStrategy.updateInventory(product, orderitem.getQuantity());
+				inventoryStrategy.reserve(product, orderitem.getQuantity());
 
 			orderitem.setSkuCost(priceStrategy.resolveProductCost(product, cart.getCurrency()));
 			orderitem.setSkuPrice(priceStrategy.resolveProductPrice(product, cart.getCurrency()));
@@ -400,7 +400,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 				final Cartitem repoItem = repoItems.next();
 
 				Cartitem cartItem = new Cartitem();
-				AbstractProduct product = repoItem.getProduct();
+				BaseProduct product = repoItem.getProduct();
 				cartItem.setSku(repoItem.getSku());
 				cartItem.setQuantity(repoItem.getQuantity());
 				cartItem.setProduct(product);

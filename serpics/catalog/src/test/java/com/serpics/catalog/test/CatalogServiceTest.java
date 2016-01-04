@@ -14,19 +14,19 @@ import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.repositories.BaseAttributeRepository;
-import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.BaseProduct;
 import com.serpics.catalog.data.model.Bundle;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.repositories.AbstractProductRepository;
+import com.serpics.catalog.data.repositories.BaseProductRepository;
 import com.serpics.catalog.data.repositories.BundleRepository;
 import com.serpics.catalog.data.repositories.CatalogRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
-import com.serpics.catalog.services.ProductService;
+import com.serpics.catalog.services.AbstractProductService;
 import com.serpics.core.SerpicsException;
 
 @TransactionConfiguration(defaultRollback = true)
@@ -36,7 +36,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     CategoryService categoryService;
 
     @Resource
-    ProductService productService;
+    AbstractProductService productService;
 
     @Resource
     CatalogRepository catalogRepository;
@@ -47,7 +47,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     BundleRepository bundleRepository;
 
     @Resource
-    AbstractProductRepository abstractProductRepository;
+    BaseProductRepository abstractProductRepository;
 
     @Resource
     BaseAttributeRepository attributeRepository;
@@ -180,7 +180,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         final List<Product> l2 = productRepository.findAll();
         Assert.assertEquals(productInit + 2, l2.size());
         
-        final List<AbstractProduct> l3 = abstractProductRepository.findAll();
+        final List<BaseProduct> l3 = abstractProductRepository.findAll();
         Assert.assertEquals(abstractProductInit + 2, l3.size());
         
         commerceEngine.connect("default-store");
@@ -189,7 +189,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         final List<Product> l4 = productRepository.findAll();
         Assert.assertEquals(productInit + 1, l4.size());
         
-        final List<AbstractProduct> l5 = abstractProductRepository.findAll();
+        final List<BaseProduct> l5 = abstractProductRepository.findAll();
         Assert.assertEquals(abstractProductInit + 2, l5.size());
         
         // catalogService.deleteCatalog(catalog);

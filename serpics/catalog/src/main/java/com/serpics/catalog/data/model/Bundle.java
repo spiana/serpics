@@ -7,7 +7,7 @@ import com.serpics.core.datatype.ProductType;
 
 @Entity
 @DiscriminatorValue("3")
-public class Bundle extends AbstractProduct {
+public class Bundle extends BaseProduct {
 
 	private static final long serialVersionUID = -8602548735468668811L;
 

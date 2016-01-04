@@ -28,10 +28,10 @@ import com.serpics.catalog.data.CatalogEntryType;
 @Table(name = "abstractProducts")
 @DiscriminatorValue("3")
 @DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class AbstractProduct extends Ctentry implements Serializable {
+public abstract class BaseProduct extends Ctentry implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public AbstractProduct(final Integer buyable, final String sku) {
+    public BaseProduct(final Integer buyable, final String sku) {
         super();
         this.buyable = buyable;
         //this.published = buyable;
@@ -40,7 +40,7 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
         this.ctentryType = 1;
     }
 
-    public AbstractProduct() {
+    public BaseProduct() {
         super();
         this.buyable = this.published = this.downlodable = 0;
         this.ctentryType = CatalogEntryType.PRODUCT;

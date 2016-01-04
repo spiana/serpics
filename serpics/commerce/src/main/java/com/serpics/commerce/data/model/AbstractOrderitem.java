@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.BaseProduct;
 
 @Entity
 @Table(name = "orderitems")
@@ -52,7 +52,7 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = true)
-    protected AbstractProduct product;
+    protected BaseProduct product;
 
     @Column(nullable = false, length = 250)
     protected String sku;
@@ -209,11 +209,11 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
         return discountAmount;
     }
 
-    public AbstractProduct getProduct() {
+    public BaseProduct getProduct() {
         return product;
     }
 
-    public void setProduct(final AbstractProduct product) {
+    public void setProduct(final BaseProduct product) {
         this.product = product;
     }
 

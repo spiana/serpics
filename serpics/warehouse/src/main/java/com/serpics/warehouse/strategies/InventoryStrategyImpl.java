@@ -1,6 +1,6 @@
 package com.serpics.warehouse.strategies;
 
-import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.BaseProduct;
 import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 import com.serpics.warehouse.InventoryNotAvailableException;
@@ -12,34 +12,34 @@ import com.serpics.warehouse.data.model.Warehouse;
 public class InventoryStrategyImpl extends AbstractStrategy implements InventoryStrategy {
 
 	@Override
-	public InventoryStatus checkInventory(AbstractProduct product , double quantity) {
+	public InventoryStatus checkInventory(BaseProduct product , double quantity) {
 		return InventoryStatusEnum.InStock;
 	}
 
 	
 	@Override
-	public double getStockLevelAmount(AbstractProduct product) {
+	public double getStockLevelAmount(BaseProduct product) {
 		return Double.MAX_VALUE;
 	}
 	
 	@Override
-	public InventoryStatus getInventoryStatus(AbstractProduct product ) {
+	public InventoryStatus getInventoryStatus(BaseProduct product ) {
 		return InventoryStatusEnum.InStock;
 	}
 
 	@Override
-	public double getStockLevelAmount(AbstractProduct product ,Warehouse warehouse) {
+	public double getStockLevelAmount(BaseProduct product ,Warehouse warehouse) {
 		return Double.MAX_VALUE;
 	}
 
 	@Override
-	public InventoryStatus getInventoryStatus(AbstractProduct product,Warehouse warehouse) {
+	public InventoryStatus getInventoryStatus(BaseProduct product,Warehouse warehouse) {
 		return InventoryStatusEnum.InStock;
 	}
 
 
 	@Override
-	public void reserve(AbstractProduct product, double quantity,
+	public void reserve(BaseProduct product, double quantity,
 			Warehouse warehouse) throws InventoryNotAvailableException {
 		// TODO Auto-generated method stub
 		
@@ -47,7 +47,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 
 
 	@Override
-	public void release(AbstractProduct product, double quantity,
+	public void release(BaseProduct product, double quantity,
 			Warehouse warehouse) {
 		// TODO Auto-generated method stub
 		
@@ -55,7 +55,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 
 
 	@Override
-	public void reserve(AbstractProduct product, double quantity)
+	public void reserve(BaseProduct product, double quantity)
 			throws InventoryNotAvailableException {
 		// TODO Auto-generated method stub
 		
@@ -63,7 +63,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 
 
 	@Override
-	public void release(AbstractProduct product, double quantity) {
+	public void release(BaseProduct product, double quantity) {
 		// TODO Auto-generated method stub
 		
 	}

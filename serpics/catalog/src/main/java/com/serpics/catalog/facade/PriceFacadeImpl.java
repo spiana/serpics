@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.PriceNotFoundException;
-import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.BaseProduct;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.services.PriceService;
-import com.serpics.catalog.services.ProductService;
+import com.serpics.catalog.services.AbstractProductService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.stereotype.StoreFacade;
 
@@ -18,7 +18,7 @@ import com.serpics.stereotype.StoreFacade;
 @Transactional(readOnly=true)
 public class PriceFacadeImpl implements PriceFacade {
 	@Autowired 
-	ProductService productService;
+	AbstractProductService productService;
 	
 	@Autowired 
 	PriceService priceService;
@@ -44,7 +44,7 @@ public class PriceFacadeImpl implements PriceFacade {
 	}*/
 	
 	public PriceData findPriceByProduct(Long prouctId) throws PriceNotFoundException {
-		AbstractProduct product = (AbstractProduct) productService.findOne(prouctId);
+		BaseProduct product = (BaseProduct) productService.findOne(prouctId);
 		Price _p = priceService.findProductPrice(product);
 		PriceData price = priceConverter.convert(_p);
 		return price;

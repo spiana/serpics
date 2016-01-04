@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import com.serpics.core.datatype.ProductType;
 
 @Entity
-public class Product extends AbstractProduct {
+public class Product extends BaseProduct {
 
 	private static final long serialVersionUID = 1L;
 

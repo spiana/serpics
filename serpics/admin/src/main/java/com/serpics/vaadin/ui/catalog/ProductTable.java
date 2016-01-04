@@ -4,7 +4,7 @@ import com.serpics.base.AvailableforType;
 import com.serpics.base.MultiValueField;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
-import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.BaseProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.Ctentry;
@@ -68,9 +68,9 @@ public class ProductTable extends MasterTable<Product> {
     	return editorWindow;
     }
    
-    private MasterDetailTable<CategoryProductRelation, AbstractProduct> buildCategoriesTab(){
+    private MasterDetailTable<CategoryProductRelation, BaseProduct> buildCategoriesTab(){
 
-    	return new MasterDetailTable<CategoryProductRelation, AbstractProduct>(
+    	return new MasterDetailTable<CategoryProductRelation, BaseProduct>(
                 CategoryProductRelation.class){
     		
         private static final long serialVersionUID = -2478612011226738573L;
@@ -127,9 +127,9 @@ public class ProductTable extends MasterTable<Product> {
     
     }
 
-    private  MasterDetailTable<Price, AbstractProduct> buildPriceTab(){
+    private  MasterDetailTable<Price, BaseProduct> buildPriceTab(){
     	
-    	return new MasterDetailTable<Price, AbstractProduct>(Price.class) {
+    	return new MasterDetailTable<Price, BaseProduct>(Price.class) {
             private static final long serialVersionUID = 7566839007224552531L;
 
             @Override
@@ -166,9 +166,9 @@ public class ProductTable extends MasterTable<Product> {
         entityList.setConverter("description", new MultilingualFieldConvert());
     }
 
-	private MasterDetailTable<FeatureValues, AbstractProduct> buildFeatureValueTab(){
+	private MasterDetailTable<FeatureValues, BaseProduct> buildFeatureValueTab(){
 		
-		return new MasterDetailTable<FeatureValues , AbstractProduct>(FeatureValues.class) {
+		return new MasterDetailTable<FeatureValues , BaseProduct>(FeatureValues.class) {
     		
     		@Override
     		public void init() {

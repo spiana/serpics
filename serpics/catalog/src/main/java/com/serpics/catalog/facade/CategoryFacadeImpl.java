@@ -25,7 +25,7 @@ import com.serpics.catalog.facade.data.CtentryData;
 import com.serpics.catalog.services.BrandService;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
-import com.serpics.catalog.services.ProductService;
+import com.serpics.catalog.services.AbstractProductService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.core.facade.AbstractPopulatingConverter;
@@ -39,7 +39,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	CategoryService categoryService;
 	
 	@Autowired
-	ProductService productService;
+	AbstractProductService productService;
 	
 	@Autowired
 	BrandService brandService;

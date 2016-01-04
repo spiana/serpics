@@ -20,7 +20,7 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.PriceService;
-import com.serpics.catalog.services.ProductService;
+import com.serpics.catalog.services.AbstractProductService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
@@ -52,7 +52,7 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
     @Resource
     OrderRepository orderRepository;
     @Resource
-    ProductService productService;
+    AbstractProductService productService;
 
     @Resource
     PriceService priceService;

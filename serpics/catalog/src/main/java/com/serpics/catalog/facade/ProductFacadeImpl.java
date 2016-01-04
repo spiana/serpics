@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.MultilingualText;
 import com.serpics.base.facade.data.MediaData;
-import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.BaseProduct;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Ctentry;
@@ -149,7 +149,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	@Transactional
 	public void  addPrice(Long  entryId, PriceData priceData) {
-			AbstractProduct product = productService.findOne(entryId);
+			BaseProduct product = productService.findOne(entryId);
 			Price price = new Price();
 			price.setCurrentPrice(priceData.getCurrentPrice());
 			price.setMinQty(new Double(priceData.getMinQty()).doubleValue());

@@ -42,7 +42,7 @@ public class Productffmt implements Serializable {
     // bi-directional many-to-one association to Product
     @ManyToOne
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
-    private AbstractProduct product;
+    private BaseProduct product;
 
     public Productffmt() {
     }
@@ -87,11 +87,11 @@ public class Productffmt implements Serializable {
         this.pricelist = pricelist;
     }
 
-    public AbstractProduct getProduct() {
+    public BaseProduct getProduct() {
         return this.product;
     }
 
-    public void setProduct(final AbstractProduct product) {
+    public void setProduct(final BaseProduct product) {
         this.product = product;
     }
 

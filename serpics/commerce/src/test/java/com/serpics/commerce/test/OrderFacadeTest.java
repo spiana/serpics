@@ -14,8 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.repositories.LocaleRepository;
+import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.facade.ProductFacade;
-import com.serpics.catalog.facade.data.MediaData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.CatalogService;
