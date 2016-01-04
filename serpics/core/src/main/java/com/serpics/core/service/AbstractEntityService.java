@@ -56,6 +56,7 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
     }
 
     @Override
+   @Deprecated
     public List<T> findAll(final Specification<T> spec, final Sort sort) {
         if (spec == null && sort == null)
             return findAll();
@@ -70,6 +71,7 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
     }
 
     @Override
+    @Deprecated
     public List<T> findAll(final Specification<T> spec, final Pageable page) {
         if (spec == null)
             return findAll(page).getContent();
@@ -79,6 +81,7 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
     }
 
     @Override
+    @Deprecated
     public List<T> findByexample(final T example) {
     	
         return getEntityRepository()
@@ -91,11 +94,13 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
     }
 
     @Override
+    @Deprecated
     public T findOne(final Specification<T> spec) {
         return getEntityRepository().findOne(spec);
     }
 
     @Override
+    @Deprecated
     public T findOne(final Specification<T> spec, final Sort sort, final int index) {
         final PageRequest singleResultPage = new PageRequest(index, 1, sort);
         final List<T> l = findAll(spec, singleResultPage);
@@ -111,6 +116,7 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
     }
 
     @Override
+    @Deprecated
     public void detach(final T entity) {
         getEntityRepository().detach(entity);
     }

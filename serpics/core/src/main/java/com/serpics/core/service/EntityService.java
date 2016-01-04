@@ -16,18 +16,27 @@ public interface  EntityService<T , ID extends Serializable> {
 
     public void delete(ID id);
 
+    @Deprecated
     public Page<T> findAll(Pageable page);
+    @Deprecated
     public List<T> findAll();
+    @Deprecated
     public List<T> findAll(Specification<T> spec, Sort sort);
+    @Deprecated
     public List<T> findAll(Specification<T> spec, Pageable page);
-
+    
+    @Deprecated
     public List<T> findByexample(T example);	
 
     public T findOne(ID id);
+    @Deprecated
     public T findOne(Specification<T> spec, Sort sort, int index);
 
+    @Deprecated
     public T findOne(Specification<T> spec);
+    
     public T findByUUID(String uuid);
 
+    @Deprecated
     public void detach(T entity);
 }
