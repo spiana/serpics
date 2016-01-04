@@ -117,7 +117,7 @@
 									</h4>
 								</td>
 								<td class="cart_price">
-									<p>&euro;{{order.totalProduct || 0}}</p>
+									<p>&euro;{{(order.totalProduct | number:2) || 0}}</p>
 								</td>
 							</tr>
 	

@@ -84,7 +84,7 @@
 								<table class="table table-condensed total-result">
 										<tr>
 											<td>Total</td>
-											<td><span>&euro;{{cart.totalProduct || 0}}</span></td>
+											<td><span>&euro;{{(cart.totalProduct | number:2) || 0}}</span></td>
 										</tr>
 									</table>
 							</td>
