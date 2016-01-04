@@ -1,17 +1,17 @@
 var app = angular.module("serpics.App", ['category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','customer.controller','serpics.directive','serpics.config','serpics.router','serpics.interceptor']);
 
-app.controller("serpicsAppController",['$scope','serpicsServices','serpicsHttpBuffer',
+app.controller("serpicsAppController",['$scope','serpicsServices','serpicsHttpBuffer','$log',
                                      
-     function($scope,serpicsServices,httpBuffer) {	
+     function($scope,serpicsServices,httpBuffer,$log) {	
   	
 			
 		 	var counter=0;
 			
 	        $scope.$on('event:sessiondId-expired', function() {
 	        	if(counter!=0){
-	        		console.log("Evento scatenato: sessiondId-expired"+counter);
+	        		$log.debug("Evento scatenato: sessiondId-expired"+counter);
 	        	}else{
-	        		console.log("Evento scatenato: sessiondId-expired ramo else"+counter);
+	        		$log.debug("Evento scatenato: sessiondId-expired ramo else"+counter);
 	        		counter+=1;
 	        		serpicsServices. removeCookie('ssid');
 	        		serpicsServices.getSessionId().then(function(data, configUpdater) {

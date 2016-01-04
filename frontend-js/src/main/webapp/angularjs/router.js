@@ -54,7 +54,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
         controller: 'loginController',
         params: {
         	login: "shop.home",
-        	logout: "shop.home",
         	register: "shop.login"
         }
 	 })
@@ -107,7 +106,11 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     	abstract: true,
 	   	url: '/checkout',	        
 	    templateUrl: 'html/template/checkout.html', 
-	    controller: 'cartController'
+	    controller: 'cartController',
+        params: {
+        	complete: "complete",
+        	shipping: "checkout.shipping"
+        }
 	})
 	
 	.state('checkout.address', {
@@ -126,7 +129,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    controller: 'loginController',
         params: {
         	login: "checkout.address",
-        	logout: "checkout.address",
         	register: "checkout.login"
         }
 	})
@@ -137,7 +139,6 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	    controller: 'loginController',
         params: {
         	login: "checkout.address",
-        	logout: "checkout.address",
         	register: "checkout.login"
         }
 	})

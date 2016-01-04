@@ -18,7 +18,7 @@ var app = angular.module("login.controller", ['customer.service','ngDialog'])
 			$scope.logout = function(){
 				customerService.logout().then(function (response) {
 					customerService.updateCurrentUser();
-            		$state.go($stateParams.logout)})	   	 
+				})	   	 
 			}
 			           
 		    /**

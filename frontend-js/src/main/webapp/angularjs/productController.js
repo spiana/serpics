@@ -1,8 +1,8 @@
  var app = angular.module("product.controller", ['product.service', 'cart.service','serpics.services'])
 /** productController **/
-.controller("productController",['$scope','serpicsServices','productService', '$state', 'cartService',
+.controller("productController",['$scope','serpicsServices','productService', '$state', 'cartService','$log',
                                   
-	      function($scope,serpicsServices,productService,$state,cartService) {	
+	      function($scope,serpicsServices,productService,$state,cartService,$log) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -42,9 +42,9 @@
 	  	   	}
 	  	  
 	  	  $scope.addToCart = function(sku,quantity){
-	  	    	console.log("ProductController cartAdd(sku ,quantity)");
+	  	    	$log.debug("ProductController cartAdd(sku ,quantity)");
 	  			cartService.cartAdd(sku ,quantity).then(function(response){
-	    			  console.log("ProductController cartAdd(sku ,quantity): ramo then");
+	    			  $log.debug("ProductController cartAdd(sku ,quantity): ramo then");
 	    			  $state.go('shop.cart')
 	  		});
 	  	  }
@@ -118,7 +118,7 @@
 	  	    };
 	  	    
 	  	    function findAllQ(page, size){
-	  	    	console.log("Controller ProductQ");
+	  	    	$log.debug("Controller ProductQ");
 	  	    	if (productId){
 	  	    		getProduct(productId);
 	  	    	} else {

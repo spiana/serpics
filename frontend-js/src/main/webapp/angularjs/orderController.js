@@ -1,8 +1,8 @@
  var app = angular.module("order.controller", ['order.service'])
 /** orderController **/
-.controller("orderController",['$scope','orderService', 
+.controller("orderController",['$scope','orderService','$log',
                                   
-      function($scope,orderService) {	
+      function($scope,orderService,$log) {	
    	
   	    $scope.order 	= [];
   	    
@@ -10,7 +10,7 @@
   	    
   	    function placeOrder() {
   	    	orderService.placeOrder().then( function( response) {
-  	    		console.log("orderController: placeOrder()")
+  	    		$log.debug("orderController: placeOrder()")
   	    		$scope.order = response;
   	    	})
   	    }
@@ -25,7 +25,7 @@
   	     */
   	    $scope.addPayment = function( order, data) {		
   	    	orderService.addPayment(order, data).then( function( response ) {
-  	    		console.log("OrderController: addPayment(): ramo then");
+  	    		$log.debug("OrderController: addPayment(): ramo then");
   	    		$scope.order = response;
   	    	})
   	    };  	   

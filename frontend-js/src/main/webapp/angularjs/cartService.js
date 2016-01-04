@@ -2,7 +2,7 @@
 /**
  * cart service to handler rest call to cart service
  */
-app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES) {
+app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 'COOKIE_EXPIRES','$log', function( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES,$log) {
 	
 	var endpoint = '/jax-rs/cartService/';
 	 
@@ -28,7 +28,7 @@ app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,C
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("cartService getCurrentCart() ssid nel promise "+sessionId) ;
+	    			$log.debug("cartService getCurrentCart() ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: URL + endpoint , 
@@ -50,7 +50,7 @@ app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,C
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("cartService cartAdd(sku ,quantity) ssid nel promise "+sessionId) ;
+	    			$log.debug("cartService cartAdd(sku ,quantity) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'POST',
 			             url: URL + endpoint + '?sku=' + sku + '&qty='+quantity, 
@@ -73,7 +73,7 @@ app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,C
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("cartService cartUpdate(cartItem) ssid nel promise "+sessionId) ;
+	    			$log.debug("cartService cartUpdate(cartItem) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'PUT',
 			             url: URL + endpoint,
@@ -96,7 +96,7 @@ app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,C
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("cartService deleteItem(itemId) ssid nel promise "+sessionId) ;
+	    			$log.debug("cartService deleteItem(itemId) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'DELETE',
 			             url: URL + endpoint + "?itemId=" + itemId,
@@ -119,7 +119,7 @@ app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,C
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("cartService addBillingAddress(billingAddress) ssid nel promise "+sessionId) ;
+	    			$log.debug("cartService addBillingAddress(billingAddress) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'POST',
 			             url: URL + endpoint + "address/billing",
@@ -142,7 +142,7 @@ app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,C
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			console.log("cartService addShippingAddress(shippingAddress) ssid nel promise "+sessionId) ;
+	    			$log.debug("cartService addShippingAddress(shippingAddress) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'POST',
 			             url: URL + endpoint + "address/shipping",
@@ -185,4 +185,4 @@ app.service("cartService", function( $http, $q, serpicsServices, URL, $cookies,C
         	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES)  /** expire 20 minut **/
 	        return( response.data.responseObject);
 	    }
-});
+}]);
