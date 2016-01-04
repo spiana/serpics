@@ -106,7 +106,11 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
     	abstract: true,
 	   	url: '/checkout',	        
 	    templateUrl: 'html/template/checkout.html', 
-	    controller: 'cartController'
+	    controller: 'cartController',
+        params: {
+        	complete: "complete",
+        	shipping: "checkout.shipping"
+        }
 	})
 	
 	.state('checkout.address', {

@@ -1,9 +1,9 @@
  var app = angular.module("cart.controller", ['cart.service', 'customer.service'])
  
  /** cartController **/
-.controller("cartController",['$state','$scope','customerService', 'cartService','$log',
+.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams',
                                   
-function($state,$scope,customerService,cartService,$log) {
+function($state,$scope,customerService,cartService,$log,$stateParams) {
 		
 		$scope.cart = {}
 		$scope.currentUser = customerService.currentUser;
@@ -83,11 +83,11 @@ function($state,$scope,customerService,cartService,$log) {
 					  cartService.addShippingAddress(billingAddress).then(function(response){
 		    			  $log.debug("cartController billingAddress(billingAddress): ramo then");
 		    			  $scope.cart = response;
-		    			  $state.go('complete')
+		    			  $state.go($stateParams.complete)
 					  })
 				  } else {
 					  $scope.cart = response;
-	    			  $state.go('checkout.shipping')
+	    			  $state.go($stateParams.shipping)
 				  }
 			 })
 	  	 };
@@ -96,7 +96,7 @@ function($state,$scope,customerService,cartService,$log) {
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
 	  			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go('complete')
+	  			  $state.go($stateParams.complete)
 	  		  })
 	  	};
   		
