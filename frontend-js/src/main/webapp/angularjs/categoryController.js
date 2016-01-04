@@ -1,9 +1,9 @@
  var app = angular.module("category.controller", ['ngCookies','category.service'])
 
  /** categoryController **/
-.controller("categoryController",['$scope','categoryService', 
+.controller("categoryController",['$scope','categoryService','$log', 
                                      
-         function($scope,categoryService) {
+         function($scope,categoryService,$log) {
       	
 		 	$scope.categoryData 	= [];
 		 	//auxiliary var
@@ -22,9 +22,9 @@
      	     * @use 					categoryService,
      	     */
 		 	function getTop(){	
-		 		console.log("Category Controller getTop()");
+		 		$log.debug("Category Controller getTop()");
                  	categoryService.getTop().then( function( response ) {
-                 		console.log("Category Controller getTop() ramo then");
+                 		$log.debug("Category Controller getTop() ramo then");
                  		$scope.categoryData 	= response.data;                  	
                  })
      	    };
@@ -36,9 +36,9 @@
      	     */
 
      	    function getTopQ(){
-     	    	console.log("Category Controller getTopQ()");
+     	    	$log.debug("Category Controller getTopQ()");
      	    	categoryService.getTopQ().then(function(response){
-     	    		console.log("Category Controller getTopQ() ramo then");
+     	    		$log.debug("Category Controller getTopQ() ramo then");
      	    		$scope.categoryData = response
      	    	})
      	    		
@@ -50,9 +50,9 @@
      	     * @use 						categoryService,
      	     */
      	    $scope.getCategoryById = function(categoryId) {
-     	    	console.log("Category Controller getCategoryById(categoryId)"+categoryId);
+     	    	$log.debug("Category Controller getCategoryById(categoryId)"+categoryId);
      	    	categoryService.getCategoryById(categoryId).then(function(response){
-     	    		console.log("Category Controller getCategoryById(categoryId) ramo then");
+     	    		$log.debug("Category Controller getCategoryById(categoryId) ramo then");
      	    		$scope.categoryData = response;
      	    	})
     	    };
@@ -63,9 +63,9 @@
      	     * @use 						categoryService,
      	     */
      	    $scope.getCategoryByCode = function(code) {
-    	    	console.log("Category Controller getCategoryByCode(code)"+code);
+    	    	$log.debug("Category Controller getCategoryByCode(code)"+code);
      	    	categoryService.getCategoryByCode(code).then(function(response){
-     	    		console.log("Category Controller getCategoryByCode(code) ramo then");
+     	    		$log.debug("Category Controller getCategoryByCode(code) ramo then");
      	    		$scope.categoryData = response;
      	    	})
      	    };
@@ -80,15 +80,15 @@
      	    
      	   $scope.getChild = function(parentId,index,category){
      		   category.active=!category.active;
-     		   console.log("Category Controller getChild(parentId,index,category) Category index: "+index);
+     		   $log.debug("Category Controller getChild(parentId,index,category) Category index: "+index);
      		   if(cache.isAdded.indexOf(parentId)!=-1){
-     			   console.log("Request gia' effettuata: "+" Collapsed: "+category.active+" Category Added: "+cache.isAdded);
+     			   $log.debug("Request gia' effettuata: "+" Collapsed: "+category.active+" Category Added: "+cache.isAdded);
      			   }else{
      				   categoryService.getChild(parentId).then(function(response){
-     					   console.log("getChild(parentId,index,category) ramo then");
+     					   $log.debug("getChild(parentId,index,category) ramo then");
      					   cache.isAdded += '#' + parentId;
      					   $scope.categoryData[index].subCategory=response;
-     					   console.log("Request effettuata "+$scope.categoryData[index].active);
+     					   $log.debug("Request effettuata "+$scope.categoryData[index].active);
      				   });
      			   }
      	    };
@@ -98,9 +98,9 @@
      	     * @use 						categoryService,
      	     */
      	    $scope.findAll = function(page,size) {
-     	    	console.log("Category Controller findAll()");
+     	    	$log.debug("Category Controller findAll()");
      	    	categoryService.findAll(page,size).then(function(response){
-     	    		console.log("Category Controller findAll() ramo then");
+     	    		$log.debug("Category Controller findAll() ramo then");
      	    		$scope.categoryData = response;
      	    	})
      	    };
