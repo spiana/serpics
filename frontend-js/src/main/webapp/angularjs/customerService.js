@@ -127,6 +127,98 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	       	});        	
   
          };
+         
+         /**
+          * @param AddressData
+          * return 
+          */
+        customerService.updateContactAddress = function(contactAddress){  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	    return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'PUT',
+ 	   	            url: URL + endpoint + "updateContactAddress",
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            },
+ 	   	       		data:contactAddress
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
+         
+         /**
+          * @param AddressData
+          * return 
+          */
+        customerService.updateBillingAddress = function(billingAddress){  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	    return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'PUT',
+ 	   	            url: URL + endpoint + "updateBillingAddress",
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            },
+ 	   	       		data:billingAddress
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
+         
+         /**
+          * @param AddressData
+          * return 
+          */
+        customerService.updateDestinationAddress = function(destinationAddress){  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	    return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'PUT',
+ 	   	            url: URL + endpoint + "updateDestinationAddress",
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            },
+ 	   	       		data:destinationAddress
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
+         
+         /**
+          * @param AddressData
+          * return 
+          */
+        customerService.addDestinationAddress = function(destinationAddress){  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	    return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'POST',
+ 	   	            url: URL + endpoint + "addDestinationAddress",
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            },
+ 	   	       		data:destinationAddress
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
         
         /**
          * private method.

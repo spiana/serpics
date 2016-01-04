@@ -2,20 +2,20 @@
 				<div class="row">
 					<div class="col-sm-3">
 						<div class="shopper-info">
-							<input ng-show="currentUser.billingAddress.firstname.length &&
-							currentUser.billingAddress.lastname.length &&
-							currentUser.billingAddress.address1.length &&
-							currentUser.billingAddress.streetNumber.length &&
-							currentUser.billingAddress.city.length &&
-							currentUser.billingAddress.zipcode.length &&
-							currentUser.billingAddress.email.length" type="submit" id="submit" value="Continue" ng-click="submitShippingForm(currentUser.shippingAddress[0])" class="btn btn-primary">
-							<input ng-hide="currentUser.billingAddress.firstname.length &&
-							currentUser.billingAddress.lastname.length &&
-							currentUser.billingAddress.address1.length &&
-							currentUser.billingAddress.streetNumber.length &&
-							currentUser.billingAddress.city.length &&
-							currentUser.billingAddress.zipcode.length &&
-							currentUser.billingAddress.email.length" type="submit" value="Continue" class="btn btn-primary" disabled>
+							<input ng-show="currentUser.destinationAddress[0].firstname.length &&
+							currentUser.destinationAddress[0].lastname.length &&
+							currentUser.destinationAddress[0].address1.length &&
+							currentUser.destinationAddress[0].streetNumber.length &&
+							currentUser.destinationAddress[0].city.length &&
+							currentUser.destinationAddress[0].zipcode.length &&
+							currentUser.destinationAddress[0].email.length" type="submit" id="submit" value="Continue" ng-click="submitShippingForm(currentUser.destinationAddress[0])" class="btn btn-primary">
+							<input ng-hide="currentUser.destinationAddress[0].firstname.length &&
+							currentUser.destinationAddress[0].lastname.length &&
+							currentUser.destinationAddress[0].address1.length &&
+							currentUser.destinationAddress[0].streetNumber.length &&
+							currentUser.destinationAddress[0].city.length &&
+							currentUser.destinationAddress[0].zipcode.length &&
+							currentUser.destinationAddress[0].email.length" type="submit" value="Continue" class="btn btn-primary" disabled>
 						</div>
 						<br>
 						<div>* Required field</div>
@@ -25,22 +25,22 @@
 							<p>Ship To</p>
 							<div class="form-one">
 								<form>
-									<input type="text" name="company" placeholder="Company Name" ng-model="currentUser.shippingAddress[0].company">
-									<input type="text" name="firstname" placeholder="First Name *" ng-model="currentUser.shippingAddress[0].firstname" required>
-									<input type="text" name="lastname" placeholder="Last Name *" ng-model="currentUser.shippingAddress[0].lastname" required>
-									<input type="text" name="address1" placeholder="Address *" ng-model="currentUser.shippingAddress[0].address1" required>
-									<input type="text" name="address2" placeholder="Address 2" ng-model="currentUser.shippingAddress[0].address2">
-									<input type="text" name="streetNumber" placeholder="Street Number *" ng-model="currentUser.shippingAddress[0].streetNumber" required>
+									<input type="text" name="company" placeholder="Company Name" ng-model="currentUser.destinationAddress[0].company">
+									<input type="text" name="firstname" placeholder="First Name *" ng-model="currentUser.destinationAddress[0].firstname" required>
+									<input type="text" name="lastname" placeholder="Last Name *" ng-model="currentUser.destinationAddress[0].lastname" required>
+									<input type="text" name="address1" placeholder="Address *" ng-model="currentUser.destinationAddress[0].address1" required>
+									<input type="text" name="address2" placeholder="Address 2" ng-model="currentUser.destinationAddress[0].address2">
+									<input type="text" name="streetNumber" placeholder="Street Number *" ng-model="currentUser.destinationAddress[0].streetNumber" required>
 								</form>
 							</div>
 							<div class="form-two">
 								<form>
-									<input type="text" name="city" placeholder="City *" ng-model="currentUser.shippingAddress[0].city" required>
-									<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="currentUser.shippingAddress[0].zipcode" required>
-									<input type="text" name="email" placeholder="Email *" ng-model="currentUser.shippingAddress[0].email" required>
-									<input type="text" name="phone" placeholder="Phone" ng-model="currentUser.shippingAddress[0].phone" required>
-									<input type="text" name="mobile" placeholder="Mobile Phone" ng-model="currentUser.shippingAddress[0].mobile">
-									<input type="text" name="fax" placeholder="Fax" ng-model="currentUser.shippingAddress[0].fax">
+									<input type="text" name="city" placeholder="City *" ng-model="currentUser.destinationAddress[0].city" required>
+									<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="currentUser.destinationAddress[0].zipcode" required>
+									<input type="text" name="email" placeholder="Email *" ng-model="currentUser.destinationAddress[0].email" required>
+									<input type="text" name="phone" placeholder="Phone" ng-model="currentUser.destinationAddress[0].phone" required>
+									<input type="text" name="mobile" placeholder="Mobile Phone" ng-model="currentUser.destinationAddress[0].mobile">
+									<input type="text" name="fax" placeholder="Fax" ng-model="currentUser.destinationAddress[0].fax">
 								</form>
 							</div>
 						</div>

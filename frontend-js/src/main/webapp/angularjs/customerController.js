@@ -27,9 +27,36 @@
   		 
   		 $scope.updateUserData = function(userData) {
   			 customerService.updateUserData(userData).then( function( response ) {
-  				console.log("customerController: update(): ramo then");
+  				console.log("customerController: updateUserData(): ramo then");
+				customerService.updateCurrentUser();
+  	    	})
+  		 } 		 
+  		 
+  		 $scope.updateContactAddress = function(contactAddress) {
+  			 customerService.updateContactAddress(contactAddress).then( function( response ) {
+  				console.log("customerController: updateContactAddress(): ramo then");
 				customerService.updateCurrentUser();
   	    	})
   		 }
-
+  		 
+  		 $scope.updateBillingAddress = function(billingAddress) {
+  			 customerService.updateBillingAddress(billingAddress).then( function( response ) {
+  				console.log("customerController: updateBillingAddress(): ramo then");
+				customerService.updateCurrentUser();
+  	    	})
+  		 }
+  		 
+  		 $scope.updateDestinationAddress = function(destinationAddress) {
+  			 if ($scope.currentUser.destinationAddress[0].uuid != null){
+	  			 customerService.updateDestinationAddress(destinationAddress).then( function( response ) {
+	  				console.log("customerController: updateDestinationAddress(): ramo then");
+					customerService.updateCurrentUser();
+	  	    	})
+  			 } else {
+	  			 customerService.addDestinationAddress(destinationAddress).then( function( response ) {
+		  				console.log("customerController: updateDestinationAddress(): ramo then");
+						customerService.updateCurrentUser();
+	  			 })
+  			 }
+  		 }
 }])
