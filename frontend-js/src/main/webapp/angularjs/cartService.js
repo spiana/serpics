@@ -53,11 +53,12 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService cartAdd(sku ,quantity) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'POST',
-			             url: URL + endpoint + '?sku=' + sku + '&qty='+quantity, 
+			             url: URL + endpoint, 
 			             headers: {
 			             	'ssid': sessionId,
 			             	'Content-Type': 'application/x-www-form-urlencoded'
-			            }
+			            },
+			            data: 'sku='+sku+'&qty='+quantity
 			          }).then(handleSuccess, handleError).then(resolve, reject);
 	    		});
 	    	});

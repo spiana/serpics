@@ -1,7 +1,27 @@
 <div class="features_items">
 	<!--features_items-->
 	<h2 class="title text-center">{{name}}</h2>
-	
+	<div class="col-sm-12 clearfix">
+		<div class="col-sm-9 clearfix">	
+		<ul class="pagination">
+		    <li><a href="" ng-click="findAllQ(product.number - 1,product.size)" ng-show="product.number > 0">&laquo;</a></li>
+		    <li ng-repeat="i in range(product.totalPages)" ng-class="{active: product.number == $index}"><a href="" ng-click="findAllQ($index,product.size)">{{$index+1}}</a></li>
+		    <li><a href="" ng-click="findAllQ(product.number + 1,product.size)" ng-show="product.number < product.totalPages - 1">&raquo;</a></li>
+		</ul>
+		</div>
+		<div class="col-sm-3 clearfix">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
+				Products per page  <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href=""  ng-click="findAllQ(0,3)">3</a></li>
+				<li><a href=""  ng-click="findAllQ(0,6)">6</a></li>
+				<li><a href=""  ng-click="findAllQ(0,9)">9</a></li>
+			</ul>
+		</div>
+	</div>
+
 	<div single-product-directive ></div>
 	
 	<div ng-show="product.totalElements == 0"><h4>Nessun prodotto trovato!</h4></div>
