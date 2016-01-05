@@ -219,6 +219,28 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	       	});        	
   
          };
+         
+         /**
+          * @param addressId
+          * return 
+          */
+        customerService.deleteDestinationAddress = function(addressId){  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	    return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'DELETE',
+ 	   	            url: URL + endpoint + "deleteDestinationAddress" + "/" + addressId,
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            },
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
         
         /**
          * private method.
