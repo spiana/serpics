@@ -131,6 +131,10 @@ public class CartFacadeImpl implements CartFacade {
 		Address address = addressFacade.addressDataToAddress(billingAddress, user);
 		cartService.setBillingAddress(address);
 
+		if (user.getBillingAddress() == null){
+			usersFacade.addBillingAddress(billingAddress);
+		}
+		
 		try {
 			
 			Cart cart = cartService.prepareCart();
@@ -151,6 +155,10 @@ public class CartFacadeImpl implements CartFacade {
 		Address address = addressFacade.addressDataToAddress(shippingAddress, user);
 		cartService.setDestinationAddress(address);
 
+		if (user.getPermanentAddresses().isEmpty()){
+			usersFacade.addDestinationAddress(shippingAddress);
+		}
+		
 		try {
 			
 			Cart cart = cartService.prepareCart();
