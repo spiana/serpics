@@ -1,4 +1,4 @@
-var httpCustomerMocks = angular.module('http.customer.mocks', ['ngMock']);
+var httpCustomerMocks = angular.module('http.login.mocks', ['ngMock']);
 
 httpCustomerMocks.run(function($httpBackend) {
 	
@@ -33,6 +33,11 @@ httpCustomerMocks.run(function($httpBackend) {
 	
 	//login endpoint
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/customerService/login?username=user&password=password').respond(function(method, url, data) {
+	    return [status,customerLogged];
+	  });
+	
+	//login endpoint
+	$httpBackend.whenGET('http://localhost:8080/jax-rs/customerService/login?username=gabri&password=1234').respond(function(method, url, data) {
 	    return [status,customerLogged];
 	  });
 	
@@ -71,6 +76,20 @@ httpCustomerMocks.run(function($httpBackend) {
 	    return [status,customer];
 	  });
 
+	
+	//***Html***//
+	
+	
+	//html/template/shop.html
+	$httpBackend.whenGET('html/template/shop.html').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
+	//html/template/home-central.html
+	$httpBackend.whenGET('html/template/home-central.html').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
 	
 });
 

@@ -43,7 +43,7 @@ httpCategoryMocks.run(function($httpBackend) {
 	    return [status,ssid];
 	  });
 	
-	//***Category rest-api endpoint***//
+	//***CategoryService rest-api endpoint***//
 	
 	//getTopQ getTop
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/top').respond(function(method, url, data) {

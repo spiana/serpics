@@ -62,7 +62,7 @@ describe("Testing order.service module:", function() {
 		
 	  }));
 
-	  xit('orderService getOrders() with mocked getSessionId function', inject(function(orderService,$httpBackend) {
+	  it('orderService getOrders() with mocked getSessionId function', inject(function(orderService,$httpBackend) {
 		  
 		  var orders =  [];
 		  orderService.getOrders().then(function(response){
@@ -73,49 +73,54 @@ describe("Testing order.service module:", function() {
 		  
 		  expect(orders).not.toBeNull();
 		  
-		  expect(orders.content[0].name).toEqual('PHILIPHS');
-		  expect(orders.content[0].logo).toEqual('Logo');
+		  expect(orders.length).toEqual(4);
+		  expect(orders[0].id).toEqual(01);
+		  expect(orders[0].totalTax).toEqual(3);
+		  expect(orders[0].totalProduct).toEqual(123.96);
 		  
-		  $log.debug("orderService getOrders() Order: "+orders.content[0].name);
+		  $log.debug("orderService Test getOrders() Orders length: "+orders.length);
 
 	  }));
 
 	
-	  xit('orderService addPayment() with mocked getSessionId function', inject(function(orderService,$httpBackend) {
+	  it('orderService addPayment(orderId,paymentData) with mocked getSessionId function', inject(function(orderService,$httpBackend) {
 		  
-		  var brand =  {};
-		  var brandId= '1';
+		  var orderId =  01;
+		  var paymentData= '1';
 		  
-		  orderService.addPayment(brandId).then(function(response){
-				  brand = response;
-		  });		
-		  
-		  $httpBackend.flush();
-		  
-		  expect(brand).not.toBeNull();
-		  
-		  expect(brand.name).toEqual('PHILIPHS');
-		  expect(brand.logo).toEqual('Logos');
-		  
-		  $log.debug("orderService addPayment() Order: "+order);
-
-	  }));
-	  
-	  xit('orderService placeOrder() with mocked getSessionId function', inject(function(orderService,$httpBackend) {
-		  
-		  var order =  {};
-		  
-		  orderService.placeOrder().then(function(response){
-				  brand = response;
+		  orderService.addPayment(orderId,paymentData).then(function(response){
+			  order = response;
 		  });		
 		  
 		  $httpBackend.flush();
 		  
 		  expect(order).not.toBeNull();
 		  
-
+		  expect(order.id).toEqual(1146);
+		  expect(order.totalProduct).toEqual(0);
+		  expect(order.totalShipping).toEqual(0);
 		  
-		  $log.debug("orderService placeOrder() Order: "+order);
+		  $log.debug("orderService Test addPayment(orderId,paymentData) Order id: "+order.id);//+JSON.stringify(order)
+
+	  }));
+	  
+	  it('orderService placeOrder() with mocked getSessionId function', inject(function(orderService,$httpBackend) {
+		  
+		  var order =  {};
+		  
+		  orderService.placeOrder().then(function(response){
+			  order = response;
+		  });		
+		  
+		  $httpBackend.flush();
+		  
+		  expect(order).not.toBeNull();
+		  expect(order.id).toEqual(1146);
+		  expect(order.totalProduct).toEqual(0);
+		  expect(order.totalShipping).toEqual(0);
+		  
+
+		  $log.debug("orderService Test placeOrder() Order id: "+order.id);
 
 	  }));
 	

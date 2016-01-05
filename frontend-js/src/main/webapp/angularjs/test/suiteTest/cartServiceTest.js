@@ -90,30 +90,31 @@ describe("Testing cart.service module:", function() {
 		  expect(cart.orderItems[0].shippingAddressId).toEqual(0);
 		  
 		  
-		  $log.debug("cartService getCurrentCart() Card id: "+cart.id);
+		  $log.debug("cartService Test getCurrentCart() Card id: "+cart.id);
 
 	  }));
 
 	
 	  it('cartService deleteItem(itemId) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
 		  
-		  var cart = {};
+		  var cartModification = {};
 		  var itemId= '1';
 		  
 		  cartService.deleteItem(itemId).then(function(response){
-			  cart = response;
+			  cartModification = response;
 		  });		
 		  
 		  $httpBackend.flush();
 		  
-		  expect(cart).not.toBeNull();
+		  expect(cartModification).not.toBeNull();
+		  expect(cartModification.modificationStatus).toEqual('OK');
 		  
 	  
-		  $log.debug("cartService deleteItem(itemId) Cart : "+JSON.stringify(cart));
+		  $log.debug("cartService Test deleteItem(itemId) cartModification : "+cartModification.modificationStatus);
 
 	  }));
 	  
-	  xit('cartService cartAdd(sku ,quantity) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
+	  it('cartService cartAdd(sku ,quantity) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
 		  
 		  var sku =  'TASTIERA';
 		  var quantity= 1;
@@ -127,11 +128,10 @@ describe("Testing cart.service module:", function() {
 		  
 		  expect(cartModification).not.toBeNull();
 		  
-		  expect(cartModification).toEqual('PHILIPHS');
-		  expect(cartModification).toEqual('Logos');
-		  expect(cartModification).toEqual(1);
+		  expect(cartModification.cart.orderItems[0].product.code).toEqual('TASTIERA');
+		  expect(cartModification.cart.orderItems[0].quantity).toEqual(1);
 		  
-		  $log.debug("cartService cartAdd(sku ,quantity) CartModification Status: "+cartModification.status);
+		  $log.debug("cartService Test cartAdd(sku ,quantity) CartModification cart id: "+cartModification.cart.id);
 
 	  }));
 
@@ -151,54 +151,50 @@ describe("Testing cart.service module:", function() {
 		  
 		  expect(cartModification).not.toBeNull();
 		  
-		  expect(cartModification).toEqual('PHILIPHS');
-		  expect(cartModification).toEqual('Logo');
-		  expect(cartModification).toEqual(1);
+		  expect(cartModification.cart.orderItems[0].product.code).toEqual('MOUSE');
+		  expect(cartModification.cart.orderItems[0].quantity).toEqual(2);
 		  
-		  $log.debug("cartService cartUpdate() CartModification: "+cartModification);
+		  $log.debug("cartService Test cartUpdate() CartModification cart id: "+cartModification.cart.id);//JSON.stringify()
 
 	  }));
 	  
 	 it('cartService addBillingAddress(billingAddress) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
 		  
 		  var billingAddress =  {"firstname":"Fede","lastname":"Pic","address1":"VIA LUIGI PIRANDELLO","address2":"6","company":"stepfour","streetNumber":"8","city":"PANDINO","zipcode":"26025","email":"fpicinelli@stepfour.it","phone":"333333333","mobile":"333333333","fax":"333333333"};
+		  var cartModification =  {};
 		  
 		  cartService.addBillingAddress(billingAddress).then(function(response){
-			  billingAddress = response;
+			  cartModification = response;
 		  });		
 		  
 		  $httpBackend.flush();
 		  
-		  expect(billingAddress).not.toBeNull();
+		  expect(cartModification).not.toBeNull();
 		  
-		  expect(addBillingAddress.content.length).toEqual(3);
-		  expect(addBillingAddress.content[0].name).toEqual('PHILIPHS');
-		  expect(addBillingAddress.content[0].logo).toEqual('Logo');
-		  expect(addBillingAddress.content[0].id).toEqual(1);
+		  expect(cartModification.cart.orderItems[0].product.code).toEqual('MOUSE');
+		  expect(cartModification.cart.orderItems[0].quantity).toEqual(2);
 		  
-		  $log.debug("cartService addBillingAddress(billingAddress) billingAddress: "+billingAddress.content[0].name);
+		  $log.debug("cartService Test addBillingAddress(billingAddress) billingAddress: "+JSON.stringify(billingAddress));
 
 	  }));
 	 
 	 it('cartService addShippingAddress(shippingAddress) with mocked getSessionId function', inject(function(cartService,$httpBackend) {
 		  
 		  var shippingAddress =  {"firstname":"Fede","lastname":"Pic","address1":"VIA LAGO GERUNDO","address2":"6","company":"stepfour","streetNumber":"13","city":"PANDINO","zipcode":"26025","email":"fpicinelli@stepfour.it","phone":"333333333","mobile":"333333333","fax":"333333333"};
-
+		  var cartModification =  {};
 		  
 		  cartService.addShippingAddress(shippingAddress).then(function(response){
-			  shippingAddress = response;
+			  cartModification = response;
 		  });		
 		  
 		  $httpBackend.flush();
 		  
-		  expect(shippingAddress).not.toBeNull();
+		  expect(cartModification).not.toBeNull();
 		  
-		  expect(shippingAddress.content.length).toEqual(3);
-		  expect(shippingAddress.content[0].name).toEqual('PHILIPHS');
-		  expect(shippingAddress.content[0].logo).toEqual('Logo');
-		  expect(shippingAddress.content[0].id).toEqual(1);
+		  expect(cartModification.cart.orderItems[0].product.code).toEqual('MOUSE');
+		  expect(cartModification.cart.orderItems[0].quantity).toEqual(2);
 		  
-		  $log.debug("cartService addShippingAddress(shippingAddress) shippingAddress: "+billingAddress.content[0].name);
+		  $log.debug("cartService Test addShippingAddress(shippingAddress) shippingAddress: "+shippingAddress.name);
 
 	  }));
 

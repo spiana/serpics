@@ -1,4 +1,4 @@
-var app = angular.module("login.controller", ['customer.service','ngDialog'])
+var app = angular.module("login.controller", ['customer.service','ngDialog','serpics.router'])
 
 .controller("loginController",['$scope', '$location','customerService','$cookieStore','$state','$log','ngDialog','$stateParams',
                                   
@@ -23,24 +23,19 @@ var app = angular.module("login.controller", ['customer.service','ngDialog'])
 			           
 		    /**
 		     * @param
-		     * @param
 		     * @use
 		     * @returns
 		     */
 			$scope.login = function(loginUser) {				
 		        	customerService.login(loginUser.username, loginUser.password).then(function (response) {
-		        		customerService.updateCurrentUser()
-		        		$state.go($stateParams.login)
+		        		customerService.updateCurrentUser();
+		        		$state.go($stateParams.login);
 		        	})	   	 
 			}
 		      
 		      		      
 		  /**
-		     * @param name
-		     * @param lastname
-		     * @param logonid (required)
-		     * @param password
-		     * @param email	            
+		     * @param registerUser	            
 		     * @use
 		     * @returns new user and route to home
 		     */

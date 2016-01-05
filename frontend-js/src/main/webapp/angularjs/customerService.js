@@ -4,11 +4,12 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 .factory('customerService',  [ '$http', '$q','serpicsServices','URL',
     function ($http, $q, serpicsServices,URL) {
 	
-		var customerService = {}
+		var customerService = {
+				currentUser:{}
+		};
 		
 		var endpoint = '/jax-rs/customerService/';
 		
-		customerService.currentUser = {}
                  
         /** public methods**/
         
@@ -267,7 +268,6 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
          */
          
          function handleSuccess( response ) {
-        	console.log(response.data.message)
             return( response.data.responseObject);
         }
   

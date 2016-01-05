@@ -1,14 +1,14 @@
- var app = angular.module("cart.controller", ['cart.service', 'customer.service'])
+ var app = angular.module("cart.controller", ['cart.service', 'customer.service','serpics.router'])
  
  /** cartController **/
 .controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams',
                                   
 function($state,$scope,customerService,cartService,$log,$stateParams) {
 		
-		$scope.cart = {}
+		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
 	  	
-		init()		
+		//init()		
 		
 		function init() {
 	  	    getCurrentCart();

@@ -85,12 +85,18 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	     */              
 	     function findByCategory(categoryId, page, size) {
 	    	 var serviceSSID = serpicsServices;
+	    	 var findByCategoryUrl='';
+	    	 if (arguments.length === 0 || arguments.length === 1 ) {
+	    		 findByCategoryUrl= URL + endpoint +   'pageCategory/' + categoryId;
+	    		 }else{
+	    			 findByCategoryUrl = URL + endpoint +   'pageCategory/' + categoryId + '?page=' + page + '&size=' + size;
+	    		 }
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 $log.debug("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: 	URL + endpoint +   'pageCategory/' + categoryId + '?page=' + page + '&size=' + size,
+	    				 url: 	findByCategoryUrl,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }

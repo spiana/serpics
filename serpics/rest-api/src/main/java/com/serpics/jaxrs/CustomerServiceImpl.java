@@ -205,7 +205,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		commerceEngine.disconnect(sessionId);
-		apiRestResponse.setMessage("Disconnect current user logged with session id:  " + sessionId);
+		//apiRestResponse.setMessage("Disconnect current user logged with session id:  " + sessionId);
 		return Response.ok(apiRestResponse).build();
 	}
 
