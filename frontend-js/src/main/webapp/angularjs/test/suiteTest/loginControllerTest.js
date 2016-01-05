@@ -11,6 +11,7 @@ describe("Testing login.controller module", function() {
     
 		// Do some other stuff before each test run if you want...
 		$provide.value('$log', mockedLog);
+		$provide.value('$stateParams', stateParams = { login: "shop.home", register: "shop.login"});
   
 	}));
 
@@ -108,14 +109,19 @@ describe("Testing login.controller module", function() {
 		$log.debug("loginController Test $scope.updateUserData(userData): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
 	}));
 	
-	it('loginController $scope.updateContactAddress(contactAddress) customer test', inject(function($httpBackend){
+	it('loginController $scope.register(registerUser)', inject(function($httpBackend){
 		
 		var currentUser = {};
 		var contactAddress = {};
 		
+		var registerUser = {
+				username:'gabri',
+				password:'1234'
+					};
+		
 		expect(loginController).not.toBeNull();
 		
-		$scope.updateContactAddress(contactAddress);
+		$scope.register(registerUser);
 
 	
 		$httpBackend.flush();
@@ -124,7 +130,7 @@ describe("Testing login.controller module", function() {
 		  
 		expect(currentUser).not.toBeNull();
 		  
-		$log.debug("loginController Test $scope.updateContactAddress(contactAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
+		$log.debug("loginController Test $scope.register(registerUser): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
 	}));
 	
 	it('loginController $scope.updateBillingAddress(billingAddress) customer test', inject(function($httpBackend){
@@ -146,7 +152,7 @@ describe("Testing login.controller module", function() {
 		$log.debug("loginController Test $scope.updateBillingAddress(billingAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
 	}));
 	
-	xit('loginController $scope.updateDestinationAddress(destinationAddress) customer test', inject(function($httpBackend){
+	it('loginController $scope.updateDestinationAddress(destinationAddress) customer test', inject(function($httpBackend){
 		
 		var currentUser = {};
 		var destinationAddress = {};

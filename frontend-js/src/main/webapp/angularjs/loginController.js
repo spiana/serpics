@@ -1,8 +1,8 @@
 var app = angular.module("login.controller", ['customer.service','ngDialog','serpics.router'])
 
-.controller("loginController",['$scope', '$location','customerService','$cookieStore','$state','$log','ngDialog','$stateParams',
+.controller("loginController",['$scope','customerService','$state','$log','ngDialog','$stateParams','$log',
                                   
-      function($scope,$location,customerService,$cookieStore,$state,$log,ngDialog,$stateParams) {
+      function($scope,customerService,$state,$log,ngDialog,$stateParams,$log) {
 	
 			$scope.currentUser = customerService.currentUser;
 			
@@ -32,8 +32,7 @@ var app = angular.module("login.controller", ['customer.service','ngDialog','ser
 		        		$state.go($stateParams.login);
 		        	})	   	 
 			}
-		      
-		      		      
+		           
 		  /**
 		     * @param registerUser	            
 		     * @use

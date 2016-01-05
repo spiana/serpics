@@ -39,7 +39,7 @@ httpCartMocks.run(function($httpBackend) {
 	  });
 	
 	//cartAdd
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/?sku=TASTIERA&qty=1').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/').respond(function(method, url, data) {
 	    return [status,cartModification];
 	  });
 	

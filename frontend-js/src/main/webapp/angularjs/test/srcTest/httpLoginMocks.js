@@ -90,6 +90,12 @@ httpCustomerMocks.run(function($httpBackend) {
 	    return [status];
 	  });
 	
+	//registerSuccessDialog
+	$httpBackend.whenGET('registerSuccessDialog').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
+	
 	
 });
 
