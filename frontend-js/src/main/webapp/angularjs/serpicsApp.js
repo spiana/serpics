@@ -1,11 +1,12 @@
 var app = angular.module("serpics.App", ['category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','customer.controller','serpics.directive','serpics.config','serpics.router','serpics.interceptor']);
 
-app.controller("serpicsAppController",['$scope','serpicsServices','serpicsHttpBuffer','$log',
+app.run(['serpicsServices','serpicsHttpBuffer','$log','$rootScope',
                                      
-     function($scope,serpicsServices,httpBuffer,$log) {	
+     function(serpicsServices,httpBuffer,$log,$rootScope) {	
   	
-			
 		 	var counter=0;
+		 	
+		 	$scope= $rootScope.$new();
 			
 	        $scope.$on('event:sessiondId-expired', function() {
 	        	if(counter!=0){
