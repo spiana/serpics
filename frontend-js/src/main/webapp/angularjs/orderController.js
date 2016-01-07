@@ -4,9 +4,9 @@
                                   
       function($scope,orderService,$log) {	
    	
-  	    $scope.order 	= [];
+  	    $scope.order 	= placeOrder();
   	    
-  	    placeOrder();
+
   	    
   	    function placeOrder() {
   	    	orderService.placeOrder().then( function( response) {

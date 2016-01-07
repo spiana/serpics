@@ -5,10 +5,8 @@
      function($scope,brandService,$log) {	
   	
 		
- 	    $scope.brandData 	= [];
+ 	    $scope.brandData = getBrandQ();
  	  
-	 	getBrandQ();
- 	    
  	    
  	    /** implemented brand service **/  	    
 		

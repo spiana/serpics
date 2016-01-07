@@ -12,9 +12,8 @@
 			
 			$scope.defaultQuantity = 1;
 	
-	  	    $scope.product 	= [];
+	  	    $scope.product 	= findAllQ(page, size);
 	  	    
-	  	    findAllQ(page, size);
 	  	    
 	  	   	function getPage(){
 					if ($scope.product) {
