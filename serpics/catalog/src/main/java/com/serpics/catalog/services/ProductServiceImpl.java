@@ -91,9 +91,13 @@ public class ProductServiceImpl extends AbstractEntityService<Product, Long, Com
 
 	@Override
 	public Page<Product> findProductByBrand(Brand brand, Pageable pagination){
-		List<Product> listProduct =  findAll(ProductSpecification.findByBrand(brand), pagination);
-		Page<Product> page = new PageImpl<Product>(listProduct, pagination, listProduct.size());
-		return page;
+		Page<Product> l = null;
+		try {
+			l = brandRepository.findProductsByBrand(brand, pagination);
+		} catch(final Exception e) {
+			logger.error("", e);
+		}
+		return l;
 	}
 
 
