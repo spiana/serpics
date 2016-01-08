@@ -1,8 +1,8 @@
- var app = angular.module("cart.service", ['serpics.config','serpics.services'])
+ var app = angular.module("cart.service", ['serpics.config','serpics.services','serpics.router'])
 /**
  * cart service to handler rest call to cart service
  */
-app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 'COOKIE_EXPIRES','$log', function( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES,$log) {
+app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 'COOKIE_EXPIRES','$log','$stateParams', function( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES,$log,$stateParams) {
 	
 	var endpoint = '/jax-rs/cartService/';
 	 
