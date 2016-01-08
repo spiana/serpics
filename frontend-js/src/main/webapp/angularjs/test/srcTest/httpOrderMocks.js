@@ -1,6 +1,6 @@
 var httpOrderMocks = angular.module('http.order.mocks', ['ngMock']);
 
-httpOrderMocks.run(function($httpBackend) {
+httpOrderMocks.run(['$httpBackend',function($httpBackend) {
 	
 	var status = 200;
 	var ssid = "12345";
@@ -51,5 +51,5 @@ httpOrderMocks.run(function($httpBackend) {
 	    return [status,order];
 	  });
 
-});
+}]);
 

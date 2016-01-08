@@ -131,46 +131,6 @@ describe("Testing login.controller module", function() {
 		expect(currentUser).not.toBeNull();
 		  
 		$log.debug("loginController Test $scope.register(registerUser): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
-	}));
-	
-	it('loginController $scope.updateBillingAddress(billingAddress) customer test', inject(function($httpBackend){
-		
-		var currentUser = {};
-		var billingAddress = {};
-		
-		expect(loginController).not.toBeNull();
-		
-		$scope.updateContactAddress(billingAddress);
-
-	
-		$httpBackend.flush();
-		
-		currentUser = $scope.currentUser;
-		  
-		expect(currentUser).not.toBeNull();
-		  
-		$log.debug("loginController Test $scope.updateBillingAddress(billingAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
-	}));
-	
-	it('loginController $scope.updateDestinationAddress(destinationAddress) customer test', inject(function($httpBackend){
-		
-		var currentUser = {};
-		var destinationAddress = {};
-		
-		expect(loginController).not.toBeNull();
-		
-		$scope.updateDestinationAddress(destinationAddress);
-
-		//addDestinationAddress to Test
-	
-		$httpBackend.flush();
-		
-		currentUser = $scope.currentUser;
-		  
-		expect(currentUser).not.toBeNull();
-		  
-		$log.debug("loginController Test $scope.updateDestinationAddress(destinationAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
-	}));
-	
+	}));	
 	
 });

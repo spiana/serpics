@@ -1,6 +1,6 @@
 var httpCustomerMocks = angular.module('http.login.mocks', ['ngMock']);
 
-httpCustomerMocks.run(function($httpBackend) {
+httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 	
 	var status = 200;
 	var ssid = "12345";
@@ -97,7 +97,7 @@ httpCustomerMocks.run(function($httpBackend) {
 	
 	
 	
-});
+}]);
 
 
 

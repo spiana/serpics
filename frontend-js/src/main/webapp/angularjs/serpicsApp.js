@@ -7,12 +7,11 @@ app.run(['serpicsServices','serpicsHttpBuffer','$log','$rootScope',
 		 	var counter=0;
 		 	
 		 	$scope= $rootScope.$new();
-			
 	        $scope.$on('event:sessiondId-expired', function() {
 	        	if(counter!=0){
-	        		$log.debug("Evento scatenato: sessiondId-expired"+counter);
+	        		$log.debug('Evento scatenato: sessiondId-expired'+counter);
 	        	}else{
-	        		$log.debug("Evento scatenato: sessiondId-expired ramo else"+counter);
+	        		$log.debug('Evento scatenato: sessiondId-expired ramo else'+counter);
 	        		counter+=1;
 	        		serpicsServices. removeCookie('ssid');
 	        		serpicsServices.getSessionId().then(function(data, configUpdater) {
@@ -22,4 +21,6 @@ app.run(['serpicsServices','serpicsHttpBuffer','$log','$rootScope',
 	        	      });
 	        	}
 	        });
-}]);
+	    }
+
+]);

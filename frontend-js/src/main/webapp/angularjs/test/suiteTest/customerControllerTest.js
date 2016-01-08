@@ -139,7 +139,7 @@ describe("Testing customer.controller module", function() {
 		$log.debug("customerController Test $scope.updateBillingAddress(billingAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
 	}));
 	
-	xit('customerController $scope.updateDestinationAddress(destinationAddress) customer test', inject(function($httpBackend){
+	it('customerController $scope.updateDestinationAddress(destinationAddress) customer test', inject(function($httpBackend){
 		
 		var currentUser = {};
 		var destinationAddress = {};

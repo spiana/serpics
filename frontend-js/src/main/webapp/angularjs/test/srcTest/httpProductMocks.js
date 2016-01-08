@@ -1,6 +1,6 @@
 var httpProductMocks = angular.module('http.product.mocks', ['ngMock']);
 
-httpProductMocks.run(function($httpBackend) {
+httpProductMocks.run(['$httpBackend',function($httpBackend) {
 	
 	var status = 200;
 	var ssid = "12345";
@@ -535,7 +535,7 @@ httpProductMocks.run(function($httpBackend) {
 	  });
 	
 	//$scope.addToCart(sku,quantity)
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/?sku=TASTIERA&qty=1').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/').respond(function(method, url, data) {
 	    return [400,cartModification];
 	  });
 	
@@ -558,7 +558,7 @@ httpProductMocks.run(function($httpBackend) {
 	    return [status];
 	  });
 
-});
+}]);
 
 
 

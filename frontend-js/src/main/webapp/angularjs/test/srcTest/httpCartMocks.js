@@ -1,6 +1,6 @@
-var httpCartMocks = angular.module('http.cart.mocks', ['ngMock']);
+var httpCartMocks = angular.module('http.cart.mocks', ['ngMock','serpics.config']);
 
-httpCartMocks.run(function($httpBackend) {
+httpCartMocks.run(['$httpBackend',function($httpBackend) {
 	
 	var status = 200;
 	var ssid = "12345";
@@ -72,8 +72,23 @@ httpCartMocks.run(function($httpBackend) {
 	    return [status];
 	  });
 	
-	 
-});
+	//html/template/orderComplete.html
+	$httpBackend.whenGET('html/template/orderComplete.html').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
+	//html/template/checkout.html
+	$httpBackend.whenGET('html/template/checkout.html').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
+	//html/template/checkoutShippingAddress.html
+	$httpBackend.whenGET('html/template/checkoutShippingAddress.html').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
+ 
+}]);
 
 
 

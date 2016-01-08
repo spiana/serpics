@@ -113,13 +113,14 @@ var app= angular.module('serpics.interceptor', [])
 				
 				$log.debug("ResponseError Intercepted: 401: %s" , rejection);
 //				$rootScope.error.message = rejection.data.message;
-				$log.debug("Messaggio d'errore 403: %s",rejection.data.message);
+				$log.debug("Messaggio d'errore 401: %s",rejection.data.message);
 //				
 //				$rootScope.userData.login.username = '';
 //				$rootScope.userData.login.password  ='';
 				
 				var stato=$injector.get('$state');
-				stato.transitionTo('shop.login');
+				//stato.transitionTo('shop.login');
+				stato.go('shop.login');
 				
 				return $q.reject(rejection);
 				
@@ -132,8 +133,8 @@ var app= angular.module('serpics.interceptor', [])
 				$log.debug("ResponseError Intercepted: 404: %s" , rejection);
 						
 				var stato=$injector.get('$state');
-						
-				stato.transitionTo('shop.404');
+				
+				stato.go('shop.404');
 						
 				return $q.reject(rejection);
 			}
@@ -143,9 +144,9 @@ var app= angular.module('serpics.interceptor', [])
 			
 
 }])
-.config(function($logProvider){
-	$logProvider.debugEnabled(true);
-	})
+//.config(function($logProvider){
+//	$logProvider.debugEnabled(true);
+//	})
 .config(['$httpProvider',function($httpProvider) {   
 	    $httpProvider.interceptors.push('serpicsInterceptor');
 	}]);

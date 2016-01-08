@@ -1,6 +1,6 @@
 var httpSerpicsServicesMocks = angular.module('http.serpics.services.mocks', ['ngMock']);
 
-httpSerpicsServicesMocks.run(function($httpBackend) {
+httpSerpicsServicesMocks.run(['$httpBackend',function($httpBackend) {
 	
 	var status = 200;
 	var ssid = "12345";
@@ -12,4 +12,4 @@ httpSerpicsServicesMocks.run(function($httpBackend) {
 	    return [status,ssid];
 	  });
 
-});
+}]);
