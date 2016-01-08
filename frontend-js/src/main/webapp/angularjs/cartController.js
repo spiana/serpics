@@ -8,12 +8,6 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
 	  	
-		//init()		
-		
-		function init() {
-	  	    getCurrentCart();
-		}
-		
 	    function getCurrentCart() {
   			$log.debug("CartController getCurrentCart()");
   			cartService.getCurrentCart().then(function(response){
