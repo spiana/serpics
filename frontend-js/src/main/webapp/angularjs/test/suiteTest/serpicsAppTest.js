@@ -5,26 +5,18 @@ describe('Testing serpics.App module:', function() {
 	
 	//1 Dichiaro i moduli che mi servono per i test
 		
-	beforeEach(module('serpics.App','http.serpics.interceptor.mocks','serpics.services','serpics.interceptor', function($provide) {
+	beforeEach(module('serpics.App','http.serpics.interceptor.mocks','serpics.services','customer.service', function($provide) {
 		
 		// Do some provider configuration here
 		$provide.value('$log', mockedLog);
-
+		
+		
+		
 		}));		
 	
-	beforeEach(inject(function(_$log_,_$rootScope_, _$state_, _$injector_, $templateCache,_$stateParams_,_$location_,$httpBackend,$q) {
-			
-			$log = _$log_;
-			$rootScope = _$rootScope_;
-			$templateCache.put('html/template/shop.html', '');
-			$templateCache.put('html/template/home-central.html', '');
-			$templateCache.put('html/template/500.html', '');
-			$templateCache.put('html/template/login.html', '');
-			$templateCache.put('html/template/404.html', '');
-			
-		}));
-	
-	beforeEach(inject( function($q,serpicsServices,$cookies){
+	beforeEach(inject( function($q,serpicsServices,$cookies,customerService,_$log_){
+		
+		$log = _$log_;
 		
 		spyOn(serpicsServices, "getSessionId").and.callThrough().and.callFake(function() {
 			$log.debug('spyOn: getSessionId');
@@ -51,6 +43,8 @@ describe('Testing serpics.App module:', function() {
 	        
 	    });
 		
+		spyOn(customerService, "updateCurrentUser").and.callThrough();
+
 	}));
 	
 		
@@ -75,9 +69,6 @@ describe('Testing serpics.App module:', function() {
 		//$log.debug('risposta'+JSON.stringify(risposta));
 	    
 	    expect(serpicsServices.getSessionId).toHaveBeenCalled();
-
-
 	
 	}));
-
 });
