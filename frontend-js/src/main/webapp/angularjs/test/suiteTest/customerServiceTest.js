@@ -254,7 +254,20 @@ describe("Testing customer.service module:", function() {
 
 	  }));
 	  
-	  xit('customerService  addDestinationAddress(destinationAddress) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
+	  it('customerService  deleteDestinationAddress(addressId) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
+		  var deleteResponse =  {};
+		  var addressId =  '123456';
+
+		  
+		  customerService.deleteDestinationAddress(addressId).then(function(response){
+			  deleteResponse = response;
+		  })
+		  
+		  $httpBackend.flush();
+		  
+		  expect(deleteResponse).not.toBeNull();
+		  
+		  $log.debug("customerService Test deleteDestinationAddress(addressId) status: "+JSON.stringify(deleteResponse));
 	  }));
 		  
 	  

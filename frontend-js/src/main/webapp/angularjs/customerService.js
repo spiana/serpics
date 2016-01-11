@@ -1,8 +1,8 @@
 
 var app = angular.module('customer.service',['serpics.config','serpics.services'])
 
-.factory('customerService',  [ '$http', '$q','serpicsServices','URL','$timeout', 'TIMEOUT',
-    function ($http, $q, serpicsServices,URL,$timeout,TIMEOUT) {
+.factory('customerService',  [ '$http', '$q','serpicsServices','URL',
+    function ($http, $q, serpicsServices,URL) {
 	
 		var customerService = {
 				currentUser:{}
@@ -276,12 +276,6 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 	        	 angular.copy(data, customerService.currentUser)
 	         })
          };
-         
-         customerService.timeout = function () {
-             $timeout( function(){ customerService.updateCurrentUser(); customerService.timeout() }, TIMEOUT * 60000);
-         }
-         
-         customerService.timeout()
          
          customerService.getCurrentUser().then(function(data) {
         	 angular.copy(data, customerService.currentUser)

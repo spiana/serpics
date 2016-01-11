@@ -159,7 +159,22 @@ describe("Testing customer.controller module", function() {
 		$log.debug("customerController Test $scope.updateDestinationAddress(destinationAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
 	}));
 	
+	it('customerController $scope.deleteDestinationAddress(addressId) customer test', inject(function($httpBackend){
+		
+		var addressId = '123456';
+		
+		expect(customerController).not.toBeNull();
+		
+		$scope.deleteDestinationAddress(addressId);
 	
+		$httpBackend.flush();
+		
+		currentUser = $scope.currentUser;
+		  
+		expect(currentUser).not.toBeNull();
+		  
+		$log.debug("customerController Test $scope.deleteDestinationAddress(destinationAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
+	}));
 	
 	
 });

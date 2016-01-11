@@ -106,7 +106,7 @@ describe("Testing login.controller module", function() {
 		  
 		expect(currentUser).not.toBeNull();
 		  
-		$log.debug("loginController Test $scope.updateUserData(userData): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
+		$log.debug("loginController Test $scope.login(userData): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
 	}));
 	
 	it('loginController $scope.register(registerUser)', inject(function($httpBackend){
