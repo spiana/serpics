@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.serpics.base.data.model.Media;
 import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.PriceNotFoundException;
-import com.serpics.catalog.data.model.BaseProduct;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
@@ -25,7 +25,7 @@ import com.serpics.catalog.services.PriceService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 
-public class ProductPopulator implements Populator<BaseProduct, ProductData> {
+public class ProductPopulator implements Populator<Product, ProductData> {
 	private AbstractPopulatingConverter<Brand, BrandData> brandConverter;
 	private AbstractPopulatingConverter<Price, PriceData> priceConverter;
 	private AbstractPopulatingConverter<Media, MediaData> mediaConverter;
@@ -35,7 +35,7 @@ public class ProductPopulator implements Populator<BaseProduct, ProductData> {
 	@Autowired
 	PriceService priceService;
 	@Override
-	public void populate(BaseProduct source, ProductData target) {
+	public void populate(Product source, ProductData target) {
 		
 		target.setCode(source.getCode());
 		target.setUuid(source.getUuid());

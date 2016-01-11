@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.catalog.data.model.BaseProduct;
-import com.serpics.catalog.services.BaseProductService;
+import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
 import com.serpics.warehouse.InventoryNotAvailableException;
@@ -24,63 +24,63 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 	InventoryStrategy inventoryStrategy;
 	
 	@Resource
-	BaseProductService productService;
+	ProductService productService;
 	
 	
 	@Override
 	public InventoryStatus checkInventory(String sku, double quantity) {
-		BaseProduct product  = productService.findByName(sku);	
+		Product product  = productService.findByName(sku);	
 		
 		return inventoryStrategy.checkInventory(product, quantity);
 	}
 
 	@Override
-	public void reserve(BaseProduct product, double quantity)
+	public void reserve(Product product, double quantity)
 			throws InventoryNotAvailableException {
 		
 		inventoryStrategy.reserve(product, quantity);
 	}
 
 	@Override
-	public void reserve(BaseProduct product, double quantity,
+	public void reserve(Product product, double quantity,
 			Warehouse warehouse) throws InventoryNotAvailableException {
 		inventoryStrategy.reserve(product, quantity, warehouse);
 		
 	}
 
 	@Override
-	public void release(BaseProduct product, double quantity,
+	public void release(Product product, double quantity,
 			Warehouse warehouse) {
 		inventoryStrategy.release(product, quantity, warehouse);
 		
 	}
 
 	@Override
-	public void release(BaseProduct product, double quantity) {
+	public void release(Product product, double quantity) {
 		inventoryStrategy.release(product, quantity);
 		
 	}
 
 	@Override
-	public double getStockLevelAmount(BaseProduct product) {
+	public double getStockLevelAmount(Product product) {
 		return inventoryStrategy.getStockLevelAmount(product);
 	}
 
 	@Override
-	public double getStockLevelAmount(BaseProduct product,
+	public double getStockLevelAmount(Product product,
 			Warehouse warehouse) {
 		
 		return inventoryStrategy.getStockLevelAmount(product, warehouse);
 	}
 
 	@Override
-	public InventoryStatus getInventoryStatus(BaseProduct product) {
+	public InventoryStatus getInventoryStatus(Product product) {
 	
 		return inventoryStrategy.getInventoryStatus(product);
 	}
 
 	@Override
-	public InventoryStatus getInventoryStatus(BaseProduct product,
+	public InventoryStatus getInventoryStatus(Product product,
 			Warehouse warehouse) {
 		
 		return inventoryStrategy.getInventoryStatus(product, warehouse);

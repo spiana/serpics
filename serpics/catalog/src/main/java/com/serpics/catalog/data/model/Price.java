@@ -65,7 +65,7 @@ public class Price extends AbstractCatalogEntry implements Serializable {
     // bi-directional many-to-one association to Product
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", nullable = false)
-    private BaseProduct product;
+    private Product product;
 
     public Price() {
     }
@@ -144,11 +144,11 @@ public class Price extends AbstractCatalogEntry implements Serializable {
         this.pricelist = pricelist;
     }
 
-    public BaseProduct getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(final BaseProduct product) {
+    public void setProduct(final Product product) {
         this.product = product;
     }
 

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.services.AbstractProductService;
+import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.facade.data.CartData;
@@ -39,7 +39,7 @@ public class CartFacadeImpl implements CartFacade {
 	UserFacade usersFacade;
 	
 	@Autowired
-	AbstractProductService productService;
+	ProductService productService;
 	
 	@Autowired
 	CartService cartService;

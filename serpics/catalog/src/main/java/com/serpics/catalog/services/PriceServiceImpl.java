@@ -10,13 +10,13 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.PriceNotFoundException;
-import com.serpics.catalog.data.model.BaseProduct;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
-import com.serpics.catalog.data.repositories.BaseProductRepository;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.data.repositories.PriceRepository;
+import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Store;
@@ -33,7 +33,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
     PriceListRepository priceListRepository;
     
     @Autowired
-    BaseProductRepository productRepository;
+    ProductRepository productRepository;
 
     @Override
     public Price create(final Price entity) {
@@ -55,11 +55,11 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
     }
   
     @Override
-    public List<Price> findValidPricesforProduct(final BaseProduct product, final Pricelist pricelist , Currency currency) {
+    public List<Price> findValidPricesforProduct(final Product product, final Pricelist pricelist , Currency currency) {
         return priceRepository.findValidPricesForProduct(product, pricelist, currency);
     }
     @Override
-    public List<Price> findValidPricesforProduct(final BaseProduct product) {
+    public List<Price> findValidPricesforProduct(final Product product) {
         final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
                 .getCatalog());
         final Currency currency = (Currency) getCurrentContext().getCurrency();
@@ -67,7 +67,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
         return findValidPricesforProduct(product, defaultPricelist.get(0), currency);
     }
 	@Override
-	public Price findProductPrice(BaseProduct product, Pricelist priceList , Currency currency) throws PriceNotFoundException{
+	public Price findProductPrice(Product product, Pricelist priceList , Currency currency) throws PriceNotFoundException{
 		List<Price> prices = findValidPricesforProduct(product, priceList, currency);
 		if( prices.isEmpty())
 			throw  new PriceNotFoundException(product);
@@ -76,7 +76,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
 	}
 	
 	@Override
-	public Price findProductPrice(BaseProduct product, Currency currency)
+	public Price findProductPrice(Product product, Currency currency)
 			throws PriceNotFoundException {
 		 final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
 	                .getCatalog());
@@ -86,7 +86,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
 	        return findProductPrice(product, defaultPricelist.get(0) , currency);
 	}
 	@Override
-	public Price findProductPrice(BaseProduct product) throws PriceNotFoundException{
+	public Price findProductPrice(Product product) throws PriceNotFoundException{
 //		 final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
 //	                .getCatalog());
 		 final Currency currency = (Currency) getCurrentContext().getCurrency();
@@ -94,7 +94,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
 	}
 
 	@Override
-	public BaseProduct addPrice(BaseProduct product, Price price, Pricelist pricelist) {
+	public Product addPrice(Product product, Price price, Pricelist pricelist) {
 		Assert.notNull(product );
 		Assert.notNull(price );
 		Assert.notNull(pricelist );
@@ -107,7 +107,7 @@ public class PriceServiceImpl extends AbstractCommerceEntityService<Price, Long>
 	}
 
 	@Override
-	public BaseProduct addPrice(BaseProduct product, Price price) {
+	public Product addPrice(Product product, Price price) {
 		 final List<Pricelist> defaultPricelist = priceListRepository.findDefaultList((Catalog) getCurrentContext()
 	                .getCatalog());
 	        assert !defaultPricelist.isEmpty() : "missing default price list !";

@@ -31,7 +31,7 @@ public class Brand extends Ctentry implements Serializable {
 
 	// bi-directional many-to-one association to Product
 	@OneToMany(mappedBy = "brand" , fetch=FetchType.LAZY)
-	private Set<BaseProduct> products;
+	private Set<Product> products;
 	
 	public Brand() {
 		this.ctentryType = CatalogEntryType.BRAND;
@@ -53,11 +53,11 @@ public class Brand extends Ctentry implements Serializable {
 		this.logoSrc = logoSrc;
 	}
 
-	public Set<BaseProduct> getProducts() {
+	public Set<Product> getProducts() {
 		return this.products;
 	}
 
-	public void setProducts(Set<BaseProduct> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
 

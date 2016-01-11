@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.data.model.BaseProduct;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
@@ -142,7 +142,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Override
 	@Transactional
-	public Cart cartAdd(final BaseProduct product, final double quantity, Cart cart, final boolean merge)
+	public Cart cartAdd(final Product product, final double quantity, Cart cart, final boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 
 		Cartitem cartItem = new Cartitem();
@@ -183,7 +183,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Override
 	@Transactional
-	public Cart cartAdd(final BaseProduct product, final double quantity, final boolean merge)
+	public Cart cartAdd(final Product product, final double quantity, final boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 		final Cart cart = createSessionCart();
 		return cartAdd(product, quantity, cart, merge);
@@ -400,7 +400,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 				final Cartitem repoItem = repoItems.next();
 
 				Cartitem cartItem = new Cartitem();
-				BaseProduct product = repoItem.getProduct();
+				Product product = repoItem.getProduct();
 				cartItem.setSku(repoItem.getSku());
 				cartItem.setQuantity(repoItem.getQuantity());
 				cartItem.setProduct(product);

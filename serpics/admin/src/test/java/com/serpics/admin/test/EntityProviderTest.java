@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.base.data.model.MultilingualText;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.catalog.services.AbstractProductService;
+import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
@@ -56,7 +56,7 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 	CommerceEngine engine;
 	
 	@Autowired
-	AbstractProductService productService;
+	ProductService productService;
 	
 	@Test
 	@Transactional
