@@ -16,6 +16,7 @@
 		<class>com.serpics.base.data.model.MultilingualText</class>
 		<class>com.serpics.base.data.model.Media</class>
 		<class>com.serpics.base.data.model.MediaSupport</class>
+		<class>com.serpics.base.data.model.Store</class>
 	</persistence-unit>
 </persistence>	
 		

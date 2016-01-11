@@ -4,11 +4,11 @@ import javax.annotation.Resource;
 
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.model.PaymethodlookupPK;
 import com.serpics.core.data.SaveInterceptor;
-import com.serpics.membership.data.model.Store;
 
 
 public class PaymethodlookupSaveInterceptor implements SaveInterceptor<Paymethodlookup> {

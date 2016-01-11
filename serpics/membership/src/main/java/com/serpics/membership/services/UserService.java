@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.core.service.EntityService;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.Role;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 

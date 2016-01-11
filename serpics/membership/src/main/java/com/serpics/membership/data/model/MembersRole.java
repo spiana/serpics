@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.serpics.base.data.model.Store;
+
 
 /**
  * The persistent class for the members_role database table.

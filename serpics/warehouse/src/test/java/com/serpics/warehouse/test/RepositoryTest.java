@@ -12,9 +12,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.membership.data.model.Store;
 import com.serpics.warehouse.data.model.Inventory;
 import com.serpics.warehouse.data.model.Warehouse;
 import com.serpics.warehouse.data.repositories.InventoryRepository;

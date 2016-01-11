@@ -4,6 +4,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.core.data.jpa.AbstractEntity;
 
 @MappedSuperclass

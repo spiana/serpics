@@ -12,9 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.core.data.jpa.AbstractEntity;
-import com.serpics.membership.data.model.Store;
 
 
 /**

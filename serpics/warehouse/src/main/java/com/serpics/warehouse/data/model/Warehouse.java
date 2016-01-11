@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.membership.data.model.Store;
+import com.serpics.base.data.model.Store;
 
 /**
  * The persistent class for the warehouse database table.

@@ -13,10 +13,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Currency;
+import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.CurrencyRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserregRepository;

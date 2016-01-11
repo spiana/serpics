@@ -8,9 +8,9 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.membership.data.model.Membergroup;
-import com.serpics.membership.data.model.Store;
 
 public class MembergroupSpecification implements Specification<Membergroup> {
 	@Autowired

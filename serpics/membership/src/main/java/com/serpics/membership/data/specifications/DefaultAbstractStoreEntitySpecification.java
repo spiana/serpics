@@ -8,9 +8,9 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.membership.data.model.AbstractStoreEntity;
-import com.serpics.membership.data.model.Store;
 
 public class DefaultAbstractStoreEntitySpecification  implements Specification<AbstractStoreEntity>{
 

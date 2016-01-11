@@ -1,9 +1,9 @@
 package com.serpics.membership.services;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.Membership;
 import com.serpics.membership.data.model.PrimaryAddress;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 

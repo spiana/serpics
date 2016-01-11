@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import com.serpics.membership.data.model.Store;
+import com.serpics.base.data.model.Store;
 import com.serpics.membership.data.model.User;
 
 @Entity(name = "Cart")

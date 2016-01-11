@@ -1,5 +1,6 @@
 package com.serpics.commerce.services;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.data.model.Cart;
@@ -9,7 +10,6 @@ import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.PermanentAddress;
-import com.serpics.membership.data.model.Store;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 public interface CartService {

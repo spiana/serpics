@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.commerce.service.AbstractCommerceService;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.Membership;
 import com.serpics.membership.data.model.PrimaryAddress;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.StoreRepository;

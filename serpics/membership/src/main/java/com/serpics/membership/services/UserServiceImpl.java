@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.UserRegStatus;
@@ -25,7 +26,6 @@ import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.Role;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.BillingAddressRepository;

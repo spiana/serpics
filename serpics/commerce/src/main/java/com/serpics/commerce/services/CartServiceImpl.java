@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Currency;
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.Product;
@@ -34,7 +35,6 @@ import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.PermanentAddress;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.AddressRepository;
 import com.serpics.warehouse.InventoryNotAvailableException;

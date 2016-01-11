@@ -5,12 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.services.CartService;
 import com.serpics.membership.data.model.Member;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreStrategy;

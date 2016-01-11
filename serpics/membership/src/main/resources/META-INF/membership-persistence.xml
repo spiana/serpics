@@ -7,7 +7,6 @@
 		<!-- Membership -->
 		<class>com.serpics.membership.data.model.UsersReg</class>
 		<class>com.serpics.membership.data.model.User</class>
-		<class>com.serpics.membership.data.model.Store</class>
 		<class>com.serpics.membership.data.model.Role</class>
 		<class>com.serpics.membership.data.model.MembgrouprelPK</class>
 		<class>com.serpics.membership.data.model.Membergrouprel</class>

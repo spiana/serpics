@@ -2,9 +2,9 @@ package com.serpics.warehouse.data.interceptors;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
-import com.serpics.membership.data.model.Store;
 import com.serpics.warehouse.data.model.Warehouse;
 
 public class WareHouseSaveInterceptor implements SaveInterceptor<Warehouse>{

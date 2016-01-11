@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Currency;
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Price;
@@ -19,7 +20,6 @@ import com.serpics.catalog.data.repositories.PriceRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
-import com.serpics.membership.data.model.Store;
 
 @Service("priceService")
 @Scope("store")

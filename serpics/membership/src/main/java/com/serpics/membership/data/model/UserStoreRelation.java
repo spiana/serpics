@@ -5,6 +5,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.serpics.base.data.model.Store;
+
 @XmlRootElement
  //@Entity(name = "userStoreRelation")
  //@Table(name = "user2StoreRel")

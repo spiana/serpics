@@ -1,18 +1,19 @@
-package com.serpics.membership.data.model;
+package com.serpics.base.data.model;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.serpics.base.data.model.Currency;
+import com.serpics.core.data.jpa.AbstractEntity;
 import com.serpics.core.security.StoreRealm;
-import com.serpics.membership.MemberType;
 
 /**
  * The persistent class for the stores database table.
@@ -20,10 +21,14 @@ import com.serpics.membership.MemberType;
  */
 @Entity
 @Table(name = "stores")
-@DiscriminatorValue("STORE")
-public class Store extends Member implements Serializable, StoreRealm {
+public class Store extends AbstractEntity implements Serializable, StoreRealm {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "store_id", unique = true, nullable = false)
+    protected Long id;
+    
     @Column(nullable = false, length = 250, unique = false)
     private String name;
 
@@ -31,13 +36,9 @@ public class Store extends Member implements Serializable, StoreRealm {
     @JoinColumn(name = "currency_id")
     private Currency currency;
 
-    // @ManyToMany(fetch = FetchType.LAZY, mappedBy = "stores")
-    // private final Set<User> users = new HashSet<User>(0);
-
     public Store() {
-        this.memberType = MemberType.STORE;
+     
     }
-
 
     public void setName(final String name) {
         this.name = name;
@@ -48,11 +49,6 @@ public class Store extends Member implements Serializable, StoreRealm {
     public String getName() {
         return name;
     }
-    // @Override
-    // public String getRealm() {
-    // return getName();
-    // }
-
    
     public Currency getCurrency() {
         return currency;
@@ -87,5 +83,13 @@ public class Store extends Member implements Serializable, StoreRealm {
             return false;
         return true;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 }

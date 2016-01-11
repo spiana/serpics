@@ -8,9 +8,9 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.stereotype.DefaultSpec;
 

@@ -23,10 +23,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Currency;
+import com.serpics.base.data.model.Store;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.Member;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 
 /**

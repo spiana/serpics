@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.core.data.Repository;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 
 

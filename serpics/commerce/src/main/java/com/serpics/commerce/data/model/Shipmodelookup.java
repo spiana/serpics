@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
 import com.serpics.base.data.model.Region;
-import com.serpics.membership.data.model.Store;
+import com.serpics.base.data.model.Store;
 
 
 /**

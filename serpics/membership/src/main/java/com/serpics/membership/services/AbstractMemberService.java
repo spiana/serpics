@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.data.model.Member;
@@ -14,7 +15,6 @@ import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.MembersRolePK;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.Role;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.repositories.PermanentAddressRepository;
 import com.serpics.membership.data.repositories.StoreRepository;
 

@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.serpics.membership.data.model.Store;
+import com.serpics.base.data.model.Store;
 
 
 

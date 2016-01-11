@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Locale;
+import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.CurrencyRepository;
 import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.commerce.core.CommerceEngine;
@@ -22,7 +23,6 @@ import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.Role;
-import com.serpics.membership.data.model.Store;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.PrimaryAddressRepository;
