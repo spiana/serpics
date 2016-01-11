@@ -48,7 +48,6 @@ public class OrderFacadeImpl implements OrderFacade {
 		
 		LOG.debug("Placed Order with number: "+order.getId()+" [Cart: "+cart.getId()+"]");
 		
-		// FIXME:DECIDERE QUANDO E COME GESTIRE GLI ORDINI IN SESSIONE
 		cartService.removeCartFromSession();
 		
 		return orderConverter.convert(order);

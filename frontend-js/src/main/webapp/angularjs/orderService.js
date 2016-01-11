@@ -42,7 +42,7 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	     * @param data   
 	     * @return 
 	     */
-	    function addPayment(order,data) {
+	    function addPayment(orderId,paymentData) {
 	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
@@ -50,8 +50,8 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    			$log.debug("OrderService addPayment(order,data) ssid nel promise"+sessionId) ;
 	    			$http({
 			             method: 'POST',
-			             url: 	URL + endpoint +  'addPayment/'+ order,
-			             data: data,
+			             url: 	URL + endpoint +  'addPayment/'+ orderId,
+			             data: paymentData,
 			             headers: {
 			             	'ssid': sessionId
 			            }

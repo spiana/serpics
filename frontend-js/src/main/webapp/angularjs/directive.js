@@ -6,7 +6,7 @@
 	/**
 	 * 
 	 */
-	var loaderDirective = function() {
+	var loaderDirective = function() {	
 		var loader = 	"<div class='loading-container'><div class='loading'></div><div id='loading-text'>{{ loadText }}</div></div>"				
 			return {		
 			replace: true,
@@ -65,26 +65,21 @@
 	/**
 	 * 
 	 */
-	var breadCrumbsDirective = function() {
-		var breadcrumbs = "<div class='container'><div class='row'><ul class='breadcrumb'>"+
-        				  "<li><a href='#'>Home</a></li><li><a href='#'></a></li></ul></div></div>"	
-			
+	var breadCrumbsDirective = function() {			
 			return {		
 			replace: true,
 			restrict : 'EA',
-			template : breadcrumbs,
-			
+			templateUrl : 'html/template/breadcrumbs.html',			
 		};
 	};
 	
 	/**
 	 * 
 	 */
-	var modalDirective = function() {
+	var registerSuccessModalDirective = function() {
 		return {
 			restrict 	:	'EA',
-			templateUrl :	"html/template/modal.html",	
-			templateUrl :	"html/template/modal.html",
+			templateUrl :	"html/template/registerSuccessModal.html",	
 		};
 	};
 	
@@ -123,27 +118,6 @@
 
 		};
 	}
-
-	/**
-	 * 
-	 */
-	var cartDirective = function() {
-		return {
-			restrict : 'EA',
-			templateUrl : 'html/template/.html'
-		};
-	};
-
-	/**
-	 * 
-	 */
-	var orderDirective = function() {
-		return {
-			restrict : 'EA',
-			templateUrl : 'html/template/.html'
-
-		};
-	};
 
 	/**
 	 * 
@@ -205,7 +179,7 @@
 	
 	var app = angular.module('serpics.directive', ['serpics.config'])		
 	.directive('loaderDirective', 		loaderDirective)
-	.directive('modalDirective', 		modalDirective)
+	.directive('registerSuccessModalDirective', 		registerSuccessModalDirective)
 	.directive('topHeaderDirective',	topHeaderDirective)
 	.directive('middleHeaderDirective',	middleHeaderDirective)
 	.directive('bottomHeaderDirective',	bottomHeaderDirective)
@@ -214,8 +188,6 @@
 	.directive('brandDirective', 		brandDirective)
 	.directive('leftSidebarDirective', 	leftSidebarDirective)
 	.directive('productListDirective', 	productListDirective)
-	.directive('cartDirective', 		cartDirective)
-	.directive('orderDirective',		orderDirective)
 	.directive('loginDirective', 		loginDirective)
 	.directive('registerDirective', 	registerDirective)
 	.directive('recommendedDirective', 	recommendedDirective)

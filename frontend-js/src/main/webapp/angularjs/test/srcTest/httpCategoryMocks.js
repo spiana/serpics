@@ -1,6 +1,6 @@
 var httpCategoryMocks = angular.module('http.category.mocks', ['ngMock']);
 
-httpCategoryMocks.run(function($httpBackend) {
+httpCategoryMocks.run(['$httpBackend',function($httpBackend) {
 	
 	var status = 200;
 	var ssid = "12345";
@@ -43,7 +43,7 @@ httpCategoryMocks.run(function($httpBackend) {
 	    return [status,ssid];
 	  });
 	
-	//***Category rest-api endpoint***//
+	//***CategoryService rest-api endpoint***//
 	
 	//getTopQ getTop
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/top').respond(function(method, url, data) {
@@ -75,7 +75,7 @@ httpCategoryMocks.run(function($httpBackend) {
 	    return [status,categoryPage0Size3];
 	  });
 	
-});
+}]);
 
 
 

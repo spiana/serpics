@@ -45,8 +45,8 @@ public class OrderRestServiceImpl implements OrderRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/addPayment/{order}")
-	public Response addPayment(@PathParam("order")Long orderId, OrderPaymentData paymentData) {
+	@Path("/addPayment/{orderId}")
+	public Response addPayment(@PathParam("orderId")Long orderId, OrderPaymentData paymentData) {
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
 
 		OrderData orderData = orderFacade.addPayment(orderId, paymentData);

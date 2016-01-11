@@ -47,117 +47,44 @@ describe("Testing order.controller module", function() {
 	    
 	}));
 	
-	it('orderController is registered and runs getBrandQ()', inject(function($httpBackend){
+	it('orderController is registered and runs placeOrder()', inject(function($httpBackend){
 		
-		var brands = [];
+		var order = {};
 		expect(orderController).not.toBeNull();
 
 		$httpBackend.flush();
 		
-		brands = $scope.brandData;
-		expect(brands.content.length).toEqual(10);
-		expect(brands.content[0].name).toEqual('PHILIPHS');
-		expect(brands.content[0].logo).toEqual('Logo');
-		expect(brands.content[0].id).toEqual(1);
+		order = $scope.order;
+		expect(order).not.toBeNull();
+		expect(order.id).toEqual(1146);
+		expect(order.totalProduct).toEqual(0);
+		expect(order.totalShipping).toEqual(0);
 		  
-		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
+		$log.debug("orderController Test $scope.order Order id:"+$scope.order.id);//+JSON.stringify($scope.brandData));
 	}));
 	
 	
-	it('orderController $scope.findBrandById(brandId)', inject(function($httpBackend){
+	it('orderController $scope.addPayment(orderId, paymentData)', inject(function($httpBackend){
 		
-		var brand = {};
-		var brandId= '1';
+		var orderId = 01;
+		var paymentData= '1';
 		
 		expect(orderController).not.toBeNull();
 
-		$scope.findBrandById(brandId);
+		$scope.addPayment(orderId, paymentData);
 		
 		
 		$httpBackend.flush();
 		
-		brand = $scope.brandData;
+		order = $scope.order;
 		  
-		expect(brand).not.toBeNull();
+		expect(order).not.toBeNull();
 		  
-		expect(brand.name).toEqual('PHILIPHS');
-		expect(brand.logo).toEqual('Logos');
-		expect(brand.id).toEqual(1);
+		expect(order.id).toEqual(1146);
+		expect(order.totalProduct).toEqual(0);
+		expect(order.totalShipping).toEqual(0);
 		  
-		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
+		$log.debug("orderController Test $scope.order Order id:"+$scope.order.id);//+JSON.stringify($scope.brandData));
 	}));
-	
-	
-	it('orderController $scope.$scope.findBrandByName(brandName)', inject(function($httpBackend){
-		
-		var brand = {};
-		var brandName= 'PHILIPHS';
-		
-		expect(orderController).not.toBeNull();
-
-		$scope.findBrandByName(brandName);
-		
-		
-		$httpBackend.flush();
-		
-		brand = $scope.brandData;
-		  
-		expect(brand).not.toBeNull();
-		  
-		expect(brand.name).toEqual('PHILIPHS');
-		expect(brand.logo).toEqual('Logos');
-		expect(brand.id).toEqual(1);
-		  
-		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.name);//+JSON.stringify($scope.brandData));
-	}));
-	
-	
-	it('orderController $scope.findAll()', inject(function($httpBackend){
-		
-		var brands = {};
-		
-		expect(orderController).not.toBeNull();
-
-		$scope.findAll();
-
-		$httpBackend.flush();
-		
-		brands = $scope.brandData;
-		  
-		expect(brands).not.toBeNull();
-		
-		expect(brands.content.length).toEqual(10);
-		expect(brands.content[0].name).toEqual('PHILIPHS');
-		expect(brands.content[0].logo).toEqual('Logo');
-		expect(brands.content[0].id).toEqual(1);
-		  
-		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
-	}));
-	
-	it('orderController $scope.findAll(page,size)', inject(function($httpBackend){
-		
-		var page = 0;
-		var size= 3;
-		var brands = {};
-		
-		expect(orderController).not.toBeNull();
-
-		$scope.findAll(page,size);
-
-		$httpBackend.flush();
-		
-		brands = $scope.brandData;
-		  
-		expect(brands).not.toBeNull();
-		
-		expect(brands.content.length).toEqual(3);
-		expect(brands.content[0].name).toEqual('PHILIPHS');
-		expect(brands.content[0].logo).toEqual('Logo');
-		expect(brands.content[0].id).toEqual(1);
-		  
-		$log.debug("orderController Test $scope.brandData Brand Name:"+$scope.brandData.content[0].name);//+JSON.stringify($scope.brandData));
-	}));
-	
-	
 	
 });

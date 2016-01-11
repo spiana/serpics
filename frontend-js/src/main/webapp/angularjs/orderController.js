@@ -4,9 +4,9 @@
                                   
       function($scope,orderService,$log) {	
    	
-  	    $scope.order 	= [];
+  	    $scope.order 	= placeOrder();
   	    
-  	    placeOrder();
+
   	    
   	    function placeOrder() {
   	    	orderService.placeOrder().then( function( response) {
@@ -23,11 +23,10 @@
   	     * @return 						a new cart
   	     * @use 						orderService,serpicsServices
   	     */
-  	    $scope.addPayment = function( order, data) {		
-  	    	orderService.addPayment(order, data).then( function( response ) {
-  	    		$log.debug("OrderController: addPayment(): ramo then");
+  	    $scope.addPayment = function(orderId, paymentData) {		
+  	    	orderService.addPayment(orderId, paymentData).then( function( response ) {
+  	    		$log.debug("OrderController: addPayment(orderId, paymentData): ramo then");
   	    		$scope.order = response;
   	    	})
   	    };  	   
-  	             	    
 }])

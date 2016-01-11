@@ -7,18 +7,12 @@
 		 $scope.currentUser = customerService.currentUser;
 		 
 		 $scope.orders = {}
-		
-		 init()
-		 
-		 function init(){
-			getOrders();
-		 }
 		 
 		 /**
   	     * @return 					list of orders
   	     * @use 					orderService,serpicsServices
   	     */
-  		 function getOrders() {	
+		 $scope.getOrders = function() {	
   	    	orderService.getOrders().then( function( response ) {
   	    		$log.debug("customerController: getOrders(): ramo then");
   	    		$scope.orders = response;
@@ -47,16 +41,23 @@
   		 }
   		 
   		 $scope.updateDestinationAddress = function(destinationAddress) {
-  			 if ($scope.currentUser.destinationAddress[0].uuid != null){
 	  			 customerService.updateDestinationAddress(destinationAddress).then( function( response ) {
 	  				$log.debug("customerController: updateDestinationAddress(): ramo then");
 					customerService.updateCurrentUser();
 	  	    	})
-  			 } else {
+  		 }
+  		 
+  		$scope.addDestinationAddress = function(destinationAddress) {
 	  			 customerService.addDestinationAddress(destinationAddress).then( function( response ) {
 		  				$log.debug("customerController: updateDestinationAddress(): ramo then");
 						customerService.updateCurrentUser();
 	  			 })
-  			 }
-  		 }
+ 		 }
+  		
+  		$scope.deleteDestinationAddress = function(addressId) {
+ 			 customerService.deleteDestinationAddress(addressId).then( function( response ) {
+	  				$log.debug("customerController: deleteDestinationAddress(): ramo then");
+					customerService.updateCurrentUser();
+ 			 })
+	 }
 }])

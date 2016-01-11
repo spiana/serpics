@@ -7,7 +7,7 @@ describe("Testing customer.controller module", function() {
 	var mockedLog = {debug:function(log){console.log(log)}}; 
 
 	
-	beforeEach(module('customer.controller','customer.service','http.customer.mocks','order.service','serpics.services', function($provide) {
+	beforeEach(module('customer.controller','customer.service','http.customer.mocks','order.service','serpics.services','http.order.mocks', function($provide) {
 		
 //		beforeEach(module('category.controller','category.service','http.customer.mocks','serpics.services', function($provide) {
     
@@ -67,7 +67,6 @@ describe("Testing customer.controller module", function() {
 	it('customerController init() customer test', inject(function($httpBackend){
 		
 		var currentUser = {};
-		//currentUser.userType == "REGISTERED"
 		var orders = [];
 		
 		expect(customerController).not.toBeNull();
@@ -83,5 +82,99 @@ describe("Testing customer.controller module", function() {
 		  
 		$log.debug("customerController Test $scope.orders:"+$scope.orders);//+JSON.stringify($scope.categoryData));
 	}));
+	
+	it('customerController $scope.updateUserData(userData) customer test', inject(function($httpBackend){
+		
+		var currentUser = {};
+		var userData = {};
+		
+		expect(customerController).not.toBeNull();
+
+		$scope.updateUserData(userData);
+	
+		$httpBackend.flush();
+		
+		currentUser = $scope.currentUser;
+		  
+		expect(currentUser).not.toBeNull();
+		  
+		$log.debug("customerController Test $scope.updateUserData(userData): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
+	}));
+	
+	it('customerController $scope.updateContactAddress(contactAddress) customer test', inject(function($httpBackend){
+		
+		var currentUser = {};
+		var contactAddress = {};
+		
+		expect(customerController).not.toBeNull();
+		
+		$scope.updateContactAddress(contactAddress);
+
+	
+		$httpBackend.flush();
+		
+		currentUser = $scope.currentUser;
+		  
+		expect(currentUser).not.toBeNull();
+		  
+		$log.debug("customerController Test $scope.updateContactAddress(contactAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
+	}));
+	
+	it('customerController $scope.updateBillingAddress(billingAddress) customer test', inject(function($httpBackend){
+		
+		var currentUser = {};
+		var billingAddress = {};
+		
+		expect(customerController).not.toBeNull();
+		
+		$scope.updateContactAddress(billingAddress);
+
+	
+		$httpBackend.flush();
+		
+		currentUser = $scope.currentUser;
+		  
+		expect(currentUser).not.toBeNull();
+		  
+		$log.debug("customerController Test $scope.updateBillingAddress(billingAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
+	}));
+	
+	it('customerController $scope.updateDestinationAddress(destinationAddress) customer test', inject(function($httpBackend){
+		
+		var currentUser = {};
+		var destinationAddress = {};
+		
+		expect(customerController).not.toBeNull();
+		
+		$scope.updateDestinationAddress(destinationAddress);
+
+		//addDestinationAddress to Test
+	
+		$httpBackend.flush();
+		
+		currentUser = $scope.currentUser;
+		  
+		expect(currentUser).not.toBeNull();
+		  
+		$log.debug("customerController Test $scope.updateDestinationAddress(destinationAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
+	}));
+	
+	it('customerController $scope.deleteDestinationAddress(addressId) customer test', inject(function($httpBackend){
+		
+		var addressId = '123456';
+		
+		expect(customerController).not.toBeNull();
+		
+		$scope.deleteDestinationAddress(addressId);
+	
+		$httpBackend.flush();
+		
+		currentUser = $scope.currentUser;
+		  
+		expect(currentUser).not.toBeNull();
+		  
+		$log.debug("customerController Test $scope.deleteDestinationAddress(destinationAddress): $scope.currentUser "+$scope.currentUser);//+JSON.stringify($scope.categoryData));
+	}));
+	
 	
 });

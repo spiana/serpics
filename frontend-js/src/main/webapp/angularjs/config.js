@@ -4,6 +4,7 @@ var app = angular.module('serpics.config', ['ngDialog'])
 			.constant('URL','http://localhost:8080')
 			.constant('COOKIE_EXPIRES','20') //[minuti]
 			.constant('STORE','default-store') //Store constant for Auth Connect
+			.constant('TIMEOUT','15') //[minuti]
 			.config(function($logProvider){
 				$logProvider.debugEnabled(true);
 				})

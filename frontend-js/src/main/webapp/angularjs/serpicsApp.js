@@ -1,17 +1,17 @@
-var app = angular.module("serpics.App", ['category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','customer.controller','serpics.directive','serpics.config','serpics.router','serpics.interceptor']);
+var app = angular.module("serpics.App", ['category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','customer.controller','serpics.directive','serpics.router','serpics.interceptor','customer.service']);
 
-app.controller("serpicsAppController",['$scope','serpicsServices','serpicsHttpBuffer','$log',
+app.run(['serpicsServices','serpicsHttpBuffer','$log','$rootScope','$timeout','TIMEOUT','customerService',
                                      
-     function($scope,serpicsServices,httpBuffer,$log) {	
+     function(serpicsServices,httpBuffer,$log,$rootScope,$timeout,TIMEOUT,customerService) {	
   	
-			
 		 	var counter=0;
-			
+		 	
+		 	$scope= $rootScope.$new();
 	        $scope.$on('event:sessiondId-expired', function() {
 	        	if(counter!=0){
-	        		$log.debug("Evento scatenato: sessiondId-expired"+counter);
+	        		$log.debug('Evento scatenato: sessiondId-expired'+counter);
 	        	}else{
-	        		$log.debug("Evento scatenato: sessiondId-expired ramo else"+counter);
+	        		$log.debug('Evento scatenato: sessiondId-expired ramo else'+counter);
 	        		counter+=1;
 	        		serpicsServices. removeCookie('ssid');
 	        		serpicsServices.getSessionId().then(function(data, configUpdater) {
@@ -21,4 +21,12 @@ app.controller("serpicsAppController",['$scope','serpicsServices','serpicsHttpBu
 	        	      });
 	        	}
 	        });
-}]);
+	        
+	         function timeoutUser() {
+	             $timeout( function(){ customerService.updateCurrentUser(); timeoutUser() }, TIMEOUT * 60000);
+	         }
+	         
+	         timeoutUser()
+	    }
+
+]);

@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -182,8 +183,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("deleteDestinationAddress")
-	public Response deleteDestinationAddress(String addressUID) {
+	@Path("deleteDestinationAddress/{addressId}")
+	public Response deleteDestinationAddress(@PathParam("addressId") String addressUID) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
@@ -204,7 +205,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		commerceEngine.disconnect(sessionId);
-		apiRestResponse.setMessage("Disconnect current user logged with session id:  " + sessionId);
+		//apiRestResponse.setMessage("Disconnect current user logged with session id:  " + sessionId);
 		return Response.ok(apiRestResponse).build();
 	}
 

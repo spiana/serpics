@@ -17,6 +17,7 @@ import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
 import com.serpics.commerce.services.CartService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.facade.AddressFacade;
@@ -130,7 +131,11 @@ public class CartFacadeImpl implements CartFacade {
 		User user = userService.getCurrentCustomer();
 		Address address = addressFacade.addressDataToAddress(billingAddress, user);
 		cartService.setBillingAddress(address);
-
+		
+		if (user.getBillingAddress() == null && UserType.REGISTERED.equals(user.getUserType())){
+			usersFacade.addBillingAddress(billingAddress);
+		}
+		
 		try {
 			
 			Cart cart = cartService.prepareCart();
@@ -151,6 +156,10 @@ public class CartFacadeImpl implements CartFacade {
 		Address address = addressFacade.addressDataToAddress(shippingAddress, user);
 		cartService.setDestinationAddress(address);
 
+		if (user.getPermanentAddresses().isEmpty() && UserType.REGISTERED.equals(user.getUserType())){
+			usersFacade.addDestinationAddress(shippingAddress);
+		}
+		
 		try {
 			
 			Cart cart = cartService.prepareCart();

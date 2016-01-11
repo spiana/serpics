@@ -2,7 +2,6 @@ describe("Testing brand.service module:", function() {
 	
 	var mockedLogOff = {debug:function(){}};
 //	var mockedLog = {debug:console.log};
-//	var mockedLog =console.log.bind(console);
 	var mockedLog = {debug:function(log){console.log(log)}};
 	
 	//1 Dichiaro i moduli che mi servono per i test

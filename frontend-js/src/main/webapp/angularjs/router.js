@@ -1,6 +1,6 @@
-var routerApp = angular.module('serpics.router', ['ui.router','customer.service'])
+var routerApp = angular.module('serpics.router', ['ui.router'])
 
-routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$httpProvider) {
+routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$httpProvider', function($stateProvider, $urlRouterProvider,$locationProvider,$httpProvider) {
 	
     $stateProvider
     
@@ -55,7 +55,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
         params: {
         	login: "shop.home",
         	register: "shop.login"
-        }
+        },
 	 })
     
     .state('shop.cart', {
@@ -67,7 +67,11 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
 	.state('shop.register', {
 		url: '/register',
 		templateUrl: 'html/template/register.html',
-		controller: 'loginController'	
+		controller: 'loginController',
+        params: {
+        	login: "shop.home",
+        	register: "shop.login"
+        }
 	})
 	
 	.state('shop.personalArea', {
@@ -151,4 +155,4 @@ routerApp.config(function($stateProvider, $urlRouterProvider,$locationProvider,$
  	
 	$urlRouterProvider.otherwise("/home");
 	    
-})
+}])

@@ -5,7 +5,7 @@
                                      
          function($scope,categoryService,$log) {
       	
-		 	$scope.categoryData 	= [];
+		 	$scope.categoryData 	= getTopQ();;
 		 	//auxiliary var
 		 	var cache = {
 		 			isAdded:''
@@ -13,7 +13,7 @@
 		 	
 	 		
 //			getTop();
-		 	getTopQ();
+//		 	getTopQ();
 
 			 /** implemented category service **/ 
 			

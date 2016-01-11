@@ -4,11 +4,12 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 .factory('customerService',  [ '$http', '$q','serpicsServices','URL',
     function ($http, $q, serpicsServices,URL) {
 	
-		var customerService = {}
+		var customerService = {
+				currentUser:{}
+		};
 		
 		var endpoint = '/jax-rs/customerService/';
 		
-		customerService.currentUser = {}
                  
         /** public methods**/
         
@@ -219,6 +220,28 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	       	});        	
   
          };
+         
+         /**
+          * @param addressId
+          * return 
+          */
+        customerService.deleteDestinationAddress = function(addressId){  
+     	   
+     	var serviceSSID = serpicsServices;
+ 	    return $q(function(resolve, reject) {
+ 	       		
+ 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
+ 	   	       $http({
+ 	   	            method: 'DELETE',
+ 	   	            url: URL + endpoint + "deleteDestinationAddress" + "/" + addressId,
+ 	   	            headers: {
+ 	   	            	'ssid': sessionId
+ 	   	            },
+ 	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
+ 	   			});   		
+ 	       	});        	
+  
+         };
         
         /**
          * private method.
@@ -245,7 +268,6 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
          */
          
          function handleSuccess( response ) {
-        	console.log(response.data.message)
             return( response.data.responseObject);
         }
   
@@ -253,7 +275,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 	         customerService.getCurrentUser().then(function(data) {
 	        	 angular.copy(data, customerService.currentUser)
 	         })
-         }
+         };
          
          customerService.getCurrentUser().then(function(data) {
         	 angular.copy(data, customerService.currentUser)

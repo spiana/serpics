@@ -1,19 +1,13 @@
- var app = angular.module("cart.controller", ['cart.service', 'customer.service'])
+ var app = angular.module("cart.controller", ['cart.service', 'customer.service','serpics.router'])
  
  /** cartController **/
 .controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams',
                                   
 function($state,$scope,customerService,cartService,$log,$stateParams) {
 		
-		$scope.cart = {}
+		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
 	  	
-		init()		
-		
-		function init() {
-	  	    getCurrentCart();
-		}
-		
 	    function getCurrentCart() {
   			$log.debug("CartController getCurrentCart()");
   			cartService.getCurrentCart().then(function(response){
@@ -78,15 +72,17 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  	 $scope.submitBillingForm = function (billingAddress,shippingToBill){
 	  		 
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
-				  $log.debug("cartController addBillingAddress(billingAddress): ramo then");
+				  $log.debug("cartController addBillingAddress(billingAddress): ramo then1");
+				  var complete = $stateParams.complete;
 				  if (shippingToBill) {
 					  cartService.addShippingAddress(billingAddress).then(function(response){
 		    			  $log.debug("cartController billingAddress(billingAddress): ramo then");
 		    			  $scope.cart = response;
-		    			  $state.go($stateParams.complete)
+		    			  $state.go(complete)
 					  })
 				  } else {
 					  $scope.cart = response;
+					  $log.debug("cartController billingAddress(billingAddress): ramo else"+JSON.stringify($stateParams));
 	    			  $state.go($stateParams.shipping)
 				  }
 			 })

@@ -1,6 +1,6 @@
 var httpBrandMocks = angular.module('http.brand.mocks', ['ngMock']);
 
-httpBrandMocks.run(function($httpBackend) {
+httpBrandMocks.run(['$httpBackend',function($httpBackend) {
 	
 	var status = 200;
 	var ssid = "12345";
@@ -153,7 +153,7 @@ httpBrandMocks.run(function($httpBackend) {
 	    return [status,cartModificationUpdate];
 	  });	
 
-});
+}]);
 
 
 

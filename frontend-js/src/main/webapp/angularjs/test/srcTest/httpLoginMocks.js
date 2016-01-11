@@ -1,4 +1,4 @@
-var httpCustomerMocks = angular.module('http.customer.mocks', ['ngMock']);
+var httpCustomerMocks = angular.module('http.login.mocks', ['ngMock']);
 
 httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 	
@@ -14,6 +14,8 @@ httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 		"firstname":"Gabri","lastname":"Gabriele","email":"gabri@gabri.it","userType":"REGISTERED","logonid":"gabri",
 		"contactAddress":{"updated":"2015-12-16T09:25:15 GMT","created":"2015-12-16T09:25:15 GMT","uuid":"432a17ce-dcb4-493b-a8be-eda9572befd3"},
 		"destinationAddress":[]}};
+	var customerLoggedOut = {"status":"OK","message":"Disconnect current user logged with session id:  ZGVmYXVsdC1zdG9yZQ==-00ca9424-c4b6-47ba-a531-87a1b50fb655"}
+	
 	
 	//Authentication endpoint
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
@@ -34,9 +36,14 @@ httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 	    return [status,customerLogged];
 	  });
 	
+	//login endpoint
+	$httpBackend.whenGET('http://localhost:8080/jax-rs/customerService/login?username=gabri&password=1234').respond(function(method, url, data) {
+	    return [status,customerLogged];
+	  });
+	
 	//logout endpoint
 	$httpBackend.whenPOST('http://localhost:8080/jax-rs/customerService/logout').respond(function(method, url, data) {
-	    return [status,customer];
+	    return [status,customerLoggedOut];
 	  });
 	
 	//register endpoint
@@ -68,12 +75,27 @@ httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 	$httpBackend.whenPOST('http://localhost:8080/jax-rs/customerService/addDestinationAddress').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
-	
-	//deleteDestinationAddress endpoint
-	$httpBackend.whenDELETE('http://localhost:8080/jax-rs/customerService/deleteDestinationAddress/123456').respond(function(method, url, data) {
-	    return [status,customer];
-	  });
 
+	
+	//***Html***//
+	
+	
+	//html/template/shop.html
+	$httpBackend.whenGET('html/template/shop.html').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
+	//html/template/home-central.html
+	$httpBackend.whenGET('html/template/home-central.html').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
+	//registerSuccessDialog
+	$httpBackend.whenGET('registerSuccessDialog').respond(function(method, url, data) {
+	    return [status];
+	  });
+	
+	
 	
 }]);
 

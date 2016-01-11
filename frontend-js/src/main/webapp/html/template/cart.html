@@ -23,7 +23,7 @@
 					<tbody>
 						<tr ng-repeat="item in cart.orderItems">
 							<td class="cart_product"><a ui-sref="shop.product({id: item.product.id, name: item.product.code})"><img
-									src="/frontend-js/images/cart/two.png" alt=""></a></td>
+									src="images/cart/two.png" alt=""></a></td>
 							<td class="cart_description">
 								<h4>
 									<a ui-sref="shop.product({id: item.product.id, name: item.product.code})">{{item.sku}}</a>
@@ -55,11 +55,11 @@
 	<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>&euro;{{cart.totalProduct || 0}}</span></li>
-							<li>Services Sub Total <span>&euro;{{cart.totalService || 0}}</span></li>
-							<li>Tax Sub Total <span>&euro;{{cart.totalTax || 0}}</span></li>
-							<li>Shipping Cost <span>&euro;{{cart.totalShipping || 0}}</span></li>
-							<li id="total">Total <span>&euro;{{cart.orderAmount || cart.totalProduct || 0}}</span></li>
+							<li>Cart Sub Total <span>&euro;{{(cart.totalProduct | number:2) || 0}}</span></li>
+							<li>Services Sub Total <span>&euro;{{(cart.totalService | number:2) || 0}}</span></li>
+							<li>Tax Sub Total <span>&euro;{{(cart.totalTax | number:2) || 0}}</span></li>
+							<li>Shipping Cost <span>&euro;{{(cart.totalShipping | number:2) || 0}}</span></li>
+							<li id="total">Total <span>&euro;{{(cart.orderAmount | number:2) || (cart.totalProduct | number:2) || 0}}</span></li>
 						</ul>
 						<a class="btn btn-default update" ng-click="getCurrentCart()">Update</a> <a
 							class="btn btn-default check_out" ui-sref="checkout.address">Check Out</a>
