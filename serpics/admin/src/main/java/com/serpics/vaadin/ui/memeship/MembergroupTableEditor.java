@@ -6,6 +6,7 @@ import com.serpics.membership.data.model.Membergroup;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
+import com.vaadin.addon.jpacontainer.EntityItem;
 
 @VaadinComponent(value = "membergroupTableEditor")
 public class MembergroupTableEditor extends MasterTable<Membergroup> {
@@ -33,6 +34,11 @@ public class MembergroupTableEditor extends MasterTable<Membergroup> {
         final String[] p = { "name", "description", "updated" };
         setPropertyToShow(p);
 
+    }
+    
+    @Override
+    public EntityItem<Membergroup> createEntityItem() {
+    	return super.createEntityItem();
     }
 
 }

@@ -37,6 +37,7 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
 	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml",
+	"classpath:META-INF/warehouse-serpics.xml",
 	"classpath:META-INF/commerce-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @SerpicsTest("default-store")

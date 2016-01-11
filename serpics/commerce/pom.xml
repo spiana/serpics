@@ -23,11 +23,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.serpics</groupId>
-			<artifactId>warehouse</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.serpics</groupId>
 			<artifactId>membership</artifactId>
 			<version>${serpics.version}</version>
 		</dependency>
@@ -38,6 +33,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>serpics-warehouse</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
 	</dependencies>
 
 <build>

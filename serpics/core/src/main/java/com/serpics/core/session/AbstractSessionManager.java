@@ -64,13 +64,14 @@ public abstract class AbstractSessionManager implements SessionManager {
     public SessionContext getSessionContext(final String sessionId) {
         final SessionContext sessionContext = sessionList.get(sessionId);
         logger.info("found session for sessionid [{}] !", sessionId);
-        if (logger.isDebugEnabled()) {
-            logger.debug("session realm  [{}]", sessionContext.getRealm());
-            logger.debug("session user  [{}]", sessionContext.getUserPrincipal().getName());
-            logger.debug("session last access  [{}]", sessionContext.getLastAccess());
-        }
+        
 
         if (sessionContext != null) {
+        	if (logger.isDebugEnabled()) {
+                logger.debug("session realm  [{}]", sessionContext.getRealm());
+                logger.debug("session user  [{}]", sessionContext.getUserPrincipal().getName());
+                logger.debug("session last access  [{}]", sessionContext.getLastAccess());
+            }
             sessionContext.setLastAccess(new Date());
             SessionScopeContextHolder.setSessionScopeAttributes(sessionContext.getCommerceScopeAttribute());
         }

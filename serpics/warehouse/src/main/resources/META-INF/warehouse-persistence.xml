@@ -5,6 +5,7 @@
 		<!--  Catalog -->
 		<class>com.serpics.warehouse.data.model.Warehouse</class>
 		<class>com.serpics.warehouse.data.model.Inventory</class>
+		<class>com.serpics.warehouse.data.model.WarehouseStoreConfig</class>
 	
 	
 	</persistence-unit>

@@ -11,7 +11,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
 public class AbstractStoreEntity extends AbstractEntity{
 	
 	@ManyToOne(optional=false)
-	@JoinColumn(name="store_id", insertable=true, updatable=true)
+	@JoinColumn(name="store_id", insertable=true, updatable=false)
 	protected Store store;
 
 	public Store getStore() {
