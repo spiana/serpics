@@ -9,10 +9,10 @@ describe('Testing serpics.interceptor module:', function() {
 		
 		// Do some provider configuration here
 		$provide.value('$log', mockedLog);
-  
+
 		}));		
 	
-	beforeEach(inject(function(_$log_,_$rootScope_, _$state_, _$injector_, $templateCache,_$stateParams_,_$location_,$httpBackend) {
+	beforeEach(inject(function(_$log_,_$rootScope_, _$state_, _$injector_, $templateCache,_$stateParams_,_$location_,$httpBackend,$q) {
 			
 			$log = _$log_;
 			$rootScope = _$rootScope_;
@@ -22,46 +22,8 @@ describe('Testing serpics.interceptor module:', function() {
 			$templateCache.put('html/template/login.html', '');
 			$templateCache.put('html/template/404.html', '');
 			
-			spyOn($rootScope, '$broadcast').and.callThrough();
-			
-//			.and.callFake(function() {
-//				$log.debug('spyOn: $broadcast');
-//			});
-			
 		}));
-	
-
-//		
-//	beforeEach(inject( function($q,serpicsServices,$cookies){
-//
-//
-//			spyOn(serpicsServices, "getSessionId").and.callThrough().and.callFake(function() {
-//				$log.debug('spyOn: getSessionId');
-//		        var deferred = $q.defer();
-//		        deferred.resolve('mocked-SessionId');
-//		        $log.debug('spyOn: getSessionId test'+JSON.stringify(deferred));
-//		        return deferred.promise;
-//		    });
-//			
-//			spyOn(serpicsServices, "setCookie").and.callThrough().and.callFake(function() {
-//				$log.debug('spyOn: setCookie');
-//	        	var lifeTime = new Date();
-//	    		var now = new Date();
-//	    		var cookieValue = 'spyOn-cookie';
-//	    		var nameCookie = 'spyOn-nameCookie';
-//	    		var expires = 20;
-//
-//	    		lifeTime.setTime(now.getTime() + (parseInt(expires) * 60000));
-//	    		
-//	    		$log.debug('spyOn: setCookie(nameCookie,cookieValue,expires) '+cookieValue);
-//	    		$cookies.put(nameCookie, cookieValue,{
-//	        		  expires: lifeTime.toGMTString() 
-//	    		});
-//		        
-//		    });
-//			
-//		  }));
-	
+		
     //controllo dopo ogni test che non ci siano chiamate in sospeso
 	afterEach(inject(function($httpBackend) {
 		// this fails the test if any methods were not
@@ -74,7 +36,7 @@ describe('Testing serpics.interceptor module:', function() {
 	    
 	}));
 	
-	it('should return a 200 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
+	it('serpicsInterceptor should return a 200 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
 		
 		var risposta= {};
 		$http.get('http://localhost:8080/jax-rs/auth/connect/200').then(function(response){risposta=response;},function(response){});
@@ -91,7 +53,7 @@ describe('Testing serpics.interceptor module:', function() {
 		
 	}));
 	
-	it('should return a 500 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
+	it('serpicsInterceptor should return a 500 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
 		
 		var risposta= {};
 		
@@ -109,25 +71,35 @@ describe('Testing serpics.interceptor module:', function() {
 	
 	}));
 	
-	it('should return a 403 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
+	it('serpicsInterceptor should return a 403 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
+		
+		$scope= $rootScope.$new();
+		var called = false;
+		
+		$scope.$on('event:sessiondId-expired', function() {
+			$log.debug('mocked serpicsApp');
+			called= true;
+			
+		});
+		
+		spyOn($rootScope, '$broadcast').and.callThrough();
+		
 		
 		var risposta= {};
 		
 		$http.get('http://localhost:8080/jax-rs/auth/connect/403').then(function(response){risposta=response;},function(response){risposta=response;});
 		
 		$httpBackend.flush();
-		$log.debug(JSON.stringify(risposta));
-	    expect(risposta.data).toBe('54321');
-	    expect(risposta.status).toBe(403);
-	    expect(risposta.config.method).toBe('GET');
-	    
-	    expect($state.current.name).toBe('shop.403');
-	    expect($state.current.url).toBe('/403');
-	    expect($state.current.templateUrl).toBe('html/template/403.html');
+		
+		expect($rootScope.$broadcast).toHaveBeenCalled();
+		
+		expect(called).toEqual(true);
+
+	    expect($state.current.templateUrl).toBe('html/template/home-central.html');
 	
 	}));
 	
-	it('should return a 401 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
+	it('serpicsInterceptor should return a 401 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
 		
 		var risposta= {};
 		
@@ -145,7 +117,7 @@ describe('Testing serpics.interceptor module:', function() {
 	
 	}));
 	
-	it('should return a 402 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
+	it('serpicsInterceptor should return a 402 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
 		
 		var risposta= {};
 		
@@ -163,13 +135,37 @@ describe('Testing serpics.interceptor module:', function() {
 	
 	}));
 	
-	it('should return a 404 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
+	it('serpicsInterceptor should return a 404 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
 		
 		var risposta= {};
 		
 		$http.get('http://localhost:8080/jax-rs/auth/connect/404').then(function(response){},function(response){risposta=response;});
 		
 		$httpBackend.flush();
+		
+	    expect(risposta.data).toBe('54321');
+	    expect(risposta.status).toBe(404);
+	    expect(risposta.config.method).toBe('GET');
+	    
+	    expect($state.current.name).toBe('shop.404');
+	    expect($state.current.url).toBe('/404');
+	    expect($state.current.templateUrl).toBe('html/template/404.html');
+	
+	}));
+	
+	it('serpicsInterceptor httpbuffer testing', inject(function(serpicsInterceptor,$httpBackend,$http,$state,serpicsHttpBuffer,$q) {
+		
+		var risposta= {};
+		var buffer = {};
+		var deferred = $q.defer();
+		
+		$http.get('http://localhost:8080/jax-rs/auth/connect/404').then(function(response){},function(response){risposta=response;});
+		
+		$httpBackend.flush();
+		
+    	buffer = serpicsHttpBuffer.append(risposta.config, deferred);
+    	
+    	$log.debug('buffer'+JSON.stringify(buffer));
 		
 	    expect(risposta.data).toBe('54321');
 	    expect(risposta.status).toBe(404);

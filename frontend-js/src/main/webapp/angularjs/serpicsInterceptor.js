@@ -79,17 +79,17 @@ var app= angular.module('serpics.interceptor', [])
 			
 		'response' : function(response){
 			//$myService= $myService|| $injector.get('$myService'); // inject the service manually if constant is undefined
-			$log.debug("Intercept Response: %s - Response Url: %s",response.status,response.url);
+			$log.debug("Intercept Response: "+response.status+" - Response Url: "+response.url);
 			// Your token shall be retreive in this part
 			return response
 			
 		},
 		'responseError': function(rejection) {
 			$log.debug("Interceptor Rocks!!");
-			$log.debug("ResponseError Intercepted: Response Status: %s - Response Url: %s",rejection.status,rejection.config.url);
+			$log.debug("ResponseError Intercepted: Response Status: "+rejection.status+" - Response Url: "+rejection.config.url);
 			if (rejection.status === 500){
 				
-				$log.debug("ResponseError Intercepted: 500: %s" , rejection);
+				$log.debug("ResponseError Intercepted: 500: "+ rejection);
 				
 				var stato=$injector.get('$state');
 				stato.transitionTo('shop.500');
@@ -98,7 +98,7 @@ var app= angular.module('serpics.interceptor', [])
 				
 			}
 			if (rejection.status === 403){
-				$log.debug("ResponseError intercepted: 403: %s" , rejection);
+				$log.debug("ResponseError intercepted: 403: "+ rejection);
 				
 				var deferred = $q.defer();
 				
@@ -111,7 +111,7 @@ var app= angular.module('serpics.interceptor', [])
 			}
 			if (rejection.status === 401) {
 				
-				$log.debug("ResponseError Intercepted: 401: %s" , rejection);
+				$log.debug("ResponseError Intercepted: 401: "+ rejection);
 //				$rootScope.error.message = rejection.data.message;
 				$log.debug("Messaggio d'errore 401: %s",rejection.data.message);
 //				
@@ -130,7 +130,7 @@ var app= angular.module('serpics.interceptor', [])
 					
 			}else  if  (rejection.status === 404){
 						
-				$log.debug("ResponseError Intercepted: 404: %s" , rejection);
+				$log.debug("ResponseError Intercepted: 404: "+ rejection);
 						
 				var stato=$injector.get('$state');
 				
