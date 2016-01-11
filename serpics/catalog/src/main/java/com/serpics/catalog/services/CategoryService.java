@@ -11,6 +11,8 @@ public interface CategoryService extends EntityService<Category, Long> {
     
     public void addRelationCategory(Category child, Category parent);
     
+    public Category findByCode(final String code);
+    
     public List<Category> findRootCategory();
 
     public List<Category> getChildCategories(Category parent);

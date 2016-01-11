@@ -9,9 +9,17 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -34,8 +42,9 @@ import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.PermanentAddressRepository;
 import com.serpics.membership.data.repositories.PrimaryAddressRepository;
 import com.serpics.membership.data.repositories.StoreRepository;
-import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.data.repositories.UserRepository;
+import com.serpics.membership.data.repositories.UserSpecification;
+import com.serpics.membership.data.repositories.UserregRepository;
 
 //@StoreService("userService" )
 @Service("userService")
@@ -243,5 +252,33 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 		addressRepository.delete(address);
 		user.getPermanentAddresses().remove(address);
 		
+	}
+
+	@Override
+	public Page<User> findByEmail(final String email , final Pageable page) {
+		return  userRepository.findAll(new Specification<User>() {
+			@Override
+			public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
+					final CriteriaBuilder cb) {
+				Expression<String> e = null;
+				Predicate nameLike = null;
+				e = root.get("email");
+				nameLike = cb.like(e, "%" + email + "%");
+
+				return nameLike;
+			}
+		}, page);
+	
+	}
+
+	@Override
+	public Page<User> findByUserType(UserType type , Pageable page) {
+		return userRepository.findAll(UserSpecification.findByUserType(type) , page);
+		
+	}
+
+	@Override
+	public List<User> findByexample(User example) {
+		return userRepository.findAll(where(userRepository.makeSpecification(example)));
 	}
 }

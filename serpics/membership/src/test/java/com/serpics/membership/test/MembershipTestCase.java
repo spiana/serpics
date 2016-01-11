@@ -112,11 +112,12 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         assertArrayEquals("verify is test user", "test1".toCharArray(), u.getLogonid().toCharArray());
         assertArrayEquals("primaryAddress lastName", "testmembership".toCharArray(), u.getPrimaryAddress()
                 .getLastname().toCharArray());
-        final User example = new User();
+        
+        final UsersReg example = new UsersReg();
         example.setUserType(UserType.REGISTERED);
         example.setLastname("testmembership");
 
-        List<User> l1 = userService.findByexample(example);
+        List<UsersReg> l1 = userService.findByexample(example);
         assertEquals(1, l1.size());
 
         final UsersReg r = new UsersReg();
@@ -146,7 +147,7 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
 
         // assertEquals(0, l1.get(0).getPermanentAddresses().size());
 
-        final List<User> lu1 = userService.findByexample(example);
+        final List<UsersReg> lu1 = userService.findByexample(example);
         assertEquals(1, lu1.size());
 
         final Set<PermanentAddress> addresses = userService.getUserAddress(lu1.get(0));
@@ -158,8 +159,8 @@ public class MembershipTestCase extends AbstractTransactionalJunit4SerpicTest {
         Assert.assertNotNull(_a);
 //        
 
-        l1 = userService.findAll();
-        assertEquals(1, l1.size());
+        List<User> l2 = userService.findAll();
+        assertEquals(1, l2.size());
         
     }
 

@@ -1,15 +1,10 @@
 package com.serpics.core.service;
 
-import static org.springframework.data.jpa.domain.Specifications.where;
-
 import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.core.data.Repository;
@@ -55,59 +50,11 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
         return getEntityRepository().findAll();
     }
 
-    @Override
-   @Deprecated
-    public List<T> findAll(final Specification<T> spec, final Sort sort) {
-        if (spec == null && sort == null)
-            return findAll();
 
-        if (sort == null)
-            return getEntityRepository().findAll(spec);
-
-        if (spec == null)
-            return getEntityRepository().findAll(sort);
-
-        return getEntityRepository().findAll(spec, sort);
-    }
-
-    @Override
-    @Deprecated
-    public List<T> findAll(final Specification<T> spec, final Pageable page) {
-        if (spec == null)
-            return findAll(page).getContent();
-
-        final Page<T> res = getEntityRepository().findAll(spec, page);
-        return res.getContent();
-    }
-
-    @Override
-    @Deprecated
-    public List<T> findByexample(final T example) {
-    	
-        return getEntityRepository()
-                .findAll(where(getEntityRepository().makeSpecification(example)));
-    }
 
     @Override
     public T findOne(final ID id) {
         return getEntityRepository().findOne(id);
-    }
-
-    @Override
-    @Deprecated
-    public T findOne(final Specification<T> spec) {
-        return getEntityRepository().findOne(spec);
-    }
-
-    @Override
-    @Deprecated
-    public T findOne(final Specification<T> spec, final Sort sort, final int index) {
-        final PageRequest singleResultPage = new PageRequest(index, 1, sort);
-        final List<T> l = findAll(spec, singleResultPage);
-        if (!l.isEmpty())
-            return l.get(0);
-        else
-            return null;
     }
     
     @Override

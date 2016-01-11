@@ -75,10 +75,6 @@ public class AddressServiceImpl extends AbstractCommerceEntityService<Address, L
 		return addressRepository.save(entity);
 	}
 
-	@Override
-	public List<Address> findByexample(Address example) {
-		return addressRepository.findAll(addressRepository.makeSpecification(example));
-	}
 
 	@Override
 	public Address findOne(Long id) {

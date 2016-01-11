@@ -4,10 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -126,6 +133,19 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
 	@Override
 	public int getCountChildProduct(Category category) {
 		return category2ProductRepository.getCountChildProduct(category);
+	}
+
+	@Override
+	public Category findByCode(final String code) {
+		return categoryRepository.findOne(new Specification<Category>() {
+            @Override
+            public Predicate toPredicate(final Root<Category> root, final CriteriaQuery<?> query,
+                    final CriteriaBuilder cb) {
+            	Expression<String> e = root.get("code");
+            		
+                return cb.equal(e, code);
+            }
+		});
 	}
     
 }

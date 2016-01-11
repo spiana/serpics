@@ -1,7 +1,5 @@
 package com.serpics.admin.test;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.MultilingualText;
 import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
@@ -51,6 +51,9 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 	
 	@Resource
 	UserService userService;
+	
+	@Resource
+	ProductRepository productRepository;
 	
 	@Resource
 	CommerceEngine engine;
@@ -161,7 +164,7 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 		
 		productService.create(p3);
 		
-		List<Product> page =productService.findAll(new Specification<Product>() {
+		Page<Product> page =productRepository.findAll(new Specification<Product>() {
 			
 			@Override
 			public Predicate toPredicate(Root<Product> arg0, CriteriaQuery<?> arg1,
@@ -184,7 +187,7 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 			}
 		}, new PageRequest(0, 100));
 		
-		Assert.assertEquals(3, page.size());
+		Assert.assertEquals(3, page.getNumberOfElements());
 //		
 		JPAContainer c = ServiceContainerFactory.make(Product.class);
 		MultilingualLikeFilter j = new MultilingualLikeFilter("description", "en", "%est%");

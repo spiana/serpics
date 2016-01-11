@@ -5,8 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.serpics.base.data.model.Store;
 import com.serpics.core.service.EntityService;
+import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Membergroup;
 import com.serpics.membership.data.model.PermanentAddress;
@@ -21,11 +25,14 @@ public interface UserService extends MemberService<User, Long>, EntityService<Us
 
     public UsersReg registerUser(UsersReg reg, PrimaryAddress primaryAddress);
     public List<UsersReg> findByexample(UsersReg example);
+    public List<User> findByexample(User example);
     public UsersReg findByRegUUID(String uuid);
     public Collection<Role> getUserRoles(User user , Store store);
     
     public User findAnonymous();
     public UsersReg findByLogonid(String logonid);
+    public Page<User> findByEmail(String email , Pageable page);
+    public Page<User> findByUserType(UserType type , Pageable page);
     
     public Set<PermanentAddress> getUserAddress(User user);
     public Set<Membergroup> getUserGroups(User user);

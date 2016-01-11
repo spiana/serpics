@@ -4,17 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -92,15 +86,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	
 	@Override 
 	public CategoryData findCategoryByCode(final String code){ 
-	Category category = categoryService.findOne(new Specification<Category>() {
-            @Override
-            public Predicate toPredicate(final Root<Category> root, final CriteriaQuery<?> query,
-                    final CriteriaBuilder cb) {
-            	Expression<String> e = root.get("code");
-            		
-                return cb.equal(	e, code);
-            }
-		});
+	Category category = categoryService.findByCode(code);
 		CategoryData entity = null;
 		if(category != null)
 			entity = categoryConverter.convert(category);

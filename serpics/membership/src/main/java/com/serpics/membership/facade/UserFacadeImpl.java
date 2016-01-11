@@ -5,11 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -32,7 +26,6 @@ import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.BillingAddressService;
@@ -88,14 +81,14 @@ public class UserFacadeImpl implements UserFacade {
 
 	@Override
 	public Page<UserData> findAllUserByUserType(UserType userType, Pageable page) {
-		List<User> users = userService.findAll(UserSpecification.findByUserType(userType), page);
+		Page<User >users = userService.findByUserType(userType, page);
 
 		List<UserData> ulist = new ArrayList<UserData>();
-		for (User user : users) {
+		for (User user : users.getContent()) {
 			ulist.add(userConvert.convert(user));
 		}
 
-		Page<UserData> udata = new PageImpl<UserData>(ulist, page, users.size());
+		Page<UserData> udata = new PageImpl<UserData>(ulist, page, users.getNumberOfElements());
 		return udata;
 	}
 
@@ -107,27 +100,16 @@ public class UserFacadeImpl implements UserFacade {
 	}
 
 	@Override
-	public Page<UserData> findUserByName(final String name, Pageable page) {
-		List<User> lu = userService.findAll(new Specification<User>() {
-			@Override
-			public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query,
-					final CriteriaBuilder cb) {
-				Expression<String> e = null;
-				Predicate nameLike = null;
-				e = root.get("email");
-				nameLike = cb.like(e, "%" + name + "%");
-
-				return nameLike;
-			}
-		}, page);
+	public Page<UserData> findUserByName(final String name, final Pageable page) {
+		Page<User> lu = userService.findByEmail(name, page);
 
 		List<UserData> ulist = new ArrayList<UserData>();
-		Iterator<User> i = lu.iterator();
+		Iterator<User> i = lu.getContent().iterator();
 		while (i.hasNext()) {
 			ulist.add(userConvert.convert(i.next()));
 
 		}
-		Page<UserData> udata = new PageImpl<UserData>(ulist, page, lu.size());
+		Page<UserData> udata = new PageImpl<UserData>(ulist, page, lu.getNumberOfElements());
 		return udata;
 	}
 
