@@ -254,5 +254,9 @@ describe("Testing customer.service module:", function() {
 
 	  }));
 	  
+	  xit('customerService  addDestinationAddress(destinationAddress) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
+	  }));
+		  
+	  
 	  
 });
