@@ -14,7 +14,7 @@ httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 		"firstname":"Gabri","lastname":"Gabriele","email":"gabri@gabri.it","userType":"REGISTERED","logonid":"gabri",
 		"contactAddress":{"updated":"2015-12-16T09:25:15 GMT","created":"2015-12-16T09:25:15 GMT","uuid":"432a17ce-dcb4-493b-a8be-eda9572befd3"},
 		"destinationAddress":[]}};
-	
+
 	//Authentication endpoint
 	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
@@ -36,7 +36,7 @@ httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 	
 	//logout endpoint
 	$httpBackend.whenPOST('http://localhost:8080/jax-rs/customerService/logout').respond(function(method, url, data) {
-	    return [status,customer];
+	    return [status,customerLoggedOut];
 	  });
 	
 	//register endpoint
