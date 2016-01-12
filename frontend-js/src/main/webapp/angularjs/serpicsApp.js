@@ -1,10 +1,11 @@
-var app = angular.module("serpics.App", ['category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','customer.controller','serpics.directive','serpics.router','serpics.interceptor','customer.service']);
+var app = angular.module("serpics.App", ['category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','customer.controller','serpics.directive','serpics.router','serpics.interceptor','customer.service','serpics.config']);
 
 app.run(['serpicsServices','serpicsHttpBuffer','$log','$rootScope','$timeout','TIMEOUT','customerService',
-                                     
-     function(serpicsServices,httpBuffer,$log,$rootScope,$timeout,TIMEOUT,customerService) {	
-  	
-		 	var counter=0;
+         function(serpicsServices,httpBuffer,$log,$rootScope,$timeout,TIMEOUT,customerService) {	
+	        
+	        timeoutUser();
+		 	
+	        var counter=0;
 		 	
 		 	$scope= $rootScope.$new();
 	        $scope.$on('event:sessiondId-expired', function() {
@@ -22,11 +23,11 @@ app.run(['serpicsServices','serpicsHttpBuffer','$log','$rootScope','$timeout','T
 	        	}
 	        });
 	        
-	         function timeoutUser() {
+	        function timeoutUser() {
+	        	 $log.debug('Timeout function');
 	             $timeout( function(){ customerService.updateCurrentUser(); timeoutUser() }, TIMEOUT * 60000);
 	         }
 	         
-	         timeoutUser()
 	    }
 
 ]);
