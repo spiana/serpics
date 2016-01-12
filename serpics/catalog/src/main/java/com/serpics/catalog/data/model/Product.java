@@ -30,27 +30,27 @@ import com.serpics.core.datatype.ProductType;
 public class Product extends Ctentry implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public Product(final Integer buyable, final String sku) {
+    public Product(final boolean buyable, final String sku) {
         super();
         this.buyable = buyable;
-        //this.published = buyable;
+        this.published = buyable;
         this.code = sku;
-        this.downlodable = 0;
+        this.downlodable = false;
         this.ctentryType = 1;
     }
 
     public Product() {
         super();
-        this.buyable = this.published = this.downlodable = 0;
+        this.buyable = this.published =true; this.downlodable = false;
         this.ctentryType = CatalogEntryType.PRODUCT;
         this.productType = ProductType.PRODUCT;
     }
 
     @Column(name = "buyable", nullable = false)
-    protected Integer buyable;
+    protected boolean buyable;
 
     @Column(name = "downlodable", nullable = false)
-    protected Integer downlodable;
+    protected boolean downlodable;
 
     @Column(name = "manufacturer_sku")
     protected String manufacturerSku;
@@ -59,7 +59,7 @@ public class Product extends Ctentry implements Serializable {
     protected Integer productType;
 
     @Column(name = "published", nullable = false)
-    protected Integer published;
+    protected boolean published;
 
     @Column(name = "unit_meas")
     protected String unitMeas;
@@ -157,21 +157,7 @@ public class Product extends Ctentry implements Serializable {
         this.productffmts = productffmts;
     }
 
-    public Integer getBuyable() {
-        return buyable;
-    }
-
-    public void setBuyable(final Integer buyable) {
-        this.buyable = buyable;
-    }
-
-    public Integer getDownlodable() {
-        return downlodable;
-    }
-
-    public void setDownlodable(final Integer downlodable) {
-        this.downlodable = downlodable;
-    }
+   
 
     public Integer getProductType() {
         return productType;
@@ -181,13 +167,7 @@ public class Product extends Ctentry implements Serializable {
         this.productType = productType;
     }
 
-    public Integer getPublished() {
-        return published;
-    }
-
-    public void setPublished(final Integer published) {
-        this.published = published;
-    }
+    
 
     @PrePersist
     public void prepersist(){
@@ -233,5 +213,37 @@ public class Product extends Ctentry implements Serializable {
 
 	public void setCategories(Set<CategoryProductRelation> categories) {
 		this.categories = categories;
+	}
+
+	public boolean isBuyable() {
+		return buyable;
+	}
+
+	public void setBuyable(boolean buyable) {
+		this.buyable = buyable;
+	}
+
+	public boolean isDownlodable() {
+		return downlodable;
+	}
+
+	public void setDownlodable(boolean downlodable) {
+		this.downlodable = downlodable;
+	}
+
+	public boolean isPublished() {
+		return published;
+	}
+
+	public void setPublished(boolean published) {
+		this.published = published;
+	}
+
+	public FeatureModel getFeatureModel() {
+		return featureModel;
+	}
+
+	public void setFeatureModel(FeatureModel featureModel) {
+		this.featureModel = featureModel;
 	}
 }

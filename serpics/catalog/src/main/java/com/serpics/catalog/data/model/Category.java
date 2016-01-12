@@ -41,10 +41,11 @@ public class Category extends Ctentry implements Serializable {
 	@Column(name = "meta_keyword")
     private String metaKeyword;
 
-    protected Integer published;
+    protected boolean published;
     
 	public Category() {
         this.ctentryType = CatalogEntryType.CATEGORY;
+        published = true;
     }
 
     public Set<CategoryProductRelation> getChildProducts() {
@@ -85,12 +86,14 @@ public class Category extends Ctentry implements Serializable {
         super.beforePersist();
     }
 
-	public Integer getPublished() {
+	public boolean isPublished() {
 		return published;
 	}
 
-	public void setPublished(Integer published) {
+	public void setPublished(boolean published) {
 		this.published = published;
 	}
+
+	
 
 }

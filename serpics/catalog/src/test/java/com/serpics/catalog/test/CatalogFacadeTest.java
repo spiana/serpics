@@ -206,9 +206,9 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	ProductData entry = new ProductData();
     	entry.setCode("PROD1");
     	entry.setDescription("PRODOTTO DI TEST NUMERO 1");
-    	entry.setBuyable(1);
-    	entry.setPublished(1); 
-    	entry.setDowloadable(1);
+    	entry.setBuyable(true);
+    	entry.setPublished(true); 
+    	entry.setDowloadable(true);
     	entry.setManufacturSku("0001P");
     	entry.setMetaDescription("MD PROD1");
     	entry.setMetaKey("MK PROD1");
@@ -235,8 +235,8 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	entry = new ProductData();
     	entry.setCode("PROD2");
     	entry.setDescription("PRODOTTO DI TEST NUMERO 2");
-    	entry.setBuyable(1);
-    	entry.setPublished(1); 
+    	entry.setBuyable(true);
+    	entry.setPublished(true); 
     	entry = productFacade.createWithCategory(entry,c.getId());
     	
     	productFacade.addEntryCategoryParent( entry.getId(), c2.getId());

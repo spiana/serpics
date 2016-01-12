@@ -29,7 +29,7 @@ public class CategoryPopulator implements Populator<Category, CategoryData>    {
 		
 		target.setCode(source.getCode());
 		
-		target.setPublished(source.getPublished());
+		target.setPublished(source.isPublished());
 		
 		target.setUrl(source.getUrl());
 		target.setCatalogId(source.getCatalog().getCode());

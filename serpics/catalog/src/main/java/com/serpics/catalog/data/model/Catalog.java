@@ -37,16 +37,13 @@ public class Catalog extends AbstractEntity implements
 	@JoinColumn(name = "name_string_id")
 	private MultilingualString name;
 
-	
 	private boolean published;
 
 	public Catalog() {
 		published = true;
 	}
 
-	
-
-	public Long getId() {
+		public Long getId() {
 		return id;
 	}
 
@@ -75,8 +72,6 @@ public class Catalog extends AbstractEntity implements
 	public boolean isPublished() {
 		return published;
 	}
-
-
 
 	public void setPublished(boolean published) {
 		this.published = published;

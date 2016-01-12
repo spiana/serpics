@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Required;
 import com.serpics.base.data.model.Media;
 import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.PriceNotFoundException;
-import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CtentryMedia;
 import com.serpics.catalog.data.model.Price;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.PriceData;
@@ -43,10 +43,10 @@ public class ProductPopulator implements Populator<Product, ProductData> {
 		target.setCreated(source.getCreated());
 		target.setUpdated(source.getUpdated());
 		
-		target.setBuyable(source.getBuyable());
+		target.setBuyable(source.isBuyable());
 		//target.setDowloadable(source.getDownlodable());
 		target.setManufacturSku(source.getManufacturerSku());
-		target.setPublished(source.getPublished());
+		target.setPublished(source.isPublished());
 		target.setUnitMeas(source.getUnitMeas());
 		target.setWeight(source.getWeight());
 		target.setWeightMeas(source.getWeightMeas());

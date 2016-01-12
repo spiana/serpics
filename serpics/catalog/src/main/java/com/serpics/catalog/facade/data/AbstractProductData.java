@@ -5,9 +5,9 @@ import java.util.Set;
 import com.serpics.base.facade.data.MediaData;
 
 public class AbstractProductData  extends CtentryData{
-	protected int buyable;
-	protected int published;
-	protected int dowloadable;
+	protected boolean buyable;
+	protected boolean published;
+	protected boolean dowloadable;
 	protected String manufacturSku;
 	protected String unitMeas;
 	protected Double weight;
@@ -21,24 +21,8 @@ public class AbstractProductData  extends CtentryData{
 	protected Set<CategoryData> categories;
 	protected String metaDescription;
 	protected String metaKey;
-	public int getBuyable() {
-		return buyable;
-	}
-	public void setBuyable(int buyable) {
-		this.buyable = buyable;
-	}
-	public int getPublished() {
-		return published;
-	}
-	public void setPublished(int published) {
-		this.published = published;
-	}
-	public int getDowloadable() {
-		return dowloadable;
-	}
-	public void setDowloadable(int dowloadable) {
-		this.dowloadable = dowloadable;
-	}
+	
+
 	public String getManufacturSku() {
 		return manufacturSku;
 	}
@@ -101,5 +85,23 @@ public class AbstractProductData  extends CtentryData{
 	}
 	public void setMedias(Set<MediaData> medias) {
 		this.medias = medias;
+	}
+	public boolean isBuyable() {
+		return buyable;
+	}
+	public void setBuyable(boolean buyable) {
+		this.buyable = buyable;
+	}
+	public boolean isPublished() {
+		return published;
+	}
+	public void setPublished(boolean published) {
+		this.published = published;
+	}
+	public boolean isDowloadable() {
+		return dowloadable;
+	}
+	public void setDowloadable(boolean dowloadable) {
+		this.dowloadable = dowloadable;
 	}
 }

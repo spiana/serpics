@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.MultilingualText;
 import com.serpics.base.facade.data.MediaData;
-import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Ctentry;
@@ -285,10 +284,10 @@ public class ProductFacadeImpl implements ProductFacade {
 		destination.setDescription(description);
 		destination.setUrl(source.getUrl());
 
-		destination.setBuyable(source.getBuyable());
+		destination.setBuyable(source.isBuyable());
 		//entity.setDownlodable(product.getDowloadable());
 		destination.setManufacturerSku(source.getManufacturSku());
-		destination.setPublished(source.getPublished());
+		destination.setPublished(source.isPublished());
 		destination.setUnitMeas(source.getUnitMeas());
 		destination.setWeight(source.getWeight());
 		destination.setWeightMeas(source.getWeightMeas());

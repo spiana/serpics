@@ -93,7 +93,7 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
 
         final Product p = new Product();
         p.setCode("product");
-        p.setBuyable(1);
+        p.setBuyable(true);
         p.setCatalog(c);
         
         productService.create(p);
@@ -105,7 +105,7 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
         
         final Product p1 = new Product();
         p1.setCode("product1");
-        p1.setBuyable(1);
+        p1.setBuyable(true);
         p1.setCatalog(c);
         productService.create(p1);
         
@@ -170,7 +170,7 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
     	 
     	final Product p1 = new Product();
         p1.setCode("product");
-        p1.setBuyable(1);
+        p1.setBuyable(true);
         productService.create(p1);
         
         Price price1 = new Price();

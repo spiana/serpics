@@ -128,7 +128,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	protected Category buildCategory(CategoryData category, Category entity){
 		entity.setCode(category.getCode());
 		entity.setUrl(category.getUrl());
-		entity.setPublished(category.getPublished());
+		entity.setPublished(category.isPublished());
 		return entity;
 	}
 	

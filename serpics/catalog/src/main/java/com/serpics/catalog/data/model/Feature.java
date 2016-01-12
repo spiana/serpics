@@ -29,10 +29,6 @@ public class Feature  extends AbstractCatalogEntry{
     @Column(name="feature_id")
     private Long id;
 
-    //	@ManyToOne
-    //	@JoinColumn(name="base_attribute_id")
-    //	private BaseAttribute attribute;
-
     private String name;
 
     private AttributeType type;
@@ -42,7 +38,7 @@ public class Feature  extends AbstractCatalogEntry{
     private MultilingualString description;
 
     @Column(name="sequence")
-    private boolean sequence;
+    private double sequence;
 
     @ManyToOne
     @JoinColumn(name="featureModel_id" , nullable=false)
@@ -64,11 +60,11 @@ public class Feature  extends AbstractCatalogEntry{
     }
 
 
-    public boolean isSequence() {
+    public double isSequence() {
         return sequence;
     }
 
-    public void setSequence(final boolean sequence) {
+    public void setSequence(final double sequence) {
         this.sequence = sequence;
     }
 

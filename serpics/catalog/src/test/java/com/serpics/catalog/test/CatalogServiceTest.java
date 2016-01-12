@@ -111,12 +111,12 @@ public class CatalogServiceTest extends CatalogBaseTest {
 
         final Product p = new Product();
         p.setCode("test-sku");
-        p.setBuyable(1);
+        p.setBuyable(true);
         productService.create(p);
         
         final Product p0 = new Product();
         p0.setCode("test-sku-0");
-        p0.setBuyable(0);
+        p0.setBuyable(false);
         productService.create(p0);
 
         final Price price = new Price();
@@ -137,7 +137,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         final Product p1 = new Product();
         p1.setCode("test-sku");
         p1.setCatalog((Catalog) context.getCatalog());
-        p1.setBuyable(1);
+        p1.setBuyable(true);
 
 
       
