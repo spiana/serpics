@@ -9,7 +9,7 @@ xsi:schemaLocation="http://www.serpicsframework.org/schema/smc/amc.xsd">
 	<navigator name="mainNav">
 		<navigator-item	allow-child="true"  name="warehouses" parent="" />
 		<navigator-item	allow-child="false"	class="com.serpics.warehouse.data.model.Warehouse" name="warehouse" parent="warehouses" />
-		<navigator-item	allow-child="false"	class="com.serpics.warehouse.data.model.Inventory" name="inventoy" parent="warehouses" />
+		<navigator-item	allow-child="false"	class="com.serpics.warehouse.data.model.Inventory" name="inventory" parent="warehouses" />
 		
 	</navigator>
 
