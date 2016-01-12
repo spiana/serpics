@@ -4,7 +4,6 @@ import com.serpics.base.AvailableforType;
 import com.serpics.base.MultiValueField;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
-import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.Ctentry;
@@ -174,8 +173,15 @@ public class ProductTable extends MasterTable<Product> {
     		public void init() {
     			super.init();
     			setParentProperty("featureValues");
+    		
     		}
     		
+    		@Override
+    		public void setParentEntity(EntityItem<Product> parent) {
+    			super.setParentEntity(parent);
+    			if (parent.getItemProperty("featureModel").getValue() == null)
+    				buttonsEnabler(false, false, false);
+    		}
     		
     		 @Override
     		public EntityFormWindow<FeatureValues> buildEntityWindow() {
@@ -206,7 +212,7 @@ public class ProductTable extends MasterTable<Product> {
     					if (pid.equals("feature")){
     								 final JPAContainer<Feature> features=ServiceContainerFactory.make(Feature.class);
     								 
-    								 features.addContainerFilter(new Compare.Equal("featureModel" , masterEntity.getfeautureModel()));
+    								 features.addContainerFilter(new Compare.Equal("featureModel" , parentEntity.getItemProperty("featureModel").getValue()));
 									final ComboBox combo = new ComboBox(
 											"feature");
 									combo.setContainerDataSource(features);

@@ -16,6 +16,7 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
 
     protected P masterEntity;
     protected Object propertyId;
+    protected EntityItem<P> parentEntity;
 	private transient Object backReferencePropertyId;
 
     public MasterDetailTable(final Class<T> entityClass) {
@@ -25,6 +26,7 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
 
     @Override
     public void setParentEntity(final EntityItem<P> parent) {
+    	this.parentEntity = parent;
         this.masterEntity = parent.getEntity();
         if (this.backReferencePropertyId == null)
     		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());

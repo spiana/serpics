@@ -59,6 +59,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 	private final HorizontalLayout editButtonPanel = new HorizontalLayout();
 	private final HorizontalLayout searchPanel = new HorizontalLayout();
+	
+	private Button newButton ;
+	private Button editButton ;
+	private Button deleteButton ;
 
 	protected transient JPAContainer<T> container;
 
@@ -160,10 +164,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 
-		final Button _new = new Button(I18nUtils.getMessage("smc.button.add", "Add"));
-		editButtonPanel.addComponent(_new);
+		newButton = new Button(I18nUtils.getMessage("smc.button.add", "Add"));
+		editButtonPanel.addComponent(newButton);
 
-		_new.addClickListener(new Button.ClickListener() {
+		newButton.addClickListener(new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
@@ -180,10 +184,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			}
 		});
 
-		final Button _edit = new Button(I18nUtils.getMessage("smc.button.modify", "Modify"));
-		editButtonPanel.addComponent(_edit);
+		editButton = new Button(I18nUtils.getMessage("smc.button.modify", "Modify"));
+		editButtonPanel.addComponent(editButton);
 
-		_edit.addClickListener(new Button.ClickListener() {
+		editButton.addClickListener(new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
@@ -219,9 +223,9 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	
 	    
 
-		final Button _delete = new Button(I18nUtils.getMessage("smc.button.remove", "Remove"));		
-		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
-		editButtonPanel.addComponent(_delete);	
+		deleteButton = new Button(I18nUtils.getMessage("smc.button.remove", "Remove"));		
+		masterTableListner.get().deleteButtonClickListener(container, entityList, deleteButton);
+		editButtonPanel.addComponent(deleteButton);	
 	    
 		if(searchFormEnable == true){
 			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
@@ -364,5 +368,11 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			if (message != null)
 				entityList.setColumnHeader(string, message);
 		}
+	}
+	
+	public void buttonsEnabler(boolean _new , boolean _edit ,boolean _delete ){
+		newButton.setEnabled(_new);
+		editButton.setEnabled(_edit);
+		deleteButton.setEnabled(_delete);
 	}
 }
