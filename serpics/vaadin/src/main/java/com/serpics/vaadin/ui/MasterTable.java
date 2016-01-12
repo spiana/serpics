@@ -54,7 +54,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	private boolean searchFormEnable =true;
 	
 	private String[] searchProperties;
-		private MasterTableListner masterTableListner;
+	private MasterTableListner masterTableListner;
 	protected Table entityList;
 
 	private final HorizontalLayout editButtonPanel = new HorizontalLayout();
@@ -223,7 +223,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		masterTableListner.get().deleteButtonClickListener(container, entityList, _delete);
 		editButtonPanel.addComponent(_delete);	
 	    
-		if(searchFormEnable == true){
+		if(searchFormEnable){
 			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
 			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
 			serchField.setWidth("100%");
