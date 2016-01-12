@@ -19,6 +19,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -26,6 +27,7 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVReader;
@@ -105,7 +107,8 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 
 	@Override
 	public void importFromZip(ZipFile file)  throws IOException{
-		String zipPath = FileUtils.getTempDirectoryPath()+String.valueOf(new Date().getTime());
+//		String zipPath = FileUtils.getTempDirectoryPath()+String.valueOf(new Date().getTime());
+		String zipPath = FilenameUtils.concat(FileUtils.getTempDirectoryPath(), String.valueOf(new Date().getTime()));
 		File tmp = new File(zipPath) ; // create temporary directory
 		try{
 			extractZipFile(file, zipPath);
