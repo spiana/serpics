@@ -22,7 +22,8 @@ import com.serpics.membership.data.model.UsersReg;
 import com.serpics.system.services.UserDetailsService;
 import com.serpics.system.web.WebCostant;
 
-public class AuthenticationFilter extends BasicAuthenticationFilter {
+public class 
+ extends BasicAuthenticationFilter {
     @Autowired
     CommerceEngine commerceEngine;
 
