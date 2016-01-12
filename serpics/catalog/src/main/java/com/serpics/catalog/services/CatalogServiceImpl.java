@@ -1,15 +1,19 @@
 package com.serpics.catalog.services;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Catalog;
+import com.serpics.catalog.data.model.Catalog2StoreRelation;
 import com.serpics.catalog.data.model.Pricelist;
+import com.serpics.catalog.data.repositories.Catalog2StoreRelationRepository;
 import com.serpics.catalog.data.repositories.CatalogRepository;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.commerce.service.AbstractCommerceEntityService;
@@ -23,8 +27,11 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
     @Resource
     CatalogRepository catalogRepository;
 
-    @Autowired
+    @Resource
     PriceListRepository priceListRepository;
+    
+    @Resource
+    Catalog2StoreRelationRepository catalog2StoreRepository;
 
     @Override
     public Repository<Catalog, Long> getEntityRepository() {
@@ -41,16 +48,25 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
     @Override
     @Transactional
     public void initialize() {
-        Catalog catalog = catalogRepository.findByCode("default-catalog");
+        List<Catalog> defautCatalog = catalog2StoreRepository.findPrimaryCatalog((Store) getCurrentContext().getStoreRealm());
 
-        if (catalog == null) {
-            catalog = new Catalog();
+        
+        if (defautCatalog.isEmpty()) {
+            Catalog catalog = new Catalog();
             catalog.setCode("default-catalog");
             catalog = catalogRepository.saveAndFlush(catalog);
+            
+            Catalog2StoreRelation rel = new Catalog2StoreRelation();
+            rel.setCatalog(catalog);
+            rel.setStore((Store)getCurrentContext().getStoreRealm());
+            rel.setSelected(true);
+            catalog2StoreRepository.saveAndFlush(rel);
+            
             getCurrentContext().setCatalog(catalog);
             initializeCatalog(catalog);
+            defautCatalog.add(catalog);
         }
-        getCurrentContext().setCatalog(catalog);
+        getCurrentContext().setCatalog(defautCatalog.get(0));
     }
 
     private void initializeCatalog(final Catalog catalog) {

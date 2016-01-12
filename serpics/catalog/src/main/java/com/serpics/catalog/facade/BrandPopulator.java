@@ -21,7 +21,7 @@ public class BrandPopulator implements Populator<Brand, BrandData> {
 		target.setUuid(source.getUuid());
 		target.setCreated(source.getCreated());
 		target.setUpdated(source.getUpdated());
-		target.setPublished(source.getPublished());
+		target.setPublished(source.isPublished());
 		target.setBrandProductNumber(brandService.getBrandProduct(source));
 		
 	}

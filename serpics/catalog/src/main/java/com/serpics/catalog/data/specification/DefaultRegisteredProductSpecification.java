@@ -25,7 +25,7 @@ public class DefaultRegisteredProductSpecification implements Specification<Prod
 			CriteriaBuilder cb) {
 		User u = (User) engine.getCurrentContext().getUserPrincipal();
 		if (u.getUserType() == UserType.REGISTERED || u.getUserType() == UserType.ANONYMOUS )
-			return  cb.equal(root.get("buyable"), "1");
+			return  cb.equal(root.get("buyable"), true);
 		else
 			return cb.isNotNull(root.get("id"));
 	}

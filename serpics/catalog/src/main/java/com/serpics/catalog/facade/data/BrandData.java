@@ -7,7 +7,7 @@ public class BrandData extends AbstractData{
 	protected String logo;
 	protected String name;
 	protected int brandProductNumber;
-	protected int published;
+	protected boolean published;
 	
 	public String getLogo() {
 		return logo;
@@ -21,17 +21,18 @@ public class BrandData extends AbstractData{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPublished() {
-		return published;
-	}
-	public void setPublished(int published) {
-		this.published = published;
-	}
+	
 	public int getBrandProductNumber() {
 		return brandProductNumber;
 	}
 	public void setBrandProductNumber(int brandProductNumber) {
 		this.brandProductNumber = brandProductNumber;
+	}
+	public boolean isPublished() {
+		return published;
+	}
+	public void setPublished(boolean published) {
+		this.published = published;
 	}
 	
 }

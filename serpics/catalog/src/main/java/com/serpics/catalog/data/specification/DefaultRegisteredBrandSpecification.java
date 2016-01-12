@@ -24,7 +24,7 @@ public class DefaultRegisteredBrandSpecification implements Specification<Brand>
 			CriteriaBuilder cb) {
 		User u = (User) engine.getCurrentContext().getUserPrincipal();
 		if (u.getUserType() == UserType.REGISTERED || u.getUserType() == UserType.ANONYMOUS )
-			return  cb.equal(root.get("published"), "1");
+			return  cb.equal(root.get("published"), true);
 		else
 			return cb.isNotNull(root.get("id"));
 	}

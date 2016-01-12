@@ -1,7 +1,6 @@
 package com.serpics.catalog.data.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -22,7 +21,7 @@ public abstract class CtentryRelation extends AbstractEntity implements Serializ
     private CtentryRelationPK id;
 
     @Column(name="fiedl2")
-    private BigDecimal field2;
+    private Double field2;
 
     private String field1;
 
@@ -44,11 +43,11 @@ public abstract class CtentryRelation extends AbstractEntity implements Serializ
         this.id = id;
     }
 
-    public BigDecimal getField2() {
+    public Double getField2() {
         return this.field2;
     }
 
-    public void setField2(final BigDecimal field2) {
+    public void setField2(final Double field2) {
         this.field2 = field2;
     }
 

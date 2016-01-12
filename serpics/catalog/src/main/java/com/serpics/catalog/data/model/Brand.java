@@ -27,7 +27,7 @@ public class Brand extends Ctentry implements Serializable {
 	@Column(name = "logo_src")
 	private String logoSrc;
 	
-	private Integer published;
+	private boolean published;
 
 	// bi-directional many-to-one association to Product
 	@OneToMany(mappedBy = "brand" , fetch=FetchType.LAZY)
@@ -61,13 +61,7 @@ public class Brand extends Ctentry implements Serializable {
 		this.products = products;
 	}
 
-	public Integer getPublished() {
-		return published;
-	}
-
-	public void setPublished(Integer published) {
-		this.published = published;
-	}
+	
 	
 	@PrePersist
     @Override
@@ -76,5 +70,13 @@ public class Brand extends Ctentry implements Serializable {
             this.url = "/" + getCatalog().getCode() + "/b/" + getCode();
         super.beforePersist();
     }
+
+	public boolean isPublished() {
+		return published;
+	}
+
+	public void setPublished(boolean published) {
+		this.published = published;
+	}
 
 }

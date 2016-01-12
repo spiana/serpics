@@ -19,7 +19,7 @@ public interface Category2ProductRepository extends Repository<CategoryProductRe
 	@Query("select DISTINCT c.childProduct from CategoryProductRelation c where c.parentCategory = :category or c.parentCategory in (select distinct cr.childCategory from CategoryRelation cr where cr.parentCategory = :category)")
 	public Page<Product> findProductsByCategory(@Param("category") Category category,Pageable pageable);
 	
-	@Query("select count(c.childProduct) from CategoryProductRelation c where c.parentCategory = :category and c.childProduct.buyable = '1'")
+	@Query("select count(c.childProduct) from CategoryProductRelation c where c.parentCategory = :category and c.childProduct.buyable = 'true'")
 	public int getCountChildProduct(@Param("category") Category category);
 	
 	public List<CategoryProductRelation> findByChildProduct(Product product);
