@@ -53,7 +53,7 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
             // setting credentials for selected store
             userDetailsService.setCredentials(authentication);
             request.getSession().setAttribute(WebCostant.SERPICS_SESSION, context.getSessionId());
-            context.setCatalog(catalogService.findByCode("default-catalog"));
+            catalogService.setDefaultCatalog("");
             final UsersReg user = ((UsersReg) context.getUserPrincipal());
             final Locale locale = user.getLocale();
 
