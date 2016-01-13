@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.serpics.initialsetup.ImportType;
 import com.serpics.initialsetup.annotation.SystemSetupTaskConfig;
 import com.serpics.initialsetup.service.SetupInitializeService;
-import com.serpics.initialsetup.service.SystemSetupTask;
+import com.serpics.initialsetup.task.SystemSetupTask;
 
 public class SetupInitializeServiceImpl implements SetupInitializeService {
 

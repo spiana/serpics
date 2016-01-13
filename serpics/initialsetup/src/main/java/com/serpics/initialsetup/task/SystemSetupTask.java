@@ -1,4 +1,4 @@
-package com.serpics.initialsetup.service;
+package com.serpics.initialsetup.task;
 
 import com.serpics.initialsetup.ImportType;
 

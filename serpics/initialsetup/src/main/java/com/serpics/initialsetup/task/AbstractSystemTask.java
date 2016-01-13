@@ -1,4 +1,4 @@
-package com.serpics.initialsetup.service.impl;
+package com.serpics.initialsetup.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,6 @@ import com.serpics.core.SerpicsException;
 import com.serpics.importexport.services.ImportCsvService;
 import com.serpics.initialsetup.ImportType;
 import com.serpics.initialsetup.annotation.SystemSetupTaskConfig;
-import com.serpics.initialsetup.service.SystemSetupTask;
 
 public abstract class AbstractSystemTask implements SystemSetupTask {
 
