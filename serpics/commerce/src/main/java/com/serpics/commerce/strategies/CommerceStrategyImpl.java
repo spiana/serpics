@@ -2,6 +2,7 @@ package com.serpics.commerce.strategies;
 
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
+import com.serpics.core.utils.CurrencyUtils;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy(value = "commerceStrategy")
@@ -35,9 +36,9 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
         double total_cost = 0;
 
         for (final AbstractOrderitem orderItem : order.getItems()) {
-            total_netPrice += orderItem.getSkuNetPrice() * orderItem.getQuantity();
-            total_cost += orderItem.getSkuCost() != null ?orderItem.getSkuCost() :new Double(0)  * orderItem.getQuantity();
-            total_price += orderItem.getSkuPrice() * orderItem.getQuantity();
+            total_netPrice += CurrencyUtils.round(orderItem.getSkuNetPrice() * orderItem.getQuantity());
+            total_cost += orderItem.getSkuCost() != null ? CurrencyUtils.round(orderItem.getSkuCost() * orderItem.getQuantity()) :CurrencyUtils.round(0.0D);
+            total_price += orderItem.getSkuPrice() != null ? CurrencyUtils.round(orderItem.getSkuPrice() * orderItem.getQuantity()):CurrencyUtils.round(0.0D);
         }
         order.setTotalProduct(total_netPrice);
         order.setTotalCost(total_cost);
