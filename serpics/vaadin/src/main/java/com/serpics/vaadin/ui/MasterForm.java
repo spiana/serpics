@@ -155,23 +155,8 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
-
-		if (f instanceof TextField) {
-			if (Multilingual.class.isAssignableFrom(p.getType())) {
-				((TextField) f).setConverter(new MultilingualFieldConvert());
-				f.setWidth("80%");
-			}
-			((TextField) f).setNullRepresentation("");
-		}
-
 		f.addValidator(new BeanValidator(entityClass, pid));
-		if (String.class.isAssignableFrom(p.getType())) {
-			f.setWidth("80%");
-		}
-		if (Number.class.isAssignableFrom(p.getType())) {
-			f.setWidth("30%");
-		}
-
+	
 		String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + pid, null);
 		if (message != null)
 			f.setCaption(message);
