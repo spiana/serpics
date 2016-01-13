@@ -15,15 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Service;
 
 import com.serpics.initialsetup.ImportType;
 import com.serpics.initialsetup.annotation.SystemSetupTaskConfig;
-import com.serpics.initialsetup.service.SetupInitializeService;
+import com.serpics.initialsetup.service.SystemSetupService;
 import com.serpics.initialsetup.task.SystemSetupTask;
 
-public class SetupInitializeServiceImpl implements SetupInitializeService {
+@Service("systemSetupService")
+public class SystemSetupServiceImpl implements SystemSetupService {
 
-	private static final Logger logger = LoggerFactory.getLogger(SetupInitializeServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(SystemSetupServiceImpl.class);
 
 	private List<SystemSetupTask> listOfTask;
 
