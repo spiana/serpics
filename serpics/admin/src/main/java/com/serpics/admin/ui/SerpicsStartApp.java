@@ -37,8 +37,8 @@ import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-//@Theme("tests-valo-facebook")
-@Theme("valo")
+@Theme("tests-valo-facebook")
+//@Theme("valo")
 @Component
 @Scope("prototype")
 @SuppressWarnings("rawtypes")
@@ -80,16 +80,20 @@ public class SerpicsStartApp extends UI {
         // inject the new background color
         styles.add(".store-name { text-align:right; }");
         styles.add(".Apptitle { font-size:22px; font-weight:bold;}");
+        styles.add(".menuBar { background-color: #E9E9E9}");
+        styles.add(".topBar { background-color: #ec7423}");
+       
         
         
 		final VerticalLayout layout = new VerticalLayout();
-		layout.setMargin(true);
+		layout.setMargin(false);
 		layout.setSizeFull();
 		setContent(layout);
 
 		final HorizontalLayout topbar = new HorizontalLayout();
 		topbar.setWidth("100%");
-		topbar.setHeight("30px");
+		topbar.setHeight("50px");
+		topbar.addStyleName("topBar");
 		
 		final Label title = new Label("Serpics Admin Console");
 		title.setWidth("80%");
@@ -107,6 +111,7 @@ public class SerpicsStartApp extends UI {
 		
 		final HorizontalLayout content = new HorizontalLayout();
 		content.setSizeFull();
+		
 
 
 		final com.serpics.base.data.model.Locale locale = (com.serpics.base.data.model.Locale) commerceEngine
@@ -125,11 +130,11 @@ public class SerpicsStartApp extends UI {
 		}
 
 		navigatorMenuTree.setWidth("100%");
-		
 		VerticalLayout leftPanel = new VerticalLayout();
 		
+		leftPanel.addStyleName("menuBar");
 		CssLayout topbanner= new CssLayout();
-		topbanner.setHeight("50px");
+		topbanner.setHeight("20px");
 		
 		leftPanel.addComponent(topbanner);
 		leftPanel.addComponent(navigatorMenuTree);
