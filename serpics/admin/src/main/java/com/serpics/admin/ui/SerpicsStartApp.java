@@ -23,13 +23,11 @@ import com.serpics.vaadin.ui.NavigatorMenuTree;
 import com.vaadin.annotations.Theme;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
-import com.vaadin.server.Page;
-import com.vaadin.server.Page.Styles;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.server.SpringVaadinServlet;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
@@ -37,7 +35,7 @@ import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("tests-valo-facebook")
+@Theme("tests-valo-reindeer")
 //@Theme("valo")
 @Component
 @Scope("prototype")
@@ -74,16 +72,6 @@ public class SerpicsStartApp extends UI {
 
 	@Override
 	protected void init(final VaadinRequest request) {
-
-		
-		Styles styles = Page.getCurrent().getStyles();
-        // inject the new background color
-        styles.add(".store-name { text-align:right; }");
-        styles.add(".Apptitle { font-size:22px; font-weight:bold;}");
-        styles.add(".menuBar { background-color: #E9E9E9}");
-        styles.add(".topBar { background-color: #ec7423}");
-       
-        
         
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(false);
@@ -91,38 +79,29 @@ public class SerpicsStartApp extends UI {
 		setContent(layout);
 
 		final HorizontalLayout topbar = new HorizontalLayout();
-		topbar.setWidth("100%");
-		topbar.setHeight("50px");
-		topbar.addStyleName("topBar");
-		
-		final Label title = new Label("Serpics Admin Console");
-		title.setWidth("80%");
-		title.setHeight("100%");
-		title.setStyleName("Apptitle");
-		topbar.addComponent(title);
+		topbar.addStyleName("valo-menu-title");
 
-	
-		
-		final Label selectedStore = new Label(commerceEngine.getCurrentContext().getStoreRealm().getName());
-		selectedStore.addStyleName("store-name");
-		topbar.addComponent(selectedStore);
-		
-		layout.addComponent(topbar);
-		
+		final Label title = new Label("<b>Serpics Admin Console</b>" , ContentMode.HTML);
+		topbar.addComponent(title);
+		title.setSizeFull();
+		title.setStyleName("h3");
+			
+//		final Label selectedStore = new Label(commerceEngine.getCurrentContext().getStoreRealm().getName());
+//		selectedStore.addStyleName("store-name");
+//		topbar.addComponent(selectedStore);
+//		
+//		layout.addComponent(topbar);
+//		
 		final HorizontalLayout content = new HorizontalLayout();
 		content.setSizeFull();
 		
-
-
 		final com.serpics.base.data.model.Locale locale = (com.serpics.base.data.model.Locale) commerceEngine
 				.getCurrentContext().getLocale();
-
 		
 		if (locale != null) {
 			Locale _locale = new Locale(locale.getLanguage(), locale.getCountry());
 			getSession().setLocale(_locale);
 		}
-
 
 		for (Object id : navigatorMenuTree.getItemIds()) {
 			navigatorMenuTree.setItemCaption(id,
@@ -132,11 +111,9 @@ public class SerpicsStartApp extends UI {
 		navigatorMenuTree.setWidth("100%");
 		VerticalLayout leftPanel = new VerticalLayout();
 		
-		leftPanel.addStyleName("menuBar");
-		CssLayout topbanner= new CssLayout();
-		topbanner.setHeight("20px");
 		
-		leftPanel.addComponent(topbanner);
+		leftPanel.addStyleName("valo-menu");
+		leftPanel.addComponent(topbar);
 		leftPanel.addComponent(navigatorMenuTree);
 		
 		content.addComponent(leftPanel);
@@ -165,6 +142,7 @@ public class SerpicsStartApp extends UI {
 		});
 
 		rightContentPanel.setSizeFull();
+		rightContentPanel.addStyleName("valo-content");
 
 		content.addComponent(rightContentPanel);
 		content.setExpandRatio(rightContentPanel, 5);
