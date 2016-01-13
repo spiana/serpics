@@ -168,7 +168,10 @@ private <E> void setUsingSetter(E entity, String propertyName, Object value)
     }
     else if (value instanceof Collection)
     {
-      value = ((Collection)value).iterator().next();
+    	if (((Collection)value).iterator().hasNext())
+    		value = ((Collection)value).iterator().next();
+    	else
+    		value = null;
     }
     setter.invoke(entity, new Object[] { value });
   }
