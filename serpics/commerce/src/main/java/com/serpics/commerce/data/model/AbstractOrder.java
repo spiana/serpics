@@ -24,7 +24,6 @@ import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
-import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.User;
@@ -133,10 +132,6 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         name="shipping_address_id", unique=true, nullable=true, updatable=true)
     protected Address shippingAddress;
 
-    // bi-directional many-to-one association to Orderitem
-    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true)
-    protected Set<AbstractOrderitem> orderitems = new HashSet<AbstractOrderitem>(0);
-
     public AbstractOrder() {
     }
 
@@ -148,6 +143,8 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.id = orderId;
     }
 
+    public abstract Set<? extends AbstractOrderitem> getItems();
+    
     public Currency getCurrency() {
         return currency;
     }
@@ -244,14 +241,14 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.store = store;
     }
 
-    public Set<? extends AbstractOrderitem> getOrderitems() {
-        return orderitems;
-    }
-
-    @SuppressWarnings("unchecked")
-	public void setOrderitems(final Set<? extends AbstractOrderitem> orderitems) {
-        this.orderitems = (Set<AbstractOrderitem>) orderitems;
-    }
+//    public Set<? extends AbstractOrderitem> getOrderitems() {
+//        return orderitems;
+//    }
+//
+//    @SuppressWarnings("unchecked")
+//	public void setOrderitems(final Set<? extends AbstractOrderitem> orderitems) {
+//        this.orderitems = (Set<AbstractOrderitem>) orderitems;
+//    }
 
 	public Double getDiscountAmount() {
 		return discountAmount;

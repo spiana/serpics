@@ -31,6 +31,11 @@ public class Order extends AbstractOrder {
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Orderpayment> orderpayments = new HashSet<Orderpayment>(0);
 
+    // bi-directional many-to-one association to Orderitem
+    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity=Orderitem.class)
+    protected Set<Orderitem> items = new HashSet<Orderitem>(0);
+
+    
     public Set<Orderpayment> getOrderpayments() {
         return orderpayments;
     }
@@ -65,11 +70,20 @@ public class Order extends AbstractOrder {
         this.orderNumber = orderNumber;
     }
 
- 
-    @SuppressWarnings("unchecked")
+	public Set<Orderitem> getOrderitems() {
+		return items;
+	}
+
+	public void setOrderItems(Set<Orderitem> items) {
+		this.items = items;
+	}
+
 	@Override
-    public Set<Orderitem> getOrderitems() {
-        return (Set<Orderitem>) super.getOrderitems();
-    }
+	public Set<? extends AbstractOrderitem> getItems() {
+	
+		return getOrderitems();
+	}
+ 
+  
 
 }

@@ -2,6 +2,8 @@ package com.serpics.commerce.data.model;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @DiscriminatorValue(value = "1")
@@ -20,5 +22,16 @@ public class Cartitem extends AbstractOrderitem {
 		
 	}
 
+	 @ManyToOne
+	 @JoinColumn(name = "order_id", nullable = false)
+	 protected Cart cart;
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
 
 }

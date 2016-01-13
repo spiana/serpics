@@ -11,7 +11,6 @@ import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.facade.data.AbstractOrderItemData;
 import com.serpics.commerce.facade.data.AbstractOrdersData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
-import com.serpics.core.facade.Populator;
 
 
 
@@ -34,9 +33,11 @@ public  class AbstractOrderPopulator {
 		target.setTotalTax(source.getTotalTax());
 		Set<AbstractOrderItemData> items = new HashSet<AbstractOrderItemData>();
 		
-		if(source.getOrderitems() != null) {
 		
-			for (AbstractOrderitem abstractOrderitem : source.getOrderitems() ){
+			
+		if(source.getItems() != null) {
+		
+			for (AbstractOrderitem abstractOrderitem : source.getItems() ){
 				Assert.notNull(abstractOrderitem.getId());
 				AbstractOrderItemData itemData = abstractOrderItemConverter.convert(abstractOrderitem);
 				items.add(itemData);

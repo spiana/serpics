@@ -10,7 +10,7 @@
 
 	<entity name="member">
 		<select>
-			<property name="primaryAddress.lastname" />
+			<property name="uuid" />
 		</select>
 	</entity>
 	

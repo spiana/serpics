@@ -18,7 +18,6 @@ import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Shipmode;
@@ -161,7 +160,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		cartItem.setSkuPrice(priceStrategy.resolveProductPrice(product, cart.getCurrency()));
 
 		discountStrategy.applyItemDiscount(cartItem);
-		cartItem.setOrder(cart);
+		cartItem.setCart(cart);
 
 		// cartItem.setProduct(product);
 		cart.getCartitems().add(cartItem);
@@ -300,8 +299,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	public void cartItemDelete(Cartitem item) throws InventoryNotAvailableException {
 		Cart cart = createSessionCart();
 
-		if (cart.getOrderitems().contains(item))
-			cart.getOrderitems().remove(item);
+		if (cart.getCartitems().contains(item))
+			cart.getCartitems().remove(item);
 
 		cart = cartRepository.save(cart);
 		try {
@@ -407,7 +406,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 				cartItem = mergeCart(sessionCart, cartItem);
 
-				cartItem.setOrder(sessionCart);
+				cartItem.setCart(sessionCart);
 
 				sessionCart.getCartitems().add(cartItem);
 

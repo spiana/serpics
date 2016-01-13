@@ -86,18 +86,7 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
     @OneToMany(mappedBy = "orderitem", cascade = CascadeType.REMOVE)
     protected Set<OrderitemsAttribute> orderitemsAttributes;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    protected AbstractOrder order;
-
-    public AbstractOrder getOrder() {
-        return order;
-    }
-
-    public void setOrder(final AbstractOrder order) {
-        this.order = order;
-    }
-
+   
     public AbstractOrderitem() {
     }
 

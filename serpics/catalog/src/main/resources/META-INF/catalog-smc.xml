@@ -17,6 +17,7 @@
 			<display>
 				<property name="code" />
 				<property name="name" />
+				<property name="published" />
 				<property name="logoSrc" />
 				<property name="created" />
 			</display>
@@ -44,6 +45,7 @@
 			<search>
 				<property name="code"/>
 				<property name="name"/>
+				<property name="published" />
 <!-- 				<property name="description"/> -->
 			</search>
 		</table>

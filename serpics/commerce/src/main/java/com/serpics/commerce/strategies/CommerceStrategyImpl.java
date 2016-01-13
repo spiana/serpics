@@ -34,7 +34,7 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
 
         double total_cost = 0;
 
-        for (final AbstractOrderitem orderItem : order.getOrderitems()) {
+        for (final AbstractOrderitem orderItem : order.getItems()) {
             total_netPrice += orderItem.getSkuNetPrice() * orderItem.getQuantity();
             total_cost += orderItem.getSkuCost() != null ?orderItem.getSkuCost() :new Double(0)  * orderItem.getQuantity();
             total_price += orderItem.getSkuPrice() * orderItem.getQuantity();

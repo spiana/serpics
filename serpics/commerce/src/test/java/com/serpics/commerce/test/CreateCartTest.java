@@ -131,29 +131,29 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
         cs.cartAdd("product", 10.0, false);
 
         cart = cs.createSessionCart();
-        assertEquals(1, cart.getOrderitems().size());
+        assertEquals(1, cart.getCartitems().size());
         Cartitem o = cart.getCartitems().iterator().next();
         assertEquals(10.0, o.getQuantity(), 0);
         o.setQuantity(11);
         cs.cartUpdate(o, cart);
 
         cart = cs.createSessionCart();
-        assertEquals(1, cart.getOrderitems().size());
+        assertEquals(1, cart.getCartitems().size());
         o = cart.getCartitems().iterator().next();
         assertEquals(11.0, o.getQuantity(), 0);
 
         cs.cartAdd("product", 10.0, true);
         cart = cs.createSessionCart();
-        assertEquals(1, cart.getOrderitems().size());
+        assertEquals(1, cart.getCartitems().size());
         o = cart.getCartitems().iterator().next();
         assertEquals(21.0, o.getQuantity(), 0);
         assertEquals(100, o.getSkuPrice(), 0);
         cs.cartAdd("product", 10.0, false);
         cart = cs.createSessionCart();
-        assertEquals(2, cart.getOrderitems().size());
+        assertEquals(2, cart.getCartitems().size());
         cs.cartAdd("product1", 10.0, true);
         cart = cs.createSessionCart();
-        assertEquals(3, cart.getOrderitems().size());
+        assertEquals(3, cart.getCartitems().size());
         cs.prepareCart(cart);
         assertEquals(4100.0, cart.getOrderAmount().doubleValue(), 0.0);
 
