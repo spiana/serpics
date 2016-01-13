@@ -13,8 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import com.serpics.initialsetup.ImportType;
@@ -23,14 +24,14 @@ import com.serpics.initialsetup.service.SystemSetupService;
 import com.serpics.initialsetup.task.SystemSetupTask;
 
 @Service("systemSetupService")
-public class SystemSetupServiceImpl implements SystemSetupService {
+public class SystemSetupServiceImpl implements SystemSetupService{
 
 	private static final Logger logger = LoggerFactory.getLogger(SystemSetupServiceImpl.class);
 
 	private List<SystemSetupTask> listOfTask;
 
 	private boolean stopOnErrorCheckTask = true;
-
+	
 	@Override
 	public void doSystemSetupTasks(ImportType iType) {
 		logger.info("Start to execute Task...");
@@ -47,9 +48,9 @@ public class SystemSetupServiceImpl implements SystemSetupService {
 		int taskInError = getListOfTask().size() - listOfTaskChecked.size();
 		if (taskInError > 0) {
 
-			logger.info("Exist {0} Task in error", taskInError);
+			logger.info("Exist {} Task in error", taskInError);
 
-			logger.debug("To continue execution Tasks not in error? {0}",
+			logger.debug("To continue execution Tasks not in error? {}",
 					BooleanUtils.toStringYesNo(stopOnErrorCheckTask));
 
 			if (stopOnErrorCheckTask) {
@@ -63,9 +64,9 @@ public class SystemSetupServiceImpl implements SystemSetupService {
 		listOfTaskChecked = orderTasks(listOfTaskChecked);
 
 		for (SystemSetupTask task : listOfTaskChecked) {
-
-			logger.info("Run {0} [{1}] task", new Object[] { task.getClass().getSimpleName(),
-					task.getClass().getAnnotation(SystemSetupTaskConfig.class).description() });
+			SystemSetupTask taskTarget = getTargetObject(task,SystemSetupTask.class);
+			logger.info("Run {} [{}] task", taskTarget.getClass().getSimpleName(),
+					taskTarget.getClass().getAnnotation(SystemSetupTaskConfig.class).description());
 
 			task.execute(iType);
 
@@ -81,11 +82,12 @@ public class SystemSetupServiceImpl implements SystemSetupService {
 
 			@Override
 			public boolean evaluate(Object paramObject) {
-				SystemSetupTask taskToCheck = (SystemSetupTask) paramObject;
+				SystemSetupTask taskToCheck = getTargetObject(paramObject,SystemSetupTask.class);
+//				SystemSetupTask taskToCheck = (SystemSetupTask) paramObject;
 				SystemSetupTaskConfig annotation = taskToCheck.getClass().getAnnotation(SystemSetupTaskConfig.class);
 
 				if (annotation == null) {
-					logger.info("Task class {0} has not annotation TaskConfig.",
+					logger.info("Task class {} has not annotation TaskConfig.",
 							taskToCheck.getClass().getSimpleName());
 					return false;
 				}
@@ -114,9 +116,10 @@ public class SystemSetupServiceImpl implements SystemSetupService {
 
 			@Override
 			public int compare(SystemSetupTask o1, SystemSetupTask o2) {
-
-				SystemSetupTaskConfig config1 = o1.getClass().getAnnotation(SystemSetupTaskConfig.class);
-				SystemSetupTaskConfig config2 = o2.getClass().getAnnotation(SystemSetupTaskConfig.class);
+				SystemSetupTask test  = getTargetObject(o1,SystemSetupTask.class);
+				SystemSetupTask test2  = getTargetObject(o2,SystemSetupTask.class);
+				SystemSetupTaskConfig config1 = test.getClass().getAnnotation(SystemSetupTaskConfig.class);
+				SystemSetupTaskConfig config2 = test2.getClass().getAnnotation(SystemSetupTaskConfig.class);
 
 				return new CompareToBuilder().append(config1.store(), config2.store())
 						.append(config1.catalog(), config2.catalog()).append(config1.order(), config2.order())
@@ -132,8 +135,7 @@ public class SystemSetupServiceImpl implements SystemSetupService {
 	}
 
 	@Autowired
-	@Required
-	public void setListOfTask(List<SystemSetupTask> listOfTask) {
+	public void setListOfTask(final List<SystemSetupTask> listOfTask) {
 		this.listOfTask = listOfTask;
 	}
 
@@ -145,4 +147,16 @@ public class SystemSetupServiceImpl implements SystemSetupService {
 		this.stopOnErrorCheckTask = stopOnErrorCheckTask;
 	}
 
+	@SuppressWarnings({"unchecked"})
+	protected <T> T getTargetObject(Object proxy, Class<T> targetClass){
+	  if (AopUtils.isJdkDynamicProxy(proxy)) {
+		  try{
+			  return (T) ((Advised)proxy).getTargetSource().getTarget();
+		  }catch(Exception ex){
+			  logger.error("Cannot resolve the target object in proxy",ex);
+		  }
+	  } 
+	    return (T) proxy; // expected to be cglib proxy then, which is simply a specialized class
+	}
+	
 }
