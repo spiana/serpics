@@ -40,7 +40,6 @@ import com.vaadin.ui.VerticalLayout;
 //@Theme("tests-valo-facebook")
 @Theme("valo")
 @Component
-
 @Scope("prototype")
 @SuppressWarnings("rawtypes")
 @SpringUI
@@ -58,8 +57,7 @@ public class SerpicsStartApp extends UI {
 
 	private final TabSheet rightContentPanel = new TabSheet();
 	@SuppressWarnings("rawtypes")
-	private final Map<String, EntityComponent> activeComponent = new HashMap<String, EntityComponent>(
-			0);
+	private final Map<String, com.vaadin.ui.Component> activeComponent = new HashMap<String, com.vaadin.ui.Component>(0);
 
 	@WebServlet(value = {"/*"}, asyncSupported = true)
 	public static class Servlet extends SpringVaadinServlet {
@@ -173,7 +171,7 @@ public class SerpicsStartApp extends UI {
 	}
 
 	private void addComponent(final String id, final String caption) {
-		final EntityComponent<?> _component = getComponent(id);
+		final com.vaadin.ui.Component _component = getComponent(id);
 
 		final Tab t = rightContentPanel.getTab(_component);
 		if (t == null) {
@@ -183,11 +181,13 @@ public class SerpicsStartApp extends UI {
 		rightContentPanel.setSelectedTab(_component);
 	}
 
+	@SuppressWarnings({ "serial", "unchecked" })
 	private void addComponentByClass(final String clazz, final String caption) {
 
-		EntityComponent<?> _component = null;
+		com.vaadin.ui.Component _component = null;
 
 		_component = activeComponent.get(clazz);
+		
 		if (_component == null) {
 			try {
 				_component = new MasterTable(Class.forName(clazz)) {
@@ -211,9 +211,9 @@ public class SerpicsStartApp extends UI {
 
 	}
 
-	private EntityComponent<?> getComponent(final String name) {
+	private com.vaadin.ui.Component getComponent(final String name) {
 
-		EntityComponent<?> _component = activeComponent.get(name);
+		com.vaadin.ui.Component _component = activeComponent.get(name);
 		if (_component == null) {
 			_component = (EntityComponent<?>) commerceEngine
 					.getApplicationContext().getBean(name);
