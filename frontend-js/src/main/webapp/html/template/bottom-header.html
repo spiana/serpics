@@ -26,8 +26,10 @@
 				</div>
 			</div>
 			<div class="col-sm-3">
-				<div class="search_box pull-right">
-					<input type="text" placeholder="Search" />
+				<div class="search_box pull-right" >
+					<a ui-sref='shop.search({textSearch: searchText})' >
+						<input type="text" placeholder="Search" ng-model="searchText" />
+					</a>
 				</div>
 			</div>
 		</div>

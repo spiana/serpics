@@ -22,5 +22,6 @@ public interface ProductRestService {
 	public Response findAll(int page, int size);
 	public Response findByCategory(Long categoryId, int page, int size);
 	public Response findByBrand(Long brandId, int page, int size);
+	public Response findBySearch(String searchText, int page, int size);
 	
 }

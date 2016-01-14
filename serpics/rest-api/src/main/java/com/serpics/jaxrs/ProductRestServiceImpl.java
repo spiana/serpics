@@ -308,5 +308,20 @@ public class ProductRestServiceImpl implements ProductRestService {
 		apiRestResponse.setResponseObject(productFacade.listProductByBrand(brandId, new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
+	
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("search/{text}")
+	public Response findBySearch(@PathParam("text") String searchText, @QueryParam("page") @DefaultValue("0") int page,
+			@QueryParam("size") @DefaultValue("10") int size) {
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(productFacade.searchProducts(new PageRequest(page, size), searchText));
+		return Response.ok(apiRestResponse).build();
+	}
 
 }

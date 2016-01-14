@@ -7,6 +7,7 @@
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
 			var productId = $scope.productId;
+			var textSearch = $scope.textSearch;
 			var page = getPage();
 			var size = getSize();
 			
@@ -116,20 +117,35 @@
 	              })
 	  	    };
 	  	    
+	  	    /**
+	  	     * @param textSearch 			text to seach   
+	  	     * @return 						product with textSearch in code, name or description
+	  	     * @use 						productService,serpicsServices
+	  	     */
+	  	    function findBySearch(searchText, page, size) {		
+	  	    	productService.findBySearch(searchText, page, size).then( function( response ) {
+	  	    		$scope.product 	= response;
+	              })
+	  	    }; 
+	  	    
 	  	    function findAllQ(page, size){
 	  	    	$log.debug("Controller ProductQ");
 	  	    	if (productId){
 	  	    		getProduct(productId);
 	  	    	} else {
-		  	    	if (!categoryId && brandId){
-		  	    		findByBrand(brandId, page, size);
-		  	    	}
-		  	    	if (categoryId && !brandId){
-		  	    		findByCategory(categoryId, page, size);
-		  	    	}
-		  	    	if (!categoryId && !brandId){
-		  	    		findAll(page, size);
-		  	    	}
+	  	    		if(textSearch){
+	  	    			findBySearch(textSearch, page, size);
+	  	    		} else {
+			  	    	if (!categoryId && brandId){
+			  	    		findByBrand(brandId, page, size);
+			  	    	}
+			  	    	if (categoryId && !brandId){
+			  	    		findByCategory(categoryId, page, size);
+			  	    	}
+			  	    	if (!categoryId && !brandId){
+			  	    		findAll(page, size);
+			  	    	}
+	  	    		}
 	  	    	}
 	  	    };
 	  	    
