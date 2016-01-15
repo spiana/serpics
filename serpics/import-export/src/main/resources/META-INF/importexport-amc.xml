@@ -11,5 +11,4 @@ xsi:schemaLocation="http://www.serpicsframework.org/schema/smc/amc.xsd">
 		<navigator-item	allow-child="false"	bean="customUploadComponent" name="import" parent="task" />
 		<navigator-item	allow-child="false"	bean="" name="export" parent="task" />
 	</navigator>
-
 </navigator-definition>
