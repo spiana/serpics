@@ -23,13 +23,17 @@ import com.serpics.vaadin.ui.NavigatorMenuTree;
 import com.vaadin.annotations.Theme;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.server.SpringVaadinServlet;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
@@ -53,7 +57,7 @@ public class SerpicsStartApp extends UI {
 	@Autowired
 	private NavigatorMenuTree navigatorMenuTree;
 
-	private final TabSheet rightContentPanel = new TabSheet();
+	private final TabSheet rightContentTabPanel = new TabSheet();
 	@SuppressWarnings("rawtypes")
 	private final Map<String, com.vaadin.ui.Component> activeComponent = new HashMap<String, com.vaadin.ui.Component>(0);
 
@@ -78,20 +82,25 @@ public class SerpicsStartApp extends UI {
 		layout.setSizeFull();
 		setContent(layout);
 
-		final HorizontalLayout topbar = new HorizontalLayout();
-		topbar.addStyleName("valo-menu-title");
+		final HorizontalLayout toolbarLayout = new HorizontalLayout();
+		toolbarLayout.addStyleName("top-toolbar");
+		 toolbarLayout.setWidth("100%");
+         toolbarLayout.setSpacing(true);
+         Label label = new Label("Tools");
+         label.setSizeUndefined();
+         toolbarLayout.addComponent(label);
+         toolbarLayout.setExpandRatio(label, 1);
+         toolbarLayout.setComponentAlignment(label,
+                 Alignment.TOP_RIGHT);
+		
+		final HorizontalLayout menuTitle = new HorizontalLayout();
+		menuTitle.addStyleName("valo-menu-title");
 
 		final Label title = new Label("<b>Serpics Admin Console</b>" , ContentMode.HTML);
-		topbar.addComponent(title);
+		menuTitle.addComponent(title);
 		title.setSizeFull();
 		title.setStyleName("h3");
-			
-//		final Label selectedStore = new Label(commerceEngine.getCurrentContext().getStoreRealm().getName());
-//		selectedStore.addStyleName("store-name");
-//		topbar.addComponent(selectedStore);
-//		
-//		layout.addComponent(topbar);
-//		
+
 		final HorizontalLayout content = new HorizontalLayout();
 		content.setSizeFull();
 		
@@ -113,7 +122,17 @@ public class SerpicsStartApp extends UI {
 		
 		
 		leftPanel.addStyleName("valo-menu");
-		leftPanel.addComponent(topbar);
+		leftPanel.addComponent(menuTitle);
+		
+		final MenuBar settings = new MenuBar();
+        settings.addStyleName("user-menu");
+        final MenuItem settingsItem = settings.addItem("", new ThemeResource("../tests-valo/img/profile-pic-300px.jpg") , null);
+        settingsItem.addItem("Edit Profile", null);
+        settingsItem.addItem("Preferences", null);
+        settingsItem.addSeparator();
+        settingsItem.addItem("Sign Out", null);
+        
+        leftPanel.addComponent(settings);
 		leftPanel.addComponent(navigatorMenuTree);
 		
 		content.addComponent(leftPanel);
@@ -141,13 +160,23 @@ public class SerpicsStartApp extends UI {
 			}
 		});
 
-		rightContentPanel.setSizeFull();
-		rightContentPanel.addStyleName("valo-content");
+		rightContentTabPanel.setSizeFull();
+		rightContentTabPanel.addStyleName("valo-content");
+		rightContentTabPanel.addStyleName("framed");
 
-		content.addComponent(rightContentPanel);
-		content.setExpandRatio(rightContentPanel, 5);
+		VerticalLayout rightPanel = new VerticalLayout();
+		rightPanel.setSizeFull();
+		rightPanel.addComponents(toolbarLayout, rightContentTabPanel);
+		rightPanel.setExpandRatio(toolbarLayout, 0.025F);
+		rightPanel.setExpandRatio(rightContentTabPanel, 1F);
+		
+		
+		content.addComponent(rightPanel);
+		content.setExpandRatio(rightPanel, 5);
 		content.setExpandRatio(leftPanel, 1);
 //
+		
+		
 		layout.addComponent(content);
 		layout.setExpandRatio(content, 1);
 
@@ -156,12 +185,12 @@ public class SerpicsStartApp extends UI {
 	private void addComponent(final String id, final String caption) {
 		final com.vaadin.ui.Component _component = getComponent(id);
 
-		final Tab t = rightContentPanel.getTab(_component);
+		final Tab t = rightContentTabPanel.getTab(_component);
 		if (t == null) {
-			rightContentPanel.addTab(_component, caption);
-			rightContentPanel.getTab(_component).setClosable(true);
+			rightContentTabPanel.addTab(_component, caption);
+			rightContentTabPanel.getTab(_component).setClosable(true);
 		}
-		rightContentPanel.setSelectedTab(_component);
+		rightContentTabPanel.setSelectedTab(_component);
 	}
 
 	@SuppressWarnings({ "serial", "unchecked" })
@@ -184,12 +213,12 @@ public class SerpicsStartApp extends UI {
 
 		if (_component != null) {
 			activeComponent.put(clazz, _component);
-			final Tab t = rightContentPanel.getTab(_component);
+			final Tab t = rightContentTabPanel.getTab(_component);
 			if (t == null) {
-				rightContentPanel.addTab(_component, caption);
-				rightContentPanel.getTab(_component).setClosable(true);
+				rightContentTabPanel.addTab(_component, caption);
+				rightContentTabPanel.getTab(_component).setClosable(true);
 			}
-			rightContentPanel.setSelectedTab(_component);
+			rightContentTabPanel.setSelectedTab(_component);
 		}
 
 	}
