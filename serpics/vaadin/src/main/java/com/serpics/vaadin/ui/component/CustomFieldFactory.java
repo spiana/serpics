@@ -118,6 +118,8 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 			f.setWidth("30%");
 			 ((TextField) f).setNullRepresentation("");
 		}
+	
+		
     	return f;
     }
 	

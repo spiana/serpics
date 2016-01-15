@@ -11,13 +11,13 @@
 		
 		<property name="billingAddress" />
 		<property name="shippingAddress" />
-		<property name="created" readonly="true"/>
+		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
 		<property name="cartitems"/>
-		<property name="totalProduct" readonly="true"/>
-		<property name="totalService" readonly="true"/>
-		<property name="totalShipping" readonly="true"/>
-		<property name="totalTax" readonly="true"/>
-		<property name="orderAmount" readonly="true" table="true"/>
+		<property name="totalProduct" readonly="true" style="align-right"/>
+		<property name="totalService" readonly="true" style="align-right"/>
+		<property name="totalShipping" readonly="true" style="align-right"/>
+		<property name="totalTax" readonly="true" style="align-right" />
+		<property name="orderAmount" readonly="true" table="true" style="align-right color2"/>
 	</entity>	
 	
 	<entity name="cartitem">

@@ -16,7 +16,6 @@ import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.component.CustomFieldFactory;
-import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
@@ -29,7 +28,6 @@ import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
 public abstract class MasterForm<T> extends FormLayout implements EntityFormComponent<T> {
@@ -161,6 +159,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		if (message != null)
 			f.setCaption(message);
 
+		PropertiesUtils.get().setFiledProperty(entityClass.getSimpleName(), pid, f);
 		return f;
 	}
 

@@ -23,6 +23,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 
 import com.serpics.core.EngineFactory;
+import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 
 public class PropertiesUtils implements ApplicationContextAware , InitializingBean{
 	
@@ -30,6 +33,7 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 	
 	
 	public class SmcPropertyDef{
+		
 		private String propertyId;
 		private boolean tableProperty = false;
 		private boolean editProperty = true;
@@ -40,6 +44,18 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 		private String style;
 	
 		private String width;
+		
+		private String resolution;
+	
+		public SmcPropertyDef() {
+			super();
+		}
+		
+		public SmcPropertyDef(String propertyId) {
+			super();
+			this.propertyId = propertyId;
+		}
+
 		public String getPropertyId() {
 			return propertyId;
 		}
@@ -88,6 +104,44 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 		}
 		public void setSearchPrperty(boolean searchPrperty) {
 			this.searchPrperty = searchPrperty;
+		}
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result
+					+ ((propertyId == null) ? 0 : propertyId.hashCode());
+			return result;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SmcPropertyDef other = (SmcPropertyDef) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (propertyId == null) {
+				if (other.propertyId != null)
+					return false;
+			} else if (!propertyId.equals(other.propertyId))
+				return false;
+			return true;
+		}
+		private PropertiesUtils getOuterType() {
+			return PropertiesUtils.this;
+		}
+
+		public String getResolution() {
+			return resolution;
+		}
+
+		public void setResolution(String resolution) {
+			this.resolution = resolution;
 		}
 	
 		
@@ -288,6 +342,8 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 					def.setWidth((property.attribute("width").getValue()));
 				if (property.attribute("style") != null)
 					def.setStyle(property.attribute("style").getValue());
+				if (property.attribute("resolution") != null)
+					def.setResolution(property.attribute("resolution").getValue());
 				
 			 	
 	           LOG.debug("found property {}" , def.getPropertyId() ); 
@@ -306,6 +362,34 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 	
 	public List<SmcPropertyDef> getPropertyForEntity(String entity){
 		return properties.get(entity.toLowerCase());
+	}
+	
+	public SmcPropertyDef getPropertyForEntity(String entity , String propertyId){
+			List<SmcPropertyDef> properties = getPropertyForEntity(entity);
+			if (!properties.isEmpty())
+				if (properties.indexOf(new SmcPropertyDef(propertyId)) > -1)
+					return properties.get(properties.indexOf(new SmcPropertyDef(propertyId)));
+			
+		return null;	
+	}
+	
+	public void setFiledProperty(String entity, String propertyId , Field<?> field){
+		SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(entity, propertyId);
+		 if (def != null){
+			 String style = def.getStyle();
+			 String width = def.getWidth();
+			
+			 
+			 if (style != null)
+				 field.addStyleName(style);
+			if (width != null)
+				field.setWidth(width);
+			
+			if (def.getResolution() != null){
+				DateField.class.isAssignableFrom(field.getClass());
+				((DateField) field).setResolution(Resolution.valueOf(def.getResolution()));
+			}
+		 }
 	}
 	
 }

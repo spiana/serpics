@@ -134,6 +134,8 @@ public class One2oneField<M, T> extends CustomField<T> {
 		if (message != null)
 			f.setCaption(message);
 		
+		PropertiesUtils.get().setFiledProperty(getType().getSimpleName(), pid, f);
+		
 		return f;
 	}
 
