@@ -55,6 +55,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <alias name="defaultCartPopulator" alias="cartPopulator"/>
 	<bean name="defaultCartPopulator" class="com.serpics.commerce.facade.CartOrderPopulator">
 	   <property name="abstractOrderItemConverter" ref="cartItemConvert"/>
+	   <property name="addressConverter" ref="addressConverter"/>
 	</bean>
 	
 	<alias name="defaulCartConverter" alias="cartConverter"/>
@@ -87,6 +88,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <alias name="defaultOrderPopulator" alias="orderPopulator"/>
 	<bean name="defaultOrderPopulator" class="com.serpics.commerce.facade.OrderPopulator">
 	   <property name="abstractOrderItemConverter" ref="orderItemConverter"/>
+	   <property name="addressConverter" ref="addressConverter"/>
 	</bean>
 	
 	<alias name="defaulOrderConverter" alias="orderConverter"/>

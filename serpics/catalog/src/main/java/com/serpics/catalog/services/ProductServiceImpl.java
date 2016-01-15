@@ -26,6 +26,7 @@ import com.serpics.base.data.model.MultilingualText;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
+import com.serpics.catalog.data.model.CategoryRelation;
 import com.serpics.catalog.data.model.CtentryMedia;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.BrandRepository;
@@ -120,12 +121,24 @@ public class ProductServiceImpl extends AbstractCommerceEntityService<Product, L
 		};
 	}
 	
-	protected Specification<CategoryProductRelation> findByCategorySpecification(final Category category) {
-		return new Specification<CategoryProductRelation>() {
+	protected Specification<Product> findByCategorySpecification(final Category category) {
+		return new Specification<Product>() {
 			@Override
-			public Predicate toPredicate(final Root<CategoryProductRelation> root, final CriteriaQuery<?> query, 
+			public Predicate toPredicate(final Root<Product> root, final CriteriaQuery<?> query, 
 					final CriteriaBuilder cb) {
-						Predicate p = cb.equal(root.get("parentCategory"), category);
+						
+						Subquery<CategoryProductRelation> subquery = query.subquery(CategoryProductRelation.class);
+						Root<CategoryProductRelation> subRoot = subquery.from(CategoryProductRelation.class);
+						
+						Subquery<Category> childSubquery = subquery.subquery(Category.class);
+						Root<CategoryRelation> childSubRoot = childSubquery.from(CategoryRelation.class);
+						childSubquery.select(childSubRoot.<Category>get("childCategory"));
+						childSubquery.where(cb.equal(childSubRoot.get("parentCategory"), category));
+
+						subquery.select(subRoot);
+						subquery.where(cb.or(cb.equal(subRoot.get("parentCategory"),category),subRoot.get("parentCategory").in(childSubquery)));
+						
+						Predicate p = root.in(subquery);
 						return p;
 			}
 		};
@@ -161,6 +174,8 @@ public class ProductServiceImpl extends AbstractCommerceEntityService<Product, L
 	
 
 	public Page<Product> findProductByCategory(final Category category,Pageable pagination) {
+//		Page<Product> page =  getEntityRepository().findAll(findByCategorySpecification(category), pagination);
+//		return page;
 		Page<? extends Product> l = null;
 		try {
 			l =  categoryProductRepository.findProductsByCategory(category, pagination);
@@ -174,14 +189,6 @@ public class ProductServiceImpl extends AbstractCommerceEntityService<Product, L
 	public Page<Product> findProductsBySearch(final String searchText,Pageable pagination) {
 		Page<Product> page =  getEntityRepository().findAll(findBySearchSpecification(searchText), pagination);
 		return page;
-//		Page<? extends Product> l = null;
-//		String language = commerceEngine.getCurrentContext().getLocale().getLanguage();
-//		try {
-//			l =  repository.findProductsBySearch(searchText, language, pagination);
-//		} catch(final Exception e) {
-//			logger.error("", e);
-//		}
-//		return (Page<Product>)l;
 	}
 	
 	@Override

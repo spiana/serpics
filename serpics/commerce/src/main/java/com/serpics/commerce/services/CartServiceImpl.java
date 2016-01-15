@@ -18,7 +18,6 @@ import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Shipmode;
@@ -267,7 +266,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		commerceStrategy.calculateTax(cart);
 		commerceStrategy.calculateOrderTotal(cart);
 
-		cart = cartRepository.save(cart);
+		cart = cartRepository.saveAndFlush(cart);
 
 		putCartinSession(cart);
 

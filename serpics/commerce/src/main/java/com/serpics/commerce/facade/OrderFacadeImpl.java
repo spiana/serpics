@@ -2,15 +2,19 @@ package com.serpics.commerce.facade;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Order;
 import com.serpics.commerce.data.model.Orderpayment;
+import com.serpics.commerce.facade.data.CartData;
+import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.OrderData;
 import com.serpics.commerce.facade.data.OrderPaymentData;
 import com.serpics.commerce.services.CartService;
@@ -19,6 +23,7 @@ import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.services.UserService;
 import com.serpics.stereotype.StoreFacade;
+import com.serpics.warehouse.InventoryNotAvailableException;
 
 @StoreFacade("orderFacade")
 public class OrderFacadeImpl implements OrderFacade {
@@ -35,7 +40,30 @@ public class OrderFacadeImpl implements OrderFacade {
 	CartService cartService;
 	
 	@Autowired
+	CartFacade cartFacade;
+	
+	@Autowired
 	AbstractPopulatingConverter<Order,OrderData> orderConverter;
+	
+	@Override
+	@Transactional
+	public OrderData createOrder(CartData cartData){
+		try {
+			cartService.removeCartFromSession();
+			Cart cart = cartService.getSessionCart();
+			cart = updateCartFromCartData(cartData, cart);
+			cart = cartService.prepareCart(cart);
+			Order order = orderService.createOrder(cart);
+			cartService.removeCartFromSession();
+			OrderData orderData = orderConverter.convert(order);
+			return orderData;
+		} catch (InventoryNotAvailableException e) {
+			LOG.error("InventoryNotAvailable", e);
+		} catch (ProductNotFoundException e) {
+			LOG.error("ProductNotFound", e);
+		};
+		return null;
+	}
 	
 	@Override
 	@Transactional
@@ -77,6 +105,19 @@ public class OrderFacadeImpl implements OrderFacade {
 			orderDataList.add(orderConverter.convert(order));
 		}
 		return orderDataList;
+	}
+	
+	private Cart updateCartFromCartData(CartData cartData, Cart cart) throws InventoryNotAvailableException, ProductNotFoundException{
+		cartFacade.addBillingAddress(cartData.getBillingAddress());
+		cartFacade.addShippingAddress(cartData.getShippingAddress());
+		cart.setShipmode(cartData.getShipmode());
+		
+		Set<CartItemData> cartItemsData = cartData.getOrderItems();
+		for (CartItemData item : cartItemsData){			
+			cartService.cartAdd(item.getSku(), item.getQuantity(), cart, true);
+		}
+		
+		return cart;
 	}
 
 }

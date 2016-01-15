@@ -14,11 +14,14 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.commerce.facade.OrderFacade;
+import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.OrderData;
 import com.serpics.commerce.facade.data.OrderPaymentData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
+import com.serpics.warehouse.InventoryNotAvailableException;
 
 @Path("/orderService")
 @Transactional(readOnly = true)
@@ -63,6 +66,20 @@ public class OrderRestServiceImpl implements OrderRestService {
 	public Response placeOrder() {
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
 		OrderData orderData = orderFacade.placeOrder();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);;
+		apiRestResponse.setResponseObject(orderData);
+		return Response.ok(apiRestResponse).build();
+	}
+	
+	@Override
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/createOrder")
+	public Response createOrder(CartData cartData) {
+		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
+		OrderData orderData;
+		orderData = orderFacade.createOrder(cartData);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);;
 		apiRestResponse.setResponseObject(orderData);
 		return Response.ok(apiRestResponse).build();

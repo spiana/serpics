@@ -11,18 +11,24 @@ import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.facade.data.AbstractOrderItemData;
 import com.serpics.commerce.facade.data.AbstractOrdersData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
-import com.serpics.core.facade.Populator;
+import com.serpics.membership.data.model.AbstractAddress;
+import com.serpics.membership.facade.data.AddressData;
 
 
 
 @SuppressWarnings("rawtypes")
 public  class AbstractOrderPopulator {
 	private AbstractPopulatingConverter<AbstractOrderitem, AbstractOrderItemData> abstractOrderItemConverter;
+	private AbstractPopulatingConverter<AbstractAddress, AddressData> addressConverter;
 	
 	@SuppressWarnings("unchecked")
 	public void populate(AbstractOrder source, AbstractOrdersData target) {
-		target.setShippingAddress(source.getShippingAddress());
-		target.setBillingAddress(source.getBillingAddress());
+		if (source.getShippingAddress() != null){
+			target.setShippingAddress(addressConverter.convert(source.getShippingAddress()));
+		}
+		if (source.getBillingAddress() != null){
+			target.setBillingAddress(addressConverter.convert(source.getBillingAddress()));
+		}
 		target.setId(source.getId());
 		target.setUuid(source.getUuid());
 		target.setCreated(source.getCreated());
@@ -50,6 +56,11 @@ public  class AbstractOrderPopulator {
 	public void setAbstractOrderItemConverter(
 			AbstractPopulatingConverter<AbstractOrderitem, AbstractOrderItemData> abstractOrderItemConverter) {
 		this.abstractOrderItemConverter = abstractOrderItemConverter;
+	}
+
+	@Required
+	public void setAddressConverter(AbstractPopulatingConverter<AbstractAddress, AddressData> addressConverter) {
+		this.addressConverter = addressConverter;
 	}
 
 }
