@@ -16,6 +16,12 @@ http://www.springframework.org/schema/aop
 
 <bean id="navGeneratoFactory" class="com.serpics.vaadin.ui.NavigatorMenuTree"  scope="prototype"/>   
 
+<bean id="importCsvService" class="com.serpics.importexport.services.ImportCsvServiceImpl"/>
+
+<bean id="customUploadComponent" class="com.serpics.vaadin.ui.importexport.CustomUploadComponent">
+	<property name="importCsvService" ref="importCsvService" />
+</bean>
+
 <bean id="messageSource"
         class="com.serpics.spring.context.support.CustomRelodableResourceBundleMessageSource">
 <!--         <property name="basename" value="classpath:META-INF/messages" /> -->
