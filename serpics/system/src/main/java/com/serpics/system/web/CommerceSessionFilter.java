@@ -36,11 +36,6 @@ public class CommerceSessionFilter implements Filter {
         if (logger.isDebugEnabled())
             logger.debug("CommerceSessionFilter called");
 
-        if (!baseService.isInitialized()){
-        	logger.warn("serpics is not initialized !");
-        	baseService.initIstance();
-        }
-        
         final HttpServletRequest httpReq = (HttpServletRequest) req;
         final String id = (String) httpReq.getSession().getAttribute(WebCostant.SERPICS_SESSION);
         
