@@ -17,7 +17,6 @@ import org.springframework.web.context.ContextLoader;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.vaadin.data.utils.I18nUtils;
-import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.NavigatorMenuTree;
 import com.vaadin.annotations.Theme;
@@ -227,7 +226,7 @@ public class SerpicsStartApp extends UI {
 
 		com.vaadin.ui.Component _component = activeComponent.get(name);
 		if (_component == null) {
-			_component = (EntityComponent<?>) commerceEngine
+			_component = (com.vaadin.ui.Component) commerceEngine
 					.getApplicationContext().getBean(name);
 			activeComponent.put(name, _component);
 		}
