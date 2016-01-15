@@ -24,6 +24,7 @@ import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -163,6 +164,27 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				// UI.getCurrent().addWindow(editorWindow);
 			}
 		});
+		
+		entityList.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            private static final long serialVersionUID = 2068314108919135281L;
+
+            public void itemClick(ItemClickEvent event) {
+                if (event.isDoubleClick()) {
+                	if (entityList.getValue() == null)
+    					return;
+                	
+    				if (!entityList.isEditable()) {					
+    					EntityFormWindow<T> editorWindow = buildEntityWindow();
+    					editorWindow.setNewItem(false);
+    					editorWindow.setReadOnly(false);
+    					editorWindow.setEntityItem(container.getItem(entityList.getValue()));
+    					UI.getCurrent().addWindow(editorWindow);
+    				}
+                	
+                }
+            }
+        });
+		
 
 		newButton = new Button(I18nUtils.getMessage("smc.button.add", "Add"));
 		editButtonPanel.addComponent(newButton);
@@ -236,6 +258,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			//editButtonPanel.addComponent(_advanceSearch);
 	    }
 
+		
+		
 
 		setCompositionRoot(v);
 		setSizeFull();
