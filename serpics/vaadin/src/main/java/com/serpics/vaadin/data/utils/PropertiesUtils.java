@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.dom4j.Attribute;
+import org.apache.commons.lang3.BooleanUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -28,15 +28,84 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 	
 	Logger LOG = LoggerFactory.getLogger(PropertiesUtils.class);
 	
+	
+	public class SmcPropertyDef{
+		private String propertyId;
+		private boolean tableProperty = false;
+		private boolean editProperty = true;
+		private boolean readOnly =  false;
+		private boolean searchPrperty = false;
+		private boolean selectProperty = false;
+		
+		private String style;
+	
+		private String width;
+		public String getPropertyId() {
+			return propertyId;
+		}
+		public void setPropertyId(String propertyId) {
+			this.propertyId = propertyId;
+		}
+		public boolean isTableProperty() {
+			return tableProperty;
+		}
+		public void setTableProperty(boolean tableProperty) {
+			this.tableProperty = tableProperty;
+		}
+		public boolean isEditProperty() {
+			return editProperty;
+		}
+		public void setEditProperty(boolean editProperty) {
+			this.editProperty = editProperty;
+		}
+		public boolean isReadOnly() {
+			return readOnly;
+		}
+		public void setReadOnly(boolean readOnly) {
+			this.readOnly = readOnly;
+		}
+		public boolean isSelectProperty() {
+			return selectProperty;
+		}
+		public void setSelectProperty(boolean selectProperty) {
+			this.selectProperty = selectProperty;
+		}
+		public String getStyle() {
+			return style;
+		}
+		public void setStyle(String style) {
+			this.style = style;
+		}
+		
+		public String getWidth() {
+			return width;
+		}
+		public void setWidth(String width) {
+			this.width = width;
+		}
+		public boolean isSearchPrperty() {
+			return searchPrperty;
+		}
+		public void setSearchPrperty(boolean searchPrperty) {
+			this.searchPrperty = searchPrperty;
+		}
+	
+		
+		
+	}
+	
 	private ApplicationContext applicationContext;
 	
 	private static PropertiesUtils instance;
+	
 	
 	private Map<String, String[]> editProperties = new HashMap<String, String[]>();	
 	private Map<String, String[]> readOnlyProperties = new HashMap<String, String[]>();	
 	private Map<String, String[]> tableProperties = new HashMap<String, String[]>();
 	private Map<String, String> selectProperties = new HashMap<String, String>();	
 	private Map<String, String[]> searchProperties = new HashMap<String, String[]>();
+	
+	private Map<String , List<SmcPropertyDef>> properties = new HashMap<String, List<PropertiesUtils.SmcPropertyDef>>();
 	
 	public Map<String, String[]> getSearchProperties() {
 		return searchProperties;
@@ -138,79 +207,105 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 	            Element clazz = (Element) i.next();
 	            addEntity(clazz);
 	        }
+	     
+	     
 	}
 	
 	private void addEntity(Element entity){
 			String c = entity.attributeValue("name");
 			LOG.info("create smc configuration form entity : {}" , c);
-			 for ( Iterator i = entity.elementIterator(); i.hasNext(); ) {
-		            Element type = (Element) i.next();
-		            if (type.getName().equals("table")){
-		            	addTable(type, c);
-		            }
-		            else if (type.getName().equals("editor")) {
-		            	addEdit(type, c);
-		           
-		            }else if (type.getName().equals("select")) {
-		            	addSelect(type, c);
-		            }
-		            
-		        }
-	}
-	private void addTable(Element table , String clazz ){
-			LOG.info("add table element for entity {}",clazz);
-			for ( Iterator i = table.elementIterator(); i.hasNext(); ) {
-	            Element type = (Element) i.next();
-	            if (type.getName().equals("display")) {
-	            	LOG.info("add display property for entity {}", clazz);
-	            	tableProperties.put(clazz.toLowerCase(),addProperties(type));
-	            }else if (type.getName().equals("search")) {
-	            	LOG.info("add search property for entity {}", clazz);
-	            	searchProperties.put(clazz.toLowerCase(), addProperties(type));
-	            }
-	            
-	        }
-		
-	}
-	private void addEdit(Element editor , String clazz) {
-		LOG.info("add editor element for entity {}", clazz);
-		for ( Iterator i = editor.elementIterator(); i.hasNext(); ) {
-            Element type = (Element) i.next();
-            if (type.getName().equals("display")) {
-            	LOG.info("add display property for entity {}", clazz);
-            	editProperties.put(clazz.toLowerCase(),addProperties(type));
-            }else if (type.getName().equals("readonly")) {
-            	LOG.info("add readonly property for entity {}", clazz);
-            	readOnlyProperties.put(clazz.toLowerCase() ,addProperties(type));
-            }
+	        List<SmcPropertyDef> _p = readProperties(entity);
+            this.properties.put(c.toLowerCase(), _p);
+            loadTableProperty(c, _p);
+            loadEditProperty(c, _p);
+            loadReadonlyProperty(c, _p);
+            loadSelectProperty(c, _p);
+            loadSearchProperty(c, _p);
             
-        }
-	}
-
-	private String[] addProperties(Element editor) {
-		return readProperties(editor);
 	}
 	
-	private void addSelect(Element select , String clazz) {
-		LOG.info("add select element for entity {}", clazz);
-		String[] properties = readProperties(select);
-		if (properties.length > 0)
-			selectProperties.put(clazz, properties[0]);
+	private void loadTableProperty ( String entity_name , List<SmcPropertyDef> properties){
+			List<String> _l = new ArrayList<String>();
+			for (SmcPropertyDef smcPropertyDef : properties) {
+				if (smcPropertyDef.isTableProperty())
+					_l.add(smcPropertyDef.getPropertyId());
+			}
+			tableProperties.put(entity_name, _l.toArray(new String[_l.size()]));
+	}
+	private void loadEditProperty ( String entity_name , List<SmcPropertyDef> properties){
+		List<String> _l = new ArrayList<String>();
+		for (SmcPropertyDef smcPropertyDef : properties) {
+			if (smcPropertyDef.isEditProperty())
+				_l.add(smcPropertyDef.getPropertyId());
+		}
+		editProperties.put(entity_name, _l.toArray(new String[_l.size()]));
+	}
+	
+	private void loadReadonlyProperty ( String entity_name , List<SmcPropertyDef> properties){
+		List<String> _l = new ArrayList<String>();
+		for (SmcPropertyDef smcPropertyDef : properties) {
+			if (smcPropertyDef.isReadOnly())
+				_l.add(smcPropertyDef.getPropertyId());
+		}
+		readOnlyProperties.put(entity_name, _l.toArray(new String[_l.size()]));
+	}
+	private void loadSelectProperty ( String entity_name , List<SmcPropertyDef> properties){
+		List<String> _l = new ArrayList<String>();
+		for (SmcPropertyDef smcPropertyDef : properties) {
+			if (smcPropertyDef.isSelectProperty())
+				_l.add(smcPropertyDef.getPropertyId());
+		}
+		if (!_l.isEmpty())
+			selectProperties.put(entity_name, _l.get(_l.size()-1));
+	}
+	
+	private void loadSearchProperty ( String entity_name , List<SmcPropertyDef> properties){
+		List<String> _l = new ArrayList<String>();
+		for (SmcPropertyDef smcPropertyDef : properties) {
+			if (smcPropertyDef.isSearchPrperty())
+				_l.add(smcPropertyDef.getPropertyId());
+		}
+		searchProperties.put(entity_name, _l.toArray(new String[_l.size()]));
+	}
+	
+	private List<SmcPropertyDef> readProperties(Element element){
+		List<SmcPropertyDef> properties = new ArrayList<SmcPropertyDef>();
+		 for ( Iterator i = element.elementIterator("property"); i.hasNext(); ) {
+			 Element property = (Element) i.next();
+			 	SmcPropertyDef def = new SmcPropertyDef();
+			 	if (property.attribute("name") != null)
+			 		def.setPropertyId(property.attribute("name").getValue());
+			 	if (property.attribute("edit") != null)
+			 		def.setEditProperty(BooleanUtils.toBoolean(property.attribute("edit").getValue()));
+			 	if (property.attribute("table") != null)
+			 		def.setTableProperty(BooleanUtils.toBoolean(property.attribute("table").getValue()));
+				if (property.attribute("readonly") != null)
+			 		def.setReadOnly(BooleanUtils.toBoolean(property.attribute("readonly").getValue()));
+				if (property.attribute("select") != null)
+			 		def.setSelectProperty(BooleanUtils.toBoolean(property.attribute("select").getValue()));
+				
+				if (property.attribute("width") != null)
+					def.setWidth((property.attribute("width").getValue()));
+				if (property.attribute("style") != null)
+					def.setStyle(property.attribute("style").getValue());
+				
+			 	
+	           LOG.debug("found property {}" , def.getPropertyId() ); 
+	           
+	           properties.add(def);
+	        }
+		 
+		
+		 return  properties;
 	}
 
 
-	private String[] readProperties(Element element){
-		List<String> properties = new ArrayList<String>();
-		 for ( Iterator i = element.elementIterator("property"); i.hasNext(); ) {
-			 Element property = (Element) i.next();
-			 	Attribute name = property.attribute("name");
-	           LOG.debug("found property {}" , name.getValue() ); 
-	           properties.add(name.getValue());
-	        }
-		 
-		 String[] propArr = new String[properties.size()];
-		 
-		 return  properties.toArray(propArr);
+	public Map<String, List<SmcPropertyDef>> getProperties() {
+		return properties;
+	}
+	
+	public List<SmcPropertyDef> getPropertyForEntity(String entity){
+		return properties.get(entity.toLowerCase());
 	}
 	
 }

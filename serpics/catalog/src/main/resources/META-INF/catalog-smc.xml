@@ -3,155 +3,51 @@
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
 	<entity name="brand">
-		<table action="append">
-			<display>
-				<property name="code" />
-				<property name="name" />
-				<property name="logoSrc" />
-			</display>
-			<search>
-				<property name="name" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="code" />
-				<property name="name" />
-				<property name="published" />
-				<property name="logoSrc" />
-				<property name="created" />
-			</display>
-			<readonly>
-				<property name="created" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="code" />
-		</select>
+		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="name"  table ="true" search="true"/>
+		<property name="published" table ="true"/>
+		<property name="logoSrc" table ="true"/>
+		<property name="created" readonly="true"/>
 	</entity>
 	
 	<entity name="product">
-		<table>
-			<search>
-				<property name="code"/>
-				<property name="name"/>
-<!-- 				<property name="description"/> -->
-			</search>
-		</table>
+		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="name"  table ="true" search="true"/>
 	</entity>
 	
 	<entity name="category">
-		<table>
-			<search>
-				<property name="code"/>
-				<property name="name"/>
-				<property name="published" />
-<!-- 				<property name="description"/> -->
-			</search>
-		</table>
+		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="name"  table ="true" search="true"/>
 	</entity>
 	
 	<entity name="featuregroup">
-		<table action="append">
-			<display>
-				<property name="code" />
-				<property name="name" />
-				<property name="description" />
-				<property name="sequence" />
-			</display>
-			<search>
-				<property name="code" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="code" />
-				<property name="description" />
-				<property name="name" />
-				<property name="features" />
-				<property name="sequence" />
-				<property name="created" />
-			</display>
-			<readonly>
-				<property name="created" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="code" />
-		</select>
+		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="name"  table ="true" search="true"/>
+		<property name="description" table ="true"/>
+		<property name="sequence" table ="true" />
+		<property name="features" />
+		<property name="created" readonly="true" />
 	</entity>
 	
 	<entity name="featuremodel">
-		<table action="append">
-			<display>
-				<property name="code" />
-				<property name="description" />
-			</display>
-			<search>
-				<property name="code" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="code" />
-				<property name="description" />
-				<property name="featureGroups" />
-				<property name="created" />
-			</display>
-			<readonly>
-				<property name="created" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="code" />
-		</select>
+		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="description" table ="true"/>
+		<property name="featureGroups" />
+		<property name="created" readonly="true" />
 	</entity>
 	
 	<entity name="feature">
-		<table action="append">
-			<display>
-				<property name="name" />
-				<property name="description" />
-				<property name="type" />
-				<property name="sequence" />
-			</display>
-			<search>
-				<property name="name" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="name" />
-				<property name="description" />
-				<property name="sequence" />
-				<property name="type" />
-				<property name="created" />
-			</display>
-			<readonly>
-				<property name="created" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="name" />
-		</select>
+		<property name="name"  table ="true" select="true" search="true"/>
+		<property name="description" table ="true"/>
+		<property name="sequence" table ="true" />
+		<property name="type" table ="true"/>
+		<property name="created" readonly="true" />
+		
 	</entity>
-	
 	<entity name="featureValues">
-		<table action="append">
-			<display>
-				<property name="feature.name" />
-				<property name="value" />
-			</display>
-			<search>
-				<property name="name" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="feature" />
-				<property name="value" />
-			</display>
-		</editor>
+		<property name="feature.name" edit="false" table="true" search="true"/>
+		<property name="feature" />
+		<property name="value" />
 	</entity>
 	
 </smc-definition>

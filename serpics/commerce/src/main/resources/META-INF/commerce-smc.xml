@@ -3,171 +3,43 @@
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
 	<entity name="cart">
-		<table action="append">
-			<display>
-				<property name="customer.uuid" />
-<!-- 				<property name="status" /> -->
-<!-- 				<property name="billingAddress" /> -->
-<!-- 				<property name="shippingAddress" /> -->
-				<property name="created" />
-			</display>
-			<search>
-				<property name="customer.primaryAddress.firstname" />
-				<property name="status" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="customer" />
-				<property name="status" />
-				<property name="currency" />
-				<property name="cookie" />
-				
-				<property name="billingAddress" />
-				<property name="shippingAddress" />
-				<property name="created" />
-				<property name="cartitems"/>
-				<property name="totalProduct"/>
-				<property name="totalService"/>
-				<property name="totalShipping"/>
-				<property name="totalTax"/>
-				<property name="orderAmount"/>
-			</display>
-			<readonly>
-				<property name="billingAddress" />
-				<property name="shippingAddress" />
-				<property name="created" />
-<!-- 				<property name="items"/> -->
-				<property name="totalProduct"/>
-				<property name="totalService"/>
-				<property name="totalShipping"/>
-				<property name="totalTax"/>
-				<property name="orderAmount"/>
-			</readonly>
-		</editor>
+		<property name="customer.primaryAddress.firstname" table="true" search="true" />
+		<property name="customer" />
+		<property name="status" search="true" table="true"  />
+		<property name="currency" />
+		<property name="cookie" />
 		
+		<property name="billingAddress" />
+		<property name="shippingAddress" />
+		<property name="created" readonly="true"/>
+		<property name="cartitems"/>
+		<property name="totalProduct" readonly="true"/>
+		<property name="totalService" readonly="true"/>
+		<property name="totalShipping" readonly="true"/>
+		<property name="totalTax" readonly="true"/>
+		<property name="orderAmount" readonly="true" table="true"/>
 	</entity>	
+	
+	<entity name="cartitem">
+		<property name="sku" table="true" edit="true" />
+		<property name="product" />
+		<property name="skuDescription" table="true"/>
+		<property name="skuNetPrice" table="true"/>
+		<property name="skuPrice" table="true"/>
+		<property name="discountAmount" table="true"/>
+	</entity>
 
-	<entity name="order">
-		<table action="append">
-			<display>
-				<property name="customer" />
-<!-- 				<property name="status" /> -->
-<!-- 				<property name="billingAddress" /> -->
-<!-- 				<property name="shippingAddress" /> -->
-				<property name="created" />
-			</display>
-			<search>
-				<property name="status" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="customer" />
-				<property name="status" />
-				<property name="cookie" />
-				<property name="currency" />
-				<property name="billingAddress" />
-				<property name="shippingAddress" />
-				<property name="created" />
-				<property name="orderitems"/>
-				<property name="totalProduct"/>
-				<property name="totalService"/>
-				<property name="totalShipping"/>
-				<property name="totalTax"/>
-				<property name="orderAmount"/>
-			</display>
-			<readonly>
-				<property name="billingAddress" />
-				<property name="shippingAddress" />
-				<property name="created" />
-				<property name="items"/>
-				<property name="totalProduct"/>
-				<property name="totalService"/>
-				<property name="totalShipping"/>
-				<property name="totalTax"/>
-				<property name="orderAmount"/>
-			</readonly>
-		</editor>
-		
-	</entity>
-	
-		<entity name="abstractOrderitem">
-		<table action="append">
-			<display>
-				<property name="sku" />
-				<property name="skuDescription" />
-				<property name="skuNetPrice" />
-				<property name="skuPrice" />
-				<property name="discountAmount" />
-			</display>
-			<search>
-				<property name="status" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="sku" />
-				<property name="skuDescription" />
-				<property name="skuNetPrice" />
-				<property name="skuPrice" />
-				<property name="discountAmount" />
-			</display>
-			<readonly>
-				<property name="sku" />
-				<property name="skuDescription" />
-				<property name="skuNetPrice" />
-				<property name="skuPrice" />
-				<property name="discountAmount" />
-			</readonly>
-		</editor>
-		
-	</entity>
-	
 	<entity name="paymethod">
-		<table action="append">
-			<display>
-				<property name="name" />
-				<property name="description" />
-				<property name="created" />
-			</display>
-			<search>
-				<property name="name" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="name" />
-				<property name="description" />
-				<property name="paymethlookups"/>
-			</display>
-			
-		</editor>
-		<select>
-			<property name="name" />
-		</select>
+		<property name="name" table="true" select="true" search="true" />
+		<property name="description"  table="true"/>
+<!-- 		<property name="paymethlookups"/> -->
+		<property name="created" table="true"/>
 	</entity>
 	
 	<entity name="paymethodlookup">
-		<table action="append">
-			<display>
-				<property name="paymethod.name" />
-				<property name="active" />
-				<property name="created" />
-			</display>
-			<search>
-				<property name="paymethod.name" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="paymethod" />
-				<property name="active" />
-			</display>
-		</editor>
-		<select>
-			<property name="paymethod.name" />
-		</select>
+		<property name="paymethod.name" table="true" search="true" edit="true" select="true"/>
+		<property name="paymethod" />
+		<property name="active" table="true"/>
 	</entity>
 
 </smc-definition>
