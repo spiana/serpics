@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -28,12 +29,19 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 	
 	
 	@Override
-	public InventoryStatus checkInventory(String sku, double quantity) {
+	public InventoryStatus checkInventory(String sku, double quantity) throws ProductNotFoundException {
 		Product product  = productService.findByName(sku);	
+		if (product == null)
+			throw new ProductNotFoundException();
 		
-		return inventoryStrategy.checkInventory(product, quantity);
+		return checkInventory(product, quantity);
 	}
 
+	@Override
+	public InventoryStatus checkInventory(Product product, double quantity) {
+		return inventoryStrategy.checkInventory(product, quantity);
+	}
+	
 	@Override
 	public void reserve(Product product, double quantity)
 			throws InventoryNotAvailableException {
