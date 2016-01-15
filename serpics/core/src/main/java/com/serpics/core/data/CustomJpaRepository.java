@@ -29,11 +29,13 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 
 	private EntityInformation< T, ?> entityInformation;
 	private final InterceptorManager<T> interceptorMapping;
+	private EntityManager entityManager;
 	
 	
 	public CustomJpaRepository(JpaEntityInformation<T, ?> entityInformation,
 			EntityManager entityManager) {
 		super(entityInformation, entityManager);
+		this.entityManager = entityManager;
 		this.entityInformation = entityInformation;
 		interceptorMapping = new InterceptorManager<T>();
 		
@@ -94,9 +96,11 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 	@Transactional
 	@Override
 	public <S extends T> S save(S entity) {
-		if (entityInformation.isNew(entity))
-			interceptorMapping.performBeforeSaveInterceptor(entity);
-		
+		// if entity is not new merge it
+		if (!entityInformation.isNew(entity))
+			entity = entityManager.merge(entity);
+	
+		interceptorMapping.performBeforeSaveInterceptor(entity);
 		entity = super.save(entity);
 		interceptorMapping.performAfterSaveInterceptor(entity);
 		return entity;
