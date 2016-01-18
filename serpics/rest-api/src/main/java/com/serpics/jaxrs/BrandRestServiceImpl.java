@@ -1,5 +1,7 @@
 package com.serpics.jaxrs;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -77,7 +79,21 @@ public class BrandRestServiceImpl implements BrandRestService {
 		ApiRestResponse<Page<BrandData> > apiRestResponse = new ApiRestResponse<Page<BrandData> >();
 		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject( brandFacade.listBrand(new PageRequest(page, size)));
+		apiRestResponse.setResponseObject( brandFacade.pageBrand(new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
+
+	}
+	
+	@Override
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/list")
+	public Response findAllList() {
+		
+		ApiRestResponse<List<BrandData>> apiRestResponse = new ApiRestResponse<List<BrandData>>();
+		
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject( brandFacade.listBrand());
 		return Response.ok(apiRestResponse).build();
 
 	}

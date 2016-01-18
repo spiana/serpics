@@ -13,10 +13,10 @@ import com.serpics.core.data.Repository;
 
 public interface BrandRepository extends Repository<Brand	, Long>{
 	
-	@Query("select count(p) from Product p where p.brand = :brand and p.buyable = 'true'")
+	@Query("select count(p) from Product p where p.brand = :brand and p.buyable = '1'")
 	public int getCountBrandProduct(@Param("brand") Brand brand);
 	
-	@Query("select distinct p from Product p where p.brand = :brand and p.buyable = 'true'")
+	@Query("select distinct p from Product p where p.brand = :brand and p.buyable = '1'")
 	public Page<Product> findProductsByBrand(@Param("brand") Brand brand,Pageable pageable);
 
 }

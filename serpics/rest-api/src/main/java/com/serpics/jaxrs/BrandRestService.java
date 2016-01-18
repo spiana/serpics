@@ -12,6 +12,7 @@ public interface BrandRestService {
 	public Response findAll(int page , int size);
 	public Response findBrandById(Long id);
 	public Response findBrandByName(String name);
+	public Response findAllList();
 	
 
 }
