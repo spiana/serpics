@@ -127,18 +127,20 @@ public class ProductServiceImpl extends AbstractCommerceEntityService<Product, L
 			public Predicate toPredicate(final Root<Product> root, final CriteriaQuery<?> query, 
 					final CriteriaBuilder cb) {
 						
-						Subquery<CategoryProductRelation> subquery = query.subquery(CategoryProductRelation.class);
+						Subquery<Product> subquery = query.subquery(Product.class);
 						Root<CategoryProductRelation> subRoot = subquery.from(CategoryProductRelation.class);
 						
+						//Select childCategory = category
 						Subquery<Category> childSubquery = subquery.subquery(Category.class);
 						Root<CategoryRelation> childSubRoot = childSubquery.from(CategoryRelation.class);
 						childSubquery.select(childSubRoot.<Category>get("childCategory"));
 						childSubquery.where(cb.equal(childSubRoot.get("parentCategory"), category));
 
-						subquery.select(subRoot);
+						//Select parentCategory = category
+						subquery.select(subRoot.<Product>get("childProduct"));
 						subquery.where(cb.or(cb.equal(subRoot.get("parentCategory"),category),subRoot.get("parentCategory").in(childSubquery)));
 						
-						Predicate p = root.in(subquery);
+						Predicate p = cb.equal(root, subquery);
 						return p;
 			}
 		};
@@ -174,15 +176,8 @@ public class ProductServiceImpl extends AbstractCommerceEntityService<Product, L
 	
 
 	public Page<Product> findProductByCategory(final Category category,Pageable pagination) {
-//		Page<Product> page =  getEntityRepository().findAll(findByCategorySpecification(category), pagination);
-//		return page;
-		Page<? extends Product> l = null;
-		try {
-			l =  categoryProductRepository.findProductsByCategory(category, pagination);
-		} catch(final Exception e) {
-			logger.error("", e);
-		}
-		return (Page<Product>)l;
+		Page<Product> page =  getEntityRepository().findAll(findByCategorySpecification(category), pagination);
+		return page;
 	}
 
 	@Override
