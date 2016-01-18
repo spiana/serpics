@@ -2,23 +2,25 @@
 				<div class="row">
 					<div class="col-sm-3">
 						<div class="shopper-info">
-							<input ng-show="currentUser.destinationAddress[$scope.shippingAddress].firstname.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].lastname.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].address1.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].streetNumber.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].city.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].zipcode.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].email.length" type="submit" id="submit" value="Continue" ng-click="submitShippingForm(currentUser.destinationAddress[$scope.shippingAddress])" class="btn btn-primary">
-							<input ng-hide="currentUser.destinationAddress[$scope.shippingAddress].firstname.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].lastname.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].address1.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].streetNumber.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].city.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].zipcode.length &&
-							currentUser.destinationAddress[$scope.shippingAddress].email.length" type="submit" value="Continue" class="btn btn-primary" disabled>
+							<div style="width: 100%">
+								<input ng-show="currentUser.destinationAddress[$scope.shippingAddress].firstname.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].lastname.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].address1.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].streetNumber.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].city.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].zipcode.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].email.length" type="submit" id="submit" value="Continue" ng-click="submitShippingForm(currentUser.destinationAddress[$scope.shippingAddress])" class="btn btn-primary">
+								<input ng-hide="currentUser.destinationAddress[$scope.shippingAddress].firstname.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].lastname.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].address1.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].streetNumber.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].city.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].zipcode.length &&
+								currentUser.destinationAddress[$scope.shippingAddress].email.length" type="submit" value="Continue" class="btn btn-primary" disabled>
+							</div>
 						</div>
 						<br>
-						<div>* Required field</div>
+						<div style="width: 100%">* Required field</div>
 						<div ng-show="currentUser.userType=='REGISTERED'">
 						<div class="col-sm-12" style="margin-top: 10px;margin-bottom: 10px;">
 							<input type="submit" value="New shipping address" class="btn btn-default btn-sm" ng-click="$scope.shippingAddress = -1" ng-class="{ success :$scope.shippingAddress === -1 }">
