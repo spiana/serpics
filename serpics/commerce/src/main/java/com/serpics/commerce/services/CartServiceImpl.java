@@ -266,7 +266,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		commerceStrategy.calculateTax(cart);
 		commerceStrategy.calculateOrderTotal(cart);
 
-		cart = cartRepository.save(cart);
+		cart = cartRepository.saveAndFlush(cart);
 
 		putCartinSession(cart);
 

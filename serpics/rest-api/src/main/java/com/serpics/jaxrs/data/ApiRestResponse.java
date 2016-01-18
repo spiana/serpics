@@ -1,10 +1,13 @@
 package com.serpics.jaxrs.data;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({"status","message","responseObject"})
 public class ApiRestResponse<T> {
 
 	private ApiRestResponseStatus status;
-	private String message;
-	private String responseCode;
+	private String message; //If ERROR status message
+	//private String responseCode;
 	private T responseObject;
 
 	public String getMessage() {
@@ -15,13 +18,13 @@ public class ApiRestResponse<T> {
 		this.message = message;
 	}
 
-	public String getResponseCode() {
-		return responseCode;
-	}
+//	public String getResponseCode() {
+//		return responseCode;
+//	}
 
-	public void setResponseCode(String responseCode) {
-		this.responseCode = responseCode;
-	}
+//	public void setResponseCode(String responseCode) {
+//		this.responseCode = responseCode;
+//	}
 
 	public T getResponseObject() {
 		return responseObject;

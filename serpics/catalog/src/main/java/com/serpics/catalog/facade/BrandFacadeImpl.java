@@ -58,7 +58,7 @@ public class BrandFacadeImpl implements BrandFacade {
 	}
 
 	@Override
-	public Page<BrandData> listBrand(Pageable page) {
+	public Page<BrandData> pageBrand(Pageable page) {
 
 		List<BrandData> l = new ArrayList<BrandData>();
 		Page<Brand> brands = brandService.findAll(page);
@@ -68,6 +68,16 @@ public class BrandFacadeImpl implements BrandFacade {
 
 		Page<BrandData> list = new PageImpl<BrandData>(l, page, brands.getTotalElements());
 		return list;
+	}
+	
+	@Override
+	public List<BrandData> listBrand() {
+		List<BrandData> l = new ArrayList<BrandData>();
+		List<Brand> brands = brandService.findAll();
+		for (Brand brand : brands) {
+			l.add(brandConverter.convert(brand));
+		}	
+		return l;
 	}
 
 	@Override

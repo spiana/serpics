@@ -37,7 +37,17 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
         },
         templateUrl: 'html/template/brand-central.html'
         
-    })    
+    })
+    
+    .state('shop.search', {
+    	url: '/search/:textSearch',
+        controller: function ($stateParams, $scope) {
+        	$scope.name = 'Search Page';
+        	$scope.textSearch = $stateParams.textSearch;
+        },
+        templateUrl: 'html/template/search-central.html'
+        
+    })  
 
     .state('shop.product', {
     	url: '/product/:name/:id',

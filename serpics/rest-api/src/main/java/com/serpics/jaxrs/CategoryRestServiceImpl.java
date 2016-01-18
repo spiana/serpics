@@ -21,10 +21,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
+import com.serpics.jaxrs.data.CategoryDataRequest;
 
 @Path("/categoryService")
 @Transactional(readOnly=true)
@@ -33,11 +35,19 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Autowired
 	CategoryFacade categoryFacade;
 	
+    /**
+     * This method gets a category with some code.
+     * @summary  Method: getCategoryByCode(String code)
+     * @param code The code of category to search
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/code/{category}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response getCategoryByCode(@PathParam("category") String code){
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = categoryFacade.findCategoryByCode(code);
@@ -55,11 +65,20 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		}
 	}
 	
+	
+    /**
+     * This method gets a category with some Id.
+     * @summary  Method: getCategoryById(Long categoryId)
+     * @param categoryId The Id of category to search
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{category}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response getCategoryById(@PathParam("category") Long categoryId){
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = categoryFacade.findCategoryById(categoryId);
@@ -76,13 +95,22 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 			return Response.status(404).entity(apiRestResponse).build();
 		}
 	}
-		
+	
+    /**
+     * This method creates a category with a parent.
+     * @summary  Method: createParent(CategoryData category, Long parentId)
+     * @param category The category to create
+     * @param parentId The id of parent
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{parent}")
-	public Response createParent(CategoryData category, @PathParam("parent") Long parentId){
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
+	public Response createParent(CategoryDataRequest category, @PathParam("parent") Long parentId){
 		Assert.notNull(category);
 		Assert.notNull(parentId);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
@@ -93,11 +121,19 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		return Response.ok(apiRestResponse).build();
 	}
 	
+    /**
+     * This method creates a category.
+     * @summary  Method: create(CategoryData category)
+     * @param category The category to create
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(CategoryData category){
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
+	public Response create(CategoryDataRequest category){
 		Assert.notNull(category);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = null;
@@ -107,11 +143,20 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		return Response.ok(apiRestResponse).build();
 	}
 	
+    /**
+     * This method creates a relation between two categories.
+     * @summary  Method: addParent(Long childId,Long parentId)
+     * @param childId The category id of the child
+     * @param parentId The category id of the parent
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addParent/{child}/{parent}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response addParent(@PathParam("child") Long childId, @PathParam("parent") Long parentId){
 		Assert.notNull(childId);
 		Assert.notNull(parentId);
@@ -121,11 +166,19 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		return Response.ok(apiRestResponse).build();
 	}
 	
+    /**
+     * This method gets a list of category whith same parent
+     * @summary  Method: getChild(Long parentId)
+     * @param parentId The category id of the parent
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getChild/{parent}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
 	public Response getChild(@PathParam("parent") Long parentId){
 		Assert.notNull(parentId);
 		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(parentId);
@@ -135,11 +188,19 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		return Response.ok(apiRestResponse).build();
 	}
 	
+    /**
+     * This method updates a category
+     * @summary  Method: update(CategoryData category)
+     * @param category The category to update
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(CategoryData category){
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
+	public Response update(CategoryDataRequest category){
 		Assert.notNull(category);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = null;
@@ -149,11 +210,19 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		return Response.ok(apiRestResponse).build();
 	}
 	
+    /**
+     * This method deletes a category
+     * @summary  Method: delete(Long categoryId)
+     * @param categoryId The id of category to delete
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{category}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response delete(@PathParam("category") Long categoryId){
 		Assert.notNull(categoryId);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
@@ -162,10 +231,19 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		return Response.ok(apiRestResponse).build();
 	}
 	
+    /**
+     * This method findAll categories
+     * @summary  Method: findAll(int page, int size)
+     * @param page The page number
+     * @param size The number of elements in a page
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response findAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
 		ApiRestResponse<Page<CategoryData> > apiRestResponse = new ApiRestResponse<Page<CategoryData> >();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -173,11 +251,18 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		return Response.ok(apiRestResponse).build();
 	}
 	
+    /**
+     * This method gets all top categories
+     * @summary  Method: getTop()
+     * @return Response		object type: apiRestResponse
+     * 
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/top")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response getTop(){
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
