@@ -13,7 +13,7 @@ import com.serpics.core.data.Repository;
 
 public interface Category2ProductRepository extends Repository<CategoryProductRelation, CtentryRelationPK>  {
 	
-	@Query("select count(c.childProduct) from CategoryProductRelation c where c.parentCategory = :category and c.childProduct.buyable = '1' and c.parentCategory.published = '1'")
+	@Query("select count(c.childProduct) from CategoryProductRelation c where c.parentCategory = :category and c.childProduct.buyable = true and c.parentCategory.published = true")
 	public int getCountChildProduct(@Param("category") Category category);
 	
 	public List<CategoryProductRelation> findByChildProduct(Product product);
