@@ -63,7 +63,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	}
 
     /**
-     * This method finds all brands into catalog, the response is a list of brands.
+     * This method finds all brands into catalog, the response is a pageable list of brands.
      * @summary  Method: findAll(page,size)
      * @param page number of page requested
      * @param size number of brand to display into page
@@ -84,10 +84,16 @@ public class BrandRestServiceImpl implements BrandRestService {
 
 	}
 	
+    /**
+     * This method finds all brands into catalog, the response is a list of brands.
+     * @summary  Method: findAll()
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/list")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.catalog.facade.data.BrandData>>")
 	public Response findAllList() {
 		
 		ApiRestResponse<List<BrandData>> apiRestResponse = new ApiRestResponse<List<BrandData>>();
