@@ -22,6 +22,7 @@ public class PropertyLoadTest {
 		Assert.assertEquals(15, p.getEditProperty("primaryaddress").length);
 		Assert.assertEquals(6, p.getTableProperty("primaryaddress").length);
 		Assert.assertEquals(2, p.getReadOnlyProperty("primaryaddress").length);
+		Assert.assertEquals(1, p.getSearchProperty("usersreg").length);
 	}
 	
 }

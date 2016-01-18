@@ -3,7 +3,7 @@
 	xmlns="" xsi:schemaLocation="smc-entity.xsd">
 
 	<entity name="usersreg">
-		<property name="logonid" table="true" edit="true" select="true" width="70%"  style="red"/>
+		<property name="logonid" table="true" edit="true" select="true" width="70%"  style="red" search="true"/>
 		<property name="firstname" table="true" />
 		<property name="lastname" table="true" />
 		<property name="phone"  />

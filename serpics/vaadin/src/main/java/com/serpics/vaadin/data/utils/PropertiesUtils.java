@@ -38,7 +38,7 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 		private boolean tableProperty = false;
 		private boolean editProperty = true;
 		private boolean readOnly =  false;
-		private boolean searchPrperty = false;
+		private boolean searchProperty = false;
 		private boolean selectProperty = false;
 		
 		private String style;
@@ -99,11 +99,11 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 		public void setWidth(String width) {
 			this.width = width;
 		}
-		public boolean isSearchPrperty() {
-			return searchPrperty;
+		public boolean isSearchProperty() {
+			return searchProperty;
 		}
-		public void setSearchPrperty(boolean searchPrperty) {
-			this.searchPrperty = searchPrperty;
+		public void setSearchProperty(boolean searchProperty) {
+			this.searchProperty = searchProperty;
 		}
 		@Override
 		public int hashCode() {
@@ -316,7 +316,7 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 	private void loadSearchProperty ( String entity_name , List<SmcPropertyDef> properties){
 		List<String> _l = new ArrayList<String>();
 		for (SmcPropertyDef smcPropertyDef : properties) {
-			if (smcPropertyDef.isSearchPrperty())
+			if (smcPropertyDef.isSearchProperty())
 				_l.add(smcPropertyDef.getPropertyId());
 		}
 		searchProperties.put(entity_name, _l.toArray(new String[_l.size()]));
@@ -337,6 +337,8 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 			 		def.setReadOnly(BooleanUtils.toBoolean(property.attribute("readonly").getValue()));
 				if (property.attribute("select") != null)
 			 		def.setSelectProperty(BooleanUtils.toBoolean(property.attribute("select").getValue()));
+				if (property.attribute("search") != null)
+			 		def.setSearchProperty(BooleanUtils.toBoolean(property.attribute("search").getValue()));
 				
 				if (property.attribute("width") != null)
 					def.setWidth((property.attribute("width").getValue()));
