@@ -86,7 +86,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	
     /**
      * This method finds all brands into catalog, the response is a list of brands.
-     * @summary  Method: findAll()
+     * @summary  Method: findAllList()
      * @return Response		object type: apiRestResponse
      */
 	@Override
