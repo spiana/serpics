@@ -7,6 +7,14 @@ import org.springframework.context.ApplicationContext;
 import com.serpics.core.EngineFactory;
 import com.serpics.initialsetup.service.SystemSetupService;
 
+/**
+ * Class executed by plugin of maven to import Data
+ * 
+ * input expected is the type of data [ALL, SAMPLE, PROJECT] to be imported.
+ *  
+ * @author alessandro.marasco@tinvention.net
+ *
+ */
 public class Application {
 
 	public static void main(String[] args) {

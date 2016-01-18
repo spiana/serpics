@@ -6,7 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.stereotype.Component;
-
+/**
+ * Annotation type that permit to configure order of importer.
+ * To Set Store and catalog in which to import data  
+ * 
+ * @author alessandro.marasco@tinvention.net
+ *
+ */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Component

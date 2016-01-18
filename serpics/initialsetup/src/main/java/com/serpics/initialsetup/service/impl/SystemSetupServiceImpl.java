@@ -22,7 +22,12 @@ import com.serpics.initialsetup.ImportType;
 import com.serpics.initialsetup.annotation.SystemSetupTaskConfig;
 import com.serpics.initialsetup.service.SystemSetupService;
 import com.serpics.initialsetup.task.SystemSetupTask;
-
+/**
+ * Service class that manage list of task of insert into system
+ * 
+ * @author alessandro.marasco@tinvention.net
+ *
+ */
 @Service("systemSetupService")
 public class SystemSetupServiceImpl implements SystemSetupService{
 
@@ -32,6 +37,9 @@ public class SystemSetupServiceImpl implements SystemSetupService{
 
 	private boolean stopOnErrorCheckTask = true;
 	
+	/**
+	 * Main method that mangage listo of Task
+	 */
 	@Override
 	public void doSystemSetupTasks(ImportType iType) {
 		logger.info("Start to execute Task...");

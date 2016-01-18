@@ -13,6 +13,13 @@ import com.serpics.importexport.services.ImportCsvService;
 import com.serpics.initialsetup.ImportType;
 import com.serpics.initialsetup.annotation.SystemSetupTaskConfig;
 
+/**
+ * Main class that must be extended in order to run the amount of data
+ * The extended class must be added the annotation {@link com.serpics.initialsetup.annotation.SystemSetupTaskConfig SystemSetupTaskConfig}
+ * 
+ * @author alessandro.marasco@tinvention.net
+ *
+ */
 public abstract class AbstractSystemTask implements SystemSetupTask {
 
 	Logger logger = LoggerFactory.getLogger(AbstractSystemTask.class);
