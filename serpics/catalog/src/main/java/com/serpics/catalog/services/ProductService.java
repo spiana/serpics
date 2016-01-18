@@ -23,5 +23,7 @@ public interface ProductService extends EntityService<Product, Long>{
 	public Product findByName(String name);
 
 	public Product addBrand(Product product, Brand brand);
+
+	Product findByCode(String code);
 	
 }
