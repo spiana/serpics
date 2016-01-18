@@ -134,7 +134,7 @@ public class SystemSetupServiceImpl implements SystemSetupService{
 		return listOfTask;
 	}
 
-	@Autowired
+	@Autowired(required=false)
 	public void setListOfTask(final List<SystemSetupTask> listOfTask) {
 		this.listOfTask = listOfTask;
 	}

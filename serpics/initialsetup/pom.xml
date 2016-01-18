@@ -40,7 +40,25 @@
         </executions>
       </plugin>
       
-      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>com.serpics.initialsetup.Application</mainClass>
+          		<arguments>
+            		<argument>ALL</argument>
+            	</arguments>
+           <useSystemClassLoader>false</useSystemClassLoader> 
+        </configuration>
+      </plugin>
       
     </plugins>
     
@@ -68,4 +86,56 @@
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
   </dependencies>
+  
+  
+  <profiles>
+	<profile>
+		<id>initAll</id>
+		<build>
+			<plugins>
+			  <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+        		<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+          		<arguments>
+            		<argument>ALL</argument>
+            	</arguments>
+        		</configuration>
+			  </plugin>
+			</plugins>
+		</build>
+	</profile>
+	<profile>
+		<id>initSample</id>
+		<build>
+			<plugins>
+			  <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+        		<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+          		<arguments>
+            		<argument>SAMPLE</argument>
+            	</arguments>
+        		</configuration>
+			  </plugin>
+			</plugins>
+		</build>
+	</profile>
+	<profile>
+		<id>initProject</id>
+		<build>
+			<plugins>
+			  <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+        		<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+          		<arguments>
+            		<argument>PROJECT</argument>
+            	</arguments>
+        		</configuration>
+			  </plugin>
+			</plugins>
+		</build>
+	</profile>
+  </profiles>
 </project>
