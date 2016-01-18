@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -26,6 +27,7 @@ import com.serpics.commerce.strategies.CartStrategy;
 import com.serpics.core.SerpicsException;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
+import com.serpics.jaxrs.data.UserDataRequest;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.facade.UserFacade;
@@ -46,12 +48,19 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	CartStrategy cartStrategy;
 
+    /**
+     * This method creates a user.
+     * @summary  Method: create(final UserData user)
+     * @param user The user to create
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("register")
-	public Response create(final UserData user) {
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
+	public Response create(final UserDataRequest user) {
 		Assert.notNull(user);
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 		try {
@@ -65,10 +74,16 @@ public class CustomerServiceImpl implements CustomerService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method gets the current user.
+     * @summary  Method: getCurrent()
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@GET
 	@Path("getCurrent")
 	@Produces(MediaType.APPLICATION_JSON)
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response getCurrent() {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -79,10 +94,17 @@ public class CustomerServiceImpl implements CustomerService {
 		
 	}
 
+    /**
+     * This method updates a user.
+     * @summary  Method: update(UserData entity)
+     * @param entity The user to update
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
-	public Response update(final UserData entity) {
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
+	public Response update(final UserDataRequest entity) {
 		if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS) {
 			userFacade.updateUser(entity);
 		}
@@ -92,10 +114,18 @@ public class CustomerServiceImpl implements CustomerService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method makes the user login
+     * @summary  Method: login(String username, String password)
+     * @param username The username to login
+     * @param password The password to login
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@GET
 	@Path("login")
 	@Transactional
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -122,10 +152,17 @@ public class CustomerServiceImpl implements CustomerService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method updates the address of a user
+     * @summary  Method: updateContactAddress(AddressData address)
+     * @param address The address to update
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateContactAddress")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateContactAddress(AddressData address) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -136,10 +173,17 @@ public class CustomerServiceImpl implements CustomerService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method updates the BillingAddress of a user
+     * @summary  Method: updateBillingAddress(AddressData address)
+     * @param address The BillingAddress to update
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateBillingAddress")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateBillingAddress(AddressData address) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -150,10 +194,17 @@ public class CustomerServiceImpl implements CustomerService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method updates the DestinationAddress of a user
+     * @summary  Method:  updateDestinationAddress(AddressData address)
+     * @param address The DestinationAddress to update
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateDestinationAddress")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateDestinationAddress(AddressData address) {
 		Assert.notNull(address, "address can not be null !");
 		Assert.notNull(address.getUuid(), "UUID can not ve null !");
@@ -165,10 +216,17 @@ public class CustomerServiceImpl implements CustomerService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method adds the DestinationAddress to a user
+     * @summary  Method:  addDestinationAddress(AddressData address)
+     * @param address The DestinationAddress to add
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("addDestinationAddress")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response addDestinationAddress(AddressData address) {
 
 		Assert.notNull(address, "address can not be null !");
@@ -180,10 +238,17 @@ public class CustomerServiceImpl implements CustomerService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method deletes the DestinationAddress of a user
+     * @summary  Method:  deleteDestinationAddress(String addressUID)
+     * @param addressUID The DestinationAddress UID to delete
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("deleteDestinationAddress/{addressId}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response deleteDestinationAddress(@PathParam("addressId") String addressUID) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -195,11 +260,18 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 
+    /**
+     * This method makes the user logout
+     * @summary  Method:  logout(String sessionId)
+     * @param sessionId The sessionId to logout
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@POST
 	@Path("logout")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response logout(String sessionId) {
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 

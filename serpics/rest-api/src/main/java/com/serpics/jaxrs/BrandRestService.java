@@ -2,12 +2,12 @@ package com.serpics.jaxrs;
 
 import javax.ws.rs.core.Response;
 
-import com.serpics.catalog.facade.data.BrandData;
+import com.serpics.jaxrs.data.BrandDataRequest;
 
 public interface BrandRestService {
 	
-	public Response addBrand(BrandData brand);
-	public Response updateBrand(BrandData brand);
+	public Response addBrand(BrandDataRequest brand);
+	public Response updateBrand(BrandDataRequest brand);
 	public Response deleteBrand(Long id);
 	public Response findAll(int page , int size);
 	public Response findBrandById(Long id);

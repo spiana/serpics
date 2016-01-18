@@ -9,8 +9,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import com.qmino.miredot.annotations.MireDotIgnore;
 import com.serpics.membership.data.model.User;
-
+@MireDotIgnore
 public class TestRestServiceImpl implements TestRestService {
 
 	@Override

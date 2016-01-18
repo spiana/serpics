@@ -2,14 +2,14 @@ package com.serpics.jaxrs;
 
 import javax.ws.rs.core.Response;
 
+import com.serpics.jaxrs.data.UserDataRequest;
 import com.serpics.membership.facade.data.AddressData;
-import com.serpics.membership.facade.data.UserData;
 
 
 public interface CustomerService  {
 	
-	public Response create(UserData entity);
-	public Response update(UserData entity);
+	public Response create(UserDataRequest entity);
+	public Response update(UserDataRequest entity);
 	public Response getCurrent();
 	public Response login(String username , String password);
 	public Response logout(String sessionId);

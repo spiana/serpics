@@ -3,15 +3,15 @@ package com.serpics.jaxrs;
 import javax.ws.rs.core.Response;
 
 import com.serpics.catalog.facade.data.PriceData;
-import com.serpics.catalog.facade.data.ProductData;
+import com.serpics.jaxrs.data.ProductDataRequest;
 
 public interface ProductRestService {
 
-	public Response insertCategory(ProductData product, Long categoryId);
-	public Response insertBrand(ProductData product, Long brandId);
-	public Response insert(ProductData product, Long categoryId, Long brandId);
-	public Response insert(ProductData product);
-	public Response update(ProductData product);
+	public Response insertCategory(ProductDataRequest product, Long categoryId);
+	public Response insertBrand(ProductDataRequest product, Long brandId);
+	public Response insert(ProductDataRequest product, Long categoryId, Long brandId);
+	public Response insert(ProductDataRequest product);
+	public Response update(ProductDataRequest product);
 	public Response getProduct(Long productid);
 	public Response getProductByName(String name);
 	public Response delete(Long id);
