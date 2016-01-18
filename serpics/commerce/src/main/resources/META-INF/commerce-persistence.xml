@@ -18,6 +18,10 @@
 		<class>com.serpics.commerce.data.model.Paymethodlookup</class>
 		<class>com.serpics.commerce.data.model.PaymethodlookupPK</class>
 		<class>com.serpics.commerce.data.model.Paymethod</class>
+		
+		<class>com.serpics.commerce.data.modelTaxlookup</class>
+		<class>com.serpics.commerce.data.model.TaxlookupPK</class>
+		<class>com.serpics.commerce.data.model.Tax</class>
 	</persistence-unit>
 </persistence>	
 		

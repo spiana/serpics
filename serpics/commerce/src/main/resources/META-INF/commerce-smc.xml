@@ -32,13 +32,24 @@
 	<entity name="paymethod">
 		<property name="name" table="true" select="true" search="true" />
 		<property name="description"  table="true"/>
-<!-- 		<property name="paymethlookups"/> -->
 		<property name="created" table="true"/>
 	</entity>
 	
 	<entity name="paymethodlookup">
 		<property name="paymethod.name" table="true" search="true" edit="true" select="true"/>
 		<property name="paymethod" />
+		<property name="active" table="true"/>
+	</entity>
+
+	<entity name="tax">
+		<property name="name" table="true" select="true" search="true" />
+		<property name="description"  table="true"/>
+		<property name="created" table="true"/>
+	</entity>
+	
+	<entity name="taxlookuop">
+		<property name="taxes.name" table="true" search="true" edit="true" select="true"/>
+		<property name="tax" />
 		<property name="active" table="true"/>
 	</entity>
 

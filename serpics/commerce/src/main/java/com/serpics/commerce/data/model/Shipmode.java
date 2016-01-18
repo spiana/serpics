@@ -3,12 +3,18 @@ package com.serpics.commerce.data.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.serpics.base.data.model.MultilingualString;
+import com.serpics.membership.data.model.AbstractStoreEntity;
 
 /**
  * The persistent class for the shipmode database table.
@@ -16,19 +22,20 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "shipmode")
-public class Shipmode extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
+public class Shipmode extends AbstractStoreEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "shipmode_id", unique = true, nullable = false)
     private Long id;
 
-    @Column(length = 1000)
-    private String description;
-
     @Column(length = 100)
     private String name;
 
+    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
+    @JoinColumn(name = "name_string_id")
+    private MultilingualString description ;   
+    
     // bi-directional many-to-one association to Orderitem
     @OneToMany(mappedBy = "shipmode" , fetch=FetchType.LAZY)
     private Set<AbstractOrderitem> orderitems;
@@ -60,15 +67,7 @@ public class Shipmode extends com.serpics.core.data.jpa.AbstractEntity implement
         this.id = shipmodeId;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    public String getName() {
+      public String getName() {
         return this.name;
     }
 
@@ -116,5 +115,13 @@ public class Shipmode extends com.serpics.core.data.jpa.AbstractEntity implement
     public void setSuborders(final Set<Suborder> suborders) {
         this.suborders = suborders;
     }
+
+	public MultilingualString getDescription() {
+		return description;
+	}
+
+	public void setDescription(MultilingualString description) {
+		this.description = description;
+	}
 
 }
