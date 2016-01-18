@@ -17,4 +17,9 @@ public interface InventoryRepository extends Repository<Inventory, Long>{
 	
 	@Query("select sum(i.available - i.reserved) from Inventory i where i.warehouse=:warehouse and i.product=:product")
 	public Double getAvailableByWarehouse(@Param("product")Product product , @Param("warehouse") Warehouse warehouse);
+	
+	@Query("select i.reserved from Inventory i where i.warehouse=:warehouse and i.product=:product")
+	public Double getReservedByWarehouse(@Param("product")Product product , @Param("warehouse") Warehouse warehouse);
+
+	
 }

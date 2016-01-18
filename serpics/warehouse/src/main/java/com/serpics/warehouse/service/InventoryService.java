@@ -11,10 +11,11 @@ public interface InventoryService {
 	public InventoryStatus checkInventory(Product product , double quantity);
 	public InventoryStatus checkInventory(String  sku , double quantity) throws ProductNotFoundException;
 	
-	public void reserve(Product product , double quantity ) throws InventoryNotAvailableException;
 	public void reserve(Product product , double quantity , Warehouse warehouse) throws InventoryNotAvailableException;
 	public void release(Product product , double quantity , Warehouse warehouse) ;
+	public void reserve(Product product , double quantity) throws InventoryNotAvailableException;
 	public void release(Product product , double quantity) ;
+	
 	
 	public double getStockLevelAmount(Product product);
 	public double getStockLevelAmount(Product product, Warehouse warehouse);

@@ -47,12 +47,16 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 	private Set<Inventory> inventories;
 	
 	private Double inventoryThreshold;
+
+	@Column(nullable=false)
+	private Boolean forceInStock;
 	
 	@ManyToOne
 	@JoinColumn(name ="store_id" , insertable=true , updatable=false)
 	private Store store ;
 
 	public Warehouse() {
+		forceInStock = Boolean.FALSE;
 	}
 
 	public Long getId() {
@@ -109,6 +113,14 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 
 	public void setStore(Store store) {
 		this.store = store;
+	}
+
+	public Boolean getForceInStock() {
+		return forceInStock;
+	}
+
+	public void setForceInStock(Boolean forceInStock) {
+		this.forceInStock = forceInStock;
 	}
 
 	
