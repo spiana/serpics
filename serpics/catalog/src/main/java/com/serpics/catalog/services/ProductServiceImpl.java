@@ -140,7 +140,7 @@ public class ProductServiceImpl extends AbstractCommerceEntityService<Product, L
 						subquery.select(subRoot.<Product>get("childProduct"));
 						subquery.where(cb.or(cb.equal(subRoot.get("parentCategory"),category),subRoot.get("parentCategory").in(childSubquery)));
 						
-						Predicate p = cb.equal(root, subquery);
+						Predicate p = root.in(subquery);
 						return p;
 			}
 		};
