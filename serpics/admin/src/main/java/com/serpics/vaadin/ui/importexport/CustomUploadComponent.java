@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipFile;
@@ -44,7 +42,6 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.StartedEvent;
-import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -142,6 +139,7 @@ public class CustomUploadComponent extends CustomComponent {
 		 upload.addStartedListener(new Upload.StartedListener() {
 	            public void uploadStarted(StartedEvent event) {
 	            	progress.setValue(0F);
+	            	upload.setCaption("Import files....");
 	            }
 	        });
 		 
@@ -166,6 +164,7 @@ public class CustomUploadComponent extends CustomComponent {
 					if (fileToUpload != null) {
 						importCsvService.importFromZip(fileToUpload.getName());
 						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 3000, "success");
+		            	upload.setCaption("U");
 					}
 				} catch (IOException e) {
 					LOG.error("Import failed!!!!!!!!");
@@ -410,7 +409,7 @@ public class CustomUploadComponent extends CustomComponent {
 		if(_class.equals("") || _class == null)
 			return false;
 
-			String pack = "com.serpics.catalog.data.model";		
+			String pack = I18nUtils.getMessage("scm.upload.package.name", "");		
 			mappedClass = null;
 		    			
 			try {
