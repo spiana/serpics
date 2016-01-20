@@ -2,13 +2,12 @@ package com.serpics.commerce.facade.data;
 
 import java.util.Set;
 
-import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.core.facade.AbstractData;
 import com.serpics.membership.facade.data.AddressData;
 
 
 public abstract class AbstractOrdersData<T extends AbstractOrderItemData> extends AbstractData{
-	protected Shipmode shipmode;
+	protected ShipmodeData shipmode;
 	protected AddressData billingAddress;
 	protected AddressData shippingAddress;
 		
@@ -24,10 +23,10 @@ public abstract class AbstractOrdersData<T extends AbstractOrderItemData> extend
 	
 	
 	
-	public Shipmode getShipmode() {
+	public ShipmodeData getShipmode() {
 		return shipmode;
 	}
-	public void setShipmode(Shipmode shipmode) {
+	public void setShipmode(ShipmodeData shipmode) {
 		this.shipmode = shipmode;
 	}
 	public AddressData getBillingAddress() {

@@ -2,6 +2,7 @@ package com.serpics.commerce.strategies;
 
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
+import com.serpics.commerce.data.model.Shipping;
 import com.serpics.core.utils.CurrencyUtils;
 import com.serpics.stereotype.StoreStrategy;
 
@@ -23,8 +24,27 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
 
     @Override
     public void calculateShiping(final AbstractOrder order) {
-        // TODO Auto-generated method stub
-
+    	double totalWeight = (double) 0;
+    	double selectedValue = (double) 0;
+    	for (AbstractOrderitem orderItem : order.getItems()){
+    		double productWeight = (double) 0;
+    		if (orderItem.getProduct().getWeight() != null){
+    			productWeight = orderItem.getProduct().getWeight();
+    		}    		
+    		totalWeight = productWeight * orderItem.getQuantity();
+    	}
+    	if (order.getShipmode() != null){
+	    	Shipping selectedShipping = new Shipping();
+	    	selectedShipping.setValue((double) 0);
+	    	selectedShipping.setRangestart((double) 0);    	
+	    	for (Shipping shipping : order.getShipmode().getShippings()){
+	    		if (shipping.getRangestart() <= totalWeight && shipping.getRangestart() > selectedShipping.getRangestart()){
+	    			selectedShipping = shipping;
+	    		}
+	    	}
+	    	selectedValue = selectedShipping.getValue();
+    	}
+    	order.setTotalShipping(selectedValue);
     }
 
     @Override

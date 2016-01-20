@@ -1,5 +1,7 @@
 package com.serpics.jaxrs;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -9,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,6 +24,7 @@ import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
+import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.membership.facade.data.AddressData;
@@ -154,6 +158,46 @@ public class CartRestServiceImpl implements CartRestService {
 		CartData cartData = cartFacade.addShippingAddress(shippingAddress);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(cartData);
+		return Response.ok(apiRestResponse).build();
+	}
+	
+    /**
+     * This method adds a shipmode to current cart.
+     * @summary  Method: addShipmode(Long shipmodeId)
+     * @param shippingAddress The shipmode to add
+     * @return Response		object type: apiRestResponse
+     * 
+     */
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/shipmode/{shipmodeId}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
+	public Response addShipmode(@PathParam("shipmodeId") Long shipmodeId){
+		Assert.notNull(shipmodeId);
+		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
+		CartData cartData = cartFacade.addShipmode(shipmodeId);
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(cartData);
+		return Response.ok(apiRestResponse).build();
+	}
+
+    /**
+     * This method finds all shipmodes available for current cart, the response is a list of shipmode.
+     * @summary  Method: getShipmodeList()
+     * @return Response		object type: apiRestResponse
+     */
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Path("/shipmode")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.commerce.facade.data.ShipmodeData>>")
+	public Response getShipmodeList(){
+		ApiRestResponse<List<ShipmodeData>> apiRestResponse = new ApiRestResponse<List<ShipmodeData>>();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(cartFacade.getShipmodeList());
 		return Response.ok(apiRestResponse).build();
 	}
 

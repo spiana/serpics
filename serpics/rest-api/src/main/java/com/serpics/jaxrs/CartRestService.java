@@ -19,6 +19,10 @@ public interface CartRestService {
 	public Response addBillingAddress(AddressData billingAddress);
 	public Response addShippingAddress(AddressData shippingAddress);
 
+	public Response addShipmode(Long shipmodeId);
+
+	public Response getShipmodeList();
+
 	
 
 }
