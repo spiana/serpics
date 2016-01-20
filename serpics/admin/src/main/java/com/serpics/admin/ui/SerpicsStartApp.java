@@ -38,7 +38,7 @@ import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("tests-valo-reindeer")
+@Theme("tests-valo-light")
 //@Theme("valo")
 @Component
 @Scope("prototype")
@@ -182,6 +182,7 @@ public class SerpicsStartApp extends UI {
 	}
 
 	private void addComponent(final String id, final String caption) {
+		
 		final com.vaadin.ui.Component _component = getComponent(id);
 
 		final Tab t = rightContentTabPanel.getTab(_component);
