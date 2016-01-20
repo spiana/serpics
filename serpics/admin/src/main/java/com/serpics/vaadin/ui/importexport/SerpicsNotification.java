@@ -6,24 +6,28 @@ package com.serpics.vaadin.ui.importexport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author christian
  *
  */
-public class SerpicsNotification extends VerticalLayout {
+public class SerpicsNotification extends CustomComponent {
 
+	
 	private static final long serialVersionUID = 4184933353933617651L;
 	private static Logger logger = LoggerFactory.getLogger(SerpicsNotification.class);
 
 	private static SerpicsNotification instance;
 	private Notification notification;
-	public SerpicsNotification() {
-
+	
+	
+	private SerpicsNotification() {
 	}
+
 
 	/**
 	 * 
@@ -64,6 +68,7 @@ public class SerpicsNotification extends VerticalLayout {
 		notification.setStyleName(style);
 		notification.setPosition(pos);
 		makeNotificationClosableWithIcon(closable);
+		show();
 		return notification;
 	}
 	
@@ -85,9 +90,10 @@ public class SerpicsNotification extends VerticalLayout {
 		notification.setDescription(description);
 		notification.setDelayMsec(delay);
 		notification.setHtmlContentAllowed(true);
-		notification.setStyleName(style.concat(" bar"));
+		notification.setStyleName(style + " bar");
 		notification.setPosition(pos);
 		makeNotificationClosableWithIcon(closable);
+		show();
 		return notification;
 	}
 	
@@ -109,15 +115,21 @@ public class SerpicsNotification extends VerticalLayout {
 		notification.setDescription(description);
 		notification.setDelayMsec(delay);
 		notification.setHtmlContentAllowed(true);
-		notification.setStyleName(style.concat(" system"));
+		notification.setStyleName(style + " system");
 		notification.setPosition(pos);
 		makeNotificationClosableWithIcon(closable);
+		show();
 		return notification;
 	}
 
 	public String makeNotificationClosableWithIcon(Boolean bool){
 		if(bool)
-			notification.setStyleName("closable");
+			notification.setStyleName(notification.getStyleName().concat(" closable"));
 		return null;
+	}
+	
+	
+	public void show(){
+		notification.show(Page.getCurrent());
 	}
 }

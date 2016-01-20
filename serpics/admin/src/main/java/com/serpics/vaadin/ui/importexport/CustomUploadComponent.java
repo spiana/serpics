@@ -59,6 +59,7 @@ public class CustomUploadComponent extends CustomComponent {
 
 	@Resource
 	private ImportCsvService importCsvService;
+
 	
 	private VerticalLayout layout;
 	private HorizontalLayout wrap;
