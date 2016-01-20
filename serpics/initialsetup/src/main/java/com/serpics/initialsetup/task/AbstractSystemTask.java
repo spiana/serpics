@@ -14,8 +14,9 @@ import com.serpics.initialsetup.ImportType;
 import com.serpics.initialsetup.annotation.SystemSetupTaskConfig;
 
 /**
- * Main class that must be extended in order to run the amount of data
- * The extended class must be added the annotation {@link com.serpics.initialsetup.annotation.SystemSetupTaskConfig SystemSetupTaskConfig}
+ * An implementation of task as a basis for implementing various kinds of import.
+ * 
+ * On the implemention of this class must be added the annotation {@link com.serpics.initialsetup.annotation.SystemSetupTaskConfig SystemSetupTaskConfig}
  * 
  * @author alessandro.marasco@tinvention.net
  *

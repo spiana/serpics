@@ -23,7 +23,10 @@ import com.serpics.initialsetup.annotation.SystemSetupTaskConfig;
 import com.serpics.initialsetup.service.SystemSetupService;
 import com.serpics.initialsetup.task.SystemSetupTask;
 /**
- * Service class that manage list of task of insert into system
+ * Implementation of service that manage list of task.
+ * Retrieve tasks on context by type. All classes that implement {@link com.serpics.initialsetup.annotation.SystemSetupTaskConfig SystemSetupTaskConfig} class will be checked and ordered.
+ * 
+ * Tasks will be sorted by store, catalog and order value.  
  * 
  * @author alessandro.marasco@tinvention.net
  *
@@ -38,7 +41,7 @@ public class SystemSetupServiceImpl implements SystemSetupService{
 	private boolean stopOnErrorCheckTask = true;
 	
 	/**
-	 * Main method that mangage listo of Task
+	 * Main method that manage list of Task
 	 */
 	@Override
 	public void doSystemSetupTasks(ImportType iType) {
