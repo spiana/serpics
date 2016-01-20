@@ -65,11 +65,13 @@ public class NavigatorMenuTree extends Tree
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
-		Resource[] resources = this.applicationContext.getResources("classpath*:META-INF/*-amc.xml");
+		Resource[] resources = this.applicationContext.getResources("classpath:META-INF/*-amc.xml");
 
 		for (Resource resource : resources) {
-			LOG.info("found smp definition file : {} with URL {}", resource.getFilename(), resource.getURL());
-			menuPopulatorFromAmcDefinition(resource.getURL());
+	//		if (UrlResource.class.isAssignableFrom(resource.getClass())){
+				LOG.info("found smp definition file : {} with URL {}", resource.getFilename(), resource.getURL());
+				menuPopulatorFromAmcDefinition(resource.getURL());
+		//	}
 		}
 	}
 
@@ -109,17 +111,18 @@ public class NavigatorMenuTree extends Tree
 				this.setChildrenAllowed(navItem.attributeValue("name"),
 						Boolean.parseBoolean(navItem.attributeValue("allow-child")));
 			}
+			
 			if (!StringUtils.isEmpty(navItem.attributeValue("bean"))){
 				beans.put(navItem.attributeValue("name"), navItem.attributeValue("bean"));
+				LOG.info("amc navigator item : {} with bean  {}",navItem.attributeValue("name") ,  navItem.attributeValue("bean"));
 			}
 			if (!StringUtils.isEmpty(navItem.attributeValue("class"))){
 				clazz.put(navItem.attributeValue("name"), navItem.attributeValue("class"));
+				LOG.info("amc navigator item : {} with bean  {}",navItem.attributeValue("name") ,  navItem.attributeValue("class"));
 			}
+			
 
 		}
-		LOG.info("created navigator tree from admin generator: {} with name {}", NavigatorMenuTree.class.getName(),
-				navigatorName);
-	
 	}
 
 	public String getBeanComponent(String key){
