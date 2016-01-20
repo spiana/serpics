@@ -59,7 +59,7 @@ public class CustomUploadComponent extends CustomComponent {
 
 	@Resource
 	private ImportCsvService importCsvService;
-
+	
 	private VerticalLayout layout;
 	private HorizontalLayout wrap;
 	private CssLayout cssLayout;
@@ -120,7 +120,7 @@ public class CustomUploadComponent extends CustomComponent {
 
 				if (!validateMimeType(mimeType)) {
 					showNotification("Serpics Ecommerce Platform", 	I18nUtils.getMessage("smc.upload.zipfile.notvalid", ""), 
-							Position.TOP_RIGHT, 3000, "failure");
+							Position.TOP_RIGHT, 6000, "failure");
 				} else {
 					FileOutputStream fos;
 					try {
@@ -163,7 +163,7 @@ public class CustomUploadComponent extends CustomComponent {
 				try {
 					if (fileToUpload != null) {
 						importCsvService.importFromZip(fileToUpload.getName());
-						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 3000, "success");
+						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
 					}
 				} catch (IOException e) {
 					LOG.error("Import failed!!!!!!!!");
@@ -246,15 +246,15 @@ public class CustomUploadComponent extends CustomComponent {
 			public void buttonClick(ClickEvent event) {
 				 String reader = data.getValue();
 				if(!validateCsvStringFormForm(reader) || reader==null || reader.equals(""))
-					showNotification("Serpics Ecommerce Platform",I18nUtils.getMessage("smc.upload.scv.string.notvalid", ""), Position.TOP_RIGHT, 3000, "failure");
+					showNotification("Serpics Ecommerce Platform",I18nUtils.getMessage("smc.upload.scv.string.notvalid", ""), Position.TOP_RIGHT, 6000, "failure closable");
 				else{
 					try{
 						importCsvService.importCsv(new StringReader(reader), getMappedClass());
-						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.string.csv.succesfully", ""), Position.TOP_RIGHT, 3000, "success");
+						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.string.csv.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
 						data.setValue("");
 						text_f.setValue("");
 					}catch(Exception e){
-						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.scv.string.notvalid", ""), Position.TOP_RIGHT, 3000, "failure");
+						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.scv.string.notvalid", ""), Position.TOP_RIGHT, 6000, "failure closable");
 					}
 					
 				}
@@ -370,7 +370,7 @@ public class CustomUploadComponent extends CustomComponent {
 		
 		String value = val;
 		if(!attachClassnameValidationListner(value)){
-			showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.load.classname.notvalid", ""), Position.TOP_RIGHT, 3000, "failure");
+			showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.load.classname.notvalid", ""), Position.TOP_RIGHT, 6000, "failure closable");
 			import_b.setVisible(false);
 			}else{
 				import_b.setVisible(true);
@@ -416,7 +416,7 @@ public class CustomUploadComponent extends CustomComponent {
 				LOG.info("Mapped class: {}",mappedClass);
 				setMappedClass(mappedClass);
 			} catch (ClassNotFoundException e) {
-	        	showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.load.classname.notvalid", ""), Position.TOP_RIGHT, 3000, "failure");
+	        	showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.load.classname.notvalid", ""), Position.TOP_RIGHT, 6000, "failure closable");
 	        	LOG.error("Not Found Mapped class");
 	        	return false;
 		}
