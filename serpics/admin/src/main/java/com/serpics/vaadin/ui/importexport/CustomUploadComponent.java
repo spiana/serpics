@@ -55,11 +55,10 @@ public class CustomUploadComponent extends CustomComponent {
 
 	private static final long serialVersionUID = 1L;
 
-	Logger LOG = LoggerFactory.getLogger(CustomUploadComponent.class);
+	Logger logger = LoggerFactory.getLogger(CustomUploadComponent.class);
 
 	@Resource
 	private ImportCsvService importCsvService;
-
 	
 	private VerticalLayout layout;
 	private HorizontalLayout wrap;
@@ -149,7 +148,6 @@ public class CustomUploadComponent extends CustomComponent {
 			
 			@Override
 			public void updateProgress(long readBytes, long contentLength) {
-				upload.setImmediate(true);
             	getUI().setPollInterval(600);
 				 progress.setValue(((float)readBytes) /
                          ((float)contentLength));	
@@ -167,7 +165,7 @@ public class CustomUploadComponent extends CustomComponent {
 						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
 					}
 				} catch (IOException e) {
-					LOG.error("Import failed!!!!!!!!");
+					logger.error("Import failed!!!!!!!!");
 					progress.setValue(0F);
 	            	getUI().setPollInterval(-1);// fermo il thread
 				}
@@ -414,11 +412,11 @@ public class CustomUploadComponent extends CustomComponent {
 		    			
 			try {
 				mappedClass = Class.forName(pack + "." +_class);
-				LOG.info("Mapped class: {}",mappedClass);
+				logger.info("Mapped class: {}",mappedClass);
 				setMappedClass(mappedClass);
 			} catch (ClassNotFoundException e) {
 	        	showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.load.classname.notvalid", ""), Position.TOP_RIGHT, 6000, "failure closable");
-	        	LOG.error("Not Found Mapped class");
+	        	logger.error("Not Found Mapped class");
 	        	return false;
 		}
 		return true;
