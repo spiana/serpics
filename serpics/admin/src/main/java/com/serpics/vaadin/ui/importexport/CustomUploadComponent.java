@@ -116,6 +116,7 @@ public class CustomUploadComponent extends CustomComponent {
 			
 			@Override
 			public OutputStream receiveUpload(String filename, String mimeType) {
+			
 
 				if (!validateMimeType(mimeType)) {
 					showNotification("Serpics Ecommerce Platform", 	I18nUtils.getMessage("smc.upload.zipfile.notvalid", ""), 
@@ -136,19 +137,18 @@ public class CustomUploadComponent extends CustomComponent {
 			}
 		});
 		
-		 upload.addStartedListener(new Upload.StartedListener() {
-	            public void uploadStarted(StartedEvent event) {
-	            	progress.setValue(0F);
-	            	upload.setCaption("Import files....");
-	            }
-	        });
-		 
-		 
-		
+	 upload.addStartedListener(new Upload.StartedListener() {
+		 @Override
+            public void uploadStarted(StartedEvent event) {
+            	progress.setValue(0F);
+            }
+        });
+	 
 		upload.addProgressListener(new Upload.ProgressListener() {
 			
 			@Override
 			public void updateProgress(long readBytes, long contentLength) {
+				upload.setImmediate(true);
             	getUI().setPollInterval(600);
 				 progress.setValue(((float)readBytes) /
                          ((float)contentLength));	
@@ -164,7 +164,6 @@ public class CustomUploadComponent extends CustomComponent {
 					if (fileToUpload != null) {
 						importCsvService.importFromZip(fileToUpload.getName());
 						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 3000, "success");
-		            	upload.setCaption("U");
 					}
 				} catch (IOException e) {
 					LOG.error("Import failed!!!!!!!!");
@@ -286,7 +285,7 @@ public class CustomUploadComponent extends CustomComponent {
 	 * @return
 	 */
 	public Notification buildUploadNotification(String title_n,String description_n,Position pos,int delay,String style) {
-		 Notification notification = new Notification("",Notification.TYPE_HUMANIZED_MESSAGE);
+		 Notification notification = new Notification("",Notification.Type.HUMANIZED_MESSAGE);
 		 notification.setCaption(title_n);
 		 notification.setDescription(description_n);
          notification.setDelayMsec(delay);
