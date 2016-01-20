@@ -85,7 +85,7 @@ public class SerpicsNotification extends VerticalLayout {
 		notification.setDescription(description);
 		notification.setDelayMsec(delay);
 		notification.setHtmlContentAllowed(true);
-		notification.setStyleName(style.concat("bar"));
+		notification.setStyleName(style.concat(" bar"));
 		notification.setPosition(pos);
 		makeNotificationClosableWithIcon(closable);
 		return notification;
@@ -109,7 +109,7 @@ public class SerpicsNotification extends VerticalLayout {
 		notification.setDescription(description);
 		notification.setDelayMsec(delay);
 		notification.setHtmlContentAllowed(true);
-		notification.setStyleName(style.concat("system"));
+		notification.setStyleName(style.concat(" system"));
 		notification.setPosition(pos);
 		makeNotificationClosableWithIcon(closable);
 		return notification;
