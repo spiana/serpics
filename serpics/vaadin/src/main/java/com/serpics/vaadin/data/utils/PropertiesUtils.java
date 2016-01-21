@@ -363,7 +363,11 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 	}
 	
 	public List<SmcPropertyDef> getPropertyForEntity(String entity){
-		return properties.get(entity.toLowerCase());
+		List<SmcPropertyDef> _l = properties.get(entity.toLowerCase());
+		if (_l == null)
+			_l = new ArrayList<PropertiesUtils.SmcPropertyDef>();
+		
+		return _l;
 	}
 	
 	public SmcPropertyDef getPropertyForEntity(String entity , String propertyId){
