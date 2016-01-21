@@ -38,9 +38,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	
 	<!-- Shipmode Converter -->
 	<alias name="defaultShipmodePopulator" alias="shipmodePopulator"/>
-    <bean name="defaultShipmodePopulator" class="com.serpics.commerce.facade.ShipmodePopulator" >
-    	<property name="shippingConverter" ref="shippingConverter"/>
-    </bean>
+    <bean name="defaultShipmodePopulator" class="com.serpics.commerce.facade.ShipmodePopulator" />
 	
 	<alias name="defaultShipmodeConverter" alias="shipmodeConverter"/>
 	  <bean name="defaultShipmodeConverter" parent="abstractConverter">
