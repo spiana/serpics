@@ -49,64 +49,28 @@
 <!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>
-                  org.springframework.web.filter.DelegatingFilterProxy
-                </filter-class>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
- 
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	
-
-<!-- <filter> -->
-<!--     <filter-name>oemInViewFilter</filter-name> -->
-<!--     <filter-class> -->
-<!--         org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter -->
-<!--     </filter-class> -->
-<!--     <init-param> -->
-<!--         <param-name>entityManagerFactoryBeanName</param-name> -->
-<!--         <param-value>entityManagerFactory</param-value> -->
-        
-<!--     </init-param> -->
-<!--     <init-param> -->
-<!--     	<param-name>persistenceUnitName</param-name> -->
-<!--         <param-value>serpics</param-value> -->
-<!--     </init-param> -->
-<!-- </filter> -->
-
-<!-- <filter-mapping> -->
-<!--     <filter-name>oemInViewFilter</filter-name> -->
-<!--     <url-pattern>/*</url-pattern> -->
-<!-- </filter-mapping> -->
 
 <!-- Spring MVC -->
-	<servlet>
-		<servlet-name>mvc-dispatcher</servlet-name>
-		<servlet-class>
-                    org.springframework.web.servlet.DispatcherServlet
-                </servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>mvc-dispatcher</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
-	</servlet-mapping>
-<!--  end MVC		 -->
-	
 <!-- 	<servlet> -->
-<!-- 		<servlet-name>Test Application</servlet-name> -->
-<!-- 		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class> -->
+<!-- 		<servlet-name>mvc-dispatcher</servlet-name> -->
+<!-- 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
 <!-- 		<init-param> -->
-<!-- 			<param-name>beanName</param-name> -->
-<!-- 			<param-value>serpicsStartApp</param-value> -->
-<!-- 		</init-param> -->
+<!-- 	  <param-name>contextConfigLocation</param-name> -->
+<!-- 	  <param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value> -->
+<!-- 	</init-param> -->
 <!-- 	</servlet> -->
 <!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>Test Application</servlet-name> -->
+<!-- 		<servlet-name>mvc-dispatcher</servlet-name> -->
 <!-- 		<url-pattern>/*</url-pattern> -->
 <!-- 	</servlet-mapping> -->
+<!--  end MVC		 -->
+
 	<display-name>admin</display-name>
 
 </web-app>

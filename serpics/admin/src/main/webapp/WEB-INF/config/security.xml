@@ -24,9 +24,10 @@
 	<http auto-config="true" >
 	 	<csrf disabled="true"/>
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
+		<intercept-url pattern="/prova" access="anonymous" />
 	
-		<form-login authentication-success-handler-ref="successAuthenticationHandler" />
-			
+		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page=""/>
+		<logout invalidate-session="true" />	
 	</http>
  
 	<authentication-manager alias="authenticationManager" >

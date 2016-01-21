@@ -184,6 +184,11 @@
 			<artifactId>serpics-vaadin</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

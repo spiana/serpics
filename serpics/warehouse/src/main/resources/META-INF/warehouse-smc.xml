@@ -3,60 +3,20 @@
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
 	<entity name="warehouse">
-		<table action="append">
-			<display>
-				<property name="name" />
-				<property name="description" />
-				<property name="precedence" />
-			</display>
-			<search>
-				<property name="name" />
-				<property name="description" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="name" />
-				<property name="description" />
-				<property name="precedence" />
-				<property name="inventoryThreshold" />
-				<property name="inventories"/>
-				<property name="created" />
-			</display>
-			<readonly>
-				<property name="created" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="name" />
-		</select>
+		<property name="name" table="true" search="true" select="true" />
+		<property name="description"  table="true" search="true" />
+		<property name="precedence"  table="true" />
+		<property name="inventoryThreshold" />
+		<property name="inventories"/>
+		<property name="created" readonly="true" resolution="MINUTE"/>
 	</entity>
 	<entity name="inventory">
-		<table action="append">
-			<display>
-				<property name="warehouse.name" />
-				<property name="product.code" />
-				<property name="available" />
-				<property name="reserved" />
-			</display>
-			<search>
-					<property name="warehouse.name" />
-					<property name="product.code" />
-				</search>
-			
-		</table>
-		<editor>
-			<display>
-				<property name="warehouse" />
-				<property name="product" />
-				<property name="available" />
-				<property name="reserved" />
-				<property name="updated" />
-			</display>
-			<readonly>
-				<property name="updated" />
-			</readonly>
-		</editor>
+		<property name="warehouse.name" edit="false" table="true" serach="true" />
+		<property name="product.code" edit="false" table="true" serach="true"/>
+		<property name="warehouse" />
+		<property name="product" />
+		<property name="available" />
+		<property name="reserved" />
+		<property name="updated" readony="true" resolution="SECOND"/>
 	</entity>
-	
 </smc-definition>

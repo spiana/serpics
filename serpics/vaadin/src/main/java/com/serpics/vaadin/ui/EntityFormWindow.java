@@ -89,10 +89,13 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
         vl.addComponent(hl);
         setModal(true);
-        setHeight("80.0%");
+        setHeight("50.0%");
         setWidth("50.0%");
-        center();
-
+        setResizable(true);
+        setCaption("test");
+        addStyleName("color1");
+       
+        
         cancelButton.addClickListener(new Button.ClickListener() {
 
             @Override

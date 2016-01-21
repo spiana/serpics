@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/prova")
 public class HelloWord {
 
+	
     public String sayHello() {
         return "index";
     }

@@ -65,7 +65,7 @@ public class NavigatorMenuTree extends Tree
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
-		Resource[] resources = this.applicationContext.getResources("classpath:META-INF/*-amc.xml");
+		Resource[] resources = this.applicationContext.getResources("classpath*:META-INF/*-amc.xml");
 
 		for (Resource resource : resources) {
 	//		if (UrlResource.class.isAssignableFrom(resource.getClass())){

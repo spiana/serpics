@@ -44,10 +44,11 @@
 		<property name="created" readonly="true" />
 		
 	</entity>
-	<entity name="featureValues">
+	<entity name="featurevalues">
 		<property name="feature.name" edit="false" table="true" search="true"/>
+		<property name="feature.description" edit="false" table="true" search="true"/>
 		<property name="feature" />
-		<property name="value" />
+		<property name="value" table="true" />
 	</entity>
 	
 </smc-definition>

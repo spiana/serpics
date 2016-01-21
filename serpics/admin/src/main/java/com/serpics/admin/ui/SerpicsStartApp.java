@@ -63,7 +63,6 @@ public class SerpicsStartApp extends UI {
 	@WebServlet(value = {"/*"}, asyncSupported = true)
 	public static class Servlet extends SpringVaadinServlet {
 	}
-
 	@WebListener
 	public static class MyContextLoaderListener extends ContextLoader {
 	}
@@ -85,7 +84,7 @@ public class SerpicsStartApp extends UI {
 		toolbarLayout.addStyleName("top-toolbar");
 		 toolbarLayout.setWidth("100%");
          toolbarLayout.setSpacing(true);
-         Label label = new Label("Tools");
+         Label label = new Label(commerceEngine.getCurrentContext().getStoreRealm().getName());
          label.setSizeUndefined();
          toolbarLayout.addComponent(label);
          toolbarLayout.setExpandRatio(label, 1);
@@ -129,7 +128,12 @@ public class SerpicsStartApp extends UI {
         settingsItem.addItem("Edit Profile", null);
         settingsItem.addItem("Preferences", null);
         settingsItem.addSeparator();
-        settingsItem.addItem("Sign Out", null);
+        settingsItem.addItem("Sign Out",new MenuBar.Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				getUI().getPage().setLocation("logout?store=" + commerceEngine.getCurrentContext().getStoreRealm().getName());
+			}
+		});
         
         leftPanel.addComponent(settings);
 		leftPanel.addComponent(navigatorMenuTree);
@@ -137,11 +141,6 @@ public class SerpicsStartApp extends UI {
 		content.addComponent(leftPanel);
 
 		navigatorMenuTree.addItemClickListener(new ItemClickListener() {
-
-
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override

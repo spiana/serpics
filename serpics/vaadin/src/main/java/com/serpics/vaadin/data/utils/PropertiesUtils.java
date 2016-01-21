@@ -45,7 +45,7 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 	
 		private String width;
 		
-		private String resolution;
+		private Resolution resolution;
 	
 		public SmcPropertyDef() {
 			super();
@@ -136,12 +136,12 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 			return PropertiesUtils.this;
 		}
 
-		public String getResolution() {
+		public Resolution getResolution() {
 			return resolution;
 		}
 
 		public void setResolution(String resolution) {
-			this.resolution = resolution;
+			this.resolution = Resolution.valueOf(resolution);
 		}
 	
 		
@@ -388,8 +388,8 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 				field.setWidth(width);
 			
 			if (def.getResolution() != null){
-				DateField.class.isAssignableFrom(field.getClass());
-				((DateField) field).setResolution(Resolution.valueOf(def.getResolution()));
+				if (DateField.class.isAssignableFrom(field.getClass()));
+					((DateField) field).setResolution(def.getResolution());
 			}
 		 }
 	}
