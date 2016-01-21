@@ -1,15 +1,23 @@
 package com.serpics.jaxrs.data;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
-
-import com.serpics.catalog.facade.data.ProductData;
-
-@JsonIgnoreProperties({ "updated","created","uuid","id"})
-@JsonPropertyOrder({"content","buyable","dowloadable" })
-public class ProductDataRequest  extends ProductData{
-	{
-
-
+public class ProductDataRequest {
+	
+	private Boolean buyable;
+	private Boolean downloadable;
+	
+	
+	public Boolean isBuyable() {
+		return buyable;
 	}
+	public void setBuyable(Boolean buyable) {
+		this.buyable = buyable;
+	}
+	public Boolean isDownloadable() {
+		return downloadable;
+	}
+	public void setDownloadable(Boolean downloadable) {
+		this.downloadable = downloadable;
+	}
+	
+
 }

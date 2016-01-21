@@ -3,6 +3,8 @@ package com.serpics.commerce.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Assert;
@@ -14,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
@@ -25,8 +28,12 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Order;
+import com.serpics.commerce.data.model.Tax;
+import com.serpics.commerce.data.model.Taxlookup;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderRepository;
+import com.serpics.commerce.data.repositories.TaxRepository;
+import com.serpics.commerce.data.repositories.TaxlookupRepository;
 import com.serpics.commerce.services.CartService;
 import com.serpics.commerce.services.OrderService;
 import com.serpics.commerce.session.CommerceSessionContext;
@@ -66,6 +73,12 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
 
     @Resource
     OrderService orderService;
+    
+    @Autowired
+	TaxRepository taxesRepository;
+    
+    @Autowired
+    TaxlookupRepository taxlookupRepository;
 
     private CommerceSessionContext context;
      
@@ -89,6 +102,42 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
         Catalog c = catalogService.findByCode("default-catalog");
         
         assertNotNull("default catalog not found !", c);
+        
+        Tax t1 = new Tax("iva",22.0);
+		Tax t2 = new Tax("iva10",10.01);
+		Tax t3 = new Tax("iva4",4.04);
+		
+		t1= taxesRepository.save(t1);
+		t2= taxesRepository.save(t2);
+		t3= taxesRepository.save(t3);
+		
+		Taxlookup tl1= new Taxlookup();
+		tl1.setActive(true);
+		tl1.setStore((Store)context.getStoreRealm());
+		
+		
+		tl1.setTax(t1);
+		taxlookupRepository.save(tl1);
+		
+		Taxlookup tl2= new Taxlookup();
+		tl2.setActive(false);
+		tl2.setStore((Store)context.getStoreRealm());
+		tl2.setTax(t2);
+		taxlookupRepository.save(tl2);
+		
+		Taxlookup tl3= new Taxlookup();
+		tl3.setActive(false);
+		tl3.setStore((Store)context.getStoreRealm());
+		tl3.setTax(t3);
+		taxlookupRepository.save(tl3);
+		
+		List<Tax> l = taxesRepository.findActiveTax((Store)context.getStoreRealm());
+		Assert.assertEquals(1, l.size());
+		Assert.assertEquals(22, l.get(0).getRate().longValue());
+		
+		List<Taxlookup> l1 = taxlookupRepository.findAll();
+		Assert.assertEquals(3, l1.size());
+
 
 
         final Product p = new Product();
@@ -157,10 +206,16 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
         cs.prepareCart(cart);
         assertEquals(4100.0, cart.getOrderAmount().doubleValue(), 0.0);
 
+        assertEquals(null, cart.getTaxType());
+        
+        assertEquals(0, cart.getTotalTax().longValue());
+        
         final Order or = orderService.createOrder(cart);
+       
         assertNotNull("order not create", or);
         assertEquals(0, cartRepository.findAll().size());
         assertEquals(1, orderRepository.findAll().size());
+              
     }
 
     

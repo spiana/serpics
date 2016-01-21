@@ -58,7 +58,7 @@ public class CartRestServiceImpl implements CartRestService {
     /**
      * This method adds a product into current cart.
      * @summary  Method: cartAdd(String sku,int quantity )
-     * @param sku Stock Keeping Unit of a item
+     * @param sku Stock Keeping Unit of an item
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -107,7 +107,7 @@ public class CartRestServiceImpl implements CartRestService {
 	@Override
 	@DELETE
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartModification>")
 	public Response deleteItem(@FormParam("itemId") Long itemId){
 		Assert.notNull(itemId);
 		ApiRestResponse<CartModification> apiRestResponse = new ApiRestResponse<CartModification>();

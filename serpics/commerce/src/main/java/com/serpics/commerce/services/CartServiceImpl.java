@@ -274,7 +274,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 		discountStrategy.applyOrderDiscount(cart);
 
-		commerceStrategy.calculateShiping(cart);
+		commerceStrategy.calculateShipping(cart);
 		commerceStrategy.calculateTax(cart);
 		commerceStrategy.calculateOrderTotal(cart);
 

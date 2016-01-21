@@ -21,6 +21,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <bean name="abstractOrderSaveInterceptor" class="com.serpics.commerce.data.interceptors.AbstractOrderSaveInterceptor"/>
 	<bean name="paymethodlookupCreateInterceptor"
 		class="com.serpics.commerce.data.interceptors.PaymethodlookupSaveInterceptor" />
+		
+	<bean name="taxlookupCreateInterceptor"
+		class="com.serpics.commerce.data.interceptors.TaxlookupSaveInterceptor" />
 	
 	<bean name="paymethodlookupCreateMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.commerce.data.model.Paymethodlookup" />
@@ -32,6 +35,12 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="targetEntity" value="com.serpics.commerce.data.model.AbstractOrder" />
 		<property name="order" value="10" />
 		<property name="interceptor" ref="abstractOrderSaveInterceptor" />
+	</bean>
+	
+	<bean name="taxlookupCreateMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.commerce.data.model.Taxlookup" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="taxlookupCreateInterceptor" />
 	</bean> 
 	
 	<!-- facade -->
