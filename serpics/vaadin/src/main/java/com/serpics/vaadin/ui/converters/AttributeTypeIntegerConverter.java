@@ -7,20 +7,39 @@ import org.springframework.util.StringUtils;
 import com.serpics.base.AttributeType;
 import com.serpics.base.MultiValueField;
 import com.vaadin.data.util.converter.Converter;
+import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.Field;
 
 public class AttributeTypeIntegerConverter implements Converter<String, MultiValueField>{
+
+	Field<?> currentField ;
+	
+	public AttributeTypeIntegerConverter() {
+		super();
+		this.currentField = null;
+	}
+	
+	public AttributeTypeIntegerConverter(Field<?> currentField) {
+		super();
+		this.currentField = currentField;
+	}
 
 	@Override
 	public MultiValueField convertToModel(String value,
 			Class<? extends MultiValueField> targetType, Locale locale)
 			throws com.vaadin.data.util.converter.Converter.ConversionException {
 	
-		MultiValueField field;
+		MultiValueField field = null ;
+		if (this.currentField != null)
+			field = (MultiValueField) ((AbstractField)currentField).getPropertyDataSource().getValue();
+	
+		if(field == null){	
 			try {
 				field = targetType.newInstance();
 			} catch (InstantiationException | IllegalAccessException e) {
 				throw new RuntimeException(e);
 			}
+		}
 			field.setAttributeType(AttributeType.INTEGER);
 			if (value != null)
 				try{

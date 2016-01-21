@@ -131,7 +131,8 @@ public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaReposi
 	@Override
 	@Transactional
 	public Z refresh(Z entity) {
-		 return getEntityManager().merge(entity);
+			Object id = getEntityManager().getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
+			return (Z) getEntityManager().find(entity.getClass(), id);
 	}
 	
 	private CommerceEngine engine;

@@ -72,7 +72,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	
         if (Multilingual.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
         	Field<?> f = super.createField(item, propertyId, uiContext);
-            ((TextField) f).setConverter(new MultilingualFieldConvert());
+            ((TextField) f).setConverter(new MultilingualFieldConvert((TextField)f));
             f.setWidth(FIELD_WIDTH);
             ((TextField) f).setNullRepresentation("");
             return f;
@@ -194,7 +194,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 			//if entity is null return default Field
 			if (((EntityItem)item).getEntity() == null){
 				field = createFieldByPropertyType(item.getItemProperty(propertyId).getType());
-				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter(field));
 				field.setCaption(createCaptionByPropertyId(propertyId));
 				return field;
 			}
@@ -211,28 +211,31 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 			switch (_f.getAttributeType()) {
 			case STRING:
 				field = createFieldByPropertyType(String.class);
-				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter(field));
 				break;
 			case INTEGER:
 				field = createFieldByPropertyType(Integer.class);
-				((AbstractField) field).setConverter(new AttributeTypeIntegerConverter());
+				((AbstractField) field).setConverter(new AttributeTypeIntegerConverter(field));
 				break;
 			case DOUBLE:
 				field = createFieldByPropertyType(Double.class);
-				((AbstractField) field).setConverter(new AttributeTypeDoubleConverter());
+				((AbstractField) field).setConverter(new AttributeTypeDoubleConverter(field));
 				break;
 			case DATE:
 				field = createFieldByPropertyType(Date.class);
-				((AbstractField) field).setConverter(new AttributeTypeDateConverter());
+				((AbstractField) field).setConverter(new AttributeTypeDateConverter(field));
 				break;
 		
 			default:
 				field = createFieldByPropertyType(String.class);
-				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter(field));
 				break;
 			}
+			if (TextField.class.isAssignableFrom(field.getClass()))
+				((TextField) field).setNullRepresentation("");
 			
 			field.setCaption(createCaptionByPropertyId(propertyId));
+			
 			return field;
 	}
 

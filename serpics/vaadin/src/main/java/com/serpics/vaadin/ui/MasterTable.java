@@ -219,7 +219,9 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 					EntityFormWindow<T> editorWindow = buildEntityWindow();
 					editorWindow.setNewItem(false);
 					editorWindow.setReadOnly(false);
-					editorWindow.setEntityItem(container.getItem(entityList.getValue()));
+					 EntityItem item = container.getItem(entityList.getValue());
+					 item.refresh();
+					editorWindow.setEntityItem(item);
 					UI.getCurrent().addWindow(editorWindow);
 				}
 			}
