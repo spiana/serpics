@@ -89,7 +89,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 	  			<ref bean="userDataRequestPopulator"/>	
 	  		</list>
   		</property>
-  	</bean>/
+  	</bean>
   	
   	
       
