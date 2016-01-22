@@ -30,6 +30,7 @@ import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.UserDataRequest;
+import com.serpics.jaxrs.data.UserDataUpdateRequest;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.facade.UserFacade;
@@ -107,7 +108,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates a user.
-     * @summary  Method: update(UserDataRequest userDataRequest)
+     * @summary  Method: update(UserDataUpdateRequest entity)
      * @param entity The user to update
      * @return Response		object type: apiRestResponse
      */
@@ -115,9 +116,9 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response update(UserDataRequest userDataRequest) {
+	public Response update(UserDataUpdateRequest entity) {
 		
-		UserData entity = userDataRequestConverter.convert(userDataRequest);
+//		UserData entity = userDataRequestConverter.convert(userDataRequest);
 		
 		if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS) {
 			userFacade.updateUser(entity);

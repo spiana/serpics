@@ -4,12 +4,13 @@ import javax.ws.rs.core.Response;
 
 import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.UserDataRequest;
+import com.serpics.jaxrs.data.UserDataUpdateRequest;
 
 
 public interface CustomerService  {
 	
 	public Response create(UserDataRequest entity);
-	public Response update(UserDataRequest entity);
+	public Response update(UserDataUpdateRequest entity);
 	public Response getCurrent();
 	public Response login(String username , String password);
 	public Response logout(String sessionId);
