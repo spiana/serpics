@@ -3,15 +3,14 @@ package com.serpics.membership.facade.data;
 import java.util.Date;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
-
 import com.serpics.core.facade.AbstractData;
 import com.serpics.membership.UserType;
 
-@JsonPropertyOrder({"id","uuid","created","firstname","lastname","logonid","password",
-	"phone","email","alternateEmail","userType","lastVisit","lastLogin","changeanswer",
-	"changequestion","dn","passwordChange","contactAddress","billingAddress","destinationAddress" })
+//@JsonPropertyOrder({"id","uuid","created","firstname","lastname","logonid","password",
+//	"phone","email","alternateEmail","userType","lastVisit","lastLogin","changeanswer",
+//	"changequestion","dn","passwordChange","contactAddress","billingAddress","destinationAddress" })
 public class UserData extends AbstractData{
+
 	protected String firstname;
 	protected String lastname;
 	protected String phone;

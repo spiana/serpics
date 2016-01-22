@@ -1,6 +1,6 @@
 package com.serpics.jaxrs.data;
 
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder({"name","logo","published"})
 public class BrandDataRequest  {
