@@ -25,8 +25,11 @@ import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.ShipmodeData;
+import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
+import com.serpics.jaxrs.data.CartItemDataRequest;
 import com.serpics.membership.facade.data.AddressData;
 
 
@@ -36,6 +39,13 @@ public class CartRestServiceImpl implements CartRestService {
 
 	@Resource
 	CartFacade cartFacade;
+	
+	@Resource(name="cartItemDataRequestConverter")
+	AbstractPopulatingConverter<CartItemDataRequest, CartItemData> cartItemDataRequestConverter;
+	
+	@Resource(name="addressDataRequestConverter")
+	AbstractPopulatingConverter<AddressDataRequest, AddressData> addressDataRequestConverter;
+
 	
     /**
      * This method returns the session car.
@@ -78,7 +88,7 @@ public class CartRestServiceImpl implements CartRestService {
 
     /**
      * This method updates current cart ith a CartItemData.
-     * @summary  Method: cartUpdate(CartItemData cartItem)
+     * @summary  Method: cartUpdate(CartItemDataRequest cartItemDataRequest)
      * @param cartItem The cartItem to add to current cart
      * @return Response		object type: apiRestResponse
      * 
@@ -88,7 +98,10 @@ public class CartRestServiceImpl implements CartRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartModification>")
-	public Response cartUpdate(CartItemData cartItem) {
+	public Response cartUpdate(CartItemDataRequest cartItemDataRequest) {
+		
+		CartItemData cartItem = cartItemDataRequestConverter.convert(cartItemDataRequest);
+		
 		Assert.notNull(cartItem);
 		ApiRestResponse<CartModification> apiRestResponse = new ApiRestResponse<CartModification>();
 		CartModification  cartItemModification = cartFacade.update(cartItem);
@@ -119,7 +132,7 @@ public class CartRestServiceImpl implements CartRestService {
 	
     /**
      * This method adds a billingAddress to current cart.
-     * @summary  Method: addBillingAddress(AddressData billingAddress)
+     * @summary  Method: addBillingAddress(AddressDataRequest billingAddressRequest)
      * @param billingAddress The billingAddress to add
      * @return Response		object type: apiRestResponse
      * 
@@ -130,7 +143,9 @@ public class CartRestServiceImpl implements CartRestService {
 	@POST
 	@Path("address/billing")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
-	public Response addBillingAddress(AddressData billingAddress){
+	public Response addBillingAddress(AddressDataRequest billingAddressRequest){
+		
+		AddressData billingAddress = addressDataRequestConverter.convert(billingAddressRequest);
 		Assert.notNull(billingAddress);
 		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
 		CartData cartData = cartFacade.addBillingAddress(billingAddress);
@@ -141,7 +156,7 @@ public class CartRestServiceImpl implements CartRestService {
     
     /**
      * This method adds a shippingAddress to current cart.
-     * @summary  Method: addShippingAddress(AddressData shippingAddress)
+     * @summary  Method: addShippingAddress(AddressDataRequest shippingAddressRequest)
      * @param shippingAddress The shippingAddress to add
      * @return Response		object type: apiRestResponse
      * 
@@ -152,7 +167,9 @@ public class CartRestServiceImpl implements CartRestService {
 	@POST
 	@Path("address/shipping")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
-	public Response addShippingAddress(AddressData shippingAddress){
+	public Response addShippingAddress(AddressDataRequest shippingAddressRequest){
+		
+		AddressData shippingAddress = addressDataRequestConverter.convert(shippingAddressRequest);
 		Assert.notNull(shippingAddress);
 		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
 		CartData cartData = cartFacade.addShippingAddress(shippingAddress);

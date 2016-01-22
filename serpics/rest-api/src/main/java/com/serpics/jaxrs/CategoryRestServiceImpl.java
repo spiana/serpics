@@ -37,7 +37,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Autowired
 	CategoryFacade categoryFacade;
 	
-	@Resource(name="categoryDataRequestConvert")
+	@Resource(name="categoryDataRequestConverter")
 	AbstractPopulatingConverter<CategoryDataRequest, CategoryData> categoryDataRequestConverter;
 	
     /**
@@ -130,7 +130,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
     /**
      * This method creates a category.
-     * @summary  Method: create(CategoryData category)
+     * @summary  Method: create(CategoryDataRequest categoryDataRequest)
      * @param category The category to create
      * @return Response		object type: apiRestResponse
      * 
@@ -200,7 +200,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
     /**
      * This method updates a category
-     * @summary  Method: update(CategoryData category)
+     * @summary  Method: update(CategoryDataRequest categoryDataRequest)
      * @param category The category to update
      * @return Response		object type: apiRestResponse
      * 

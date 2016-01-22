@@ -2,16 +2,16 @@ package com.serpics.jaxrs;
 
 import javax.ws.rs.core.Response;
 
-import com.serpics.commerce.facade.data.CartData;
-import com.serpics.commerce.facade.data.OrderPaymentData;
+import com.serpics.jaxrs.data.CartDataRequest;
+import com.serpics.jaxrs.data.OrderPaymentDataRequest;
 
 public interface OrderRestService {
 
 	Response getOrders();
 	
-	Response addPayment(Long orderId, OrderPaymentData paymentData);
+	Response addPayment(Long orderId, OrderPaymentDataRequest paymentData);
 
 	Response placeOrder();
 
-	Response createOrder(CartData cartData);
+	Response createOrder(CartDataRequest cartDataRequest);
 }
