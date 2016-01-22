@@ -23,10 +23,12 @@
 
 	<http auto-config="true" >
 	 	<csrf disabled="true"/>
+	 	<intercept-url pattern="/resources/**" access="permitAll" />
+	 	<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
-		<intercept-url pattern="/prova" access="anonymous" />
+		
 	
-		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page=""/>
+		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page="/login"  username-parameter="ssoId" password-parameter="password" />
 		<logout invalidate-session="true" />	
 	</http>
  

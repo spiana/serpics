@@ -3,6 +3,7 @@ package com.serpics.vaadin.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
@@ -17,6 +18,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -45,9 +47,14 @@ public class EntityFormWindow<T> extends Window implements Handler {
     private transient EntityItem<T> item;
 
     public EntityFormWindow() throws SecurityException {
+    	setCaption("caption");
         build();
     }
 
+    public EntityFormWindow(String Caption) throws SecurityException {
+       		I18nUtils.getMessage(Caption, Caption);
+       		build();
+    }
     interface saveListener extends Listener {
     }
 
@@ -58,16 +65,20 @@ public class EntityFormWindow<T> extends Window implements Handler {
             super(source);
         }
     }
+    @Override
+    public void setCaption(String caption) {
+    	super.setCaption(I18nUtils.getMessage(caption, caption));
+    }
+    
     @SuppressWarnings("serial")
     protected void build() {
     	
-    	
         final VerticalLayout vl = new VerticalLayout();
         vl.setSizeFull();
+        vl.addStyleName("v-windows-contents");
         setContent(vl);
 
-        tabSheet.setWidth("90%");
-        tabSheet.setHeight("100%");
+        tabSheet.setSizeFull();
         tabSheet.addStyleName("framed");
         tabSheet.addStyleName("overflow");
         
@@ -76,23 +87,32 @@ public class EntityFormWindow<T> extends Window implements Handler {
         vl.setExpandRatio(tabSheet, 1);
 
         saveButton = new Button("Save");
+        saveButton.addStyleName("primary");
         cancelButton = new Button("Cancel");
 
-        final HorizontalLayout hl = new HorizontalLayout();
-        hl.setWidth("100%");
-        hl.setHeight("50px");
-    
-        hl.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-        hl.addComponent(cancelButton);
-        hl.addComponent(saveButton);
+      
+     
+        
+        final HorizontalLayout bottomToolBar = new HorizontalLayout();
+        bottomToolBar.setWidth("100%");
+        bottomToolBar.addStyleName("v-window-bottom-toolbar");
+        bottomToolBar.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
+        
+        Label toolBarText = new Label();
+        bottomToolBar.addComponent(toolBarText);
+        bottomToolBar.addComponent(saveButton);
+        bottomToolBar.addComponent(cancelButton);
        
-
-        vl.addComponent(hl);
+        bottomToolBar.setExpandRatio(toolBarText, 0.60F);
+        bottomToolBar.setExpandRatio(saveButton, 0.20F);
+        bottomToolBar.setExpandRatio(cancelButton, 0.20F);
+        vl.addComponent(bottomToolBar);
+       
+        
         setModal(true);
-        setHeight("50.0%");
+        setHeight("60.0%");
         setWidth("50.0%");
         setResizable(true);
-        setCaption("test");
         addStyleName("color1");
        
         

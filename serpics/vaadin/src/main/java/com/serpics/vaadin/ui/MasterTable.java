@@ -100,7 +100,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	public EntityFormWindow<T> buildEntityWindow() {
 		EntityFormWindow<T> editorWindow = new EntityFormWindow<T>();
 		editorWindow.addTab(new MasterForm<T>(entityClass) {
-		}, entityClass.getSimpleName());
+		}, "main");
+		editorWindow.setCaption(entityClass.getSimpleName());
 		return editorWindow;
 	}
 	

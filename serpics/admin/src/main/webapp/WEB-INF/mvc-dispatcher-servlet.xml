@@ -15,13 +15,9 @@
 
  
  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	  <property name="prefix">
-		<value>/WEB-INF/pages/</value>
-	  </property>
-	  <property name="suffix">
-		<value>.jsp</value>
-	  </property>
-	</bean>
+	  <property name="prefix" value ="/WEB-INF/pages/" />
+	  <property name="suffix" value=".jsp" />
+</bean>
  
-<!--  <mvc:default-servlet-handler /> -->
+ <mvc:resources mapping="/resources/**" location="/resources/" />
 </beans>
