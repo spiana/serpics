@@ -98,9 +98,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 	@SuppressWarnings("serial")
 	public EntityFormWindow<T> buildEntityWindow() {
+		String captionText = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + ".main", "");
 		EntityFormWindow<T> editorWindow = new EntityFormWindow<T>();
 		editorWindow.addTab(new MasterForm<T>(entityClass) {
-		}, entityClass.getSimpleName());
+		}, captionText);
 		return editorWindow;
 	}
 	

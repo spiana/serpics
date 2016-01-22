@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.catalog.data.model.Category;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
@@ -65,7 +66,7 @@ public class CategoryTable extends MasterTable<Category> {
 //                }
             }
 
-        }, "main");
+        },  I18nUtils.getMessage("category", ""));
 
 
         editorWindow.addTab(new MasterForm<Category>(Category.class) {
@@ -93,10 +94,10 @@ public class CategoryTable extends MasterTable<Category> {
                 }
                 return super.createField(pid);
             }
-        }, "seo");
+        }, I18nUtils.getMessage("seo",""));
 
-        editorWindow.addTab(childCategoryRelatcionTable, "childCategories");
-        editorWindow.setCaption("category.title");
+        editorWindow.addTab(childCategoryRelatcionTable, I18nUtils.getMessage("childcategory",""));
+        editorWindow.setCaption(I18nUtils.getMessage("category.title",""));
 
     	return editorWindow;
     }
