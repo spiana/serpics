@@ -10,15 +10,15 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipFile;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.io.output.NullOutputStream;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.importexport.services.ImportCsvService;
+import com.serpics.importexport.services.ImportCsvService.ImportPorgressListener;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -40,6 +40,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.StartedEvent;
 import com.vaadin.ui.VerticalLayout;
@@ -54,7 +55,6 @@ import com.vaadin.ui.VerticalLayout;
 public class CustomUploadComponent extends CustomComponent {
 
 	private static final long serialVersionUID = 1L;
-
 	Logger logger = LoggerFactory.getLogger(CustomUploadComponent.class);
 
 	@Resource
@@ -64,13 +64,11 @@ public class CustomUploadComponent extends CustomComponent {
 	private HorizontalLayout wrap;
 	private CssLayout cssLayout;
 	private Upload upload;
-	private ZipFile fileToUpload;
+	private String fileToLoad;
 	private Class<?> mappedClass;
 	private ProgressBar progress;
 	private TextField text_f;
 	private Button import_b;
-	
-
 	
 	public CustomUploadComponent() {
 		buildComponentLayout() ;
@@ -94,21 +92,7 @@ public class CustomUploadComponent extends CustomComponent {
 		this.mappedClass = mappedClass;
 	}
 
-	/**
-	 * @return the csvFile
-	 */
-	public ZipFile fileToUpload() {
-		return fileToUpload;
-	}
-
-	/**
-	 * @param csvFile
-	 *            the csvFile to set
-	 */
-	public void setFileToUpload(ZipFile fileToUpload) {
-		this.fileToUpload = fileToUpload;
-	}
-
+	
 	@SuppressWarnings("serial")
 	public Component importDatafromUploadForm() {
 
@@ -116,24 +100,24 @@ public class CustomUploadComponent extends CustomComponent {
 			
 			@Override
 			public OutputStream receiveUpload(String filename, String mimeType) {
-			
-
-				if (!validateMimeType(mimeType)) {
+					if (!validateMimeType(mimeType)) {
 					showNotification("Serpics Ecommerce Platform", 	I18nUtils.getMessage("smc.upload.zipfile.notvalid", ""), 
 							Position.TOP_RIGHT, 6000, "failure");
+					return null;
 				} else {
-					FileOutputStream fos;
+					FileOutputStream fos = null;
 					try {
 						String basepath = I18nUtils.getMessage("smc.upload.file.path", "");
-						setFileToUpload(new ZipFile(basepath + filename));
-						fos = new FileOutputStream(fileToUpload.getName());
+						fos = new FileOutputStream(FileUtils.getTempDirectoryPath() + "filename");
+						fileToLoad = FileUtils.getTempDirectoryPath() + "filename";
 					} catch (final Exception e) {
-						return null;
+						 new Notification("Could not open file<br/>",
+	                             e.getMessage(),
+	                             Notification.Type.ERROR_MESSAGE)
+	                .show(Page.getCurrent());
 					}
 					return fos; // Return the output stream to write to
 				}
-				upload.interruptUpload(); //interrupt upload
-				return new NullOutputStream(); // return outpustream null
 			}
 		});
 		
@@ -148,11 +132,9 @@ public class CustomUploadComponent extends CustomComponent {
 			
 			@Override
 			public void updateProgress(long readBytes, long contentLength) {
-            	getUI().setPollInterval(600);
-				 progress.setValue(((float)readBytes) /
-                         ((float)contentLength));	
-				 
-			}
+				float p =((float)readBytes) /((float)contentLength) * 100;
+         		 progress.setValue(p);	
+        	}
 		});
 		
 		upload.addFinishedListener(new Upload.FinishedListener() {
@@ -160,16 +142,33 @@ public class CustomUploadComponent extends CustomComponent {
 			public void uploadFinished(Upload.FinishedEvent finishedEvent) {
 				
 				try {
-					if (fileToUpload != null) {
-						importCsvService.importFromZip(fileToUpload.getName());
+					if (fileToLoad != null) {
+						importCsvService.importFromZip(fileToLoad , new ImportPorgressListener() {
+							
+							@Override
+							public void process(int curentRecord, int maxrecord) {
+								progress.setValue(Float.valueOf((curentRecord/maxrecord)*100));
+							}
+							
+							@Override
+							public void init() {
+								progress.setValue(Float.valueOf(0));
+								
+							}
+							
+							@Override
+							public void end() {
+								progress.setValue(Float.valueOf(0));
+								
+							}
+						});
 						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
 					}
 				} catch (IOException e) {
 					logger.error("Import failed!!!!!!!!");
-					progress.setValue(0F);
-	            	getUI().setPollInterval(-1);// fermo il thread
-				}
-            	getUI().setPollInterval(-1);// fermo il thread
+					
+	        	}
+				//progress.setValue(0F);
 			}
 			
 		});
@@ -219,7 +218,6 @@ public class CustomUploadComponent extends CustomComponent {
 	@SuppressWarnings("serial")
 	public HorizontalLayout buildHorizonthalLayout(final FormLayout form,String text,String start_v) {
 		
-		
 		wrap = new HorizontalLayout();
 		wrap.setSpacing(true);
 		wrap.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -248,12 +246,36 @@ public class CustomUploadComponent extends CustomComponent {
 					showNotification("Serpics Ecommerce Platform",I18nUtils.getMessage("smc.upload.scv.string.notvalid", ""), Position.TOP_RIGHT, 6000, "failure closable");
 				else{
 					try{
-						importCsvService.importCsv(new StringReader(reader), getMappedClass());
+						UI.getCurrent().setPollInterval(500);
+						importCsvService.importCsv(new StringReader(reader), getMappedClass(), new ImportPorgressListener() {
+							
+							@Override
+							public void process(int curentRecord, int maxrecord) {
+								float value = (float)(curentRecord*100)/(float)maxrecord;
+								if(value % 10 == 0)
+									progress.setValue(value/100);
+							}
+							
+							@Override
+							public void init() {
+								progress.setValue(Float.valueOf(0));
+								
+							}
+							
+							@Override
+							public void end() {
+							//	progress.setValue(Float.valueOf(0));
+								
+							}
+						});
+						
 						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.string.csv.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
 						data.setValue("");
 						text_f.setValue("");
 					}catch(Exception e){
 						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.scv.string.notvalid", ""), Position.TOP_RIGHT, 6000, "failure closable");
+					}finally{
+						UI.getCurrent().setPollInterval(-1);
 					}
 					
 				}
@@ -327,7 +349,6 @@ public class CustomUploadComponent extends CustomComponent {
 		text_f.setValue("");
 		text_f.setWidth("50%");
 		text_f.setRequired(true);
-		text_f.addStyleName("inline-icon");
 		
 		text_f.setImmediate(true);
 		
@@ -407,11 +428,11 @@ public class CustomUploadComponent extends CustomComponent {
 		if(_class.equals("") || _class == null)
 			return false;
 
-			String pack = I18nUtils.getMessage("scm.upload.package.name", "");		
+			
 			mappedClass = null;
 		    			
 			try {
-				mappedClass = Class.forName(pack + "." +_class);
+				mappedClass = Class.forName(_class);
 				logger.info("Mapped class: {}",mappedClass);
 				setMappedClass(mappedClass);
 			} catch (ClassNotFoundException e) {

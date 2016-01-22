@@ -27,7 +27,6 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVReader;
@@ -43,7 +42,11 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 	
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void importCsv(Reader reader , Class<?> type ,int line, CSVParser parser) {
+	public void importCsv(Reader reader , Class<?> type ,int line, CSVParser parser ,  ImportPorgressListener listener) {
+		
+		if(listener != null)
+			listener.init();
+		
 		SerpicsMapperStrategy mapper =  new SerpicsMapperStrategy();
 		mapper.setType(type);
 		CSVReader cvsReader = new CSVReader(reader,0,parser);
@@ -54,9 +57,12 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 		int xx= 0;
 		for (Object object : l) {
 			LOG.info("processing record {}/{} " , ++xx, l.size() );
+			if (listener != null)
+				listener.process(xx,l.size());
 			repository.saveAndFlush(object);
 		}
-
+		if(listener != null)
+			listener.end();
 	}
 
 	@Override
@@ -67,18 +73,18 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 
 	@Override
 	public void importCsv(Reader reader, Class<?> type, CSVParser parser) {
-		importCsv(reader, type , 0 , parser);
+		importCsv(reader, type , 0 , parser ,null);
 		
 	}
 	
 
 	@Override
 	public void importFromXml(String url, String basePath) throws FileNotFoundException, DocumentException  {
-			importFileFromXml(new FileInputStream(url), basePath);
+			importFileFromXml(new FileInputStream(url), basePath, null);
 		
 	}
 	
-	protected void importFileFromXml(InputStream in , String basePath) throws DocumentException{
+	protected void importFileFromXml(InputStream in , String basePath , ImportPorgressListener listener) throws DocumentException{
 		
 		if(!basePath.endsWith(File.separator))
 			basePath = basePath+ File.separator;
@@ -95,7 +101,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 			try {
 				Class<?> _entityClass = Class.forName(clazzname);
 				LOG.info("start import entity {} from file {}" , clazzname , cvsentry);
-				importCsv(new FileReader(cvsentry), _entityClass);
+				importCsv(new FileReader(cvsentry), _entityClass , listener);
 				LOG.info("end import entity {} from file {}" , clazzname , cvsentry);
 			} catch (ClassNotFoundException e) {
 				LOG.error("entity class not found for definition [{}]" , clazzname);
@@ -106,7 +112,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 	}
 
 	@Override
-	public void importFromZip(ZipFile file)  throws IOException{
+	public void importFromZip(ZipFile file , ImportPorgressListener listener)  throws IOException{
 //		String zipPath = FileUtils.getTempDirectoryPath()+String.valueOf(new Date().getTime());
 		String zipPath = FilenameUtils.concat(FileUtils.getTempDirectoryPath(), String.valueOf(new Date().getTime()));
 		File tmp = new File(zipPath) ; // create temporary directory
@@ -115,7 +121,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 			Collection<File> to_process = FileUtils.listFiles(tmp, new String[]{"xml"}, false);
 			for (File curretFile : to_process) {
 				try {
-					importFromXml(curretFile.getAbsolutePath(), tmp.getAbsolutePath());
+					importFromXml(curretFile.getAbsolutePath(), tmp.getAbsolutePath() , listener);
 				} catch (DocumentException e) {
 					LOG.error(e.getMessage() , e);
 				}
@@ -132,8 +138,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 	
 	@Override
 	public void importFromZip(String filePath) throws IOException{
-			ZipFile _f = new ZipFile(filePath);
-			importFromZip(_f);
+			importFromZip(filePath, null);
 	}
 	
 	
@@ -178,6 +183,35 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 		}
 
 		zipFile.close();
+	}
+
+	@Override
+	public void importCsv(Reader reader, Class<?> type,
+			ImportPorgressListener listener) {
+		importCsv(reader, type , new CSVParser(';' ) , listener);
+		
+	}
+
+	@Override
+	public void importCsv(Reader reader, Class<?> type, CSVParser parser,
+			ImportPorgressListener listener) {
+		importCsv(reader, type , 0 , parser ,listener);
+		
+	}
+
+	@Override
+	public void importFromXml(String fileName, String basePath,
+			ImportPorgressListener listener) throws FileNotFoundException,
+			DocumentException {
+		importFileFromXml(new FileInputStream(fileName), basePath, listener);
+		
+	}
+
+	@Override
+	public void importFromZip(String filePath, ImportPorgressListener listener)
+			throws IOException {
+		ZipFile _f = new ZipFile(filePath);
+		importFromZip(_f , listener);
 	}
 		
 	
