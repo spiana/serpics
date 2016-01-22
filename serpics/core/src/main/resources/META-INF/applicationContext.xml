@@ -19,7 +19,7 @@ http://www.springframework.org/schema/aop
             <property name="locations">
                     <list>
                             <value>classpath*:**/module.properties</value>
-                               <value>file:${serpics.home}/config/local.properties</value>
+                               <value>file:/${serpics.home}/config/local.properties</value>
                     </list>
             </property>
             <property name="searchSystemEnvironment" value="true" />

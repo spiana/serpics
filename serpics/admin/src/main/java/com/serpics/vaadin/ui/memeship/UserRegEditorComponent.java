@@ -7,6 +7,7 @@ import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -47,7 +48,7 @@ public class UserRegEditorComponent extends MasterForm<UsersReg> {
         } else if (pid.equals("locale")) {
             final JPAContainer<Locale> locales = ServiceContainerFactory
                     .make(Locale.class);
-            final ComboBox combo = new ComboBox("locale");
+            final ComboBox combo = new ComboBox( I18nUtils.getMessage("usersreg.locale", ""));
             combo.setContainerDataSource(locales);
             combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
             combo.setItemCaptionPropertyId("language");

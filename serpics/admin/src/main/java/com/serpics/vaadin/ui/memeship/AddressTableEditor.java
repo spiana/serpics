@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.User;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 
@@ -24,7 +25,7 @@ public class AddressTableEditor extends MasterDetailTable<PermanentAddress, User
     @Override
     public EntityFormWindow<PermanentAddress> buildEntityWindow() {
     	EntityFormWindow<PermanentAddress> _e = new EntityFormWindow<PermanentAddress>();
-    	_e.addTab(addressEditorComponent, "main");
+    	_e.addTab(addressEditorComponent, I18nUtils.getMessage("address.main", ""));
     	return _e;
     }
     @Override
