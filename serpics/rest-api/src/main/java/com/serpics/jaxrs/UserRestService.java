@@ -15,13 +15,14 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.data.domain.Page;
 
+import com.qmino.miredot.annotations.MireDotIgnore;
 import com.serpics.membership.facade.data.UserData;
-
-
+@MireDotIgnore
 public interface UserRestService  {
 	
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
+	
 	public Response create(UserData entity);
 	
 	@DELETE

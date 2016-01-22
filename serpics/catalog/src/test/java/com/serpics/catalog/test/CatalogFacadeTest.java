@@ -69,7 +69,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     public void setUp() throws SerpicsException{
     	super.beforeTest();
     	categoryInit = categoryFacade.listCategory(new PageRequest(0, 10)).getTotalElements();
-    	brandInit = brandFacade.listBrand(new PageRequest(0, 10)).getTotalElements();
+    	brandInit = brandFacade.pageBrand(new PageRequest(0, 10)).getTotalElements();
     	topCategoriesInit = categoryFacade.listTopCategory().size();
     	productInit = productFacade.listProduct(new PageRequest(0, 10)).getTotalElements();
     	createCategory();
@@ -116,7 +116,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     @Test
     @Transactional
     public void testListProduct() {
-    	Page<BrandData> lb = brandFacade.listBrand(new PageRequest(0, 10));
+    	Page<BrandData> lb = brandFacade.pageBrand(new PageRequest(0, 10));
     	Assert.assertEquals("Number of brand", brandInit + 1, lb.getTotalElements());
     	
     	Page<ProductData> p = productFacade.listProduct(new PageRequest(0, 10));

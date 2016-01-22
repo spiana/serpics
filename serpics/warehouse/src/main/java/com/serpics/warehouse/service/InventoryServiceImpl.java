@@ -2,21 +2,21 @@ package com.serpics.warehouse.service;
 
 import javax.annotation.Resource;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
+import com.serpics.stereotype.StoreService;
 import com.serpics.warehouse.InventoryNotAvailableException;
 import com.serpics.warehouse.InventoryStatus;
 import com.serpics.warehouse.data.model.Warehouse;
 import com.serpics.warehouse.strategies.InventoryStrategy;
 
-@Service("inventoryService")
-@Scope("store")
+@StoreService("innventoryService")
 @Transactional(readOnly=true)
 public class InventoryServiceImpl  extends AbstractService<CommerceSessionContext> implements InventoryService {
 
@@ -26,21 +26,25 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 	@Resource
 	ProductService productService;
 	
+	@Resource
+	WareHouseService warehouseService;
+	
 	
 	@Override
-	public InventoryStatus checkInventory(String sku, double quantity) {
+	public InventoryStatus checkInventory(String sku, double quantity) throws ProductNotFoundException {
 		Product product  = productService.findByName(sku);	
+		if (product == null)
+			throw new ProductNotFoundException();
 		
-		return inventoryStrategy.checkInventory(product, quantity);
+		return checkInventory(product, quantity);
 	}
 
 	@Override
-	public void reserve(Product product, double quantity)
-			throws InventoryNotAvailableException {
-		
-		inventoryStrategy.reserve(product, quantity);
+	public InventoryStatus checkInventory(Product product, double quantity) {
+		return inventoryStrategy.checkInventory(product, quantity);
 	}
-
+	
+	
 	@Override
 	public void reserve(Product product, double quantity,
 			Warehouse warehouse) throws InventoryNotAvailableException {
@@ -55,11 +59,6 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 		
 	}
 
-	@Override
-	public void release(Product product, double quantity) {
-		inventoryStrategy.release(product, quantity);
-		
-	}
 
 	@Override
 	public double getStockLevelAmount(Product product) {
@@ -84,6 +83,62 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 			Warehouse warehouse) {
 		
 		return inventoryStrategy.getInventoryStatus(product, warehouse);
+	}
+
+	@Override
+	@Transactional
+	public void reserve(Product product, double quantity)
+			throws InventoryNotAvailableException {
+		
+		if (inventoryStrategy.getStoreConfig().isAlwaysInstock())
+			return;
+		
+		Warehouse w = warehouseService.findPreferredForReserve(product , quantity);
+		if (w != null){
+			inventoryStrategy.reserve(product, quantity, w);
+		}else{
+			while (quantity > 0){
+				Warehouse _w = warehouseService.findPreferredForReserve(product , 1.0);
+				if (_w == null){
+					_w = warehouseService.findPreferredForced();
+					if (_w == null)
+						throw new InventoryNotAvailableException(product.getCode(), quantity);
+				}
+					
+				double available = inventoryStrategy.getStockLevelAmount(product, _w);
+				inventoryStrategy.reserve(product, available, _w);
+				quantity -= available;
+			}
+			
+			
+		}
+		
+		
+	}
+
+	@Override
+	@Transactional
+	public void release(Product product, double quantity) {
+		if (inventoryStrategy.getStoreConfig().isAlwaysInstock())
+			return;
+		
+		Warehouse w = warehouseService.findPreferredForRelease(product , quantity);
+		if (w != null)
+			inventoryStrategy.release(product, quantity, w);
+		else {
+			while (quantity > 0){
+				Warehouse _w = warehouseService.findPreferredForRelease(product , 1.0);
+				if (_w == null){
+					_w = warehouseService.findPreferredForced();
+					Assert.notNull(_w, String.format("Warehouse not found to release product [%s]  and quantity [%s] !" , product.getCode() , quantity));
+				}
+			
+				
+				double reserved = inventoryStrategy.getStockLevelReserve(product, _w);
+				inventoryStrategy.release(product, reserved, _w);
+				quantity -= reserved;
+			}
+		}
 	}
 
 }

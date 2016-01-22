@@ -104,7 +104,9 @@ describe("Testing customer.service module:", function() {
 
 	  }));
 	  
+
 	  it('customerService register(userData) with mocked getSessionId function', inject(function(customerService,$httpBackend) {
+
 		  
 		  var userData =  {"firstname":"Gabriele","lastname":"Gabriele","email":"gabriele@gabriele.it","logonid":"gabriele","password"
 				  :"gabriele"};

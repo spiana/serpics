@@ -67,13 +67,13 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
     @Override
     public T updateEntity(final T entity) {
         fireEntityProviderChangeEvent(new EntitiesUpdatedEvent<T>(this, entity));
-        return getRepository().update(entity);
+        return getRepository().saveAndFlush(entity);
     }
 
     @Override
     public T addEntity(final T entity) {
     	fireEntityProviderChangeEvent(new EntitiesAddedEvent<T>(this, entity));
-    	return getRepository().create(entity);
+    	return getRepository().saveAndFlush(entity);
         
     }
 
@@ -96,7 +96,7 @@ public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> i
         T entity = (T) repository.findOne((Serializable) entityId);
         if (entity != null) {
             getEntityClassMetadata().setPropertyValue(entity, propertyName, propertyValue);
-            entity = repository.update(entity);
+            entity = repository.saveAndFlush(entity);
         } else {
             logger.error("could not find entity to update!");
         }

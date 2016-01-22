@@ -38,7 +38,7 @@ import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.AddressRepository;
 import com.serpics.warehouse.InventoryNotAvailableException;
 import com.serpics.warehouse.InventoryStatusEnum;
-import com.serpics.warehouse.strategies.InventoryStrategy;
+import com.serpics.warehouse.service.InventoryService;
 
 @Service("cartService")
 @Scope("store")
@@ -68,7 +68,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	CommerceStrategy commerceStrategy;
 
 	@Resource
-	InventoryStrategy inventoryStrategy;
+	InventoryService inventoryService;
 
 	@Resource
 	AddressRepository addressRepository;
@@ -149,7 +149,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		cartItem.setQuantity(quantity);
 		cartItem.setProduct(product);
 
-		InventoryStatusEnum status = (InventoryStatusEnum) inventoryStrategy.checkInventory(product, quantity);
+		InventoryStatusEnum status = (InventoryStatusEnum) inventoryService.checkInventory(product, quantity);
 		if (status == InventoryStatusEnum.OutOfStock)
 			throw new InventoryNotAvailableException(product.getCode(), quantity);
 
@@ -249,7 +249,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		for (final Cartitem orderitem : cart.getCartitems()) {
 			final Product product = productStrategy.resolveSKU(orderitem.getSku());
 			if (updateInventory)
-				inventoryStrategy.reserve(product, orderitem.getQuantity());
+				inventoryService.reserve(product, orderitem.getQuantity());
 
 			orderitem.setSkuCost(priceStrategy.resolveProductCost(product, cart.getCurrency()));
 			orderitem.setSkuPrice(priceStrategy.resolveProductPrice(product, cart.getCurrency()));
@@ -266,7 +266,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		commerceStrategy.calculateTax(cart);
 		commerceStrategy.calculateOrderTotal(cart);
 
-		cart = cartRepository.save(cart);
+		cart = cartRepository.saveAndFlush(cart);
 
 		putCartinSession(cart);
 

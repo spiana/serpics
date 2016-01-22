@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigator-definition 
+xmlns="http://www.serpicsframework.org/schema/smc" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	
+xsi:schemaLocation="http://www.serpicsframework.org/schema/smc/amc.xsd">
+
+
+<!-- da definire come fare il bind con i bean -->
+	<navigator name="mainNav">
+		<navigator-item	allow-child="true"  name="task" parent="" />
+		<navigator-item	allow-child="false"	bean="customUploadComponent" name="import" parent="task" />
+		<navigator-item	allow-child="false"	bean="" name="export" parent="task" />
+	</navigator>
+</navigator-definition>

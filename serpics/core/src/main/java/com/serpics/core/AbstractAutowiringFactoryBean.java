@@ -20,7 +20,13 @@ public abstract class AbstractAutowiringFactoryBean<T> extends AbstractFactoryBe
 		if (instance != null) {
 			applicationContext.getAutowireCapableBeanFactory().autowireBean(instance);
 		}
-		return instance;
+		// the following code is to generate a Proxy instead of a real class
+		
+//		ProxyFactory pf = new ProxyFactory(instance);
+//		pf.setProxyTargetClass(true);
+//		pf.setFrozen(true);
+//		return (T) pf.getProxy();
+	return instance;
 	}
 
 	/**

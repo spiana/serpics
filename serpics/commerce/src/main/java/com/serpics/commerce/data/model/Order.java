@@ -33,7 +33,7 @@ public class Order extends AbstractOrder {
 
     // bi-directional many-to-one association to Orderitem
     @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity=Orderitem.class)
-    protected Set<Orderitem> items = new HashSet<Orderitem>(0);
+    protected Set<Orderitem> orderitems = new HashSet<Orderitem>(0);
 
     
     public Set<Orderpayment> getOrderpayments() {
@@ -71,11 +71,11 @@ public class Order extends AbstractOrder {
     }
 
 	public Set<Orderitem> getOrderitems() {
-		return items;
+		return orderitems;
 	}
 
 	public void setOrderItems(Set<Orderitem> items) {
-		this.items = items;
+		this.orderitems = items;
 	}
 
 	@Override

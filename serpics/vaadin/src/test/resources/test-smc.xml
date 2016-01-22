@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="" xsi:schemaLocation="smc-entity.xsd">
+
+	<entity name="usersreg">
+		<property name="logonid" table="true" edit="true" select="true" width="70%"  style="red" search="true"/>
+		<property name="firstname" table="true" />
+		<property name="lastname" table="true" />
+		<property name="phone"  />
+		<property name="email" />
+		<property name="primaryAddress" />
+		<property name="created" table="true" readony ="true" />
+	</entity>
+	
+	<entity name="primaryaddress">
+		<property name="firstname" table="true"/>
+		<property name="lastname"  table="true"/>
+		<property name="company"  table="true"/>
+		<property name="vatcode" />
+		<property name="address1" table="true" />
+		<property name="zipcode" table="true" />
+		<property name="city" table="true" />
+		<property name="country"/>
+		<property name="region"/>
+		<property name="email" />
+		<property name="mobile" />
+		<property name="phone" />
+		<property name="fax" />
+		<property name="created"  readonly ="true"  />
+		<property name="updated"  readonly ="true" />
+	</entity>
+</smc-definition>

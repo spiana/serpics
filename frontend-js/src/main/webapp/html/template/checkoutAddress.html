@@ -2,24 +2,26 @@
 				<div class="row">
 					<div class="col-sm-3">
 						<div class="shopper-info">
-							<label><input type="checkbox" ng-model="shippingToBill" ng-init="shippingToBill=true" ng-checked="true"> Shipping to bill address</label>
-							<input ng-show="currentUser.billingAddress.firstname.length &&
-							currentUser.billingAddress.lastname.length &&
-							currentUser.billingAddress.address1.length &&
-							currentUser.billingAddress.streetNumber.length &&
-							currentUser.billingAddress.city.length &&
-							currentUser.billingAddress.zipcode.length &&
-							currentUser.billingAddress.email.length" type="submit" id="submit" value="Continue" ng-click="submitBillingForm(currentUser.billingAddress,shippingToBill)" class="btn btn-primary">
-							<input ng-hide="currentUser.billingAddress.firstname.length &&
-							currentUser.billingAddress.lastname.length &&
-							currentUser.billingAddress.address1.length &&
-							currentUser.billingAddress.streetNumber.length &&
-							currentUser.billingAddress.city.length &&
-							currentUser.billingAddress.zipcode.length &&
-							currentUser.billingAddress.email.length" type="submit" value="Continue" class="btn btn-primary" disabled>
+							<label style="width: 100%"><input type="checkbox" ng-model="shippingToBill" ng-init="shippingToBill=true" ng-checked="true"> Shipping to bill address</label>
+							<div style="width: 100%">
+								<input ng-show="currentUser.billingAddress.firstname.length &&
+								currentUser.billingAddress.lastname.length &&
+								currentUser.billingAddress.address1.length &&
+								currentUser.billingAddress.streetNumber.length &&
+								currentUser.billingAddress.city.length &&
+								currentUser.billingAddress.zipcode.length &&
+								currentUser.billingAddress.email.length" type="submit" id="submit" value="Continue" ng-click="submitBillingForm(currentUser.billingAddress,shippingToBill)" class="btn btn-primary">
+								<input ng-hide="currentUser.billingAddress.firstname.length &&
+								currentUser.billingAddress.lastname.length &&
+								currentUser.billingAddress.address1.length &&
+								currentUser.billingAddress.streetNumber.length &&
+								currentUser.billingAddress.city.length &&
+								currentUser.billingAddress.zipcode.length &&
+								currentUser.billingAddress.email.length" type="submit" value="Continue" class="btn btn-primary" disabled>
+							</div>
 						</div>
 						<br>
-						<div>* Required field</div>
+						<div style="width: 100%" >* Required field</div>
 					</div>
 					<div class="col-sm-5 clearfix">
 						<div class="bill-to">

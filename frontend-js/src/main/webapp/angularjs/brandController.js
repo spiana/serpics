@@ -5,7 +5,7 @@
      function($scope,brandService,$log) {	
   	
 		
- 	    $scope.brandData = getBrandQ();
+ 	    $scope.brandData = getBrandList();
  	  
  	    
  	    /** implemented brand service **/  	    
@@ -14,9 +14,9 @@
  	     * @return 					all brands list
  	     * @use 					brandService
  	     */
-  	   function getBrandQ(){
+  	   function getBrandList(){
   		  $log.debug("Brand Controller getBrandQ()");
-  		  brandService.getBrandQ().then(function(response){
+  		  brandService.getBrandList().then(function(response){
   			  $log.debug("Brand Controller getBrandQ(): ramo then");
   			  $scope.brandData = response;
   		  })

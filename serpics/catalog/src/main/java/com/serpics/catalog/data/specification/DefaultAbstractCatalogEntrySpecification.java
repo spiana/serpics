@@ -8,12 +8,13 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.catalog.data.model.AbstractCatalogEntry;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.stereotype.DefaultSpec;
 
-@DefaultSpec(Brand.class)
+@DefaultSpec(AbstractCatalogEntry.class)
 public class DefaultAbstractCatalogEntrySpecification implements Specification<Brand>{
 	@Autowired
 	CommerceEngine engine;

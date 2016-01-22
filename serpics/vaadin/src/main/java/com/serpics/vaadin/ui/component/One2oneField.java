@@ -13,12 +13,10 @@ import javax.persistence.OneToOne;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.PropertyList;
-import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
@@ -31,7 +29,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.TextField;
 
 public class One2oneField<M, T> extends CustomField<T> {
 	private static final long serialVersionUID = -6909188345491634488L;
@@ -130,24 +127,14 @@ public class One2oneField<M, T> extends CustomField<T> {
 	
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
-
-		if (f instanceof TextField) {
-			if (Multilingual.class.isAssignableFrom(p.getType())) {
-				((TextField) f).setConverter(new MultilingualFieldConvert());
-				f.setWidth("80%");
-			}
-			((TextField) f).setNullRepresentation("");
-		}
 		f.addValidator(new BeanValidator(getType(), pid));
-		if (String.class.isAssignableFrom(p.getType())) {
-			f.setWidth("80%");
-		}
 		if (readOnlyProperties.contains(pid) || isReadOnly())
 			f.setReadOnly(true);
-		
 		String message = I18nUtils.getMessage(getType().getSimpleName().toLowerCase() +"." + pid , null);
 		if (message != null)
 			f.setCaption(message);
+		
+		PropertiesUtils.get().setFiledProperty(getType().getSimpleName(), pid, f);
 		
 		return f;
 	}

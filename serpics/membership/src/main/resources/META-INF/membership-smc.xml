@@ -3,258 +3,96 @@
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
 	<entity name="store">
-		<select>
-			<property name="name" />
-		</select>
+		<property name="name" edit="false"  select="true"/>
 	</entity>
 
 	<entity name="member">
-		<select>
-			<property name="uuid" />
-		</select>
+		<property name="uuid" edit="false"  select="true"/>
 	</entity>
 	
-	<entity name="user">
-
-		<table action="append">
-			<display>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="created" />
-			</display>
-			<search>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="logonid" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="phone" />
-				<property name="email" />
-				<property name="primaryAddress" />
-				<property name="permanentAddresses" />
-				<property name="created" />
-			</display>
-			<readonly>
-				<property name="created" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="lastname" />
-		</select>
-	</entity>
-
 	<entity name="usersreg">
-		<table action="append">
-			<display>
-				<property name="logonid" />
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="created" />
-			</display>
-			<search>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="logonid" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="logonid" />
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="phone" />
-				<property name="email" />
-				<property name="primaryAddress" />
-<!-- 				<property name="permanentAddresses" /> -->
-				<property name="created" />
-			</display>
-			<readonly>
-				<property name="created" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="logonid" />
-		</select>
+		<property name="logonid" table="true" edit="true" select="true" width="70%"  type="TEXT"/>
+		<property name="firstname" table="true" />
+		<property name="lastname" table="true" />
+		<property name="phone"  />
+		<property name="email" />
+		<property name="primaryAddress" />
+		<property name="created" table="true" readony ="true" />
 	</entity>
+	
 	<entity name="primaryaddress">
-		<table>
-			<display>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="company" />
-				<property name="address1" />
-				<property name="zipcode" />
-				<property name="city" />
-			</display>
-			<search>
-				<property name="firstname" />
-				<property name="lastname" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="company" />
-				<property name="vatcode" />
-				<property name="address1" />
-				<property name="zipcode" />
-				<property name="city" />
-				<property name="country"/>
-				<property name="region"/>
-				<property name="email" />
-				<property name="mobile" />
-				<property name="phone" />
-				<property name="fax" />
-
-				<property name="created" />
-				<property name="updated" />
-			</display>
-			<readonly action="append">
-				<property name="created" />
-				<property name="updated" />
-			</readonly>
-		</editor>
-
+		<property name="firstname" table="true"/>
+		<property name="lastname"  table="true"/>
+		<property name="company"  table="true"/>
+		<property name="vatcode" />
+		<property name="address1" table="true" />
+		<property name="zipcode" table="true" />
+		<property name="city" table="true" />
+		<property name="country"/>
+		<property name="region"/>
+		<property name="email" />
+		<property name="mobile" />
+		<property name="phone" />
+		<property name="fax" />
+		<property name="created"  readonly ="true"  />
+		<property name="updated"  readonly ="true" />
 	</entity>
-
-	<entity name="membergroup">
-		<table>
-			<display>
-			</display>
-			<search>
-				<property name="name" />
-				<property name="description" />
-			</search>
-		</table>
-		<select>
-			<property name="name" />
-		</select>
-	</entity>
-
 	<entity name="billingaddress">
-			<table>
-				<display>
-					<property name="firstname" />
-					<property name="lastname" />
-					<property name="company" />
-					<property name="address1" />
-					<property name="zipcode" />
-					<property name="city" />
-				</display>
-				<search>
-					<property name="firstname" />
-					<property name="lastname" />
-				</search>
-			</table>
-			<editor>
-				<display>
-					<property name="firstname" />
-					<property name="lastname" />
-					<property name="company" />
-					<property name="vatcode" />
-					<property name="address1" />
-					<property name="zipcode" />
-					<property name="city" />
-					<property name="country"/>
-					<property name="region"/>
-					<property name="email" />
-					<property name="mobile" />
-					<property name="phone" />
-					<property name="fax" />
-					<property name="created" />
-					<property name="updated" />
-				</display>
-				<readonly action="append">
-					<property name="created" />
-					<property name="updated" />
-				</readonly>
-			</editor>
-		</entity>
-
+		<property name="firstname" table="true"/>
+		<property name="lastname"  table="true"/>
+		<property name="company"  table="true"/>
+		<property name="vatcode" />
+		<property name="address1" table="true" />
+		<property name="zipcode" table="true" />
+		<property name="city" table="true" />
+		<property name="country"/>
+		<property name="region"/>
+		<property name="email" />
+		<property name="mobile" />
+		<property name="phone" />
+		<property name="fax" />
+		<property name="created"  readonly ="true"  />
+		<property name="updated"  readonly ="true" />
+	</entity>
 	<entity name="permanentaddress">
-		<table>
-			<display>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="company" />
-				<property name="address1" />
-				<property name="zipcode" />
-				<property name="city" />
-			</display>
-			<search>
-				<property name="firstname" />
-				<property name="lastname" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="company" />
-				<property name="vatcode" />
-				<property name="address1" />
-				<property name="zipcode" />
-				<property name="city" />
-				<property name="country"/>
-				<property name="region"/>
-				<property name="email" />
-				<property name="mobile" />
-				<property name="phone" />
-				<property name="fax" />
-				<property name="created" />
-				<property name="updated" />
-			</display>
-			<readonly action="append">
-				<property name="created" />
-				<property name="updated" />
-			</readonly>
-		</editor>
+		<property name="firstname" table="true"/>
+		<property name="lastname"  table="true"/>
+		<property name="company"  table="true"/>
+		<property name="vatcode" />
+		<property name="address1" table="true" />
+		<property name="zipcode" table="true" />
+		<property name="city" table="true" />
+		<property name="country"/>
+		<property name="region"/>
+		<property name="email" />
+		<property name="mobile" />
+		<property name="phone" />
+		<property name="fax" />
+		<property name="created"  readonly ="true"  />
+		<property name="updated"  readonly ="true" />
 	</entity>
-
+	
 	<entity name="address">
-		<table>
-			<display>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="company" />
-				<property name="address1" />
-				<property name="zipcode" />
-				<property name="city" />
-			</display>
-			<search>
-				<property name="firstname" />
-				<property name="lastname" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="firstname" />
-				<property name="lastname" />
-				<property name="company" />
-				<property name="vatcode" />
-				<property name="address1" />
-				<property name="zipcode" />
-				<property name="city" />
-				<property name="country"/>
-				<property name="region"/>
-				<property name="email" />
-				<property name="mobile" />
-				<property name="phone" />
-				<property name="fax" />
-				<property name="created" />
-				<property name="updated" />
-			</display>
-			<readonly action="append">
-				<property name="created" />
-				<property name="updated" />
-			</readonly>
-		</editor>
+		<property name="firstname" table="true"/>
+		<property name="lastname"  table="true"/>
+		<property name="company"  table="true"/>
+		<property name="vatcode" />
+		<property name="address1" table="true" />
+		<property name="zipcode" table="true" />
+		<property name="city" table="true" />
+		<property name="country"/>
+		<property name="region"/>
+		<property name="email" />
+		<property name="mobile" />
+		<property name="phone" />
+		<property name="fax" />
+		<property name="created"  readonly ="true"  />
+		<property name="updated"  readonly ="true" />
 	</entity>
-
+	
+	<entity name="membergroup">
+		<property name="name" table="true" select="true" />
+		<property name="description" table="true" />
+	</entity>
 
 </smc-definition>

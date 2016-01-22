@@ -13,6 +13,7 @@ import com.serpics.catalog.facade.data.ProductData;
 public interface ProductFacade {
 	
 	public Page<ProductData> listProduct(Pageable page);
+	public Page<ProductData> searchProducts(Pageable page, String searchText);
 	public Page<ProductData> listProductByCategory(Long cId, Pageable page);
 	public Page<ProductData> listProductByBrand(Long brandId, Pageable page);
 	

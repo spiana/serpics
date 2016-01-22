@@ -12,6 +12,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
@@ -20,6 +21,7 @@ import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.PropertyList;
+import com.serpics.vaadin.ui.converters.AttributeTypeValueConverter;
 import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -169,6 +171,12 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    		if(Multilingual.class.isAssignableFrom(propertyList.getPropertyType((String)pid)) ){
 					table.setConverter(pid, new MultilingualFieldConvert());
 				}
+	    		if(MultiValueField.class.isAssignableFrom(propertyList.getPropertyType((String)pid)))
+					table.setConverter(pid, new AttributeTypeValueConverter());
+				
+				String message = I18nUtils.getMessage(getType().getSimpleName().toLowerCase() + "." + pid, null);
+				if (message != null)
+					table.setColumnHeader(pid, message);
 			}	
 	    
 	   getTable().setTableFieldFactory(new CustomFieldFactory());

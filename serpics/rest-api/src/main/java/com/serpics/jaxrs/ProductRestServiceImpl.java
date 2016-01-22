@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.CategoryData;
@@ -28,6 +29,7 @@ import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
+import com.serpics.jaxrs.data.ProductDataRequest;
 
 @Path("/productService")
 @Transactional(readOnly = true)
@@ -39,12 +41,21 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Autowired
 	CategoryFacade categoryFacade;
 
+    /**
+     * This method inserts a product, with category and brand, into catalog.
+     * @summary  Method: insert(ProductData product,Long categoryId,Long brandId)
+     * @param 	product The product to insert
+     * @param 	categoryId The category of product
+     * @param 	brandId The brand of product
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{category}/{brand}")
-	public Response insert(ProductData product, @PathParam("category") Long categoryId,
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response insert(ProductDataRequest product, @PathParam("category") Long categoryId,
 			@PathParam("brand") Long brandId) {
 		
 		Assert.notNull(product);
@@ -58,12 +69,20 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method inserts a product, with category, into catalog.
+     * @summary  Method: insertCategory(ProductData product,Long categoryId)
+     * @param 	product The product to insert
+     * @param 	categoryId The category of product
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/category/{category}")
-	public Response insertCategory(ProductData product, @PathParam("category") Long categoryId) {
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response insertCategory(ProductDataRequest product, @PathParam("category") Long categoryId) {
 		Assert.notNull(product);
 
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
@@ -77,12 +96,20 @@ public class ProductRestServiceImpl implements ProductRestService {
 
 	}
 
+    /**
+     * This method inserts a product, with brand, into catalog.
+     * @summary  Method: insertBrand(ProductData product,Long brandId)
+     * @param 	product The product to insert
+     * @param 	brandId The category of product
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/brand/{brand}")
-	public Response insertBrand(ProductData product, @PathParam("brand") Long brandId) {
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response insertBrand(ProductDataRequest product, @PathParam("brand") Long brandId) {
 		Assert.notNull(product);
 
 		ProductData productData = null;
@@ -95,11 +122,18 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method inserts a product into catalog.
+     * @summary  Method: insertBrand(ProductData product)
+     * @param 	product The product to insert
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response insert(ProductData product) {
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response insert(ProductDataRequest product) {
 		Assert.notNull(product);
 		ProductData productData = null;
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
@@ -111,11 +145,18 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method updates a product.
+     * @summary  Method: update(ProductData product)
+     * @param 	product The product to update
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(ProductData product) {
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response update(ProductDataRequest product) {
 		Assert.notNull(product);
 		ProductData productData = null;
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
@@ -128,11 +169,18 @@ public class ProductRestServiceImpl implements ProductRestService {
 
 	}
 
+    /**
+     * This method gets a product by productId.
+     * @summary  Method: getProduct(Long productId)
+     * @param 	productId The product Id to get
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{product}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response getProduct(@PathParam("product") Long productId) {
 
 		// Assert.notNull(productId);
@@ -153,11 +201,18 @@ public class ProductRestServiceImpl implements ProductRestService {
 
 	}
 
+    /**
+     * This method deletes a product by productId.
+     * @summary  Method: delete(Long productId)
+     * @param 	productId The product Id to delete
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{product}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response delete(@PathParam("product") Long productId) {
 		Assert.notNull(productId);
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
@@ -168,11 +223,18 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method gets a list of category of a product by productId.
+     * @summary  Method: getCategory(Long productId)
+     * @param 	productId The product Id to search
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("getCategory/{product}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
 	public Response getCategory(@PathParam("product") Long productId) {
 		Assert.notNull(productId);
 
@@ -190,11 +252,19 @@ public class ProductRestServiceImpl implements ProductRestService {
 		}
 	}
 
+    /**
+     * This method adds a brand to a product.
+     * @summary  Method: addBrand(Long productId,Long brandId)
+     * @param 	productId The product Id to add brand
+     * @param 	brandId The brand Id to add
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addBrand/{product}/{brand}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response addBrand(@PathParam("product") Long productId, @PathParam("brand") Long brandId) {
 
 		Assert.notNull(productId);
@@ -207,11 +277,19 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method adds a category to a product.
+     * @summary  Method: addCategory(Long productId,Long categoryId)
+     * @param 	productId The product Id to add category
+     * @param 	categoryId The category Id to add
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addCategory/{product}/{category}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response addCategory(@PathParam("product") Long productId, @PathParam("category") Long categoryId) {
 
 		Assert.notNull(productId);
@@ -224,11 +302,19 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method adds a price to a product.
+     * @summary  Method: addPrice(Long productId, PriceData price)
+     * @param 	productId The product Id to add price
+     * @param 	price The price Id to add
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addPrice/{product}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response addPrice(@PathParam("product") Long productId, PriceData price) {
 
 		Assert.notNull(productId);
@@ -242,11 +328,19 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+	
+    /**
+     * This method gets a product by name.
+     * @summary  Method: getProductByName(String name)
+     * @param 	name The name of product to search
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("byCode/{product}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response getProductByName(@PathParam("product") String name) {
 		Assert.notNull(name);
 		ProductData productData = null;
@@ -265,10 +359,18 @@ public class ProductRestServiceImpl implements ProductRestService {
 		}
 	}
 
+    /**
+     * This method gets all products.
+     * @summary  Method: findAll(int page, int size)
+     * @param 	page The number of page requested 
+     * @param 	size The size of product to display in a page
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findAll(@QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("size") @DefaultValue("10") int size) {
 
@@ -279,11 +381,20 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method gets all products of a given category.
+     * @summary  Method: findByCategory(Long categoryId, int page, int size)
+     * @param 	categoryId The category Id to search
+     * @param 	page The number of page requested
+     * @param 	size The size of product to display in a page
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("pageCategory/{category}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findByCategory(@PathParam("category") Long categoryId,
 			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size) {
 
@@ -294,11 +405,20 @@ public class ProductRestServiceImpl implements ProductRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 
+    /**
+     * This method gets all products of a given brand.
+     * @summary  Method: findByBrand(Long brandId,int page,int size)
+     * @param 	brandId The brand Id to search
+     * @param 	page The number of page requested
+     * @param 	size The size of product to display in a page
+     * @return Response		object type: apiRestResponse
+     */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("pageBrand/{brand}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findByBrand(@PathParam("brand") Long brandId, @QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("size") @DefaultValue("10") int size) {
 
@@ -306,6 +426,30 @@ public class ProductRestServiceImpl implements ProductRestService {
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(productFacade.listProductByBrand(brandId, new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
+	}
+	
+    /**
+     * This method search products by code, by name and description.
+     * @summary  Method: findBySearch(String searchText, int page,int size)
+     * @param 	searchText The text to search into products
+     * @param 	page The number of page requested
+     * @param 	size The size of product to display in a page
+     * @return Response		object type: apiRestResponse
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("search/{text}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
+	public Response findBySearch(@PathParam("text") String searchText, @QueryParam("page") @DefaultValue("0") int page,
+			@QueryParam("size") @DefaultValue("10") int size) {
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(productFacade.searchProducts(new PageRequest(page, size), searchText));
 		return Response.ok(apiRestResponse).build();
 	}
 

@@ -13,8 +13,10 @@ http://www.springframework.org/schema/aop
 	
 <!-- <import resource="local-datasource.xml"/> -->
 <bean id="propertiesUtils" class="com.serpics.vaadin.data.utils.PropertiesUtils"/>
+<bean id="jpaUtils" class="com.serpics.vaadin.data.utils.JPAUtils" />
 
 <bean id="navGeneratoFactory" class="com.serpics.vaadin.ui.NavigatorMenuTree"  scope="prototype"/>   
+
 
 <bean id="messageSource"
         class="com.serpics.spring.context.support.CustomRelodableResourceBundleMessageSource">

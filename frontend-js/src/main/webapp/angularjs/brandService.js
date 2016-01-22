@@ -12,11 +12,35 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
         	getBrandQ		: getBrandQ,
         	findBrandById	: findBrandById,
         	findBrandByName	: findBrandByName,
-        	findAll			: findAll
+        	findAll			: findAll,
+        	getBrandList	: getBrandList
         });                
         return service;
         
         /** public methods**/
+        
+	    /**
+	     * @param sessionId                
+	     * @return 
+	     */     
+	    function getBrandList() {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("BrandService getBrandQ() ssid nel promise "+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: 	URL + endpoint + 'list',
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    			
+	    		});
+    		
+	    	});
+	    }
         
 	    /**
 	     * @param sessionId                

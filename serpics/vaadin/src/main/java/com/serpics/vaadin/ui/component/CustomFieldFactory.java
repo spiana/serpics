@@ -24,6 +24,7 @@ import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractSelect;
@@ -37,6 +38,7 @@ import com.vaadin.ui.TextField;
 public class CustomFieldFactory extends DefaultFieldFactory{
 
 	private static Logger LOG = LoggerFactory.getLogger(CustomFieldFactory.class);
+	private static transient String FIELD_WIDTH = "90%";
 	/**
 	 * 
 	 */
@@ -70,7 +72,9 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	
         if (Multilingual.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
         	Field<?> f = super.createField(item, propertyId, uiContext);
-            ((TextField) f).setConverter(new MultilingualFieldConvert());
+            ((TextField) f).setConverter(new MultilingualFieldConvert((TextField)f));
+            f.setWidth(FIELD_WIDTH);
+            ((TextField) f).setNullRepresentation("");
             return f;
         }
         
@@ -81,6 +85,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
         
         if (Enum.class.isAssignableFrom(item.getItemProperty(propertyId).getType() )) {
         	Field<?> f = createEnumSelect(item.getItemProperty(propertyId).getType(), propertyId);
+        	f.setWidth(FIELD_WIDTH);
         	return f;
         }
         if (item instanceof JPAContainerItem) {
@@ -102,7 +107,20 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 				break;
 			}
         }
-    	return super.createField(item, propertyId, uiContext);
+        
+        final Property p = item.getItemProperty(propertyId);
+    	Field<?> f = super.createField(item, propertyId, uiContext);
+    	if (String.class.isAssignableFrom(p.getType())) {
+			f.setWidth(FIELD_WIDTH);
+			 ((TextField) f).setNullRepresentation("");
+		}
+		if (Number.class.isAssignableFrom(p.getType())) {
+			f.setWidth("30%");
+			 ((TextField) f).setNullRepresentation("");
+		}
+	
+		
+    	return f;
     }
 	
     
@@ -120,6 +138,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
          combo.setFilteringMode(FilteringMode.CONTAINS);
          combo.setImmediate(true);
          combo.setConverter(new SingleSelectConverter(combo));
+         combo.setWidth(FIELD_WIDTH);
          return combo;
     	
     }
@@ -127,6 +146,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     private MasterDetailField createOneToMany(Object propertyId , JPAContainerItem item){
     	MasterDetailField t = 
     			new MasterDetailField(item.getContainer(), item, propertyId);
+    	t.setWidth("90%");
     	return t;
     }
     
@@ -134,6 +154,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	 final ComboBox combo = new ComboBox(pid.toString());
     	 populateEnums(type, combo);
          combo.setNullSelectionAllowed(false);
+         combo.setWidth("90%");
          return combo;
     }
     
@@ -173,7 +194,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 			//if entity is null return default Field
 			if (((EntityItem)item).getEntity() == null){
 				field = createFieldByPropertyType(item.getItemProperty(propertyId).getType());
-				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter(field));
 				field.setCaption(createCaptionByPropertyId(propertyId));
 				return field;
 			}
@@ -190,28 +211,31 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 			switch (_f.getAttributeType()) {
 			case STRING:
 				field = createFieldByPropertyType(String.class);
-				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter(field));
 				break;
 			case INTEGER:
 				field = createFieldByPropertyType(Integer.class);
-				((AbstractField) field).setConverter(new AttributeTypeIntegerConverter());
+				((AbstractField) field).setConverter(new AttributeTypeIntegerConverter(field));
 				break;
 			case DOUBLE:
 				field = createFieldByPropertyType(Double.class);
-				((AbstractField) field).setConverter(new AttributeTypeDoubleConverter());
+				((AbstractField) field).setConverter(new AttributeTypeDoubleConverter(field));
 				break;
 			case DATE:
 				field = createFieldByPropertyType(Date.class);
-				((AbstractField) field).setConverter(new AttributeTypeDateConverter());
+				((AbstractField) field).setConverter(new AttributeTypeDateConverter(field));
 				break;
 		
 			default:
 				field = createFieldByPropertyType(String.class);
-				((AbstractField) field).setConverter(new AttributeTypeStringConverter());
+				((AbstractField) field).setConverter(new AttributeTypeStringConverter(field));
 				break;
 			}
+			if (TextField.class.isAssignableFrom(field.getClass()))
+				((TextField) field).setNullRepresentation("");
 			
 			field.setCaption(createCaptionByPropertyId(propertyId));
+			
 			return field;
 	}
 

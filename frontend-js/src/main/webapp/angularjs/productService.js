@@ -12,6 +12,7 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	     		getProductByName		: getProductByName,
 	     		findByCategory			: findByCategory,
 	     		findByBrand				: findByBrand,
+	     		findBySearch			: findBySearch,
 	     		findAll			  		: findAll
 	     });                
 	     return service;
@@ -106,23 +107,23 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	     }
 	     
 	   /**
-	     * @param brandId
+	     * @param searchText
 	     * @return 
 	     */         
-	     function findByBrand(brandId, page, size) {
+	     function findBySearch(searchText, page, size) {
 	    	 var serviceSSID = serpicsServices;
-	    	 var findByBrandUrl='';
+	    	 var findBySearchUrl='';
 	    	 if (arguments.length === 1 || arguments.length === 2 ) {
-	    		 findByBrandUrl= URL + endpoint + 'pageBrand/' + brandId;
+	    		 findBySearchUrl= URL + endpoint + 'search/' + searchText;
 	    		 }else{
-	    			 findByBrandUrl = URL + endpoint + 'pageBrand/' + brandId + '?page=' + page + '&size=' + size;
+	    			 findBySearchUrl = URL + endpoint + 'search/' + searchText + '?page=' + page + '&size=' + size;
 	    		 }
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 $log.debug("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: findByBrandUrl,
+	    				 url: findBySearchUrl,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
@@ -130,6 +131,32 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    		 });
 	    	 });
 	     }
+	     
+		   /**
+		     * @param brandId
+		     * @return 
+		     */         
+		     function findByBrand(brandId, page, size) {
+		    	 var serviceSSID = serpicsServices;
+		    	 var findByBrandUrl='';
+		    	 if (arguments.length === 1 || arguments.length === 2 ) {
+		    		 findByBrandUrl= URL + endpoint + 'pageBrand/' + brandId;
+		    		 }else{
+		    			 findByBrandUrl = URL + endpoint + 'pageBrand/' + brandId + '?page=' + page + '&size=' + size;
+		    		 }
+		    	 return $q(function(resolve, reject) {
+		    		 serviceSSID.getSessionId().then(function(sessionId){
+		    			 $log.debug("session Id nel promise"+sessionId) ;
+		    			 $http({
+		    				 method: 	'GET',
+		    				 url: findByBrandUrl,
+		    				 headers: {
+		    					 'ssid': sessionId
+		    					 }
+		    			 }).then(handleSuccess, handleError).then(resolve, reject);
+		    		 });
+		    	 });
+		     }
 
 	   /**
 	     * @return 

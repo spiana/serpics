@@ -48,11 +48,19 @@ public class UserTableEditor extends MasterTable<UsersReg> {
     	
     	editorWindow.addTab(userEditorComponent, I18nUtils.getMessage("user", ""));
  //       editorWindow.addTab(primaryAddressEditor, "contactAddress");
+<<<<<<< HEAD
         editorWindow.addTab(billingAddressEditor, I18nUtils.getMessage("billingaddress", ""));
         editorWindow.addTab(userRegEditorComponent,I18nUtils.getMessage("usersreg", ""));
         editorWindow.addTab(addressTableEditor, I18nUtils.getMessage("address", ""));
         editorWindow.addTab(membergroupRelTable, I18nUtils.getMessage("membergrouprel", ""));
       editorWindow.addTab(memberRoleTable, I18nUtils.getMessage("membersrole", ""));
+=======
+        editorWindow.addTab(billingAddressEditor,I18nUtils.getMessage("billingAddress", "billingAddress"));
+        editorWindow.addTab(userRegEditorComponent, "userReg");
+        editorWindow.addTab(addressTableEditor, "address");
+        editorWindow.addTab(membergroupRelTable, "grouprelation");
+      editorWindow.addTab(memberRoleTable, "memberRole");
+>>>>>>> e108e3406a7a14a68f4e2e555e9cf398e628a28e
     	
     	return editorWindow;
     }

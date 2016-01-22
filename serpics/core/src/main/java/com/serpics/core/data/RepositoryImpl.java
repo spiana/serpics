@@ -68,7 +68,8 @@ public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaReposi
         		
         		try{
 		                final Set<SingularAttribute<? super T, ?>> attrs = et.getSingularAttributes();
-		                logger.info("create specification for model {} with {} attributes", et.getName(), attrs.size());
+		                if (logger.isDebugEnabled())
+		                	logger.debug("create specification for model {} with {} attributes", et.getName(), attrs.size());
 		                for (final SingularAttribute<? super T, ?> singleAttribute : attrs) {
 		                    final String name = singleAttribute.getName();
 		                    final String javaName = singleAttribute.getJavaMember().getName();
@@ -130,7 +131,8 @@ public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaReposi
 	@Override
 	@Transactional
 	public Z refresh(Z entity) {
-		 return getEntityManager().merge(entity);
+			Object id = getEntityManager().getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
+			return (Z) getEntityManager().find(entity.getClass(), id);
 	}
 	
 	private CommerceEngine engine;

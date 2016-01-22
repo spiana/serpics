@@ -24,6 +24,7 @@ import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -54,7 +55,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	private boolean searchFormEnable =true;
 	
 	private String[] searchProperties;
-		private MasterTableListner masterTableListner;
+	private MasterTableListner masterTableListner;
 	protected Table entityList;
 
 	private final HorizontalLayout editButtonPanel = new HorizontalLayout();
@@ -163,6 +164,27 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				// UI.getCurrent().addWindow(editorWindow);
 			}
 		});
+		
+		entityList.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            private static final long serialVersionUID = 2068314108919135281L;
+
+            public void itemClick(ItemClickEvent event) {
+                if (event.isDoubleClick()) {
+                	if (entityList.getValue() == null)
+    					return;
+                	
+    				if (!entityList.isEditable()) {					
+    					EntityFormWindow<T> editorWindow = buildEntityWindow();
+    					editorWindow.setNewItem(false);
+    					editorWindow.setReadOnly(false);
+    					editorWindow.setEntityItem(container.getItem(entityList.getValue()));
+    					UI.getCurrent().addWindow(editorWindow);
+    				}
+                	
+                }
+            }
+        });
+		
 
 		newButton = new Button(I18nUtils.getMessage("smc.button.add", "Add"));
 		editButtonPanel.addComponent(newButton);
@@ -197,7 +219,9 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 					EntityFormWindow<T> editorWindow = buildEntityWindow();
 					editorWindow.setNewItem(false);
 					editorWindow.setReadOnly(false);
-					editorWindow.setEntityItem(container.getItem(entityList.getValue()));
+					 EntityItem item = container.getItem(entityList.getValue());
+					 item.refresh();
+					editorWindow.setEntityItem(item);
 					UI.getCurrent().addWindow(editorWindow);
 				}
 			}
@@ -227,7 +251,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		masterTableListner.get().deleteButtonClickListener(container, entityList, deleteButton);
 		editButtonPanel.addComponent(deleteButton);	
 	    
-		if(searchFormEnable == true){
+		if(searchFormEnable){
 			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
 			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
 			serchField.setWidth("100%");
@@ -236,6 +260,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			//editButtonPanel.addComponent(_advanceSearch);
 	    }
 
+		
+		
 
 		setCompositionRoot(v);
 		setSizeFull();

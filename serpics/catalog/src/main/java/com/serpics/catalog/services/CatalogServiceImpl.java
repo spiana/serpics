@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Store;
@@ -80,4 +82,34 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
         priceListRepository.saveAndFlush(pricelist);
 
     }
+
+
+
+	@Override
+	public Catalog getDefaultCatalog() {
+		List<Catalog> catalogs = catalog2StoreRepository.findPrimaryCatalog((Store) getCurrentContext().getStoreRealm());
+		if (catalogs.isEmpty())
+			return null;
+		else
+			return catalogs.get(0);
+	}
+
+
+
+	@Override
+	public void setDefaultCatalog(String catalog_code) {
+		if (StringUtils.isEmpty(catalog_code)){
+			Catalog catalog = getDefaultCatalog();
+			setDefaultCatalog(catalog);
+		}else{
+			Catalog catalog = findByCode(catalog_code);
+			setDefaultCatalog(catalog);
+		}
+	}
+
+	@Override
+	public void setDefaultCatalog(Catalog catalog) {
+		Assert.notNull(catalog, "catalog can not be null !");
+		getCurrentContext().setCatalog(catalog);
+	}
 }

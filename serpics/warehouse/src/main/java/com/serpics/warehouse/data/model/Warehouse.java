@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Store;
@@ -33,6 +35,7 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Pattern(regexp="[a-zA-Z0-9_\\-]+", message="only letters and number allowed !")
 	private String name;
 	
 	@OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
@@ -40,6 +43,7 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 	private MultilingualString description;
 
 	@Column(nullable=false)
+	@NotNull
 	private Double precedence;
 
 	// bi-directional many-to-one association to Inventory
@@ -47,12 +51,17 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 	private Set<Inventory> inventories;
 	
 	private Double inventoryThreshold;
+
+	@Column(nullable=false)
+	private Boolean forceInStock;
 	
 	@ManyToOne
 	@JoinColumn(name ="store_id" , insertable=true , updatable=false)
 	private Store store ;
 
 	public Warehouse() {
+		forceInStock = Boolean.FALSE;
+		precedence = 0D;
 	}
 
 	public Long getId() {
@@ -109,6 +118,14 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 
 	public void setStore(Store store) {
 		this.store = store;
+	}
+
+	public Boolean getForceInStock() {
+		return forceInStock;
+	}
+
+	public void setForceInStock(Boolean forceInStock) {
+		this.forceInStock = forceInStock;
 	}
 
 	

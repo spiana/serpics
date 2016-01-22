@@ -3,6 +3,7 @@
  */
 package com.serpics.vaadin.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +53,7 @@ import de.steinwedel.messagebox.MessageBoxListener;
  * @param <T>
  *
  */
-public class MasterTableListner extends FormLayout {
+public class MasterTableListner extends FormLayout implements Serializable {
 
 	private static final long serialVersionUID = -2736583181645447496L;
 	private static transient Logger LOG = LoggerFactory.getLogger(MasterTableListner.class);

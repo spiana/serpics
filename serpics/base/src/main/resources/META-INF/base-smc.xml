@@ -2,152 +2,36 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 	<entity name="country">
-		<table>
-			<display>
-				<property name="iso2Code" />
-				<property name="description" />
-				<property name="geocode.code" />
-			</display>
-			<search>				
-				<property name="iso2Code" />							
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="geocode" />
-				<property name="description" />
-				<property name="iso2Code" />
-				<property name="iso3Code" />
-				<!-- <property name="regions"/> -->
-				<property name="created" />
-				<property name="updated" />
-			</display>
-
-			<readonly action="append">
-				<property name="created" />
-				<property name="updated" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="iso2Code" />
-		</select>
+		<property name="geocode.code" table="true"  edit ="false" />
+		<property name="geocode" />
+		<property name="description" table="true" />
+		<property name="iso2Code" table="true" select="true" />
+		<property name="iso3Code" />
+		<!-- <property name="regions"/> -->
+		<property name="created"  readonly="true"/>
+		<property name="updated" readonly="true"/>
 	</entity>
 
-
-
-<entity name="currency">
-		<table>
-			<display>
-				<property name="isoCode" />
-				<property name="descriprion" />
-			</display>
-			<search>
-				<property name="isoCode" />	
-				<property name="descriprion" />
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="isoCode" />
-				<property name="descriprion" />
-				<!-- <property name="regions"/> -->
-				<property name="created" />
-				<property name="updated" />
-			</display>
-
-			<readonly action="append">
-				<property name="created" />
-				<property name="updated" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="isoCode" />
-		</select>
+	<entity name="currency">
+		<property name="isoCode" table="true"  search="true" select="true"/>
+		<property name="descriprion"  table="true" search="true" />
+		<property name="created" readonly="true" />
+		<property name="updated" readonly="true"/>
 	</entity>
 
-<entity name="geocode">
-		<table>
-			<display>
-				<property name="code" />
-				<property name="description" />
-			</display>
-			<search>
-				<property name="code" />										
-			</search>
-		</table>		
-		<select>
-			<property name="code" />
-		</select>
+	<entity name="geocode">
+		<property name="code" table="true" search="true" select="true" />
+		<property name="description" />
 	</entity>
-	
 
 	<entity name="baseattribute">
-		<table>
-			<display>
-				<property name="name" />
-				<property name="description" />
-				<property name="availablefor"/>
-				<property name="attributeType"/>
-			
-				
-			</display>
-			<search>				
-				<property name="name" />	
-				<property name="description" />
-										
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="name" />
-				<property name="description" />
-				<property name="availablefor"/>
-				<property name="attributeType"/>
-				<property name="created" />
-				<property name="updated" />
-			</display>
-
-			<readonly >
-				<property name="created" />
-				<property name="updated" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="name" />
-		</select>
+		<property name="name"  table="true" select="true"/>
+		<property name="description" table="true" />
+		<property name="availablefor" table="true"/>
+		<property name="attributeType" table="true"/>
+		<property name="created" />
+		<property name="updated" />
+	
 	</entity>
-
-<entity name="mediasupport">
-		<table>
-			<display>
-				<property name="name" />
-				<property name="type" />
-				
-			</display>
-			<search>				
-				<property name="name" />							
-			</search>
-		</table>
-		<editor>
-			<display>
-				<property name="name" />
-				<property name="type" />
-				<property name="format" />
-				
-				<property name="src" />
-				<property name="created" />
-				<property name="updated" />
-			</display>
-
-			<readonly action="append">
-				<property name="created" />
-				<property name="updated" />
-			</readonly>
-		</editor>
-		<select>
-			<property name="name" />
-		</select>
-	</entity>
-
 
 </smc-definition>

@@ -36,20 +36,19 @@ public class CommerceSessionFilter implements Filter {
         if (logger.isDebugEnabled())
             logger.debug("CommerceSessionFilter called");
 
-        if (!baseService.isInitialized()){
-        	logger.warn("serpics is not initialized !");
-        	baseService.initIstance();
-        }
-        
         final HttpServletRequest httpReq = (HttpServletRequest) req;
         final String id = (String) httpReq.getSession().getAttribute(WebCostant.SERPICS_SESSION);
         
         CommerceSessionContext context = null;
         
+        String request_store =((HttpServletRequest)req).getParameter("store");
+        
         if (id == null) {
         	String realm = null;
             String pathInfo = ((HttpServletRequest)req).getRequestURI();
+         
         	logger.info("current URL {} !", pathInfo);
+        	logger.info("request store is {}" , request_store);
         	String[] _temp = pathInfo.split(";");
         	if(_temp.length==2)
         		realm = _temp[1];
@@ -58,7 +57,10 @@ public class CommerceSessionFilter implements Filter {
     	         realm = (String) httpReq.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
             
             if (realm == null)
-                realm = "default-store";
+            	if (request_store != null)
+            		realm = request_store;	
+            	else	
+            		realm = "default-store";
 
             try {
                 context = ce.connect(realm);
@@ -73,8 +75,7 @@ public class CommerceSessionFilter implements Filter {
             if (logger.isDebugEnabled())
                 logger.debug("found CommerceSessionID " + id
                         + " in HttpSession, trying to bind..");
-
-            context = ce.bind(id);
+        	context = ce.bind(id);
         }
 
         if (context != null) {

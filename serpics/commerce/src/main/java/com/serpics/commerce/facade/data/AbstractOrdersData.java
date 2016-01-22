@@ -4,13 +4,13 @@ import java.util.Set;
 
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.core.facade.AbstractData;
-import com.serpics.membership.data.model.Address;
+import com.serpics.membership.facade.data.AddressData;
 
 
 public abstract class AbstractOrdersData<T extends AbstractOrderItemData> extends AbstractData{
 	protected Shipmode shipmode;
-	protected Address billingAddress;
-	protected Address shippingAddress;
+	protected AddressData billingAddress;
+	protected AddressData shippingAddress;
 		
 	protected Set<T> orderItems; 
 	protected Double discountAmount;
@@ -30,16 +30,16 @@ public abstract class AbstractOrdersData<T extends AbstractOrderItemData> extend
 	public void setShipmode(Shipmode shipmode) {
 		this.shipmode = shipmode;
 	}
-	public Address getBillingAddress() {
+	public AddressData getBillingAddress() {
 		return billingAddress;
 	}
-	public void setBillingAddress(Address billingAddress) {
+	public void setBillingAddress(AddressData billingAddress) {
 		this.billingAddress = billingAddress;
 	}
-	public Address getShippingAddress() {
+	public AddressData getShippingAddress() {
 		return shippingAddress;
 	}
-	public void setShippingAddress(Address shippingAddress) {
+	public void setShippingAddress(AddressData shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
 	public Double getDiscountAmount() {

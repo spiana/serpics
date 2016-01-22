@@ -45,10 +45,17 @@ implements CachingEntityProvider<T> {
         return entity;
     }
 
+    public T updateEntity(T entity) {
+        super.updateEntity(entity);
+        Object  id  = getEntityManager().getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
+        cachingSupport.invalidate(id, true);
+        return entity;
+    	
+    }
    @Override
 	public void removeEntity(Object entityId) {
 		super.removeEntity(entityId);
-		cachingSupport.clear();
+		cachingSupport.invalidate(entityId	, true);
 	}
 
     @Override
@@ -155,11 +162,8 @@ implements CachingEntityProvider<T> {
     @Override
     public void refresh() {
         cachingSupport.clear();
+        super.refresh();
     }
 
-    @Override
-    public T refreshEntity(final T entity) {
-        cachingSupport.clear();
-        return super.refreshEntity(entity);
-    };
+   
 }

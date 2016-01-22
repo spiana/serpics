@@ -1,5 +1,7 @@
 package com.serpics.catalog.facade;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,8 +13,9 @@ public interface BrandFacade {
 	public BrandData updateBrand(BrandData entity);
 	public void deleteBrand(Long id);
 	
-	public Page<BrandData> listBrand(Pageable page);
+	public Page<BrandData> pageBrand(Pageable page);
 	public BrandData findBrandById(Long id);
 	public BrandData findBrandByName(String name);
+	public List<BrandData> listBrand();
 	
 }

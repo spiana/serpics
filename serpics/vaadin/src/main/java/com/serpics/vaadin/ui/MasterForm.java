@@ -16,7 +16,6 @@ import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.component.CustomFieldFactory;
-import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
@@ -29,7 +28,6 @@ import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
 public abstract class MasterForm<T> extends FormLayout implements EntityFormComponent<T> {
@@ -155,27 +153,13 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
-
-		if (f instanceof TextField) {
-			if (Multilingual.class.isAssignableFrom(p.getType())) {
-				((TextField) f).setConverter(new MultilingualFieldConvert());
-				f.setWidth("80%");
-			}
-			((TextField) f).setNullRepresentation("");
-		}
-
 		f.addValidator(new BeanValidator(entityClass, pid));
-		if (String.class.isAssignableFrom(p.getType())) {
-			f.setWidth("80%");
-		}
-		if (Number.class.isAssignableFrom(p.getType())) {
-			f.setWidth("30%");
-		}
-
+	
 		String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + pid, null);
 		if (message != null)
 			f.setCaption(message);
 
+		PropertiesUtils.get().setFiledProperty(entityClass.getSimpleName(), pid, f);
 		return f;
 	}
 
@@ -187,6 +171,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 				if (!entityItem.isPersistent()) {
 					entityItem.getContainer().addEntity(entityItem.getEntity());
 				}
+				entityItem.commit();
 				entityItem.getContainer().commit();
 			}
 		}
