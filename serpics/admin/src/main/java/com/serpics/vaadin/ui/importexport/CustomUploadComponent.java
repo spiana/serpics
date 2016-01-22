@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
+import javax.persistence.metamodel.EntityType;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import com.serpics.importexport.services.ImportCsvService;
 import com.serpics.importexport.services.ImportCsvService.ImportPorgressListener;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.data.utils.I18nUtils;
+import com.serpics.vaadin.data.utils.JPAUtils;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.server.Page;
@@ -68,6 +71,7 @@ public class CustomUploadComponent extends CustomComponent {
 	private Class<?> mappedClass;
 	private ProgressBar progress;
 	private TextField text_f;
+	private ComboBox class_c;
 	private Button import_b;
 	
 	public CustomUploadComponent() {
@@ -285,7 +289,7 @@ public class CustomUploadComponent extends CustomComponent {
 		
 		 data.addFocusListener(new FocusListener() {
               public void focus(FocusEvent event) {
-  				checkClassnameTextField(text_f.getValue());
+  				checkClassnameTextField(class_c.getValue().toString());
               }
 		 });
 		
@@ -351,14 +355,20 @@ public class CustomUploadComponent extends CustomComponent {
 		text_f.setRequired(true);
 		
 		text_f.setImmediate(true);
+		text_f.setEnabled(false);
 		
-		ComboBox class_c = new ComboBox(combo_v,Arrays.asList(combo_item));
-		class_c.setTextInputAllowed(false);
+		class_c = new ComboBox(combo_v,Arrays.asList(combo_item));
+		class_c.setTextInputAllowed(true);
 		class_c.setNullSelectionAllowed(false);
-		class_c.select("Product");
+		
+		Set<EntityType<?>> entities = JPAUtils.get().retriveEntityTypes();
+		for (EntityType<?> entityType : entities) {
+			class_c.addItem(entityType.getJavaType().getName());
+			class_c.setItemCaption(entityType.getJavaType().getName(), entityType.getName());
+		}	
 		class_c.addStyleName("small");
 		class_c.setWidth("10em");
-		class_c.setEnabled(false);
+		class_c.setEnabled(true);
 		form.addComponent(text_f);
 		form.addComponent(class_c);
 		
