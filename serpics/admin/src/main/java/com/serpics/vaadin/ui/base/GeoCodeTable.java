@@ -2,6 +2,7 @@ package com.serpics.vaadin.ui.base;
 
 import com.serpics.base.data.model.Geocode;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
@@ -39,7 +40,7 @@ public class GeoCodeTable extends MasterTable<Geocode> {
 				}
 			};
 			
-		editorWindow.addTab(main, "main");
+		editorWindow.addTab(main,  I18nUtils.getMessage("geocode.main", ""));
 		return editorWindow;
 	}
 }

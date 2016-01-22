@@ -45,10 +45,7 @@ public class SerpicsStartApp extends UI {
 
 	@Override
 	protected void init(final VaadinRequest request) {
-	
 			mainView.builContent();
-			mainView.setSizeFull();
-			
 			setContent(mainView);
 		
 			

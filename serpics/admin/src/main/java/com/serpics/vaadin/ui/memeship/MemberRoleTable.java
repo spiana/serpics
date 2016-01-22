@@ -8,6 +8,7 @@ import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.RoleRepository;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
@@ -50,7 +51,7 @@ public class MemberRoleTable extends MasterDetailTable<MembersRole, User> {
 
                 if (pid.equals("role")) {
                     final JPAContainer<Role> roles = ServiceContainerFactory.make(Role.class);
-                    final ComboBox combo = new ComboBox("role");
+                    final ComboBox combo = new ComboBox(I18nUtils.getMessage("membersrole.role", ""));
                     combo.setContainerDataSource(roles);
                     combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
                     combo.setItemCaptionPropertyId("name");
@@ -67,7 +68,9 @@ public class MemberRoleTable extends MasterDetailTable<MembersRole, User> {
                 return super.createField(pid);
             }
         };
-		_e.addTab(form, "main");
+		//_e.addTab(form, "main");
+		_e.addTab(form,  I18nUtils.getMessage("membersrole.main",""));
+		 
 		return _e;
 	}
 

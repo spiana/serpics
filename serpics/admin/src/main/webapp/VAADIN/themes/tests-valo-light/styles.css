@@ -11524,15 +11524,6 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 19px 22px;
 }
 
-.tests-valo-light .v-Notification-caption ~ .v-Notification-description, .tests-valo-light .v-Notification-caption ~ .v-Notification-details{
-	margin-left: 24px;
-}
-.tests-valo-light .v-Notification .v-Notification-description{
-	line-height: 1.4;
-}
-.tests-valo-light .v-Notification-description, .tests-valo-light .v-Notification-details{
-	
-}
 .tests-valo-light .v-Notification h1 {
 	margin: 0;
 	display: inline-block;
@@ -11548,7 +11539,7 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 	vertical-align: middle;
 	max-width: 30em;
-	text-align: justify;
+	text-align: left;
 	max-height: 20em;
 	overflow: auto;
 }

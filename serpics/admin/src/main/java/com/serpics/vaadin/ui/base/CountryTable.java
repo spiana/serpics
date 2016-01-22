@@ -2,6 +2,7 @@ package com.serpics.vaadin.ui.base;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
@@ -23,7 +24,7 @@ public class CountryTable extends MasterTable<Country> {
 			MasterForm<Country> main = new MasterForm<Country>(Country.class) {
 			};
 			
-		editorWindow.addTab(main, "main");
+		editorWindow.addTab(main, I18nUtils.getMessage("country.main", ""));
 		return editorWindow;
 	}
 }

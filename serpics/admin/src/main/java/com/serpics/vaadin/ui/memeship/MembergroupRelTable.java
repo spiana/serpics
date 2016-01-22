@@ -6,6 +6,7 @@ import com.serpics.membership.data.model.Membergrouprel;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.MembergrouprelRepository;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 
@@ -27,7 +28,7 @@ public class MembergroupRelTable extends MasterDetailTable<Membergrouprel , User
     @Override
     public EntityFormWindow<Membergrouprel> buildEntityWindow() {
     	EntityFormWindow<Membergrouprel> _e = new EntityFormWindow<Membergrouprel>();
-    	_e.addTab(membergroupRelEditor, "main");
+    	_e.addTab(membergroupRelEditor, I18nUtils.getMessage("membergrouprel.main", ""));
     	return _e;
     }
   

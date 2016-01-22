@@ -43,6 +43,8 @@ public class MainView extends CustomComponent {
 
 	@Autowired
 	private NavigatorMenuTree navigatorMenuTree;
+	
+	private final Label storeLabel = new Label();
 
 	private final TabSheet rightContentTabPanel = new TabSheet();
 	@SuppressWarnings("rawtypes")
@@ -50,15 +52,47 @@ public class MainView extends CustomComponent {
 
 	public MainView() {
 		super();
+		addAttachListener(new AttachListener() {
+			@Override
+			public void attach(AttachEvent event) {
+				setLanguage();
+			}
+		});
 	}
 
 	public MainView(com.vaadin.ui.Component compositionRoot) {
 		super(compositionRoot);
+	
+		addAttachListener(new AttachListener() {
+			
+			@Override
+			public void attach(AttachEvent event) {
+				setLanguage();
+			}
+		});
+	}
+	
+	private void setLanguage(){
+	
+		final com.serpics.base.data.model.Locale locale = (com.serpics.base.data.model.Locale) commerceEngine
+				.getCurrentContext().getLocale();
+		
+		if (locale != null) {
+			Locale _locale = new Locale(locale.getLanguage(), locale.getCountry());
+			getSession().setLocale(_locale);
+		}
+		
+		for (Object id : navigatorMenuTree.getItemIds()) {
+			navigatorMenuTree.setItemCaption(id,
+					I18nUtils.getMessage("smc.navigator."+id.toString(), id.toString()));
+		}
+		
+		 storeLabel.setCaption(commerceEngine.getCurrentContext().getStoreRealm().getName());
 	}
 
 	
-	
 	protected void builContent() {
+	
       final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(false);
 		layout.setSizeFull();
@@ -67,11 +101,11 @@ public class MainView extends CustomComponent {
 		toolbarLayout.addStyleName("top-toolbar");
 		 toolbarLayout.setWidth("100%");
          toolbarLayout.setSpacing(true);
-         Label label = new Label(commerceEngine.getCurrentContext().getStoreRealm().getName());
-         label.setSizeUndefined();
-         toolbarLayout.addComponent(label);
-         toolbarLayout.setExpandRatio(label, 1);
-         toolbarLayout.setComponentAlignment(label,
+         
+         storeLabel.setSizeUndefined();
+         toolbarLayout.addComponent(storeLabel);
+         toolbarLayout.setExpandRatio(storeLabel, 1);
+         toolbarLayout.setComponentAlignment(storeLabel,
                  Alignment.TOP_RIGHT);
 		
 		final HorizontalLayout menuTitle = new HorizontalLayout();
@@ -85,18 +119,6 @@ public class MainView extends CustomComponent {
 		final HorizontalLayout content = new HorizontalLayout();
 		content.setSizeFull();
 		
-		final com.serpics.base.data.model.Locale locale = (com.serpics.base.data.model.Locale) commerceEngine
-				.getCurrentContext().getLocale();
-		
-		if (locale != null) {
-			Locale _locale = new Locale(locale.getLanguage(), locale.getCountry());
-			getSession().setLocale(_locale);
-		}
-
-		for (Object id : navigatorMenuTree.getItemIds()) {
-			navigatorMenuTree.setItemCaption(id,
-					I18nUtils.getMessage("smc.navigator."+id.toString(), id.toString()));
-		}
 
 		navigatorMenuTree.setWidth("100%");
 		VerticalLayout leftPanel = new VerticalLayout();
@@ -162,6 +184,8 @@ public class MainView extends CustomComponent {
 		layout.setExpandRatio(content, 1);
 		
 		setCompositionRoot(layout);
+	
+		setSizeFull();
 	}
 
 	private void addComponent(final String id, final String caption) {
