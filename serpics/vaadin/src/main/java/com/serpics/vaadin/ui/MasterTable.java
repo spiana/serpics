@@ -142,7 +142,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 		final VerticalLayout v = new VerticalLayout();
 		v.setSizeFull();
-
+		this.editButtonPanel.setWidth("100%");
 		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
 		this.editButtonPanel.setEnabled(isEnabled());
 
@@ -251,13 +251,19 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		deleteButton = new Button(I18nUtils.getMessage("smc.button.remove", "Remove"));		
 		masterTableListner.get().deleteButtonClickListener(container, entityList, deleteButton);
 		editButtonPanel.addComponent(deleteButton);	
-	    
+//		editButtonPanel.setExpandRatio(newButton, 0.10F);
+//		editButtonPanel.setExpandRatio(editButton, 0.10F);
+//		editButtonPanel.setExpandRatio(deleteButton, 0.10F);
+		
 		if(searchFormEnable){
 			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
 			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
 			serchField.setWidth("100%");
+			searchPanel.setWidth("70%");
 			searchPanel.addComponent(serchField);
+			searchPanel.setExpandRatio(serchField, 1F);
 			editButtonPanel.addComponent(searchPanel);
+			editButtonPanel.setExpandRatio(searchPanel, 0.70F);
 			//editButtonPanel.addComponent(_advanceSearch);
 	    }
 

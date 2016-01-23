@@ -252,7 +252,6 @@ public class CustomUploadComponent extends CustomComponent {
 					try{
 						UI.getCurrent().setPollInterval(500);
 						importCsvService.importCsv(new StringReader(reader), getMappedClass(), new ImportPorgressListener() {
-							
 							@Override
 							public void process(int curentRecord, int maxrecord) {
 								float value = (float)(curentRecord*100)/(float)maxrecord;
@@ -269,7 +268,6 @@ public class CustomUploadComponent extends CustomComponent {
 							@Override
 							public void end() {
 							//	progress.setValue(Float.valueOf(0));
-								
 							}
 						});
 						

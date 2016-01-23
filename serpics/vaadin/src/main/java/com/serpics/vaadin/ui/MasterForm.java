@@ -168,11 +168,19 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		if (initialized) {
 			if (fieldGroup.isModified()) {
 				fieldGroup.commit();
+				
+				entityItem.commit();
+				
 				if (!entityItem.isPersistent()) {
 					entityItem.getContainer().addEntity(entityItem.getEntity());
 				}
-				entityItem.commit();
-				entityItem.getContainer().commit();
+				try{	
+					entityItem.getContainer().commit();
+				}catch (Exception e){
+					//TODO: to fix with something better.
+					entityItem.getContainer().refresh();
+					throw e;
+				}
 			}
 		}
 	}

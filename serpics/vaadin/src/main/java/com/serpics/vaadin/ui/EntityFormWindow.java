@@ -204,8 +204,9 @@ public class EntityFormWindow<T> extends Window implements Handler {
                 }
             }
         } catch (final CommitException e) {
-        	if (container != null && !item.isPersistent())
+        	if (container != null )
         		container.removeItem(item.getItemId());
+        	
             e.printStackTrace();
         }
     }
