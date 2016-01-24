@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.serpics.base.PriceType;
 import com.serpics.core.data.jpa.AbstractEntity;
 import com.serpics.core.security.StoreRealm;
 
@@ -38,10 +35,6 @@ public class Store extends AbstractEntity implements Serializable, StoreRealm {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "currency_id")
     private Currency currency;
-    
-    @Column(nullable = true )
-    @Enumerated(EnumType.STRING)
-    private PriceType taxType;
 
     public Store() {
      
@@ -50,6 +43,7 @@ public class Store extends AbstractEntity implements Serializable, StoreRealm {
     public void setName(final String name) {
         this.name = name;
     }
+
 
     @Override
     public String getName() {
@@ -65,15 +59,7 @@ public class Store extends AbstractEntity implements Serializable, StoreRealm {
     }
 
 
-    public PriceType getTaxType() {
-		return taxType;
-	}
-
-	public void setTaxType(PriceType taxType) {
-		this.taxType = taxType;
-	}
-
-	@Override
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

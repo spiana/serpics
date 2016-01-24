@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- * The primary key class for the taxlookuppk database table.
+ * The primary key class for the paymethlookup database table.
  * 
  */
 @Embeddable

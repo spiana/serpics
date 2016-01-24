@@ -10,16 +10,7 @@
          <id>miredot</id>
          <name>MireDot Releases</name>
          <url>http://nexus.qmino.com/content/repositories/miredot</url>
-            <snapshots>
-         <enabled>false</enabled>
-      </snapshots>
-   </pluginRepository>
-   <pluginRepository>
-      <id>miredot snapshots</id>
-      <name>MireDot Snapshots</name>
-      <url>http://nexus.qmino.com/content/repositories/miredot-snapshots</url>
-   </pluginRepository>
-
+      </pluginRepository>
    </pluginRepositories>
    
        <repositories>
@@ -37,7 +28,7 @@
      <plugin>
             <groupId>com.qmino</groupId>
             <artifactId>miredot-plugin</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>1.6.2</version>
             <executions>
                <execution>
                   <goals>
@@ -79,7 +70,7 @@
         	  		<title>SerpicsFrameWork eCommerce Suite</title>
         	  		<html>
         	  			<!-- optional html configuration -->
-        	  		<initialCollapseLevel>2</initialCollapseLevel>
+        	  		<initialCollapseLevel>1</initialCollapseLevel>
 
         	  		</html>
         		</output>
@@ -190,47 +181,27 @@
                <version>${fasterxml-version}</version>
        </dependency>
  -->    
- 
- <dependency>
-	<groupId>com.fasterxml.jackson.core</groupId>
-	<artifactId>jackson-core</artifactId>
-	<version>2.7.0</version>
-</dependency>
+        <dependency>
 
-<dependency>
-	<groupId>com.fasterxml.jackson.core</groupId>
-	<artifactId>jackson-annotations</artifactId>
-	<version>2.7.0</version>
-</dependency>
-<dependency>
-	<groupId>com.fasterxml.jackson.core</groupId>
-	<artifactId>jackson-databind</artifactId>
-	<version>2.7.0</version>
-</dependency>
-
-
- 
-<!--         <dependency> -->
-
-<!--             <groupId>org.codehaus.jackson</groupId> -->
-<!--             <artifactId>jackson-core-asl</artifactId> -->
-<!--             <version>${jackson.version}</version> -->
-<!--         </dependency> -->
-<!--         <dependency> -->
-<!--             <groupId>org.codehaus.jackson</groupId> -->
-<!--             <artifactId>jackson-mapper-asl</artifactId> -->
-<!--             <version>${jackson.version}</version> -->
-<!--         </dependency> -->
-<!--          <dependency> -->
-<!--             <groupId>org.codehaus.jackson</groupId> -->
-<!--             <artifactId>jackson-jaxrs</artifactId> -->
-<!--             <version>${jackson.version}</version> -->
-<!--          </dependency>  -->
-<!--          <dependency> -->
-<!--         	<groupId>org.codehaus.jackson</groupId> -->
-<!--         	<artifactId>jackson-xc</artifactId> -->
-<!--         	<version>${jackson.version}</version> -->
-<!--         </dependency> -->
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+         <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>${jackson.version}</version>
+         </dependency> 
+         <dependency>
+        	<groupId>org.codehaus.jackson</groupId>
+        	<artifactId>jackson-xc</artifactId>
+        	<version>${jackson.version}</version>
+        </dependency>
        
        <dependency>
             <groupId>com.qmino</groupId>

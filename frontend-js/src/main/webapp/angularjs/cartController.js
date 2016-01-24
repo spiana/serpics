@@ -5,7 +5,6 @@
                                   
 function($state,$scope,customerService,cartService,$log,$stateParams) {
 		
-		$scope.$state = $state;
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
 	  	

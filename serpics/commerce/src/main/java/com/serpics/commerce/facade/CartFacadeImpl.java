@@ -1,8 +1,5 @@
 package com.serpics.commerce.facade;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -14,12 +11,10 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
-import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
-import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.commerce.services.CartService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.UserType;
@@ -56,8 +51,8 @@ public class CartFacadeImpl implements CartFacade {
 	@Resource(name="cartConverter")
 	AbstractPopulatingConverter<Cart, CartData> cartConverter;
 	
-	@Resource(name="shipmodeConverter")
-	AbstractPopulatingConverter<Shipmode, ShipmodeData> shipmodeConverter;
+	@Resource(name="cartItemConvert")
+	AbstractPopulatingConverter<Cartitem , CartItemData> cartItemConverter;
 	
 	public CartModification cartAdd(String sku){ 
 		 return cartAdd(sku, 1);
@@ -185,29 +180,6 @@ public class CartFacadeImpl implements CartFacade {
 		return addShippingAddress(shippingAddress);
 	}
 	
-	@Override
-	public List<ShipmodeData> getShipmodeList(){
-		List<ShipmodeData> shipmodeList = new ArrayList<ShipmodeData>();
-		for (Shipmode shipmode : cartService.getShipmode()){
-			shipmodeList.add(shipmodeConverter.convert(shipmode));
-		}
-		return shipmodeList;
-	}
 	
-	@Override
-	public CartData addShipmode(Long shipmodeId){
-		CartData cartdata = null;
-		cartService.addShipmode(shipmodeId);
-		try {
-			
-			Cart cart = cartService.prepareCart();
-			cartdata = cartConverter.convert(cart);
-			
-		} catch (InventoryNotAvailableException | ProductNotFoundException e) {
-			LOG.error("Error to add shipmode into cart", e);
-		}
-		
-		return cartdata;
-	}
 	
 }

@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlSchemaType;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-@JsonIgnoreProperties({"created","updated","uuid"})
 public abstract class AbstractData {
 	
 	@XmlSchemaType(name = "date")

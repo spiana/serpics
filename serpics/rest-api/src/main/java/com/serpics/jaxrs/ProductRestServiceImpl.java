@@ -2,7 +2,6 @@ package com.serpics.jaxrs;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -28,7 +27,6 @@ import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
-import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.ProductDataRequest;
@@ -42,13 +40,10 @@ public class ProductRestServiceImpl implements ProductRestService {
 
 	@Autowired
 	CategoryFacade categoryFacade;
-	
-	@Resource(name="productDataRequestConverter")
-	AbstractPopulatingConverter<ProductDataRequest, ProductData> productDataRequestConverter;
 
     /**
      * This method inserts a product, with category and brand, into catalog.
-     * @summary  Method: insert(ProductDataRequest productDataRequest,Long categoryId,Long brandId)
+     * @summary  Method: insert(ProductData product,Long categoryId,Long brandId)
      * @param 	product The product to insert
      * @param 	categoryId The category of product
      * @param 	brandId The brand of product
@@ -60,10 +55,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{category}/{brand}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insert(ProductDataRequest productDataRequest, @PathParam("category") Long categoryId,
+	public Response insert(ProductDataRequest product, @PathParam("category") Long categoryId,
 			@PathParam("brand") Long brandId) {
-		
-		ProductData product = productDataRequestConverter.convert(productDataRequest);
 		
 		Assert.notNull(product);
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
@@ -78,7 +71,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method inserts a product, with category, into catalog.
-     * @summary  Method: insertCategory(ProductDataRequest productDataRequest,Long categoryId)
+     * @summary  Method: insertCategory(ProductData product,Long categoryId)
      * @param 	product The product to insert
      * @param 	categoryId The category of product
      * @return Response		object type: apiRestResponse
@@ -89,10 +82,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/category/{category}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insertCategory(ProductDataRequest productDataRequest, @PathParam("category") Long categoryId) {
-		
-		ProductData product = productDataRequestConverter.convert(productDataRequest);
-		
+	public Response insertCategory(ProductDataRequest product, @PathParam("category") Long categoryId) {
 		Assert.notNull(product);
 
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
@@ -108,7 +98,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method inserts a product, with brand, into catalog.
-     * @summary  Method: insertBrand(ProductDataRequest productDataRequest,Long brandId)
+     * @summary  Method: insertBrand(ProductData product,Long brandId)
      * @param 	product The product to insert
      * @param 	brandId The category of product
      * @return Response		object type: apiRestResponse
@@ -119,9 +109,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/brand/{brand}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insertBrand(ProductDataRequest productDataRequest, @PathParam("brand") Long brandId) {
-		
-		ProductData product = productDataRequestConverter.convert(productDataRequest);
+	public Response insertBrand(ProductDataRequest product, @PathParam("brand") Long brandId) {
 		Assert.notNull(product);
 
 		ProductData productData = null;
@@ -136,7 +124,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method inserts a product into catalog.
-     * @summary  Method: insertBrand(ProductDataRequest productDataRequest)
+     * @summary  Method: insertBrand(ProductData product)
      * @param 	product The product to insert
      * @return Response		object type: apiRestResponse
      */
@@ -145,10 +133,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insert(ProductDataRequest productDataRequest) {
-		
-		ProductData product = productDataRequestConverter.convert(productDataRequest);
-		
+	public Response insert(ProductDataRequest product) {
 		Assert.notNull(product);
 		ProductData productData = null;
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
@@ -162,7 +147,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method updates a product.
-     * @summary  Method: update(ProductDataRequest productDataRequest)
+     * @summary  Method: update(ProductData product)
      * @param 	product The product to update
      * @return Response		object type: apiRestResponse
      */
@@ -171,9 +156,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response update(ProductDataRequest productDataRequest) {
-		
-		ProductData product = productDataRequestConverter.convert(productDataRequest);
+	public Response update(ProductDataRequest product) {
 		Assert.notNull(product);
 		ProductData productData = null;
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();

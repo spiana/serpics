@@ -7,7 +7,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.qmino.miredot.annotations.MireDotIgnore;
 import com.serpics.membership.data.model.User;
 @MireDotIgnore

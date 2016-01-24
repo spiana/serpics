@@ -25,8 +25,6 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CartStrategy;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.facade.AbstractPopulatingConverter;
-import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.UserDataRequest;
@@ -49,16 +47,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	CartStrategy cartStrategy;
-	
-	@Resource(name="userDataRequestConverter")
-	AbstractPopulatingConverter<UserDataRequest, UserData> userDataRequestConverter;
-	
-	@Resource(name="addressDataRequestConverter")
-	AbstractPopulatingConverter<AddressDataRequest, AddressData> addressDataRequestConverter;
 
     /**
      * This method creates a user.
-     * @summary  Method: create(UserDataRequest userDataRequest)
+     * @summary  Method: create(final UserData user)
      * @param user The user to create
      * @return Response		object type: apiRestResponse
      */
@@ -68,10 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@POST
 	@Path("register")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response create(UserDataRequest userDataRequest) {
-		
-		UserData user = userDataRequestConverter.convert(userDataRequest);
-		
+	public Response create(final UserDataRequest user) {
 		Assert.notNull(user);
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 		try {
@@ -107,7 +96,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates a user.
-     * @summary  Method: update(UserDataRequest userDataRequest)
+     * @summary  Method: update(UserData entity)
      * @param entity The user to update
      * @return Response		object type: apiRestResponse
      */
@@ -115,10 +104,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response update(UserDataRequest userDataRequest) {
-		
-		UserData entity = userDataRequestConverter.convert(userDataRequest);
-		
+	public Response update(final UserDataRequest entity) {
 		if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS) {
 			userFacade.updateUser(entity);
 		}
@@ -168,7 +154,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates the address of a user
-     * @summary  Method: updateContactAddress(AddressDataRequest addressDataRequest)
+     * @summary  Method: updateContactAddress(AddressData address)
      * @param address The address to update
      * @return Response		object type: apiRestResponse
      */
@@ -177,9 +163,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateContactAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateContactAddress(AddressDataRequest addressDataRequest) {
-		
-		AddressData address = addressDataRequestConverter.convert(addressDataRequest);
+	public Response updateContactAddress(AddressData address) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
@@ -191,7 +175,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates the BillingAddress of a user
-     * @summary  Method: updateBillingAddress(AddressDataRequest addressDataRequest)
+     * @summary  Method: updateBillingAddress(AddressData address)
      * @param address The BillingAddress to update
      * @return Response		object type: apiRestResponse
      */
@@ -200,9 +184,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateBillingAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateBillingAddress(AddressDataRequest addressDataRequest) {
-		
-		AddressData address = addressDataRequestConverter.convert(addressDataRequest);
+	public Response updateBillingAddress(AddressData address) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
@@ -214,7 +196,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates the DestinationAddress of a user
-     * @summary  Method:  updateDestinationAddress(AddressDataRequest addressDataRequest)
+     * @summary  Method:  updateDestinationAddress(AddressData address)
      * @param address The DestinationAddress to update
      * @return Response		object type: apiRestResponse
      */
@@ -223,8 +205,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateDestinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateDestinationAddress(AddressDataRequest addressDataRequest) {
-		AddressData address = addressDataRequestConverter.convert(addressDataRequest);
+	public Response updateDestinationAddress(AddressData address) {
 		Assert.notNull(address, "address can not be null !");
 		Assert.notNull(address.getUuid(), "UUID can not ve null !");
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -237,7 +218,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method adds the DestinationAddress to a user
-     * @summary  Method:  addDestinationAddress(AddressDataRequest addressDataRequest)
+     * @summary  Method:  addDestinationAddress(AddressData address)
      * @param address The DestinationAddress to add
      * @return Response		object type: apiRestResponse
      */
@@ -246,9 +227,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("addDestinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response addDestinationAddress(AddressDataRequest addressDataRequest) {
-		
-		AddressData address = addressDataRequestConverter.convert(addressDataRequest);
+	public Response addDestinationAddress(AddressData address) {
 
 		Assert.notNull(address, "address can not be null !");
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();

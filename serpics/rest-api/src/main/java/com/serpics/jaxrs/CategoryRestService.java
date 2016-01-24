@@ -2,6 +2,7 @@ package com.serpics.jaxrs;
 
 import javax.ws.rs.core.Response;
 
+import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.jaxrs.data.CategoryDataRequest;
 
 public interface CategoryRestService {

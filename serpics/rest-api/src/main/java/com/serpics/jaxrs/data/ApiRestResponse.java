@@ -1,6 +1,6 @@
 package com.serpics.jaxrs.data;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 @JsonPropertyOrder({"status","message","responseObject"})
 public class ApiRestResponse<T> {

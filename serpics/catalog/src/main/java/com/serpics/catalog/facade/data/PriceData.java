@@ -13,8 +13,7 @@ public class PriceData extends AbstractData{
 	protected Date validFrom;
 	protected Date validTo;
 	protected int precedence;
-	//protected ProductData product;
-	
+	protected ProductData product;
 	public Double getProductCost() {
 		return productCost;
 	}
@@ -51,12 +50,12 @@ public class PriceData extends AbstractData{
 	public void setValidTo(Date validTo) {
 		this.validTo = validTo;
 	}
-//	public ProductData getProduct() {
-//		return product;
-//	}
-//	public void setProduct(ProductData product) {
-//		this.product = product;
-//	}
+	public ProductData getProduct() {
+		return product;
+	}
+	public void setProduct(ProductData product) {
+		this.product = product;
+	}
 	public int getPrecedence() {
 		return precedence;
 	}

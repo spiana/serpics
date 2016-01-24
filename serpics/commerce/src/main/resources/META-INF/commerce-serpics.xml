@@ -21,9 +21,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <bean name="abstractOrderSaveInterceptor" class="com.serpics.commerce.data.interceptors.AbstractOrderSaveInterceptor"/>
 	<bean name="paymethodlookupCreateInterceptor"
 		class="com.serpics.commerce.data.interceptors.PaymethodlookupSaveInterceptor" />
-		
-	<bean name="taxlookupCreateInterceptor"
-		class="com.serpics.commerce.data.interceptors.TaxlookupSaveInterceptor" />
 	
 	<bean name="paymethodlookupCreateMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.commerce.data.model.Paymethodlookup" />
@@ -35,45 +32,11 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="targetEntity" value="com.serpics.commerce.data.model.AbstractOrder" />
 		<property name="order" value="10" />
 		<property name="interceptor" ref="abstractOrderSaveInterceptor" />
-	</bean>
-	
-	<bean name="taxlookupCreateMapping" class="com.serpics.core.data.InterceptorMapping">
-		<property name="targetEntity" value="com.serpics.commerce.data.model.Taxlookup" />
-		<property name="order" value="10" />
-		<property name="interceptor" ref="taxlookupCreateInterceptor" />
 	</bean> 
 	
 	<!-- facade -->
-	
-	<!-- Shipmode Converter -->
-	<alias name="defaultShipmodePopulator" alias="shipmodePopulator"/>
-    <bean name="defaultShipmodePopulator" class="com.serpics.commerce.facade.ShipmodePopulator" />
-	
-	<alias name="defaultShipmodeConverter" alias="shipmodeConverter"/>
-	  <bean name="defaultShipmodeConverter" parent="abstractConverter">
-	       <property name="targetClass" value="com.serpics.commerce.facade.data.ShipmodeData"/>
-	       <property name="populators">
-		      <list>
-		          <ref bean="shipmodePopulator"/>  
-		      </list>
-    		</property>
-	  </bean>
-	  
-	<!-- Shipping Converter -->
-	<alias name="defaultShippingPopulator" alias="shippingPopulator"/>
-    <bean name="defaultShippingPopulator" class="com.serpics.commerce.facade.ShippingPopulator" />
-	
-	<alias name="defaultShippingConverter" alias="shippingConverter"/>
-	  <bean name="defaultShippingConverter" parent="abstractConverter">
-	       <property name="targetClass" value="com.serpics.commerce.facade.data.ShippingData"/>
-	       <property name="populators">
-		      <list>
-		          <ref bean="shippingPopulator"/>  
-		      </list>
-    		</property>
-	  </bean>
-	  
 	<!-- Cart Item Converter -->
+	
 	<alias name="defaultCartItemPopulator" alias="cartItemPopulator"/>
     <bean name="defaultCartItemPopulator" class="com.serpics.commerce.facade.CartItemPopulator" />
 	

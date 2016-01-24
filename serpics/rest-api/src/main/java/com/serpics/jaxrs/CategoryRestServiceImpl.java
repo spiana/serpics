@@ -2,7 +2,6 @@ package com.serpics.jaxrs;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -25,7 +24,6 @@ import org.springframework.util.Assert;
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.data.CategoryData;
-import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.CategoryDataRequest;
@@ -36,9 +34,6 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
 	@Autowired
 	CategoryFacade categoryFacade;
-	
-	@Resource(name="categoryDataRequestConverter")
-	AbstractPopulatingConverter<CategoryDataRequest, CategoryData> categoryDataRequestConverter;
 	
     /**
      * This method gets a category with some code.
@@ -115,9 +110,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{parent}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
-	public Response createParent(CategoryDataRequest categoryDataRequest, @PathParam("parent") Long parentId){
-		
-		CategoryData category = categoryDataRequestConverter.convert(categoryDataRequest);
+	public Response createParent(CategoryDataRequest category, @PathParam("parent") Long parentId){
 		Assert.notNull(category);
 		Assert.notNull(parentId);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
@@ -130,7 +123,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
     /**
      * This method creates a category.
-     * @summary  Method: create(CategoryDataRequest categoryDataRequest)
+     * @summary  Method: create(CategoryData category)
      * @param category The category to create
      * @return Response		object type: apiRestResponse
      * 
@@ -140,10 +133,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
-	public Response create(CategoryDataRequest categoryDataRequest){
-		
-		CategoryData category = categoryDataRequestConverter.convert(categoryDataRequest);
-		
+	public Response create(CategoryDataRequest category){
 		Assert.notNull(category);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = null;
@@ -200,7 +190,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
     /**
      * This method updates a category
-     * @summary  Method: update(CategoryDataRequest categoryDataRequest)
+     * @summary  Method: update(CategoryData category)
      * @param category The category to update
      * @return Response		object type: apiRestResponse
      * 
@@ -210,9 +200,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
-	public Response update(CategoryDataRequest categoryDataRequest){
-		
-		CategoryData category = categoryDataRequestConverter.convert(categoryDataRequest);
+	public Response update(CategoryDataRequest category){
 		Assert.notNull(category);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = null;

@@ -12,44 +12,47 @@ import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Store;
 
+
+
 /**
- * The persistent class for the taxlookup database table.
+ * The persistent class for the paymethlookup database table.
  * 
  */
 @Entity
-@Table(name = "taxeslookup")
+@Table(name="taxeslookup" )
 public class Taxlookup extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private TaxlookupPK id;
+	private PaymethodlookupPK id;
 
-	@Column(nullable = false)
+	@Column(nullable=false)
 	private boolean active;
 
-	// bi-directional many-to-one association to Store
-	@ManyToOne
-	@NotNull
-	@JoinColumn(name = "store_id", insertable = false, updatable = false)
+
+	//bi-directional many-to-one association to Store
+    @ManyToOne
+    @NotNull
+	@JoinColumn(name="store_id", insertable=false, updatable=false)
 	private Store store;
 
-	// bi-directional many-to-one association to Tax
-	@ManyToOne
-	@NotNull
-	@JoinColumn(name = "taxes_id", insertable = false, updatable = false)
+	//bi-directional many-to-one association to Paymethod
+    @ManyToOne
+    @NotNull
+	@JoinColumn(name="taxes_id", insertable=false, updatable=false)
 	private Tax tax;
 
-	public Taxlookup() {
-	}
+    public Taxlookup() {
+    }
 
-	public TaxlookupPK getId() {
+	public PaymethodlookupPK getId() {
 		return this.id;
 	}
 
-	public void setId(TaxlookupPK id) {
+	public void setId(PaymethodlookupPK id) {
 		this.id = id;
 	}
-
+	
 	public boolean getActive() {
 		return this.active;
 	}
@@ -73,5 +76,5 @@ public class Taxlookup extends com.serpics.core.data.jpa.AbstractEntity implemen
 	public void setTax(Tax tax) {
 		this.tax = tax;
 	}
-
+	
 }

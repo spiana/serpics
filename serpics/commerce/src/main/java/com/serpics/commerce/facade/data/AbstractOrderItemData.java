@@ -3,6 +3,7 @@ package com.serpics.commerce.facade.data;
 import com.serpics.catalog.facade.data.AbstractProductData;
 import com.serpics.core.facade.AbstractData;
 
+
 public abstract  class AbstractOrderItemData extends AbstractData{
 	protected Double discountAmount;
 	protected Double discountPerc;

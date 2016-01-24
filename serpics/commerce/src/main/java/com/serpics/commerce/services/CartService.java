@@ -1,7 +1,5 @@
 package com.serpics.commerce.services;
 
-import java.util.List;
-
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
@@ -75,10 +73,6 @@ public interface CartService {
     public void setShippingMode(Shipmode shippingMode);
 
 	public void removeCartFromSession();
-
-	public List<Shipmode> getShipmode();
-
-	public void addShipmode(Long shipmodeId);
       
 
 }

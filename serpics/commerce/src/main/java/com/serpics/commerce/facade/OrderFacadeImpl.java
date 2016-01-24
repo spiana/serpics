@@ -110,12 +110,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	private Cart updateCartFromCartData(CartData cartData, Cart cart) throws InventoryNotAvailableException, ProductNotFoundException{
 		cartFacade.addBillingAddress(cartData.getBillingAddress());
 		cartFacade.addShippingAddress(cartData.getShippingAddress());
-		
-		if (cartData.getShipmode() != null){
-			if (cartData.getShipmode().getId() != null){
-				cartService.addShipmode(cartData.getShipmode().getId());
-			}
-		}
+		cart.setShipmode(cartData.getShipmode());
 		
 		Set<CartItemData> cartItemsData = cartData.getOrderItems();
 		for (CartItemData item : cartItemsData){			

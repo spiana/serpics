@@ -14,8 +14,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	  		deleteItem			: deleteItem,
 	  		addBillingAddress	: addBillingAddress,
 	  		addShippingAddress	: addShippingAddress,
-	  		getShipmodeList		: getShipmodeList,
-	  		addShipmode			: addShipmode,
+	  		
 	    });                
 	    return service
 	
@@ -152,47 +151,6 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 			             headers: {
 			             	'ssid': sessionId,
 			             	'Content-Type': 'application/json'
-			            }
-			          }).then(handleSuccess, handleError).then(resolve, reject);
-	    		});
-	    	});
-	    }
-	    
-	    /**
-	     * @param shipmodeId
-	     * @return 
-	     */     
-	    function addShipmode(shipmodeId) {
-	    	var serviceSSID = serpicsServices;
-	    	return $q(function(resolve, reject) {
-	    		
-	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			$log.debug("cartService addShipmode(shipmodeId) ssid nel promise "+sessionId) ;
-	    			$http({
-			             method: 'POST',
-			             url: URL + endpoint + "shipmode/" + shipmodeId,
-			             headers: {
-			             	'ssid': sessionId,
-			            }
-			          }).then(handleSuccess, handleError).then(resolve, reject);
-	    		});
-	    	});
-	    }
-	    
-	    /**
-	     * @return 
-	     */     
-	    function getShipmodeList() {
-	    	var serviceSSID = serpicsServices;
-	    	return $q(function(resolve, reject) {
-	    		
-	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			$log.debug("cartService getShipmodeList() ssid nel promise "+sessionId) ;
-	    			$http({
-			             method: 'GET',
-			             url: URL + endpoint + "shipmode/" + shipmodeId,
-			             headers: {
-			             	'ssid': sessionId,
 			            }
 			          }).then(handleSuccess, handleError).then(resolve, reject);
 	    		});

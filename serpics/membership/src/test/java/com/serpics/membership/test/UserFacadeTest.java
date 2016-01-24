@@ -257,7 +257,7 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	private void createRegion(CountryData cd) {
 	
 		RegionData r = new RegionData();
-//		r.setCountry(cd);
+		r.setCountry(cd);
 		r.setName("VB");
 		r.setDescription("Verbano-Cusio-Ossola");
 		r = regionFacade.addRegion(r);

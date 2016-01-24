@@ -8,7 +8,7 @@ public interface CommerceStrategy {
 
     public void calculateShipping(AbstractOrderitem orderitem);
 
-    public void calculateShipping(AbstractOrder order);
+    public void calculateShiping(AbstractOrder order);
 
     public void calculateProductTotal(AbstractOrder order);
 

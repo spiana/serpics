@@ -9,13 +9,10 @@
 			</div><!--/breadcrums-->
 			
 			<div class="step-one">
-				<h2 class="heading" ng-show="$state.is('checkout.address') || $state.is('checkout.register') || $state.is('checkout.login')" >Step1</h2>
-				<h2 class="heading" ng-show="$state.is('checkout.shipping')" >Step2</h2>
-				<h2 class="heading" ng-show="$state.is('checkout.shipMode')" >Step3</h2>
-				<h2 class="heading" ng-show="$state.is('checkout.payment')" >Step4</h2>
+				<h2 class="heading">Step1</h2>
 			</div>
 			
-			<div ng-show="currentUser.userType == 'ANONYMOUS' && ($state.is('checkout.address') || $state.is('checkout.register') || $state.is('checkout.login'))">
+			<div ng-show="currentUser.userType == 'ANONYMOUS'">
 						
 			<div class="checkout-options">
 				<h3>New User</h3>
@@ -34,7 +31,7 @@
 			</div><!--/checkout-options-->
 
 			<div class="register-req">
-				<p>Please use Register and Login to easily get access to your order history, or use Checkout as Guest</p>
+				<p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
 			</div><!--/register-req-->
 			
 			</div>

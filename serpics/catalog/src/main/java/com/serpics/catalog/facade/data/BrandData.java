@@ -1,10 +1,11 @@
 package com.serpics.catalog.facade.data;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
 import com.serpics.core.facade.AbstractData;
 
 
-@JsonPropertyOrder({"name","logo","published","brandProductNumber"})
+@JsonPropertyOrder({"id","uuid","created","updated","name","logo","published","brandProductNumber"})
 public class BrandData extends AbstractData{
 		
     protected String logo; //The Logo of the brand
