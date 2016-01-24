@@ -22,6 +22,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.serpics.base.PriceType;
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
 import com.serpics.membership.data.model.Address;
@@ -131,6 +132,8 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @JoinColumn(
         name="shipping_address_id", unique=true, nullable=true, updatable=true)
     protected Address shippingAddress;
+    
+    protected PriceType taxType;
 
     public AbstractOrder() {
     }
@@ -312,6 +315,14 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
 
 	public void setTotalTax(Double totalTax) {
 		this.totalTax = totalTax;
+	}
+
+	public PriceType getTaxType() {
+		return taxType;
+	}
+
+	public void setTaxType(PriceType taxType) {
+		this.taxType = taxType;
 	}
 
 }

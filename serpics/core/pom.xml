@@ -5,6 +5,10 @@
 
 	<artifactId>core</artifactId>
 	<packaging>jar</packaging>
+	
+	    <properties>
+        	<jackson.version>2.7.0</jackson.version>
+   		</properties>
 
 	<dependencies>
 		<dependency>
@@ -131,12 +135,18 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.10</version>
 		</dependency>
-		        <dependency>
+		
+		<dependency>
+	<groupId>com.fasterxml.jackson.core</groupId>
+	<artifactId>jackson-annotations</artifactId>
+	<version>${jackson.version}</version>
+</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
 	</dependencies>
 
 	<build>

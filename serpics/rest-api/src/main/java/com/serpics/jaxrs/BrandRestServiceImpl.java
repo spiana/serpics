@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.data.BrandData;
+import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.BrandDataRequest;
@@ -35,11 +36,16 @@ public class BrandRestServiceImpl implements BrandRestService {
 
 	@Resource
 	BrandFacade brandFacade;
+	
+	@Resource(name="brandDataRequestConverter")
+	AbstractPopulatingConverter<BrandDataRequest, BrandData> brandDataRequestConverter;
+	
+	
 
 	
     /**
      * This method adds a brand to catalog.
-     * @summary  Method: addBrand(BrandData brand)
+     * @summary  Method: addBrand(BrandDataRequest brandDataRequest)
      * @param brand The brand to add
      * @return Response		object type: apiRestResponse
      * 
@@ -49,8 +55,11 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
-	public Response addBrand(BrandDataRequest brand) {
+	public Response addBrand(BrandDataRequest brandDataRequest) {
+		
+		BrandData brand = brandDataRequestConverter.convert(brandDataRequest);
 
+		
 		Assert.notNull(brand, "brand can not be null !");
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
 
@@ -106,7 +115,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 
     /**
      * This method updates a brand.
-     * @summary  Method: updateBrand(BrandData brand)
+     * @summary  Method: updateBrand(BrandDataRequest brandDataRequest)
      * @param brand The brand to update
      * @return Response		object type: apiRestResponse
      */
@@ -115,7 +124,9 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
-	public Response updateBrand(BrandDataRequest brand) {
+	public Response updateBrand(BrandDataRequest brandDataRequest) {
+		
+		BrandData brand = brandDataRequestConverter.convert(brandDataRequest);
 
 		Assert.notNull(brand, "brand can not be null !");
 		Assert.notNull(brand.getId(), "brandId can not be null !");
