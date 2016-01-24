@@ -56,13 +56,17 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @JoinColumn(name = "currency_id")
     private Currency currency;
 
+    /*
+     * this field must be EAGER 
+     *  Vaadin JPAContainer  does not work correctly when LAZY
+     */
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne( fetch = FetchType.EAGER,optional = false , targetEntity= Member.class) 
     @JoinColumn(name = "customer_id")
     protected Member customer;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false , targetEntity= User.class)
     @JoinColumn(name = "user_id")
     protected User user;
 
@@ -313,5 +317,6 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
 	public void setTotalTax(Double totalTax) {
 		this.totalTax = totalTax;
 	}
+	
 
 }
