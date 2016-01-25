@@ -458,9 +458,9 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("search/{text}")
+	@Path("/search")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
-	public Response findBySearch(@PathParam("text") String searchText, @QueryParam("page") @DefaultValue("0") int page,
+	public Response findBySearch(@QueryParam("searchText") @DefaultValue("") String searchText, @QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("size") @DefaultValue("10") int size) {
 
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();

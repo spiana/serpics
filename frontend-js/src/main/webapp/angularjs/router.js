@@ -40,7 +40,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
     })
     
     .state('shop.search', {
-    	url: '/search/:textSearch',
+    	url: "/search?:textSearch",
         controller: function ($stateParams, $scope) {
         	$scope.name = 'Search Page';
         	$scope.textSearch = $stateParams.textSearch;
