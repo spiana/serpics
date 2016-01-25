@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -70,7 +71,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response create(UserDataRequest userDataRequest) {
 		
-		UserData user = userDataRequestConverter.convert(userDataRequest);
+		UserData user = new UserData();
+		BeanUtils.copyProperties(userDataRequest, user);
 		
 		Assert.notNull(user);
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -117,10 +119,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response update(UserDataRequest userDataRequest) {
 		
-		UserData entity = userDataRequestConverter.convert(userDataRequest);
+		UserData user = new UserData();
+		BeanUtils.copyProperties(userDataRequest, user);
 		
 		if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS) {
-			userFacade.updateUser(entity);
+			userFacade.updateUser(user);
 		}
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -179,7 +182,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateContactAddress(AddressDataRequest addressDataRequest) {
 		
-		AddressData address = addressDataRequestConverter.convert(addressDataRequest);
+		AddressData address = new AddressData();
+		BeanUtils.copyProperties(addressDataRequest, address);		
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
@@ -202,7 +206,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateBillingAddress(AddressDataRequest addressDataRequest) {
 		
-		AddressData address = addressDataRequestConverter.convert(addressDataRequest);
+		AddressData address = new AddressData();
+		BeanUtils.copyProperties(addressDataRequest, address);	
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
@@ -224,7 +229,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Path("updateDestinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateDestinationAddress(AddressDataRequest addressDataRequest) {
-		AddressData address = addressDataRequestConverter.convert(addressDataRequest);
+		AddressData address = new AddressData();
+		BeanUtils.copyProperties(addressDataRequest, address);	
 		Assert.notNull(address, "address can not be null !");
 		Assert.notNull(address.getUuid(), "UUID can not ve null !");
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -248,7 +254,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response addDestinationAddress(AddressDataRequest addressDataRequest) {
 		
-		AddressData address = addressDataRequestConverter.convert(addressDataRequest);
+		AddressData address = new AddressData();
+		BeanUtils.copyProperties(addressDataRequest, address);	
 
 		Assert.notNull(address, "address can not be null !");
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
