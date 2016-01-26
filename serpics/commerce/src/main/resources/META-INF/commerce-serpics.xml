@@ -59,6 +59,20 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     		</property>
 	  </bean>
 	  
+	<!-- Paymethod Converter -->
+	<alias name="defaultPaymethodPopulator" alias="paymethodPopulator"/>
+    <bean name="defaultPaymethodPopulator" class="com.serpics.commerce.facade.PaymethodPopulator" />
+	
+	<alias name="defaultPaymethodConverter" alias="paymethodConverter"/>
+	  <bean name="defaultPaymethodConverter" parent="abstractConverter">
+	       <property name="targetClass" value="com.serpics.commerce.facade.data.PaymethodData"/>
+	       <property name="populators">
+		      <list>
+		          <ref bean="paymethodPopulator"/>  
+		      </list>
+    		</property>
+	  </bean>
+	  
 	<!-- Shipping Converter -->
 	<alias name="defaultShippingPopulator" alias="shippingPopulator"/>
     <bean name="defaultShippingPopulator" class="com.serpics.commerce.facade.ShippingPopulator" />

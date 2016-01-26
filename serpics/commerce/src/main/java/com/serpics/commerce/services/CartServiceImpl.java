@@ -5,6 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -25,10 +30,14 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.Paymethod;
+import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.data.repositories.CartItemRepository;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderItemRepository;
+import com.serpics.commerce.data.repositories.PaymethodRepository;
+import com.serpics.commerce.data.repositories.PaymethodlookupRepository;
 import com.serpics.commerce.data.repositories.ShipmodeRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CommerceStrategy;
@@ -83,7 +92,24 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	ShipmodeRepository shipmodeRepository;
 	
 	@Resource
+	PaymethodRepository paymethodRepository;
+	
+	@Resource
+	PaymethodlookupRepository PaymethodlookupRepository;
+	
+	@Resource
 	CommerceEngine commerceEngine;
+	
+	protected Specification<Paymethodlookup> findActivePaymethodlookup() {
+		return new Specification<Paymethodlookup>() {
+			@Override
+			public Predicate toPredicate(final Root<Paymethodlookup> root, final CriteriaQuery<?> query, 
+					final CriteriaBuilder cb) {
+						Predicate p = cb.equal(root.get("active"), true);
+						return p;
+			}
+		};
+	}
 
 	@Override
 	@Transactional
@@ -475,6 +501,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	}
 	
 	@Override
+	@Transactional
 	public void addShipmode(Long shipmodeId){
 		Shipmode shipmode = shipmodeRepository.findOne(shipmodeId);
 		Assert.notNull(shipmode, "shipmode can not be null !");
@@ -483,5 +510,28 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		cartRepository.saveAndFlush(c);
 		putCartinSession(c);
 	}
+	
+	@Override
+	public List<Paymethod> getPaymethod(){
+		List<Paymethod> paymethodList = new ArrayList<Paymethod>();
+		List<Paymethodlookup> paymethodlookupList = PaymethodlookupRepository.findAll(findActivePaymethodlookup());
+		
+		for (Paymethodlookup paymethodlookup : paymethodlookupList){
+			paymethodList.add(paymethodlookup.getPaymethod());
+		}
+		
+		return paymethodList;
+	}
 
+	@Override
+	@Transactional
+	public void addPaymethod(Long paymethodId){
+		Paymethod paymethod = paymethodRepository.findOne(paymethodId);
+		Assert.notNull(paymethod, "paymethod can not be null !");
+		Cart c = getSessionCart();
+		c.setPaymethod(paymethod);
+		cartRepository.saveAndFlush(c);
+		putCartinSession(c);
+	}
+	
 }

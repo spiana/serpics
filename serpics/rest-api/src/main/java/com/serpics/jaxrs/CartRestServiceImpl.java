@@ -24,6 +24,7 @@ import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
+import com.serpics.commerce.facade.data.PaymethodData;
 import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.jaxrs.data.AddressDataRequest;
@@ -218,6 +219,45 @@ public class CartRestServiceImpl implements CartRestService {
 		return Response.ok(apiRestResponse).build();
 	}
 	
+    /**
+     * This method finds all paymethods available for current store, the response is a list of paymethod.
+     * @summary  Method: getPaymethodList()
+     * @return Response		object type: apiRestResponse
+     */
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Path("/paymethod")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.commerce.facade.data.PaymethodData>>")
+	public Response getPaymethodList(){
+		ApiRestResponse<List<PaymethodData>> apiRestResponse = new ApiRestResponse<List<PaymethodData>>();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(cartFacade.getPaymethodList());
+		return Response.ok(apiRestResponse).build();
+	}
+	
+    /**
+     * This method adds a paymethod to current cart.
+     * @summary  Method: addPaymethod(Long paymethodId)
+     * @param shippingAddress The paymethod to add
+     * @return Response		object type: apiRestResponse
+     * 
+     */
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/paymethod/{paymethodId}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
+	public Response addPaymethod(@PathParam("paymethodId") Long paymethodId){
+		Assert.notNull(paymethodId);
+		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
+		CartData cartData = cartFacade.addPaymethod(paymethodId);
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(cartData);
+		return Response.ok(apiRestResponse).build();
+	}
 	
     /**
      * This method delete the session cart and return a new session cart.

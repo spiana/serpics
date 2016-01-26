@@ -14,11 +14,13 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.Paymethod;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
+import com.serpics.commerce.facade.data.PaymethodData;
 import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.commerce.services.CartService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
@@ -58,6 +60,9 @@ public class CartFacadeImpl implements CartFacade {
 	
 	@Resource(name="shipmodeConverter")
 	AbstractPopulatingConverter<Shipmode, ShipmodeData> shipmodeConverter;
+	
+	@Resource(name="paymethodConverter")
+	AbstractPopulatingConverter<Paymethod, PaymethodData> paymethodConverter;
 	
 	public CartModification cartAdd(String sku){ 
 		 return cartAdd(sku, 1);
@@ -206,6 +211,32 @@ public class CartFacadeImpl implements CartFacade {
 			
 		} catch (InventoryNotAvailableException | ProductNotFoundException e) {
 			LOG.error("Error to add shipmode into cart", e);
+		}
+		
+		return cartdata;
+	}
+	
+	@Override
+	public List<PaymethodData> getPaymethodList(){
+		List<PaymethodData> paymethodList = new ArrayList<PaymethodData>();
+		for (Paymethod paymethod : cartService.getPaymethod()){
+			paymethodList.add(paymethodConverter.convert(paymethod));
+		}
+		return paymethodList;
+	}
+	
+	@Override
+	@Transactional
+	public CartData addPaymethod(Long paymethodId){
+		CartData cartdata = null;
+		cartService.addPaymethod(paymethodId);
+		try {
+			
+			Cart cart = cartService.prepareCart();
+			cartdata = cartConverter.convert(cart);
+			
+		} catch (InventoryNotAvailableException | ProductNotFoundException e) {
+			LOG.error("Error to add paymethod into cart", e);
 		}
 		
 		return cartdata;

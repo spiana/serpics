@@ -16,6 +16,8 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	  		addShippingAddress	: addShippingAddress,
 	  		getShipmodeList		: getShipmodeList,
 	  		addShipmode			: addShipmode,
+	  		getPaymethodList	: getPaymethodList,
+	  		addPaymethod		: addPaymethod,
 	  		deleteCart			: deleteCart,
 	    });                
 	    return service
@@ -199,6 +201,47 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    		});
 	    	});
 	    }
+	    
+	    /**
+	     * @param paymethodId
+	     * @return 
+	     */     
+	    function addPaymethod(paymethodId) {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("cartService addPaymethod(paymethodId) ssid nel promise "+sessionId) ;
+	    			$http({
+			             method: 'POST',
+			             url: URL + endpoint + "paymethod/" + paymethodId,
+			             headers: {
+			             	'ssid': sessionId,
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
+	    }
+	    
+	    /**
+	     * @return list of paymethod
+	     */     
+	    function getPaymethodList() {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("cartService getPaymethodList() ssid nel promise "+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: URL + endpoint + "paymethod",
+			             headers: {
+			             	'ssid': sessionId,
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
+	    }	    
 	    
 	    /**
 	     * @return a new currentCart

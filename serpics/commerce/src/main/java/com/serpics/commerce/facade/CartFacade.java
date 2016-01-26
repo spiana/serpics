@@ -5,6 +5,7 @@ import java.util.List;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
+import com.serpics.commerce.facade.data.PaymethodData;
 import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.membership.facade.data.AddressData;
 
@@ -26,4 +27,6 @@ public interface CartFacade {
 	public CartData addShipmode(Long shipmodeId);
 	
 	public CartData deleteCart();
+	public CartData addPaymethod(Long paymethodId);
+	public List<PaymethodData> getPaymethodList();
 }

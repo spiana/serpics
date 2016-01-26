@@ -25,4 +25,8 @@ public interface CartRestService {
 
 	public Response deleteCart();
 
+	public Response getPaymethodList();
+
+	public Response addPaymethod(Long paymethodId);
+
 }

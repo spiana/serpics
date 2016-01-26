@@ -9,6 +9,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
 		$scope.shipmodeList = {};
+		$scope.paymethodList = {};
 	  	
 	    function getCurrentCart() {
   			$log.debug("CartController getCurrentCart()");
@@ -116,6 +117,31 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 		$scope.addShipmode = function (shipmode){
 	  			cartService.addShipmode(shipmode).then(function(response){
 	  			  $log.debug("cartController addShipmode(shipMode): ramo then");
+	  			  $scope.cart = response;
+	  			  $state.go($stateParams.payment)
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @param		 	
+	  	 * @return 					a list of paymethod available for current store
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.getPaymethodList = function (){
+	  			cartService.getPaymethodList().then(function(response){
+	  			  $log.debug("cartController getPaymethodList(): ramo then");
+	  			  $scope.paymethodList = response;
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @param shipMode		 	shipMode to add
+	  	 * @return 					a cart update with @param data
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.addPaymethod = function (paymethod){
+	  			cartService.addPaymethod(paymethod).then(function(response){
+	  			  $log.debug("cartController addPaymethod(shipMode): ramo then");
 	  			  $scope.cart = response;
 	  			  $state.go($stateParams.payment)
 	  		  })

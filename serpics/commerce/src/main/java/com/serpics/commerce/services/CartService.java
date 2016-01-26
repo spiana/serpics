@@ -7,6 +7,7 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.Paymethod;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
@@ -79,6 +80,10 @@ public interface CartService {
 	public List<Shipmode> getShipmode();
 
 	public void addShipmode(Long shipmodeId);
+
+	public List<Paymethod> getPaymethod();
+
+	public void addPaymethod(Long paymethodId);
       
 
 }
