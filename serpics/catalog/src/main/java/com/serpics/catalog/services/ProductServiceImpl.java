@@ -8,7 +8,9 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
+
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
@@ -220,5 +222,16 @@ public class ProductServiceImpl extends AbstractCommerceEntityService<Product, L
 		return product;
 	}
 	
-
+	@Override
+	public Product findByCode(final String code) {
+		return repository.findOne(new Specification<Product>() {
+            @Override
+            public Predicate toPredicate(final Root<Product> root, final CriteriaQuery<?> query,
+                    final CriteriaBuilder cb) {
+            	Expression<String> e = root.get("code");
+            		
+                return cb.equal(e, code);
+            }
+		});
+	}
 }
