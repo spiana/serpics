@@ -48,7 +48,7 @@ public class CartRestServiceImpl implements CartRestService {
 
 	
     /**
-     * This method returns the session car.
+     * This method returns the session cart.
      * @summary  Method: getCurrentCart()
      * @return Response		object type: apiRestResponse
      * 
@@ -215,6 +215,26 @@ public class CartRestServiceImpl implements CartRestService {
 		ApiRestResponse<List<ShipmodeData>> apiRestResponse = new ApiRestResponse<List<ShipmodeData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(cartFacade.getShipmodeList());
+		return Response.ok(apiRestResponse).build();
+	}
+	
+	
+    /**
+     * This method delete the session cart and return a new session cart.
+     * @summary  Method: deleteCart()
+     * @return Response		object type: apiRestResponse
+     * 
+     */
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@DELETE
+	@Path("/cart")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
+	public Response deleteCart() {
+		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
+		CartData cartData = cartFacade.deleteCart();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(cartData);
 		return Response.ok(apiRestResponse).build();
 	}
 

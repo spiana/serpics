@@ -23,6 +23,6 @@ public interface CartRestService {
 
 	public Response getShipmodeList();
 
-	
+	public Response deleteCart();
 
 }

@@ -16,6 +16,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	  		addShippingAddress	: addShippingAddress,
 	  		getShipmodeList		: getShipmodeList,
 	  		addShipmode			: addShipmode,
+	  		deleteCart			: deleteCart,
 	    });                
 	    return service
 	
@@ -180,7 +181,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    }
 	    
 	    /**
-	     * @return 
+	     * @return list of shipmode
 	     */     
 	    function getShipmodeList() {
 	    	var serviceSSID = serpicsServices;
@@ -190,7 +191,27 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService getShipmodeList() ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: URL + endpoint + "shipmode/" + shipmodeId,
+			             url: URL + endpoint + "shipmode",
+			             headers: {
+			             	'ssid': sessionId,
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
+	    }
+	    
+	    /**
+	     * @return a new currentCart
+	     */     
+	    function deleteCart() {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("cartService deleteCart() ssid nel promise "+sessionId) ;
+	    			$http({
+			             method: 'DELETE',
+			             url: URL + endpoint + "cart",
 			             headers: {
 			             	'ssid': sessionId,
 			            }

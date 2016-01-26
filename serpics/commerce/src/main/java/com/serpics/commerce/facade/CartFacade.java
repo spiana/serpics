@@ -24,4 +24,6 @@ public interface CartFacade {
 	public CartData addShippingAddress(AddressData shippingAddress);
 	public List<ShipmodeData> getShipmodeList();
 	public CartData addShipmode(Long shipmodeId);
+	
+	public CartData deleteCart();
 }

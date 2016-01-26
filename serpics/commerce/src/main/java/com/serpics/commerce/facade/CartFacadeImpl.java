@@ -195,6 +195,7 @@ public class CartFacadeImpl implements CartFacade {
 	}
 	
 	@Override
+	@Transactional
 	public CartData addShipmode(Long shipmodeId){
 		CartData cartdata = null;
 		cartService.addShipmode(shipmodeId);
@@ -208,6 +209,13 @@ public class CartFacadeImpl implements CartFacade {
 		}
 		
 		return cartdata;
+	}
+	
+	@Override
+	@Transactional
+	public CartData deleteCart(){
+		cartService.cartDelete();
+		return getCurrentCart();
 	}
 	
 }
