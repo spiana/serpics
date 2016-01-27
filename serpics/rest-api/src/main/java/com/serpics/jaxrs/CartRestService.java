@@ -19,7 +19,7 @@ public interface CartRestService {
 	public Response addBillingAddress(AddressDataRequest billingAddress);
 	public Response addShippingAddress(AddressDataRequest shippingAddress);
 
-	public Response addShipmode(Long shipmodeId);
+	public Response addShipmode(String shipmodeName);
 
 	public Response getShipmodeList();
 

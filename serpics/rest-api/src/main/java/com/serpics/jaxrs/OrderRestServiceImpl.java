@@ -143,27 +143,31 @@ public class OrderRestServiceImpl implements OrderRestService {
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
 		CartData cartData = new CartData();
 		ResponseBuilder responseBuilder = null;
+		AddressData billingAddressData = null;
+		AddressData shippingAddressData = null;
+		ShipmodeData shipmodeData = new ShipmodeData();
 
 		try {
+			
 			BeanUtils.copyProperties(cartDataRequest, cartData,
-					new String[] { "shipmodeDataId", "billingAddressDataRequest", "shippingAddressDataRequest" });
-			AddressData billingAddressData = null;
-			AddressData shippingAddressData = null;
-			ShipmodeData shipmodeData = new ShipmodeData();
-			shipmodeData.setId(cartDataRequest.getShipmodeDataId());
+					new String[] { "shipmodeDataName", "billingAddressDataRequest", "shippingAddressDataRequest" });
+
+			shipmodeData.setName(cartDataRequest.getShipmodeDataName());
 			BeanUtils.copyProperties(cartDataRequest.getBillingAddress(), billingAddressData);
 			BeanUtils.copyProperties(cartDataRequest.getShippingAddress(), shippingAddressData);
+			
 			cartData.setBillingAddress(billingAddressData);
 			cartData.setShippingAddress(shippingAddressData);
-			cartData.sets
+			cartData.setShipmode(shipmodeData);
+
 			Assert.notNull(cartData);
-			
+
 			OrderData orderData = orderFacade.createOrder(cartData);
-			
+
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 			apiRestResponse.setResponseObject(orderData);
 			responseBuilder = Response.ok();
-		
+
 		} catch (BeansException e) {
 			LOG.error("Error Converting Bean", e);
 			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);

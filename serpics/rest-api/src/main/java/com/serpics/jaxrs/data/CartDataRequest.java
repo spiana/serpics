@@ -14,7 +14,7 @@ public class CartDataRequest {
 	private Double totalService;
 	private Double totalShipping;
 	private Double totalTax;
-	private Long shipmodeDataId;
+	private String shipmodeDataName;
 	
 	private AddressDataRequest billingAddressDataRequest;
 	private AddressDataRequest shippingAddressDataRequest;
@@ -22,12 +22,13 @@ public class CartDataRequest {
 	private Set<OrderItemDataRequest> orderItemsDataRequest;
 	
 	
-	public Long getShipmodeDataId() {
-		return shipmodeDataId;
+
+	public String getShipmodeDataName() {
+		return shipmodeDataName;
 	}
 
-	public void setShipmodeDataId(Long shipmodeDataId) {
-		this.shipmodeDataId = shipmodeDataId;
+	public void setShipmodeDataName(String shipmodeDataName) {
+		this.shipmodeDataName = shipmodeDataName;
 	}
 
 	public AddressDataRequest getBillingAddress() {
