@@ -76,5 +76,15 @@ public class CountryFacadeImpl implements CountryFacade {
 		
 	}
 	
-	
+	@Override
+	public List<CountryData> findAllList() {
+		List<Country> countries = countryService.findAll(); 
+		
+		List<CountryData> countriesData = new ArrayList<CountryData>();
+		for (Country country : countries) {
+			countriesData.add(countryConvert.convert(country));
+		}
+		
+		return countriesData;
+	}
 }

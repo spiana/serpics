@@ -70,4 +70,13 @@ public class RegionFacadeImpl implements RegionFacade {
 
 		return regionConverter.convert(regionService.findByUUID(regionUuid));
 	}
+	
+	@Override
+	public List<RegionData> findRegionByCountry(Long countryId){
+		List<RegionData> regionList = new ArrayList<RegionData>();
+		for (Region region : regionService.getRegionByCountry(countryId)){
+			regionList.add(regionConverter.convert(region));
+		}
+		return regionList;
+	}
 }
