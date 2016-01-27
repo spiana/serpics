@@ -201,9 +201,9 @@ public class CartFacadeImpl implements CartFacade {
 	
 	@Override
 	@Transactional
-	public CartData addShipmode(Long shipmodeId){
+	public CartData addShipmode(String shipmodeName){
 		CartData cartdata = null;
-		cartService.addShipmode(shipmodeId);
+		cartService.addShipmode(shipmodeName);
 		try {
 			
 			Cart cart = cartService.prepareCart();
@@ -227,9 +227,9 @@ public class CartFacadeImpl implements CartFacade {
 	
 	@Override
 	@Transactional
-	public CartData addPaymethod(Long paymethodId){
+	public CartData addPaymethod(String paymethodName){
 		CartData cartdata = null;
-		cartService.addPaymethod(paymethodId);
+		cartService.addPaymethod(paymethodName);
 		try {
 			
 			Cart cart = cartService.prepareCart();

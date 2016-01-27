@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.membership.data.model.AbstractStoreEntity;
+import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
  * The persistent class for the shipmode database table.
@@ -24,7 +24,7 @@ import com.serpics.membership.data.model.AbstractStoreEntity;
  */
 @Entity
 @Table(name = "shipmode")
-public class Shipmode extends AbstractStoreEntity implements Serializable {
+public class Shipmode extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -32,7 +32,7 @@ public class Shipmode extends AbstractStoreEntity implements Serializable {
     @Column(name = "shipmode_id", unique = true, nullable = false)
     private Long id;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true)
     private String name;
 
     @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)

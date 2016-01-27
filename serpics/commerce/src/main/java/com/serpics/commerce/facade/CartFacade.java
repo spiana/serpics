@@ -24,9 +24,9 @@ public interface CartFacade {
 	public CartData addBillingAddress(AddressData billingAddress);
 	public CartData addShippingAddress(AddressData shippingAddress);
 	public List<ShipmodeData> getShipmodeList();
-	public CartData addShipmode(Long shipmodeId);
+	public CartData addShipmode(String shipmodeName);
 	
 	public CartData deleteCart();
-	public CartData addPaymethod(Long paymethodId);
+	public CartData addPaymethod(String paymethodName);
 	public List<PaymethodData> getPaymethodList();
 }

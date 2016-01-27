@@ -114,11 +114,17 @@ public class OrderFacadeImpl implements OrderFacade {
 		cartFacade.addShippingAddress(cartData.getShippingAddress());
 
 		if (cartData.getShipmode() != null) {
-			if (cartData.getShipmode().getId() != null) {
-				cartService.addShipmode(cartData.getShipmode().getId());
+			if (cartData.getShipmode().getName() != null) {
+				cartService.addShipmode(cartData.getShipmode().getName());
 			}
 		}
 
+		if (cartData.getPaymethod() != null){
+			if (cartData.getPaymethod().getName() != null) {
+				cartService.addPaymethod(cartData.getPaymethod().getName());
+			}
+		}
+		
 		Set<CartItemData> cartItemsData = cartData.getOrderItems();
 		for (CartItemData item : cartItemsData) {
 			cartService.cartAdd(item.getSku(), item.getQuantity(), cart, true);

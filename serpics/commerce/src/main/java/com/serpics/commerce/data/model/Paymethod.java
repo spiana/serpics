@@ -31,7 +31,7 @@ public class Paymethod extends AbstractEntity implements Serializable {
     @Column(name = "paymethod_id", unique = true, nullable = false)
     private Long paymethodId;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String name;
 
     // bi-directional many-to-one association to Paymethlookup
