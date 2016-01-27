@@ -95,21 +95,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	PaymethodRepository paymethodRepository;
 	
 	@Resource
-	PaymethodlookupRepository PaymethodlookupRepository;
-	
-	@Resource
 	CommerceEngine commerceEngine;
-	
-	protected Specification<Paymethodlookup> findActivePaymethodlookup() {
-		return new Specification<Paymethodlookup>() {
-			@Override
-			public Predicate toPredicate(final Root<Paymethodlookup> root, final CriteriaQuery<?> query, 
-					final CriteriaBuilder cb) {
-						Predicate p = cb.equal(root.get("active"), true);
-						return p;
-			}
-		};
-	}
 
 	@Override
 	@Transactional
@@ -475,11 +461,11 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			if (zipCode != null){
 				shipmodeList.addAll(shipmodeRepository.getShipmodeFromZipCode(store, zipCode));
 			}
-			if (country != null){
-				shipmodeList.addAll(shipmodeRepository.getShipmodeFromCountry(store, country));
-			}
 			if (region != null){
 				shipmodeList.addAll(shipmodeRepository.getShipmodeFromRegion(store, region));
+			}
+			if (country != null){
+				shipmodeList.addAll(shipmodeRepository.getShipmodeFromCountry(store, country));
 			}
 //			if (geocode != null){
 //				shipmodeList.addAll(shipmodeRepository.getShipmodeFromGeocode(store, geocode));
@@ -513,13 +499,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	
 	@Override
 	public List<Paymethod> getPaymethod(){
-		List<Paymethod> paymethodList = new ArrayList<Paymethod>();
-		List<Paymethodlookup> paymethodlookupList = PaymethodlookupRepository.findAll(findActivePaymethodlookup());
-		
-		for (Paymethodlookup paymethodlookup : paymethodlookupList){
-			paymethodList.add(paymethodlookup.getPaymethod());
-		}
-		
+		Store store = (Store) commerceEngine.getCurrentContext().getStoreRealm();
+		List<Paymethod> paymethodList = paymethodRepository.findActivePaymentmethod(store);		
 		return paymethodList;
 	}
 
