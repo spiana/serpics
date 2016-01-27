@@ -223,7 +223,7 @@ public class CartRestServiceImpl implements CartRestService {
 	
     /**
      * This method adds a shipmode to current cart.
-     * @summary  Method: addShipmode(Long shipmodeId)
+     * @summary  Method: addShipmode(String shipmodeName)
      * @param shippingAddress The shipmode to add
      * @return Response		object type: apiRestResponse
      * 
@@ -232,12 +232,12 @@ public class CartRestServiceImpl implements CartRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
-	@Path("/shipmode/{shipmodeId}")
+	@Path("/shipmode/{shipmodeName}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
-	public Response addShipmode(@PathParam("shipmodeId") Long shipmodeId){
-		Assert.notNull(shipmodeId);
+	public Response addShipmode(@PathParam("shipmodeName") String shipmodeName){
+		Assert.notNull(shipmodeName);
 		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
-		CartData cartData = cartFacade.addShipmode(shipmodeId);
+		CartData cartData = cartFacade.addShipmode(shipmodeName);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(cartData);
 		return Response.ok(apiRestResponse).build();
