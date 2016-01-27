@@ -290,12 +290,12 @@ public class CartRestServiceImpl implements CartRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
-	@Path("/paymethod/{paymethodId}")
+	@Path("/paymethod/{paymethodName}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
-	public Response addPaymethod(@PathParam("paymethodId") Long paymethodId){
-		Assert.notNull(paymethodId);
+	public Response addPaymethod(@PathParam("paymethodName") String paymethodName){
+		Assert.notNull(paymethodName);
 		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
-		CartData cartData = cartFacade.addPaymethod(paymethodId);
+		CartData cartData = cartFacade.addPaymethod(paymethodName);
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(cartData);
 		return Response.ok(apiRestResponse).build();

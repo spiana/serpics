@@ -27,6 +27,6 @@ public interface CartRestService {
 
 	public Response getPaymethodList();
 
-	public Response addPaymethod(Long paymethodId);
+	public Response addPaymethod(String paymethodName);
 
 }

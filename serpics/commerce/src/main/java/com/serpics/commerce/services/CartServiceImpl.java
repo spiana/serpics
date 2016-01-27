@@ -31,13 +31,11 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Paymethod;
-import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.data.repositories.CartItemRepository;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderItemRepository;
 import com.serpics.commerce.data.repositories.PaymethodRepository;
-import com.serpics.commerce.data.repositories.PaymethodlookupRepository;
 import com.serpics.commerce.data.repositories.ShipmodeRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CommerceStrategy;
@@ -97,6 +95,28 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	@Resource
 	CommerceEngine commerceEngine;
 
+	protected Specification<Shipmode> findShipmodeByNameSpecification(final String name) {
+		return new Specification<Shipmode>() {
+			@Override
+			public Predicate toPredicate(final Root<Shipmode> root, final CriteriaQuery<?> query, 
+					final CriteriaBuilder cb) {
+						Predicate p = cb.equal(root.get("name"), name);
+						return p;
+			}
+		};
+	}
+	
+	protected Specification<Paymethod> findPaymethodByNameSpecification(final String name) {
+		return new Specification<Paymethod>() {
+			@Override
+			public Predicate toPredicate(final Root<Paymethod> root, final CriteriaQuery<?> query, 
+					final CriteriaBuilder cb) {
+						Predicate p = cb.equal(root.get("name"), name);
+						return p;
+			}
+		};
+	}
+	
 	@Override
 	@Transactional
 	public Cart createSessionCart() {
@@ -488,8 +508,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	
 	@Override
 	@Transactional
-	public void addShipmode(Long shipmodeId){
-		Shipmode shipmode = shipmodeRepository.findOne(shipmodeId);
+	public void addShipmode(String shipmodeName){
+		Shipmode shipmode = shipmodeRepository.findOne(findShipmodeByNameSpecification(shipmodeName));
 		Assert.notNull(shipmode, "shipmode can not be null !");
 		Cart c = getSessionCart();
 		c.setShipmode(shipmode);
@@ -506,8 +526,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Override
 	@Transactional
-	public void addPaymethod(Long paymethodId){
-		Paymethod paymethod = paymethodRepository.findOne(paymethodId);
+	public void addPaymethod(String paymethodName){
+		Paymethod paymethod = paymethodRepository.findOne(findPaymethodByNameSpecification(paymethodName));
 		Assert.notNull(paymethod, "paymethod can not be null !");
 		Cart c = getSessionCart();
 		c.setPaymethod(paymethod);

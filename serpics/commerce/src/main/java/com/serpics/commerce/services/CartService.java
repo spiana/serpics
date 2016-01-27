@@ -79,11 +79,11 @@ public interface CartService {
 
 	public List<Shipmode> getShipmode();
 
-	public void addShipmode(Long shipmodeId);
+	public void addShipmode(String shipmodeName);
 
 	public List<Paymethod> getPaymethod();
 
-	public void addPaymethod(Long paymethodId);
+	public void addPaymethod(String paymethodName);
       
 
 }

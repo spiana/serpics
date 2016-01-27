@@ -6,6 +6,7 @@ import com.serpics.membership.facade.data.AddressData;
 
 public abstract class AbstractOrdersData<T extends AbstractOrderItemData> extends AbstractData {
 
+	protected PaymethodData paymethod;
 	protected ShipmodeData shipmode;
 	protected AddressData billingAddress;
 	protected AddressData shippingAddress;
@@ -105,6 +106,14 @@ public abstract class AbstractOrdersData<T extends AbstractOrderItemData> extend
 
 	public void setOrderItems(Set<T> orderItems) {
 		this.orderItems = orderItems;
+	}
+
+	public PaymethodData getPaymethod() {
+		return paymethod;
+	}
+
+	public void setPaymethod(PaymethodData paymethod) {
+		this.paymethod = paymethod;
 	}
 
 }
