@@ -82,10 +82,7 @@ public class MainView extends CustomComponent {
 			getSession().setLocale(_locale);
 		}
 		
-		for (Object id : navigatorMenuTree.getItemIds()) {
-			navigatorMenuTree.setItemCaption(id,
-					I18nUtils.getMessage("smc.navigator."+id.toString(), id.toString()));
-		}
+		
 		
 		 storeLabel.setCaption(commerceEngine.getCurrentContext().getStoreRealm().getName());
 	}

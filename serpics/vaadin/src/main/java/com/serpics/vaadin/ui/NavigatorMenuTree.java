@@ -6,9 +6,15 @@ package com.serpics.vaadin.ui;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -20,8 +26,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.vaadin.ui.Tree;
 
 /**
@@ -39,11 +48,73 @@ public class NavigatorMenuTree extends Tree
 	
 	private Map<String , String> beans = new HashMap<String , String>();
 	private Map<String , String> clazz = new HashMap<String , String>();
+	private Map<String , String[]> roles = new HashMap<String , String[]>();
+	
+	private List<MenuItem> menuItems = new ArrayList<NavigatorMenuTree.MenuItem>();
+	
+	class MenuItem{
+		String name;
+		String parent;
+		boolean allowChild;
+		
+		public MenuItem(String name, String parent) {
+			super();
+			this.name = name;
+			this.parent = parent;
+			allowChild = false;
+		}
+		
+		public MenuItem(String name, String parent , boolean allowChild) {
+			super();
+			this.name = name;
+			this.parent = parent;
+			this.allowChild = allowChild;
+		}
+	}
 	
 	public NavigatorMenuTree() {
 		super();
+		addAttachListener (new AttachListener() {
+			
+			@Override
+			public void attach(AttachEvent event) {
+				prepareMenu();
+			}
+		});
+		
 	}
 
+	private void prepareMenu(){
+	
+		for (MenuItem _m : menuItems) {
+			Set<String> roles = new HashSet<String>(Arrays.asList(this.getComponetRoles(_m.name.toString())));
+			Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		
+			if (roles.contains("*")){
+				makeMenuItem(_m);
+			}else{
+				for (GrantedAuthority grantedAuthority : authorities) {
+					if (roles.contains(grantedAuthority.getAuthority()))
+							makeMenuItem(_m);
+				}
+			}
+		}
+	}
+	
+	
+	private void makeMenuItem(MenuItem _m){
+		// check if parent else return without add item
+		if (!StringUtils.isEmpty(_m.parent))
+			if(getItem(_m.parent) == null)
+				return;
+			
+		addItem(_m.name);
+		setItemCaption(_m.name,
+			I18nUtils.getMessage("smc.navigator."+_m.name,_m.name));
+			setParent((Object) _m.name, _m.parent);
+			setChildrenAllowed(_m.name, _m.allowChild);
+				
+	}
 	/**
 	 * @return the applicationContext
 	 */
@@ -68,10 +139,8 @@ public class NavigatorMenuTree extends Tree
 		Resource[] resources = this.applicationContext.getResources("classpath*:META-INF/*-amc.xml");
 
 		for (Resource resource : resources) {
-	//		if (UrlResource.class.isAssignableFrom(resource.getClass())){
 				LOG.info("found smp definition file : {} with URL {}", resource.getFilename(), resource.getURL());
 				menuPopulatorFromAmcDefinition(resource.getURL());
-		//	}
 		}
 	}
 
@@ -102,15 +171,8 @@ public class NavigatorMenuTree extends Tree
 		for (Iterator<?> i = navigator.elementIterator(); i.hasNext();) {
 			Element navItem = (Element) i.next();
 			String name = navItem.attributeValue("name");
-			if (Boolean.parseBoolean(navItem.attributeValue("allow-child"))) {
-				this.addItem(name);
-				
-			} else {
-				this.addItem(name);
-				this.setParent(navItem.attributeValue("name"), navItem.attributeValue("parent"));
-				this.setChildrenAllowed(navItem.attributeValue("name"),
-						Boolean.parseBoolean(navItem.attributeValue("allow-child")));
-			}
+			
+			menuItems.add(new MenuItem(name, navItem.attributeValue("parent") , Boolean.parseBoolean(navItem.attributeValue("allow-child"))));
 			
 			if (!StringUtils.isEmpty(navItem.attributeValue("bean"))){
 				beans.put(navItem.attributeValue("name"), navItem.attributeValue("bean"));
@@ -118,9 +180,15 @@ public class NavigatorMenuTree extends Tree
 			}
 			if (!StringUtils.isEmpty(navItem.attributeValue("class"))){
 				clazz.put(navItem.attributeValue("name"), navItem.attributeValue("class"));
-				LOG.info("amc navigator item : {} with bean  {}",navItem.attributeValue("name") ,  navItem.attributeValue("class"));
+				LOG.info("amc navigator item : {} for class  {}",navItem.attributeValue("name") ,  navItem.attributeValue("class"));
 			}
 			
+			if (!StringUtils.isEmpty(navItem.attributeValue("roles"))){
+				roles.put(navItem.attributeValue("name"), navItem.attributeValue("roles").split(","));
+				LOG.info("amc navigator item : {} with roles  {}",navItem.attributeValue("name") ,  navItem.attributeValue("roles"));
+			}else{
+				roles.put(navItem.attributeValue("name"), new String[] {"*"});
+			}
 
 		}
 	}
@@ -132,4 +200,7 @@ public class NavigatorMenuTree extends Tree
 		return clazz.get(key);
 	}
 
+	public String[] getComponetRoles(String key){
+		return roles.get(key);
+	}
 }
