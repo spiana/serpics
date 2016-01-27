@@ -24,6 +24,10 @@ public interface ProductService extends EntityService<Product, Long>{
 
 	public Product addBrand(Product product, Brand brand);
 
+
 	public Page<Product> findProductsBySearch(String searchText, Pageable pagination);
+
+	Product findByCode(String code);
+
 	
 }

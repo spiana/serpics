@@ -136,7 +136,7 @@
     <module>admin</module>
     <module>gae-app</module>
     <module>rest-api</module>
-
+    <module>initialsetup</module>
     <module>jax-rs</module>
     <module>import-export</module>
     <module>serpics-ear</module>
