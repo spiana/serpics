@@ -15,7 +15,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +29,6 @@ import org.springframework.util.Assert;
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.data.BrandData;
-import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.BrandDataRequest;
@@ -33,15 +37,11 @@ import com.serpics.jaxrs.data.BrandDataRequest;
 @Path("/brandService")
 @Transactional(readOnly = true)
 public class BrandRestServiceImpl implements BrandRestService {
+	
+	Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
 	@Resource
 	BrandFacade brandFacade;
-	
-	@Resource(name="brandDataRequestConverter")
-	AbstractPopulatingConverter<BrandDataRequest, BrandData> brandDataRequestConverter;
-	
-	
-
 	
     /**
      * This method adds a brand to catalog.
@@ -57,17 +57,26 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
 	public Response addBrand(BrandDataRequest brandDataRequest) {
 		
-		BrandData brand = brandDataRequestConverter.convert(brandDataRequest);
-
-		
-		Assert.notNull(brand, "brand can not be null !");
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
+		BrandData brandData = new BrandData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(brandDataRequest, brandData);
+			Assert.notNull(brandData, "brand can not be null !");
+			BrandData brandDataAdded = brandFacade.addBrand(brandData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(brandDataAdded);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
 
-		BrandData brandData = brandFacade.addBrand(brand);
-
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(brandData);
-		return Response.ok(apiRestResponse).build();
+		return responseBuilder.entity(apiRestResponse).build();
 
 	}
 
@@ -126,18 +135,27 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
 	public Response updateBrand(BrandDataRequest brandDataRequest) {
 		
-		BrandData brand = brandDataRequestConverter.convert(brandDataRequest);
-
-		Assert.notNull(brand, "brand can not be null !");
-		Assert.notNull(brand.getId(), "brandId can not be null !");
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
-		BrandData brandData = null;
+		BrandData brandData = new BrandData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(brandDataRequest, brandData);
+			Assert.notNull(brandData, "brand can not be null !");
+			Assert.notNull(brandData.getId(), "brandId can not be null !");
+			BrandData brandDataAdded = brandFacade.updateBrand(brandData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(brandDataAdded);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
 
-		brandData = brandFacade.updateBrand(brand);
-
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(brandData);
-		return Response.ok(apiRestResponse).build();
+		return responseBuilder.entity(apiRestResponse).build();
 
 	}
 

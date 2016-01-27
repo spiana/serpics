@@ -2,7 +2,6 @@ package com.serpics.jaxrs;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -15,7 +14,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +29,6 @@ import org.springframework.util.Assert;
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.data.CategoryData;
-import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.CategoryDataRequest;
@@ -34,11 +37,10 @@ import com.serpics.jaxrs.data.CategoryDataRequest;
 @Transactional(readOnly=true)
 public class CategoryRestServiceImpl implements CategoryRestService{
 	
+	Logger LOG = LoggerFactory.getLogger(CategoryRestServiceImpl.class);
+	
 	@Autowired
 	CategoryFacade categoryFacade;
-	
-	@Resource(name="categoryDataRequestConverter")
-	AbstractPopulatingConverter<CategoryDataRequest, CategoryData> categoryDataRequestConverter;
 	
     /**
      * This method gets a category with some code.
@@ -103,7 +105,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
     /**
      * This method creates a category with a parent.
-     * @summary  Method: createParent(CategoryData category, Long parentId)
+     * @summary  Method: createParent(CategoryDataRequest categoryDataRequest, Long parentId)
      * @param category The category to create
      * @param parentId The id of parent
      * @return Response		object type: apiRestResponse
@@ -117,15 +119,28 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response createParent(CategoryDataRequest categoryDataRequest, @PathParam("parent") Long parentId){
 		
-		CategoryData category = categoryDataRequestConverter.convert(categoryDataRequest);
-		Assert.notNull(category);
-		Assert.notNull(parentId);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
-		CategoryData categoryData = null;
-		categoryData = categoryFacade.create(category, parentId);
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(categoryData);
-		return Response.ok(apiRestResponse).build();
+		CategoryData categoryData = new CategoryData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(categoryDataRequest, categoryData);
+			Assert.notNull(categoryData);
+			Assert.notNull(parentId);
+			categoryData = categoryFacade.create(categoryData, parentId);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(categoryData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
 	
     /**
@@ -142,15 +157,27 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response create(CategoryDataRequest categoryDataRequest){
 		
-		CategoryData category = categoryDataRequestConverter.convert(categoryDataRequest);
-		
-		Assert.notNull(category);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
-		CategoryData categoryData = null;
-		categoryData = categoryFacade.create(category);
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(categoryData);
-		return Response.ok(apiRestResponse).build();
+		CategoryData categoryData = new CategoryData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(categoryDataRequest, categoryData);
+			Assert.notNull(categoryData);
+			categoryData = categoryFacade.create(categoryData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(categoryData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
 	
     /**
@@ -212,14 +239,27 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response update(CategoryDataRequest categoryDataRequest){
 		
-		CategoryData category = categoryDataRequestConverter.convert(categoryDataRequest);
-		Assert.notNull(category);
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
-		CategoryData categoryData = null;
-		categoryData = categoryFacade.updateCategory(category);
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(categoryData);
-		return Response.ok(apiRestResponse).build();
+		CategoryData categoryData = new CategoryData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(categoryDataRequest, categoryData);
+			Assert.notNull(categoryData);
+			categoryData = categoryFacade.updateCategory(categoryData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(categoryData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
 	
     /**

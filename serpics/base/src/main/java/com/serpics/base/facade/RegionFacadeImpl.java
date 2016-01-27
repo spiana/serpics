@@ -63,4 +63,11 @@ public class RegionFacadeImpl implements RegionFacade {
 		data = regionConverter.convert(r);
 		return data;
 	}
+
+
+	@Override
+	public RegionData findRegionByUuid(String regionUuid) {
+
+		return regionConverter.convert(regionService.findByUUID(regionUuid));
+	}
 }

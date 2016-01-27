@@ -68,6 +68,13 @@ public class CountryFacadeImpl implements CountryFacade {
 		Page<CountryData> cdata= new PageImpl<CountryData>(clist ,page , countries.getTotalElements());
 		return cdata;
 	}
+
+	@Override
+	public CountryData findCountryByUuid(String countryUuid) {
+		
+		return countryConvert.convert(countryService.findByUUID(countryUuid));
+		
+	}
 	
 	
 }

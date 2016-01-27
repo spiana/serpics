@@ -11,4 +11,6 @@ public interface CountryFacade {
 	public CountryData addCountry(CountryData country);
 	 
 	public Page<CountryData> findAll(Pageable page);
+	
+	public CountryData findCountryByUuid(String countryUuid);
 }

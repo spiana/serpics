@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.serpics.core.facade.AbstractData;
 
 
-@JsonPropertyOrder({"name","logo","published","brandProductNumber"})
+@JsonPropertyOrder({"id","name","logo","published","brandProductNumber"})
 public class BrandData extends AbstractData{
 		
     protected String logo; //The Logo of the brand

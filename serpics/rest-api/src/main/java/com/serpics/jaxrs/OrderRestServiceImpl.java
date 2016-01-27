@@ -2,7 +2,6 @@ package com.serpics.jaxrs;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,40 +10,43 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.commerce.facade.OrderFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.OrderData;
 import com.serpics.commerce.facade.data.OrderPaymentData;
-import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.CartDataRequest;
 import com.serpics.jaxrs.data.OrderPaymentDataRequest;
+import com.serpics.membership.facade.data.AddressData;
 
 @Path("/orderService")
 @Transactional(readOnly = true)
 public class OrderRestServiceImpl implements OrderRestService {
 
+	Logger LOG = LoggerFactory.getLogger(OrderRestServiceImpl.class);
+
 	@Autowired
 	OrderFacade orderFacade;
-	
-	@Resource(name="cartDataRequestConverter")
-	AbstractPopulatingConverter<CartDataRequest, CartData> cartDataRequestConverter;
-	
-	@Resource(name="orderPaymentDataRequestConverter")
-	AbstractPopulatingConverter<OrderPaymentDataRequest, OrderPaymentData> orderPaymentDataRequestConverter;
-	
-	
-    /**
-     * This method gets current user orders.
-     * @summary  Method: getOrders()
-     * @return Response		object type: apiRestResponse
-     */
+
+	/**
+	 * This method gets current user orders.
+	 * 
+	 * @summary Method: getOrders()
+	 * @return Response object type: apiRestResponse
+	 */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
@@ -55,42 +57,59 @@ public class OrderRestServiceImpl implements OrderRestService {
 
 		List<OrderData> listOrderData = orderFacade.getOrders();
 
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);;
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		;
 		apiRestResponse.setResponseObject(listOrderData);
 		return Response.ok(apiRestResponse).build();
 	}
 
-    /**
-     * This method adds payment data to an order.
-     * @summary  Method: addPayment(Long orderId, OrderPaymentDataRequest orderPaymentDataRequest)
-     * @param orderId The user to create
-     * @param paymentData The user to create
-     * @return Response		object type: apiRestResponse
-     */
+	/**
+	 * This method adds payment data to an order.
+	 * 
+	 * @summary Method: addPayment(Long orderId, OrderPaymentDataRequest
+	 *          orderPaymentDataRequest)
+	 * @param orderId
+	 *            The user to create
+	 * @param paymentData
+	 *            The user to create
+	 * @return Response object type: apiRestResponse
+	 */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addPayment/{orderId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.OrderData>")
-	public Response addPayment(@PathParam("orderId")Long orderId, OrderPaymentDataRequest orderPaymentDataRequest) {
-		
-		OrderPaymentData orderPaymentData = orderPaymentDataRequestConverter.convert(orderPaymentDataRequest);
-		
+	public Response addPayment(@PathParam("orderId") Long orderId, OrderPaymentDataRequest orderPaymentDataRequest) {
+
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
+		OrderPaymentData orderPaymentData = new OrderPaymentData();
+		ResponseBuilder responseBuilder = null;
 
-		OrderData orderData = orderFacade.addPayment(orderId, orderPaymentData);
+		try {
+			BeanUtils.copyProperties(orderPaymentDataRequest, orderPaymentData);
+			Assert.notNull(orderPaymentData);
+			OrderData orderData = orderFacade.addPayment(orderId, orderPaymentData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(orderData);
+			responseBuilder = Response.ok();
+		} catch (BeansException e) {
+			LOG.error("Error converting bean", e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
 
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);;
-		apiRestResponse.setResponseObject(orderData);
-		return Response.ok(apiRestResponse).build();
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
-	
-    /**
-     * This method creates an order from a session cart.
-     * @summary  Method: placeOrder()
-     * @return Response		object type: apiRestResponse
-     */
+
+	/**
+	 * This method creates an order from a session cart.
+	 * 
+	 * @summary Method: placeOrder()
+	 * @return Response object type: apiRestResponse
+	 */
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -99,17 +118,20 @@ public class OrderRestServiceImpl implements OrderRestService {
 	public Response placeOrder() {
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
 		OrderData orderData = orderFacade.placeOrder();
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);;
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		;
 		apiRestResponse.setResponseObject(orderData);
 		return Response.ok(apiRestResponse).build();
 	}
-	
-    /**
-     * This method creates an order from a given cart.
-     * @summary  Method: createOrder(CartDataRequest cartDataRequest)
-     * @param cartData The cart to turns into order
-     * @return Response		object type: apiRestResponse
-     */
+
+	/**
+	 * This method creates an order from a given cart.
+	 * 
+	 * @summary Method: createOrder(CartDataRequest cartDataRequest)
+	 * @param cartData
+	 *            The cart to turns into order
+	 * @return Response object type: apiRestResponse
+	 */
 	@Override
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -117,15 +139,40 @@ public class OrderRestServiceImpl implements OrderRestService {
 	@Path("/createOrder")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.OrderData>")
 	public Response createOrder(CartDataRequest cartDataRequest) {
-		
-		CartData cartData = cartDataRequestConverter.convert(cartDataRequest);
-		
+
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
-		OrderData orderData;
-		orderData = orderFacade.createOrder(cartData);
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);;
-		apiRestResponse.setResponseObject(orderData);
-		return Response.ok(apiRestResponse).build();
+		CartData cartData = new CartData();
+		ResponseBuilder responseBuilder = null;
+
+		try {
+			BeanUtils.copyProperties(cartDataRequest, cartData,
+					new String[] { "shipmodeDataId", "billingAddressDataRequest", "shippingAddressDataRequest" });
+			AddressData billingAddressData = null;
+			AddressData shippingAddressData = null;
+			ShipmodeData shipmodeData = new ShipmodeData();
+			shipmodeData.setId(cartDataRequest.getShipmodeDataId());
+			BeanUtils.copyProperties(cartDataRequest.getBillingAddress(), billingAddressData);
+			BeanUtils.copyProperties(cartDataRequest.getShippingAddress(), shippingAddressData);
+			cartData.setBillingAddress(billingAddressData);
+			cartData.setShippingAddress(shippingAddressData);
+			cartData.sets
+			Assert.notNull(cartData);
+			
+			OrderData orderData = orderFacade.createOrder(cartData);
+			
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(orderData);
+			responseBuilder = Response.ok();
+		
+		} catch (BeansException e) {
+			LOG.error("Error Converting Bean", e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
 
 }

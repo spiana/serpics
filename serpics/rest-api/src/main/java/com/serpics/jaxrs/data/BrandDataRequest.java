@@ -1,8 +1,10 @@
 package com.serpics.jaxrs.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder({"name","logo","published"})
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class BrandDataRequest  {
 	 private String name;
 	 private String logo;

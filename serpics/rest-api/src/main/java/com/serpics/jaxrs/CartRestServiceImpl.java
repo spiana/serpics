@@ -15,7 +15,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -26,7 +31,6 @@ import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.PaymethodData;
 import com.serpics.commerce.facade.data.ShipmodeData;
-import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
@@ -37,16 +41,11 @@ import com.serpics.membership.facade.data.AddressData;
 @Path("/cartService")
 @Transactional(readOnly=true)
 public class CartRestServiceImpl implements CartRestService {
+	
+	Logger LOG = LoggerFactory.getLogger(CartRestServiceImpl.class);
 
 	@Resource
 	CartFacade cartFacade;
-	
-	@Resource(name="cartItemDataRequestConverter")
-	AbstractPopulatingConverter<CartItemDataRequest, CartItemData> cartItemDataRequestConverter;
-	
-	@Resource(name="addressDataRequestConverter")
-	AbstractPopulatingConverter<AddressDataRequest, AddressData> addressDataRequestConverter;
-
 	
     /**
      * This method returns the session cart.
@@ -88,7 +87,7 @@ public class CartRestServiceImpl implements CartRestService {
 	}
 
     /**
-     * This method updates current cart ith a CartItemData.
+     * This method updates current cart with a CartItemDataRequest.
      * @summary  Method: cartUpdate(CartItemDataRequest cartItemDataRequest)
      * @param cartItem The cartItem to add to current cart
      * @return Response		object type: apiRestResponse
@@ -101,14 +100,29 @@ public class CartRestServiceImpl implements CartRestService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartModification>")
 	public Response cartUpdate(CartItemDataRequest cartItemDataRequest) {
 		
-		CartItemData cartItem = cartItemDataRequestConverter.convert(cartItemDataRequest);
-		
-		Assert.notNull(cartItem);
 		ApiRestResponse<CartModification> apiRestResponse = new ApiRestResponse<CartModification>();
-		CartModification  cartItemModification = cartFacade.update(cartItem);
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(cartItemModification);
-		return Response.ok(apiRestResponse).build();
+		CartItemData cartItemData = new CartItemData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(cartItemDataRequest, cartItemData,new String[]{"product"});
+		
+			Assert.notNull(cartItemData, "cartItemData can not be null !");
+			
+			CartModification  cartItemModification = cartFacade.update(cartItemData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(cartItemModification);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
 
     /**
@@ -146,13 +160,27 @@ public class CartRestServiceImpl implements CartRestService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
 	public Response addBillingAddress(AddressDataRequest billingAddressRequest){
 		
-		AddressData billingAddress = addressDataRequestConverter.convert(billingAddressRequest);
-		Assert.notNull(billingAddress);
 		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
-		CartData cartData = cartFacade.addBillingAddress(billingAddress);
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(cartData);
-		return Response.ok(apiRestResponse).build();
+		AddressData billingAddress = new AddressData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(billingAddressRequest, billingAddress);
+			Assert.notNull(billingAddress, "billingAddress can not be null !");
+			CartData cartData = cartFacade.addBillingAddress(billingAddress);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(cartData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
     
     /**
@@ -170,13 +198,27 @@ public class CartRestServiceImpl implements CartRestService {
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
 	public Response addShippingAddress(AddressDataRequest shippingAddressRequest){
 		
-		AddressData shippingAddress = addressDataRequestConverter.convert(shippingAddressRequest);
-		Assert.notNull(shippingAddress);
 		ApiRestResponse<CartData> apiRestResponse = new ApiRestResponse<CartData>();
-		CartData cartData = cartFacade.addShippingAddress(shippingAddress);
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(cartData);
-		return Response.ok(apiRestResponse).build();
+		AddressData shippingAddress = new AddressData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(shippingAddressRequest, shippingAddress);
+			Assert.notNull(shippingAddress, "shippingAddress can not be null !");
+			CartData cartData = cartFacade.addShippingAddress(shippingAddress);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(cartData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
 	
     /**

@@ -1,11 +1,10 @@
 package com.serpics.jaxrs.data;
 
-import com.serpics.base.facade.data.CountryData;
-import com.serpics.base.facade.data.RegionData;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class AddressDataRequest {
 	
-	private String nickname;
 	private String firstname;
 	private String lastname;
 	private String company;
@@ -16,21 +15,14 @@ public class AddressDataRequest {
 	private String streetNumber;
 	private String zipcode;
 	private String city;
-	private RegionData region;
-	private CountryData country;
+	private String regionUuid;
+	private String countryUuid;
 	private String vatcode;
 	private String idNumber;
 	private String phone;
 	private String mobile;
 	private String fax;
-	
-	
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
+
 	public String getFirstname() {
 		return firstname;
 	}
@@ -91,17 +83,17 @@ public class AddressDataRequest {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public RegionData getRegion() {
-		return region;
+	public String getRegionUuid() {
+		return regionUuid;
 	}
-	public void setRegion(RegionData region) {
-		this.region = region;
+	public void setRegionUuid(String regionUuid) {
+		this.regionUuid = regionUuid;
 	}
-	public CountryData getCountry() {
-		return country;
+	public String getCountryUuid() {
+		return countryUuid;
 	}
-	public void setCountry(CountryData country) {
-		this.country = country;
+	public void setCountryUuid(String countryUuid) {
+		this.countryUuid = countryUuid;
 	}
 	public String getVatcode() {
 		return vatcode;

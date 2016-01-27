@@ -29,25 +29,26 @@ import com.serpics.warehouse.InventoryNotAvailableException;
 public class OrderFacadeImpl implements OrderFacade {
 
 	private Logger LOG = LoggerFactory.getLogger(OrderFacadeImpl.class);
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	OrderService orderService;
-	
+
 	@Autowired
 	CartService cartService;
-	
+
 	@Autowired
 	CartFacade cartFacade;
-	
+
 	@Autowired
-	AbstractPopulatingConverter<Order,OrderData> orderConverter;
-	
+	AbstractPopulatingConverter<Order, OrderData> orderConverter;
+
 	@Override
 	@Transactional
-	public OrderData createOrder(CartData cartData){
+	public OrderData createOrder(CartData cartData) {
+		OrderData orderData = null;
 		try {
 			cartService.removeCartFromSession();
 			Cart cart = cartService.getSessionCart();
@@ -55,41 +56,41 @@ public class OrderFacadeImpl implements OrderFacade {
 			cart = cartService.prepareCart(cart);
 			Order order = orderService.createOrder(cart);
 			cartService.removeCartFromSession();
-			OrderData orderData = orderConverter.convert(order);
-			return orderData;
+			orderData = orderConverter.convert(order);
+
 		} catch (InventoryNotAvailableException e) {
 			LOG.error("InventoryNotAvailable", e);
 		} catch (ProductNotFoundException e) {
 			LOG.error("ProductNotFound", e);
-		};
-		return null;
+		}
+		return orderData;
 	}
-	
+
 	@Override
 	@Transactional
-	public OrderData placeOrder(){
+	public OrderData placeOrder() {
 		LOG.debug("Invoke placeOrder");
 		Cart cart = cartService.getSessionCart();
-		
-		LOG.debug("Convert cart with number "+cart.getId()+" in order");
+
+		LOG.debug("Convert cart with number " + cart.getId() + " in order");
 		Order order = orderService.createOrder(cart);
-		
-		LOG.debug("Placed Order with number: "+order.getId()+" [Cart: "+cart.getId()+"]");
-		
+
+		LOG.debug("Placed Order with number: " + order.getId() + " [Cart: " + cart.getId() + "]");
+
 		cartService.removeCartFromSession();
-		
+
 		return orderConverter.convert(order);
 	}
-	
+
 	@Override
 	@Transactional
-	public OrderData addPayment(Long orderId,OrderPaymentData paymentData){
-		
-		LOG.debug("Retrieve order with "+orderId);
+	public OrderData addPayment(Long orderId, OrderPaymentData paymentData) {
+
+		LOG.debug("Retrieve order with " + orderId);
 		Order order = orderService.getOrder(orderId);
-		
-		Orderpayment payment = new Orderpayment(paymentData.getPaymethod(),paymentData.getAmount());
-		
+
+		Orderpayment payment = new Orderpayment(paymentData.getPaymethod(), paymentData.getAmount());
+
 		LOG.debug("add to order, payment");
 		order = orderService.addPayment(order, payment);
 		return orderConverter.convert(order);
@@ -101,27 +102,28 @@ public class OrderFacadeImpl implements OrderFacade {
 		User currentUser = userService.getCurrentCustomer();
 		List<OrderData> orderDataList = new ArrayList<OrderData>();
 		List<Order> orderList = orderService.getOrdersByUser(currentUser);
-		for (Order order : orderList){
+		for (Order order : orderList) {
 			orderDataList.add(orderConverter.convert(order));
 		}
 		return orderDataList;
 	}
-	
-	private Cart updateCartFromCartData(CartData cartData, Cart cart) throws InventoryNotAvailableException, ProductNotFoundException{
+
+	private Cart updateCartFromCartData(CartData cartData, Cart cart)
+			throws InventoryNotAvailableException, ProductNotFoundException {
 		cartFacade.addBillingAddress(cartData.getBillingAddress());
 		cartFacade.addShippingAddress(cartData.getShippingAddress());
-		
-		if (cartData.getShipmode() != null){
-			if (cartData.getShipmode().getId() != null){
+
+		if (cartData.getShipmode() != null) {
+			if (cartData.getShipmode().getId() != null) {
 				cartService.addShipmode(cartData.getShipmode().getId());
 			}
 		}
-		
+
 		Set<CartItemData> cartItemsData = cartData.getOrderItems();
-		for (CartItemData item : cartItemsData){			
+		for (CartItemData item : cartItemsData) {
 			cartService.cartAdd(item.getSku(), item.getQuantity(), cart, true);
 		}
-		
+
 		return cart;
 	}
 

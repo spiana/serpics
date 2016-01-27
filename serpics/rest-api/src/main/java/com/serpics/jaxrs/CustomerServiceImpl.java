@@ -24,11 +24,14 @@ import org.springframework.util.Assert;
 
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.base.data.model.Store;
+import com.serpics.base.facade.CountryFacade;
+import com.serpics.base.facade.RegionFacade;
+import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.facade.data.RegionData;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CartStrategy;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
@@ -44,8 +47,15 @@ import com.serpics.membership.facade.data.UserData;
 public class CustomerServiceImpl implements CustomerService {
 
 	Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
+	
 	@Autowired
 	UserFacade userFacade;
+	
+	@Autowired
+	RegionFacade regionFacade;
+	
+	@Autowired
+	CountryFacade countryFacade;
 
 	@Resource
 	CommerceEngine commerceEngine;
@@ -53,12 +63,6 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	CartStrategy cartStrategy;
 	
-	@Resource(name="userDataRequestConverter")
-	AbstractPopulatingConverter<UserDataRequest, UserData> userDataRequestConverter;
-	
-	@Resource(name="addressDataRequestConverter")
-	AbstractPopulatingConverter<AddressDataRequest, AddressData> addressDataRequestConverter;
-
     /**
      * This method creates a user.
      * @summary  Method: create(UserDataRequest userDataRequest)
@@ -154,7 +158,6 @@ public class CustomerServiceImpl implements CustomerService {
 			responseBuilder = Response.status(500);
 		}
 
-		
 		return responseBuilder.entity(apiRestResponse).build();
 	}
 
@@ -214,7 +217,15 @@ public class CustomerServiceImpl implements CustomerService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(addressDataRequest, address);
+			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
+			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+			if (regionData != null){
+				address.setRegion(regionData);
+			}
+			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+			if (countryData != null){
+				address.setCountry(countryData);
+			}
 			userFacade.updateContactAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		}
@@ -246,7 +257,15 @@ public class CustomerServiceImpl implements CustomerService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(addressDataRequest, address);
+			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
+			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+			if (regionData != null){
+				address.setRegion(regionData);
+			}
+			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+			if (countryData != null){
+				address.setCountry(countryData);
+			}
 			userFacade.updateBillingAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		}
@@ -281,7 +300,15 @@ public class CustomerServiceImpl implements CustomerService {
 		Assert.notNull(addressDataRequest, "address can not be null !");
 		
 		try{
-			BeanUtils.copyProperties(addressDataRequest, address);
+			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
+			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+			if (regionData != null){
+				address.setRegion(regionData);
+			}
+			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+			if (countryData != null){
+				address.setCountry(countryData);
+			}
 			Assert.notNull(address.getUuid(), "UUID can not ve null !");
 			userFacade.updateDestinationAddress(address, address.getUuid());
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
