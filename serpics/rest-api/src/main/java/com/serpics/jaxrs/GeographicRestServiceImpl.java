@@ -51,8 +51,9 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	}
 	
     /**
-     * This method gets all region by country
+     * This method gets all region by countryId
      * @summary  Method: getRegionByCountry(Long countryId)
+     * @param countryId The country id to search region
      * @return Response		object type: apiRestResponse
      * 
      */

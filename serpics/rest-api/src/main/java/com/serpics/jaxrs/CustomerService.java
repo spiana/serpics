@@ -12,7 +12,7 @@ public interface CustomerService  {
 	public Response update(UserDataRequest entity);
 	public Response getCurrent();
 	public Response login(String username , String password);
-	public Response logout(String sessionId);
+	public Response logout();
 	public Response updateContactAddress(AddressDataRequest addressDataRequest);
 	public Response updateBillingAddress(AddressDataRequest addressDataRequest);
 	public Response updateDestinationAddress(AddressDataRequest addressDataRequest);

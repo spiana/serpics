@@ -68,6 +68,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @summary  Method: create(UserDataRequest userDataRequest)
      * @param user The user to create
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Registration Ok
+     * @statuscode 400 Error On register
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -167,6 +169,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @param username The username to login
      * @param password The password to login
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Registration Ok
+     * @statuscode 401 Error On Connect
      */
 	@Override
 	@GET
@@ -383,8 +387,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method makes the user logout
-     * @summary  Method:  logout(String sessionId)
-     * @param sessionId The sessionId to logout
+     * @summary  Method:  logout()
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -393,12 +396,15 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response logout(String sessionId) {
+	public Response logout() {
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
+		CommerceSessionContext context= commerceEngine.getCurrentContext();
+		LOG.debug("Disconnecting Current User Logged with SessionId:  " + context.getSessionId());
+
+		commerceEngine.disconnect(context.getSessionId());
+		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		commerceEngine.disconnect(sessionId);
-		//apiRestResponse.setMessage("Disconnect current user logged with session id:  " + sessionId);
 		return Response.ok(apiRestResponse).build();
 	}
 

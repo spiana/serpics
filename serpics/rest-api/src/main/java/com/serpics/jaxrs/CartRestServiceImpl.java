@@ -69,6 +69,7 @@ public class CartRestServiceImpl implements CartRestService {
      * This method adds a product into current cart.
      * @summary  Method: cartAdd(String sku,int quantity )
      * @param sku Stock Keeping Unit of an item
+     * @param quantity The quantity to add into current cart
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -128,7 +129,7 @@ public class CartRestServiceImpl implements CartRestService {
     /**
      * This method deletes an item.
      * @summary  Method: deleteItem(Long itemId)
-     * @param itemId The brand to add
+     * @param itemId The item Id to delete
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -224,7 +225,7 @@ public class CartRestServiceImpl implements CartRestService {
     /**
      * This method adds a shipmode to current cart.
      * @summary  Method: addShipmode(String shipmodeName)
-     * @param shippingAddress The shipmode to add
+     * @param shipmodeName The shipmode name to add
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -280,9 +281,9 @@ public class CartRestServiceImpl implements CartRestService {
 	}
 	
     /**
-     * This method adds a paymethod to current cart.
+     * This method adds a paymethod into current cart.
      * @summary  Method: addPaymethod(Long paymethodId)
-     * @param shippingAddress The paymethod to add
+     * @param paymethodName The paymethod Name to add
      * @return Response		object type: apiRestResponse
      * 
      */

@@ -47,6 +47,8 @@ public class CategoryRestServiceImpl implements CategoryRestService{
      * @summary  Method: getCategoryByCode(String code)
      * @param code The code of category to search
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 id found and correct 
+     * @statuscode 404 Not Found - Category ID Not Found
      * 
      */
 	@Override
@@ -78,6 +80,8 @@ public class CategoryRestServiceImpl implements CategoryRestService{
      * @summary  Method: getCategoryById(Long categoryId)
      * @param categoryId The Id of category to search
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Category id found and correct 
+     * @statuscode 404 Not Found - Category ID Not Found
      * 
      */
 	@Override

@@ -53,7 +53,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method inserts a product, with category and brand, into catalog.
      * @summary  Method: insert(ProductDataRequest productDataRequest,Long categoryId,Long brandId)
      * @param 	product The product to insert
-     * @param 	categoryId The category of product
+     * @param 	categoryId The category id of product
      * @param 	brandId The brand of product
      * @return Response		object type: apiRestResponse
      */
@@ -96,7 +96,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method inserts a product, with category, into catalog.
      * @summary  Method: insertCategory(ProductDataRequest productDataRequest,Long categoryId)
      * @param 	product The product to insert
-     * @param 	categoryId The category of product
+     * @param 	categoryId The category id of product
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -134,7 +134,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method inserts a product, with brand, into catalog.
      * @summary  Method: insertBrand(ProductDataRequest productDataRequest,Long brandId)
      * @param 	product The product to insert
-     * @param 	brandId The category of product
+     * @param 	brandId The brand Id of product
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -245,6 +245,8 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: getProduct(Long productId)
      * @param 	productId The product Id to get
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Product found
+     * @statuscode 404 Product not found
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -299,6 +301,8 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: getCategory(Long productId)
      * @param 	productId The product Id to search
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Product found
+     * @statuscode 404 Product not found
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -418,6 +422,8 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: getProductByName(String name)
      * @param 	name The name of product to search
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Product found
+     * @statuscode 404 Product not found
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
