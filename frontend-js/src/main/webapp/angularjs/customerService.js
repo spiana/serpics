@@ -82,8 +82,6 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
          
          
          /**
-          * @param username
-          * @param passwordf
           * return 
           */
         customerService.logout = function() {  
@@ -98,7 +96,6 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	   	            headers: {
  	   	            	'ssid': sessionId
  	   	            },
- 	   	            data:sessionId
  	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
  	   			});   		
  	       	});        	

@@ -165,7 +165,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	     * @param shipmodeId
 	     * @return 
 	     */     
-	    function addShipmode(shipmodeId) {
+	    function addShipmode(shipmodeName) {
 	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
@@ -173,7 +173,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService addShipmode(shipmodeId) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'POST',
-			             url: URL + endpoint + "shipmode/" + shipmodeId,
+			             url: URL + endpoint + "shipmode/" + shipmodeName,
 			             headers: {
 			             	'ssid': sessionId,
 			            }
@@ -206,7 +206,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	     * @param paymethodId
 	     * @return 
 	     */     
-	    function addPaymethod(paymethodId) {
+	    function addPaymethod(paymethodName) {
 	    	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
@@ -214,7 +214,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService addPaymethod(paymethodId) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'POST',
-			             url: URL + endpoint + "paymethod/" + paymethodId,
+			             url: URL + endpoint + "paymethod/" + paymethodName,
 			             headers: {
 			             	'ssid': sessionId,
 			            }
