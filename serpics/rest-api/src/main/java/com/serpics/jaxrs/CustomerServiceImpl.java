@@ -65,8 +65,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method creates a user.
-     * @summary  Method: create(final UserData user)
-     * @param user The user to create
+     * @summary  Method: create(UserDataRequest userDataRequest)
+     * @param userDataRequest The user to create
      * @return Response		object type: apiRestResponse
      * @statuscode 200 Registration Ok
      * @statuscode 400 Error On register
@@ -131,12 +131,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates a user.
-     * @summary  Method: update(UserData entity)
-     * @param entity The user to update
+     * @summary  Method: update(UserDataRequest userDataRequest)
+     * @param userDataRequest The user to update
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@PUT
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response update(UserDataRequest userDataRequest) {
@@ -177,6 +178,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@GET
 	@Path("login")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
@@ -207,13 +209,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates the address of a user
-     * @summary  Method: updateContactAddress(AddressData address)
-     * @param address The address to update
+     * @summary  Method: updateContactAddress(AddressDataRequest addressDataRequest)
+     * @param addressDataRequest The address to update
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("updateContactAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateContactAddress(AddressDataRequest addressDataRequest) {
@@ -247,13 +250,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates the BillingAddress of a user
-     * @summary  Method: updateBillingAddress(AddressData address)
-     * @param address The BillingAddress to update
+     * @summary  Method: updateBillingAddress(AddressDataRequest addressDataRequest)
+     * @param addressDataRequest The BillingAddress to update
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("updateBillingAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateBillingAddress(AddressDataRequest addressDataRequest) {
@@ -288,13 +292,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method updates the DestinationAddress of a user
-     * @summary  Method:  updateDestinationAddress(AddressData address)
-     * @param address The DestinationAddress to update
+     * @summary  Method:  updateDestinationAddress(AddressDataRequest addressDataRequest)
+     * @param addressDataRequest The DestinationAddress to update
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("updateDestinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response updateDestinationAddress(AddressDataRequest addressDataRequest) {
@@ -331,13 +336,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method adds the DestinationAddress to a user
-     * @summary  Method:  addDestinationAddress(AddressData address)
-     * @param address The DestinationAddress to add
+     * @summary  Method:  addDestinationAddress(AddressDataRequest addressDataRequest)
+     * @param addressDataRequest The DestinationAddress to add
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addDestinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response addDestinationAddress(AddressDataRequest addressDataRequest) {
@@ -374,6 +380,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("deleteDestinationAddress/{addressId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response deleteDestinationAddress(@PathParam("addressId") String addressUID) {

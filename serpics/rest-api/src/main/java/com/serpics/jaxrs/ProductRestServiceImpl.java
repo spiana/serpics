@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -27,8 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.qmino.miredot.annotations.ReturnType;
+import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.ProductFacade;
+import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
@@ -48,11 +51,14 @@ public class ProductRestServiceImpl implements ProductRestService {
 
 	@Autowired
 	CategoryFacade categoryFacade;
-
+	
+	@Autowired
+	BrandFacade brandFacade;
+	
     /**
      * This method inserts a product, with category and brand, into catalog.
-     * @summary  Method: insert(ProductData product,Long categoryId,Long brandId)
-     * @param 	product The product to insert
+     * @summary  Method: insert(ProductDataRequest productDataRequest,Long categoryId,Long brandId)
+     * @param 	productDataRequest The product to insert
      * @param 	categoryId The category id of product
      * @param 	brandId The brand of product
      * @return Response		object type: apiRestResponse
@@ -95,8 +101,13 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method inserts a product, with category, into catalog.
+<<<<<<< Updated upstream
      * @summary  Method: insertCategory(ProductData product,Long categoryId)
      * @param 	product The product to insert
+=======
+     * @summary  Method: insertCategory(ProductDataRequest productDataRequest,Long categoryId)
+     * @param 	productDataRequest The product to insert
+>>>>>>> Stashed changes
      * @param 	categoryId The category id of product
      * @return Response		object type: apiRestResponse
      */
@@ -113,7 +124,11 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(productDataRequest, productData);
+			BeanUtils.copyProperties(productDataRequest, productData,new String[]{"brandName"});
+			if(!StringUtils.isEmpty(productDataRequest.getBrandName())){
+				BrandData brandData = brandFacade.findBrandByName(productDataRequest.getBrandName());
+				productData.setBrand(brandData);
+			}
 			Assert.notNull(productData);
 			productData = productFacade.createWithCategory(productData, categoryId);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -133,8 +148,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method inserts a product, with brand, into catalog.
-     * @summary  Method: insertBrand(ProductData product,Long brandId)
-     * @param 	product The product to insert
+     * @summary  Method: insertBrand(ProductDataRequest productDataRequest,Long brandId)
+     * @param 	productDataRequest The product to insert
      * @param 	brandId The brand Id of product
      * @return Response		object type: apiRestResponse
      */
@@ -170,8 +185,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method inserts a product into catalog.
-     * @summary  Method: insertBrand(ProductData product)
-     * @param 	product The product to insert
+     * @summary  Method: insertBrand(ProductDataRequest productDataRequest)
+     * @param 	productDataRequest The product to insert
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -206,8 +221,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method updates a product.
-     * @summary  Method: update(ProductData product)
-     * @param 	product The product to update
+     * @summary  Method: update(ProductDataRequest productDataRequest)
+     * @param 	productDataRequest The product to update
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -381,7 +396,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method adds a price to a product.
      * @summary  Method: addPrice(Long productId, PriceDataRequest priceDataRequest)
      * @param 	productId The product Id to add price
-     * @param 	price The price Id to add
+     * @param 	priceDataRequest The price Id to add
      * @return Response		object type: apiRestResponse
      */
 	@Override

@@ -1,30 +1,25 @@
 package com.serpics.jaxrs.data;
 
-
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductDataRequest {
 
-	private Boolean published;
-	private Boolean dowloadable;
+	private String brandName;
+
+	// private Set<CategoryDataRequest> categories;
+	private String code;
+	private String description;
+	private String url;
+	private Boolean buyable;
+	private Boolean downloadable;
 	private String manufacturSku;
+	private Boolean published;
 	private String unitMeas;
 	private Double weight;
 	private String weightMeas;
-	private PriceDataRequest price;
-	private BrandDataRequest brand;
-
-	private Set<CategoryDataRequest> categories;
 	private String metaDescription;
 	private String metaKey;
-
-	private String code;
-	private String description;
-	private Boolean buyable;
-	private Boolean downloadable;
 
 	public Boolean getPublished() {
 		return published;
@@ -34,20 +29,20 @@ public class ProductDataRequest {
 		this.published = published;
 	}
 
-	public Boolean getDowloadable() {
-		return dowloadable;
-	}
-
-	public void setDowloadable(Boolean dowloadable) {
-		this.dowloadable = dowloadable;
-	}
-
 	public String getManufacturSku() {
 		return manufacturSku;
 	}
 
 	public void setManufacturSku(String manufacturSku) {
 		this.manufacturSku = manufacturSku;
+	}
+
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
 	}
 
 	public String getUnitMeas() {
@@ -74,29 +69,13 @@ public class ProductDataRequest {
 		this.weightMeas = weightMeas;
 	}
 
-	public PriceDataRequest getPrice() {
-		return price;
-	}
-
-	public void setPrice(PriceDataRequest price) {
-		this.price = price;
-	}
-
-	public BrandDataRequest getBrand() {
-		return brand;
-	}
-
-	public void setBrand(BrandDataRequest brand) {
-		this.brand = brand;
-	}
-
-	public Set<CategoryDataRequest> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<CategoryDataRequest> categories) {
-		this.categories = categories;
-	}
+	// public Set<CategoryDataRequest> getCategories() {
+	// return categories;
+	// }
+	//
+	// public void setCategories(Set<CategoryDataRequest> categories) {
+	// this.categories = categories;
+	// }
 
 	public String getMetaDescription() {
 		return metaDescription;
@@ -152,6 +131,14 @@ public class ProductDataRequest {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

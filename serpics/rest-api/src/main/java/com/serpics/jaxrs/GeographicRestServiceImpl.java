@@ -42,7 +42,7 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/country")
-	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CountryData>")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.base.facade.data.CountryData>>")
 	public Response getCountryList(){
 		ApiRestResponse<List<CountryData>> apiRestResponse = new ApiRestResponse<List<CountryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -53,7 +53,7 @@ public class GeographicRestServiceImpl implements GeographicRestService{
     /**
      * This method gets all region by countryId
      * @summary  Method: getRegionByCountry(Long countryId)
-     * @param countryId The country id to search region
+     * @param countryId The country id to search for regions
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -62,7 +62,7 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/region/{country}")
-	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.RegionData>")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.base.facade.data.RegionData>>")
 	public Response getRegionByCountry(@PathParam("country") Long countryId){
 		ApiRestResponse<List<RegionData>> apiRestResponse = new ApiRestResponse<List<RegionData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);

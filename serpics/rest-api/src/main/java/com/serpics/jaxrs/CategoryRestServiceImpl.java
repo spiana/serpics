@@ -110,7 +110,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
     /**
      * This method creates a category with a parent.
      * @summary  Method: createParent(CategoryDataRequest categoryDataRequest, Long parentId)
-     * @param category The category to create
+     * @param categoryDataRequest The category to create
      * @param parentId The id of parent
      * @return Response		object type: apiRestResponse
      * 
@@ -148,8 +148,8 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
     /**
      * This method creates a category.
-     * @summary  Method: create(CategoryData category)
-     * @param category The category to create
+     * @summary  Method: create(CategoryDataRequest categoryDataRequest)
+     * @param categoryDataRequest The category to create
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -229,8 +229,8 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
     /**
      * This method updates a category
-     * @summary  Method: update(CategoryData category)
-     * @param category The category to update
+     * @summary  Method: update(CategoryDataRequest categoryDataRequest)
+     * @param categoryDataRequest The category to update
      * @return Response		object type: apiRestResponse
      * 
      */

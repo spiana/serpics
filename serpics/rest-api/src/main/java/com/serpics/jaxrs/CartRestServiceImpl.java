@@ -68,12 +68,8 @@ public class CartRestServiceImpl implements CartRestService {
     /**
      * This method adds a product into current cart.
      * @summary  Method: cartAdd(String sku,int quantity )
-<<<<<<< HEAD
-     * @param sku Stock Keeping Unit of a item
-=======
      * @param sku Stock Keeping Unit of an item
      * @param quantity The quantity to add into current cart
->>>>>>> gitlab/api-dev
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -92,14 +88,9 @@ public class CartRestServiceImpl implements CartRestService {
 	}
 
     /**
-<<<<<<< HEAD
-     * This method updates current cart ith a CartItemData.
-     * @summary  Method: cartUpdate(CartItemData cartItem)
-=======
      * This method updates current cart with a CartItemDataRequest.
      * @summary  Method: cartUpdate(CartItemDataRequest cartItemDataRequest)
->>>>>>> gitlab/api-dev
-     * @param cartItem The cartItem to add to current cart
+     * @param cartItemDataRequest The cartItem to add to current cart
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -143,6 +134,7 @@ public class CartRestServiceImpl implements CartRestService {
      */
 	@Override
 	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.CartData>")
 	public Response deleteItem(@FormParam("itemId") Long itemId){
@@ -156,8 +148,8 @@ public class CartRestServiceImpl implements CartRestService {
 	
     /**
      * This method adds a billingAddress to current cart.
-     * @summary  Method: addBillingAddress(AddressData billingAddress)
-     * @param billingAddress The billingAddress to add
+     * @summary  Method: addBillingAddress(AddressDataRequest billingAddressRequest)
+     * @param billingAddressRequest The billingAddress to add
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -194,8 +186,8 @@ public class CartRestServiceImpl implements CartRestService {
     
     /**
      * This method adds a shippingAddress to current cart.
-     * @summary  Method: addShippingAddress(AddressData shippingAddress)
-     * @param shippingAddress The shippingAddress to add
+     * @summary  Method: addShippingAddress(AddressDataRequest shippingAddressRequest)
+     * @param shippingAddressRequest The shippingAddress to add
      * @return Response		object type: apiRestResponse
      * 
      */

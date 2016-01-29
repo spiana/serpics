@@ -69,9 +69,9 @@ public class OrderRestServiceImpl implements OrderRestService {
 	 * @summary Method: addPayment(Long orderId, OrderPaymentDataRequest
 	 *          orderPaymentDataRequest)
 	 * @param orderId
-	 *            The user to create
-	 * @param paymentData
-	 *            The user to create
+	 *            The order id to add payment
+	 * @param orderPaymentDataRequest
+	 *            The paymentData to add
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override
@@ -128,7 +128,7 @@ public class OrderRestServiceImpl implements OrderRestService {
 	 * This method creates an order from a given cart.
 	 * 
 	 * @summary Method: createOrder(CartDataRequest cartDataRequest)
-	 * @param cartData
+	 * @param cartDataRequest
 	 *            The cart to turns into order
 	 * @return Response object type: apiRestResponse
 	 */

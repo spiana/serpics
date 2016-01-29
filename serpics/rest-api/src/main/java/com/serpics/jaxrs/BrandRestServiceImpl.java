@@ -46,8 +46,8 @@ public class BrandRestServiceImpl implements BrandRestService {
 	
     /**
      * This method adds a brand to catalog.
-     * @summary  Method: addBrand(BrandData brand)
-     * @param brand The brand to add
+     * @summary  Method: addBrand(BrandDataRequest brandDataRequest)
+     * @param brandDataRequest The brand to add
      * @return Response		object type: apiRestResponse
      * 
      */
@@ -125,8 +125,8 @@ public class BrandRestServiceImpl implements BrandRestService {
 
     /**
      * This method updates a brand.
-     * @summary  Method: updateBrand(BrandData brand)
-     * @param brand The brand to update
+     * @summary  Method: updateBrand(BrandDataRequest brandDataRequest)
+     * @param brandDataRequest The brand to update
      * @return Response		object type: apiRestResponse
      */
 	@Override
