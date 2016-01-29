@@ -17,7 +17,9 @@ public class ShipmodePopulator implements Populator<Shipmode, ShipmodeData>{
 	
 		target.setId(source.getId());
 		target.setCreated(source.getCreated());
-		target.setDescription(source.getDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
+		if(source.getDescription() != null ){
+			target.setDescription(source.getDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
+		}
 		target.setName(source.getName());
 		
 		target.setUuid(source.getUuid());

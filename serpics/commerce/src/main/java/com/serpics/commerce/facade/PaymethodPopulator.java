@@ -17,7 +17,9 @@ public class PaymethodPopulator implements Populator<Paymethod, PaymethodData>{
 	
 		target.setPaymethodId(source.getPaymethodId());
 		target.setCreated(source.getCreated());
-		target.setDescription(source.getDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
+		if(source.getDescription() != null ){
+			target.setDescription(source.getDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
+		}
 		target.setName(source.getName());
 		
 		target.setUuid(source.getUuid());
