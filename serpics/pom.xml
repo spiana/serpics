@@ -17,7 +17,7 @@
 		<cxf.version>2.7.2</cxf.version>
 		<jackson.version>1.9.11</jackson.version>
 		<jaxb.version>2.1</jaxb.version>
-		<fasterxml-version>2.2.3</fasterxml-version>
+		<fasterxml-version>2.1.0</fasterxml-version>
 		<surefire-plugin.version>2.18</surefire-plugin.version>
 		<hibernate.version>4.2.1.Final</hibernate.version>
 		<spring.security>4.0.2.RELEASE</spring.security>

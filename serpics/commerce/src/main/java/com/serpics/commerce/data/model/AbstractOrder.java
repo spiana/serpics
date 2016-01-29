@@ -112,6 +112,11 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @ManyToOne(fetch=FetchType.LAZY , optional=true)
     @JoinColumn(name = "shipmode_id")
     protected Shipmode shipmode;
+    
+    // bi-directional many-to-one association to Paymethod
+    @ManyToOne(fetch=FetchType.LAZY , optional=true)
+    @JoinColumn(name = "paymethod_id")
+    protected Paymethod paymethod;
 
     // bi-directional many-to-one association to OrdersAttribute
     @OneToMany(mappedBy = "order", orphanRemoval = true)
@@ -318,5 +323,13 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
 		this.totalTax = totalTax;
 	}
 	
+
+	public Paymethod getPaymethod() {
+		return paymethod;
+	}
+
+	public void setPaymethod(Paymethod paymethod) {
+		this.paymethod = paymethod;
+	}
 
 }

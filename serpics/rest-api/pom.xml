@@ -181,27 +181,17 @@
                <version>${fasterxml-version}</version>
        </dependency>
  -->    
-        <dependency>
 
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-jaxrs</artifactId>
-            <version>${jackson.version}</version>
-         </dependency> 
-         <dependency>
-        	<groupId>org.codehaus.jackson</groupId>
-        	<artifactId>jackson-xc</artifactId>
-        	<version>${jackson.version}</version>
-        </dependency>
+
+
+
+
+<dependency>
+  <groupId>com.fasterxml.jackson.jaxrs</groupId>
+  <artifactId>jackson-jaxrs-json-provider</artifactId>
+  <version>${fasterxml-version}</version>
+</dependency>
+
        
        <dependency>
             <groupId>com.qmino</groupId>

@@ -7,6 +7,8 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 		
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
+		$scope.shipmodeList = {};
+		$scope.paymethodList = {};
 	  	
 	    function getCurrentCart() {
   			$log.debug("CartController getCurrentCart()");
@@ -69,6 +71,11 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
     		  })
   	    };
   	    
+  	    /**
+  	     * @param billingAddress 	billingAddress to add
+  	     * @return 					a cart update with @param data
+  	     * @use 					cartService,
+  	     */
 	  	 $scope.submitBillingForm = function (billingAddress,shippingToBill){
 	  		 
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
@@ -78,7 +85,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 					  cartService.addShippingAddress(billingAddress).then(function(response){
 		    			  $log.debug("cartController billingAddress(billingAddress): ramo then");
 		    			  $scope.cart = response;
-		    			  $state.go(complete)
+		    			  $state.go($stateParams.shipmode)
 					  })
 				  } else {
 					  $scope.cart = response;
@@ -87,12 +94,79 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 				  }
 			 })
 	  	 };
-			 
+		
+	  	/**
+	  	 * @param shippingAddress 	shippingAddress to add
+	  	 * @return 					a cart update with @param data
+	  	 * @use 					cartService,
+	  	 */	  	 
 		$scope.submitShippingForm = function (shippingAddress){
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
 	  			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go($stateParams.complete)
+	  			  $state.go($stateParams.shipmode)
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @param shipMode		 	shipMode to add
+	  	 * @return 					a cart update with @param data
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.addShipmode = function (shipmode){
+	  			cartService.addShipmode(shipmode).then(function(response){
+	  			  $log.debug("cartController addShipmode(shipMode): ramo then");
+	  			  $scope.cart = response;
+	  			  $state.go($stateParams.payment)
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @param		 	
+	  	 * @return 					a list of paymethod available for current store
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.getPaymethodList = function (){
+	  			cartService.getPaymethodList().then(function(response){
+	  			  $log.debug("cartController getPaymethodList(): ramo then");
+	  			  $scope.paymethodList = response;
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @param shipMode		 	shipMode to add
+	  	 * @return 					a cart update with @param data
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.addPaymethod = function (paymethod){
+	  			cartService.addPaymethod(paymethod).then(function(response){
+	  			  $log.debug("cartController addPaymethod(shipMode): ramo then");
+	  			  $scope.cart = response;
+	  			  $state.go($stateParams.payment)
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @param		 	
+	  	 * @return 					a list of shipmode available for currentCart
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.getShipmodeList = function (){
+	  			cartService.getShipmodeList().then(function(response){
+	  			  $log.debug("cartController getShipmodeList(): ramo then");
+	  			  $scope.shipmodeList = response;
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @param		 	
+	  	 * @return 					new sessionCart
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.deleteCart = function (){
+	  			cartService.deleteCart().then(function(response){
+	  			  $log.debug("cartController deleteCart(): ramo then");
+	  			  $scope.cart = response;
 	  		  })
 	  	};
   		

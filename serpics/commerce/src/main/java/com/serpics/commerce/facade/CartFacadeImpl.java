@@ -1,5 +1,8 @@
 package com.serpics.commerce.facade;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -11,10 +14,14 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.Paymethod;
+import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
 import com.serpics.commerce.facade.data.CartModificationStatus;
+import com.serpics.commerce.facade.data.PaymethodData;
+import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.commerce.services.CartService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.UserType;
@@ -53,6 +60,12 @@ public class CartFacadeImpl implements CartFacade {
 	
 	@Resource(name="cartItemConvert")
 	AbstractPopulatingConverter<Cartitem , CartItemData> cartItemConverter;
+	
+	@Resource(name="paymethodConverter")
+	AbstractPopulatingConverter<Paymethod, PaymethodData> paymethodConverter;
+	
+	@Resource(name="shipmodeConverter")
+	AbstractPopulatingConverter<Shipmode,ShipmodeData> shipmodeConverter;
 	
 	public CartModification cartAdd(String sku){ 
 		 return cartAdd(sku, 1);
@@ -181,5 +194,64 @@ public class CartFacadeImpl implements CartFacade {
 	}
 	
 	
+
+	@Override
+	@Transactional
+	public CartData addShipmode(String shipmodeName){
+		CartData cartdata = null;
+		cartService.addShipmode(shipmodeName);
+		try {
+			
+			Cart cart = cartService.prepareCart();
+			cartdata = cartConverter.convert(cart);
+			
+		} catch (InventoryNotAvailableException | ProductNotFoundException e) {
+			LOG.error("Error to add shipmode into cart", e);
+		}
+		
+		return cartdata;
+	}
+	
+	@Override
+	public List<PaymethodData> getPaymethodList(){
+		List<PaymethodData> paymethodList = new ArrayList<PaymethodData>();
+		for (Paymethod paymethod : cartService.getPaymethod()){
+			paymethodList.add(paymethodConverter.convert(paymethod));
+		}
+		return paymethodList;
+	}
+	
+	@Override
+	@Transactional
+	public CartData addPaymethod(String paymethodName){
+		CartData cartdata = null;
+		cartService.addPaymethod(paymethodName);
+		try {
+			
+			Cart cart = cartService.prepareCart();
+			cartdata = cartConverter.convert(cart);
+			
+		} catch (InventoryNotAvailableException | ProductNotFoundException e) {
+			LOG.error("Error to add paymethod into cart", e);
+		}
+		
+		return cartdata;
+	}
+	
+	@Override
+	@Transactional
+	public CartData deleteCart(){
+		cartService.cartDelete();
+		return getCurrentCart();
+	}
+
+	@Override
+	public List<ShipmodeData> getShipmodeList(){
+		List<ShipmodeData> shipmodeList = new ArrayList<ShipmodeData>();
+		for (Shipmode shipmode : cartService.getShipmode()){
+			shipmodeList.add(shipmodeConverter.convert(shipmode));
+		}
+		return shipmodeList;
+	}
 	
 }

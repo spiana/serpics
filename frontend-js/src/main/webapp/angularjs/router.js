@@ -40,7 +40,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
     })
     
     .state('shop.search', {
-    	url: '/search/:textSearch',
+    	url: "/search?:textSearch",
         controller: function ($stateParams, $scope) {
         	$scope.name = 'Search Page';
         	$scope.textSearch = $stateParams.textSearch;
@@ -123,7 +123,9 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
 	    controller: 'cartController',
         params: {
         	complete: "complete",
-        	shipping: "checkout.shipping"
+        	shipping: "checkout.shipping",
+        	shipmode: "checkout.shipmode",
+        	payment: "checkout.payment"
         }
 	})
 	
@@ -135,6 +137,16 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
 	.state('checkout.shipping', {
 	   	url: '/shipping',	        
 	    templateUrl: 'html/template/checkoutShippingAddress.html',
+	})
+	
+	.state('checkout.shipmode', {
+	   	url: '/shipmode',	        
+	    templateUrl: 'html/template/checkoutShipmode.html',
+	})
+	
+	.state('checkout.payment', {
+	   	url: '/payment',	        
+	    templateUrl: 'html/template/checkoutPayment.html',
 	})
 	
 	.state('checkout.login', {

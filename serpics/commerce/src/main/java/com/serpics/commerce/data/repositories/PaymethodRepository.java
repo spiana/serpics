@@ -11,6 +11,6 @@ import com.serpics.core.data.Repository;
 
 public interface PaymethodRepository extends Repository<Paymethod, Long> {
 	
-	@Query("select m from Paymethodlookup as p join p.paymethod as m where p.store = :store and p.active = 1")
+	@Query("select m from Paymethodlookup as p join p.paymethod as m where p.store = :store and p.active = true")
 	public List<Paymethod> findActivePaymentmethod(@Param("store") Store store);
 }

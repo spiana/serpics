@@ -2,7 +2,7 @@ package com.serpics.jaxrs;
 
 import javax.ws.rs.core.Response;
 
-import com.serpics.catalog.facade.data.PriceData;
+import com.serpics.jaxrs.data.PriceDataRequest;
 import com.serpics.jaxrs.data.ProductDataRequest;
 
 public interface ProductRestService {
@@ -18,7 +18,7 @@ public interface ProductRestService {
 	public Response getCategory(Long id);
 	public Response addCategory(Long productId, Long categoryId);
 	public Response addBrand(Long productId, Long brandId);
-	public Response addPrice(Long productId, PriceData price);
+	public Response addPrice(Long productId, PriceDataRequest priceDataRequest);
 	public Response findAll(int page, int size);
 	public Response findByCategory(Long categoryId, int page, int size);
 	public Response findByBrand(Long brandId, int page, int size);

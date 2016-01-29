@@ -1,5 +1,7 @@
 package com.serpics.base.facade;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,4 +13,8 @@ public interface CountryFacade {
 	public CountryData addCountry(CountryData country);
 	 
 	public Page<CountryData> findAll(Pageable page);
+	
+	public CountryData findCountryByUuid(String countryUuid);
+
+	public List<CountryData> findAllList();
 }

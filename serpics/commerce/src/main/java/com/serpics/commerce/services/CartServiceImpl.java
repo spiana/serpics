@@ -1,8 +1,14 @@
 package com.serpics.commerce.services;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,20 +16,27 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Currency;
+import com.serpics.base.data.model.Region;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
+import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.Paymethod;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.data.repositories.CartItemRepository;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderItemRepository;
+import com.serpics.commerce.data.repositories.PaymethodRepository;
+import com.serpics.commerce.data.repositories.ShipmodeRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CommerceStrategy;
 import com.serpics.commerce.strategies.DiscountStrategy;
@@ -73,6 +86,38 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	@Resource
 	AddressRepository addressRepository;
 
+	
+	@Resource
+	ShipmodeRepository shipmodeRepository;
+	
+	@Resource
+	PaymethodRepository paymethodRepository;
+	
+	@Resource
+	CommerceEngine commerceEngine;
+
+	protected Specification<Shipmode> findShipmodeByNameSpecification(final String name) {
+		return new Specification<Shipmode>() {
+			@Override
+			public Predicate toPredicate(final Root<Shipmode> root, final CriteriaQuery<?> query, 
+					final CriteriaBuilder cb) {
+						Predicate p = cb.equal(root.get("name"), name);
+						return p;
+			}
+		};
+	}
+	
+	protected Specification<Paymethod> findPaymethodByNameSpecification(final String name) {
+		return new Specification<Paymethod>() {
+			@Override
+			public Predicate toPredicate(final Root<Paymethod> root, final CriteriaQuery<?> query, 
+					final CriteriaBuilder cb) {
+						Predicate p = cb.equal(root.get("name"), name);
+						return p;
+			}
+		};
+	}
+	
 	@Override
 	@Transactional
 	public Cart createSessionCart() {
@@ -423,4 +468,74 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	}
 
+	
+	@Override
+	public List<Shipmode> getShipmode(){
+		List<Shipmode> shipmodeList = new ArrayList<Shipmode>();
+		Cart cart = getSessionCart();
+		Store store = (Store) commerceEngine.getCurrentContext().getStoreRealm();
+		Address address = cart.getShippingAddress();
+		if (address != null){
+			String zipCode = address.getZipcode();
+			Country country = address.getCountry();
+			Region region = address.getRegion();
+//			Geocode geocode = address.getGeocode();
+			if (zipCode != null){
+				shipmodeList.addAll(shipmodeRepository.getShipmodeFromZipCode(store, zipCode));
+			}
+			if (region != null){
+				shipmodeList.addAll(shipmodeRepository.getShipmodeFromRegion(store, region));
+			}
+			if (country != null){
+				shipmodeList.addAll(shipmodeRepository.getShipmodeFromCountry(store, country));
+			}
+//			if (geocode != null){
+//				shipmodeList.addAll(shipmodeRepository.getShipmodeFromGeocode(store, geocode));
+//			}
+		}
+		shipmodeList.addAll(shipmodeRepository.getShipmodeFromStore(store));
+		Iterator<Shipmode> i = shipmodeList.iterator();
+		Iterator<Shipmode> k = shipmodeList.iterator();
+		while (i.hasNext()){
+			Shipmode shipmode = i.next();
+			k = i;
+			while (k.hasNext()){
+				if (shipmode.getName().equals(k.next().getName())){
+					k.remove();
+				}
+			}
+		}
+		return shipmodeList;
+	}
+	
+	@Override
+	@Transactional
+	public void addShipmode(String shipmodeName){
+		Shipmode shipmode = shipmodeRepository.findOne(findShipmodeByNameSpecification(shipmodeName));
+		Assert.notNull(shipmode, "shipmode can not be null !");
+		Cart c = getSessionCart();
+		c.setShipmode(shipmode);
+		cartRepository.saveAndFlush(c);
+		putCartinSession(c);
+	}
+	
+	@Override
+	public List<Paymethod> getPaymethod(){
+		Store store = (Store) commerceEngine.getCurrentContext().getStoreRealm();
+		List<Paymethod> paymethodList = paymethodRepository.findActivePaymentmethod(store);		
+		return paymethodList;
+	}
+
+
+	@Override
+	@Transactional
+	public void addPaymethod(String paymethodName){
+		Paymethod paymethod = paymethodRepository.findOne(findPaymethodByNameSpecification(paymethodName));
+		Assert.notNull(paymethod, "paymethod can not be null !");
+		Cart c = getSessionCart();
+		c.setPaymethod(paymethod);
+		cartRepository.saveAndFlush(c);
+		putCartinSession(c);
+	}
+	
 }

@@ -1,6 +1,8 @@
 package com.serpics.catalog.facade.data;
 
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+
 
 @JsonPropertyOrder({"id","uuid","created","updated","catalogId","code","url","description","childCategoryNumber","childProductNumber","published","metaDescription","metaKey",})
 public class CategoryData  extends CtentryData{

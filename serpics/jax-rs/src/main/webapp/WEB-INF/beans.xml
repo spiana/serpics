@@ -22,7 +22,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 <!--   <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/> -->
 
    <bean name="mapper" class="com.serpics.jaxrs.JaxbMapper"/>
-   
+
    <jaxrs:server id="services" address="/">
  	 
  	 <jaxrs:features>
@@ -36,6 +36,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
       <bean class="com.serpics.jaxrs.CategoryRestServiceImpl" />
       <bean class="com.serpics.jaxrs.BrandRestServiceImpl" />
       <bean class="com.serpics.jaxrs.OrderRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.GeographicRestServiceImpl" />
     </jaxrs:serviceBeans>
    
    
@@ -46,8 +47,8 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
  	  	<bean class="com.serpics.jaxrs.AuthenticationHandler" />
 <!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
 <!--        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/> -->
-       <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
-      		 <property name="mapper" ref="mapper"/>
+       <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+<!--       		 <property name="mapper" ref="mapper"/> -->
        </bean>
     </jaxrs:providers>
     </jaxrs:server>
@@ -67,12 +68,8 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
    <jaxrs:providers>
 <!--  	  	<bean class="com.serpics.jaxrs.AuthenticationHandler" /> -->
 <!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
-<!--        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/> -->
-       <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
-      		 <property name="mapper" ref="mapper"/>
-       </bean>
+       <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
     </jaxrs:providers>
     </jaxrs:server>
-
 
 </beans>

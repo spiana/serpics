@@ -3,8 +3,7 @@ package com.serpics.membership.facade.data;
 import java.util.Date;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
-
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.serpics.core.facade.AbstractData;
 import com.serpics.membership.UserType;
 

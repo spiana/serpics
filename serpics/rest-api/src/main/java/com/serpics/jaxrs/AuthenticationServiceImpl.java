@@ -35,7 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * This method connects session to a store.
      * @summary  Method: connect(String store)
      * @param store The store connected
-     * @return string A string into body response with the Ssid
+     * @return A string into body response with the Ssid
      * 
      */
 	@Override

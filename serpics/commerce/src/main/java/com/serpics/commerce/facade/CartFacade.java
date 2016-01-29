@@ -1,8 +1,12 @@
 package com.serpics.commerce.facade;
 
+import java.util.List;
+
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.commerce.facade.data.CartModification;
+import com.serpics.commerce.facade.data.PaymethodData;
+import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.membership.facade.data.AddressData;
 
 public interface CartFacade {
@@ -19,4 +23,11 @@ public interface CartFacade {
 	
 	public CartData addBillingAddress(AddressData billingAddress);
 	public CartData addShippingAddress(AddressData shippingAddress);
+
+	public List<ShipmodeData> getShipmodeList();
+	public CartData addShipmode(String shipmodeName);
+	
+	public CartData deleteCart();
+	public CartData addPaymethod(String paymethodName);
+	public List<PaymethodData> getPaymethodList();
 }

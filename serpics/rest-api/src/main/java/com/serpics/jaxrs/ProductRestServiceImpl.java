@@ -14,7 +14,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,11 +34,14 @@ import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
+import com.serpics.jaxrs.data.PriceDataRequest;
 import com.serpics.jaxrs.data.ProductDataRequest;
 
 @Path("/productService")
 @Transactional(readOnly = true)
 public class ProductRestServiceImpl implements ProductRestService {
+	
+	Logger LOG = LoggerFactory.getLogger(ProductRestServiceImpl.class);
 
 	@Autowired
 	ProductFacade productFacade;
@@ -45,7 +53,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method inserts a product, with category and brand, into catalog.
      * @summary  Method: insert(ProductData product,Long categoryId,Long brandId)
      * @param 	product The product to insert
-     * @param 	categoryId The category of product
+     * @param 	categoryId The category id of product
      * @param 	brandId The brand of product
      * @return Response		object type: apiRestResponse
      */
@@ -55,25 +63,41 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{category}/{brand}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insert(ProductDataRequest product, @PathParam("category") Long categoryId,
+	public Response insert(ProductDataRequest productDataRequest, @PathParam("category") Long categoryId,
 			@PathParam("brand") Long brandId) {
 		
-		Assert.notNull(product);
+
+		Assert.notNull(categoryId);
+		Assert.notNull(brandId);
+		
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
-		ProductData productData = null;
+		ProductData productData = new ProductData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(productDataRequest, productData);
+			Assert.notNull(productData);
+			productData = productFacade.create(productData, categoryId, brandId);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
 
-		productData = productFacade.create(product, categoryId, brandId);
+		return responseBuilder.entity(apiRestResponse).build();
 
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(productData);
-		return Response.ok(apiRestResponse).build();
 	}
 
     /**
      * This method inserts a product, with category, into catalog.
      * @summary  Method: insertCategory(ProductData product,Long categoryId)
      * @param 	product The product to insert
-     * @param 	categoryId The category of product
+     * @param 	categoryId The category id of product
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -82,17 +106,28 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/category/{category}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insertCategory(ProductDataRequest product, @PathParam("category") Long categoryId) {
-		Assert.notNull(product);
-
+	public Response insertCategory(ProductDataRequest productDataRequest, @PathParam("category") Long categoryId) {
+		
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
-		ProductData productData = null;
+		ProductData productData = new ProductData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(productDataRequest, productData);
+			Assert.notNull(productData);
+			productData = productFacade.createWithCategory(productData, categoryId);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
 
-		productData = productFacade.createWithCategory(product, categoryId);
-
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(productData);
-		return Response.ok(apiRestResponse).build();
+		return responseBuilder.entity(apiRestResponse).build();
 
 	}
 
@@ -100,7 +135,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method inserts a product, with brand, into catalog.
      * @summary  Method: insertBrand(ProductData product,Long brandId)
      * @param 	product The product to insert
-     * @param 	brandId The category of product
+     * @param 	brandId The brand Id of product
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -109,17 +144,28 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/brand/{brand}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insertBrand(ProductDataRequest product, @PathParam("brand") Long brandId) {
-		Assert.notNull(product);
-
-		ProductData productData = null;
+	public Response insertBrand(ProductDataRequest productDataRequest, @PathParam("brand") Long brandId) {
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+		ProductData productData = new ProductData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(productDataRequest, productData);
+			Assert.notNull(productData);
+			productData = productFacade.createWithBrand(productData, brandId);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
 
-		productData = productFacade.createWithBrand(product, brandId);
+		return responseBuilder.entity(apiRestResponse).build();
 
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(productData);
-		return Response.ok(apiRestResponse).build();
 	}
 
     /**
@@ -133,16 +179,29 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insert(ProductDataRequest product) {
-		Assert.notNull(product);
-		ProductData productData = null;
+	public Response insert(ProductDataRequest productDataRequest) {
+		
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+		ProductData productData = new ProductData();
+		ResponseBuilder responseBuilder = null;
 		
-		productData = productFacade.create(product);
-		
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(productData);
-		return Response.ok(apiRestResponse).build();
+		try{
+			BeanUtils.copyProperties(productDataRequest, productData);
+			Assert.notNull(productData);
+			productData = productFacade.create(productData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+
+		return responseBuilder.entity(apiRestResponse).build();
+
 	}
 
     /**
@@ -156,16 +215,28 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response update(ProductDataRequest product) {
-		Assert.notNull(product);
-		ProductData productData = null;
+	public Response update(ProductDataRequest productDataRequest) {
+		
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+		ProductData productData = new ProductData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(productDataRequest, productData);
+			Assert.notNull(productData);
+			productData = productFacade.updateProduct(productData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
 
-		productData = productFacade.updateProduct(product);
-
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(productData);
-		return Response.ok(apiRestResponse).build();
+		return responseBuilder.entity(apiRestResponse).build();
 
 	}
 
@@ -174,6 +245,8 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: getProduct(Long productId)
      * @param 	productId The product Id to get
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Product found
+     * @statuscode 404 Product not found
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -228,6 +301,8 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: getCategory(Long productId)
      * @param 	productId The product Id to search
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Product found
+     * @statuscode 404 Product not found
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -304,7 +379,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method adds a price to a product.
-     * @summary  Method: addPrice(Long productId, PriceData price)
+     * @summary  Method: addPrice(Long productId, PriceDataRequest priceDataRequest)
      * @param 	productId The product Id to add price
      * @param 	price The price Id to add
      * @return Response		object type: apiRestResponse
@@ -315,17 +390,30 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addPrice/{product}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response addPrice(@PathParam("product") Long productId, PriceData price) {
+	public Response addPrice(@PathParam("product") Long productId, PriceDataRequest priceDataRequest) {
 
 		Assert.notNull(productId);
-		Assert.notNull(price);
-
+		
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+		PriceData priceData = new PriceData();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(priceDataRequest, priceData);
+			Assert.notNull(priceData);
+			productFacade.addPrice(productId, priceData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			responseBuilder = Response.ok();
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
 
-		productFacade.addPrice(productId, price);
+		return responseBuilder.entity(apiRestResponse).build();
 
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		return Response.ok(apiRestResponse).build();
 	}
 
 	
@@ -334,6 +422,8 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: getProductByName(String name)
      * @param 	name The name of product to search
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Product found
+     * @statuscode 404 Product not found
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -441,9 +531,9 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("search/{text}")
+	@Path("/search")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
-	public Response findBySearch(@PathParam("text") String searchText, @QueryParam("page") @DefaultValue("0") int page,
+	public Response findBySearch(@QueryParam("searchText") @DefaultValue("") String searchText, @QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("size") @DefaultValue("10") int size) {
 
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();

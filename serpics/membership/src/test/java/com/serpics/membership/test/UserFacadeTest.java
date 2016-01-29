@@ -19,8 +19,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
+import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.base.data.repositories.RegionRepository;
 import com.serpics.base.facade.CountryFacade;
 import com.serpics.base.facade.GeocodeFacade;
@@ -30,6 +32,7 @@ import com.serpics.base.facade.data.GeocodeData;
 import com.serpics.base.facade.data.RegionData;
 import com.serpics.base.services.CountryService;
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.repositories.UserRepository;
 import com.serpics.membership.facade.UserFacade;
@@ -76,6 +79,8 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	LocaleRepository localeRepository;
 	
 	
 	
@@ -104,7 +109,11 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 	@Test
 	@Transactional
 	public void createUser() throws SerpicsException{
-		ce.connect("default-store");
+		Locale locale = localeRepository.findByLanguage("en");
+		
+		CommerceSessionContext context = ce.connect("default-store");
+		context.setLocale(locale);
+		
 		GeocodeData g = createGeoCode();
 		CountryData c = createCountry(g);
 		
@@ -142,12 +151,15 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		user.setContactAddress((AddressData) _a);
 		userFacade.registerUser(user);
 		
-		ce.connect("default-store", "vale01", "vale".toCharArray());
+		context = ce.connect("default-store", "vale01", "vale".toCharArray());
+		context.setLocale(locale);
+		
 		updateUser();	
 		billingUser();
 		
 		
-		ce.connect("default-store", "vale02", "vale".toCharArray());
+		context = ce.connect("default-store", "vale02", "vale".toCharArray());
+		context.setLocale(locale);
 		destinationAddressUser();
 		
 		

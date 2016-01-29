@@ -12,19 +12,27 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.base.data.model.Store;
+import com.serpics.base.facade.CountryFacade;
+import com.serpics.base.facade.RegionFacade;
+import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.facade.data.RegionData;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CartStrategy;
 import com.serpics.core.SerpicsException;
+import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.UserDataRequest;
@@ -39,8 +47,15 @@ import com.serpics.membership.facade.data.UserData;
 public class CustomerServiceImpl implements CustomerService {
 
 	Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
+	
 	@Autowired
 	UserFacade userFacade;
+	
+	@Autowired
+	RegionFacade regionFacade;
+	
+	@Autowired
+	CountryFacade countryFacade;
 
 	@Resource
 	CommerceEngine commerceEngine;
@@ -53,6 +68,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @summary  Method: create(final UserData user)
      * @param user The user to create
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Registration Ok
+     * @statuscode 400 Error On register
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -60,18 +77,36 @@ public class CustomerServiceImpl implements CustomerService {
 	@POST
 	@Path("register")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response create(final UserDataRequest user) {
-		Assert.notNull(user);
+
+	public Response create(UserDataRequest userDataRequest) {
+		
+		UserData userData = new UserData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-		try {
-			userFacade.registerUser(user);
-		} catch (SerpicsException e) {
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(userDataRequest, userData);
+			responseBuilder = Response.ok();
+			Assert.notNull(userData);
+			userFacade.registerUser(userData);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+		catch (SerpicsException e) {
+			LOG.error("Error On register",e);
 			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
 			apiRestResponse.setMessage("Error On register " + e.getMessage());
-			return Response.status(400).entity(apiRestResponse).build();
+			responseBuilder = Response.status(400);
 		}
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		return Response.ok(apiRestResponse).build();
+
+		return responseBuilder.entity(apiRestResponse).build();
+		
 	}
 
     /**
@@ -104,14 +139,30 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response update(final UserDataRequest entity) {
-		if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS) {
-			userFacade.updateUser(entity);
+	public Response update(UserDataRequest userDataRequest) {
+		
+		UserData userData = new UserData();
+		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(userDataRequest, userData);
+			responseBuilder = Response.ok();
+			if (userFacade.getCurrentuser().getUserType() != UserType.ANONYMOUS) {
+				userFacade.updateUser(userData);
+			}
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		}
+		catch(BeansException e){
+			LOG.error("Error converting bean",e);
+			
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error converting request bean");
+			responseBuilder = Response.status(500);
+
 		}
 
-		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		return Response.ok(apiRestResponse).build();
+		return responseBuilder.entity(apiRestResponse).build();
 	}
 
     /**
@@ -120,6 +171,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @param username The username to login
      * @param password The password to login
      * @return Response		object type: apiRestResponse
+     * @statuscode 200 Registration Ok
+     * @statuscode 401 Error On Connect
      */
 	@Override
 	@GET
@@ -163,14 +216,33 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateContactAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateContactAddress(AddressData address) {
-
+	public Response updateContactAddress(AddressDataRequest addressDataRequest) {
+		
+		AddressData address = new AddressData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-
-		userFacade.updateContactAddress(address);
-
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		return Response.ok(apiRestResponse).build();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
+			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+			if (regionData != null){
+				address.setRegion(regionData);
+			}
+			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+			if (countryData != null){
+				address.setCountry(countryData);
+			}
+			userFacade.updateContactAddress(address);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		}
+		catch(BeansException e){
+			LOG.error("Error Converting Beans",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+		
+		return responseBuilder.entity(apiRestResponse).build();
 	}
 
     /**
@@ -184,14 +256,34 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateBillingAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateBillingAddress(AddressData address) {
-
+	public Response updateBillingAddress(AddressDataRequest addressDataRequest) {
+		
+		AddressData address = new AddressData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+		ResponseBuilder responseBuilder = null;
+		
+		try{
+			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
+			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+			if (regionData != null){
+				address.setRegion(regionData);
+			}
+			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+			if (countryData != null){
+				address.setCountry(countryData);
+			}
+			userFacade.updateBillingAddress(address);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		}
+		catch(BeansException e){
+			LOG.error("Error Converting Beans",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+		
+		return responseBuilder.entity(apiRestResponse).build();
 
-		userFacade.updateBillingAddress(address);
-
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		return Response.ok(apiRestResponse).build();
 	}
 
     /**
@@ -205,15 +297,36 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("updateDestinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateDestinationAddress(AddressData address) {
-		Assert.notNull(address, "address can not be null !");
-		Assert.notNull(address.getUuid(), "UUID can not ve null !");
+	public Response updateDestinationAddress(AddressDataRequest addressDataRequest) {
+		
+		AddressData address = new AddressData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
-
-		userFacade.updateDestinationAddress(address, address.getUuid());
-
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		return Response.ok(apiRestResponse).build();
+		ResponseBuilder responseBuilder = null;
+		
+		Assert.notNull(addressDataRequest, "address can not be null !");
+		
+		try{
+			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
+			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+			if (regionData != null){
+				address.setRegion(regionData);
+			}
+			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+			if (countryData != null){
+				address.setCountry(countryData);
+			}
+			Assert.notNull(address.getUuid(), "UUID can not ve null !");
+			userFacade.updateDestinationAddress(address, address.getUuid());
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		}
+		catch(BeansException e){
+			LOG.error("Error Converting Beans",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+		
+		return responseBuilder.entity(apiRestResponse).build();
 	}
 
     /**
@@ -227,15 +340,29 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("addDestinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response addDestinationAddress(AddressData address) {
-
-		Assert.notNull(address, "address can not be null !");
+	public Response addDestinationAddress(AddressDataRequest addressDataRequest) {
+		
+		AddressData address = new AddressData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
+		ResponseBuilder responseBuilder = null;
+		
+		Assert.notNull(addressDataRequest, "address can not be null !");
+		
+		try{
+			BeanUtils.copyProperties(addressDataRequest, address);
+			Assert.notNull(address.getUuid(), "UUID can not ve null !");
+			userFacade.addDestinationAddress(address);
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		}
+		catch(BeansException e){
+			LOG.error("Error Converting Beans",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error Converting Request Bean");
+			responseBuilder = Response.status(500);
+		}
+		
+		return responseBuilder.entity(apiRestResponse).build();	
 
-		userFacade.addDestinationAddress(address);
-
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		return Response.ok(apiRestResponse).build();
 	}
 
     /**
@@ -262,8 +389,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method makes the user logout
-     * @summary  Method:  logout(String sessionId)
-     * @param sessionId The sessionId to logout
+     * @summary  Method:  logout()
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -272,12 +398,15 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response logout(String sessionId) {
+	public Response logout() {
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
+		CommerceSessionContext context= commerceEngine.getCurrentContext();
+		LOG.debug("Disconnecting Current User Logged with SessionId:  " + context.getSessionId());
+
+		commerceEngine.disconnect(context.getSessionId());
+		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		commerceEngine.disconnect(sessionId);
-		//apiRestResponse.setMessage("Disconnect current user logged with session id:  " + sessionId);
 		return Response.ok(apiRestResponse).build();
 	}
 
