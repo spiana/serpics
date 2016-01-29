@@ -20,6 +20,8 @@ public class RegionPopulator implements Populator<Region, RegionData>{
 	
 	@Override
 	public void populate(Region source, RegionData target) {
+		
+		target.setId(source.getId());
 		target.setName(source.getName());
 		if(source.getDescription() != null ){
 			target.setDescription(source.getDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
