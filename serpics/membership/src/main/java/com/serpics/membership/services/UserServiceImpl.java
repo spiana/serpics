@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.CountryRepository;
+import com.serpics.base.data.repositories.StoreRepository;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
@@ -41,7 +42,6 @@ import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.membership.data.repositories.MembersRoleRepository;
 import com.serpics.membership.data.repositories.PermanentAddressRepository;
 import com.serpics.membership.data.repositories.PrimaryAddressRepository;
-import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserRepository;
 import com.serpics.membership.data.repositories.UserSpecification;
 import com.serpics.membership.data.repositories.UserregRepository;

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Store;
+import com.serpics.base.data.repositories.StoreRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.data.model.Member;
@@ -16,7 +17,6 @@ import com.serpics.membership.data.model.MembersRolePK;
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.repositories.PermanentAddressRepository;
-import com.serpics.membership.data.repositories.StoreRepository;
 
 public abstract class AbstractMemberService<T extends Member, ID extends Serializable> extends AbstractEntityService<T, ID, CommerceSessionContext> implements MemberService<T, ID> {
 

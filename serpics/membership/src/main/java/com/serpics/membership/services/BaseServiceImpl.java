@@ -15,6 +15,7 @@ import com.serpics.base.data.model.Locale;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.CurrencyRepository;
 import com.serpics.base.data.repositories.LocaleRepository;
+import com.serpics.base.data.repositories.StoreRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
@@ -27,7 +28,6 @@ import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.PrimaryAddressRepository;
 import com.serpics.membership.data.repositories.RoleRepository;
-import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.data.repositories.UserRepository;
 import com.serpics.membership.data.repositories.UserregRepository;
 

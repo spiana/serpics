@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.serpics.membership.data.model.AbstractStoreEntity;
+import com.serpics.base.data.model.AbstractStoreEntity;
 
 @Entity
 @Table(name="warehouse_config")

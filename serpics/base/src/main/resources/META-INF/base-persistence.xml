@@ -8,7 +8,6 @@
 		<class>com.serpics.base.data.model.BaseAttribute</class>
 		<class>com.serpics.base.data.model.Country</class>
 		<class>com.serpics.base.data.model.Geocode</class>
-	
 		<class>com.serpics.base.data.model.Region</class>
 		<class>com.serpics.base.data.model.Currency</class>
 		<class>com.serpics.base.data.model.Locale</class>
@@ -17,6 +16,7 @@
 		<class>com.serpics.base.data.model.Media</class>
 		<class>com.serpics.base.data.model.MediaSupport</class>
 		<class>com.serpics.base.data.model.Store</class>
+		<class>com.serpics.base.data.model.Tax</class>
 	</persistence-unit>
 </persistence>	
 		

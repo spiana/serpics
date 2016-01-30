@@ -1,4 +1,4 @@
-package com.serpics.membership.data.repositories;
+package com.serpics.base.data.repositories;
 
 import com.serpics.base.data.model.Store;
 import com.serpics.core.data.Repository;

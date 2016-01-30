@@ -2,10 +2,10 @@ package com.serpics.membership.data.interceptors;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.data.model.AbstractStoreEntity;
 import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
-import com.serpics.membership.data.model.AbstractStoreEntity;
 
 public class AbstractStoreEntitySaveInterceptor implements SaveInterceptor<AbstractStoreEntity>{
 
