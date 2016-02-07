@@ -6,6 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,23 +44,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("{store}")
-	public String connect(@PathParam("store") String store) {
+	public Response connect(@PathParam("store") String store) {
 		
 		if (store == null){
 			store = "default-store";
 		}
 		try {
-			CommerceSessionContext context= commerceEngine.connect(store);
-			// Initialize the default-catalog
-			catalogService.initialize();
-			context.setLocale(localeRepository.findByLanguage("it"));
+			CommerceSessionContext context= internalConnect(store);
 			
-			return context.getSessionId();
+			return Response.ok(context.getSessionId()).build();
 		} catch (SerpicsException e) {
 			// TODO Auto-generated catch block
 			LOG.error("Error On Connect/{Store}", e);
+			return Response.status(Status.FORBIDDEN).build();
 		}
-		return null;
+		
+	}
+	
+	private CommerceSessionContext internalConnect(String store) throws SerpicsException{
+		CommerceSessionContext context= commerceEngine.connect(store);
+		// Initialize the default-catalog
+		catalogService.initialize();
+		context.setLocale(localeRepository.findByLanguage("it"));
+		return context;
+		
 	}
 
 }

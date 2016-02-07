@@ -97,10 +97,10 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     
      <!--  Tax Converter -->
 	<alias name="defaultTaxPopulator" alias="taxPopulator" />
-	<bean name="defaultTaxPopulator" class="com.serpics.base.facade.TaxPopulator" />
+	<bean name="defaultTaxPopulator" class="com.serpics.base.facade.TaxCategoryPopulator" />
 	<alias name="defaultTaxConverter" alias="taxConverter"/>
 	<bean name="defaultTaxConverter" parent="abstractConverter">
-	<property name="targetClass" value="com.serpics.base.facade.data.TaxData"/>
+	<property name="targetClass" value="com.serpics.base.facade.data.TaxCategoryData"/>
 	<property name="populators">
 	  <list>
 	      <ref bean="taxPopulator"/>  

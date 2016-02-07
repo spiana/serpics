@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.serpics.base.data.model.Locale;
+import com.serpics.base.data.model.Store;
 import com.serpics.base.facade.CountryFacade;
 import com.serpics.base.facade.GeocodeFacade;
 import com.serpics.base.facade.RegionFacade;
@@ -21,6 +23,7 @@ import com.serpics.base.facade.data.GeocodeData;
 import com.serpics.base.facade.data.RegionData;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.AbstractEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
@@ -39,20 +42,24 @@ public class BaseTestFacade extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Resource
 	RegionFacade regionFacade;
-	//@Autowired
-	//BaseService baseService;
-	
 	
 	 @Autowired
-	  CommerceEngine ce;
+	 CommerceEngine ce;
 	 
-	CommerceSessionContext context;
-
-
+	
 	@Before
 	public void beforeTest()throws SerpicsException {
-		//baseService.initIstance();
-		//ce.connect("default-store", "superuser", "admin".toCharArray());
+		CommerceSessionContext _c = new CommerceSessionContext();
+		_c.setRealm("default-store");
+		Store s = new Store();
+		s.setName("default-store");
+		_c.setStoreRealm(s);
+		Locale l = new Locale();
+		l.setCountry("US");
+		l.setlanguage("en");
+		_c.setLocale(l);
+		 ((AbstractEngine)ce).bind(_c);
+		
 	}
 	
 	private void country() throws SerpicsException{

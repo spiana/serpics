@@ -153,7 +153,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
             return null;
     }
 
-    private void bind(final SessionContext context) {
+    public void bind(final SessionContext context) {
         threadLocal.set(context);
         StoreScopeContextHolder.setCurrentStoreRealm(context.getRealm());
         SessionScopeContextHolder.setSessionScopeAttributes(context.getCommerceScopeAttribute());

@@ -3,7 +3,7 @@ package com.serpics.base.facade.data;
 import com.serpics.core.facade.AbstractData;
 
 
-public class TaxData extends AbstractData {
+public class TaxCategoryData extends AbstractData {
 	private String name;
 	private String description ;   
 	

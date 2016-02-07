@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -23,8 +24,9 @@ import javax.validation.constraints.Size;
  * 
  */
 @Entity
-@Table(name="taxes" )
-public class Tax extends AbstractStoreEntity implements Serializable {
+@Table(name="taxes" , uniqueConstraints=@UniqueConstraint(columnNames={"store_id" , "name"}))
+
+public class TaxCategory extends AbstractStoreEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,9 +34,9 @@ public class Tax extends AbstractStoreEntity implements Serializable {
 	@Column(name="taxes_id", unique=true, nullable=false)
 	private Long id;
 
-	@Pattern(regexp="[A-Za-z0-9-_]" , message="validation.onlynumberandletter")
+	@Pattern(regexp="[A-Za-z0-9-_]+" , message="validation.onlynumberandletter")
 	@Size(min=3 , max=50)
-	@Column(name="name" , unique=true , length=100)
+	@Column(name="name" , length=100)
 	private String name;
 	
 	@OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)

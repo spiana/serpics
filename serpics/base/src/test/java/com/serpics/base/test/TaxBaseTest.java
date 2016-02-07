@@ -15,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
-import com.serpics.base.data.model.Tax;
+import com.serpics.base.data.model.TaxCategory;
 import com.serpics.base.data.repositories.CurrencyRepository;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.base.data.repositories.TaxRepository;
-import com.serpics.base.facade.data.TaxData;
+import com.serpics.base.data.repositories.TaxCategoryRepository;
+import com.serpics.base.facade.data.TaxCategoryData;
 import com.serpics.core.facade.Converter;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
@@ -30,10 +30,10 @@ public class TaxBaseTest extends AbstractTransactionalJunit4SerpicTest {
 	Logger log = LoggerFactory.getLogger(TaxBaseTest.class);
 
 	@Autowired
-	TaxRepository taxRepository;
+	TaxCategoryRepository taxRepository;
 	
 	@Resource
-	Converter<Tax, TaxData> taxConverter;
+	Converter<TaxCategory, TaxCategoryData> taxConverter;
 	
 	@Resource
 	StoreRepository storeRepository;
@@ -60,13 +60,13 @@ public class TaxBaseTest extends AbstractTransactionalJunit4SerpicTest {
 			
 			
 			
-			Tax t = new Tax();
+			TaxCategory t = new TaxCategory();
 			t.setName("VAT");
 			t.setRate(10.0);
 			t.setStore(s);
 			taxRepository.save(t);
 			
-			TaxData tdata = taxConverter.convert(t);
+			TaxCategoryData tdata = taxConverter.convert(t);
 			
 			Assert.assertEquals("VAT" , tdata.getName());
 			
@@ -84,17 +84,49 @@ public class TaxBaseTest extends AbstractTransactionalJunit4SerpicTest {
 		s.setCurrency(c);
 		storeRepository.save(s);
 		
-			Tax t = new Tax();
+			TaxCategory t = new TaxCategory();
 			t.setName("VAT");
 			t.setRate(10.0);
 			t.setStore(s);
 			
 			taxRepository.save(t);
 			
-			Tax t1 = new Tax();
+			TaxCategory t1 = new TaxCategory();
 			t1.setName("VAT");
 			t1.setRate(10.0);
 			t1.setStore(s);
+			taxRepository.save(t1);
+			
+	}
+
+	@Transactional
+	@Test
+	public void taxUniquetest1(){
+
+		Currency c = new Currency();
+		c.setIsoCode("EUR");
+		currencyRepository.save(c);
+		Store s = new Store();
+		s.setName("test-store");
+		s.setCurrency(c);
+		storeRepository.save(s);
+		
+		Store s1 = new Store();
+		s1.setName("test-store-1");
+		s1.setCurrency(c);
+		storeRepository.save(s1);
+		
+			TaxCategory t = new TaxCategory();
+			t.setName("VAT");
+			t.setRate(10.0);
+			t.setStore(s);
+			
+			taxRepository.save(t);
+			
+			TaxCategory t1 = new TaxCategory();
+			t1.setName("VAT");
+			t1.setRate(10.0);
+			t1.setStore(s1);
 			taxRepository.save(t1);
 			
 	}
