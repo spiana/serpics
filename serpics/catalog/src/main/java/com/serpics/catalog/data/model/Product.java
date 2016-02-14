@@ -16,6 +16,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import com.serpics.base.data.model.TaxCategory;
 import com.serpics.catalog.data.CatalogEntryType;
 import com.serpics.core.datatype.ProductType;
 
@@ -100,6 +101,10 @@ public class Product extends Ctentry implements Serializable {
 
     @Column(name = "meta_keyword")
     private String metaKeyword;
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "taxcategory_id")
+    private TaxCategory taxcategory;
 
     public String getManufacturerSku() {
         return this.manufacturerSku;
@@ -245,5 +250,13 @@ public class Product extends Ctentry implements Serializable {
 
 	public void setFeatureModel(FeatureModel featureModel) {
 		this.featureModel = featureModel;
+	}
+
+	public TaxCategory getTaxcategory() {
+		return taxcategory;
+	}
+
+	public void setTaxcategory(TaxCategory taxcategory) {
+		this.taxcategory = taxcategory;
 	}
 }

@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.serpics.base.data.model.TaxCategory;
 import com.serpics.catalog.data.model.Product;
 
 @Entity
@@ -86,7 +88,11 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
     @OneToMany(mappedBy = "orderitem", cascade = CascadeType.REMOVE)
     protected Set<OrderitemsAttribute> orderitemsAttributes;
 
-   
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "taxcategory_id")
+    private TaxCategory taxcategory;
+    
+    
     public AbstractOrderitem() {
     }
 
@@ -233,5 +239,13 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
     public void setDiscountAmount(final Double discountAmount) {
         this.discountAmount = discountAmount;
     }
+
+	public TaxCategory getTaxcategory() {
+		return taxcategory;
+	}
+
+	public void setTaxcategory(TaxCategory taxcategory) {
+		this.taxcategory = taxcategory;
+	}
 
 }

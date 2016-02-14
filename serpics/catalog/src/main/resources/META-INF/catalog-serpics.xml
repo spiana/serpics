@@ -116,6 +116,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
         <property name="priceConverter" ref="priceConverter"/>
         <property name="mediaConverter" ref="mediaConverter"/>
         <property name="categoryConverter" ref="categoryConverter"/>
+        <property name="taxcategoryConverter" ref="taxcategoryConverter" />
     </bean>
     
     <alias name="defaultProductConverter" alias="productConverter"/>

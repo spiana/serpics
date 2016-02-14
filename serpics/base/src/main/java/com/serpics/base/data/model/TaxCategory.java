@@ -36,7 +36,7 @@ public class TaxCategory extends AbstractStoreEntity implements Serializable {
 
 	@Pattern(regexp="[A-Za-z0-9-_]+" , message="validation.onlynumberandletter")
 	@Size(min=3 , max=50)
-	@Column(name="name" , length=100)
+	@Column(name="name" , length=100 )
 	private String name;
 	
 	@OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)

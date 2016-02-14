@@ -3,6 +3,7 @@ package com.serpics.catalog.facade.data;
 import java.util.Set;
 
 import com.serpics.base.facade.data.MediaData;
+import com.serpics.base.facade.data.TaxCategoryData;
 
 public class AbstractProductData  extends CtentryData{
 	protected boolean buyable;
@@ -22,6 +23,7 @@ public class AbstractProductData  extends CtentryData{
 	protected String metaDescription;
 	protected String metaKey;
 	
+	protected TaxCategoryData taxCategory;
 
 	public String getManufacturSku() {
 		return manufacturSku;
@@ -103,5 +105,11 @@ public class AbstractProductData  extends CtentryData{
 	}
 	public void setDowloadable(boolean dowloadable) {
 		this.dowloadable = dowloadable;
+	}
+	public TaxCategoryData getTaxCategory() {
+		return taxCategory;
+	}
+	public void setTaxCategory(TaxCategoryData taxCategory) {
+		this.taxCategory = taxCategory;
 	}
 }

@@ -1,5 +1,6 @@
 package com.serpics.commerce.strategies;
 
+import com.serpics.base.data.model.TaxCategory;
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.core.utils.CurrencyUtils;
@@ -10,8 +11,24 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
 
     @Override
     public void calculateTax(final AbstractOrder order) {
-        // TODO Auto-generated method stub
-
+    	TaxCategory defaultTaxCategory = order.getStore().getTaxcategory();
+    	Double totalTax = 0D;
+    	if (order.getItems() != null){
+    		for (AbstractOrderitem item : order.getItems()) {
+				TaxCategory tx = item.getTaxcategory();
+				Double rate = 0D;
+				
+				if (tx == null)
+					tx = defaultTaxCategory;
+				
+				if (tx != null){
+					rate =tx.getRate() != null ? tx.getRate() :0D;
+				}
+				totalTax += CurrencyUtils.round(item.getSkuNetPrice() +  item.getSkuNetPrice()*rate/100);
+    		}
+    		
+    	}
+    	order.setTotalTax(totalTax);
     }
 
     @Override

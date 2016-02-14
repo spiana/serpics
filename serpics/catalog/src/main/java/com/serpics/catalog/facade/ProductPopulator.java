@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.serpics.base.data.model.Media;
+import com.serpics.base.data.model.TaxCategory;
 import com.serpics.base.facade.data.MediaData;
+import com.serpics.base.facade.data.TaxCategoryData;
 import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
@@ -30,10 +32,13 @@ public class ProductPopulator implements Populator<Product, ProductData> {
 	private AbstractPopulatingConverter<Price, PriceData> priceConverter;
 	private AbstractPopulatingConverter<Media, MediaData> mediaConverter;
 	private AbstractPopulatingConverter<Category, CategoryData> categoryConverter;
+	private AbstractPopulatingConverter<TaxCategory, TaxCategoryData> taxcategoryConverter;
+	
 	private static Logger LOG = LoggerFactory.getLogger(ProductPopulator.class);
 	
 	@Autowired
 	PriceService priceService;
+	
 	@Override
 	public void populate(Product source, ProductData target) {
 		
@@ -88,7 +93,9 @@ public class ProductPopulator implements Populator<Product, ProductData> {
 			target.setCategories(categories);
 		}
 			
-		
+		if (source.getTaxcategory() != null){
+			target.setTaxCategory(taxcategoryConverter.convert(source.getTaxcategory()));
+		}
 		
 		
 		
@@ -114,6 +121,16 @@ public class ProductPopulator implements Populator<Product, ProductData> {
 		@Required
 		public void setCategoryConverter(AbstractPopulatingConverter<Category, CategoryData> categoryConverter) {
 			this.categoryConverter = categoryConverter;
+		}
+
+		public AbstractPopulatingConverter<TaxCategory, TaxCategoryData> getTaxcategoryConverter() {
+			return taxcategoryConverter;
+		}
+
+		@Required
+		public void setTaxcategoryConverter(
+				AbstractPopulatingConverter<TaxCategory, TaxCategoryData> taxcategoryConverter) {
+			this.taxcategoryConverter = taxcategoryConverter;
 		}
 		
 }

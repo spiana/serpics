@@ -35,6 +35,11 @@ public class Store extends AbstractEntity implements Serializable, StoreRealm {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "currency_id")
     private Currency currency;
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "taxcategory_id")
+    private TaxCategory taxcategory;
+    
 
     public Store() {
      
@@ -90,6 +95,14 @@ public class Store extends AbstractEntity implements Serializable, StoreRealm {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public TaxCategory getTaxcategory() {
+		return taxcategory;
+	}
+
+	public void setTaxcategory(TaxCategory taxcategory) {
+		this.taxcategory = taxcategory;
 	}
 
 }
