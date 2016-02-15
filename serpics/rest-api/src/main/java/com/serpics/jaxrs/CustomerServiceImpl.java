@@ -227,16 +227,21 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		try{
 			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
-			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
-			if (regionData != null){
-				address.setRegion(regionData);
+			if (addressDataRequest.getRegionUuid() != null){
+				RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+				if (regionData != null){
+					address.setRegion(regionData);
+				}
 			}
-			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
-			if (countryData != null){
-				address.setCountry(countryData);
+			if (addressDataRequest.getCountryUuid() != null){
+				CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+				if (countryData != null){
+					address.setCountry(countryData);
+				}
 			}
 			userFacade.updateContactAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			responseBuilder = Response.ok();
 		}
 		catch(BeansException e){
 			LOG.error("Error Converting Beans",e);
@@ -268,16 +273,21 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		try{
 			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
-			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
-			if (regionData != null){
-				address.setRegion(regionData);
+			if (addressDataRequest.getRegionUuid() != null){
+				RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+				if (regionData != null){
+					address.setRegion(regionData);
+				}
 			}
-			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
-			if (countryData != null){
-				address.setCountry(countryData);
+			if (addressDataRequest.getCountryUuid() != null){
+				CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+				if (countryData != null){
+					address.setCountry(countryData);
+				}
 			}
 			userFacade.updateBillingAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			responseBuilder = Response.ok();
 		}
 		catch(BeansException e){
 			LOG.error("Error Converting Beans",e);
@@ -312,17 +322,22 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		try{
 			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
-			RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
-			if (regionData != null){
-				address.setRegion(regionData);
+			if (addressDataRequest.getRegionUuid() != null){
+				RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
+				if (regionData != null){
+					address.setRegion(regionData);
+				}
 			}
-			CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
-			if (countryData != null){
-				address.setCountry(countryData);
+			if (addressDataRequest.getCountryUuid() != null){
+				CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
+				if (countryData != null){
+					address.setCountry(countryData);
+				}
 			}
-			Assert.notNull(address.getUuid(), "UUID can not ve null !");
+			Assert.notNull(address.getUuid(), "UUID can not be null !");
 			userFacade.updateDestinationAddress(address, address.getUuid());
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			responseBuilder = Response.ok();
 		}
 		catch(BeansException e){
 			LOG.error("Error Converting Beans",e);
@@ -356,9 +371,10 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		try{
 			BeanUtils.copyProperties(addressDataRequest, address);
-			Assert.notNull(address.getUuid(), "UUID can not ve null !");
+			Assert.notNull(address.getUuid(), "UUID can not be null !");
 			userFacade.addDestinationAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			responseBuilder = Response.ok();
 		}
 		catch(BeansException e){
 			LOG.error("Error Converting Beans",e);

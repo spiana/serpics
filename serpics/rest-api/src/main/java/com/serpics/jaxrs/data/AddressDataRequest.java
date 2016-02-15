@@ -23,6 +23,7 @@ public class AddressDataRequest {
 	private String phone;
 	private String mobile;
 	private String fax;
+	private String uuid;
 
 	public String getFirstname() {
 		return firstname;
@@ -125,6 +126,12 @@ public class AddressDataRequest {
 	}
 	public void setFax(String fax) {
 		this.fax = fax;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 

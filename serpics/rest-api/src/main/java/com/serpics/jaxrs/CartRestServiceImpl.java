@@ -21,10 +21,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.qmino.miredot.annotations.ReturnType;
+import com.serpics.base.facade.CountryFacade;
+import com.serpics.base.facade.RegionFacade;
+import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.facade.data.RegionData;
 import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
@@ -46,6 +51,12 @@ public class CartRestServiceImpl implements CartRestService {
 
 	@Resource
 	CartFacade cartFacade;
+	
+	@Autowired
+	RegionFacade regionFacade;
+	
+	@Autowired
+	CountryFacade countryFacade;
 	
     /**
      * This method returns the session cart.
@@ -166,7 +177,19 @@ public class CartRestServiceImpl implements CartRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(billingAddressRequest, billingAddress);
+			BeanUtils.copyProperties(billingAddressRequest, billingAddress,new String[]{"regionUuid","countryUuid"});
+			if (billingAddressRequest.getRegionUuid() != null){
+				RegionData regionData = regionFacade.findRegionByUuid(billingAddressRequest.getRegionUuid());
+				if (regionData != null){
+					billingAddress.setRegion(regionData);
+				}
+			}
+			if (billingAddressRequest.getCountryUuid() != null){
+				CountryData countryData = countryFacade.findCountryByUuid(billingAddressRequest.getCountryUuid());
+				if (countryData != null){
+					billingAddress.setCountry(countryData);
+				}
+			}
 			Assert.notNull(billingAddress, "billingAddress can not be null !");
 			CartData cartData = cartFacade.addBillingAddress(billingAddress);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -204,7 +227,19 @@ public class CartRestServiceImpl implements CartRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(shippingAddressRequest, shippingAddress);
+			BeanUtils.copyProperties(shippingAddressRequest, shippingAddress,new String[]{"regionUuid","countryUuid"});
+			if (shippingAddressRequest.getRegionUuid() != null){
+				RegionData regionData = regionFacade.findRegionByUuid(shippingAddressRequest.getRegionUuid());
+				if (regionData != null){
+					shippingAddress.setRegion(regionData);
+				}
+			}
+			if (shippingAddressRequest.getCountryUuid() != null){
+				CountryData countryData = countryFacade.findCountryByUuid(shippingAddressRequest.getCountryUuid());
+				if (countryData != null){
+					shippingAddress.setCountry(countryData);
+				}
+			}
 			Assert.notNull(shippingAddress, "shippingAddress can not be null !");
 			CartData cartData = cartFacade.addShippingAddress(shippingAddress);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);

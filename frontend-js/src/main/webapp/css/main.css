@@ -1622,7 +1622,7 @@ margin: 28px 5px 5px;
 }
 
 .breadcrumbs .breadcrumb > li + li:before {
-  content: "�";
+  content: " ";
 }
 
 #cart_items .cart_info {

@@ -1,6 +1,6 @@
 var app = angular.module('geographic.service',['serpics.config','serpics.services'])
 
-app.service("geographicService", function( $http, $q,serpicsServices,URL,$log ) {
+app.service("geographicService", function( $http, $q,serpicsServices,COOKIE_EXPIRES,$cookies,URL,$log ) {
 	
 	
 	var endpoint = '/jax-rs/geographicService/';

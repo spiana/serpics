@@ -1,14 +1,16 @@
- var app = angular.module("cart.controller", ['cart.service', 'customer.service','serpics.router'])
+ var app = angular.module("cart.controller", ['cart.service', 'customer.service','serpics.router','geographic.service'])
  
  /** cartController **/
-.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams',
+.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams','geographicService',
                                   
-function($state,$scope,customerService,cartService,$log,$stateParams) {
+function($state,$scope,customerService,cartService,$log,$stateParams,geographicService) {
 		
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
 		$scope.shipmodeList = {};
 		$scope.paymethodList = {};
+		$scope.countries = {};
+		$scope.regions = {};
 	  	
 	    function getCurrentCart() {
   			$log.debug("CartController getCurrentCart()");
@@ -77,7 +79,8 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
   	     * @use 					cartService,
   	     */
 	  	 $scope.submitBillingForm = function (billingAddress,shippingToBill){
-	  		 
+	  		billingAddress.countryUuid = billingAddress.country.uuid;
+	  		billingAddress.regionUuid = billingAddress.region.uuid; 
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
 				  $log.debug("cartController addBillingAddress(billingAddress): ramo then1");
 				  var complete = $stateParams.complete;
@@ -101,6 +104,8 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  	 * @use 					cartService,
 	  	 */	  	 
 		$scope.submitShippingForm = function (shippingAddress){
+				shippingAddress.countryUuid = shippingAddress.country.uuid;
+				shippingAddress.regionUuid = shippingAddress.region.uuid; 
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
 	  			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
 	  			  $scope.cart = response;
@@ -168,6 +173,34 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  			  $log.debug("cartController deleteCart(): ramo then");
 	  			  $scope.cart = response;
 	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @param		 	
+	  	 * @return 					country list
+	  	 * @use 					geographicService,
+	  	 */	  	 
+		$scope.getCountryList = function (){
+			geographicService.getCountryList().then(function(response){
+	  			  $log.debug("cartController getCountryList(): ramo then");
+	  			  $scope.countries = response;
+	  		  })
+	  	};
+  		
+	  	/**
+	  	 * @param		 			countryId
+	  	 * @return 					country list
+	  	 * @use 					geographicService,
+	  	 */	  	 
+		$scope.getRegionByCountry = function (countryId){
+			if (countryId != undefined){
+				geographicService.getRegionByCountry(countryId).then(function(response){
+		  			  $log.debug("cartController getRegionByCountry(countryId): ramo then");
+		  			  $scope.regions = response;
+		  		  })
+			} else {
+				$scope.regions = {};
+			}
 	  	};
   		
 }])
