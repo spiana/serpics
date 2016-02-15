@@ -17,4 +17,6 @@ public interface CountryFacade {
 	public CountryData findCountryByUuid(String countryUuid);
 
 	public List<CountryData> findAllList();
+
+	public CountryData findCountryByIso3Code(String iso3Code);
 }

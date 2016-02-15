@@ -26,8 +26,6 @@ import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.facade.CountryFacade;
 import com.serpics.base.facade.RegionFacade;
-import com.serpics.base.facade.data.CountryData;
-import com.serpics.base.facade.data.RegionData;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.commerce.strategies.CartStrategy;
@@ -36,6 +34,7 @@ import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.UserDataRequest;
+import com.serpics.jaxrs.utils.RestServiceUtils;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.facade.UserFacade;
@@ -62,6 +61,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	CartStrategy cartStrategy;
+	
+	@Autowired
+	RestServiceUtils restUtils;
 
     /**
      * This method creates a user.
@@ -226,19 +228,7 @@ public class CustomerServiceImpl implements CustomerService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
-			if (addressDataRequest.getRegionUuid() != null){
-				RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
-				if (regionData != null){
-					address.setRegion(regionData);
-				}
-			}
-			if (addressDataRequest.getCountryUuid() != null){
-				CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
-				if (countryData != null){
-					address.setCountry(countryData);
-				}
-			}
+			address = restUtils.addressDataRequestToAddressData(addressDataRequest, address);
 			userFacade.updateContactAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 			responseBuilder = Response.ok();
@@ -272,19 +262,7 @@ public class CustomerServiceImpl implements CustomerService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
-			if (addressDataRequest.getRegionUuid() != null){
-				RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
-				if (regionData != null){
-					address.setRegion(regionData);
-				}
-			}
-			if (addressDataRequest.getCountryUuid() != null){
-				CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
-				if (countryData != null){
-					address.setCountry(countryData);
-				}
-			}
+			address = restUtils.addressDataRequestToAddressData(addressDataRequest, address);
 			userFacade.updateBillingAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 			responseBuilder = Response.ok();
@@ -321,19 +299,7 @@ public class CustomerServiceImpl implements CustomerService {
 		Assert.notNull(addressDataRequest, "address can not be null !");
 		
 		try{
-			BeanUtils.copyProperties(addressDataRequest, address,new String[]{"regionUuid","countryUuid"});
-			if (addressDataRequest.getRegionUuid() != null){
-				RegionData regionData = regionFacade.findRegionByUuid(addressDataRequest.getRegionUuid());
-				if (regionData != null){
-					address.setRegion(regionData);
-				}
-			}
-			if (addressDataRequest.getCountryUuid() != null){
-				CountryData countryData = countryFacade.findCountryByUuid(addressDataRequest.getCountryUuid());
-				if (countryData != null){
-					address.setCountry(countryData);
-				}
-			}
+			address = restUtils.addressDataRequestToAddressData(addressDataRequest, address);
 			Assert.notNull(address.getUuid(), "UUID can not be null !");
 			userFacade.updateDestinationAddress(address, address.getUuid());
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -370,7 +336,7 @@ public class CustomerServiceImpl implements CustomerService {
 		Assert.notNull(addressDataRequest, "address can not be null !");
 		
 		try{
-			BeanUtils.copyProperties(addressDataRequest, address);
+			address = restUtils.addressDataRequestToAddressData(addressDataRequest, address);
 			Assert.notNull(address.getUuid(), "UUID can not be null !");
 			userFacade.addDestinationAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);

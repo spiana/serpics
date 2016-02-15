@@ -29,8 +29,12 @@
   		 } 		 
   		 
   		 $scope.updateContactAddress = function(contactAddress) {
-  			 contactAddress.countryUuid = contactAddress.country.uuid;
-  			 contactAddress.regionUuid = contactAddress.region.uuid;
+				if (contactAddress.country != null){
+					contactAddress.countryIso3Code = contactAddress.country.iso3Code;
+  				}
+  				if (contactAddress.region != null){
+  					contactAddress.regionName = contactAddress.region.name;
+  				}
   			 customerService.updateContactAddress(contactAddress).then( function( response ) {
   				$log.debug("customerController: updateContactAddress(): ramo then");
 				customerService.updateCurrentUser();
@@ -38,8 +42,12 @@
   		 }
   		 
   		 $scope.updateBillingAddress = function(billingAddress) {
-  			 billingAddress.countryUuid = billingAddress.country.uuid;
-  			 billingAddress.regionUuid = billingAddress.region.uuid;
+				if (billingAddress.country != null){
+					billingAddress.countryIso3Code = billingAddress.country.iso3Code;
+  				}
+  				if (billingAddress.region != null){
+  					billingAddress.regionName = billingAddress.region.name;
+  				}
   			 customerService.updateBillingAddress(billingAddress).then( function( response ) {
   				$log.debug("customerController: updateBillingAddress(): ramo then");
 				customerService.updateCurrentUser();
@@ -47,8 +55,8 @@
   		 }
   		 
   		 $scope.updateDestinationAddress = function(destinationAddress) {
-  			 	destinationAddress.countryUuid = destinationAddress.country.uuid;
-  			 	destinationAddress.regionUuid = destinationAddress.region.uuid;
+  			 	destinationAddress.countryIso3Code = destinationAddress.country.iso3Code;
+  			 	destinationAddress.regionName = destinationAddress.region.name;
 	  			 customerService.updateDestinationAddress(destinationAddress).then( function( response ) {
 	  				$log.debug("customerController: updateDestinationAddress(): ramo then");
 					customerService.updateCurrentUser();
@@ -56,8 +64,12 @@
   		 }
   		 
   		$scope.addDestinationAddress = function(destinationAddress) {
-			 	destinationAddress.countryUuid = destinationAddress.country.uuid;
-  			 	destinationAddress.regionUuid = destinationAddress.region.uuid;
+  				if (destinationAddress.country != null){
+  					destinationAddress.countryIso3Code = destinationAddress.country.iso3Code;
+  				}
+  				if (destinationAddress.region != null){
+  					destinationAddress.regionName = destinationAddress.region.name;
+  				}
 	  			 customerService.addDestinationAddress(destinationAddress).then( function( response ) {
 		  				$log.debug("customerController: updateDestinationAddress(): ramo then");
 						customerService.updateCurrentUser();

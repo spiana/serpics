@@ -73,6 +73,12 @@ public class RegionFacadeImpl implements RegionFacade {
 	}
 	
 	@Override
+	public RegionData findRegionByName(String name) {
+
+		return regionConverter.convert(regionService.getRegionByName(name));
+	}
+	
+	@Override
 	public List<RegionData> findRegionByCountry(Long countryId){
 		List<RegionData> regionList = new ArrayList<RegionData>();
 		for (Region region : regionService.getRegionByCountry(countryId)){

@@ -16,8 +16,8 @@ public class AddressDataRequest {
 	private String streetNumber;
 	private String zipcode;
 	private String city;
-	private String regionUuid;
-	private String countryUuid;
+	private String regionName;
+	private String countryIso3Code;
 	private String vatcode;
 	private String idNumber;
 	private String phone;
@@ -85,17 +85,17 @@ public class AddressDataRequest {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getRegionUuid() {
-		return regionUuid;
+	public String getRegionName() {
+		return regionName;
 	}
-	public void setRegionUuid(String regionUuid) {
-		this.regionUuid = regionUuid;
+	public void setRegionName(String regionName) {
+		this.regionName = regionName;
 	}
-	public String getCountryUuid() {
-		return countryUuid;
+	public String getCountryIso3Code() {
+		return countryIso3Code;
 	}
-	public void setCountryUuid(String countryUuid) {
-		this.countryUuid = countryUuid;
+	public void setCountryIso3Code(String countryIso3Code) {
+		this.countryIso3Code = countryIso3Code;
 	}
 	public String getVatcode() {
 		return vatcode;

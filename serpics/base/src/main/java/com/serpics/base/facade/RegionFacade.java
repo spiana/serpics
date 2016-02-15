@@ -14,4 +14,5 @@ public interface RegionFacade {
 	public RegionData addRegion(RegionData region);
 	public RegionData findRegionByUuid(String regionUuid);
 	public List<RegionData> findRegionByCountry(Long countryId);
+	public RegionData findRegionByName(String name);
 }

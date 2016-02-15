@@ -79,8 +79,12 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
   	     * @use 					cartService,
   	     */
 	  	 $scope.submitBillingForm = function (billingAddress,shippingToBill){
-	  		billingAddress.countryUuid = billingAddress.country.uuid;
-	  		billingAddress.regionUuid = billingAddress.region.uuid; 
+				if (billingAddress.country != null){
+					billingAddress.countryIso3Code = billingAddress.country.iso3Code;
+					}
+					if (billingAddress.region != null){
+						billingAddress.regionName = billingAddress.region.name;
+					} 
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
 				  $log.debug("cartController addBillingAddress(billingAddress): ramo then1");
 				  var complete = $stateParams.complete;
@@ -104,8 +108,12 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 	  	 * @use 					cartService,
 	  	 */	  	 
 		$scope.submitShippingForm = function (shippingAddress){
-				shippingAddress.countryUuid = shippingAddress.country.uuid;
-				shippingAddress.regionUuid = shippingAddress.region.uuid; 
+			if (shippingAddress.country != null){
+				shippingAddress.countryIso3Code = shippingAddress.country.iso3Code;
+				}
+				if (shippingAddress.region != null){
+					shippingAddress.regionName = shippingAddress.region.name;
+				} 
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
 	  			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
 	  			  $scope.cart = response;

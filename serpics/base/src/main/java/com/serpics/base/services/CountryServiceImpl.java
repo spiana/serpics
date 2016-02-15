@@ -22,7 +22,10 @@ public class CountryServiceImpl extends AbstractEntityService<Country, Long, Ses
 		return countryRepository;
 	}
 	
-	
+	@Override
+	public Country getCountryByIso3Code(String iso3Code){
+		return countryRepository.getCountryByIso3Code(iso3Code);
+	}
 }
 
 
