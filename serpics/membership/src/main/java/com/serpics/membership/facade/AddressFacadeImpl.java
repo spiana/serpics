@@ -42,10 +42,16 @@ public class AddressFacadeImpl implements AddressFacade{
 		destination.setMobile(source.getMobile());
 		destination.setPhone(source.getPhone());
 
-		if ((source.getRegion() != null) && (source.getRegion().getUuid() != null))
-			destination.setRegion(regionService.findByUUID(source.getRegion().getUuid()));
-		if ((source.getCountry() != null) && (source.getCountry().getUuid() != null))
-			destination.setCountry(countryService.findByUUID(source.getCountry().getUuid()));
+		if ((source.getRegion() != null) && (source.getRegion().getName() != null)){
+			destination.setRegion(regionService.getRegionByName(source.getRegion().getName()));
+		} else {
+			destination.setRegion(null);
+		}
+		if ((source.getCountry() != null) && (source.getCountry().getIso3Code() != null)){
+			destination.setCountry(countryService.getCountryByIso3Code(source.getCountry().getIso3Code()));
+		} else {
+			destination.setCountry(null);
+		}
 		return destination;
 	}
 	

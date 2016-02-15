@@ -40,6 +40,18 @@
 					</table>					
 			</div>
 			<div class="shopper-informations">
+				<div class="col-sm-12 clearfix">
+						<div class="bill-to">
+							<p>Pay Method</p>
+							<div class="form-description">{{order.paymethod.name}}</div>
+						</div>
+				</div>
+				<div class="col-sm-12 clearfix">
+						<div class="bill-to">
+							<p>Ship Mode</p>
+							<div class="form-description">{{order.shipmode.name}}</div>
+						</div>
+				</div>
 				<div class="col-sm-6 clearfix">
 						<div class="bill-to">
 							<p>Bill To</p>
@@ -58,6 +70,7 @@
 									<div class="form-description">Phone</div>
 									<div class="form-description">Mobile Phone</div>
 									<div class="form-description">Fax</div>
+									<div class="form-description">Notes</div>
 							</div>
 							<div class="form-one col-sm-3 clearfix">
 								<form>
@@ -75,6 +88,7 @@
 									<input type="text" name="phone" ng-model="order.billingAddress.phone" readonly>
 									<input type="text" name="mobile" ng-model="order.billingAddress.mobile" readonly>
 									<input type="text" name="fax" ng-model="order.billingAddress.fax" readonly>
+									<textarea name="field1" ng-model="order.billingAddress.field1" rows="5"></textarea>
 								</form>
 							</div>
 						</div>
@@ -97,6 +111,7 @@
 									<div class="form-description">Phone</div>
 									<div class="form-description">Mobile Phone</div>
 									<div class="form-description">Fax</div>
+									<div class="form-description">Notes</div>
 							</div>
 							<div class="form-one col-sm-3 clearfix">
 								<form>
@@ -114,6 +129,7 @@
 									<input type="text" name="phone" ng-model="order.shippingAddress.phone" readonly>
 									<input type="text" name="mobile" ng-model="order.shippingAddress.mobile" readonly>
 									<input type="text" name="fax" ng-model="order.shippingAddress.fax" readonly>
+									<textarea name="field1" ng-model="order.shippingAddress.field1" rows="5"></textarea>
 								</form>
 							</div>
 						</div>
