@@ -1,0 +1,12 @@
+templateScript: /serpics/templates/pages/main.ftl
+renderType: freemarker
+visible: true
+title: Serpics One page template
+dialog: serpics:pages/main
+areas:
+  content-sections:
+    renderType: freemarker
+    availableComponents:
+      content-items-list:
+        id: serpics:components/product-list  
+# eof: areas

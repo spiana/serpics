@@ -1,0 +1,14 @@
+templateScript: /one-page/templates/pages/main.ftl
+renderType: freemarker
+visible: true
+title: One pager template
+dialog: one-page:pages/main
+areas:
+  content-sections:
+    renderType: freemarker
+    availableComponents:
+      content-items-list:
+        id: one-page:components/content-items-list
+      textImage:
+        id: one-page:components/textImage
+# eof: areas

@@ -1,0 +1,142 @@
+<section id="cart_items">
+	<h2 class="title text-center">PERSONAL AREA</h2>
+	<div  ng-show="currentUser.userType=='ANONYMOUS'">
+		<div>Please <a ui-sref="shop.login">LOGIN</a> to acces to your Personal Area.</div>
+	</div>
+	<div  ng-if="currentUser.userType=='REGISTERED'" ng-init="getOrders()">
+		<div class="col-sm-12 clearfix" style="margin-bottom: 30px;">
+						<div class="col-sm-4 clearfix">
+							<div><h4>Your data:</h4></div>
+							<input type="submit" value="Update personal data" class="btn btn-primary" ng-click="updateUserData(currentUser)">
+						</div>
+							<div class="col-sm-4 form-one clearfix" style="width: 33.33333333%;">
+								<form>
+									<input type="text" placeholder="First Name" name="firstname" ng-model="currentUser.firstname">
+									<input type="text" placeholder="Last Name"name="lastname" ng-model="currentUser.lastname">
+								</form>
+							</div>
+							<div class="col-sm-4 form-one clearfix" style="width: 33.33333333%;">
+								<form>
+									<input type="text" placeholder="E-Mail" name="email" ng-model="currentUser.email" >
+									<input type="text" placeholder="Phone" name="phone" ng-model="currentUser.phone" >
+								</form>
+							</div>
+		</div>
+		<div class="col-sm-12 clearfix" style="margin-bottom: 30px;">
+						<div class="col-sm-4 clearfix">
+							<div><h4>Your contact address:</h4></div>
+							<input type="submit" value="Update contact address" class="btn btn-primary" ng-click="updateContactAddress(currentUser.contactAddress)">
+						</div>
+							<div class="col-sm-4 form-one clearfix" style="width: 33.33333333%;">
+								<form>
+									<input type="text" name="company" placeholder="Company" ng-model="currentUser.contactAddress.company" >
+									<input type="text" name="firstname" placeholder="First Name" ng-model="currentUser.contactAddress.firstname" >
+									<input type="text" name="lastname" placeholder="Last Name" ng-model="currentUser.contactAddress.lastname" >
+									<input type="text" name="address1" placeholder="Address" ng-model="currentUser.contactAddress.address1" >
+									<input type="text" name="address2" placeholder="Address 2" ng-model="currentUser.contactAddress.address2" >
+									<input type="text" name="streetNumber" placeholder="Street Number" ng-model="currentUser.contactAddress.streetNumber" >
+								</form>
+							</div>
+							<div class="col-sm-4 form-one clearfix" style="width: 33.33333333%;">
+								<form>
+									<input type="text" name="city" placeholder="City" ng-model="currentUser.contactAddress.city" >
+									<input type="text" name="zipcode" placeholder="Zip / Postal Code" ng-model="currentUser.contactAddress.zipcode" >
+									<input type="text" name="email" placeholder="Email" ng-model="currentUser.contactAddress.email" >
+									<input type="text" name="phone" placeholder="Phone" ng-model="currentUser.contactAddress.phone" >
+									<input type="text" name="mobile" placeholder="Mobile" ng-model="currentUser.contactAddress.mobile" >
+									<input type="text" name="fax" placeholder="Fax" ng-model="currentUser.contactAddress.fax" >
+								</form>
+							</div>
+		</div>
+		<div class="col-sm-12 clearfix" style="margin-bottom: 30px;">
+						<div class="col-sm-4 clearfix">
+							<div><h4>Your bill address:</h4></div>
+							<input type="submit" value="Update billing address" class="btn btn-primary" ng-click="updateBillingAddress(currentUser.billingAddress)">
+						</div>
+							<div class="col-sm-4 form-one clearfix" style="width: 33.33333333%;">
+								<form>
+									<input type="text" name="company" placeholder="Company" ng-model="currentUser.billingAddress.company" >
+									<input type="text" name="firstname" placeholder="First Name" ng-model="currentUser.billingAddress.firstname" >
+									<input type="text" name="lastname" placeholder="Last Name" ng-model="currentUser.billingAddress.lastname" >
+									<input type="text" name="address1" placeholder="Address" ng-model="currentUser.billingAddress.address1" >
+									<input type="text" name="address2" placeholder="Address 2" ng-model="currentUser.billingAddress.address2" >
+									<input type="text" name="streetNumber" placeholder="Street Number" ng-model="currentUser.billingAddress.streetNumber" >
+								</form>
+							</div>
+							<div class="col-sm-4 form-one clearfix" style="width: 33.33333333%;">
+								<form>
+									<input type="text" name="city" placeholder="City" ng-model="currentUser.billingAddress.city" >
+									<input type="text" name="zipcode" placeholder="Zip / Postal Code" ng-model="currentUser.billingAddress.zipcode" >
+									<input type="text" name="email" placeholder="Email" ng-model="currentUser.billingAddress.email" >
+									<input type="text" name="phone" placeholder="Phone" ng-model="currentUser.billingAddress.phone" >
+									<input type="text" name="mobile" placeholder="Mobile" ng-model="currentUser.billingAddress.mobile" >
+									<input type="text" name="fax" placeholder="Fax" ng-model="currentUser.billingAddress.fax" >
+								</form>
+							</div>
+		</div>
+		<div class="col-sm-12 clearfix" style="margin-bottom: 30px;" ng-init="$scope.shippingAddress = -1">
+						<div><h4>Your ship address:</h4></div>
+						<div style="margin-bottom: 59px;margin-top: 12px;">
+							<div class="col-sm-4 clearfix">
+								<input type="submit" value="New shipping address" class="btn btn-default btn-sm" ng-click="$scope.shippingAddress = -1" ng-class="{ success :$scope.shippingAddress === -1 }">
+							</div>
+							<div class="col-sm-8 clearfix">
+								<input type="submit" value="Address {{$index + 1}}" class="btn btn-default btn-sm" ng-click="$scope.shippingAddress = $index" ng-repeat="address in currentUser.destinationAddress" ng-class="{ success :$scope.shippingAddress != -1 }">
+							</div>
+						</div>
+						<div>
+							<div class="col-sm-4 clearfix" ng-show="$scope.shippingAddress === -1">
+								<input type="submit" value="Add new shipping address" class="btn btn-primary" ng-click="addDestinationAddress(currentUser.destinationAddress[$scope.shippingAddress])")">
+							</div>
+							<div class="col-sm-4 clearfix" ng-hide="$scope.shippingAddress === -1">
+								<input type="submit" value="Update shipping address" class="btn btn-primary" ng-click="updateDestinationAddress(currentUser.destinationAddress[$scope.shippingAddress])">
+								<input type="submit" value="Remove address" class="btn btn-primary" ng-click="deleteDestinationAddress(currentUser.destinationAddress[$scope.shippingAddress].uuid); $scope.shippingAddress = -1">
+							</div>
+								<div class="col-sm-4 form-one clearfix" style="width: 33.33333333%;">
+									<form>
+										<input type="text" name="company" placeholder="Company" ng-model="currentUser.destinationAddress[$scope.shippingAddress].company" >
+										<input type="text" name="firstname" placeholder="First Name" ng-model="currentUser.destinationAddress[$scope.shippingAddress].firstname" >
+										<input type="text" name="lastname" placeholder="Last Name" ng-model="currentUser.destinationAddress[$scope.shippingAddress].lastname" >
+										<input type="text" name="address1" placeholder="Address" ng-model="currentUser.destinationAddress[$scope.shippingAddress].address1" >
+										<input type="text" name="address2" placeholder="Address 2" ng-model="currentUser.destinationAddress[$scope.shippingAddress].address2" >
+										<input type="text" name="streetNumber" placeholder="Street Number" ng-model="currentUser.destinationAddress[$scope.shippingAddress].streetNumber" >
+									</form>
+								</div>
+								<div class="col-sm-4 form-one clearfix" style="width: 33.33333333%;">
+									<form>
+										<input type="text" name="city" placeholder="City" ng-model="currentUser.destinationAddress[$scope.shippingAddress].city" >
+										<input type="text" name="zipcode" placeholder="Zip / Postal Code" ng-model="currentUser.destinationAddress[$scope.shippingAddress].zipcode" >
+										<input type="text" name="email" placeholder="Email" ng-model="currentUser.destinationAddress[$scope.shippingAddress].email" >
+										<input type="text" name="phone" placeholder="Phone" ng-model="currentUser.destinationAddress[$scope.shippingAddress].phone" >
+										<input type="text" name="mobile" placeholder="Mobile" ng-model="currentUser.destinationAddress[$scope.shippingAddress].mobile" >
+										<input type="text" name="fax" placeholder="Fax" ng-model="currentUser.destinationAddress[$scope.shippingAddress].fax" >
+									</form>
+								</div>
+						</div>
+		</div>
+		<div><h4>Your orders:</h4></div>
+		<div class="table-responsive cart_info" style="width: 50%; overflow-x: hidden;">
+					<table class="table table-condensed">
+						<thead>
+							<tr class="cart_menu">
+								<td class="description">Order number</td>
+								<td class="price">Price</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="order in orders">
+								<td class="cart_description">
+									<h4>
+										<p>{{order.id}}</p>
+									</h4>
+								</td>
+								<td class="cart_price">
+									<p>&euro;{{(order.totalProduct | number:2) || 0}}</p>
+								</td>
+							</tr>
+	
+						</tbody>
+					</table>
+		</div>		
+	</div>
+</section>
