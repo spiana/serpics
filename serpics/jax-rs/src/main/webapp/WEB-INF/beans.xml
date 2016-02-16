@@ -21,6 +21,8 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer"/>
 <!--   <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/> -->
 
+	<bean class="com.serpics.jaxrs.utils.RestServiceUtils"/>
+	
    <bean name="mapper" class="com.serpics.jaxrs.JaxbMapper"/>
 
    <jaxrs:server id="services" address="/">

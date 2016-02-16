@@ -77,6 +77,13 @@ public class CountryFacadeImpl implements CountryFacade {
 	}
 	
 	@Override
+	public CountryData findCountryByIso3Code(String iso3Code) {
+		
+		return countryConvert.convert(countryService.getCountryByIso3Code(iso3Code));
+		
+	}
+	
+	@Override
 	public List<CountryData> findAllList() {
 		List<Country> countries = countryService.findAll(); 
 		

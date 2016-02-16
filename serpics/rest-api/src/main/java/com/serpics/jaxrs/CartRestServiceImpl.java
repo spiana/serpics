@@ -21,10 +21,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.qmino.miredot.annotations.ReturnType;
+import com.serpics.base.facade.CountryFacade;
+import com.serpics.base.facade.RegionFacade;
 import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.facade.data.CartData;
 import com.serpics.commerce.facade.data.CartItemData;
@@ -35,6 +38,7 @@ import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.CartItemDataRequest;
+import com.serpics.jaxrs.utils.RestServiceUtils;
 import com.serpics.membership.facade.data.AddressData;
 
 
@@ -46,6 +50,15 @@ public class CartRestServiceImpl implements CartRestService {
 
 	@Resource
 	CartFacade cartFacade;
+	
+	@Autowired
+	RegionFacade regionFacade;
+	
+	@Autowired
+	CountryFacade countryFacade;
+	
+	@Autowired
+	RestServiceUtils restUtils;
 	
     /**
      * This method returns the session cart.
@@ -166,7 +179,7 @@ public class CartRestServiceImpl implements CartRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(billingAddressRequest, billingAddress);
+			billingAddress = restUtils.addressDataRequestToAddressData(billingAddressRequest, billingAddress);
 			Assert.notNull(billingAddress, "billingAddress can not be null !");
 			CartData cartData = cartFacade.addBillingAddress(billingAddress);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -204,7 +217,7 @@ public class CartRestServiceImpl implements CartRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(shippingAddressRequest, shippingAddress);
+			shippingAddress = restUtils.addressDataRequestToAddressData(shippingAddressRequest, shippingAddress);
 			Assert.notNull(shippingAddress, "shippingAddress can not be null !");
 			CartData cartData = cartFacade.addShippingAddress(shippingAddress);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);

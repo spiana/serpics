@@ -26,16 +26,26 @@ public class AddressPopulator implements Populator<AbstractAddress, AddressData>
 		
 		target.setAddress1(source.getAddress1());
 		target.setAddress2(source.getAddress2());
+		target.setAddress3(source.getAddress3());
 		target.setStreetNumber(source.getStreetNumber());
 		target.setZipcode(source.getZipcode());
 		target.setCity(source.getCity());
 			
 		target.setEmail(source.getEmail());
 		
-		if(source.getRegion() != null)
+		target.setField1(source.getField1());
+		target.setField2(source.getField2());
+		
+		if(source.getRegion() != null){
 			target.setRegion(regionConverter.convert(source.getRegion()));
-		if(source.getCountry() != null)
+		} else {
+			target.setRegion(null);
+		}
+		if(source.getCountry() != null){
 			target.setCountry(countryConverter.convert(source.getCountry()));
+		} else {
+			target.setCountry(null);
+		}
 		
 		
 	}

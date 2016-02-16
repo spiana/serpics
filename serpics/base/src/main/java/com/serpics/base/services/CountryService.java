@@ -7,4 +7,6 @@ import com.serpics.core.service.EntityService;
 
 public interface CountryService extends EntityService<Country, Long>{
 
+	public Country getCountryByIso3Code(String iso3Code);
+
 }

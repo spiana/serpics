@@ -37,6 +37,11 @@ public class RegionServiceImpl extends AbstractEntityService<Region, Long, Sessi
 		return country.getRegions();
 	}
 	
+	@Override
+	public Region getRegionByName(String name){
+		return regionRepository.getRegionByName(name);
+	}
+	
 	
 }
 
