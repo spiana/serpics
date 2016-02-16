@@ -81,7 +81,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(productDataRequest, productData);
+			BeanUtils.copyProperties(productDataRequest, productData,new String[]{"brandName"});
 			Assert.notNull(productData);
 			productData = productFacade.create(productData, categoryId, brandId);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -101,13 +101,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 
     /**
      * This method inserts a product, with category, into catalog.
-<<<<<<< Updated upstream
-     * @summary  Method: insertCategory(ProductData product,Long categoryId)
-     * @param 	product The product to insert
-=======
      * @summary  Method: insertCategory(ProductDataRequest productDataRequest,Long categoryId)
      * @param 	productDataRequest The product to insert
->>>>>>> Stashed changes
      * @param 	categoryId The category id of product
      * @return Response		object type: apiRestResponse
      */
@@ -165,7 +160,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(productDataRequest, productData);
+			BeanUtils.copyProperties(productDataRequest, productData,new String[]{"brandName"});
 			Assert.notNull(productData);
 			productData = productFacade.createWithBrand(productData, brandId);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -201,7 +196,11 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(productDataRequest, productData);
+			BeanUtils.copyProperties(productDataRequest, productData,new String[]{"brandName"});
+			if(!StringUtils.isEmpty(productDataRequest.getBrandName())){
+				BrandData brandData = brandFacade.findBrandByName(productDataRequest.getBrandName());
+				productData.setBrand(brandData);
+			}
 			Assert.notNull(productData);
 			productData = productFacade.create(productData);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -237,7 +236,11 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ResponseBuilder responseBuilder = null;
 		
 		try{
-			BeanUtils.copyProperties(productDataRequest, productData);
+			BeanUtils.copyProperties(productDataRequest, productData,new String[]{"brandName"});
+			if(!StringUtils.isEmpty(productDataRequest.getBrandName())){
+				BrandData brandData = brandFacade.findBrandByName(productDataRequest.getBrandName());
+				productData.setBrand(brandData);
+			}
 			Assert.notNull(productData);
 			productData = productFacade.updateProduct(productData);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);

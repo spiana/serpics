@@ -102,17 +102,17 @@ public class BaseTestFacade extends AbstractTransactionalJunit4SerpicTest{
 	}
 	
 	private void region() {
-		CountryData c = countryFacade.findAll(new PageRequest(0, 10)).getContent().get(0);
+//		CountryData c = countryFacade.findAll(new PageRequest(0, 10)).getContent().get(0);
 		RegionData r = new RegionData();
 		r.setDescription("PIEMONTE");
 		r.setName("PIEMONTE");
-		r.setCountry(c);
+//		r.setCountry(c);
 		regionFacade.addRegion(r);
 		
 		r = new RegionData();
 		r.setDescription("LOMBARDIA");
 		r.setName("LOMBARDIA");
-		r.setCountry(c);
+//		r.setCountry(c);
 		regionFacade.addRegion(r);
 		
 	}

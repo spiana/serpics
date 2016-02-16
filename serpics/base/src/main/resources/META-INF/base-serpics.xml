@@ -55,7 +55,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   	
   	<alias name="defaultRegionPopulator" alias="regionPopulator"/>
   	<bean name="defaultRegionPopulator" class="com.serpics.base.facade.RegionPopulator">
-  		 <property name="countryConverter" ref="countryConverter"/>
   	</bean>
   	
   	<alias name="defaultRegionConverter" alias="regionConverter"/>

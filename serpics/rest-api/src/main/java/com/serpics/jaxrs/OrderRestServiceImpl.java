@@ -58,7 +58,6 @@ public class OrderRestServiceImpl implements OrderRestService {
 		List<OrderData> listOrderData = orderFacade.getOrders();
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		;
 		apiRestResponse.setResponseObject(listOrderData);
 		return Response.ok(apiRestResponse).build();
 	}

@@ -58,11 +58,11 @@ describe("Testing serpics.services module:", function() {
 			expect(response).toEqualMessage(ssidExpected,"il valore del sessionid deve essere uguale a "+response);
 			
 		})
-		.catch(function(error){
-			$log.debug('error response'+JSON.stringify(error));
-			expect(error).not.toBeNull();
-			
-		});
+//		.catch(function(error){
+//			$log.debug('error response'+JSON.stringify(error));
+//			expect(error).not.toBeNull();
+//			
+//		});
 		
 		$httpBackend.flush();
 
@@ -121,10 +121,10 @@ describe("Testing serpics.services module:", function() {
 			expect(response).toEqualMessage(ssidValue,"il valore del sessionid deve essere uguale a "+response);
 			
 		})
-		.catch(function(error){
-			$log.debug('Error Response'+JSON.stringify(error))
-			expect(error).not.toBeNull();
-		});
+//		.catch(function(error){
+//			$log.debug('Error Response'+JSON.stringify(error))
+//			expect(error).not.toBeNull();
+//		});
 
 		//*Test $httpBackend
 		expect($httpBackend.whenGET).not.toHaveBeenCalled();
@@ -160,10 +160,10 @@ describe("Testing serpics.services module:", function() {
 			expect(response).toBeNull();
 			
 		})
-		.catch(function(error){
-			$log.debug('Error Response'+JSON.stringify(error));
-			expect(error).not.toBeNull();
-		});
+//		.catch(function(error){
+//			$log.debug('Error Response'+JSON.stringify(error));
+//			expect(error).not.toBeNull();
+//		});
 
 		$httpBackend.flush();
 		

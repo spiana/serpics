@@ -6,14 +6,14 @@ import com.serpics.core.facade.AbstractData;
 
 public class PriceData extends AbstractData{
 	protected Double productCost;
-	//protected CurrencyData currency;
+
 	protected Double currentPrice;
 	protected int minQty;
 	protected Double productPrice;
 	protected Date validFrom;
 	protected Date validTo;
 	protected int precedence;
-	protected ProductData product;
+
 	public Double getProductCost() {
 		return productCost;
 	}
@@ -50,12 +50,7 @@ public class PriceData extends AbstractData{
 	public void setValidTo(Date validTo) {
 		this.validTo = validTo;
 	}
-	public ProductData getProduct() {
-		return product;
-	}
-	public void setProduct(ProductData product) {
-		this.product = product;
-	}
+
 	public int getPrecedence() {
 		return precedence;
 	}

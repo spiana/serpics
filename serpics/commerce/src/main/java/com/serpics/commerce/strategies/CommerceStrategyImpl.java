@@ -39,7 +39,7 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
     }
 
     @Override
-    public void calculateShiping(final AbstractOrder order) {
+    public void calculateShipping(final AbstractOrder order) {
         // TODO Auto-generated method stub
 
     }

@@ -60,18 +60,21 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	public Response getCategoryByCode(@PathParam("category") String code){
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = categoryFacade.findCategoryByCode(code);
+		ResponseBuilder responseBuilder = null;
+		
 		if (categoryData != null) {
 			// 200 OK
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 			apiRestResponse.setResponseObject(categoryData);
-			return Response.ok(apiRestResponse).build();
+			responseBuilder = Response.ok();
 
 		} else {
 			// 404 Not Found - Category Not Found
 			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
 			apiRestResponse.setMessage("ERROR, category not found");
-			return Response.status(404).entity(apiRestResponse).build();
+			responseBuilder = Response.status(404);
 		}
+		return responseBuilder.entity(apiRestResponse).build();
 	}
 	
 	
@@ -93,18 +96,20 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	public Response getCategoryById(@PathParam("category") Long categoryId){
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
 		CategoryData categoryData = categoryFacade.findCategoryById(categoryId);
+		ResponseBuilder responseBuilder = null;
 		if (categoryData != null) {
 			// 200 OK
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 			apiRestResponse.setResponseObject(categoryData);
-			return Response.ok(apiRestResponse).build();
+			responseBuilder = Response.ok();
 
 		} else {
 			// 404 Not Found - Category Not Found
 			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
 			apiRestResponse.setMessage("ERROR, category not found");
-			return Response.status(404).entity(apiRestResponse).build();
+			responseBuilder = Response.status(404);
 		}
+		return responseBuilder.entity(apiRestResponse).build();
 	}
 	
     /**
@@ -217,7 +222,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getChild/{parent}")
-	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
 	public Response getChild(@PathParam("parent") Long parentId){
 		Assert.notNull(parentId);
 		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(parentId);
@@ -296,12 +301,13 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.CategoryData>>")
 	public Response findAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size){
 		ApiRestResponse<Page<CategoryData> > apiRestResponse = new ApiRestResponse<Page<CategoryData> >();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject( categoryFacade.listCategory(new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
+		
 	}
 	
     /**
@@ -315,7 +321,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/top")
-	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
 	public Response getTop(){
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);

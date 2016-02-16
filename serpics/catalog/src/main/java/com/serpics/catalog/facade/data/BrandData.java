@@ -1,13 +1,7 @@
 package com.serpics.catalog.facade.data;
 
-
-
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.serpics.core.facade.AbstractData;
-
-
-
-
 
 @JsonPropertyOrder({"id","name","logo","published","brandProductNumber"})
 public class BrandData extends AbstractData{
