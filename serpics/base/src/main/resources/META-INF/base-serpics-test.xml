@@ -30,4 +30,5 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
    </bean>
   	
    <bean name="localeSpec" class="com.serpics.base.test.LocaleSpecification"/>
+    	
  </beans> 

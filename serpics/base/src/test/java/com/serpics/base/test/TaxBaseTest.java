@@ -33,7 +33,7 @@ public class TaxBaseTest extends AbstractTransactionalJunit4SerpicTest {
 	TaxCategoryRepository taxRepository;
 	
 	@Resource
-	Converter<TaxCategory, TaxCategoryData> taxConverter;
+	Converter<TaxCategory, TaxCategoryData> taxcategoryConverter;
 	
 	@Resource
 	StoreRepository storeRepository;
@@ -55,18 +55,14 @@ public class TaxBaseTest extends AbstractTransactionalJunit4SerpicTest {
 			s.setName("test-store");
 			s.setCurrency(c);
 			storeRepository.save(s);
-			
-			
-			
-			
-			
+		
 			TaxCategory t = new TaxCategory();
 			t.setName("VAT");
 			t.setRate(10.0);
 			t.setStore(s);
 			taxRepository.save(t);
 			
-			TaxCategoryData tdata = taxConverter.convert(t);
+			TaxCategoryData tdata = taxcategoryConverter.convert(t);
 			
 			Assert.assertEquals("VAT" , tdata.getName());
 			
