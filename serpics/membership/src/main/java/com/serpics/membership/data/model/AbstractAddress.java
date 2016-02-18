@@ -3,9 +3,6 @@ package com.serpics.membership.data.model;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -16,10 +13,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.DiscriminatorOptions;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Region;
@@ -29,11 +24,12 @@ import com.serpics.membership.AddressType;
  * The persistent class for the addresses database table.
  * 
  */
-@Entity
-@Table(name = "addresses")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "flag", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorOptions(force = true)
+//@Entity
+//@Table(name = "addresses")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@DiscriminatorColumn(name = "flag", discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorOptions(force = true)
+@MappedSuperclass
 public abstract class AbstractAddress extends com.serpics.core.data.jpa.AbstractEntity implements Serializable , Cloneable {
     private static final long serialVersionUID = 1L;
 
@@ -121,7 +117,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     protected Long field4;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, updatable = false, insertable = false)
+    @Column(nullable = true, updatable = false, insertable = false)
     protected AddressType flag;
 
     public AbstractAddress() {
@@ -352,6 +348,4 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
         this.fax = fax;
     }
     
-    public abstract void setMember(Member member);
-    public abstract Member getMember();
 }

@@ -38,8 +38,8 @@ public class RegionServiceImpl extends AbstractEntityService<Region, Long, Sessi
 	}
 	
 	@Override
-	public Region getRegionByName(String name){
-		return regionRepository.getRegionByName(name);
+	public Region getRegionByCode(String IsoCode){
+		return regionRepository.getRegionByCode(IsoCode);
 	}
 	
 	

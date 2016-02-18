@@ -33,7 +33,6 @@ public class RegionFacadeImpl implements RegionFacade {
 	AbstractPopulatingConverter<Region, RegionData> regionConverter;
 	
 	
-	
 	@Override
 	public Page<RegionData> findAll(Pageable page) {
 		Page<Region> regions = regionService.findAll(page); 
@@ -53,10 +52,9 @@ public class RegionFacadeImpl implements RegionFacade {
 	public RegionData addRegion(RegionData data) {
 		
 		String locale = "it";
-		//if(engine.getCurrentContext() != null) locale = engine.getCurrentContext().getLocale().getLanguage();
 		final MultilingualString description = new MultilingualString(locale, data.getDescription());
 		Region r = new Region();
-		r.setName(data.getName());
+		r.setIsoCode(data.getIsoCode());
 		r.setDescription(description);
 		r = regionService.create(r);
 		data = regionConverter.convert(r);
@@ -66,14 +64,12 @@ public class RegionFacadeImpl implements RegionFacade {
 
 	@Override
 	public RegionData findRegionByUuid(String regionUuid) {
-
 		return regionConverter.convert(regionService.findByUUID(regionUuid));
 	}
 	
 	@Override
 	public RegionData findRegionByName(String name) {
-
-		return regionConverter.convert(regionService.getRegionByName(name));
+		return regionConverter.convert(regionService.getRegionByCode(name));
 	}
 	
 	@Override

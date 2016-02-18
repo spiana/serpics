@@ -57,7 +57,8 @@ public class User extends Member implements UserDetail, Customer{
     @Column(length = 254)
     private String email;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL ,orphanRemoval=true)
+    @OneToOne( fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL ,orphanRemoval=true)
+    @JoinColumn(name="billing_address_id")
     protected BillingAddress billingAddress;
     
     private Integer field4;

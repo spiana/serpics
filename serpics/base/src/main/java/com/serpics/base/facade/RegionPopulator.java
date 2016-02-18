@@ -15,16 +15,12 @@ public class RegionPopulator implements Populator<Region, RegionData>{
 	
 	@Override
 	public void populate(Region source, RegionData target) {
-		
 		target.setUuid(source.getUuid());
 		target.setId(source.getId());
-		target.setName(source.getName());
+		target.setIsoCode(source.getIsoCode());
 		if(source.getDescription() != null ){
 			target.setDescription(source.getDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
 		}
-		//if(source.getCountry() != null)
-			//target.setCountry(countryConverter.convert(source.getCountry())); 
-		
 	}
 
 }

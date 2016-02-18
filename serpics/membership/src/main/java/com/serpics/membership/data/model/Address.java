@@ -1,18 +1,12 @@
 package com.serpics.membership.data.model;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import com.serpics.base.data.model.Region;
-import com.serpics.util.gson.GsonTransient;
 
 @Entity(name="Address")
-@DiscriminatorValue("TEMPORARY")
+//@DiscriminatorValue("TEMPORARY")
 @XmlRootElement(name="address")
 public class Address extends AbstractAddress {
 
@@ -31,21 +25,6 @@ public class Address extends AbstractAddress {
                 address3, zipcode, city, region,  vatcode);
 
     }
-
-
-    // bi-directional many-to-one association to Member
-    @GsonTransient
-    @ManyToOne(fetch = FetchType.LAZY, optional = false )
-    @JoinColumn(name = "member_id", nullable = false, updatable = false )
-    private Member member;
-
-    @XmlTransient
-    public Member getMember() {
-        return member;
-    }
-
-    public void setMember(final Member member) {
-        this.member = member;
-    }
+    
 
 }

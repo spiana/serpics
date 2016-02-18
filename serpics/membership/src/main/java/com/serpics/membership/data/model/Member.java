@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -62,7 +63,8 @@ public class Member extends AbstractEntity implements Serializable {
     @Column(name = "member_type", nullable = false)
     protected MemberType memberType;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
+    @OneToOne( fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL , orphanRemoval=true)
+    @JoinColumn(name="primary_address_id")
     protected PrimaryAddress primaryAddress;
 
     @OneToMany(mappedBy = "member", targetEntity = PermanentAddress.class, fetch = FetchType.LAZY, orphanRemoval = true)

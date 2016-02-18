@@ -20,6 +20,7 @@ import javax.validation.constraints.Pattern;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Store;
+import com.serpics.membership.data.model.Address;
 
 /**
  * The persistent class for the warehouse database table.
@@ -51,6 +52,10 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 	private Set<Inventory> inventories;
 	
 	private Double inventoryThreshold;
+
+	@OneToOne(cascade=CascadeType.ALL , orphanRemoval=true , optional=true , fetch=FetchType.LAZY)
+	@JoinColumn(name = "address_id")
+	Address address;
 
 	@Column(nullable=false)
 	private Boolean forceInStock;
@@ -126,6 +131,14 @@ public class Warehouse extends com.serpics.core.data.jpa.AbstractEntity implemen
 
 	public void setForceInStock(Boolean forceInStock) {
 		this.forceInStock = forceInStock;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	

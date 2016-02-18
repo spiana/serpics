@@ -123,7 +123,7 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
             _a.setMember(ug);
             ug.setPrimaryAddress(_a);
             _a =addressRepository.saveAndFlush(_a);
-            
+            ug= userRepository.saveAndFlush(ug);
 
         } catch (final SerpicsException e) {
             e.printStackTrace();

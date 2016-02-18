@@ -113,27 +113,32 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 
 	private void addField(final String[] propertyNames) {
 		for (final String pid : propertyNames) {
-			if (pid.contains("."))
+			if (pid.contains(".")){
 				propertyList.addNestedProperty(pid);
+			}
 			
 			if (propertyList.getPropertyKind(pid) == null)
 				LOG.error("properity {} not found !", pid);
 
-			else if (propertyList.getClassMetadata().getProperty(pid) == null || propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null)
-				if (propertyList.getClassMetadata().getProperty(pid) == null || propertyList.getClassMetadata().getProperty(pid).getAnnotation(EmbeddedId.class) == null)
+			else if (
+					propertyList.getClassMetadata().getProperty(pid).getAnnotation(Id.class) == null &&
+					propertyList.getClassMetadata().getProperty(pid).getAnnotation(EmbeddedId.class) == null){
 					if (propertyList.getPropertyKind(pid).equals(PropertyKind.SIMPLE)
 							|| propertyList.getPropertyKind(pid).equals(PropertyKind.ONE_TO_MANY)
 							|| propertyList.getPropertyKind(pid).equals(PropertyKind.MANY_TO_ONE)
 							|| propertyList.getPropertyKind(pid).equals(PropertyKind.NONPERSISTENT)
+							|| propertyList.getPropertyKind(pid).equals(PropertyKind.EMBEDDED)
 							|| Multilingual.class.isAssignableFrom(propertyList.getPropertyType(pid))
 							|| MultiValueField.class.isAssignableFrom(propertyList.getPropertyType(pid))
-							|| entityItem.isPersistent())
+							|| entityItem.isPersistent()){
 						if (!hideProperties.contains(pid)) {
 							Field<?> f = createField(pid);
 							if (readOnlyProperties.contains(pid))
 								f.setReadOnly(true);
 							addComponent(f);
 						}
+					}
+			}
 		}
 
 	}
@@ -159,7 +164,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		if (message != null)
 			f.setCaption(message);
 
-		PropertiesUtils.get().setFiledProperty(entityClass.getSimpleName(), pid, f);
+		PropertiesUtils.get().setFieldProperty(entityClass.getSimpleName(), pid, f);
 		return f;
 	}
 

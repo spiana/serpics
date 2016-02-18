@@ -20,7 +20,6 @@ import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
-import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -111,6 +110,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 					.getAnnotation(Id.class) == null)
 				if (propertyList.getClassMetadata().getProperty(pid)
 						.getAnnotation(EmbeddedId.class) == null)
+					if (!pid.equals(backReferencePropertyId.toString()))
 						if (!hideProperties.contains(pid))
 							layout.addComponent(createField(pid));
 		}
@@ -118,13 +118,8 @@ public class One2oneField<M, T> extends CustomField<T> {
 	}
 
 	protected Field<?> createField(final String pid) {
-		@SuppressWarnings("rawtypes")
-		final Property p = entityItem.getItemProperty(pid);
-
-		LOG.debug("create field : {}", pid);
 		final Field<?> f = CustomFieldFactory.get().createField(entityItem,
 				pid, this);
-	
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 		f.addValidator(new BeanValidator(getType(), pid));
@@ -134,7 +129,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 		if (message != null)
 			f.setCaption(message);
 		
-		PropertiesUtils.get().setFiledProperty(getType().getSimpleName(), pid, f);
+		PropertiesUtils.get().setFieldProperty(getType().getSimpleName(), pid, f);
 		
 		return f;
 	}
@@ -154,8 +149,8 @@ public class One2oneField<M, T> extends CustomField<T> {
 					.getItemProperty(parentPropertyId).getType());
 			if (value == null){
 				this.entityItem = createEntityItem(container);
-				if (this.backReferencePropertyId != null)
-					this.entityItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity.getEntity());
+				//if (this.backReferencePropertyId != null)
+				//	this.entityItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity.getEntity());
 			}else{
 				this.entityItem = container.getItem(container.getEntityProvider()
 					.getIdentifier(value));
@@ -192,12 +187,26 @@ public class One2oneField<M, T> extends CustomField<T> {
 
 	protected  String getMappedByProperty(String propertyName)
 	  {
-	    OneToOne otm = (OneToOne)getAnnotationForProperty(OneToOne.class, masterEntity.getEntity().getClass(), propertyName);
-	    if ((otm != null) && (!("".equals(otm.mappedBy())))) {
-	      return otm.mappedBy();
-	    }
-	    return null; // getType().getSimpleName().toLowerCase(); //if not found mappedBy is not bidirectional
+	    String r = findAnnotatedField(masterEntity.getItemProperty(propertyName).getType(), propertyName);
+		if (r != null)
+			return r;
+		
+	    return getType().getSimpleName().toLowerCase(); //if not found mappedBy is not bidirectional
 	  }
+	
+	private String findAnnotatedField( Class<?> clazz , String mappedProperty){
+		for ( java.lang.reflect.Field field :clazz.getDeclaredFields()){
+			if (field.isAnnotationPresent(OneToOne.class)){
+				OneToOne otm = (OneToOne) field.getAnnotation(OneToOne.class);
+				if (otm.mappedBy().equals(mappedProperty))
+					return field.getName();
+			}
+		}
+		if (clazz.getSuperclass() != null)
+			return findAnnotatedField(clazz.getSuperclass(), mappedProperty);
+					
+		return null;
+	}
 	
 	 private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)
 	  {

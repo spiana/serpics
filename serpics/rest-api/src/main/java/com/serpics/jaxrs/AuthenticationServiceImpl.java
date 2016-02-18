@@ -1,10 +1,14 @@
 package com.serpics.jaxrs;
 
+
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -32,6 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Autowired
 	LocaleRepository localeRepository;
 	
+	@Context private HttpServletRequest servletRequest;
 	
     /**
      * This method connects session to a store.
@@ -44,7 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("{store}")
-	public Response connect(@PathParam("store") String store) {
+	public Response connect(@PathParam("store") String store  ) {
 		
 		if (store == null){
 			store = "default-store";
@@ -65,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		CommerceSessionContext context= commerceEngine.connect(store);
 		// Initialize the default-catalog
 		catalogService.initialize();
-		context.setLocale(localeRepository.findByLanguage("it"));
+		context.setLocale(localeRepository.findByLanguage(servletRequest.getLocale().getLanguage()));
 		return context;
 		
 	}

@@ -65,10 +65,18 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 					
 		return super.createField(container, itemId, propertyId, uiContext);		
 	}
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public Field<?> createField(Item item, Object propertyId, Component uiContext) {
     
-    	LOG.debug("create field {}" , propertyId);
+    	
+    	final Property p = item.getItemProperty(propertyId);
+    	if (p != null)
+    		LOG.debug("create field for property {} of type {}" , propertyId , p.getType() );
+    	else{
+    		LOG.warn ("property {} not found !");
+    		return null;
+    	}
     	
         if (Multilingual.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
         	Field<?> f = super.createField(item, propertyId, uiContext);
@@ -91,6 +99,9 @@ public class CustomFieldFactory extends DefaultFieldFactory{
         if (item instanceof JPAContainerItem) {
               JPAContainerItem jpaitem = (JPAContainerItem)item;
               EntityContainer container = jpaitem.getContainer();
+              if (propertyId.toString().contains("."))
+            	  container.addNestedContainerProperty(propertyId.toString());
+              
              PropertyKind kind =  container.getPropertyKind(propertyId);
              if (LOG.isDebugEnabled())
             	 LOG.debug("create fiedl {} pf type {}" , propertyId , kind);
@@ -101,6 +112,8 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 				return createOneToMany(propertyId, jpaitem);
 			case MANY_TO_ONE:
 				return createSelect(propertyId, jpaitem);
+			case EMBEDDED:
+				return createEmbeddedField(jpaitem, propertyId);	
 			case MANY_TO_MANY:
 				break;
 			default:
@@ -108,7 +121,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 			}
         }
         
-        final Property p = item.getItemProperty(propertyId);
+     
     	Field<?> f = super.createField(item, propertyId, uiContext);
     	if (String.class.isAssignableFrom(p.getType())) {
 			f.setWidth(FIELD_WIDTH);
@@ -166,6 +179,9 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 
       }
     
+    private EmbeddedField createEmbeddedField(EntityItem item , Object pid){
+    	return new EmbeddedField(item, pid);
+    }
     private One2oneField createOne2OneForm(EntityItem item, Object pid){
     	return new One2oneField(item , pid);
     }

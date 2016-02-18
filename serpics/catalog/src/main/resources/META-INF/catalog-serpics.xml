@@ -89,10 +89,15 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<bean name="brandSpecificationRegisterd" class="com.serpics.catalog.data.specification.DefaultRegisteredBrandSpecification"/>		
 		
 	<!--  facade -->
+	
+	<alias name="defaultCtentryPopulator" alias="ctentryPopulator"/>
+    <bean name="defaultCtentryPopulator" class="com.serpics.catalog.facade.CtentryPopulator" />
+    
     <alias name="defaultCtentryConverter" alias="ctentryConverter"/>
 	<bean name="defaultCtentryConverter" parent="abstractConverter">
 	<property name="targetClass" value="com.serpics.catalog.facade.data.CtentryData"/>
 	</bean>
+	
 	
 	<alias name="defaultCategoryPopulator" alias="categoryPopulator"/>
     <bean name="defaultCategoryPopulator" class="com.serpics.catalog.facade.CategoryPopulator" >
@@ -105,6 +110,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <property name="targetClass" value="com.serpics.catalog.facade.data.CategoryData"/>
     <property name="populators">
       <list>
+          <ref bean="ctentryPopulator"/>  
           <ref bean="categoryPopulator"/>  
       </list>
     </property>

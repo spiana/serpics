@@ -6,6 +6,7 @@
 		<class>com.serpics.warehouse.data.model.Warehouse</class>
 		<class>com.serpics.warehouse.data.model.Inventory</class>
 		<class>com.serpics.warehouse.data.model.WarehouseStoreConfig</class>
+		<class>com.serpics.warehouse.data.model.WarehouseAddress</class>
 	
 	
 	</persistence-unit>

@@ -1,6 +1,5 @@
 package com.serpics.membership.data.model;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -8,15 +7,13 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.annotations.DiscriminatorOptions;
-
 import com.serpics.base.data.model.Region;
 import com.serpics.util.gson.GsonTransient;
 
 @XmlRootElement(name="address")
 @Entity(name = "PermanentAddress")
-@DiscriminatorValue("PERMANENT")
-@DiscriminatorOptions(force = true)
+//@DiscriminatorValue("PERMANENT")
+//@DiscriminatorOptions(force = true)
 public class PermanentAddress extends AbstractAddress {
 
     private static final long serialVersionUID = 1L;

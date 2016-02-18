@@ -9,6 +9,6 @@ import com.serpics.core.service.EntityService;
 public interface RegionService extends EntityService<Region, Long>{
 
 	public Set<Region> getRegionByCountry(Long countryId);
-	public Region getRegionByName(String name);
+	public Region getRegionByCode(String isoCode);
 
 }

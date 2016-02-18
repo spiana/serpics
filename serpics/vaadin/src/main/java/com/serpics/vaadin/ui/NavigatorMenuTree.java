@@ -136,7 +136,7 @@ public class NavigatorMenuTree extends Tree
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
-		Resource[] resources = this.applicationContext.getResources("classpath*:META-INF/*-amc.xml");
+		Resource[] resources = this.applicationContext.getResources("classpath*:META-INF/*-navigator.xml");
 
 		for (Resource resource : resources) {
 				LOG.info("found smp definition file : {} with URL {}", resource.getFilename(), resource.getURL());

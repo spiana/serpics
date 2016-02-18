@@ -43,7 +43,7 @@ public class AddressServiceImpl extends AbstractCommerceEntityService<Address, L
 	AddressRepository addressRepository;
 
 	public Address create(Address entity , Member member) {
-		entity.setMember(member);
+		//entity.setMember(member);
 		return addressRepository.saveAndFlush(entity);
 	}
 	

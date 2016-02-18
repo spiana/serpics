@@ -379,7 +379,7 @@ public class PropertiesUtils implements ApplicationContextAware , InitializingBe
 		return null;	
 	}
 	
-	public void setFiledProperty(String entity, String propertyId , Field<?> field){
+	public void setFieldProperty(String entity, String propertyId , Field<?> field){
 		SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(entity, propertyId);
 		 if (def != null){
 			 String style = def.getStyle();

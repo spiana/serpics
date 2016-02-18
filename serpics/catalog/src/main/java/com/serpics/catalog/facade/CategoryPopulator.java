@@ -17,6 +17,7 @@ public class CategoryPopulator implements Populator<Category, CategoryData>    {
 	@Autowired
 	CategoryService categoryService;
 	
+	
 	@Override
 	public void populate(Category source, CategoryData target)  {
 		target.setUuid(source.getUuid());

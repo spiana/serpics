@@ -28,7 +28,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   
   
    <bean name="abstractStoreEntityMapping" class="com.serpics.core.data.InterceptorMapping" >
-	  <property name="targetEntity" value="com.serpics.membership.data.model.AbstractStoreEntity" />
+	  <property name="targetEntity" value="com.serpics.base.data.model.AbstractStoreEntity" />
 	  <property name="order" value="100"/>
 	  <property name="interceptor" ref="abstractStoreEntityInterceptor" />
  </bean> 
@@ -44,10 +44,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	  <property name="order" value="100"/>
 	  <property name="interceptor" ref="memberroleBeforeCreateInterceptor" />
  </bean>   
-     
-  
-
-	<bean name="userMapping" class="com.serpics.core.data.InterceptorMapping" >
+ 
+ 	<bean name="userMapping" class="com.serpics.core.data.InterceptorMapping" >
 		  <property name="targetEntity" value="com.serpics.membership.data.model.User" />
 		  <property name="order" value="100"/>
 		  <property name="interceptor" ref="userCreateInterceptor" />

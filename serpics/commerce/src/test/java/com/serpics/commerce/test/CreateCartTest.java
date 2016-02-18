@@ -155,7 +155,7 @@ public class CreateCartTest extends AbstractTransactionalJunit4SerpicTest {
         cart = cs.createSessionCart();
         assertEquals(3, cart.getCartitems().size());
         cs.prepareCart(cart);
-        assertEquals(4400.0, cart.getOrderAmount().doubleValue(), 0.0);
+        assertEquals(4100.0, cart.getOrderAmount().doubleValue(), 0.0);
 
         final Order or = orderService.createOrder(cart);
         assertNotNull("order not create", or);

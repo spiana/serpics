@@ -74,7 +74,7 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		
 		desc = new MultilingualString("it", "TEST");
 		Region r = new Region();
-		r.setName("TEST1");
+		r.setIsoCode("TEST1");
 		r.setCountry(c); 
 		r.setDescription(desc);
 		r = regionRepository.saveAndFlush(r);
@@ -103,7 +103,7 @@ public  class BaseTest  extends AbstractTransactionalJunit4SerpicTest{
 		 
 		 List<Region> lr = regionService.findAll();
 		 for (Region  region: lr) {
-				LOGGER.info("REGIONE" + region.getId() + "-" + region.getName() + " - " + region.getDescription().getText("it"));
+				LOGGER.info("REGIONE" + region.getId() + "-" + region.getIsoCode() + " - " + region.getDescription().getText("it"));
 		
 		}
 	}

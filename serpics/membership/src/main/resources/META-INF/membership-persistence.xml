@@ -22,5 +22,6 @@
 		<class>com.serpics.membership.data.model.PrimaryAddress</class>
 		<class>com.serpics.membership.data.model.PermanentAddress</class>
 		<class>com.serpics.membership.data.model.BillingAddress</class>
+		<class>com.serpics.membership.data.model.BaseAddress</class>
 	</persistence-unit>
 </persistence>

@@ -8,6 +8,7 @@
 		<property name="precedence"  table="true" />
 		<property name="inventoryThreshold" />
 		<property name="inventories"/>
+		<property name="address"/>
 		<property name="created" readonly="true" resolution="MINUTE"/>
 	</entity>
 	<entity name="inventory">

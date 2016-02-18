@@ -1,22 +1,16 @@
 package com.serpics.membership.data.model;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.hibernate.annotations.DiscriminatorOptions;
 
 import com.serpics.base.data.model.Region;
-import com.serpics.util.gson.GsonTransient;
 
 @XmlRootElement(name="address")
 @Entity(name = "BillingAddress")
-@DiscriminatorValue("BILLING")
-@DiscriminatorOptions(force = true)
+//@DiscriminatorValue("BILLING")
+//@DiscriminatorOptions(force = true)
 public class BillingAddress extends AbstractAddress {
 	private static final long serialVersionUID = -5977534397660544584L;
 
@@ -34,18 +28,14 @@ public class BillingAddress extends AbstractAddress {
     }
 
     // bi-directional many-to-one association to Member
-    @GsonTransient
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "member_id", nullable = false, updatable = false)
-    private Member member;
-
-
-    @XmlTransient
-    public Member getMember() {
-        return member;
+    @OneToOne(mappedBy="billingAddress" ,fetch = FetchType.LAZY, optional = false , targetEntity=User.class)
+    private User member;
+  
+    public User getUser() {
+        return  member;
     }
 
-    public void setMember(final Member member) {
+    public void setUser(final User member) {
         this.member = member;
     }
 

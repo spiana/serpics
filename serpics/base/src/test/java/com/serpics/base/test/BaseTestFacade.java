@@ -105,14 +105,15 @@ public class BaseTestFacade extends AbstractTransactionalJunit4SerpicTest{
 //		CountryData c = countryFacade.findAll(new PageRequest(0, 10)).getContent().get(0);
 		RegionData r = new RegionData();
 		r.setDescription("PIEMONTE");
-		r.setName("PIEMONTE");
-//		r.setCountry(c);
+		r.setIsoCode("PIEMONTE");
+
 		regionFacade.addRegion(r);
 		
 		r = new RegionData();
 		r.setDescription("LOMBARDIA");
+
 		r.setName("LOMBARDIA");
-//		r.setCountry(c);
+		r.setIsoCode("LOMBARDIA");
 		regionFacade.addRegion(r);
 		
 	}
@@ -130,7 +131,7 @@ public class BaseTestFacade extends AbstractTransactionalJunit4SerpicTest{
 		
 		Page<RegionData> lr = regionFacade.findAll(new PageRequest(0,10));
 		Assert.assertNotNull("Region list  is null" , lr);
-		Assert.assertNotNull("not name set" , lr.getContent().get(0).getName());
+		Assert.assertNotNull("not name set" , lr.getContent().get(0).getIsoCode());
 	}
 	
 	@Test

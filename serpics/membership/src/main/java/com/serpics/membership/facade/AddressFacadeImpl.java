@@ -42,8 +42,8 @@ public class AddressFacadeImpl implements AddressFacade{
 		destination.setMobile(source.getMobile());
 		destination.setPhone(source.getPhone());
 
-		if ((source.getRegion() != null) && (source.getRegion().getName() != null)){
-			destination.setRegion(regionService.getRegionByName(source.getRegion().getName()));
+		if ((source.getRegion() != null) && (source.getRegion().getIsoCode() != null)){
+			destination.setRegion(regionService.getRegionByCode(source.getRegion().getIsoCode()));
 		} else {
 			destination.setRegion(null);
 		}
@@ -58,7 +58,7 @@ public class AddressFacadeImpl implements AddressFacade{
 	@Override
 	public Address addressDataToAddress(AddressData addressData, User user){
 		Address address = (Address) buildAddress(addressData, new Address());
-		address.setMember(user);
+		//address.setMember(user);
 		return addressRepository.saveAndFlush(address);
 	}
 

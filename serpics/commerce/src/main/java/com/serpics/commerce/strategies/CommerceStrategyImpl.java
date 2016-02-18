@@ -24,7 +24,7 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
 				if (tx != null){
 					rate =tx.getRate() != null ? tx.getRate() :0D;
 				}
-				totalTax += CurrencyUtils.round(item.getSkuNetPrice() +  item.getSkuNetPrice()*rate/100);
+				totalTax += CurrencyUtils.round(item.getSkuNetPrice()*rate/100);
     		}
     		
     	}

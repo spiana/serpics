@@ -214,7 +214,7 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
 	public BillingAddress addBillingAddress(BillingAddress address, User user) {
 		Assert.notNull(user);
 		Assert.notNull(address);
-		address.setMember(user);
+		address.setUser(user);
 		if (user.getBillingAddress() != null){
 			billingAddressRepository.delete(user.getBillingAddress());
 		}

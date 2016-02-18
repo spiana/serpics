@@ -12,6 +12,26 @@
 		<property name="updated" readonly="true"/>
 	</entity>
 
+	<entity name="region">
+		<property name="isoCode" table="true" select="true" search="true"/>
+<!-- 		<property name="name" table="true" search="true"/> -->
+		<property name="description" table="true" />
+		<property name="country" width="30%"/>
+		<property name="created"  readonly="true"/>
+		<property name="updated" readonly="true"/>
+	</entity>
+	<entity name="district">
+		<property name="isoCode" table="true" select="true" search="true"/>
+<!-- 		<property name="name" table="true" search="true"/> -->
+		<property name="description" table="true" />
+		<property name="country.iso2Code" width="30%" edit="false" table="true"/>
+		<property name="region.isoCode" width="30p%" edit="false" table="true"/>
+		<property name="country" width="30%"/>
+		<property name="region" width="30p%"/>
+		<property name="created"  readonly="true"/>
+		<property name="updated" readonly="true"/>
+	</entity>
+
 	<entity name="currency">
 		<property name="isoCode" table="true"  search="true" select="true"/>
 		<property name="descriprion"  table="true" search="true" />

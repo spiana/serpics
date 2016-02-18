@@ -10,7 +10,7 @@ import com.serpics.core.data.Repository;
 
 public interface RegionRepository extends Repository<Region, Long> {
 	
-	@Query("select r from Region r where r.name = :name")
-	public Region getRegionByName(@Param("name") String name);
+	@Query("select r from Region r where r.isoCode = :code")
+	public Region getRegionByCode(@Param("code") String isoCode);
 
 }
