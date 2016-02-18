@@ -143,6 +143,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <property name="targetClass" value="com.serpics.catalog.facade.data.BrandData"/>
     <property name="populators">
       <list>
+      	  <ref bean="ctentryPopulator"/>  
           <ref bean="brandPopulator"/>  
       </list>
     </property>
