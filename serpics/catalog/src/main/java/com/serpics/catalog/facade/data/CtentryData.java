@@ -8,8 +8,8 @@ public class CtentryData extends AbstractData{
 	protected String name;
 	protected String description;
 	protected int published;
-	protected String meta_description;
-	protected String meta_keyword;
+	protected String metaDescription;
+	protected String metaKeyword;
 	
 	public String getCode() {
 		return code;
@@ -41,17 +41,17 @@ public class CtentryData extends AbstractData{
 	public void setPublished(int published) {
 		this.published = published;
 	}
-	public String getMeta_description() {
-		return meta_description;
+	public String getMetaDescription() {
+		return metaDescription;
 	}
-	public void setMeta_description(String meta_description) {
-		this.meta_description = meta_description;
+	public void setMetaDescription(String metaDescription) {
+		this.metaDescription = metaDescription;
 	}
-	public String getMeta_keyword() {
-		return meta_keyword;
+	public String getMetaKeyword() {
+		return metaKeyword;
 	}
-	public void setMeta_keyword(String meta_keyword) {
-		this.meta_keyword = meta_keyword;
+	public void setMetaKeyword(String metaKeyword) {
+		this.metaKeyword = metaKeyword;
 	}
 	
 }
