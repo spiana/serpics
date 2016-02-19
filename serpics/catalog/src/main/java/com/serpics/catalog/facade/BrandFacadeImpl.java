@@ -28,7 +28,7 @@ public class BrandFacadeImpl implements BrandFacade {
 
 	protected Brand buildBrand(BrandData brandData, Brand entity) {
 
-			entity.setCode(brandData.getName());
+			entity.setCode(brandData.getCode());
 			entity.setLogoSrc(brandData.getLogo());
 			entity.setPublished(brandData.isPublished());
 			

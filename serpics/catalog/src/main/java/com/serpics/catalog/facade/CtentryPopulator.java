@@ -16,11 +16,19 @@ public class CtentryPopulator implements Populator<Ctentry, CtentryData> {
 	public void populate(Ctentry source, CtentryData target) {
 		target.setCode(source.getCode());
 		target.setId(source.getId());
-		target.setName(source.getName().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
+		if (source.getName() != null){
+			target.setName(source.getName().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
+		}
 		target.setUuid(source.getUuid());
 		target.setCreated(source.getCreated());
 		target.setUpdated(source.getUpdated());
-		
+		if (source.getMetaDescription() != null ){
+			target.setMetaDescription(source.getMetaDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
+		}
+		if (source.getMetaKeyword() != null){
+			target.setMetaKeyword(source.getMetaKeyword().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
+		}
+
 		target.setUrl(source.getUrl());
 		if(source.getDescription() != null)
 			target.setDescription(source.getDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));

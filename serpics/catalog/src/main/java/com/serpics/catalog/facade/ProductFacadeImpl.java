@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.MultilingualText;
 import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.data.model.Brand;
@@ -304,8 +305,9 @@ public class ProductFacadeImpl implements ProductFacade {
 		destination.setWeightMeas(source.getWeightMeas());
 		//entity.setPrices(p);
 		destination.setBrand(b);
-		destination.setMetaDescription(source.getMetaDescription());
-		destination.setMetaKeyword(source.getMetaKey());
+		destination.setMetaDescription(new MultilingualString(locale, source.getMetaDescription()));
+		destination.setMetaKeyword(new MultilingualString(locale, source.getMetaKey()));
+		destination.setName(new MultilingualString(locale, source.getName()));
 		return destination;
 	}
 	

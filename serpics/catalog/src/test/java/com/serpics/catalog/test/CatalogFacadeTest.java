@@ -163,7 +163,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
      	catB.setDescription("BOTTOM");
      	catB.setUrl("http://prova cateogrty5");
      	catB.setMetaDescription("meta bo");
-     	catB.setMetaKey("bo");
+     	catB.setMetaKeyword("bo");
      	catB = categoryFacade.create(catB, catA.getId());
      	
      	listOfCategoriesForTest.put("BOTTOM",catB);
@@ -197,7 +197,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     private void createProduct() {
     	
     	BrandData b = new BrandData();
-    	b.setName("prodRANC");
+    	b.setCode("prodRANC");
     	b = brandFacade.addBrand(b);
     	
     	CategoryData c = categoryFacade.findCategoryByCode("BLUES");

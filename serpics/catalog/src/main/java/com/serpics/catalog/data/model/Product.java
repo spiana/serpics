@@ -95,12 +95,6 @@ public class Product extends Ctentry implements Serializable {
     @OneToMany(mappedBy = "childProduct", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class,cascade = CascadeType.REMOVE)
     @OrderBy("sequence desc")
     private Set<CategoryProductRelation> categories;
-
-    @Column(name = "meta_description")
-    private String metaDescription;
-
-    @Column(name = "meta_keyword")
-    private String metaKeyword;
     
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "taxcategory_id")
@@ -194,22 +188,6 @@ public class Product extends Ctentry implements Serializable {
 
     public void setFeatureValues(final Set<FeatureValues> featureValues) {
         this.featureValues = featureValues;
-    }
-
-    public String getMetaDescription() {
-        return metaDescription;
-    }
-
-    public void setMetaDescription(final String metaDescription) {
-        this.metaDescription = metaDescription;
-    }
-
-    public String getMetaKeyword() {
-        return metaKeyword;
-    }
-
-    public void setMetaKeyword(final String metaKeyword) {
-        this.metaKeyword = metaKeyword;
     }
 
 	public Set<CategoryProductRelation> getCategories() {

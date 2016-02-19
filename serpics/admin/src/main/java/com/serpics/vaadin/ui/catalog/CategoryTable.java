@@ -10,7 +10,6 @@ import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.TextArea;
 
 
 @VaadinComponent("categoryTable")
@@ -76,22 +75,6 @@ public class CategoryTable extends MasterTable<Category> {
                 super.init();
                 final String[] displayProperties = { "metaKeyword", "metaDescription" };
                 setDisplayProperties(displayProperties);
-            }
-
-            @Override
-            protected Field<?> createField(final String pid) {
-
-                if (pid.equals("metaDescription")) {
-                    final TextArea f = new TextArea();
-                    f.setRows(5);
-                    f.setNullRepresentation("");
-                    f.setWidth("80%");
-
-                    fieldGroup.bind(f, pid);
-
-                    return f;
-                }
-                return super.createField(pid);
             }
         }, I18nUtils.getMessage("seo",""));
 

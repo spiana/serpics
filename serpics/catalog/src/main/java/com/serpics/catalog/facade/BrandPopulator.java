@@ -16,11 +16,6 @@ public class BrandPopulator implements Populator<Brand, BrandData> {
 	public void populate(Brand source, BrandData target) {
 		if(source.getLogoSrc() != null)
 			target.setLogo(source.getLogoSrc());
-		target.setName(source.getCode());
-		target.setId(source.getId());
-		target.setUuid(source.getUuid());
-		target.setCreated(source.getCreated());
-		target.setUpdated(source.getUpdated());
 		target.setPublished(source.isPublished());
 		target.setBrandProductNumber(brandService.getBrandProduct(source));
 		

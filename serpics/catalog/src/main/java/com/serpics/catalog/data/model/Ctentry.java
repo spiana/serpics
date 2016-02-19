@@ -75,6 +75,13 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
    @OneToMany(mappedBy="ctentry" , fetch = FetchType.LAZY, cascade= CascadeType.REMOVE)
    protected Set<CtentryMedia> medias;
 
+   @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
+   @JoinColumn(name = "meta_description")
+   private MultilingualString metaDescription ;
+   
+   @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
+   @JoinColumn(name = "meta_keyword")
+   private MultilingualString metaKeyword ;
    
     public Long getId() {
         return this.id;
@@ -163,6 +170,22 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
 
 	public void setMedias(Set<CtentryMedia> medias) {
 		this.medias = medias;
+	}
+
+	public MultilingualString getMetaDescription() {
+		return metaDescription;
+	}
+
+	public void setMetaDescription(MultilingualString metaDescription) {
+		this.metaDescription = metaDescription;
+	}
+
+	public MultilingualString getMetaKeyword() {
+		return metaKeyword;
+	}
+
+	public void setMetaKeyword(MultilingualString metaKeyword) {
+		this.metaKeyword = metaKeyword;
 	}
 
 }

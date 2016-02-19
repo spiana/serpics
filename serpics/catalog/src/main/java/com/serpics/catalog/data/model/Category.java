@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,12 +34,6 @@ public class Category extends Ctentry implements Serializable {
     @OrderBy("sequence desc")
     private Set<CategoryProductRelation> childProducts;
 
-    @Column(name = "meta_description")
-    private String metaDescription;
-    
-	@Column(name = "meta_keyword")
-    private String metaKeyword;
-
     protected boolean published;
     
 	public Category() {
@@ -64,20 +57,6 @@ public class Category extends Ctentry implements Serializable {
         this.childCategories = childCategories;
     }
 
-    public String getMetaKeyword() {
-		return metaKeyword;
-	}
-
-	public void setMetaKeyword(String metaKeyword) {
-		this.metaKeyword = metaKeyword;
-	}
-	public String getMetaDescription() {
-		return metaDescription;
-	}
-
-	public void setMetaDescription(String metaDescription) {
-		this.metaDescription = metaDescription;
-	}
     @PrePersist
     @Override
     public void beforePersist() {

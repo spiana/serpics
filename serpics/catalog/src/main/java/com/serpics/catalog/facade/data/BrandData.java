@@ -1,13 +1,11 @@
 package com.serpics.catalog.facade.data;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.serpics.core.facade.AbstractData;
 
 @JsonPropertyOrder({"id","name","logo","published","brandProductNumber"})
-public class BrandData extends AbstractData{
+public class BrandData extends CtentryData{
 		
     protected String logo; //The Logo of the brand
-    protected String name; //The Name of the brand
     protected int brandProductNumber; //the number of product of the brand
     protected boolean published; //brand published boolean
 	
@@ -16,12 +14,6 @@ public class BrandData extends AbstractData{
 	}
 	public void setLogo(String logo) {
 		this.logo = logo;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	public int getBrandProductNumber() {

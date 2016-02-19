@@ -42,12 +42,6 @@ public class ProductPopulator implements Populator<Product, ProductData> {
 	@Override
 	public void populate(Product source, ProductData target) {
 		
-		target.setCode(source.getCode());
-		target.setUuid(source.getUuid());
-		target.setId(source.getId());
-		target.setCreated(source.getCreated());
-		target.setUpdated(source.getUpdated());
-		
 		target.setBuyable(source.isBuyable());
 		//target.setDowloadable(source.getDownlodable());
 		target.setManufacturSku(source.getManufacturerSku());
@@ -55,9 +49,6 @@ public class ProductPopulator implements Populator<Product, ProductData> {
 		target.setUnitMeas(source.getUnitMeas());
 		target.setWeight(source.getWeight());
 		target.setWeightMeas(source.getWeightMeas());
-		
-		target.setMetaKey(source.getMetaKeyword());
-		target.setMetaDescription(source.getMetaDescription());
 		
 		try {
 			Price price = priceService.findProductPrice(source);
@@ -68,10 +59,6 @@ public class ProductPopulator implements Populator<Product, ProductData> {
 		
 		if(source.getBrand() != null)
 			target.setBrand(brandConverter.convert(source.getBrand()));
-		
-		target.setUrl(source.getUrl());
-		if(source.getDescription() != null)
-			target.setDescription(source.getDescription().getText("it"));
 		
 		if(source.getMedias() != null) {
 			Set<MediaData> medias = new HashSet<MediaData>();
