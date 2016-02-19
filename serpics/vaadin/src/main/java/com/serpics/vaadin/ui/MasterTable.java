@@ -72,6 +72,14 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		this.entityClass = entityClass;
 		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(entityClass));
 		
+		addAttachListener(new AttachListener() {
+			
+			@Override
+			public void attach(AttachEvent event) {
+				if (container != null)
+					container.refresh();
+			}
+		});
 	}
 
 	@Override
@@ -158,11 +166,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			public void valueChange(final com.vaadin.data.Property.ValueChangeEvent event) {
 				if (event.getProperty().getValue() == null)
 					return;
-				// editorWindow.setReadOnly(true);
-				// editorWindow.setNewItem(false);
-				// editorWindow.setEntityItem(cont.getItem(entityList.getValue()));
-				//
-				// UI.getCurrent().addWindow(editorWindow);
 			}
 		});
 		
@@ -251,22 +254,18 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		deleteButton = new Button(I18nUtils.getMessage("smc.button.remove", "Remove"));		
 		masterTableListner.get().deleteButtonClickListener(container, entityList, deleteButton);
 		editButtonPanel.addComponent(deleteButton);	
-//		editButtonPanel.setExpandRatio(newButton, 0.10F);
-//		editButtonPanel.setExpandRatio(editButton, 0.10F);
-//		editButtonPanel.setExpandRatio(deleteButton, 0.10F);
 		
 		if(searchFormEnable){
 			final TextField serchField = (TextField) masterTableListner.get().buildFilterField();				
 			masterTableListner.get().filterAllContainerJPA(container, serchField, this.searchProperties);
 			serchField.setWidth("100%");
-			searchPanel.setWidth("70%");
 			searchPanel.addComponent(serchField);
 			searchPanel.setExpandRatio(serchField, 1F);
-			editButtonPanel.addComponent(searchPanel);
-			editButtonPanel.setExpandRatio(searchPanel, 0.70F);
 			//editButtonPanel.addComponent(_advanceSearch);
 	    }
-
+		searchPanel.setWidth("70%");
+		editButtonPanel.addComponent(searchPanel);
+		editButtonPanel.setExpandRatio(searchPanel, 0.70F);
 		
 		
 

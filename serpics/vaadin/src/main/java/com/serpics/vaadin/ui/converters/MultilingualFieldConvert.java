@@ -5,18 +5,18 @@ package com.serpics.vaadin.ui.converters;
 
 import com.serpics.base.data.model.MultilingualField;
 import com.vaadin.data.util.converter.Converter;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.Field;
 public class MultilingualFieldConvert implements Converter<String, MultilingualField> {
     private static final long serialVersionUID = 1L;
   
-    TextField textField;
+    Field<?> textField;
     
     public MultilingualFieldConvert() {
   		super();
   	
   	}
     
-    public MultilingualFieldConvert(TextField field) {
+    public MultilingualFieldConvert(Field<?> field) {
 		super();
 		this.textField = field;
 	}

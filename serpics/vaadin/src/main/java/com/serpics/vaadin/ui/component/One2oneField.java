@@ -1,14 +1,11 @@
 package com.serpics.vaadin.ui.component;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +37,6 @@ public class One2oneField<M, T> extends CustomField<T> {
 	private transient EntityItem<T> entityItem;
 	private transient EntityItem<M> masterEntity;
 	private transient Object parentPropertyId;
-	private transient Object backReferencePropertyId;
-
 
 	private FieldGroup fieldGroup ;
 
@@ -52,7 +47,6 @@ public class One2oneField<M, T> extends CustomField<T> {
 		
 		this.masterEntity = item;
 		this.parentPropertyId = parentPropertyId;
-		this.backReferencePropertyId = getMappedByProperty(this.parentPropertyId.toString());
 		
 	
 	}
@@ -110,7 +104,6 @@ public class One2oneField<M, T> extends CustomField<T> {
 					.getAnnotation(Id.class) == null)
 				if (propertyList.getClassMetadata().getProperty(pid)
 						.getAnnotation(EmbeddedId.class) == null)
-					if (!pid.equals(backReferencePropertyId.toString()))
 						if (!hideProperties.contains(pid))
 							layout.addComponent(createField(pid));
 		}
@@ -185,88 +178,6 @@ public class One2oneField<M, T> extends CustomField<T> {
 		}
 	}
 
-	protected  String getMappedByProperty(String propertyName)
-	  {
-	    String r = findAnnotatedField(masterEntity.getItemProperty(propertyName).getType(), propertyName);
-		if (r != null)
-			return r;
-		
-	    return getType().getSimpleName().toLowerCase(); //if not found mappedBy is not bidirectional
-	  }
 	
-	private String findAnnotatedField( Class<?> clazz , String mappedProperty){
-		for ( java.lang.reflect.Field field :clazz.getDeclaredFields()){
-			if (field.isAnnotationPresent(OneToOne.class)){
-				OneToOne otm = (OneToOne) field.getAnnotation(OneToOne.class);
-				if (otm.mappedBy().equals(mappedProperty))
-					return field.getName();
-			}
-		}
-		if (clazz.getSuperclass() != null)
-			return findAnnotatedField(clazz.getSuperclass(), mappedProperty);
-					
-		return null;
-	}
 	
-	 private <A extends Annotation> A getAnnotationForProperty(Class<A> annotationType, Class<?> entityClass, String propertyName)
-	  {
-	    Annotation annotation = getAnnotationFromPropertyGetter(annotationType, entityClass, propertyName);
-	    
-	    if (annotation == null) {
-	      annotation = getAnnotationFromField(annotationType, entityClass, propertyName);
-	    }
-	    return (A) annotation;
-	  }
-	 
-	 private  <A extends Annotation> A getAnnotationFromField(Class<A> annotationType, Class<?> entityClass, String propertyName)
-	  {
-	    java.lang.reflect.Field  field = null;
-	    try
-	    {
-	      field = entityClass.getDeclaredField(propertyName);
-	 
-	    }
-	    catch (Exception e)
-	    {
-	    		
-	    }
-	    if ((field != null) && (field.isAnnotationPresent(annotationType))) {
-	      return field.getAnnotation(annotationType);
-	    } else{
-	    	if (entityClass.getSuperclass() != null )
-	    		return getAnnotationFromField(annotationType, entityClass.getSuperclass(), propertyName);
-	    }
-	    return null;
-	  }
-
-	  private  <A extends Annotation> A getAnnotationFromPropertyGetter(Class<A> annotationType, Class<?> entityClass, String propertyName)
-	  {
-	    Method getter = null;
-	    try {
-	      getter = entityClass.getMethod("get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1), new Class[0]);
-	    }
-	    catch (Exception e)
-	    {
-	      try
-	      {
-	        getter = entityClass.getMethod("is" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1), new Class[0]);
-	      }
-	      catch (Exception e1)
-	      {
-	      }
-	    }
-
-	    if ((getter != null) ) {
-	      if  (getter.isAnnotationPresent(annotationType))
-	    	  return getter.getAnnotation(annotationType);
-	      else{
-	    	  if (entityClass.getSuperclass() != null )
-	    		return getAnnotationFromPropertyGetter(annotationType, entityClass.getSuperclass(), propertyName);	  
-	    	else
-	    		  return getAnnotationFromField(annotationType, getter.getDeclaringClass(), propertyName);
-	      }
-	    }
-	    return null;
-	  }
-
 }

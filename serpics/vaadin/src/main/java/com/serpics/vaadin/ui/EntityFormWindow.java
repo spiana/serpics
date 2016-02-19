@@ -7,8 +7,8 @@ import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
-import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
@@ -42,18 +42,21 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     private Button saveButton;
     private Button cancelButton;
+    private Button createButton;
     
-    private transient EntityContainer<T> container;
-    private transient EntityItem<T> item;
-
+    private boolean  singletab = true ;
+   private transient EntityItem<T> item;
+  
+    private transient VerticalLayout vl = new VerticalLayout();
+    
     public EntityFormWindow() throws SecurityException {
     	setCaption("caption");
-        build();
+
     }
 
     public EntityFormWindow(String Caption) throws SecurityException {
        		I18nUtils.getMessage(Caption, Caption);
-       		build();
+       		setImmediate(true);
     }
     interface saveListener extends Listener {
     }
@@ -73,9 +76,14 @@ public class EntityFormWindow<T> extends Window implements Handler {
     @SuppressWarnings("serial")
     protected void build() {
     	
-        final VerticalLayout vl = new VerticalLayout();
+    	vl.removeAllComponents();
+    	tabSheet.removeAllComponents();
+    	
         vl.setSizeFull();
         vl.addStyleName("v-windows-contents");
+        
+        vl.removeAllComponents();
+        
         setContent(vl);
 
         tabSheet.setSizeFull();
@@ -86,10 +94,14 @@ public class EntityFormWindow<T> extends Window implements Handler {
         vl.addComponent(tabSheet);
         vl.setExpandRatio(tabSheet, 1);
 
-        saveButton = new Button("Save");
-        saveButton.addStyleName("primary");
-        cancelButton = new Button("Cancel");
-
+        if (isNewItem()){
+        	createButton = new Button("Create");
+        	createButton.addStyleName("primary");
+        }else{
+        	saveButton = new Button("Save");
+        	saveButton.addStyleName("primary");
+        	cancelButton = new Button("Cancel");
+        }
       
      
         
@@ -100,12 +112,18 @@ public class EntityFormWindow<T> extends Window implements Handler {
         
         Label toolBarText = new Label();
         bottomToolBar.addComponent(toolBarText);
-        bottomToolBar.addComponent(saveButton);
-        bottomToolBar.addComponent(cancelButton);
-       
+        if(!isNewItem()) {
+        	bottomToolBar.addComponent(saveButton);
+        	bottomToolBar.addComponent(cancelButton);
+        	 bottomToolBar.setExpandRatio(saveButton, 0.20F);
+             bottomToolBar.setExpandRatio(cancelButton, 0.20F);
+        }else{
+        	bottomToolBar.addComponent(createButton);
+        
+        	bottomToolBar.setExpandRatio(createButton, 0.40F);
+        }
         bottomToolBar.setExpandRatio(toolBarText, 0.60F);
-        bottomToolBar.setExpandRatio(saveButton, 0.20F);
-        bottomToolBar.setExpandRatio(cancelButton, 0.20F);
+        
         vl.addComponent(bottomToolBar);
        
         
@@ -115,39 +133,58 @@ public class EntityFormWindow<T> extends Window implements Handler {
         setResizable(true);
         addStyleName("color1");
        
-        
-        cancelButton.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-
-                MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "se sicuro di abbandonare tutte le modifiche ?",
-                        new MessageBoxListener() {
-                    @Override
-                    public void buttonClicked(final ButtonId buttonId) {
-                        if (buttonId.compareTo(ButtonId.YES) == 0) {
-                            discardAllComponent();
-                            close();
-                        }
-                    }
-
-                }, ButtonId.NO, ButtonId.YES);
-
-            }
-        });
-
-        saveButton.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-
-                if (validateAllFormComponent()) {
-                    saveAllComponent();
-                    close();
-                }
-            }
-        });
-
+        if (!isNewItem()){
+	        cancelButton.addClickListener(new Button.ClickListener() {
+	
+	            @Override
+	            public void buttonClick(final ClickEvent event) {
+	
+	                MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "se sicuro di abbandonare tutte le modifiche ?",
+	                        new MessageBoxListener() {
+	                    @Override
+	                    public void buttonClicked(final ButtonId buttonId) {
+	                        if (buttonId.compareTo(ButtonId.YES) == 0) {
+	                            discardAllComponent();
+	                            close();
+	                        }
+	                    }
+	
+	                }, ButtonId.NO, ButtonId.YES);
+	
+	            }
+	        });
+	
+	        saveButton.addClickListener(new Button.ClickListener() {
+	
+	            @Override
+	            public void buttonClick(final ClickEvent event) {
+	
+	                if (validateAllFormComponent()) {
+	                   if( saveAllComponent());
+	                    	close();	
+	                }
+	            }
+	        });
+        }else{
+        	createButton.addClickListener(new Button.ClickListener() {
+        		
+	            @Override
+	            public void buttonClick(final ClickEvent event) {
+	
+	                if (validateAllFormComponent()) {
+	                    if (saveAllComponent()){
+	                    	if (!singletab){
+	                    		setNewItem(false);
+	                    		initContent();
+	                    	}else
+	                    		close();
+	                    	
+	                    }
+	                }
+	            }
+	        });
+        }
+        	
         addActionHandler(this);
     }
 
@@ -194,7 +231,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
     }
 
     @SuppressWarnings("rawtypes")
-    private void saveAllComponent() {
+    private boolean saveAllComponent() {
         fireEvent(new saveEvent(this));
         try {
             for (final EntityComponent component : componentList) {
@@ -203,12 +240,13 @@ public class EntityFormWindow<T> extends Window implements Handler {
                         ((EntityComponent) component).save();
                 }
             }
+            if (!item.isPersistent())
+            	item = item.getContainer().getItem(item.getItemProperty(getItemPrimaryIdproperty()).getValue());
+            return true;
         } catch (final CommitException e) {
-        	if (container != null )
-        		container.removeItem(item.getItemId());
-        	
             e.printStackTrace();
         }
+        return false;
     }
 
 
@@ -228,7 +266,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     public void addTab(final EntityComponent<?> component, final String caption) {
         component.init();
-        tabSheet.addTab(component, caption);
+        component.setCaption(caption);
         componentList.add(component);
     }
 
@@ -247,29 +285,32 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void setEntityItem(final EntityItem entityItem) {
-//    	if(entityItem.isPersistent())
-//    		entityItem.getContainer().refresh();
-//    	
     	this.item = entityItem;
-    	
-        for (final EntityComponent c : componentList) {
-            if (c instanceof EntityComponentChild) {
-                if (!newItem)
-                    ((EntityComponentChild) c).setParentEntity(entityItem);
-            } else if (c instanceof EntityFormComponent)
-                ((EntityFormComponent) c).setEntityItem(entityItem);
-
-        }
+        initContent();
     }
 
-    @Override
-    public void attach() {
+    public void initContent() {
+    	
+    	build();
+    	
+    	for (final EntityComponent c : componentList) {
+            if (c instanceof EntityComponentChild) {
+                if (!newItem)
+                    ((EntityComponentChild) c).setParentEntity(this.item);
+            } else if (c instanceof EntityFormComponent)
+                ((EntityFormComponent) c).setEntityItem(this.item);
 
-        if (readOnly) {
-            saveButton.setEnabled(false);
-        } else
-            saveButton.setEnabled(true);
-
+          
+            tabSheet.addTab(c, c.getCaption());
+        }
+   	
+    	if (!isNewItem()){
+	        if (readOnly) {
+	            saveButton.setEnabled(false);
+	        } else
+	            saveButton.setEnabled(true);
+    	}
+    	
         int position = 0;
         for (@SuppressWarnings("rawtypes")
         final EntityComponent c : componentList) {
@@ -289,8 +330,13 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
             position++;
         }
+        singletab = (position==1);
+        
         tabSheet.setSelectedTab(0);
-        super.attach();
+    }
+    
+    private String getItemPrimaryIdproperty(){
+    	return MetadataFactory.getInstance().getEntityClassMetadata(item.getEntity().getClass()).getIdentifierProperty().getName();
     }
 
     @Override
@@ -314,13 +360,5 @@ public class EntityFormWindow<T> extends Window implements Handler {
     public int getTabComponentCount() {
         return tabSheet.getComponentCount() ;
     }
-
-	public EntityContainer<T> getContainer() {
-		return container;
-	}
-
-	public void setContainer(EntityContainer<T> container) {
-		this.container = container;
-	}
 
 }

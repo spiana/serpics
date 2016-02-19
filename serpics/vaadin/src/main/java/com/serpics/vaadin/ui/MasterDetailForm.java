@@ -14,12 +14,10 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
 
     private transient EntityItem<MASTER> masterEntity;
     private transient Object parentPropertyId;
- //   private transient Object backReferencePropertyId;
   
     public MasterDetailForm(final Class<DETAIL> clazz) {
         super(clazz);
     }
-
 
     @SuppressWarnings({ "unchecked" })
 	@Override
@@ -32,15 +30,12 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
 					.getItemProperty(parentPropertyId).getType());
 		if (value == null){
 			this.entityItem = createEntityItem(container);
-			//if (entityItem.getItemProperty(backReferencePropertyId) != null)
-			//	this.entityItem.getItemProperty(backReferencePropertyId).setValue(masterEntity.getEntity());
 		}else{
 			this.entityItem = container.getItem(container.getEntityProvider()
 				.getIdentifier(value));
 		}
         buildContent();
     }
-    
     
 	private EntityItem<DETAIL> createEntityItem(JPAContainer<DETAIL> container) {
 
@@ -80,8 +75,6 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
 	  {
     	return StringUtils.uncapitalize(masterEntity.getEntity().getClass().getSimpleName());
 	  }
-
-    
 	  	@SuppressWarnings("unchecked")
 		public Class<? extends DETAIL> getType() {
 			return masterEntity.getItemProperty(parentPropertyId).getType();

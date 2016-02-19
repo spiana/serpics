@@ -226,7 +226,6 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	      EntityItem<X> item = this.container.createEntityItem(newInstance);
 		 
 		  EntityFormWindow<X> editorWindow = new EntityFormWindow<X>();
-		  editorWindow.setContainer(this.container);
 		  editorWindow.setNewItem(true);
 	      editorWindow.setReadOnly(false);
 	      editorWindow.addTab(buildMainComponent(), "main");
@@ -248,7 +247,6 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 			 EntityFormWindow<X> editorWindow = new EntityFormWindow<X>();
 		      editorWindow.setNewItem(false);
 		      editorWindow.setReadOnly(false);
-		      editorWindow.setContainer(this.container);
 		      editorWindow.addTab(buildMainComponent(), "main");
 		      editorWindow.setEntityItem(this.container.getItem(item));
 		      UI.getCurrent().addWindow(editorWindow);

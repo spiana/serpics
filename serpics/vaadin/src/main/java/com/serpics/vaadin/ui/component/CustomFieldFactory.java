@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
+import com.serpics.base.data.model.MultilingualText;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.converters.AttributeTypeDateConverter;
@@ -33,6 +34,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
 public class CustomFieldFactory extends DefaultFieldFactory{
@@ -79,11 +81,18 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	}
     	
         if (Multilingual.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
-        	Field<?> f = super.createField(item, propertyId, uiContext);
-            ((TextField) f).setConverter(new MultilingualFieldConvert((TextField)f));
-            f.setWidth(FIELD_WIDTH);
-            ((TextField) f).setNullRepresentation("");
-            return f;
+        	if (MultilingualText.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
+        		RichTextArea f = new RichTextArea();
+        		f.setConverter(new MultilingualFieldConvert(f));
+        		  f.setWidth(FIELD_WIDTH);
+        		return f;
+        	}else{
+	        	Field<?> f = super.createField(item, propertyId, uiContext);
+	            ((TextField) f).setConverter(new MultilingualFieldConvert((TextField)f));
+	            f.setWidth(FIELD_WIDTH);
+	            ((TextField) f).setNullRepresentation("");
+	            return f;
+        	}
         }
         
         if (MultiValueField.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){

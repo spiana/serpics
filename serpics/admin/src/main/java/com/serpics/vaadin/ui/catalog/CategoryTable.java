@@ -8,7 +8,6 @@ import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
-import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
@@ -105,8 +104,7 @@ public class CategoryTable extends MasterTable<Category> {
     @Override
     public void init() {
         super.init();
-        setPropertyToShow(new String[] { "code", "name", "description" , "published"});
-        entityList.setConverter("description", new MultilingualFieldConvert());
-    }
+        setPropertyToShow(new String[] { "code", "name" , "published"});
+      }
 
 }

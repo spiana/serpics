@@ -49,7 +49,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(clazz));
 		this.entityClass = clazz;
 		setWidth("100%");
-		setImmediate(false);
+		setImmediate(true);
 		setMargin(true);
 		setSpacing(true);
 	}
@@ -135,6 +135,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 							Field<?> f = createField(pid);
 							if (readOnlyProperties.contains(pid))
 								f.setReadOnly(true);
+						
 							addComponent(f);
 						}
 					}
@@ -158,6 +159,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
+	
 		f.addValidator(new BeanValidator(entityClass, pid));
 	
 		String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + pid, null);
