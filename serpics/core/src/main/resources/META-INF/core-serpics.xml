@@ -49,5 +49,7 @@ http://www.springframework.org/schema/aop
 
 <bean name="abstractConverter" class="com.serpics.core.facade.AbstractPopulatingConverter" abstract="true"/>
 <bean name="memberService" class="com.serpics.core.service.FakeMembershipService" abstract="false"  scope="store" />
+
+<bean name="serpicsPublisherEvent" class="com.serpics.core.event.SerpicsPublisherEvent" />
  </beans>    
 
