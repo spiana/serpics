@@ -11,9 +11,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.model.MultilingualText;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.services.BrandService;
+import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.Engine;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.stereotype.StoreFacade;
 
@@ -22,17 +26,29 @@ import com.serpics.stereotype.StoreFacade;
 public class BrandFacadeImpl implements BrandFacade {
 	@Autowired
 	BrandService brandService;
+	
+	@Autowired
+	Engine<CommerceSessionContext> engine;
 
 	@Resource(name = "brandConverter")
 	AbstractPopulatingConverter<Brand, BrandData> brandConverter;
 
-	protected Brand buildBrand(BrandData brandData, Brand entity) {
+	protected Brand buildBrand(BrandData brandData, Brand brand) {
 
-			entity.setCode(brandData.getCode());
-			entity.setLogoSrc(brandData.getLogo());
-			entity.setPublished(brandData.isPublished());
-			
-		return entity;
+		brand.setCode(brandData.getCode());
+		brand.setLogoSrc(brandData.getLogo());
+		brand.setPublished(brandData.isPublished());
+		
+		String locale = engine.getCurrentContext().getLocale().getLanguage();
+		final MultilingualText description = new MultilingualText(locale, brandData.getDescription());
+		
+		brand.setDescription(description);
+
+		brand.setMetaDescription(new MultilingualString(locale, brandData.getMetaDescription()));
+		brand.setMetaKeyword(new MultilingualString(locale, brandData.getMetaKeyword()));
+		brand.setName(new MultilingualString(locale, brandData.getName()));
+		return brand;
+
 	}
 
 	@Override
@@ -69,14 +85,14 @@ public class BrandFacadeImpl implements BrandFacade {
 		Page<BrandData> list = new PageImpl<BrandData>(l, page, brands.getTotalElements());
 		return list;
 	}
-	
+
 	@Override
 	public List<BrandData> listBrand() {
 		List<BrandData> l = new ArrayList<BrandData>();
 		List<Brand> brands = brandService.findAll();
 		for (Brand brand : brands) {
 			l.add(brandConverter.convert(brand));
-		}	
+		}
 		return l;
 	}
 
@@ -89,11 +105,11 @@ public class BrandFacadeImpl implements BrandFacade {
 	}
 
 	@Override
-	public BrandData findBrandByName(String name) {
+	public BrandData findBrandByCode(String code) {
 
 		Brand brand = null;
 		BrandData brandData = null;
-		brand = brandService.findOneByName(name);
+		brand = brandService.findOneByCode(code);
 
 		if (brand != null) {
 			brandData = brandConverter.convert(brand);

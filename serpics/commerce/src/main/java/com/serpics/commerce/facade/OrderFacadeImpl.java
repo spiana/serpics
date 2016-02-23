@@ -7,6 +7,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.ProductNotFoundException;
@@ -112,26 +115,34 @@ public class OrderFacadeImpl implements OrderFacade {
 			throws InventoryNotAvailableException, ProductNotFoundException {
 		cartFacade.addBillingAddress(cartData.getBillingAddress());
 		cartFacade.addShippingAddress(cartData.getShippingAddress());
-		
+
 		if (cartData.getShipmode() != null) {
 			if (cartData.getShipmode().getName() != null) {
 				cartService.addShipmode(cartData.getShipmode().getName());
 			}
 		}
 
-		if (cartData.getPaymethod() != null){
+		if (cartData.getPaymethod() != null) {
 			if (cartData.getPaymethod().getName() != null) {
 				cartService.addPaymethod(cartData.getPaymethod().getName());
 			}
 		}
 
-		
 		Set<CartItemData> cartItemsData = cartData.getOrderItems();
 		for (CartItemData item : cartItemsData) {
 			cartService.cartAdd(item.getSku(), item.getQuantity(), cart, true);
 		}
 
 		return cart;
+	}
+
+	@Override
+	public Page<OrderData> getPagedOrders(Pageable page) {
+
+		List<OrderData> listOrders = getOrders();
+		Page<OrderData> list = new PageImpl<OrderData>(listOrders, page, listOrders.size());
+		return list;
+
 	}
 
 }

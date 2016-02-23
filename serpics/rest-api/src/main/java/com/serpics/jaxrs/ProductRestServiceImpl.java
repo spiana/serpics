@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -61,16 +62,17 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @param 	productDataRequest The product to insert
      * @param 	categoryId The category id of product
      * @param 	brandId The brand of product
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{category}/{brand}")
+	@Path("product/{categoryId}/{brandId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insert(ProductDataRequest productDataRequest, @PathParam("category") Long categoryId,
-			@PathParam("brand") Long brandId) {
+	public Response insert(ProductDataRequest productDataRequest, @PathParam("categoryId") Long categoryId,
+			@PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid) {
 		
 
 		Assert.notNull(categoryId);
@@ -104,15 +106,16 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: insertCategory(ProductDataRequest productDataRequest,Long categoryId)
      * @param 	productDataRequest The product to insert
      * @param 	categoryId The category id of product
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/category/{category}")
+	@Path("/category/{categoryId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insertCategory(ProductDataRequest productDataRequest, @PathParam("category") Long categoryId) {
+	public Response insertCategory(ProductDataRequest productDataRequest, @PathParam("categoryId") Long categoryId, @HeaderParam(value = "ssid") String ssid) {
 		
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
 		ProductData productData = new ProductData();
@@ -120,8 +123,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 		
 		try{
 			BeanUtils.copyProperties(productDataRequest, productData,new String[]{"brandName"});
-			if(!StringUtils.isEmpty(productDataRequest.getBrandName())){
-				BrandData brandData = brandFacade.findBrandByName(productDataRequest.getBrandName());
+			if(!StringUtils.isEmpty(productDataRequest.getCode())){
+				BrandData brandData = brandFacade.findBrandByCode(productDataRequest.getCode());
 				productData.setBrand(brandData);
 			}
 			Assert.notNull(productData);
@@ -146,15 +149,16 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: insertBrand(ProductDataRequest productDataRequest,Long brandId)
      * @param 	productDataRequest The product to insert
      * @param 	brandId The brand Id of product
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/brand/{brand}")
+	@Path("/brand/{brandId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insertBrand(ProductDataRequest productDataRequest, @PathParam("brand") Long brandId) {
+	public Response insertBrand(ProductDataRequest productDataRequest, @PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid) {
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
 		ProductData productData = new ProductData();
 		ResponseBuilder responseBuilder = null;
@@ -182,6 +186,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method inserts a product into catalog.
      * @summary  Method: insertBrand(ProductDataRequest productDataRequest)
      * @param 	productDataRequest The product to insert
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -189,7 +194,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response insert(ProductDataRequest productDataRequest) {
+	public Response insert(ProductDataRequest productDataRequest, @HeaderParam(value = "ssid") String ssid) {
 		
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
 		ProductData productData = new ProductData();
@@ -197,8 +202,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 		
 		try{
 			BeanUtils.copyProperties(productDataRequest, productData,new String[]{"brandName"});
-			if(!StringUtils.isEmpty(productDataRequest.getBrandName())){
-				BrandData brandData = brandFacade.findBrandByName(productDataRequest.getBrandName());
+			if(!StringUtils.isEmpty(productDataRequest.getCode())){
+				BrandData brandData = brandFacade.findBrandByCode(productDataRequest.getCode());
 				productData.setBrand(brandData);
 			}
 			Assert.notNull(productData);
@@ -222,6 +227,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method updates a product.
      * @summary  Method: update(ProductDataRequest productDataRequest)
      * @param 	productDataRequest The product to update
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -229,7 +235,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response update(ProductDataRequest productDataRequest) {
+	public Response update(ProductDataRequest productDataRequest, @HeaderParam(value = "ssid") String ssid) {
 		
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
 		ProductData productData = new ProductData();
@@ -237,8 +243,8 @@ public class ProductRestServiceImpl implements ProductRestService {
 		
 		try{
 			BeanUtils.copyProperties(productDataRequest, productData,new String[]{"brandName"});
-			if(!StringUtils.isEmpty(productDataRequest.getBrandName())){
-				BrandData brandData = brandFacade.findBrandByName(productDataRequest.getBrandName());
+			if(!StringUtils.isEmpty(productDataRequest.getCode())){
+				BrandData brandData = brandFacade.findBrandByCode(productDataRequest.getCode());
 				productData.setBrand(brandData);
 			}
 			Assert.notNull(productData);
@@ -262,6 +268,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method gets a product by productId.
      * @summary  Method: getProduct(Long productId)
      * @param 	productId The product Id to get
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      * @statuscode 200 Product found
      * @statuscode 404 Product not found
@@ -270,9 +277,9 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{product}")
+	@Path("/product/{productId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response getProduct(@PathParam("product") Long productId) {
+	public Response getProduct(@PathParam("productId") Long productId, @HeaderParam(value = "ssid") String ssid) {
 
 		// Assert.notNull(productId);
 
@@ -295,16 +302,17 @@ public class ProductRestServiceImpl implements ProductRestService {
     /**
      * This method deletes a product by productId.
      * @summary  Method: delete(Long productId)
-     * @param 	productId The product Id to delete
+     * @param 	productId The product Id to delete.
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{product}")
+	@Path("/product/{productId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response delete(@PathParam("product") Long productId) {
+	public Response delete(@PathParam("productId") Long productId, @HeaderParam(value = "ssid") String ssid) {
 		Assert.notNull(productId);
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
 		
@@ -318,6 +326,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * This method gets a list of category of a product by productId.
      * @summary  Method: getCategory(Long productId)
      * @param 	productId The product Id to search
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      * @statuscode 200 Product found
      * @statuscode 404 Product not found
@@ -326,9 +335,9 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("getCategory/{product}")
+	@Path("category/{productId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
-	public Response getCategory(@PathParam("product") Long productId) {
+	public Response getCategory(@PathParam("productId") Long productId, @HeaderParam(value = "ssid") String ssid) {
 		Assert.notNull(productId);
 
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
@@ -350,15 +359,16 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: addBrand(Long productId,Long brandId)
      * @param 	productId The product Id to add brand
      * @param 	brandId The brand Id to add
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("addBrand/{product}/{brand}")
+	@Path("brand/{productId}/{brandId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response addBrand(@PathParam("product") Long productId, @PathParam("brand") Long brandId) {
+	public Response addBrand(@PathParam("productId") Long productId, @PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid) {
 
 		Assert.notNull(productId);
 		Assert.notNull(brandId);
@@ -375,15 +385,16 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: addCategory(Long productId,Long categoryId)
      * @param 	productId The product Id to add category
      * @param 	categoryId The category Id to add
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("addCategory/{product}/{category}")
+	@Path("category/{productId}/{categoryId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response addCategory(@PathParam("product") Long productId, @PathParam("category") Long categoryId) {
+	public Response addCategory(@PathParam("productId") Long productId, @PathParam("categoryId") Long categoryId, @HeaderParam(value = "ssid") String ssid) {
 
 		Assert.notNull(productId);
 		Assert.notNull(categoryId);
@@ -400,15 +411,16 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: addPrice(Long productId, PriceDataRequest priceDataRequest)
      * @param 	productId The product Id to add price
      * @param 	priceDataRequest The price Id to add
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("addPrice/{product}")
+	@Path("addPrice/{productId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response addPrice(@PathParam("product") Long productId, PriceDataRequest priceDataRequest) {
+	public Response addPrice(@PathParam("productId") Long productId, PriceDataRequest priceDataRequest, @HeaderParam(value = "ssid") String ssid) {
 
 		Assert.notNull(productId);
 		
@@ -438,8 +450,9 @@ public class ProductRestServiceImpl implements ProductRestService {
     /**
      * This method gets a product by name.
      * @summary  Method: getProductByName(String name)
-     * @param 	name The name of product to search
+     * @param 	productName The name of product to search
      * @return Response		object type: apiRestResponse
+     * @param ssid The sessionId for the store authentication
      * @statuscode 200 Product found
      * @statuscode 404 Product not found
      */
@@ -447,14 +460,14 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("byCode/{product}")
+	@Path("name/{productName}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
-	public Response getProductByName(@PathParam("product") String name) {
-		Assert.notNull(name);
+	public Response getProductByName(@PathParam("productName") String productName, @HeaderParam(value = "ssid") String ssid) {
+		Assert.notNull(productName);
 		ProductData productData = null;
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
 
-		productData = productFacade.findByName(name);
+		productData = productFacade.findByName(productName);
 
 		if (productData != null) {
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
@@ -472,6 +485,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @summary  Method: findAll(int page, int size)
      * @param 	page The number of page requested 
      * @param 	size The size of product to display in a page
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -480,7 +494,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findAll(@QueryParam("page") @DefaultValue("0") int page,
-			@QueryParam("size") @DefaultValue("10") int size) {
+			@QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
 
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
@@ -495,16 +509,17 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @param 	categoryId The category Id to search
      * @param 	page The number of page requested
      * @param 	size The size of product to display in a page
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("pageCategory/{category}")
+	@Path("pageCategory/{categoryId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
-	public Response findByCategory(@PathParam("category") Long categoryId,
-			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size) {
+	public Response findByCategory(@PathParam("categoryId") Long categoryId,
+			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
 
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
@@ -519,6 +534,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @param 	brandId The brand Id to search
      * @param 	page The number of page requested
      * @param 	size The size of product to display in a page
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -528,7 +544,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Path("pageBrand/{brand}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findByBrand(@PathParam("brand") Long brandId, @QueryParam("page") @DefaultValue("0") int page,
-			@QueryParam("size") @DefaultValue("10") int size) {
+			@QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
 
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
@@ -543,6 +559,7 @@ public class ProductRestServiceImpl implements ProductRestService {
      * @param 	searchText The text to search into products
      * @param 	page The number of page requested
      * @param 	size The size of product to display in a page
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -552,7 +569,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Path("/search")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findBySearch(@QueryParam("searchText") @DefaultValue("") String searchText, @QueryParam("page") @DefaultValue("0") int page,
-			@QueryParam("size") @DefaultValue("10") int size) {
+			@QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
 
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 

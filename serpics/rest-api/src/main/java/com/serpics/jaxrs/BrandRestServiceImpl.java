@@ -109,6 +109,7 @@ public class BrandRestServiceImpl implements BrandRestService {
     /**
      * This method finds all brands into catalog, the response is a list of brands.
      * @summary  Method: findAllList()
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -129,7 +130,8 @@ public class BrandRestServiceImpl implements BrandRestService {
     /**
      * This method updates a brand.
      * @summary  Method: updateBrand(BrandDataRequest brandDataRequest)
-     * @param brandDataRequest The brand to update
+     * @param brandId The id of brand to update
+     * @param brandDataRequest The brand content to update
      * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
@@ -137,8 +139,9 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/id/{brandId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
-	public Response updateBrand(BrandDataRequest brandDataRequest, @HeaderParam(value = "ssid") String ssid ) {
+	public Response updateBrand(@PathParam("brandId") Long brandId,BrandDataRequest brandDataRequest, @HeaderParam(value = "ssid") String ssid ) {
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
 		BrandData brandData = new BrandData();
 		ResponseBuilder responseBuilder = null;
@@ -146,10 +149,11 @@ public class BrandRestServiceImpl implements BrandRestService {
 		try{
 			BeanUtils.copyProperties(brandDataRequest, brandData);
 			Assert.notNull(brandData, "brand can not be null !");
-			Assert.notNull(brandData.getId(), "brandId can not be null !");
-			BrandData brandDataAdded = brandFacade.updateBrand(brandData);
+			Assert.notNull(brandId, "brandId can not be null !");
+			brandData.setId(brandId);
+			BrandData brandDataUpdated = brandFacade.updateBrand(brandData);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-			apiRestResponse.setResponseObject(brandDataAdded);
+			apiRestResponse.setResponseObject(brandDataUpdated);
 			responseBuilder = Response.ok();
 		}
 		catch(BeansException e){
@@ -166,20 +170,21 @@ public class BrandRestServiceImpl implements BrandRestService {
     /**
      * This meted deletes a brand.
      * @summary  Method: deleteBrand(Long id)
-     * @param id The brand to delete
+     * @param brandId The id of Brand to delete
      * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
+//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
+	@Path("/id/{brandId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
-	public Response deleteBrand(@PathParam("id") Long id, @HeaderParam(value = "ssid") String ssid ) {
+	public Response deleteBrand(@PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid ) {
 		
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
 
-		brandFacade.deleteBrand(id);
+		brandFacade.deleteBrand(brandId);
 		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();
@@ -189,7 +194,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 		
     /**
      * This method finds a brand with some id.
-     * @param id The id of brand to find
+     * @param brandId The id of brand to find
      * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      * @summary 	Method: findBrandById(Long id)
@@ -199,13 +204,13 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/code/{id}")
+	@Path("/id/{brandId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
-	public Response findBrandById(@PathParam("id") Long id, @HeaderParam(value = "ssid") String ssid ) {
+	public Response findBrandById(@PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid ) {
 
 		// Assert.notNull(id, "id can not be null !");
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
-		BrandData brandData = brandFacade.findBrandById(id);
+		BrandData brandData = brandFacade.findBrandById(brandId);
 		ResponseBuilder responseBuilder = null;
 		
 		if (brandData != null) {
@@ -225,7 +230,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 
     /**
      * This method finds a brand with some name.
-     * @param brandName The name of brand to find
+     * @param brandCode The name of brand to find
      * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      * @summary  Method: findBrandByName(String name)
@@ -236,15 +241,15 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	// @Path("/name/{brandName : (brandName)?}")
-	@Path("/name/{brandName}")
+	@Path("/code/{brandCode}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
-	public Response findBrandByName(@PathParam("brandName") String brandName, @HeaderParam(value = "ssid") String ssid ) {
+	public Response findBrandByName(@PathParam("brandCode") String brandCode, @HeaderParam(value = "ssid") String ssid ) {
 
 		// Assert.notNull(brandName, "name can not be null !");
 
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
 		// if (brandName != null) {
-		BrandData brandData = brandFacade.findBrandByName(brandName);
+		BrandData brandData = brandFacade.findBrandByCode(brandCode);
 		ResponseBuilder responseBuilder = null;
 
 		if (brandData != null) {

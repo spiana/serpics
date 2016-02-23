@@ -6,7 +6,7 @@ import com.serpics.core.service.EntityService;
 public interface BrandService extends EntityService<Brand, Long> {
 	
 	
-	public Brand findOneByName(String name);
+	public Brand findOneByCode(String code);
 
 	public int getBrandProduct(Brand brand);
 	

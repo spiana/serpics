@@ -3,21 +3,22 @@ package com.serpics.jaxrs;
 import javax.ws.rs.core.Response;
 
 import com.serpics.jaxrs.data.AddressDataRequest;
+import com.serpics.jaxrs.data.LoginDataRequest;
 import com.serpics.jaxrs.data.UserDataRequest;
 
 
 public interface CustomerService  {
 	
-	public Response create(UserDataRequest entity);
-	public Response update(UserDataRequest entity);
-	public Response getCurrent();
-	public Response login(String username , String password);
+	public Response create(UserDataRequest entity, String ssid);
+	public Response update(UserDataRequest entity, String ssid);
+	public Response getCurrent(String ssid);
+	public Response login(LoginDataRequest loginDataRequest,String ssid);
 
-	public Response logout();
-	public Response updateContactAddress(AddressDataRequest addressDataRequest);
-	public Response updateBillingAddress(AddressDataRequest addressDataRequest);
-	public Response updateDestinationAddress(AddressDataRequest addressDataRequest);
-	public Response addDestinationAddress(AddressDataRequest addressDataRequest);
-	public Response deleteDestinationAddress(String addressuid);
+	public Response logout(String ssid);
+	public Response updateContactAddress(AddressDataRequest addressDataRequest,String ssid);
+	public Response updateBillingAddress(AddressDataRequest addressDataRequest,String ssid);
+	public Response updateDestinationAddress(AddressDataRequest addressDataRequest,String ssid);
+	public Response addDestinationAddress(AddressDataRequest addressDataRequest,String ssid);
+	public Response deleteDestinationAddress(String addressuid,String ssid);
 
 }

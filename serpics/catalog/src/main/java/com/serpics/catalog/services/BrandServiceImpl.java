@@ -24,9 +24,9 @@ public class BrandServiceImpl extends AbstractCommerceEntityService<Brand, Long>
 	}
 
 	@Override
-	public Brand findOneByName(String name) {
+	public Brand findOneByCode(String code) {
 
-		return brandRepository.findOne(BrandSpecification.findOneByName(name));
+		return brandRepository.findOne(BrandSpecification.findOneByCode(code));
 	}
 
 	@Override

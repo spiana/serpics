@@ -22,7 +22,7 @@ import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
-@Path("connect/")
+@Path("/connect/")
 public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	Logger LOG = LoggerFactory.getLogger(AuthenticationServiceImpl.class);

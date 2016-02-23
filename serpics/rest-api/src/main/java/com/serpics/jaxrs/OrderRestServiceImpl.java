@@ -1,13 +1,14 @@
 package com.serpics.jaxrs;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -43,7 +46,9 @@ public class OrderRestServiceImpl implements OrderRestService {
 
 	/**
 	 * This method gets current user orders.
-	 * 
+     * @param page number of page requested
+     * @param size number of orders to display into page
+     * @param ssid The sessionId for the store authentication
 	 * @summary Method: getOrders()
 	 * @return Response object type: apiRestResponse
 	 */
@@ -51,26 +56,24 @@ public class OrderRestServiceImpl implements OrderRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.commerce.facade.data.OrderData>>")
-	public Response getOrders() {
-		ApiRestResponse<List<OrderData>> apiRestResponse = new ApiRestResponse<List<OrderData>>();
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.commerce.facade.data.OrderData>>")
+	public Response getOrders(@QueryParam("page") @DefaultValue("0") int page,
+			@QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
 
-		List<OrderData> listOrderData = orderFacade.getOrders();
+		ApiRestResponse<Page<OrderData>> apiRestResponse = new ApiRestResponse<Page<OrderData>>();
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(listOrderData);
+		apiRestResponse.setResponseObject(orderFacade.getPagedOrders(new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
 
 	/**
 	 * This method adds payment data to an order.
 	 * 
-	 * @summary Method: addPayment(Long orderId, OrderPaymentDataRequest
-	 *          orderPaymentDataRequest)
-	 * @param orderId
-	 *            The order id to add payment
-	 * @param orderPaymentDataRequest
-	 *            The paymentData to add
+	 * @summary Method: addPayment(Long orderId, OrderPaymentDataRequest orderPaymentDataRequest)
+	 * @param orderId The order id to add payment
+	 * @param orderPaymentDataRequest The paymentData to add
+	 * @param ssid The sessionId for the store authentication
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override
@@ -79,7 +82,8 @@ public class OrderRestServiceImpl implements OrderRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addPayment/{orderId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.OrderData>")
-	public Response addPayment(@PathParam("orderId") Long orderId, OrderPaymentDataRequest orderPaymentDataRequest) {
+	public Response addPayment(@PathParam("orderId") Long orderId, OrderPaymentDataRequest orderPaymentDataRequest,
+			@HeaderParam(value = "ssid") String ssid) {
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
 		OrderPaymentData orderPaymentData = new OrderPaymentData();
 		ResponseBuilder responseBuilder = null;
@@ -105,30 +109,30 @@ public class OrderRestServiceImpl implements OrderRestService {
 	/**
 	 * This method creates an order from a session cart.
 	 * 
-	 * @summary Method: placeOrder()
+	 * @summary Method: placeOrder(String ssid)
+	 * @param ssid The sessionId for the store authentication
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/placeOrder")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.OrderData>")
-	public Response placeOrder() {
+	public Response placeOrder(@HeaderParam(value = "ssid") String ssid) {
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
+
 		OrderData orderData = orderFacade.placeOrder();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		;
 		apiRestResponse.setResponseObject(orderData);
 		return Response.ok(apiRestResponse).build();
 	}
 
-
 	/**
 	 * This method creates an order from a given cart.
 	 * 
-	 * @summary Method: createOrder(CartDataRequest cartDataRequest)
-	 * @param cartDataRequest
-	 *            The cart to turns into order
+	 * @summary Method: createOrder(CartDataRequest cartDataRequest,String ssid)
+	 * @param cartDataRequest The cart to turns into order
+	 * @param ssid The sessionId for the store authentication
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override
@@ -137,7 +141,7 @@ public class OrderRestServiceImpl implements OrderRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/createOrder")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.OrderData>")
-	public Response createOrder(CartDataRequest cartDataRequest) {
+	public Response createOrder(CartDataRequest cartDataRequest, @HeaderParam(value = "ssid") String ssid) {
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
 		CartData cartData = new CartData();
 		ResponseBuilder responseBuilder = null;
@@ -146,14 +150,14 @@ public class OrderRestServiceImpl implements OrderRestService {
 		ShipmodeData shipmodeData = new ShipmodeData();
 
 		try {
-			
+
 			BeanUtils.copyProperties(cartDataRequest, cartData,
 					new String[] { "shipmodeDataName", "billingAddressDataRequest", "shippingAddressDataRequest" });
 
 			shipmodeData.setName(cartDataRequest.getShipmodeDataName());
 			BeanUtils.copyProperties(cartDataRequest.getBillingAddress(), billingAddressData);
 			BeanUtils.copyProperties(cartDataRequest.getShippingAddress(), shippingAddressData);
-			
+
 			cartData.setBillingAddress(billingAddressData);
 			cartData.setShippingAddress(shippingAddressData);
 			cartData.setShipmode(shipmodeData);

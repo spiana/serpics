@@ -2,11 +2,11 @@ package com.serpics.catalog.facade.data;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"id","name","logo","published","brandProductNumber"})
+@JsonPropertyOrder({"id","code","name","logo","description","published","brandProductNumber"})
 public class BrandData extends CtentryData{
 		
     protected String logo; //The Logo of the brand
-    protected int brandProductNumber; //the number of product of the brand
+    protected int brandProductNumber; //the number of products of the brand
     protected boolean published; //brand published boolean
 	
 	public String getLogo() {
