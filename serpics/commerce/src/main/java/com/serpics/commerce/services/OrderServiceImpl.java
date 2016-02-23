@@ -10,14 +10,21 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.catalog.ProductNotFoundException;
+import com.serpics.commerce.PaymentException;
+import com.serpics.commerce.PaymentState;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Order;
 import com.serpics.commerce.data.model.Orderpayment;
+import com.serpics.commerce.data.model.Payment;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderRepository;
 import com.serpics.commerce.data.specifications.OrderSpecification;
+import com.serpics.commerce.event.PlaceOrderEvent;
+import com.serpics.core.event.SerpicsPublisherEvent;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.data.model.User;
+import com.serpics.warehouse.InventoryNotAvailableException;
 
 @SuppressWarnings("rawtypes")
 @Service("orderService")
@@ -29,7 +36,15 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 	@Resource
 	OrderRepository orderRepository;
 	
+	@Resource
+	CartService cartService;
+	
+	@Resource
+	PaymentService paymentService;
 
+	@Resource
+	SerpicsPublisherEvent eventPublisher;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -40,7 +55,21 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Order createOrder(Cart cart) {
-		return orderRepository.createOrderFromcart(cart);
+		Order order = null;
+		try {
+			cartService.prepareCart(cart, true);
+			order = orderRepository.createOrderFromcart(cart);
+			Payment payment = paymentService.findCurrentPendingPayment(order);
+			if (payment != null && payment.getState().equals(PaymentState.CREATED))
+				paymentService.authorizePayment(payment);
+			
+		} catch (InventoryNotAvailableException | ProductNotFoundException | PaymentException e) {
+			throw new RuntimeException(e);
+		}
+		PlaceOrderEvent event = new PlaceOrderEvent(order);
+		eventPublisher.publishSerpicsEvent(event);
+		
+		return order; 
 
 	}
 

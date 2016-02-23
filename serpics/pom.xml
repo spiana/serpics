@@ -142,6 +142,7 @@
     <module>serpics-ear</module>
     <module>vaadin</module>
     <module>warehouse</module>
+    <module>serpics-paypal</module>
   </modules>
   
   <version>1.0-SNAPSHOT</version>

@@ -46,6 +46,8 @@ public class Paymethod extends AbstractEntity implements Serializable {
     @JoinColumn(name = "description_stringid")
     private MultilingualString description;
 
+    private String paymentStrategy;
+    
     public Paymethod() {
         super();
     }
@@ -86,6 +88,14 @@ public class Paymethod extends AbstractEntity implements Serializable {
     public void setPaymethlookups(final Set<Paymethodlookup> paymethlookups) {
         this.paymethlookups = paymethlookups;
     }
+
+	public String getPaymentStrategy() {
+		return paymentStrategy;
+	}
+
+	public void setPaymentStrategy(String paymentStrategy) {
+		this.paymentStrategy = paymentStrategy;
+	}
 
 
 }
