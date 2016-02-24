@@ -31,7 +31,7 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    			 $log.debug("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: URL + endpoint +  +'product/' + productId,
+	    				 url: URL + endpoint + 'product/' + productId,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
