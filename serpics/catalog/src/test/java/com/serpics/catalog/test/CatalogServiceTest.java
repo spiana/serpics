@@ -20,6 +20,7 @@ import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.CatalogRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
+import com.serpics.catalog.services.CatalogMediaService;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
@@ -46,6 +47,9 @@ public class CatalogServiceTest extends CatalogBaseTest {
 
     @Resource
     BaseAttributeRepository attributeRepository;
+    
+    @Resource
+    CatalogMediaService catalogMediaService;
 
     @Autowired
     PriceService priceService;
@@ -85,6 +89,11 @@ public class CatalogServiceTest extends CatalogBaseTest {
         Assert.assertEquals(1, al2.size());
     }
 
+    @Transactional
+    @Test
+    public void testMediaBasePath(){
+    	Assert.assertEquals("/medias", catalogMediaService.getBaseMediaPath());
+    }
 
     @Test
     @Transactional

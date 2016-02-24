@@ -2,15 +2,21 @@ package com.serpics.catalog.facade;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.data.model.Media;
+import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.data.model.Ctentry;
 import com.serpics.catalog.facade.data.CtentryData;
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 
 public class CtentryPopulator implements Populator<Ctentry, CtentryData> {
 
 	@Resource
 	CommerceEngine commerceEngine;
+	
+	@Resource(name= "mediaConverter")
+	AbstractPopulatingConverter<Media, MediaData> mediaConverter;
 	
 	@Override
 	public void populate(Ctentry source, CtentryData target) {
@@ -32,8 +38,9 @@ public class CtentryPopulator implements Populator<Ctentry, CtentryData> {
 		target.setUrl(source.getUrl());
 		if(source.getDescription() != null)
 			target.setDescription(source.getDescription().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
-		//target.setDescription(source.getDescription().getText("it"));
 		
+		 if (source.getPrimaryImage() != null)
+			 target.setPrimaryImage(mediaConverter.convert(source.getPrimaryImage()));
 		
 	}
 	

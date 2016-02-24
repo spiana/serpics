@@ -20,6 +20,13 @@
 		<property name="name"  table ="true" search="true"/>
 	</entity>
 	
+	<entity name="ctentrymedia">
+		<property name="name"  table ="true" select="true" search="true"/>
+		<property name="type" table="true" search="true"/>
+		<property name="contentType" table="true" search="true"/>
+		<property name="source"  table ="true" search="true"/>
+	</entity>
+	
 	<entity name="featuregroup">
 		<property name="code"  table ="true" select="true" search="true"/>
 		<property name="name"  table ="true" search="true"/>

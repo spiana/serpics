@@ -1,5 +1,6 @@
 package com.serpics.catalog.facade.data;
 
+import com.serpics.base.facade.data.MediaData;
 import com.serpics.core.facade.AbstractData;
 
 public class CtentryData extends AbstractData{
@@ -10,6 +11,7 @@ public class CtentryData extends AbstractData{
 	protected int published;
 	protected String metaDescription;
 	protected String metaKeyword;
+	protected MediaData primaryImage;
 	
 	public String getCode() {
 		return code;
@@ -52,6 +54,12 @@ public class CtentryData extends AbstractData{
 	}
 	public void setMetaKeyword(String metaKeyword) {
 		this.metaKeyword = metaKeyword;
+	}
+	public MediaData getPrimaryImage() {
+		return primaryImage;
+	}
+	public void setPrimaryImage(MediaData primaryImage) {
+		this.primaryImage = primaryImage;
 	}
 	
 }

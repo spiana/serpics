@@ -129,16 +129,16 @@ public class BaseTestFacade extends AbstractTransactionalJunit4SerpicTest{
 		Assert.assertNotNull("not geocode set" , lc.getContent().get(0).getGeocode().getUuid());
 		
 		
-		Page<RegionData> lr = regionFacade.findAll(new PageRequest(0,10));
-		Assert.assertNotNull("Region list  is null" , lr);
-		Assert.assertNotNull("not name set" , lr.getContent().get(0).getIsoCode());
+//		Page<RegionData> lr = regionFacade.findAll(new PageRequest(0,10));
+//		Assert.assertNotNull("Region list  is null" , lr);
+//		Assert.assertNotNull("not name set" , lr.getContent().get(0).getIsoCode());
 	}
 	
 	@Test
 	public void testGeocraphics() throws SerpicsException{
 		geocode();
 		country();
-		region();
+	//	region();
 		list();
 	}
 }

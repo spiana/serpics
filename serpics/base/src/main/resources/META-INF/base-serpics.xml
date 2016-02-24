@@ -23,16 +23,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="interceptor" ref="baseAttributeSaveInterceptor" />
 	</bean>
     
-    <bean name="mediaSaveInterceptor"
-		class="com.serpics.base.data.interceptor.MediaSaveInterceptor" />
-		
-		<bean name="mediaSaveMapping" class="com.serpics.core.data.InterceptorMapping">
-		<property name="targetEntity" value="com.serpics.base.data.model.Media" />
-		<property name="order" value="10" />
-		<property name="interceptor" ref="mediaSaveInterceptor" />
-	</bean>
-    
-    <bean name="defaultMediaSpecification" class="com.serpics.base.data.specification.DefaultMediaSpecification"/>
     <bean name="defaultBaseAttributeSpecification" class="com.serpics.base.data.specification.DefaultBaseAttributeSpecification"/>
     
 <!--     					 factory-class="com.serpics.core.data.RepositoryFactoryBean"/> -->

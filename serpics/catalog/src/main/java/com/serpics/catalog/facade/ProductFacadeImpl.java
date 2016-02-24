@@ -1,5 +1,6 @@
 package com.serpics.catalog.facade;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -258,9 +259,14 @@ public class ProductFacadeImpl implements ProductFacade {
 		CtentryMedia media = new CtentryMedia();
 		media.setCtentry(product);
 		media.setName(mediaData.getName());
-		media.setSource(mediaData.getSrc());
-		media = mediaService.create(media);
-		product = productService.addMedia(product, media);
+		media.setSource(mediaData.getSource());
+		try{
+			media = mediaService.create(media );
+			product = productService.addMedia(product, media);
+		}catch(IOException e){
+			//TODO:at least log an error
+			;
+		}
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ public class CategoryTable extends MasterTable<Category> {
 
             @Override
             public void init() {
-                final String[] displayProperties = { "code", "name", "description","published", "childCategories",
+                final String[] displayProperties = { "code", "name", "description","published","primaryImage", "childCategories",
                         "updated", "created" };
                 this.setReadOnlyProperties(new String[] { "updated", "created" });
                 setDisplayProperties(displayProperties);

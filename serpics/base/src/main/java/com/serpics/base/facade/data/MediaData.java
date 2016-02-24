@@ -1,13 +1,14 @@
 package com.serpics.base.facade.data;
 
+import com.serpics.base.MediaSupportType;
 import com.serpics.core.facade.AbstractData;
 
 public class MediaData extends AbstractData {
 	
 	protected String contentType;
-	protected short mediaType;
+	MediaSupportType type;
 	protected String name;
-	protected String src;
+	protected String source;
 	protected int sequence;
 	protected String description;
 	
@@ -17,12 +18,7 @@ public class MediaData extends AbstractData {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
-	public short getMediaType() {
-		return mediaType;
-	}
-	public void setMediaType(short mediaType) {
-		this.mediaType = mediaType;
-	}
+	
 	public String getName() {
 		return name;
 	}
@@ -41,11 +37,16 @@ public class MediaData extends AbstractData {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getSrc() {
-		return src;
+	public MediaSupportType getType() {
+		return type;
 	}
-	public void setSrc(String src) {
-		this.src = src;
+	public void setType(MediaSupportType type) {
+		this.type = type;
 	}
-
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
 }
