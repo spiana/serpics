@@ -8,8 +8,10 @@ import org.springframework.util.Assert;
 
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
+import com.serpics.commerce.data.model.Paymethod;
 import com.serpics.commerce.facade.data.AbstractOrderItemData;
 import com.serpics.commerce.facade.data.AbstractOrdersData;
+import com.serpics.commerce.facade.data.PaymethodData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.facade.data.AddressData;
@@ -20,6 +22,7 @@ import com.serpics.membership.facade.data.AddressData;
 public  class AbstractOrderPopulator {
 	private AbstractPopulatingConverter<AbstractOrderitem, AbstractOrderItemData> abstractOrderItemConverter;
 	private AbstractPopulatingConverter<AbstractAddress, AddressData> addressConverter;
+	private AbstractPopulatingConverter<Paymethod, PaymethodData> paymethodConverter;
 	
 	@SuppressWarnings("unchecked")
 	public void populate(AbstractOrder source, AbstractOrdersData target) {
@@ -40,8 +43,6 @@ public  class AbstractOrderPopulator {
 		target.setTotalTax(source.getTotalTax());
 		Set<AbstractOrderItemData> items = new HashSet<AbstractOrderItemData>();
 		
-		
-			
 		if(source.getItems() != null) {
 		
 			for (AbstractOrderitem abstractOrderitem : source.getItems() ){
@@ -50,6 +51,10 @@ public  class AbstractOrderPopulator {
 				items.add(itemData);
 			} 
 			target.setOrderItems(items);
+		}
+		
+		if (source.getPaymethod() != null){
+			target.setPaymethod(paymethodConverter.convert(source.getPaymethod()));
 		}
 	}
 	
@@ -63,6 +68,11 @@ public  class AbstractOrderPopulator {
 	@Required
 	public void setAddressConverter(AbstractPopulatingConverter<AbstractAddress, AddressData> addressConverter) {
 		this.addressConverter = addressConverter;
+	}
+
+	@Required
+	public void setPaymethodConverter(AbstractPopulatingConverter<Paymethod, PaymethodData> paymethodConverter) {
+		this.paymethodConverter = paymethodConverter;
 	}
 
 }

@@ -11,6 +11,8 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 		$scope.paymethodList = {};
 		$scope.countries = {};
 		$scope.regions = {};
+		$scope.payment = {};
+		
 	  	
 	    function getCurrentCart() {
   			$log.debug("CartController getCurrentCart()");
@@ -156,6 +158,18 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 	  			  $log.debug("cartController addPaymethod(shipMode): ramo then");
 	  			  $scope.cart = response;
 	  			  $state.go($stateParams.payment)
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @return 					a cart update with 
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.createPayment = function (){
+	  			cartService.createPayment().then(function(response){
+	  			  $log.debug("cartController createPayment(): ramo then");
+	  			  $scope.payment = response;
+	  			  $state.go($stateParams.paymentPayPal)
 	  		  })
 	  	};
 	  	

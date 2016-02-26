@@ -10,7 +10,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd">
 
+
+  <context:component-scan base-package="com.serpics.paypal.strategy" />
+  
+  
  <bean name="paypalInititializer" class="com.serpics.paypal.InitializePayment">
- 	<property name="propertyFile" value=${paypal.initilizing.propertyfile}></property>
+ 	<property name="propertyFile" value="${paypal.initilizing.propertyfile}"></property>
  </bean>
 </beans>    

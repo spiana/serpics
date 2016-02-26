@@ -5,8 +5,11 @@ import java.util.List;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
+import com.serpics.commerce.PaymentException;
+import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.Payment;
 import com.serpics.commerce.data.model.Paymethod;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.membership.data.model.Address;
@@ -24,6 +27,7 @@ public interface CartService {
     
     //Get cart from repository identified by user and customer
     public Cart getCartByUser(Member user, Member customer, Store store, String sessionId);
+    public void mergeCartAtLogin(Member user, Member customer, Store store, String sessionId) throws InventoryNotAvailableException, ProductNotFoundException;
     
     public void mergeSessionRepositoryCart(Cart repositoryCart, Cart sessionCart) throws InventoryNotAvailableException, ProductNotFoundException;
 
@@ -85,6 +89,10 @@ public interface CartService {
 	public List<Paymethod> getPaymethod();
 
 	public void addPaymethod(String paymethodName);
+	
+	public Payment createPayment(PaymentIntent sale) throws PaymentException;
+	
+	public void addPaymentInfo(String paymentIdentifier, String PayerId) throws PaymentException;
       
 
 }

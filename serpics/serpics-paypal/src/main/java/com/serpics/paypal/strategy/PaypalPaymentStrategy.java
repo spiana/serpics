@@ -1,5 +1,7 @@
 package com.serpics.paypal.strategy;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,8 +30,9 @@ import com.serpics.commerce.data.repositories.PaymentRepository;
 import com.serpics.commerce.data.repositories.PaymentTransactionRepository;
 import com.serpics.commerce.services.PaymentService;
 import com.serpics.commerce.strategies.PaymentStrategy;
+import com.serpics.stereotype.StoreStrategy;
 
-
+@StoreStrategy("paypalPayment")
 public class PaypalPaymentStrategy implements PaymentStrategy {
 
 	@Resource
@@ -54,7 +57,13 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 			
 			Amount amount = new Amount();
 			amount.setCurrency(order.getCurrency().getIsoCode());
-			amount.setTotal(order.getOrderAmount().toString());
+			
+			DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols();
+			formatSymbols.setDecimalSeparator('.');
+			DecimalFormat decimalFormat = new DecimalFormat("#.00",formatSymbols);
+			String orderAmount = decimalFormat.format(order.getOrderAmount());
+
+			amount.setTotal(orderAmount);
 			
 			Transaction t = new Transaction();
 			t.setAmount(amount);
@@ -95,10 +104,14 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 			payment.setAuthorizedAmount(0D);
 			payment.setCaptureAmount(0D);
 			payment.setRefoundAmount(0D);
-			
-			payment.setState(PaymentState.valueOf(paypalPayment.getState()));
+
+			payment.setState(PaymentState.valueOf(paypalPayment.getState().toUpperCase()));
 			payment.setPaymentIdentifier(paypalPayment.getId());
-			payment.setAuthorizedURL(getSelfLink(paypalPayment.getLinks()));
+			//payment.setAuthorizedURL(getSelfLink(paypalPayment.getLinks()));
+			payment.setAuthorizedURL(getApprovalLink(paypalPayment.getLinks()));
+			
+
+			paymentRepository.saveAndFlush(payment);
 		
 		
 		return payment;
@@ -107,6 +120,15 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 	private String getSelfLink(List<Link> links ){
 		for (Link link : links) {
 			if (link.getRel().equals("self"))
+			 return link.getHref();
+			
+		}
+		return null;
+	}
+	
+	private String getApprovalLink(List<Link> links ){
+		for (Link link : links) {
+			if (link.getRel().equals("approval_url"))
 			 return link.getHref();
 			
 		}

@@ -46,9 +46,13 @@ public class OrderRestServiceImpl implements OrderRestService {
 
 	/**
 	 * This method gets current user orders.
-     * @param page number of page requested
-     * @param size number of orders to display into page
-     * @param ssid The sessionId for the store authentication
+	 * 
+	 * @param page
+	 *            number of page requested
+	 * @param size
+	 *            number of orders to display into page
+	 * @param ssid
+	 *            The sessionId for the store authentication
 	 * @summary Method: getOrders()
 	 * @return Response object type: apiRestResponse
 	 */
@@ -70,10 +74,14 @@ public class OrderRestServiceImpl implements OrderRestService {
 	/**
 	 * This method adds payment data to an order.
 	 * 
-	 * @summary Method: addPayment(Long orderId, OrderPaymentDataRequest orderPaymentDataRequest)
-	 * @param orderId The order id to add payment
-	 * @param orderPaymentDataRequest The paymentData to add
-	 * @param ssid The sessionId for the store authentication
+	 * @summary Method: addPayment(Long orderId, OrderPaymentDataRequest
+	 *          orderPaymentDataRequest)
+	 * @param orderId
+	 *            The order id to add payment
+	 * @param orderPaymentDataRequest
+	 *            The paymentData to add
+	 * @param ssid
+	 *            The sessionId for the store authentication
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override
@@ -110,7 +118,8 @@ public class OrderRestServiceImpl implements OrderRestService {
 	 * This method creates an order from a session cart.
 	 * 
 	 * @summary Method: placeOrder(String ssid)
-	 * @param ssid The sessionId for the store authentication
+	 * @param ssid
+	 *            The sessionId for the store authentication
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override
@@ -131,8 +140,10 @@ public class OrderRestServiceImpl implements OrderRestService {
 	 * This method creates an order from a given cart.
 	 * 
 	 * @summary Method: createOrder(CartDataRequest cartDataRequest,String ssid)
-	 * @param cartDataRequest The cart to turns into order
-	 * @param ssid The sessionId for the store authentication
+	 * @param cartDataRequest
+	 *            The cart to turns into order
+	 * @param ssid
+	 *            The sessionId for the store authentication
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override

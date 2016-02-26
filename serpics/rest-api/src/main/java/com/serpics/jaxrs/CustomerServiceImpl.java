@@ -27,8 +27,8 @@ import com.serpics.base.data.model.Store;
 import com.serpics.base.facade.CountryFacade;
 import com.serpics.base.facade.RegionFacade;
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.facade.CartFacade;
 import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.commerce.strategies.CartStrategy;
 import com.serpics.core.SerpicsException;
 import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
@@ -61,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
 	CommerceEngine commerceEngine;
 
 	@Autowired
-	CartStrategy cartStrategy;
+	CartFacade cartFacade;
 	
 	@Autowired
 	RestServiceUtils restUtils;
@@ -200,13 +200,8 @@ public class CustomerServiceImpl implements CustomerService {
 			return Response.status(401).entity(apiRestResponse).build();
 		}		
 
-		// Verificare se è necessario restituire il carrello
-		try {
-			LOG.info("try to merge UserCart "+context.getUserPrincipal().getName()+context.getStoreRealm().getId());
-			cartStrategy.mergeCart((Member) context.getUserPrincipal(), (Member) context.getCustomer(), (Store) context.getStoreRealm(), context.getSessionId());
-		} catch (SerpicsException e) {
-			LOG.error("Error On Connect ", e);
-		}
+		LOG.info("try to merge UserCart "+context.getUserPrincipal().getName()+context.getStoreRealm().getId());
+		cartFacade.mergeCartAtLogin((Member) context.getUserPrincipal(), (Member) context.getCustomer(), (Store) context.getStoreRealm(), context.getSessionId());
 		
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(userFacade.getCurrentuser());

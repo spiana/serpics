@@ -4,6 +4,7 @@ import javax.ws.rs.core.Response;
 
 import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.CartItemDataRequest;
+import com.serpics.jaxrs.data.PaidDataRequest;
 
 public interface CartRestService {
 	
@@ -29,4 +30,8 @@ public interface CartRestService {
 
 	public Response addPaymethod(String paymethodName,String ssid);
 
+	public Response createPayment(String ssid);
+
+	public Response addPaymentInfo(PaidDataRequest paidDataRequest, String ssid);
+	
 }
