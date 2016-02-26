@@ -38,6 +38,8 @@ public class ProductTable extends MasterTable<Product> {
 
     private CategoryRepository categoryRepository;
     
+
+    
     public ProductTable() {
         super(Product.class);
     }
@@ -47,10 +49,11 @@ public class ProductTable extends MasterTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"name","description","buyable","featureModel" , "brand" , "medias"});
+                setDisplayProperties(new String[]{"code" ,"name","description","buyable","featureModel" , "brand" ,"primaryImage", "medias"});
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
             }
-        };
+            
+         };
     }
     
     

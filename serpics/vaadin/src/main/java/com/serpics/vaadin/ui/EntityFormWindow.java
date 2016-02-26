@@ -171,7 +171,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
 	            @Override
 	            public void buttonClick(final ClickEvent event) {
 	
-	                if (validateAllFormComponent()) {
+	                if (isModified() && validateAllFormComponent()) {
 	                    if (saveAllComponent()){
 	                    	if (!singletab){
 	                    		setNewItem(false);
@@ -283,6 +283,10 @@ public class EntityFormWindow<T> extends Window implements Handler {
 
     }
 
+    public EntityItem getEntityItem(){
+    	return this.item;
+    }
+    
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void setEntityItem(final EntityItem entityItem) {
     	this.item = entityItem;

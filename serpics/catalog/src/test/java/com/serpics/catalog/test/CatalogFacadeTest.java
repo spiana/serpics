@@ -227,7 +227,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	productFacade.addPrice(entry.getId(), price);
     	
     	MediaData media = new MediaData();
-    	media.setSrc("prova.jpg");
+    	media.setSource("prova.jpg");
     	media.setName("imgthmb");
     	media.setSequence(1);
     	productFacade.addMedia(entry.getId(),media);
@@ -247,7 +247,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
      	productFacade.addPrice(entry.getId(), price);
      	
      	MediaData media1 = new MediaData();
-    	media1.setSrc("prova.jpg");
+    	media1.setSource("prova.jpg");
     	media1.setName("imgthmb");
     	media1.setSequence(1);
      	productFacade.addMedia(entry.getId(),media1);

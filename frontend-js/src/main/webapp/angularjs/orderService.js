@@ -70,7 +70,7 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			$log.debug("OrderService placeOrder() ssid nel promise"+sessionId) ;
 	    			$http({
-			             method: 'GET',
+			             method: 'POST',
 			             url: 	URL + endpoint +  'placeOrder',
 			             headers: {
 			             	'ssid': sessionId

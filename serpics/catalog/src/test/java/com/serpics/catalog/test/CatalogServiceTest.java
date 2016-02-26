@@ -14,12 +14,14 @@ import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.repositories.BaseAttributeRepository;
+import com.serpics.base.utils.MediaStoreUtil;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.CatalogRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
+import com.serpics.catalog.services.CatalogMediaService;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
@@ -46,9 +48,15 @@ public class CatalogServiceTest extends CatalogBaseTest {
 
     @Resource
     BaseAttributeRepository attributeRepository;
+    
+    @Resource
+    CatalogMediaService catalogMediaService;
 
     @Autowired
     PriceService priceService;
+    
+    @Autowired
+    MediaStoreUtil mediaStoreUtil;
 
 
  //   @Test
@@ -85,6 +93,11 @@ public class CatalogServiceTest extends CatalogBaseTest {
         Assert.assertEquals(1, al2.size());
     }
 
+    @Transactional
+    @Test
+    public void testMediaBasePath(){
+    	Assert.assertEquals("/medias", mediaStoreUtil.getBaseMediaPath());
+    }
 
     @Test
     @Transactional

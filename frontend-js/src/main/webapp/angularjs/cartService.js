@@ -58,7 +58,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService cartAdd(sku ,quantity) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'POST',
-			             url: URL + endpoint, 
+			             url: URL + endpoint +'cartItem/', 
 			             headers: {
 			             	'ssid': sessionId,
 			             	'Content-Type': 'application/x-www-form-urlencoded'
@@ -82,7 +82,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService cartUpdate(cartItem) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'PUT',
-			             url: URL + endpoint,
+			             url: URL + endpoint + 'cartItem/' + cartItem.id,
 			             data: cartItem,
 			             headers: {
 			             	'ssid': sessionId,
@@ -105,10 +105,9 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService deleteItem(itemId) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'DELETE',
-			             url: URL + endpoint + "?itemId=" + itemId,
+			             url: URL + endpoint + 'cartItem/' + itemId,
 			             headers: {
 			             	'ssid': sessionId,
-			             	'Content-Type': 'application/x-www-form-urlencoded'
 			            }
 			          }).then(handleSuccess, handleError).then(resolve, reject);
 	    		});
@@ -174,7 +173,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			$log.debug("cartService addShipmode(shipmodeId) ssid nel promise "+sessionId) ;
 	    			$http({
-			             method: 'POST',
+			             method: 'PUT',
 			             url: URL + endpoint + "shipmode/" + shipmodeName,
 			             headers: {
 			             	'ssid': sessionId,
@@ -215,7 +214,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			$log.debug("cartService addPaymethod(paymethodId) ssid nel promise "+sessionId) ;
 	    			$http({
-			             method: 'POST',
+			             method: 'PUT',
 			             url: URL + endpoint + "paymethod/" + paymethodName,
 			             headers: {
 			             	'ssid': sessionId,
@@ -256,7 +255,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService deleteCart() ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'DELETE',
-			             url: URL + endpoint + "cart",
+			             url: URL + endpoint,
 			             headers: {
 			             	'ssid': sessionId,
 			            }

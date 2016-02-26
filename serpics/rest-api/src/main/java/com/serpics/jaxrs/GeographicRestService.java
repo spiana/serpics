@@ -4,8 +4,8 @@ import javax.ws.rs.core.Response;
 
 public interface GeographicRestService {
 
-	public Response getCountryList();
+	public Response getCountryList(String ssid);
 
-	public Response getRegionByCountry(Long countryId);
+	public Response getRegionByCountry(Long countryId, String ssid);
 
 }

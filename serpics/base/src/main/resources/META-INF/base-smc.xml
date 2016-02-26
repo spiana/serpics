@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
+	
 	<entity name="country">
 		<property name="geocode.code" table="true"  edit ="false" />
 		<property name="geocode" />
@@ -11,6 +12,12 @@
 		<property name="created"  readonly="true"/>
 		<property name="updated" readonly="true"/>
 	</entity>
+	
+	<entity name="store">
+		<property name="name" table="true" search="true" select="true"/>
+		<property name="currency" />
+		<property name="taxcategory" />
+	</entity>
 
 	<entity name="region">
 		<property name="isoCode" table="true" select="true" search="true"/>
@@ -20,6 +27,7 @@
 		<property name="created"  readonly="true"/>
 		<property name="updated" readonly="true"/>
 	</entity>
+	
 	<entity name="district">
 		<property name="isoCode" table="true" select="true" search="true"/>
 <!-- 		<property name="name" table="true" search="true"/> -->

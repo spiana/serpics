@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -58,6 +59,10 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
 
     @Column(name = "url", nullable = false, unique = true)
     protected String url;
+    
+    @ManyToOne
+    @JoinColumn(name="primaryImage_id" , nullable= true)
+    private CtentryMedia primaryImage;
     
     @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
     @JoinColumn(name = "name_string_id")
@@ -188,4 +193,13 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
 		this.metaKeyword = metaKeyword;
 	}
 
+	public CtentryMedia getPrimaryImage() {
+		return primaryImage;
+	}
+
+	public void setPrimaryImage(CtentryMedia primaryImage) {
+		this.primaryImage = primaryImage;
+	}
+
+	
 }

@@ -7,11 +7,11 @@ import com.serpics.jaxrs.data.OrderPaymentDataRequest;
 
 public interface OrderRestService {
 
-	Response getOrders();
+	Response getOrders(int page, int size, String ssid);
 	
-	Response addPayment(Long orderId, OrderPaymentDataRequest paymentData);
+	Response addPayment(Long orderId, OrderPaymentDataRequest paymentData,String ssid);
 
-	Response placeOrder();
+	Response placeOrder(String ssid);
 
-	Response createOrder(CartDataRequest cartData);
+	Response createOrder(CartDataRequest cartData,String ssid);
 }

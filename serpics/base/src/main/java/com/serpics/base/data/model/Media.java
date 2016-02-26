@@ -3,6 +3,7 @@ package com.serpics.base.data.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.serpics.base.MediaSupportType;
-import com.serpics.core.data.jpa.AbstractEntity;
 
 
 /**
@@ -25,7 +25,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
 @Entity
 @Table(name="media")
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Media extends AbstractEntity{
+public abstract class Media extends AbstractStoreEntity{
 	private static final long serialVersionUID = -952890230499530957L;
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,24 +38,21 @@ public abstract class Media extends AbstractEntity{
 
     private String name;
 
+    private String sourcePath;
+    
     private double sequence;
 
-    @Enumerated
+    @Enumerated(EnumType.ORDINAL)
 	private MediaSupportType type ;
     
     private String source;
-    
-//    @OneToMany(mappedBy="media")
-//    Set<MediaSupport> supports ;
-    
-    @Column(name="store_id",nullable = false)
-    private Long storeId;
-   
+  
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
     private final MultilingualString description = new MultilingualString();
 
     public Media() {
+    	type = MediaSupportType.REMOTE;
     }
 
     public Long getId() {
@@ -113,14 +110,13 @@ public abstract class Media extends AbstractEntity{
 		this.source = source;
 	}
 
-	public Long getStoreId() {
-		return storeId;
+	public String getSourcePath() {
+		return sourcePath;
 	}
 
-	public void setStoreId(Long storeId) {
-		this.storeId = storeId;
+	public void setSourcePath(String sourcePath) {
+		this.sourcePath = sourcePath;
 	}
-
 
 
 }

@@ -4,12 +4,12 @@ import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -33,6 +33,7 @@ import com.serpics.core.SerpicsException;
 import com.serpics.jaxrs.data.AddressDataRequest;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
+import com.serpics.jaxrs.data.LoginDataRequest;
 import com.serpics.jaxrs.data.UserDataRequest;
 import com.serpics.jaxrs.utils.RestServiceUtils;
 import com.serpics.membership.UserType;
@@ -69,6 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
      * This method creates a user.
      * @summary  Method: create(UserDataRequest userDataRequest)
      * @param userDataRequest The user to create
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      * @statuscode 200 Registration Ok
      * @statuscode 400 Error On register
@@ -77,10 +79,10 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@POST
-	@Path("register")
+//	@Path("register")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 
-	public Response create(UserDataRequest userDataRequest) {
+	public Response create(UserDataRequest userDataRequest,@HeaderParam(value = "ssid") String ssid) {
 		
 		UserData userData = new UserData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -114,14 +116,14 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * This method gets the current user.
      * @summary  Method: getCurrent()
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@GET
-	@Path("getCurrent")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response getCurrent() {
+	public Response getCurrent(@HeaderParam(value = "ssid") String ssid) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
@@ -135,6 +137,7 @@ public class CustomerServiceImpl implements CustomerService {
      * This method updates a user.
      * @summary  Method: update(UserDataRequest userDataRequest)
      * @param userDataRequest The user to update
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -142,7 +145,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@PUT
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response update(UserDataRequest userDataRequest) {
+	public Response update(UserDataRequest userDataRequest,@HeaderParam(value = "ssid") String ssid) {
 		
 		UserData userData = new UserData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -171,24 +174,25 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * This method makes the user login
      * @summary  Method: login(String username, String password)
-     * @param username The username to login
-     * @param password The password to login
+     * @param loginDataRequest The username and password to login
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      * @statuscode 200 Registration Ok
      * @statuscode 401 Error On Connect
      */
 	@Override
-	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
 	@Path("login")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
+	public Response login(LoginDataRequest loginDataRequest,@HeaderParam(value = "ssid") String ssid) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 		CommerceSessionContext context = commerceEngine.getCurrentContext();
 		try {
-			commerceEngine.connect(context, username, password.toCharArray());
+			commerceEngine.connect(context, loginDataRequest.getUsername(), loginDataRequest.getPassword().toCharArray());
 		} catch (SerpicsException e) {
 			LOG.error("Error On Connect ", e);
 			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
@@ -213,6 +217,7 @@ public class CustomerServiceImpl implements CustomerService {
      * This method updates the address of a user
      * @summary  Method: updateContactAddress(AddressDataRequest addressDataRequest)
      * @param addressDataRequest The address to update
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -221,7 +226,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("updateContactAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateContactAddress(AddressDataRequest addressDataRequest) {
+	public Response updateContactAddress(AddressDataRequest addressDataRequest,@HeaderParam(value = "ssid") String ssid) {
 		
 		AddressData address = new AddressData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -247,6 +252,7 @@ public class CustomerServiceImpl implements CustomerService {
      * This method updates the BillingAddress of a user
      * @summary  Method: updateBillingAddress(AddressDataRequest addressDataRequest)
      * @param addressDataRequest The BillingAddress to update
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -255,7 +261,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("updateBillingAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateBillingAddress(AddressDataRequest addressDataRequest) {
+	public Response updateBillingAddress(AddressDataRequest addressDataRequest,@HeaderParam(value = "ssid") String ssid) {
 		
 		AddressData address = new AddressData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -282,6 +288,7 @@ public class CustomerServiceImpl implements CustomerService {
      * This method updates the DestinationAddress of a user
      * @summary  Method:  updateDestinationAddress(AddressDataRequest addressDataRequest)
      * @param addressDataRequest The DestinationAddress to update
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -290,7 +297,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("updateDestinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response updateDestinationAddress(AddressDataRequest addressDataRequest) {
+	public Response updateDestinationAddress(AddressDataRequest addressDataRequest,@HeaderParam(value = "ssid") String ssid) {
 		
 		AddressData address = new AddressData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -319,15 +326,16 @@ public class CustomerServiceImpl implements CustomerService {
      * This method adds the DestinationAddress to a user
      * @summary  Method:  addDestinationAddress(AddressDataRequest addressDataRequest)
      * @param addressDataRequest The DestinationAddress to add
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("addDestinationAddress")
+	@Path("destinationAddress")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response addDestinationAddress(AddressDataRequest addressDataRequest) {
+	public Response addDestinationAddress(AddressDataRequest addressDataRequest,@HeaderParam(value = "ssid") String ssid) {
 		
 		AddressData address = new AddressData();
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
@@ -357,15 +365,16 @@ public class CustomerServiceImpl implements CustomerService {
      * This method deletes the DestinationAddress of a user
      * @summary  Method:  deleteDestinationAddress(String addressUID)
      * @param addressUID The DestinationAddress UID to delete
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("deleteDestinationAddress/{addressId}")
+	@Path("destinationAddress/{addressUID}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response deleteDestinationAddress(@PathParam("addressId") String addressUID) {
+	public Response deleteDestinationAddress(@PathParam ("addressUID")String addressUID,@HeaderParam(value = "ssid") String ssid) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
@@ -379,6 +388,7 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * This method makes the user logout
      * @summary  Method:  logout()
+     * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      */
 	@Override
@@ -387,7 +397,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response logout() {
+	public Response logout(@HeaderParam(value = "ssid") String ssid) {
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
 		CommerceSessionContext context= commerceEngine.getCurrentContext();

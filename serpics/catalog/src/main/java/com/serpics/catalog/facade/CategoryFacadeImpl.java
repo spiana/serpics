@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.data.model.MultilingualText;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Ctentry;
 import com.serpics.catalog.facade.data.CategoryData;
@@ -125,11 +127,20 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		return category;
 	} 
 	
-	protected Category buildCategory(CategoryData category, Category entity){
-		entity.setCode(category.getCode());
-		entity.setUrl(category.getUrl());
-		entity.setPublished(category.isPublished());
-		return entity;
+	protected Category buildCategory(CategoryData categoryData, Category category){
+		
+		category.setCode(categoryData.getCode());
+		category.setUrl(categoryData.getUrl());
+		category.setPublished(categoryData.isPublished());
+		
+		String locale = engine.getCurrentContext().getLocale().getLanguage();
+		
+		category.setDescription(new MultilingualText(locale, categoryData.getDescription()));
+		category.setMetaDescription(new MultilingualString(locale, categoryData.getMetaDescription()));
+		category.setMetaKeyword(new MultilingualString(locale, categoryData.getMetaKeyword()));
+		category.setName(new MultilingualString(locale, categoryData.getName()));
+
+		return category;
 	}
 	
 	@Transactional

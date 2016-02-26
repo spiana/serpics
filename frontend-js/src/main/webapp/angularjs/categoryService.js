@@ -79,7 +79,7 @@
 	    			$log.debug("CategoryService getCategoryById(categoryId) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint + categoryId,
+	    				url: URL + endpoint + 'id/' + categoryId,
 	    				headers: {
 	    					'ssid': sessionId
 	    					}
@@ -121,7 +121,7 @@
 	    			$log.debug("CategoryService getChild(parentId) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint +   'getChild/' + parentId,
+	    				url: URL + endpoint +   'parent/getChild/' + parentId,
 	    				headers: {
 	    					'ssid': sessionId
 	    					}

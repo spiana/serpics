@@ -9,7 +9,7 @@ public class MediaPopulator implements Populator<Media, MediaData> {
 	@Override
 	public void populate(Media source, MediaData target) {
 		if(source.getSource() != null)
-			target.setSrc(source.getSource());
+			target.setSource(source.getSource());
 		
 		target.setName(source.getName());
 		

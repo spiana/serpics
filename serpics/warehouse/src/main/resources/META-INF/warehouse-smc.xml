@@ -20,4 +20,8 @@
 		<property name="reserved" />
 		<property name="updated" readony="true" resolution="SECOND"/>
 	</entity>
+	<entity name="warehousestoreconfig">
+		<property name= "storeThreshold" table="true"/>
+		<property name= "alwaysInstock" table="true"/>
+	</entity>
 </smc-definition>

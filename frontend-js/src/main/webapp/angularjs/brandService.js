@@ -9,9 +9,8 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
         /** Return public API. (like java interface)**/
 	    
         var service =({
-        	getBrandQ		: getBrandQ,
         	findBrandById	: findBrandById,
-        	findBrandByName	: findBrandByName,
+        	findBrandByCode	: findBrandByCode,
         	findAll			: findAll,
         	getBrandList	: getBrandList
         });                
@@ -28,33 +27,10 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			$log.debug("BrandService getBrandQ() ssid nel promise "+sessionId) ;
+	    			$log.debug("BrandService getBrandList() ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: 	URL + endpoint + 'list',
-			             headers: {
-			             	'ssid': sessionId
-			            }
-			          }).then(handleSuccess, handleError).then(resolve, reject);
-	    			
-	    		});
-    		
-	    	});
-	    }
-        
-	    /**
-	     * @param sessionId                
-	     * @return 
-	     */     
-	    function getBrandQ() {
-	    	var serviceSSID = serpicsServices;
-	    	return $q(function(resolve, reject) {
-	    		
-	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			$log.debug("BrandService getBrandQ() ssid nel promise "+sessionId) ;
-	    			$http({
-			             method: 'GET',
-			             url: 	URL + endpoint +'?page=0&size=10',
 			             headers: {
 			             	'ssid': sessionId
 			            }
@@ -77,7 +53,7 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
 	    			$log.debug("BrandService findBrandById(brandId) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: URL + endpoint +   'code/' + brandId,
+			             url: URL + endpoint +   'id/' + brandId,
 			             headers: {
 			             	'ssid': sessionId
 			            }
@@ -90,7 +66,7 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
          * @param name
          * @return 
          */      
-        function findBrandByName(name) {
+        function findBrandByCode(brandCode) {
         	var serviceSSID = serpicsServices;
 	    	return $q(function(resolve, reject) {
 	    		
@@ -98,7 +74,7 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
 	    			$log.debug("BrandService findBrandByName(name) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: 	URL + endpoint +  name,
+			             url: 	URL + endpoint +  'code/' + brandCode,
 			             headers: {
 			             	'ssid': sessionId
 			            }

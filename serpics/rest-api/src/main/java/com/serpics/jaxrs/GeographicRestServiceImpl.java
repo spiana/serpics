@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -33,6 +34,7 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	
     /**
      * This method gets all countries
+     * @param ssid The sessionId for the store authentication
      * @summary  Method: getCountryList()
      * @return Response		object type: apiRestResponse
      * 
@@ -43,7 +45,7 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/country")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.base.facade.data.CountryData>>")
-	public Response getCountryList(){
+	public Response getCountryList(@HeaderParam(value = "ssid") String ssid){
 		ApiRestResponse<List<CountryData>> apiRestResponse = new ApiRestResponse<List<CountryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(countryFacade.findAllList());
@@ -51,8 +53,9 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	}
 	
     /**
-     * This method gets all region by countryId
+     * This method gets all regions by countryId
      * @summary  Method: getRegionByCountry(Long countryId)
+     * @param ssid The sessionId for the store authentication
      * @param countryId The country id to search for regions
      * @return Response		object type: apiRestResponse
      * 
@@ -61,9 +64,9 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/region/{country}")
+	@Path("/region/{countryId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.base.facade.data.RegionData>>")
-	public Response getRegionByCountry(@PathParam("country") Long countryId){
+	public Response getRegionByCountry(@PathParam("countryId") Long countryId,@HeaderParam(value = "ssid") String ssid){
 		ApiRestResponse<List<RegionData>> apiRestResponse = new ApiRestResponse<List<RegionData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(regionFacade.findRegionByCountry(countryId));

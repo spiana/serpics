@@ -31,7 +31,7 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    			 $log.debug("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: URL + endpoint +  productId,
+	    				 url: URL + endpoint + 'product/' + productId,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
@@ -51,7 +51,7 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    			 $log.debug("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: URL + endpoint + 'getCategory/'+ productId,
+	    				 url: URL + endpoint + 'category/'+ productId,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
@@ -71,7 +71,7 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    			 $log.debug("session Id nel promise"+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: URL + endpoint + 	  'byCode/' + productName ,
+	    				 url: URL + endpoint + 	  'name/' + productName ,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }

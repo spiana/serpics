@@ -59,6 +59,7 @@
 	<entity name="paymethod">
 		<property name="name" table="true" select="true" search="true" />
 		<property name="description"  table="true"/>
+		<property name="paymentStrategy"/>
 		<property name="created" table="true"/>
 	</entity>
 	
@@ -66,6 +67,11 @@
 		<property name="paymethod.name" table="true" search="true" edit="false" select="true"/>
 		<property name="paymethod" />
 		<property name="active" table="true"/>
+		<property name="intent"/>
+		<property name="merchantKey" />
+		<property name="merchantSecret" />
+		<property name="cancelURL" />
+		<property name="returnURL" />
 	</entity>
 
 	<entity name="tax">

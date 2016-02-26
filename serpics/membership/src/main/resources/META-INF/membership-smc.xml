@@ -2,32 +2,28 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
-	<entity name="store">
-		<property name="name" edit="false"  select="true"/>
-	</entity>
-
 	<entity name="member">
 		<property name="uuid" edit="false"  select="true"/>
 	</entity>
 	
 	<entity name="usersreg">
-		<property name="logonid" table="true" edit="true" select="true" width="70%"  type="TEXT"/>
-		<property name="firstname" table="true" />
-		<property name="lastname" table="true" />
+		<property name="logonid" table="true" edit="true" select="true" width="70%"  type="TEXT" search="true"/>
+		<property name="firstname" table="true" search="true"/>
+		<property name="lastname" table="true" search="true"/>
 		<property name="phone"  />
-		<property name="email" />
+		<property name="email" table="true" search="true" />
 		<property name="primaryAddress" />
 		<property name="created" table="true" readony ="true" />
 	</entity>
 	
 	<entity name="primaryaddress">
-		<property name="firstname" table="true"/>
-		<property name="lastname"  table="true"/>
-		<property name="company"  table="true"/>
+		<property name="firstname" table="true" search="true"/>
+		<property name="lastname"  table="true" search="true"/>
+		<property name="company"  table="true" search="true"/>
 		<property name="vatcode" />
-		<property name="address1" table="true" />
-		<property name="zipcode" table="true" />
-		<property name="city" table="true" />
+		<property name="address1" table="true" search="true" />
+		<property name="zipcode" table="true" search="true" />
+		<property name="city" table="true" search="true" />
 		<property name="country"/>
 		<property name="region"/>
 		<property name="email" />
@@ -55,13 +51,13 @@
 		<property name="updated"  readonly ="true" />
 	</entity>
 	<entity name="permanentaddress">
-		<property name="firstname" table="true"/>
-		<property name="lastname"  table="true"/>
-		<property name="company"  table="true"/>
+		<property name="firstname" table="true" search="true"/>
+		<property name="lastname"  table="true" search="true"/>
+		<property name="company"  table="true" search="true"/>
 		<property name="vatcode" />
 		<property name="address1" table="true" />
-		<property name="zipcode" table="true" />
-		<property name="city" table="true" />
+		<property name="zipcode" table="true" search="true"/>
+		<property name="city" table="true"  search="true" />
 		<property name="country"/>
 		<property name="region"/>
 		<property name="email" />
@@ -73,13 +69,13 @@
 	</entity>
 	
 	<entity name="address">
-		<property name="firstname" table="true"/>
-		<property name="lastname"  table="true"/>
-		<property name="company"  table="true"/>
+		<property name="firstname" table="true" search="true"/>
+		<property name="lastname"  table="true" search="true"/>
+		<property name="company"  table="true" search="true"/>
 		<property name="vatcode" />
 		<property name="address1" table="true" />
-		<property name="zipcode" table="true" />
-		<property name="city" table="true" />
+		<property name="zipcode" table="true"  search="true"/>
+		<property name="city" table="true"  search="true"/>
 		<property name="country"/>
 		<property name="region"/>
 		<property name="email" />

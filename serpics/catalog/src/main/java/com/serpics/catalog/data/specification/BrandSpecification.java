@@ -12,12 +12,12 @@ import com.serpics.catalog.data.model.Brand;
 public class BrandSpecification {
 	
 	
-	public static Specification<Brand> findOneByName(final String name) {
+	public static Specification<Brand> findOneByCode(final String code) {
 		return new Specification<Brand>() {
 			@Override
 			public Predicate toPredicate(final Root<Brand> root, final CriteriaQuery<?> query, 
 					final CriteriaBuilder cb) {
-						Predicate p = cb.equal(root.get("name"), name);
+						Predicate p = cb.equal(root.get("code"), code);
 						return p;
 			}
 		};

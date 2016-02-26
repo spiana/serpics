@@ -118,6 +118,9 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @JoinColumn(name = "paymethod_id")
     protected Paymethod paymethod;
 
+    @OneToMany(mappedBy="order" , fetch=FetchType.LAZY ,  orphanRemoval=true)
+    protected Set<Payment>  payments;
+    
     // bi-directional many-to-one association to OrdersAttribute
     @OneToMany(mappedBy = "order", orphanRemoval = true)
     protected Set<OrdersAttribute> ordersAttributes = new HashSet<OrdersAttribute>(0);
@@ -330,6 +333,14 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
 
 	public void setPaymethod(Paymethod paymethod) {
 		this.paymethod = paymethod;
+	}
+
+	public Set<Payment> getPayments() {
+		return payments;
+	}
+
+	public void setPayments(Set<Payment> payments) {
+		this.payments = payments;
 	}
 
 }

@@ -18,6 +18,9 @@
 		<class>com.serpics.commerce.data.model.Paymethodlookup</class>
 		<class>com.serpics.commerce.data.model.PaymethodlookupPK</class>
 		<class>com.serpics.commerce.data.model.Paymethod</class>
+		<class>com.serpics.commerce.data.model.Payment</class>
+		<class>com.serpics.commerce.data.model.PaymentTransaction</class>
+
 	</persistence-unit>
 </persistence>	
 		

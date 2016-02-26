@@ -15,7 +15,7 @@ public interface BrandFacade {
 	
 	public Page<BrandData> pageBrand(Pageable page);
 	public BrandData findBrandById(Long id);
-	public BrandData findBrandByName(String name);
+	public BrandData findBrandByCode(String code);
 	public List<BrandData> listBrand();
 	
 }

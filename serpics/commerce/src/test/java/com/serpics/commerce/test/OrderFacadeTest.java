@@ -117,7 +117,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	productFacade.addPrice(entry.getId(), price);
     	
     	MediaData media = new MediaData();
-    	media.setSrc("prova.jpg");
+    	media.setSource("prova.jpg");
     	media.setName("imgthmb");
     	media.setSequence(1);
     	productFacade.addMedia(entry.getId(),media);
@@ -149,7 +149,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	productFacade.addPrice(entry.getId(), price);
     	
     	MediaData media = new MediaData();
-    	media.setSrc("prova2.jpg");
+    	media.setSource("prova2.jpg");
     	media.setName("imgthmb2");
     	media.setSequence(1);
     	productFacade.addMedia(entry.getId(),media);
@@ -181,7 +181,7 @@ public class OrderFacadeTest extends AbstractTransactionalJunit4SerpicTest {
     	productFacade.addPrice(entry.getId(), price);
     	
     	MediaData media = new MediaData();
-    	media.setSrc("prova3.jpg");
+    	media.setSource("prova3.jpg");
     	media.setName("imgthmb3");
     	media.setSequence(1);
     	productFacade.addMedia(entry.getId(),media);

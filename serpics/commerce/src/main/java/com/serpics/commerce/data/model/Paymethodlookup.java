@@ -5,12 +5,15 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Store;
+import com.serpics.commerce.PaymentIntent;
 
 
 
@@ -42,6 +45,18 @@ public class Paymethodlookup extends com.serpics.core.data.jpa.AbstractEntity im
 	@JoinColumn(name="paymethod_id", insertable=false, updatable=false)
 	private Paymethod paymethod;
 
+    private String merchantKey;
+    
+    private String merchantSecret;
+
+    @Enumerated(EnumType.STRING)
+    PaymentIntent intent ;
+    
+    
+    String cancelURL;
+    
+    String returnURL;
+    
     public Paymethodlookup() {
     }
 
@@ -75,6 +90,46 @@ public class Paymethodlookup extends com.serpics.core.data.jpa.AbstractEntity im
 
 	public void setStore(Store store) {
 		this.store = store;
+	}
+
+	public String getMerchantKey() {
+		return merchantKey;
+	}
+
+	public void setMerchantKey(String merchantKey) {
+		this.merchantKey = merchantKey;
+	}
+
+	public String getMerchantSecret() {
+		return merchantSecret;
+	}
+
+	public void setMerchantSecret(String merchantSecret) {
+		this.merchantSecret = merchantSecret;
+	}
+
+	public PaymentIntent getIntent() {
+		return intent;
+	}
+
+	public void setIntent(PaymentIntent intent) {
+		this.intent = intent;
+	}
+
+	public String getCancelURL() {
+		return cancelURL;
+	}
+
+	public void setCancelURL(String cancelURL) {
+		this.cancelURL = cancelURL;
+	}
+
+	public String getReturnURL() {
+		return returnURL;
+	}
+
+	public void setReturnURL(String returnURL) {
+		this.returnURL = returnURL;
 	}
 	
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 
-@JsonPropertyOrder({"id","uuid","created","updated","catalogId","code","name","url","description","childCategoryNumber","childProductNumber","published","metaDescription","metaKey",})
+@JsonPropertyOrder({"id","catalogId","code","name","url","description","childCategoryNumber","childProductNumber","published","metaDescription","metaKey",})
 public class CategoryData  extends CtentryData{
 
 	protected String catalogId;

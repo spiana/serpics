@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductDataRequest {
 
-	private String brandName;
 
 	// private Set<CategoryDataRequest> categories;
 	private String code;
+	private String name;
 	private String description;
 	private String url;
 	private Boolean buyable;
@@ -35,14 +35,6 @@ public class ProductDataRequest {
 
 	public void setManufacturSku(String manufacturSku) {
 		this.manufacturSku = manufacturSku;
-	}
-
-	public String getBrandName() {
-		return brandName;
-	}
-
-	public void setBrandName(String brandName) {
-		this.brandName = brandName;
 	}
 
 	public String getUnitMeas() {
@@ -123,6 +115,14 @@ public class ProductDataRequest {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
