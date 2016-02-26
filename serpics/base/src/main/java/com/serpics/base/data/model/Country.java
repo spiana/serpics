@@ -33,12 +33,12 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
 
     @Column(name = "iso2_code", nullable = false, length = 2)
  //   @Size(min=2,max=2)
-    @Pattern(regexp="[a-z]{2}")
+    @Pattern(regexp="[A-Z]{2}")
     private String iso2Code;
 
     @Column(name = "iso3_code", nullable = false, length = 3)
  //   @Size(min=3,max=3)
-    @Pattern(regexp="[a-z]{3}")
+    @Pattern(regexp="[A-Z]{3}")
     private String iso3Code;
 
     @Column(name = "iso_num_code", nullable = true)

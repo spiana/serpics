@@ -37,7 +37,7 @@ public class District extends com.serpics.core.data.jpa.AbstractEntity implement
 
     // bi-directional many-to-one association to Country
     @ManyToOne
-    @JoinColumn(name = "regions_id", nullable = false)
+    @JoinColumn(name = "regions_id", nullable = true)
     private Region region;
     
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
