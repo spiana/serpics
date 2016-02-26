@@ -20,8 +20,8 @@
 									
 									<a class="check_out" href="">Payment method 2 name</a>
 									<li style="margin-bottom: 33px;">Payment method 2 long description</li>
-									
-									<div ng-repeat="paymethod in paymethodList" ng-init="cart.paymethod=undefined">
+
+									<div ng-repeat="paymethod in paymethodList" >
 										<a class="check_out" ng-click="addPaymethod(paymethod.name)">{{paymethod.name}} - {{cart.paymethod.name}}</a>
 										<li style="margin-bottom: 33px;"><i ng-class="{ 'fa fa-check': cart.paymethod.name}" ng-style="cart.paymethod && {'color':'red'}"></i>
 										{{paymethod.description}}</li>
