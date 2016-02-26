@@ -37,13 +37,13 @@
  	    
  	    /**
  	     * @param name 				name of brand to retrieve
- 	     * @return 					all brand by @param name
+ 	     * @return 					all brand by @param code
  	     * @use 					brandService,serpicsServices
  	     */
- 	    $scope.findBrandByName = function(name) {
- 	    	$log.debug("Brand Controller findBrandByName: "+name);
- 	    	brandService.findBrandByName(name).then(function(response){
- 	    		$log.debug("Brand Controller findBrandByName(): ramo then");
+ 	    $scope.findBrandByCode = function(code) {
+ 	    	$log.debug("Brand Controller findBrandByName: "+code);
+ 	    	brandService.findBrandByCode(code).then(function(response){
+ 	    		$log.debug("Brand Controller findBrandByCode(): ramo then");
  	    		$scope.brandData = response;
  	    	});
  	    };

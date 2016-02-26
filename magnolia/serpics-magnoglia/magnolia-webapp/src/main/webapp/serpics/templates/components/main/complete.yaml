@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/main/complete.ftl
+renderType: freemarker
+title: Order Complete Template

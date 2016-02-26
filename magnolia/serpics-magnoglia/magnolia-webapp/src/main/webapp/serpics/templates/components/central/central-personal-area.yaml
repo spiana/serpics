@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/central/central-personal-area.ftl
+renderType: freemarker
+title: Personal Area Page

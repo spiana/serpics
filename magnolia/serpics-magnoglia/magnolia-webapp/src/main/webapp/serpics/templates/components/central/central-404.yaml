@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/central/central-404.ftl
+renderType: freemarker
+title: Error 404 Page

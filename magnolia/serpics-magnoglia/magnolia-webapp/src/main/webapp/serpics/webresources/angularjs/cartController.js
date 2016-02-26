@@ -1,9 +1,9 @@
- var app = angular.module("cart.controller", ['cart.service', 'customer.service','serpics.router'])
+ var app = angular.module("cart.controller", ['cart.service', 'customer.service'])
  
  /** cartController **/
-.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams',
+.controller("cartController",['$scope','customerService', 'cartService','$log',
                                   
-function($state,$scope,customerService,cartService,$log,$stateParams) {
+function($scope,customerService,cartService,$log) {
 		
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
@@ -80,17 +80,15 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  		 
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
 				  $log.debug("cartController addBillingAddress(billingAddress): ramo then1");
-				  var complete = $stateParams.complete;
 				  if (shippingToBill) {
 					  cartService.addShippingAddress(billingAddress).then(function(response){
 		    			  $log.debug("cartController billingAddress(billingAddress): ramo then");
 		    			  $scope.cart = response;
-		    			  $state.go($stateParams.shipmode)
+		    			  location.href = $scope.shipmodeUrl;
 					  })
 				  } else {
 					  $scope.cart = response;
-					  $log.debug("cartController billingAddress(billingAddress): ramo else"+JSON.stringify($stateParams));
-	    			  $state.go($stateParams.shipping)
+					  location.href = $scope.shippingAddressUrl;
 				  }
 			 })
 	  	 };
@@ -104,7 +102,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
 	  			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go($stateParams.shipmode)
+	  			  location.href = $scope.shipmodeUrl;
 	  		  })
 	  	};
 	  	
@@ -117,7 +115,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  			cartService.addShipmode(shipmode).then(function(response){
 	  			  $log.debug("cartController addShipmode(shipMode): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go($stateParams.payment)
+	  			  location.href = $scope.paymentUrl;
 	  		  })
 	  	};
 	  	
@@ -142,7 +140,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  			cartService.addPaymethod(paymethod).then(function(response){
 	  			  $log.debug("cartController addPaymethod(shipMode): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go($stateParams.payment)
+	  			  location.href = $scope.paymentUrl;
 	  		  })
 	  	};
 	  	

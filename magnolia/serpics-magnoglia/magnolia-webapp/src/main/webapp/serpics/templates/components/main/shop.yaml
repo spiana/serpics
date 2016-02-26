@@ -1,0 +1,38 @@
+templateScript: /serpics/templates/components/main/shop.ftl
+renderType: freemarker
+title: Shop Template
+areas:
+  serpics-sidebar:
+    renderType: freemarker
+    type: list
+    availableComponents:
+      categoryComponent:
+        id: serpics:components/sidebar/sidebar-category
+      brandComponent:
+        id: serpics:components/sidebar/sidebar-brand
+  serpics-central:
+    renderType: freemarker
+    availableComponents:
+      homeComponent:
+        id: serpics:components/central/central-home
+      categoryComponent:
+        id: serpics:components/central/central-category
+      brandComponent:
+        id: serpics:components/central/central-brand
+      productComponent:
+       id: serpics:components/central/central-product
+      cartComponent:
+        id: serpics:components/central/central-cart
+      loginComponent:
+        id: serpics:components/central/central-login
+      registerComponent:
+        id: serpics:components/central/central-register
+      personalAreaComponent:
+        id: serpics:components/central/central-personal-area
+      searchComponent:
+        id: serpics:components/central/central-search
+      404Component:
+        id: serpics:components/central/central-404
+      500Component:
+        id: serpics:components/central/central-500
+# eof: areas

@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/checkout/checkout-shipping-address.ftl
+renderType: freemarker
+title: Checkout Shipping Address

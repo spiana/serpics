@@ -1,8 +1,8 @@
-var app = angular.module("login.controller", ['customer.service','ngDialog','serpics.router'])
+var app = angular.module("login.controller", ['customer.service','ngDialog'])
 
-.controller("loginController",['$scope','customerService','$state','$log','ngDialog','$stateParams','$log',
+.controller("loginController",['$scope','customerService','$log','ngDialog','$log',
                                   
-      function($scope,customerService,$state,$log,ngDialog,$stateParams,$log) {
+      function($scope,customerService,$log,ngDialog,$log) {
 	
 			$scope.currentUser = customerService.currentUser;
 			
@@ -29,7 +29,7 @@ var app = angular.module("login.controller", ['customer.service','ngDialog','ser
 			$scope.login = function(loginUser) {				
 		        	customerService.login(loginUser.username, loginUser.password).then(function (response) {
 		        		customerService.updateCurrentUser();
-		        		$state.go($stateParams.login);
+		        		location.href = $scope.afterLoginUrl;
 		        	})	   	 
 			}
 		           
@@ -50,14 +50,14 @@ var app = angular.module("login.controller", ['customer.service','ngDialog','ser
 		 */
 		function showModalOnSuccess(){		    	  
 			 	var dialog = ngDialog.open({
-				    		  template: 'registerSuccessDialog',
+				    		  templateUrl: 'registerSuccessDialog',
 				    		  keyboard: true,
 				    		  className:'',
 				    		  scope:    $scope  			  
 				 });		
 			    dialog.closePromise.then(function (response) {			    	     
-			    	      $state.go($stateParams.register)
-			    	  })
+			    		location.href = $scope.afterRegisterUrl;
+			    })
 		}
 
 }])

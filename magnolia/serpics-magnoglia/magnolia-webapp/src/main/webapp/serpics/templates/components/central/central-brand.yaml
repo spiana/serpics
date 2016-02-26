@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/central/central-brand.ftl
+renderType: freemarker
+title: Brand Page

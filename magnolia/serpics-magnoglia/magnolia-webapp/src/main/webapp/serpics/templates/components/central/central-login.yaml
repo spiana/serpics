@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/central/central-login.ftl
+renderType: freemarker
+title: Login Page

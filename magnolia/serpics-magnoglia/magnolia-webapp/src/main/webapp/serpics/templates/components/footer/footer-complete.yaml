@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/footer/footer-complete.ftl
+renderType: freemarker
+title: Footer
