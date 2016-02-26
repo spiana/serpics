@@ -63,7 +63,7 @@
 					</div>
 	</div>
 						<div class="col-sm-12" ng-show="cart.orderItems.length">
-							<a class="btn btn-default check_out pull-right" ui-sref="checkout.address" style="margin-bottom:50px">Continue to Checkout</a>
+							<a class="btn btn-default check_out pull-right" href="${ctx.contextPath}/${ctx.baseSite}/CheckoutBilling.html" style="margin-bottom:50px">Continue to Checkout</a>
 						</div>
 	</div>
 	<!--/#cart_items-->

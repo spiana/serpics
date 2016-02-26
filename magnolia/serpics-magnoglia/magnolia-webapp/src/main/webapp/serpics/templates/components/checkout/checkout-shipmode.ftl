@@ -6,7 +6,7 @@
 							<div style="width: 100%">
 								<input ng-show="cart.shipmode" type="submit" id="submit" value="Continue" ng-click="addShipmode(shipMode)" class="btn btn-primary">
 								<input ng-hide="cart.shipmode" type="submit" value="Continue" class="btn btn-primary" disabled>
-								<input type="submit" id="submit" value="Continue without Shipmode" href="${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod" class="btn btn-primary">
+								<a href="${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod.html" ><input type="submit" id="submit" value="Continue without Shipmode" class="btn btn-primary"></a>
 							</div>
 						</div>
 					</div>

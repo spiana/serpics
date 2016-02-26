@@ -6,7 +6,7 @@
 							<div style="width: 100%">
 								<input ng-show="cart.paymethod" type="submit" id="submit" value="Continue" ng-click="addPaymethod(payMethod)" class="btn btn-primary">
 								<input ng-hide="cart.paymethod" type="submit" value="Continue" class="btn btn-primary" disabled>
-								<input type="submit" id="submit" value="Continue without Payment Method" href="${ctx.contextPath}/${ctx.baseSite}/Complete.html" class="btn btn-primary">
+								<a href="${ctx.contextPath}/${ctx.baseSite}/Complete.html" ><input type="submit" id="submit" value="Continue without Payment Method" class="btn btn-primary"></a>
 							</div>
 						</div>
 					</div>
