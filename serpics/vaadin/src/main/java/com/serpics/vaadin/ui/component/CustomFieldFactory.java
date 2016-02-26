@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
+import com.serpics.base.data.model.Media;
 import com.serpics.base.data.model.MultilingualText;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -46,7 +47,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 	 */
 	private static final long serialVersionUID = -3915549627883442078L;
 	
-	private static final CustomFieldFactory instance = new CustomFieldFactory();
+	private static final  CustomFieldFactory instance = new CustomFieldFactory();
 
     /**
      * Singleton method to get an instance of CustomFieldFactory.
@@ -105,11 +106,21 @@ public class CustomFieldFactory extends DefaultFieldFactory{
         	f.setWidth(FIELD_WIDTH);
         	return f;
         }
+        
+        
+        	
         if (item instanceof JPAContainerItem) {
               JPAContainerItem jpaitem = (JPAContainerItem)item;
               EntityContainer container = jpaitem.getContainer();
               if (propertyId.toString().contains("."))
             	  container.addNestedContainerProperty(propertyId.toString());
+              
+              if (Media.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
+              	MediaSelect f = new MediaSelect(jpaitem, propertyId);
+          		f.setWidth(FIELD_WIDTH);
+          		return f;
+              }
+
               
              PropertyKind kind =  container.getPropertyKind(propertyId);
              if (LOG.isDebugEnabled())
@@ -168,7 +179,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     private MasterDetailField createOneToMany(Object propertyId , JPAContainerItem item){
     	MasterDetailField t = 
     			new MasterDetailField(item.getContainer(), item, propertyId);
-    	t.setWidth("90%");
+    	t.setWidth(FIELD_WIDTH);
     	return t;
     }
     
@@ -176,7 +187,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	 final ComboBox combo = new ComboBox(pid.toString());
     	 populateEnums(type, combo);
          combo.setNullSelectionAllowed(false);
-         combo.setWidth("90%");
+         combo.setWidth(FIELD_WIDTH);
          return combo;
     }
     

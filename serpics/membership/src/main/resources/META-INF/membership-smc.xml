@@ -2,10 +2,6 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
-	<entity name="store">
-		<property name="name" edit="false"  select="true"/>
-	</entity>
-
 	<entity name="member">
 		<property name="uuid" edit="false"  select="true"/>
 	</entity>

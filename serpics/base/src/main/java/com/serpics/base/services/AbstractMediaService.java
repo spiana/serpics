@@ -7,19 +7,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.MediaSupportType;
 import com.serpics.base.data.model.Media;
+import com.serpics.base.utils.MediaStoreUtil;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.Repository;
 
@@ -28,10 +23,10 @@ public abstract class AbstractMediaService<T extends Media>  implements MediaSer
 	@Resource
 	private CommerceEngine engine;
 	
+	@Resource
+	private MediaStoreUtil mediaUtils;
+	
 	public abstract Repository<T, Long> getRepository();
-
-	@Value("${media.base.path}")
-	private String baseMediaPath;
 	
 	@Override
 	@Transactional
@@ -48,7 +43,7 @@ public abstract class AbstractMediaService<T extends Media>  implements MediaSer
 
 	
 	protected String createLocalMedia(String fileName , InputStream is ) throws IOException{
-		String destinationPath = getDestinationPath(fileName);
+		String destinationPath = mediaUtils.getDestinationPath(fileName);
 		FileOutputStream fos = new FileOutputStream(destinationPath);
 		BufferedInputStream bis = new BufferedInputStream(is);
 
@@ -67,37 +62,6 @@ public abstract class AbstractMediaService<T extends Media>  implements MediaSer
 		return destinationPath;
 	}
 
-	protected String getDestinationPath(String filePath){
-		Long storeId= engine.getCurrentContext().getStoreId();
-		String[] path = filePath.replace("\\", "/").split("/");
-		String fileName= path[path.length-1];
-		String md5String = "AAABBB";
-		try{
-			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-			messageDigest.reset();
-			messageDigest.update(fileName.getBytes(Charset.forName("UTF8")));
-			byte[] resultByte = messageDigest.digest();
-			md5String = new String(Hex.encodeHex(resultByte));
-		}catch(NoSuchAlgorithmException e){
-			throw new RuntimeException(e);
-		}
-		
-		String completepath =FilenameUtils.concat(baseMediaPath, storeId.toString());
-		completepath=FilenameUtils.concat(completepath, md5String.substring(0,3).toUpperCase());
-		completepath=FilenameUtils.concat(completepath, md5String.substring(3,6).toUpperCase());
-		completepath=FilenameUtils.concat(completepath, fileName);
-		
-		return completepath;
-	}
 
-
-	public String getBaseMediaPath() {
-		return baseMediaPath;
-	}
-
-
-	public void setBaseMediaPath(String baseMediaPath) {
-		this.baseMediaPath = baseMediaPath;
-	}
 
 }
