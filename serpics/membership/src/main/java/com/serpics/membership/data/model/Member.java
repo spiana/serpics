@@ -8,8 +8,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -38,7 +36,7 @@ import com.serpics.membership.MemberType;
 @Entity
 @Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = { "uuid" }))
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "member_type", discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorColumn(name = "member_type", discriminatorType = DiscriminatorType.STRING)
 @Access(AccessType.FIELD)
 public class Member extends AbstractEntity implements Serializable {
   private static final long serialVersionUID = -8380078370041764459L;

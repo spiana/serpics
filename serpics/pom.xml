@@ -26,7 +26,7 @@
 		<jaxb.version>2.1</jaxb.version>
 		<fasterxml-version>2.1.0</fasterxml-version>
 		<surefire-plugin.version>2.18</surefire-plugin.version>
-		<hibernate.version>4.2.1.Final</hibernate.version>
+		<hibernate.version>4.3.11.Final</hibernate.version>
 		<spring.security>4.0.2.RELEASE</spring.security>
 	</properties>
 	<repositories>
