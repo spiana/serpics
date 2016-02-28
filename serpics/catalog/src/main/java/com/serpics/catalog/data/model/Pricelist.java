@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.serpics.base.data.model.AbstractStoreEntity;
 import com.serpics.base.data.model.MultilingualString;
 
 /**
@@ -24,7 +25,7 @@ import com.serpics.base.data.model.MultilingualString;
  */
 @Entity
 @Table(name="pricelist" )
-public class Pricelist extends AbstractCatalogEntry implements Serializable {
+public class Pricelist extends AbstractStoreEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -55,10 +56,9 @@ public class Pricelist extends AbstractCatalogEntry implements Serializable {
         super();
     }
 
-    public Pricelist(final String name, final Catalog catalog) {
+    public Pricelist(final String name) {
         super();
         this.name = name;
-        this.catalog = catalog;
     }
 
     public Long getId() {

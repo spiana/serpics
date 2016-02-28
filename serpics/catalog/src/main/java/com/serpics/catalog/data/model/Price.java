@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.serpics.base.data.model.AbstractStoreEntity;
 import com.serpics.base.data.model.Currency;
 
 /**
@@ -22,7 +23,7 @@ import com.serpics.base.data.model.Currency;
  */
 @Entity
 @Table(name = "prices")
-public class Price extends AbstractCatalogEntry implements Serializable {
+public class Price extends AbstractStoreEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

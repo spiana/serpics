@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serpics.base.data.model.Currency;
-import com.serpics.catalog.data.model.Catalog;
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.PriceListRepository;
@@ -27,7 +27,7 @@ public class PriceSaveInterceptor implements SaveInterceptor<Price> {
 	            entity.setCurrency(currency);
 	        }
 	        if (entity.getPricelist() == null) {
-	            final List<Pricelist> l = priceListRepository.findDefaultList((Catalog) engine.getCurrentContext().getCatalog());
+	            final List<Pricelist> l = priceListRepository.findDefaultList((Store) engine.getCurrentContext().getStoreRealm());
 	            assert !l.isEmpty() : "missing default price list !";
 	            entity.setPricelist(l.get(0));
 	        }

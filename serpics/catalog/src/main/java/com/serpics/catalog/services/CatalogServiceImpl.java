@@ -74,7 +74,6 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
     private void initializeCatalog(final Catalog catalog) {
         final Pricelist pricelist = new Pricelist();
         pricelist.setName("default-list");
-        pricelist.setCatalog(catalog);
         pricelist.setDefaultList(true);
         pricelist.setDescription(new MultilingualString());
         pricelist.getDescription().addText("en", "public list");
