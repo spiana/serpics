@@ -53,6 +53,7 @@
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/productService.js"></script>
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/cartService.js"></script>
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/orderService.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/geographicService.js"></script>
  <!-- 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/directive.js"></script> -->
 
 <title>Serpics Platform Ecommerce</title>

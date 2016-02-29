@@ -18,3 +18,5 @@ areas:
         id: serpics:components/central/central-login
       registerComponent:
         id: serpics:components/central/central-register
+      paymethodPaypalComponent:
+        id: serpics:components/checkout/checkout-paymethod-paypal

@@ -19,6 +19,8 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	  		addShipmode			: addShipmode,
 	  		getPaymethodList	: getPaymethodList,
 	  		addPaymethod		: addPaymethod,
+	  		createPayment		: createPayment,
+	    	addPaymentInfo		: addPaymentInfo, 
 	  		deleteCart			: deleteCart,
 	    });                
 	    return service
@@ -216,6 +218,47 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$http({
 			             method: 'PUT',
 			             url: URL + endpoint + "paymethod/" + paymethodName,
+			             headers: {
+			             	'ssid': sessionId,
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
+	    }
+	    
+	    /**
+	     * @return 
+	     */     
+	    function createPayment() {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("cartService addPaymethod(paymethodId) ssid nel promise "+sessionId) ;
+	    			$http({
+			             method: 'POST',
+			             url: URL + endpoint + 'payment',
+			             headers: {
+			             	'ssid': sessionId,
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
+	    }
+	    
+	    /**
+	     * @return 
+	     */     
+	    function addPaymentInfo(paidData) {
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("cartService addPaymethod(paymethodId) ssid nel promise "+sessionId) ;
+	    			$http({
+			             method: 'PUT',
+			             url: URL + endpoint + 'payment',
+			             data: paidData,
 			             headers: {
 			             	'ssid': sessionId,
 			            }

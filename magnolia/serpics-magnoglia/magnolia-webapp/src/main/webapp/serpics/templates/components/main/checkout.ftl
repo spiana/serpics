@@ -1,4 +1,4 @@
-	<section id="cart_items" ng-controller="cartController" ng-init="shippingAddressUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutShipping.html'; shipmodeUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutShipmode.html'; paymentUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod.html'">
+	<section id="cart_items" ng-controller="cartController" ng-init="shippingAddressUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutShipping.html'; shipmodeUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutShipmode.html'; paymentUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod.html'; paypalCheckoutUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethodPaypal.html'">
 		<div class="container">
 		[#assign page = model.root.content]
 			<div class="step-one">

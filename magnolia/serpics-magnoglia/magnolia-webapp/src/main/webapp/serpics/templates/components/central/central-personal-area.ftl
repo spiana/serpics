@@ -3,7 +3,7 @@
 	<div  ng-show="currentUser.userType=='ANONYMOUS'">
 		<div>Please <a href="${ctx.contextPath}/${ctx.baseSite}/Login.html">LOGIN</a> to acces to your Personal Area.</div>
 	</div>
-	<div  ng-if="currentUser.userType=='REGISTERED'" ng-init="getOrders(); getCountryList();">
+	<div  ng-if="currentUser.userType=='REGISTERED'" ng-init="getOrders(); getCountryList()">
 		<div class="col-sm-12 clearfix" style="margin-bottom: 30px;">
 						<div class="col-sm-4 clearfix">
 							<div><h4>Your data:</h4></div>
