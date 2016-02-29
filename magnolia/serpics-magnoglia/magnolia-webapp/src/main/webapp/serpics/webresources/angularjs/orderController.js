@@ -1,18 +1,36 @@
- var app = angular.module("order.controller", ['order.service'])
+ var app = angular.module("order.controller", ['order.service','cart.service'])
 /** orderController **/
-.controller("orderController",['$scope','orderService','$log',
+.controller("orderController",['$scope','orderService','$log','cartService',
                                   
-      function($scope,orderService,$log) {	
-   	
-  	    $scope.order 	= placeOrder();
+      function($scope,orderService,$log,cartService) {	
+   	    
+	$scope.order = {};
+	
+  	    function placeOrder(paymentId,payerId,token) {
+  	    	if (paymentId != ""  && payerId != ""){
+  	    		var paidData = {
+  	    				paymentIdentifier: paymentId,
+  	    				token: token,
+  	    				payerId: payerId
+  	    		}
+  	    		$log.debug("OrderController: paidData:"+JSON.stringify(paidData));
+  	    		cartService.addPaymentInfo(paidData).then( function( response ) {
+  	  	    		$log.debug("OrderController: addPaymentInfo(paidData): paidData:"+JSON.stringify(paidData));
+  	  	    		orderService.placeOrder().then( function( response){
+  	  	    			$log.debug("orderController after addPaymentInfo: placeOrder()")
+  	  	    			$scope.order = response;
+  	  	    			})
+  	    		});
+  	    	}else{
+  	  	    	orderService.placeOrder().then( function( response) {
+  	  	    		$log.debug("orderController: placeOrder() without stateParams")
+  	  	    		$scope.order = response;
+  	  	    	})
+  	    	}
+  	    }
   	    
-
-  	    
-  	    function placeOrder() {
-  	    	orderService.placeOrder().then( function( response) {
-  	    		$log.debug("orderController: placeOrder()")
-  	    		$scope.order = response;
-  	    	})
+  	    $scope.placeOrder = function (paymentId,payerId,token){
+  	    	placeOrder(paymentId,payerId,token)
   	    }
   	    
   	    /** implemented order service **/ 

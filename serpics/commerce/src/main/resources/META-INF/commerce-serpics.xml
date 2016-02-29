@@ -65,6 +65,20 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     		</property>
 	  </bean>
 	  
+	<!-- Payment Converter -->
+	<alias name="defaultPaymentPopulator" alias="paymentPopulator"/>
+    <bean name="defaultPaymentPopulator" class="com.serpics.commerce.facade.PaymentPopulator" />
+	
+	<alias name="defaultPaymentConverter" alias="paymentConverter"/>
+	  <bean name="defaultPaymentConverter" parent="abstractConverter">
+	       <property name="targetClass" value="com.serpics.commerce.facade.data.PaymentData"/>
+	       <property name="populators">
+		      <list>
+		          <ref bean="paymentPopulator"/>  
+		      </list>
+    		</property>
+	  </bean>
+	  
 	<!-- Shipping Converter -->
 	<alias name="defaultShippingPopulator" alias="shippingPopulator"/>
     <bean name="defaultShippingPopulator" class="com.serpics.commerce.facade.ShippingPopulator" />
@@ -100,6 +114,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<bean name="defaultCartPopulator" class="com.serpics.commerce.facade.CartOrderPopulator">
 	   <property name="abstractOrderItemConverter" ref="cartItemConvert"/>
 	   <property name="addressConverter" ref="addressConverter"/>
+	   <property name="paymethodConverter" ref="paymethodConverter"/>
 	</bean>
 	
 	<alias name="defaulCartConverter" alias="cartConverter"/>
@@ -133,6 +148,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<bean name="defaultOrderPopulator" class="com.serpics.commerce.facade.OrderPopulator">
 	   <property name="abstractOrderItemConverter" ref="orderItemConverter"/>
 	   <property name="addressConverter" ref="addressConverter"/>
+	   <property name="paymethodConverter" ref="paymethodConverter"/>
 	</bean>
 	
 	<alias name="defaulOrderConverter" alias="orderConverter"/>

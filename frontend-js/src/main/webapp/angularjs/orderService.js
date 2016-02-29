@@ -47,7 +47,7 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
-	    			$log.debug("OrderService addPayment(order,data) ssid nel promise"+sessionId) ;
+	    			$log.debug("OrderService addPayment(orderId,paymentData) ssid nel promise"+sessionId) ;
 	    			$http({
 			             method: 'POST',
 			             url: 	URL + endpoint +  'addPayment/'+ orderId,
@@ -78,7 +78,7 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 			          }).then(handleSuccess, handleError).then(resolve, reject);
 	    		});
 	    	});
-	    }  
+	    }
 	    
 	    
 	    /**

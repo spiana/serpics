@@ -33,60 +33,60 @@
     <plugins>
     
     
-     <plugin>
-            <groupId>com.qmino</groupId>
-            <artifactId>miredot-plugin</artifactId>
-            <version> 2.0-SNAPSHOT</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>restdoc</goal>
-                  </goals>
-               </execution>
-            </executions>
-            <configuration>
-               <license>
-					UHJvamVjdHxjb20uc2VycGljcy5yZXN0LWFwaXwyMDE3LTAxLTEyfHRydWUjTUN3Q0ZCTXZaTEZuOHhwd25jeXB6VWMzNS84UFo3NUFBaFIrNTNKYjhESmNaMzgydjJORzJqQzFKQWJ2YVE9PQ==
-               </license>
-               <restModel>
-               		<restFramework>
-            			<name>jax-rs</name>
-        			</restFramework>
-               		<httpStatusCodes>
-               			<httpStatusCode>
-               				<httpCode>200</httpCode>
-               				<document>always</document>
-               				<defaultMessage>The service call has completed successfully.</defaultMessage>
-               			</httpStatusCode>
-            			<httpStatusCode>
-                			<httpCode>401</httpCode>
-                			<document>explicit: com.acme.exceptions.AuthorizationException</document>
-                			<defaultMessage>The user is not authorized to use this service.</defaultMessage>
-            			</httpStatusCode>
+<!--      <plugin> -->
+<!--             <groupId>com.qmino</groupId> -->
+<!--             <artifactId>miredot-plugin</artifactId> -->
+<!--             <version> 2.0-SNAPSHOT</version> -->
+<!--             <executions> -->
+<!--                <execution> -->
+<!--                   <goals> -->
+<!--                      <goal>restdoc</goal> -->
+<!--                   </goals> -->
+<!--                </execution> -->
+<!--             </executions> -->
+<!--             <configuration> -->
+<!--                <license> -->
+<!-- 					UHJvamVjdHxjb20uc2VycGljcy5yZXN0LWFwaXwyMDE3LTAxLTEyfHRydWUjTUN3Q0ZCTXZaTEZuOHhwd25jeXB6VWMzNS84UFo3NUFBaFIrNTNKYjhESmNaMzgydjJORzJqQzFKQWJ2YVE9PQ== -->
+<!--                </license> -->
+<!--                <restModel> -->
+<!--                		<restFramework> -->
+<!--             			<name>jax-rs</name> -->
+<!--         			</restFramework> -->
+<!--                		<httpStatusCodes> -->
+<!--                			<httpStatusCode> -->
+<!--                				<httpCode>200</httpCode> -->
+<!--                				<document>always</document> -->
+<!--                				<defaultMessage>The service call has completed successfully.</defaultMessage> -->
+<!--                			</httpStatusCode> -->
+<!--             			<httpStatusCode> -->
+<!--                 			<httpCode>401</httpCode> -->
+<!--                 			<document>explicit: com.acme.exceptions.AuthorizationException</document> -->
+<!--                 			<defaultMessage>The user is not authorized to use this service.</defaultMessage> -->
+<!--             			</httpStatusCode> -->
 <!--             			<httpStatusCode> -->
 <!--                 			<httpCode>412</httpCode> -->
 <!--                 			<document>put,post</document> -->
 <!--                 			<defaultMessage>Invalid JSON/XML input.</defaultMessage> -->
 <!--             			</httpStatusCode> -->
-            			<httpStatusCode>
-                			<httpCode>500</httpCode>
-                			<document>always</document>
-                			<defaultMessage>The service call has not succeeded.</defaultMessage>
-                			<sticky>true</sticky><!-- Document always, even if there is an @statuscode tag -->
-            			</httpStatusCode>
-        			</httpStatusCodes>
-        	</restModel>
-               <!-- insert other configuration here (optional) -->
-              	<output>
-        	  		<title>SerpicsFrameWork eCommerce Suite</title>
-        	  		<html>
-        	  			<!-- optional html configuration -->
-        	  		<initialCollapseLevel>1</initialCollapseLevel>
+<!--             			<httpStatusCode> -->
+<!--                 			<httpCode>500</httpCode> -->
+<!--                 			<document>always</document> -->
+<!--                 			<defaultMessage>The service call has not succeeded.</defaultMessage> -->
+<!--                 			<sticky>true</sticky>Document always, even if there is an @statuscode tag -->
+<!--             			</httpStatusCode> -->
+<!--         			</httpStatusCodes> -->
+<!--         	</restModel> -->
+<!--                insert other configuration here (optional) -->
+<!--               	<output> -->
+<!--         	  		<title>SerpicsFrameWork eCommerce Suite</title> -->
+<!--         	  		<html> -->
+<!--         	  			optional html configuration -->
+<!--         	  		<initialCollapseLevel>1</initialCollapseLevel> -->
 
-        	  		</html>
-        		</output>
-            </configuration>
-         </plugin>
+<!--         	  		</html> -->
+<!--         		</output> -->
+<!--             </configuration> -->
+<!--          </plugin> -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

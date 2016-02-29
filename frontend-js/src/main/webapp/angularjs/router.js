@@ -69,7 +69,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
 	 })
     
     .state('shop.cart', {
-    	url: '/cart/',       
+    	url: '/cart',       
         templateUrl: 'html/template/cart.html',
         controller: 'cartController',
     })
@@ -125,7 +125,8 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
         	complete: "complete",
         	shipping: "checkout.shipping",
         	shipmode: "checkout.shipmode",
-        	payment: "checkout.payment"
+        	payment: "checkout.payment",
+        	paymentPayPal: "checkout.paymentPayPal"
         }
 	})
 	
@@ -145,8 +146,13 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
 	})
 	
 	.state('checkout.payment', {
-	   	url: '/payment',	        
+	   	url: '/payment?token',	        
 	    templateUrl: 'html/template/checkoutPayment.html',
+	})
+	
+	.state('checkout.paymentPayPal', {
+	   	url: '/paymentPayPal',	        
+	    templateUrl: 'html/template/checkoutPaymentPayPal.html'
 	})
 	
 	.state('checkout.login', {
@@ -174,6 +180,19 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
 		templateUrl: 'html/template/orderComplete.html',
 		controller: 'orderController'
  	})
+ 	
+ 		
+ 	.state('paid' , {
+		url: '/paid?paymentId&token&PayerID',
+		templateUrl: 'html/template/orderComplete.html',
+		controller: 'orderController'
+ 	})
+ 	
+ 	.state('cancel', {
+		url: '/cancel',
+		templateUrl: 'html/template/checkoutPayment.html'
+
+	})
  	
 	$urlRouterProvider.otherwise("/home");
 	    

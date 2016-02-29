@@ -35,4 +35,5 @@
     <li ng-repeat="i in range(product.totalPages)" ng-class="{active: product.number == $index}"><a href="" ng-click="findAllQ($index,product.size)">{{$index+1}}</a></li>
     <li><a href="" ng-click="findAllQ(product.number + 1,product.size)" ng-show="product.number < product.totalPages - 1">&raquo;</a></li>
 </ul>
+</div>
 <!--features_items-->

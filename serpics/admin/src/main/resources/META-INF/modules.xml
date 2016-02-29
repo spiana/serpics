@@ -8,4 +8,5 @@
 	<module>commerce-serpics.xml</module>
 	<module>system-serpics.xml</module>
 	<module>admin-serpics.xml</module>
+	<module>paypal-serpics.xml</module>
 </modules>

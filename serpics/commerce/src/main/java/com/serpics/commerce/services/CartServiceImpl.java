@@ -27,17 +27,22 @@ import com.serpics.base.data.model.Region;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
+import com.serpics.commerce.PaymentException;
+import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.Payment;
 import com.serpics.commerce.data.model.Paymethod;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.data.repositories.CartItemRepository;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.OrderItemRepository;
+import com.serpics.commerce.data.repositories.PaymentRepository;
 import com.serpics.commerce.data.repositories.PaymethodRepository;
 import com.serpics.commerce.data.repositories.ShipmodeRepository;
 import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.commerce.strategies.CartStrategy;
 import com.serpics.commerce.strategies.CommerceStrategy;
 import com.serpics.commerce.strategies.DiscountStrategy;
 import com.serpics.commerce.strategies.PriceStrategy;
@@ -71,6 +76,10 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Resource
 	DiscountStrategy discountStrategy;
+	
+	@Resource
+	PaymentService paymentService;
+
 
 	@Resource
 	PriceStrategy priceStrategy;
@@ -79,6 +88,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	ProductStrategy productStrategy;
 	@Resource
 	CommerceStrategy commerceStrategy;
+	
+	@Resource
+	CartStrategy cartStrategy;
 
 	@Resource
 	InventoryService inventoryService;
@@ -92,6 +104,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	
 	@Resource
 	PaymethodRepository paymethodRepository;
+	
+	@Resource
+	PaymentRepository paymentRepository;
 	
 	@Resource
 	CommerceEngine commerceEngine;
@@ -536,6 +551,90 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		c.setPaymethod(paymethod);
 		cartRepository.saveAndFlush(c);
 		putCartinSession(c);
+	}
+
+	@Override
+	@Transactional
+	public void mergeCartAtLogin(Member user, Member customer, Store store, String sessionId) throws InventoryNotAvailableException, ProductNotFoundException {
+
+		Cart repositoryCart = getCartByUser(user, customer, store, sessionId);
+		Cart sessionCart = getSessionCart();
+
+		if (repositoryCart != null) {
+			if (sessionCart != null) {
+				// sono presenti dei carrelli nel repository devo effettuare il merge con quello in sessione
+				cartStrategy.mergeCart(repositoryCart, sessionCart);
+				
+			} else {
+				prepareCart(sessionCart);
+				cartRepositoryDelete(repositoryCart);
+			}
+			putCartinSession(sessionCart);
+
+		} else {
+			// non sono presenti non viene effettuato il merge
+			// in questo caso o è presente il carrello in sessione oppure non ci
+			// sono carrelli per l'utente loggato
+			LOG.debug("Non sono presenti carrelli per effettuare il merge");
+		}
+
+		
+		sessionCart.setUser((User)user);
+		sessionCart.setCustomer(customer);	
+		
+		cartRepository.saveAndFlush(sessionCart);
+		
+		
+	}
+
+	@Override
+	@Transactional
+	public Payment createPayment(PaymentIntent intent) throws PaymentException {
+
+		Cart sessionCart = getSessionCart();
+		Payment payment = null;
+		
+		if ( sessionCart.getPaymethod() != null){
+
+			LOG.debug("Strategy for del current cart payment: {}",sessionCart.getPaymethod().getPaymentStrategy());
+
+			try{
+				payment = paymentService.createPayment(sessionCart, intent);
+			}catch(PaymentException e){
+				LOG.debug("Create Payment error ",e);
+				throw new PaymentException("Create Payment error ",e);
+			}
+			//il salvataggio del payment viene fatto nella strategy
+			//Salvo il payment
+//			paymentRepository.saveAndFlush(payment);
+			
+		} else {
+			LOG.debug("In this sessionCart there isn't a Paymethod!");
+			throw new PaymentException("In this sessionCart there isn't a Paymethod!");
+		}
+		
+		return payment;
+	}
+	
+	@Override
+	@Transactional
+	public void addPaymentInfo(String paymentIdentifier, String PayerID) throws PaymentException{
+		
+		Cart sessionCart = getSessionCart();
+		Payment payment = paymentService.findCurrentPendingPayment(sessionCart);
+		
+		Assert.notNull(payment, "Payment can not be null!");
+		if (payment != null){
+			payment.setPayerId(PayerID);
+			//TODO Verificare il paymentIdentifier
+			payment.setPaymentIdentifier((payment.getPaymentIdentifier() != null) ?  paymentIdentifier : paymentIdentifier);
+		} else {
+			LOG.debug("payment can not be null!");
+			throw new PaymentException("Payment can not be null!");
+		}
+
+		cartRepository.saveAndFlush(sessionCart);
+		putCartinSession(sessionCart);
 	}
 	
 }

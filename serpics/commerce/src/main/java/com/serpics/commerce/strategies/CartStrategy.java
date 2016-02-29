@@ -1,12 +1,11 @@
 package com.serpics.commerce.strategies;
 
-import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.membership.data.model.Member;
+import com.serpics.commerce.data.model.Cart;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 public interface CartStrategy {
 	
-	public void mergeCart (Member user, Member Customer, Store store, String sessionId) throws InventoryNotAvailableException, ProductNotFoundException;
+	public void mergeCart (Cart repositoryCart, Cart sessionCart) throws InventoryNotAvailableException, ProductNotFoundException;
 
 }

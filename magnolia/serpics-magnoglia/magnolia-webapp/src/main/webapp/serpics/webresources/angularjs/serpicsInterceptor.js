@@ -57,7 +57,7 @@ var app= angular.module('serpics.interceptor', [])
     };
   }])
 
-.factory('serpicsInterceptor',['serpicsHttpBuffer','$location', '$injector', '$q','$rootScope','$log','$cookies', function(serpicsHttpBuffer,$location, $injector, $q,$rootScope,$log,$cookies){
+.factory('serpicsInterceptor',['serpicsHttpBuffer','$location', '$injector', '$q','$rootScope','$log','$cookies','$window', function(serpicsHttpBuffer,$location, $injector, $q,$rootScope,$log,$cookies,$window){
 
 	return {
 		
@@ -91,8 +91,7 @@ var app= angular.module('serpics.interceptor', [])
 				
 				$log.debug("ResponseError Intercepted: 500: "+ rejection);
 				
-				var stato=$injector.get('$state');
-				stato.transitionTo('shop.500');
+				location.href = 'http://localhost:8080/magnolia-webapp/Serpics/500.html'
 				
 				return $q.reject(rejection);
 				
@@ -118,9 +117,8 @@ var app= angular.module('serpics.interceptor', [])
 //				$rootScope.userData.login.username = '';
 //				$rootScope.userData.login.password  ='';
 				
-				var stato=$injector.get('$state');
-				//stato.transitionTo('shop.login');
-				stato.go('shop.login');
+				location.href = 'http://localhost:8080/magnolia-webapp/Serpics/Login.html'
+
 				
 				return $q.reject(rejection);
 				
@@ -132,9 +130,7 @@ var app= angular.module('serpics.interceptor', [])
 						
 				$log.debug("ResponseError Intercepted: 404: "+ rejection);
 						
-				var stato=$injector.get('$state');
-				
-				stato.go('shop.404');
+				location.href = 'http://localhost:8080/magnolia-webapp/Serpics/404.html'
 						
 				return $q.reject(rejection);
 			}

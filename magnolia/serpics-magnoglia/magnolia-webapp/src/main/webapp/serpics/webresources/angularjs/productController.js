@@ -1,8 +1,8 @@
- var app = angular.module("product.controller", ['product.service', 'cart.service','serpics.services','serpics.router'])
+ var app = angular.module("product.controller", ['product.service', 'cart.service','serpics.services'])
 /** productController **/
-.controller("productController",['$scope','serpicsServices','productService', '$state', 'cartService','$log',
+.controller("productController",['$scope','serpicsServices','productService','cartService','$log',
                                   
-	      function($scope,serpicsServices,productService,$state,cartService,$log) {	
+	      function($scope,serpicsServices,productService,cartService,$log) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -13,7 +13,7 @@
 			
 			$scope.defaultQuantity = 1;
 	
-	  	    $scope.product 	= findAllQ(page, size);
+//	  	    $scope.product 	= findAllQ(page, size);
 	  	    
 	  	    
 	  	   	function getPage(){
@@ -45,7 +45,7 @@
 	  	    	$log.debug("ProductController cartAdd(sku ,quantity)");
 	  			cartService.cartAdd(sku ,quantity).then(function(response){
 	    			  $log.debug("ProductController cartAdd(sku ,quantity): ramo then");
-	    			  $state.go('shop.cart')
+	    			  location.href = $scope.cartUrl;	    			  
 	  		});
 	  	  }
 	  	 
@@ -61,7 +61,11 @@
 	  	    	productService.getProduct(productId).then( function( response ) {
 	  	    		$scope.product 	= response;
 	              })
-	  	    };  	   	  
+	  	    };
+	  	    
+	  	    $scope.getProduct = function(productId) {		
+	  	    	getProduct(productId);
+	  	    }; 
 	  	    
 	  	    /**
 	  	     * @param productId 			id of product 
@@ -150,7 +154,43 @@
 	  	    };
 	  	    
 	  	    $scope.findAllQ = function (page,size) {
+	  	    	if (page == undefined || size == undefined){
+	  	    		page = getPage();
+	  	    		size = getSize();
+	  	    	}
 	  	    	findAllQ(page,size);
+	  	    }
+	  	    
+	  	    $scope.findAll = function (page,size) {
+	  	    	if (page == undefined || size == undefined){
+	  	    		page = getPage();
+	  	    		size = getSize();
+	  	    	}
+	  	    	findAll(page,size);
+	  	    }
+	  	    
+	  	    $scope.findByBrand = function (brandId, page, size) {
+	  	    	if (page == undefined || size == undefined){
+	  	    		page = getPage();
+	  	    		size = getSize();
+	  	    	}
+	  	    	findByBrand(brandId, page, size);
+	  	    }
+	  	    
+	  	    $scope.findByCategory = function (categoryId, page, size) {
+	  	    	if (page == undefined || size == undefined){
+	  	    		page = getPage();
+	  	    		size = getSize();
+	  	    	}
+	  	    	findByCategory(categoryId, page, size);
+	  	    }
+	  	    
+	  	    $scope.findBySearch = function (text, page, size) {
+	  	    	if (page == undefined || size == undefined){
+	  	    		page = getPage();
+	  	    		size = getSize();
+	  	    	}
+	  	    	findBySearch(text, page, size);
 	  	    }
 	  	    	
 }])

@@ -11,8 +11,8 @@
 <link href="${ctx.contextPath}/.resources/serpics/webresources/css/main.css" rel="stylesheet">
 <link href="${ctx.contextPath}/.resources/serpics/webresources/css/ngDialog.css" rel="stylesheet">
 
-<!--[if lt IE 9]><script src="js/ie-emulation-modes-warning.js"></script><![endif]-->
-<script src="js/ie-emulation-modes-warning.js"></script>
+<!--[if lt IE 9]><script src="${ctx.contextPath}/.resources/serpics/webresources/js/ie-emulation-modes-warning.js"></script><![endif]-->
+<script src="${ctx.contextPath}/.resources/serpics/webresources/js/ie-emulation-modes-warning.js"></script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -32,7 +32,7 @@
 
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/config.js"></script>
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/serpicsApp.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/router.js"></script>
+ <!-- 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/router.js"></script> -->
 	
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/ngDialog.js"></script>
 	
@@ -53,23 +53,31 @@
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/productService.js"></script>
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/cartService.js"></script>
 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/orderService.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/directive.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/geographicService.js"></script>
+ <!-- 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/directive.js"></script> -->
 
 <title>Serpics Platform Ecommerce</title>
-
+[@cms.page /]
 </head>
 <body class="ng-cloak" >
+
+[#assign baseSite = cmsfn.asContentMap(model.root.node.parent)]
+[#if baseSite == ""]
+[#assign baseSite = model.root.content]
+[/#if]					
+
  <!--  dinamyc html with custom directive -->
 	
 	
-<div loader-directive text-loading="SERPICS"></div>
-<div top-header-directive></div>
-<div middle-header-directive></div>
-<div bottom-header-directive></div>
+ <!-- <div loader-directive text-loading="SERPICS"></div> -->
+
+<header id="header">
+[@cms.area name="serpics-header" contextAttributes={"baseSite":baseSite}/]
+</header>
 	
-<div ui-view></div>
+[@cms.area name="serpics-main" contextAttributes={"baseSite":baseSite}/]
 	
-<div footer-directive></div>
+[@cms.area name="serpics-footer" contextAttributes={"baseSite":baseSite}/]
 	<!-- JS -->
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="${ctx.contextPath}/.resources/serpics/webresources/js/jquery.prettyPhoto.js"></script>

@@ -1,14 +1,17 @@
- var app = angular.module("cart.controller", ['cart.service', 'customer.service','serpics.router'])
+ var app = angular.module("cart.controller", ['cart.service', 'customer.service','geographic.service'])
  
  /** cartController **/
-.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams',
+.controller("cartController",['$scope','customerService', 'cartService','$log','geographicService',
                                   
-function($state,$scope,customerService,cartService,$log,$stateParams) {
+function($scope,customerService,cartService,$log,geographicService) {
 		
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
 		$scope.shipmodeList = {};
 		$scope.paymethodList = {};
+		$scope.countries = {};
+		$scope.regions = {};
+		$scope.payment = {};
 	  	
 	    function getCurrentCart() {
   			$log.debug("CartController getCurrentCart()");
@@ -77,20 +80,23 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
   	     * @use 					cartService,
   	     */
 	  	 $scope.submitBillingForm = function (billingAddress,shippingToBill){
-	  		 
+				if (billingAddress.country != null){
+					billingAddress.countryIso3Code = billingAddress.country.iso3Code;
+					}
+					if (billingAddress.region != null){
+						billingAddress.regionName = billingAddress.region.name;
+					}  
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
 				  $log.debug("cartController addBillingAddress(billingAddress): ramo then1");
-				  var complete = $stateParams.complete;
 				  if (shippingToBill) {
 					  cartService.addShippingAddress(billingAddress).then(function(response){
 		    			  $log.debug("cartController billingAddress(billingAddress): ramo then");
 		    			  $scope.cart = response;
-		    			  $state.go($stateParams.shipmode)
+		    			  location.href = $scope.shipmodeUrl;
 					  })
 				  } else {
 					  $scope.cart = response;
-					  $log.debug("cartController billingAddress(billingAddress): ramo else"+JSON.stringify($stateParams));
-	    			  $state.go($stateParams.shipping)
+					  location.href = $scope.shippingAddressUrl;
 				  }
 			 })
 	  	 };
@@ -101,10 +107,16 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  	 * @use 					cartService,
 	  	 */	  	 
 		$scope.submitShippingForm = function (shippingAddress){
+			if (shippingAddress.country != null){
+				shippingAddress.countryIso3Code = shippingAddress.country.iso3Code;
+				}
+				if (shippingAddress.region != null){
+					shippingAddress.regionName = shippingAddress.region.name;
+				} 
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
 	  			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go($stateParams.shipmode)
+	  			  location.href = $scope.shipmodeUrl;
 	  		  })
 	  	};
 	  	
@@ -117,7 +129,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  			cartService.addShipmode(shipmode).then(function(response){
 	  			  $log.debug("cartController addShipmode(shipMode): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go($stateParams.payment)
+	  			  location.href = $scope.paymentUrl;
 	  		  })
 	  	};
 	  	
@@ -142,7 +154,19 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  			cartService.addPaymethod(paymethod).then(function(response){
 	  			  $log.debug("cartController addPaymethod(shipMode): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go($stateParams.payment)
+	  			  location.href = $scope.paymentUrl;
+	  		  })
+	  	};
+	  	
+	  	/**
+	  	 * @return 					a cart update with 
+	  	 * @use 					cartService,
+	  	 */	  	 
+		$scope.createPayment = function (){
+	  			cartService.createPayment().then(function(response){
+	  			  $log.debug("cartController createPayment(): ramo then");
+//	  			  $scope.payment = response;
+	  			  location.href = response.authorizedURL;
 	  		  })
 	  	};
 	  	
@@ -168,6 +192,34 @@ function($state,$scope,customerService,cartService,$log,$stateParams) {
 	  			  $log.debug("cartController deleteCart(): ramo then");
 	  			  $scope.cart = response;
 	  		  })
+	  	};
+  		
+	  	/**
+	  	 * @param		 	
+	  	 * @return 					country list
+	  	 * @use 					geographicService,
+	  	 */	  	 
+		$scope.getCountryList = function (){
+			geographicService.getCountryList().then(function(response){
+	  			  $log.debug("cartController getCountryList(): ramo then");
+	  			  $scope.countries = response;
+	  		  })
+	  	};
+  		
+	  	/**
+	  	 * @param		 			countryId
+	  	 * @return 					country list
+	  	 * @use 					geographicService,
+	  	 */	  	 
+		$scope.getRegionByCountry = function (countryId){
+			if (countryId != undefined){
+				geographicService.getRegionByCountry(countryId).then(function(response){
+		  			  $log.debug("cartController getRegionByCountry(countryId): ramo then");
+		  			  $scope.regions = response;
+		  		  })
+			} else {
+				$scope.regions = {};
+			}
 	  	};
   		
 }])

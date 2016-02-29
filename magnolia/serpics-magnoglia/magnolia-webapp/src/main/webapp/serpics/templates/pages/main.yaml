@@ -2,11 +2,28 @@ templateScript: /serpics/templates/pages/main.ftl
 renderType: freemarker
 visible: true
 title: Serpics One page template
-dialog: serpics:pages/main
 areas:
-  content-sections:
+  serpics-header:
     renderType: freemarker
     availableComponents:
-      content-items-list:
-        id: serpics:components/product-list  
-# eof: areas
+      topComponent:
+        id: serpics:components/header/header-top
+      userComponent:
+        id: serpics:components/header/header-user
+      searchComponent:
+        id: serpics:components/header/header-search
+  serpics-main:
+    renderType: freemarker
+    type: single
+    availableComponents:
+      shopComponent:
+        id: serpics:components/main/shop
+      checkoutComponent:
+        id: serpics:components/main/checkout
+      completeComponent:
+        id: serpics:components/main/complete
+  serpics-footer:
+    renderType: freemarker
+    availableComponents:
+      footerComponent:
+        id: serpics:components/footer/footer-complete

@@ -1,0 +1,22 @@
+templateScript: /serpics/templates/components/main/checkout.ftl
+renderType: freemarker
+title: Checkout Template
+areas:
+  serpics-checkout:
+    renderType: freemarker
+    type: list
+    availableComponents:
+      billingAddressComponent:
+        id: serpics:components/checkout/checkout-billing-address
+      shippingAddressComponent:
+        id: serpics:components/checkout/checkout-shipping-address
+      shipmodeComponent:
+        id: serpics:components/checkout/checkout-shipmode
+      paymethodComponent:
+        id: serpics:components/checkout/checkout-paymethod
+      loginComponent:
+        id: serpics:components/central/central-login
+      registerComponent:
+        id: serpics:components/central/central-register
+      paymethodPaypalComponent:
+        id: serpics:components/checkout/checkout-paymethod-paypal

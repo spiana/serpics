@@ -1,12 +1,15 @@
-<div class="container text-center">
+<div class="container text-center" ng-init="order.paymethod=undefined">
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="content-orderConfirm">
+			<div class="content-orderConfirm" ng-model="order" >
 				<h1>
-					<b>Order Confirmed Successfully!</b>
+					<b ng-show="order.id">Order Confirmed Successfully!</b>
+					<b ng-hide="order.id">Wait Confirmation Order...</b>
 				</h1>
-				<i class="fa fa-check"></i>
-				<p>your order was confirmed shortly receive an email list. Thank you.</p>				
+				<i ng-hide="order.id" class="fa fa-cog fa-spin fa-3x"></i>
+				<i ng-show="order.id" class="fa fa-check"></i>
+				<p ng-show="order.id">your order was confirmed shortly receive an email list. Thank you.</p>
+				<p ng-hide="order.id">your order was waiting confirmation from payment server...</p>				
 			</div>
 			<div>
 			<h2 class="title text-center">Order Summary</h2>
