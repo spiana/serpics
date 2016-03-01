@@ -570,10 +570,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			if (sessionCart != null) {
 				// sono presenti dei carrelli nel repository devo effettuare il merge con quello in sessione
 				cartStrategy.mergeCart(repositoryCart, sessionCart);
-				
+				cartRepositoryDelete(repositoryCart);				
 			} else {
-				
-				cartRepositoryDelete(repositoryCart);
+				LOG.debug("è presente solamente il repositoryCart");
 			}
 			
 			//putCartinSession(sessionCart);
