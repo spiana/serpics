@@ -2,13 +2,13 @@ package com.serpics.scheduler.exception;
 
 import org.quartz.SchedulerException;
 
-public class SerpicsSchedulerException extends Exception {
+public class JobSchedulerException extends Exception {
 
-	public SerpicsSchedulerException(String msg){
+	public JobSchedulerException(String msg){
 		super(msg);
 	}
 	
-	public SerpicsSchedulerException(String string, SchedulerException e) {
+	public JobSchedulerException(String string, SchedulerException e) {
 		super(string, e);
 	}
 

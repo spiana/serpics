@@ -18,7 +18,7 @@ public class SchedulerJobListener extends JobListenerSupport {
 	
 	@Override
 	public String getName() {
-		return "SerpicsJobListener";
+		return "DefaultJobListener";
 	}
 	
 	@Override

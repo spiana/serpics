@@ -19,18 +19,18 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.repositories.StoreRepository;
 import com.serpics.membership.services.BaseService;
-import com.serpics.scheduler.exception.SerpicsSchedulerException;
-import com.serpics.scheduler.job.TestSerpicsJob;
-import com.serpics.scheduler.job.TestSerpicsJobInError;
-import com.serpics.scheduler.model.AbstractSchedulerSerpicsJob;
+import com.serpics.scheduler.exception.JobSchedulerException;
+import com.serpics.scheduler.job.TestJob;
+import com.serpics.scheduler.job.TestJobInError;
+import com.serpics.scheduler.model.AbstractSchedulerJob;
 import com.serpics.scheduler.model.JobDetailState;
 import com.serpics.scheduler.model.JobLog;
 import com.serpics.scheduler.model.JobLogState;
-import com.serpics.scheduler.model.SerpicsJobDetails;
+import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.model.TriggerJob;
 import com.serpics.scheduler.service.JobLogService;
 import com.serpics.scheduler.service.JobService;
-import com.serpics.scheduler.service.SchedulerSerpicsService;
+import com.serpics.scheduler.service.SchedulerService;
 
 @ContextConfiguration({ "classpath:META-INF/applicationContext.xml", "classpath:META-INF/core-serpics.xml","classpath:META-INF/base-serpics.xml", "classpath:META-INF/membership-serpics.xml",
 		"classpath:META-INF/catalog-serpics.xml", "classpath:META-INF/warehouse-serpics.xml",
@@ -59,7 +59,7 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 	JobService jobService;
 	
 	@Autowired
-	SchedulerSerpicsService schedulerSerpicsService;
+	SchedulerService schedulerService;
 	
 	@Autowired
 	JobLogService jobLogService;
@@ -77,10 +77,10 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 	}
 	
 	@org.junit.Test
-	public void testJobSuccesful() throws InterruptedException, SerpicsSchedulerException{
+	public void testJobSuccesful() throws InterruptedException, JobSchedulerException{
 		String uuidTrigger = scheduleJobTest();
 		Thread.sleep(10000);
-		AbstractSchedulerSerpicsJob abstractScheduler = schedulerSerpicsService.getSchedulerSerpicsJob(uuidTrigger);
+		AbstractSchedulerJob abstractScheduler = schedulerService.getSchedulerJob(uuidTrigger);
 		Assert.assertEquals("Number of iteration",3,((TriggerJob)abstractScheduler).getItereted().intValue());
 		
 		List<JobLog> logs = jobLogService.getLogForJobDetail(abstractScheduler.getJobDetail());
@@ -102,10 +102,10 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 	}
 	
 	@org.junit.Test
-	public void testError() throws InterruptedException, SerpicsSchedulerException{
+	public void testError() throws InterruptedException, JobSchedulerException{
 		String uuidTrigger = scheduleJobTestInError();
 		Thread.sleep(10000);
-		AbstractSchedulerSerpicsJob abstractScheduler = schedulerSerpicsService.getSchedulerSerpicsJob(uuidTrigger);
+		AbstractSchedulerJob abstractScheduler = schedulerService.getSchedulerJob(uuidTrigger);
 		Assert.assertEquals("Number of iteration",1,((TriggerJob)abstractScheduler).getItereted().intValue());
 		
 		List<JobLog> logs = jobLogService.getLogForJobDetail(abstractScheduler.getJobDetail());
@@ -128,10 +128,10 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 		Assert.assertEquals("State of Job must be paused",JobDetailState.PAUSED,abstractScheduler.getJobDetail().getStateOfJob());
 	}
 	
-	public String scheduleJobTest() throws SerpicsSchedulerException{
+	public String scheduleJobTest() throws JobSchedulerException{
 		
 		Store store = storeRepository.findByname("default-store");
-		SerpicsJobDetails jobdetails = jobService.createJobDetail(TestSerpicsJob.class, store, null);
+		JobDetails jobdetails = jobService.createJobDetail(TestJob.class, store, null);
 		
 		TriggerJob trigger = new TriggerJob();
 		trigger.setJobDetail(jobdetails);
@@ -142,17 +142,17 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 		return trigger.getUuid();
 	}
 	
-	public String scheduleJobTestInError() throws SerpicsSchedulerException{
+	public String scheduleJobTestInError() throws JobSchedulerException{
 		
 		Store store = storeRepository.findByname("default-store");
 		
-		SerpicsJobDetails jobDetails = new SerpicsJobDetails();
+		JobDetails jobDetails = new JobDetails();
 		jobDetails.setStore(store);
 		jobDetails.setCatalog(null);
-		jobDetails.setNameClassJob(TestSerpicsJobInError.class.getCanonicalName());
+		jobDetails.setNameClassJob(TestJobInError.class.getCanonicalName());
 		jobDetails.setStopOnFail(true);
 		
-		SerpicsJobDetails jobdetails = jobService.createJobDetail(TestSerpicsJobInError.class, jobDetails);
+		JobDetails jobdetails = jobService.createJobDetail(TestJobInError.class, jobDetails);
 		
 		TriggerJob trigger = new TriggerJob();
 		trigger.setJobDetail(jobdetails);

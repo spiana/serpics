@@ -9,18 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
-import com.serpics.scheduler.model.AbstractSchedulerSerpicsJob;
+import com.serpics.scheduler.model.AbstractSchedulerJob;
 import com.serpics.scheduler.model.JobLog;
-import com.serpics.scheduler.model.SerpicsJobDetails;
+import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.repositories.JobLogRepository;
 import com.serpics.scheduler.service.JobLogService;
-import com.serpics.scheduler.service.SchedulerSerpicsService;
+import com.serpics.scheduler.service.SchedulerService;
 
 @Service("jobLogService")
 public class JobLogServiceImpl implements JobLogService {
 
 	@Resource
-	private SchedulerSerpicsService schedulerSerpicsService;
+	private SchedulerService schedulerService;
 	
 	@Resource
 	private JobLogRepository jobLogRepository;
@@ -29,16 +29,16 @@ public class JobLogServiceImpl implements JobLogService {
 	@Transactional
 	public void addJobLog(String uuidScheduler, JobLog jLog) {
 		
-		AbstractSchedulerSerpicsJob schedulerJob = schedulerSerpicsService.getSchedulerSerpicsJob(uuidScheduler);
+		AbstractSchedulerJob schedulerJob = schedulerService.getSchedulerJob(uuidScheduler);
 		
-		jLog.setSchedulerSerpicsJob(schedulerJob);
+		jLog.setSchedulerJob(schedulerJob);
 		jLog.setJobRunned(schedulerJob.getJobDetail());
 		
 		jobLogRepository.saveAndFlush(jLog);
 	}
 
 	@Override
-	public List<JobLog> getLogForJobDetail(SerpicsJobDetails jobDetail){
+	public List<JobLog> getLogForJobDetail(JobDetails jobDetail){
 		
 		return jobLogRepository.findLogFroJobDetails(jobDetail);
 	}

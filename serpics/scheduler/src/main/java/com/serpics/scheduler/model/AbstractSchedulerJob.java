@@ -18,10 +18,10 @@ import javax.persistence.Table;
 import com.serpics.core.data.jpa.AbstractEntity;
 
 @Entity
-@Table(name="scheduler_serpics_job")
+@Table(name="scheduler_job")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type_of_scheduler",discriminatorType = DiscriminatorType.INTEGER)
-public class AbstractSchedulerSerpicsJob extends AbstractEntity{
+public class AbstractSchedulerJob extends AbstractEntity{
 	
 	private static final long serialVersionUID = -5324712912301319990L;
 
@@ -32,7 +32,7 @@ public class AbstractSchedulerSerpicsJob extends AbstractEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="jobdetail_id")
-	private SerpicsJobDetails jobDetail;
+	private JobDetails jobDetail;
 	
 	@Column(name="last_run_date")
 	private Date lastRun;
@@ -48,11 +48,11 @@ public class AbstractSchedulerSerpicsJob extends AbstractEntity{
 		this.id = id;
 	}
 
-	public SerpicsJobDetails getJobDetail() {
+	public JobDetails getJobDetail() {
 		return jobDetail;
 	}
 
-	public void setJobDetail(SerpicsJobDetails jobDetail) {
+	public void setJobDetail(JobDetails jobDetail) {
 		this.jobDetail = jobDetail;
 	}
 

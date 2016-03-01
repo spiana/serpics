@@ -12,13 +12,13 @@ import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.listeners.TriggerListenerSupport;
 
-import com.serpics.scheduler.model.AbstractSchedulerSerpicsJob;
+import com.serpics.scheduler.model.AbstractSchedulerJob;
 import com.serpics.scheduler.model.JobLog;
 import com.serpics.scheduler.model.JobLogState;
 import com.serpics.scheduler.model.TriggerJob;
 import com.serpics.scheduler.service.JobLogService;
 import com.serpics.scheduler.service.JobService;
-import com.serpics.scheduler.service.SchedulerSerpicsService;
+import com.serpics.scheduler.service.SchedulerService;
 
 /**
  * An Trigger Listener implementation to manage result of execution of Thread.
@@ -35,11 +35,11 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 	private JobService jobService;
 	
 	@Resource
-	private SchedulerSerpicsService schedulerSerpicsService;
+	private SchedulerService schedulerService;
 	
 	@Override
 	public String getName() {
-		return "SerpicsTriggerListener";
+		return "DefaultTriggerListener";
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 		
 		jobLogService.addJobLog(trigger.getKey().getName(), jLog);
 		
-		AbstractSchedulerSerpicsJob abstractScedulerJob = schedulerSerpicsService.getSchedulerSerpicsJob(trigger.getKey().getName());
+		AbstractSchedulerJob abstractScedulerJob = schedulerService.getSchedulerJob(trigger.getKey().getName());
 		
 		if(trigger instanceof SimpleTrigger){
 			
@@ -95,7 +95,7 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 			getLog().info("No trigger recognise");
 		}
 		
-		schedulerSerpicsService.save(abstractScedulerJob);
+		schedulerService.save(abstractScedulerJob);
 	}
 
 }

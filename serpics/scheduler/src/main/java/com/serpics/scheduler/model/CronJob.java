@@ -7,7 +7,7 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue(value = "0")
-public class CronJob extends AbstractSchedulerSerpicsJob {
+public class CronJob extends AbstractSchedulerJob {
 
 	private static final long serialVersionUID = -2714360207621812096L;
 	

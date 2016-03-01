@@ -22,31 +22,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.scheduler.exception.SerpicsSchedulerException;
-import com.serpics.scheduler.job.AbstractSerpicsJob;
+import com.serpics.scheduler.exception.JobSchedulerException;
+import com.serpics.scheduler.job.AbstractJob;
 import com.serpics.scheduler.model.CronJob;
-import com.serpics.scheduler.model.SerpicsJobDetails;
+import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.model.TriggerJob;
-import com.serpics.scheduler.service.SerpicsQuartzService;
+import com.serpics.scheduler.service.SchedulerQuartzService;
 
-@Service("serpicsQuartzService")
-public class SerpicsQuartzServiceImpl implements SerpicsQuartzService {
+@Service("schedulerQuartzService")
+public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 
-	Logger LOG = LoggerFactory.getLogger(SerpicsQuartzServiceImpl.class);
+	Logger LOG = LoggerFactory.getLogger(SchedulerQuartzServiceImpl.class);
 
-	private final String KEY_GROUP_TRIGGER = "DEFAULT_SERPICS_TRIGGER";
-	private final String KEY_GROUP_CRONJOB = "DEFAULT_SERPICS_CRONJOB";
-	private final String KEY_GROUP_JOB = "DEFAULT_SERPICS_JOB";
+	private final String KEY_GROUP_TRIGGER = "DEFAULT_CUSTOM_GROUP_TRIGGER";
+	private final String KEY_GROUP_CRONJOB = "DEFAULT_CUSTOM_GROUP_CRONJOB";
+	private final String KEY_GROUP_JOB = "DEFAULT_CUSTOM_GROUP_JOB";
 
 	@Autowired
 	private Scheduler scheduler;
 
 	@Override
 	@Transactional
-	public void addJob(Class<? extends AbstractSerpicsJob> jobToCreate, SerpicsJobDetails jobDetails)
-			throws SerpicsSchedulerException {
+	public void addJob(Class<? extends AbstractJob> jobToCreate, JobDetails jobDetails)
+			throws JobSchedulerException {
 
-		Assert.notNull(jobDetails, "Serpics Job Details cannot be null");
+		Assert.notNull(jobDetails, "Job Details cannot be null");
 		LOG.debug("Try to create job in quartz with identity key [ name: {} , group: {} ]",jobDetails.getUuid(), KEY_GROUP_JOB);
 		
 		JobDetail jobInQuartz;
@@ -54,7 +54,7 @@ public class SerpicsQuartzServiceImpl implements SerpicsQuartzService {
 			jobInQuartz = findJobInQuartz(jobDetails.getUuid(), KEY_GROUP_JOB);
 			
 			if (jobInQuartz != null) {
-				throw new SerpicsSchedulerException("Job with same key just exist in quartz");
+				throw new JobSchedulerException("Job with same key just exist in quartz");
 			}
 			
 			jobInQuartz = JobBuilder.newJob(jobToCreate).withIdentity(jobDetails.getUuid(), KEY_GROUP_JOB)
@@ -62,19 +62,18 @@ public class SerpicsQuartzServiceImpl implements SerpicsQuartzService {
 					.usingJobData("catalog", jobDetails.getCatalog()!=null?jobDetails.getCatalog().getCode():"")
 					.storeDurably(true)
 					.build();
-//			Scheduler scheduler = quartzScheduler.getScheduler();
+
 			scheduler.addJob(jobInQuartz, false);
 			LOG.info("Add job in scheduler with identity key [ name: {} , group: {} ]", jobDetails.getUuid(),
 					KEY_GROUP_JOB);
 			} catch (SchedulerException e) {
 				LOG.error("Error to add job in scheduler", e);
-				throw new SerpicsSchedulerException("Error to add Job " + jobDetails.getUuid(), e);
+				throw new JobSchedulerException("Error to add Job " + jobDetails.getUuid(), e);
 			}
 	}
 
 	private JobDetail findJobInQuartz(String uuid, String group) throws SchedulerException {
 		JobDetail jobToReturn = null;
-//		Scheduler scheduler = quartzScheduler.getScheduler();
 
 		jobToReturn = scheduler.getJobDetail(new JobKey(uuid, group));
 		return jobToReturn;
@@ -82,12 +81,12 @@ public class SerpicsQuartzServiceImpl implements SerpicsQuartzService {
 	
 	@Override
 	@Transactional
-	public void addSimpleTrigger(TriggerJob triggerJob,SerpicsJobDetails jobToExecute) throws SerpicsSchedulerException{
+	public void addSimpleTrigger(TriggerJob triggerJob,JobDetails jobToExecute) throws JobSchedulerException{
 		
 		try {
 			JobDetail jobDetailsQuartz = findJobInQuartz(jobToExecute.getUuid(),KEY_GROUP_JOB);
 			if(jobDetailsQuartz==null){
-				throw new SerpicsSchedulerException("Impossible to create a Trigger if job does not create. Create it first!");
+				throw new JobSchedulerException("Impossible to create a Trigger if job does not create. Create it first!");
 			}
 			
 			TriggerBuilder<SimpleTrigger> triggerBuilder = new SimpleTriggerImpl().getTriggerBuilder();
@@ -134,18 +133,18 @@ public class SerpicsQuartzServiceImpl implements SerpicsQuartzService {
 			addTrigger(triggerBuilder.build());
 		}catch(SchedulerException e){
 			LOG.error("Error to create trigger for job in scheduler", e);
-			throw new SerpicsSchedulerException("Error to add trigger " + triggerJob.getUuid(), e);
+			throw new JobSchedulerException("Error to add trigger " + triggerJob.getUuid(), e);
 		}
 	}
 	
 	@Override
 	@Transactional
-	public void addCronTrigger(CronJob cronJob,SerpicsJobDetails jobToExecute) throws SerpicsSchedulerException{
+	public void addCronTrigger(CronJob cronJob,JobDetails jobToExecute) throws JobSchedulerException{
 		
 		try {
 			JobDetail jobDetailsQuartz = findJobInQuartz(jobToExecute.getUuid(),KEY_GROUP_JOB);
 			if(jobDetailsQuartz==null){
-				throw new SerpicsSchedulerException("Impossible to create a Trigger if job does not create. Create it first!");
+				throw new JobSchedulerException("Impossible to create a Trigger if job does not create. Create it first!");
 			}
 			
 			TriggerBuilder<CronTrigger> cronTriggerBuilder = new CronTriggerImpl().getTriggerBuilder();
@@ -164,32 +163,29 @@ public class SerpicsQuartzServiceImpl implements SerpicsQuartzService {
 			addTrigger(cronScheduleBuilder.build());
 		}catch(SchedulerException e){
 			LOG.error("Error to create cron trigger for job in scheduler", e);
-			throw new SerpicsSchedulerException("Error to add cron trigger " + cronJob.getUuid(), e);
+			throw new JobSchedulerException("Error to add cron trigger " + cronJob.getUuid(), e);
 		}
 	}
 	
 	@Transactional
 	public void addTrigger(Trigger triggerScheduler) throws SchedulerException{
-//		Scheduler scheduler = quartzScheduler.getScheduler();
+
 		LOG.info("Try to add in quartz the trigger [] with key {} ",triggerScheduler.getClass().getName(),triggerScheduler.getKey());
 		
 		scheduler.scheduleJob(triggerScheduler);
-		//FIX to wake up scheduler
-//		if(scheduler.isInStandbyMode() && !scheduler.isShutdown()){
-//			scheduler.start();
-//		}
+
 		LOG.info("Added in quartz the trigger with key {} ",triggerScheduler.getKey());
 		
 	}
 
 	@Override
-	public void pauseJob(SerpicsJobDetails jobToPaused) throws SchedulerException {
+	public void pauseJob(JobDetails jobToPaused) throws SchedulerException {
 		
 		scheduler.pauseJob(new JobKey(jobToPaused.getUuid(),KEY_GROUP_JOB));
 	}
 
 	@Override
-	public void resumeJob(SerpicsJobDetails jobToResume) throws SchedulerException {
+	public void resumeJob(JobDetails jobToResume) throws SchedulerException {
 		
 		scheduler.resumeJob(new JobKey(jobToResume.getUuid(),KEY_GROUP_JOB));
 		

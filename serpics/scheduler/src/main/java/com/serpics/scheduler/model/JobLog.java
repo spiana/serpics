@@ -9,10 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.serpics.core.data.jpa.AbstractEntity;
 
 @Entity(name="JobLog")
+@Table(name="job_scheduler_log")
 public class JobLog extends AbstractEntity {
 
 	private static final long serialVersionUID = -5408373595049057734L;
@@ -33,11 +35,11 @@ public class JobLog extends AbstractEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="job_id",nullable=false)
-	private SerpicsJobDetails jobRunned;
+	private JobDetails jobRunned;
 
 	@ManyToOne
 	@JoinColumn(name="scheduler_id",nullable=true)
-	private AbstractSchedulerSerpicsJob schedulerSerpicsJob;
+	private AbstractSchedulerJob schedulerJob;
 	
 	public Long getId() {
 		return id;
@@ -63,20 +65,20 @@ public class JobLog extends AbstractEntity {
 		this.message = message;
 	}
 
-	public SerpicsJobDetails getJobRunned() {
+	public JobDetails getJobRunned() {
 		return jobRunned;
 	}
 
-	public void setJobRunned(SerpicsJobDetails jobRunned) {
+	public void setJobRunned(JobDetails jobRunned) {
 		this.jobRunned = jobRunned;
 	}
 
-	public AbstractSchedulerSerpicsJob getSchedulerSerpicsJob() {
-		return schedulerSerpicsJob;
+	public AbstractSchedulerJob getSchedulerJob() {
+		return schedulerJob;
 	}
 
-	public void setSchedulerSerpicsJob(AbstractSchedulerSerpicsJob schedulerSerpicsJob) {
-		this.schedulerSerpicsJob = schedulerSerpicsJob;
+	public void setSchedulerJob(AbstractSchedulerJob schedulerJob) {
+		this.schedulerJob = schedulerJob;
 	}
 
 	public Date getDateLog() {

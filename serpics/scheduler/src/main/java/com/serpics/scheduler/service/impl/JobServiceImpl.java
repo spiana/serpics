@@ -17,21 +17,21 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Catalog;
-import com.serpics.scheduler.exception.SerpicsSchedulerException;
-import com.serpics.scheduler.job.AbstractSerpicsJob;
-import com.serpics.scheduler.model.AbstractSchedulerSerpicsJob;
+import com.serpics.scheduler.exception.JobSchedulerException;
+import com.serpics.scheduler.job.AbstractJob;
+import com.serpics.scheduler.model.AbstractSchedulerJob;
 import com.serpics.scheduler.model.CronJob;
 import com.serpics.scheduler.model.JobDetailState;
 import com.serpics.scheduler.model.JobLog;
 import com.serpics.scheduler.model.JobLogState;
-import com.serpics.scheduler.model.SerpicsJobDetails;
+import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.model.TriggerJob;
 import com.serpics.scheduler.repositories.CronJobRepository;
-import com.serpics.scheduler.repositories.SerpicsJobDetailsRepository;
+import com.serpics.scheduler.repositories.JobDetailsRepository;
 import com.serpics.scheduler.repositories.TriggerJobRepository;
 import com.serpics.scheduler.service.JobLogService;
 import com.serpics.scheduler.service.JobService;
-import com.serpics.scheduler.service.SerpicsQuartzService;
+import com.serpics.scheduler.service.SchedulerQuartzService;
 
 @Service("jobService")
 public class JobServiceImpl implements JobService {
@@ -39,10 +39,10 @@ public class JobServiceImpl implements JobService {
 	Logger LOG = LoggerFactory.getLogger(JobServiceImpl.class);
 	
 	@Autowired
-	private SerpicsQuartzService serpicsQuartzService;
+	private SchedulerQuartzService schedulerQuartzService;
 	
 	@Resource
-	private SerpicsJobDetailsRepository serpicsJobDetailsRepository;
+	private JobDetailsRepository jobDetailsRepository;
 	
 	@Resource
 	private TriggerJobRepository triggerJobRepository;
@@ -55,28 +55,28 @@ public class JobServiceImpl implements JobService {
 	
 	@Override
 	@Transactional
-	public SerpicsJobDetails createJobDetail(Class<? extends AbstractSerpicsJob> jobToCreate,SerpicsJobDetails jobDetails)throws SerpicsSchedulerException{
+	public JobDetails createJobDetail(Class<? extends AbstractJob> jobToCreate,JobDetails jobDetails)throws JobSchedulerException{
 		
 		jobDetails.setStateOfJob(JobDetailState.CREATED);
 		
-		jobDetails = serpicsJobDetailsRepository.saveAndFlush(jobDetails);
-		LOG.debug("Saved SerpicsJobDetails : [uuid: {} ] ",jobDetails.getUuid());
+		jobDetails = jobDetailsRepository.saveAndFlush(jobDetails);
+		LOG.debug("Saved JobDetails : [uuid: {} ] ",jobDetails.getUuid());
 		
 		LOG.debug("Create job in quartz");
-		serpicsQuartzService.addJob(jobToCreate, jobDetails);
+		schedulerQuartzService.addJob(jobToCreate, jobDetails);
 		return jobDetails;
 	}
 	
 	@Override
 	@Transactional
-	public SerpicsJobDetails createJobDetail(Class<? extends AbstractSerpicsJob> jobToCreate,Store store,Catalog catalog) throws SerpicsSchedulerException{
+	public JobDetails createJobDetail(Class<? extends AbstractJob> jobToCreate,Store store,Catalog catalog) throws JobSchedulerException{
 		
 		Assert.notNull(jobToCreate, "If you want to create a job, please provide an job object.");
 		Assert.notNull(store,"Indicate the Store where the perform job");
 		
 		LOG.info("Create Job Details for job  [{}] with params store [ {} ] , catalog [ {} ]",jobToCreate.getCanonicalName(),store.getName(),catalog!=null?catalog.getCode():"No Catalog");
 		
-		SerpicsJobDetails jobDetails = new SerpicsJobDetails();
+		JobDetails jobDetails = new JobDetails();
 		jobDetails.setStore(store);
 		jobDetails.setCatalog(catalog);
 		jobDetails.setNameClassJob(jobToCreate.getCanonicalName());
@@ -86,7 +86,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	@Transactional
-	public AbstractSchedulerSerpicsJob createTrigger(TriggerJob trigger,SerpicsJobDetails jobToExecute) throws SerpicsSchedulerException{
+	public AbstractSchedulerJob createTrigger(TriggerJob trigger,JobDetails jobToExecute) throws JobSchedulerException{
 		
 		LOG.debug("Try to save trigger : {}",trigger.getStringDetail());
 		
@@ -106,13 +106,13 @@ public class JobServiceImpl implements JobService {
 		LOG.debug("Saved trigger: [uuid: {} ],",trigger.getUuid());
 		
 		LOG.debug("Schedule in quartz the job");
-		serpicsQuartzService.addSimpleTrigger(trigger, jobToExecute);
+		schedulerQuartzService.addSimpleTrigger(trigger, jobToExecute);
 		return trigger;
 	}
 
 	@Override
 	@Transactional
-	public AbstractSchedulerSerpicsJob createCronJob(CronJob cronJob, SerpicsJobDetails jobToExecute) throws SerpicsSchedulerException{
+	public AbstractSchedulerJob createCronJob(CronJob cronJob, JobDetails jobToExecute) throws JobSchedulerException{
 		
 		LOG.debug("Try to save cronJob : {}",cronJob.getStringDetail());
 		
@@ -123,21 +123,21 @@ public class JobServiceImpl implements JobService {
 		
 		cronJob = cronJobRepository.saveAndFlush(cronJob);
 		
-		serpicsQuartzService.addCronTrigger(cronJob, jobToExecute);
+		schedulerQuartzService.addCronTrigger(cronJob, jobToExecute);
 		return cronJob;
 	}
 	@Override
-	public void pauseJob(SerpicsJobDetails jobToPaused){
+	public void pauseJob(JobDetails jobToPaused){
 		
 		LOG.info("Stopping all Scheduler of JOB [{}]",jobToPaused.getUuid());
 		
 		Assert.notNull(jobToPaused,"Indicate what the Job to stop.");
 		
-		jobToPaused = serpicsJobDetailsRepository.findByUUID(jobToPaused.getUuid());
+		jobToPaused = jobDetailsRepository.findByUUID(jobToPaused.getUuid());
 		JobDetailState stateOfJob = JobDetailState.PAUSED;
 		
 		try {
-			serpicsQuartzService.pauseJob(jobToPaused);
+			schedulerQuartzService.pauseJob(jobToPaused);
 		} catch (SchedulerException e) {
 			LOG.error("Error to set in pause all scheduler of Job ["+jobToPaused.getUuid()+"]",e);
 			stateOfJob = JobDetailState.ERROR;
@@ -145,37 +145,37 @@ public class JobServiceImpl implements JobService {
 		
 		jobToPaused.setStateOfJob(stateOfJob);
 		
-		serpicsJobDetailsRepository.saveAndFlush(jobToPaused);
+		jobDetailsRepository.saveAndFlush(jobToPaused);
 	}
 	
 	@Override
-	public void resumeJob(SerpicsJobDetails jobToResume){
+	public void resumeJob(JobDetails jobToResume){
 		
 		LOG.info("Resume all Scheduler of JOB [{}]",jobToResume.getUuid());
 		
 		Assert.notNull(jobToResume,"Indicate what the Job to resume.");
 		
-		jobToResume = serpicsJobDetailsRepository.findByUUID(jobToResume.getUuid());
+		jobToResume = jobDetailsRepository.findByUUID(jobToResume.getUuid());
 		JobDetailState stateOfJob = JobDetailState.RESUMING;
 		
 		try {
-			serpicsQuartzService.resumeJob(jobToResume);
+			schedulerQuartzService.resumeJob(jobToResume);
 		} catch (SchedulerException e) {
 			LOG.error("Error to resume all scheduler of Job ["+jobToResume.getUuid()+"]",e);
 			stateOfJob = JobDetailState.ERROR;
 		}
 		jobToResume.setStateOfJob(stateOfJob);
 		
-		serpicsJobDetailsRepository.saveAndFlush(jobToResume);
+		jobDetailsRepository.saveAndFlush(jobToResume);
 		
 	}	
 	
 	@Override
 	public void manageJobToStart(JobExecutionContext context){
 		
-		SerpicsJobDetails job = serpicsJobDetailsRepository.findByUUID(context.getJobDetail().getKey().getName());
+		JobDetails job = jobDetailsRepository.findByUUID(context.getJobDetail().getKey().getName());
 		job.setStateOfJob(JobDetailState.RUNNING);
-		serpicsJobDetailsRepository.save(job);
+		jobDetailsRepository.save(job);
 	}
 	
 	@Override
@@ -183,7 +183,7 @@ public class JobServiceImpl implements JobService {
 		
 		LOG.debug("Manage Finished Job {}",context.getJobDetail().getKey());
 		
-		SerpicsJobDetails job = serpicsJobDetailsRepository.findByUUID(context.getJobDetail().getKey().getName());
+		JobDetails job = jobDetailsRepository.findByUUID(context.getJobDetail().getKey().getName());
 		
 		Assert.notNull(job, "Not found job to manage");
 		
@@ -197,7 +197,7 @@ public class JobServiceImpl implements JobService {
 			
 			LOG.info("Set job {} in state ERROR",context.getJobDetail().getKey());
 			job.setStateOfJob(JobDetailState.ERROR);
-			serpicsJobDetailsRepository.saveAndFlush(job);
+			jobDetailsRepository.saveAndFlush(job);
 			
 			LOG.debug("Job {} must to be stopped on Fail ? {}",context.getJobDetail().getKey(),job.isStopOnFail());
 			if(job.isStopOnFail()){
@@ -206,7 +206,7 @@ public class JobServiceImpl implements JobService {
 			}
 		}else{
 			job.setStateOfJob(JobDetailState.SUCCESFULL);
-			serpicsJobDetailsRepository.saveAndFlush(job);
+			jobDetailsRepository.saveAndFlush(job);
 		}
 		
 		

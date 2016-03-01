@@ -14,7 +14,7 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 
 /**
- * An abstract implementation of Job for Serpics platform. 
+ * An abstract implementation of Job for Ecommerce platform. 
  * Job run the execute method after a connect to store defined and a catalog. If catalog is not defined, the platform select to default.
  * 
  * After run execute method, job run disconnect method.
@@ -22,9 +22,9 @@ import com.serpics.core.SerpicsException;
  * @author alessandro.marasco@tinvention.net
  *
  */
-public abstract class AbstractSerpicsJob extends QuartzJobBean {
+public abstract class AbstractJob extends QuartzJobBean {
 
-	Logger logger = LoggerFactory.getLogger(AbstractSerpicsJob.class);
+	Logger logger = LoggerFactory.getLogger(AbstractJob.class);
 			
 	private String realmStore;
 	

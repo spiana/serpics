@@ -3,10 +3,10 @@
 	<persistence-unit name="serpics" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!-- Commerce  -->
-		<class>com.serpics.scheduler.model.AbstractSchedulerSerpicsJob</class>
+		<class>com.serpics.scheduler.model.AbstractSchedulerJob</class>
 		<class>com.serpics.scheduler.model.CronJob</class>
 		<class>com.serpics.scheduler.model.JobLog</class>
-		<class>com.serpics.scheduler.model.SerpicsJobDetails</class>
+		<class>com.serpics.scheduler.model.JobDetails</class>
 		<class>com.serpics.scheduler.model.TriggerJob</class>
 	</persistence-unit>
 </persistence>	

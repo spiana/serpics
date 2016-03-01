@@ -25,8 +25,8 @@ import com.serpics.core.data.jpa.AbstractEntity;
  *
  */
 @Entity
-@Table(name = "serpics_job_details")
-public class SerpicsJobDetails extends AbstractEntity {
+@Table(name = "job_details")
+public class JobDetails extends AbstractEntity {
 
 	private static final long serialVersionUID = 7129859920615052949L;
 	
@@ -59,7 +59,7 @@ public class SerpicsJobDetails extends AbstractEntity {
 	private List<JobLog> logs;
 
 	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="jobDetail")
-	private List<AbstractSchedulerSerpicsJob> schedulers;
+	private List<AbstractSchedulerJob> schedulers;
 
 	public Long getId() {
 		return id;
@@ -125,11 +125,11 @@ public class SerpicsJobDetails extends AbstractEntity {
 		this.logs = logs;
 	}
 
-	public List<AbstractSchedulerSerpicsJob> getSchedulers() {
+	public List<AbstractSchedulerJob> getSchedulers() {
 		return schedulers;
 	}
 
-	public void setSchedulers(List<AbstractSchedulerSerpicsJob> schedulers) {
+	public void setSchedulers(List<AbstractSchedulerJob> schedulers) {
 		this.schedulers = schedulers;
 	}
 	

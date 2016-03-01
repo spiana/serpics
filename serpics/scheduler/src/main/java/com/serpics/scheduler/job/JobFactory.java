@@ -11,7 +11,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
  * @author alessandro.marasco@tinvention.net
  *
  */
-public class SerpicsJobFactory extends SpringBeanJobFactory implements ApplicationContextAware{
+public class JobFactory extends SpringBeanJobFactory implements ApplicationContextAware{
 	
 	private transient AutowireCapableBeanFactory beanFactory;
 

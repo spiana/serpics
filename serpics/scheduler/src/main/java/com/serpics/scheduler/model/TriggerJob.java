@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue(value = "1")
-public class TriggerJob extends AbstractSchedulerSerpicsJob {
+public class TriggerJob extends AbstractSchedulerJob {
 
 	private static final long serialVersionUID = -6332264961086971500L;
 	

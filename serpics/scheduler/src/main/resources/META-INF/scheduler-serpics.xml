@@ -35,7 +35,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		</property>
 	</bean>
 
-	<bean id="springJobFactory" class="com.serpics.scheduler.job.SerpicsJobFactory" />
+	<bean id="springJobFactory" class="com.serpics.scheduler.job.JobFactory" />
 	<bean id="scheduler"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
 		lazy-init="false">
