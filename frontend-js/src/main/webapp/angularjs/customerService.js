@@ -226,7 +226,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
           * @param addressId
           * return 
           */
-        customerService.deleteDestinationAddress = function(addressUID){  
+        customerService.deleteDestinationAddress = function(addressID){  
      	   
      	var serviceSSID = serpicsServices;
  	    return $q(function(resolve, reject) {
@@ -234,7 +234,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
  	   	       $http({
  	   	            method: 'DELETE',
- 	   	            url: URL + endpoint + "destinationAddress/" + addressUID,
+ 	   	            url: URL + endpoint + "destinationAddress/" + addressID,
  	   	            headers: {
  	   	            	'ssid': sessionId
  	   	            },

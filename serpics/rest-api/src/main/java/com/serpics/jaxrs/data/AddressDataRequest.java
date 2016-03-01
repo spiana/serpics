@@ -16,14 +16,15 @@ public class AddressDataRequest {
 	private String streetNumber;
 	private String zipcode;
 	private String city;
-	private String regionName;
+	private String regionIsoCode;
 	private String countryIso3Code;
+	private String districtIsoCode;
 	private String vatcode;
 	private String idNumber;
 	private String phone;
 	private String mobile;
 	private String fax;
-	private String uuid;
+	private Long id;
 
 	public String getFirstname() {
 		return firstname;
@@ -85,11 +86,11 @@ public class AddressDataRequest {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getRegionName() {
-		return regionName;
+	public String getRegionIsoCode() {
+		return regionIsoCode;
 	}
-	public void setRegionName(String regionName) {
-		this.regionName = regionName;
+	public void setRegionIsoCode(String regionIsoCode) {
+		this.regionIsoCode = regionIsoCode;
 	}
 	public String getCountryIso3Code() {
 		return countryIso3Code;
@@ -127,11 +128,17 @@ public class AddressDataRequest {
 	public void setFax(String fax) {
 		this.fax = fax;
 	}
-	public String getUuid() {
-		return uuid;
+	public String getDistrictIsoCode() {
+		return districtIsoCode;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setDistrictIsoCode(String districtIsoCode) {
+		this.districtIsoCode = districtIsoCode;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 

@@ -11,6 +11,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 		$scope.paymethodList = {};
 		$scope.countries = {};
 		$scope.regions = {};
+		$scope.districts = {};
 		$scope.payment = {};
 		
 	  	
@@ -216,7 +217,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
   		
 	  	/**
 	  	 * @param		 			countryId
-	  	 * @return 					country list
+	  	 * @return 					region list
 	  	 * @use 					geographicService,
 	  	 */	  	 
 		$scope.getRegionByCountry = function (countryId){
@@ -227,6 +228,22 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 		  		  })
 			} else {
 				$scope.regions = {};
+			}
+	  	};
+	  	
+	  	/**
+	  	 * @param		 			countryId
+	  	 * @return 					district list
+	  	 * @use 					geographicService,
+	  	 */	  	 
+		$scope.getDistrictByCountry = function (countryId){
+			if (countryId != undefined){
+				geographicService.getDistrictByCountry(countryId).then(function(response){
+		  			  $log.debug("cartController getDistrictByCountry(countryId): ramo then");
+		  			  $scope.districts = response;
+		  		  })
+			} else {
+				$scope.districts = {};
 			}
 	  	};
   		

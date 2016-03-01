@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
-import com.serpics.base.data.model.Region;
 import com.serpics.base.facade.data.CountryData;
 import com.serpics.base.facade.data.GeocodeData;
-import com.serpics.base.facade.data.RegionData;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
@@ -15,7 +13,6 @@ import com.serpics.core.facade.Populator;
 
 public class CountryPopulator  implements Populator<Country, CountryData>{
 	private AbstractPopulatingConverter<Geocode, GeocodeData> geocodeConverter;
-	private AbstractPopulatingConverter<Region, RegionData> regionConverter;
 	
 	@Autowired
 	CommerceEngine commerceEngine;
@@ -41,10 +38,5 @@ public class CountryPopulator  implements Populator<Country, CountryData>{
 		this.geocodeConverter = geocodeConverter;
 	}
 	
-	@Required
-	public void setRegionConverter(
-			AbstractPopulatingConverter<Region, RegionData> regionConverter) {
-		this.regionConverter = regionConverter;
-	}
 }
 

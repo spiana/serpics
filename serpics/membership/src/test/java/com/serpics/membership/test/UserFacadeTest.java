@@ -234,18 +234,18 @@ public class UserFacadeTest extends AbstractTransactionalJunit4SerpicTest{
 		
 		List<AddressData> l = userFacade.getCurrentuser().getDestinationAddress();
 		Assert.assertEquals(1, l.size());
-		String uuid = l.get(0).getUuid();
+		Long id = l.get(0).getId();
 		address = new AddressData();
 		address.setAddress1("modifico address");
 		address.setStreetNumber("2");
 		address.setCity("intra");
 		address.setCity("milano");
-		userFacade.updateDestinationAddress(address, uuid);
+		userFacade.updateDestinationAddress(address, id);
 		
 		Assert.assertNotNull("Destination Address 1 cituyis null" , userFacade.getCurrentuser().getDestinationAddress().get(0).getCity());
 		
 		
-		userFacade.deleteDestinationAddress(uuid);
+		userFacade.deleteDestinationAddress(id);
 		
 		Assert.assertNotNull("Destination Address is 3  null" , userFacade.getCurrentuser().getDestinationAddress());
 		

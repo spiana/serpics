@@ -23,6 +23,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Currency;
+import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
@@ -495,9 +496,13 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			String zipCode = address.getZipcode();
 			Country country = address.getCountry();
 			Region region = address.getRegion();
+			District district = address.getDistrict();
 //			Geocode geocode = address.getGeocode();
 			if (zipCode != null){
 				shipmodeList.addAll(shipmodeRepository.getShipmodeFromZipCode(store, zipCode));
+			}
+			if (district != null){
+				shipmodeList.addAll(shipmodeRepository.getShipmodeFromDistrict(store, district));
 			}
 			if (region != null){
 				shipmodeList.addAll(shipmodeRepository.getShipmodeFromRegion(store, region));

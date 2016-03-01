@@ -7,12 +7,14 @@ app.service("geographicService", function( $http, $q,serpicsServices,COOKIE_EXPI
 	
     var service =({
     	getCountryList		:	getCountryList,
-    	getRegionByCountry	:	getRegionByCountry
+    	getRegionByCountry	:	getRegionByCountry,
+    	getDistrictByCountry:	getDistrictByCountry,
+    	getDistrictByRegion :	getDistrictByRegion
     });
     return service;
 	
 	/**
-	 *@return CountryList
+	 *@return RegionList
 	 *
 	 */
 	function getRegionByCountry(countryId) {
@@ -51,7 +53,45 @@ app.service("geographicService", function( $http, $q,serpicsServices,COOKIE_EXPI
 		});
 	}
 	
+	/**
+	 *@return DistrictList
+	 *
+	 */
+	function getDistrictByCountry(countryId) {
+		var serviceSSID = serpicsServices;
+		return $q(function(resolve, reject) {
+			serviceSSID.getSessionId().then(function(sessionId){
+				$log.debug("session Id nel promise"+sessionId) ;
+				$http({
+					method: 	'GET',
+					url: URL + endpoint +  'district/country/' + countryId,
+					headers: {
+						'ssid': sessionId
+						}
+				}).then(handleSuccess, handleError).then(resolve, reject);
+			});
+		});
+	}
 	
+	/**
+	 *@return DistrictList
+	 *
+	 */
+	function getDistrictByRegion(regionId) {
+		var serviceSSID = serpicsServices;
+		return $q(function(resolve, reject) {
+			serviceSSID.getSessionId().then(function(sessionId){
+				$log.debug("session Id nel promise"+sessionId) ;
+				$http({
+					method: 	'GET',
+					url: URL + endpoint +  'district/region/' + regionId,
+					headers: {
+						'ssid': sessionId
+						}
+				}).then(handleSuccess, handleError).then(resolve, reject);
+			});
+		});
+	}
     
     
     /**

@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.base.facade.CountryFacade;
+import com.serpics.base.facade.DistrictFacade;
 import com.serpics.base.facade.RegionFacade;
 import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.facade.data.DistrictData;
 import com.serpics.base.facade.data.RegionData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
@@ -31,6 +33,9 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	
 	@Autowired
 	RegionFacade regionFacade;
+	
+	@Autowired
+	DistrictFacade districtFacade;
 	
     /**
      * This method gets all countries
@@ -70,6 +75,48 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 		ApiRestResponse<List<RegionData>> apiRestResponse = new ApiRestResponse<List<RegionData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(regionFacade.findRegionByCountry(countryId));
+		return Response.ok(apiRestResponse).build();
+	}
+	
+    /**
+     * This method gets all districts by countryId
+     * @summary  Method: getDistrictByCountry(Long countryId)
+     * @param ssid The sessionId for the store authentication
+     * @param countryId The country id to search for districts
+     * @return Response		object type: apiRestResponse
+     * 
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/district/country/{countryId}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.base.facade.data.DistrictData>>")
+	public Response getDistrictByCountry(@PathParam("countryId") Long countryId,@HeaderParam(value = "ssid") String ssid){
+		ApiRestResponse<List<DistrictData>> apiRestResponse = new ApiRestResponse<List<DistrictData>>();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(districtFacade.findDistrictByCountry(countryId));
+		return Response.ok(apiRestResponse).build();
+	}
+	
+    /**
+     * This method gets all regions by countryId
+     * @summary  Method: getDistrictByRegion(Long countryId)
+     * @param ssid The sessionId for the store authentication
+     * @param regionId The region id to search for districts
+     * @return Response		object type: apiRestResponse
+     * 
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/district/region/{regionId}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.base.facade.data.DistrictData>>")
+	public Response getDistrictByRegion(@PathParam("regionId") Long regionId,@HeaderParam(value = "ssid") String ssid){
+		ApiRestResponse<List<DistrictData>> apiRestResponse = new ApiRestResponse<List<DistrictData>>();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(districtFacade.findDistrictByRegion(regionId));
 		return Response.ok(apiRestResponse).build();
 	}
 

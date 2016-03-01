@@ -3,8 +3,10 @@ package com.serpics.membership.facade;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.facade.data.DistrictData;
 import com.serpics.base.facade.data.RegionData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
@@ -13,10 +15,11 @@ import com.serpics.membership.facade.data.AddressData;
 public class AddressPopulator implements Populator<AbstractAddress, AddressData>{
 	private AbstractPopulatingConverter<Country, CountryData> countryConverter;
 	private AbstractPopulatingConverter<Region, RegionData> regionConverter;
+	private AbstractPopulatingConverter<District, DistrictData> districtConverter;
 	@Override 
 	public void populate(AbstractAddress source, AddressData target) {
 		
-		target.setUuid(source.getUuid());
+		target.setId(source.getId());
 		target.setCreated(source.getCreated());
 		target.setUpdated(source.getUpdated());
 		
@@ -36,6 +39,10 @@ public class AddressPopulator implements Populator<AbstractAddress, AddressData>
 		target.setField1(source.getField1());
 		target.setField2(source.getField2());
 		
+		target.setFax(source.getFax());
+		target.setMobile(source.getMobile());
+		target.setPhone(source.getPhone());
+		
 		if(source.getRegion() != null){
 			target.setRegion(regionConverter.convert(source.getRegion()));
 		} else {
@@ -46,7 +53,11 @@ public class AddressPopulator implements Populator<AbstractAddress, AddressData>
 		} else {
 			target.setCountry(null);
 		}
-		
+		if(source.getDistrict() != null){
+			target.setDistrict(districtConverter.convert(source.getDistrict()));
+		} else {
+			target.setDistrict(null);
+		}
 		
 	}
 	
@@ -61,6 +72,11 @@ public class AddressPopulator implements Populator<AbstractAddress, AddressData>
 	public void setRegionConverter(
 			AbstractPopulatingConverter<Region, RegionData> regionConverter) {
 		this.regionConverter = regionConverter;
+	}
+
+	@Required
+	public void setDistrictConverter(AbstractPopulatingConverter<District, DistrictData> districtConverter) {
+		this.districtConverter = districtConverter;
 	}
 
 }

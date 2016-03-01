@@ -31,7 +31,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
      <alias name="defaultCountryPopulator" alias="countryPopulator"/>
   	 <bean name="defaultCountryPopulator" class="com.serpics.base.facade.CountryPopulator">
          <property name="geocodeConverter" ref="geocodeConverter"/>
-         <property name="regionConverter" ref="regionConverter"/>
     </bean>
     
   	<alias name="defaultCountryConverter" alias="countryConverter"/>
@@ -54,6 +53,20 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
   		<property name="populators">
 	  		<list>
 	  			<ref bean="regionPopulator"/>	
+	  		</list>
+  		</property>
+  	</bean>
+  	
+  	<alias name="defaultDistrictPopulator" alias="districtPopulator"/>
+  	<bean name="defaultDistrictPopulator" class="com.serpics.base.facade.DistrictPopulator">
+  	</bean>
+  	
+  	<alias name="defaultDistrictConverter" alias="districtConverter"/>
+  	<bean name="defaultDistrictConverter" parent="abstractConverter">
+  		<property name="targetClass" value="com.serpics.base.facade.data.DistrictData"/>
+  		<property name="populators">
+	  		<list>
+	  			<ref bean="districtPopulator"/>	
 	  		</list>
   		</property>
   	</bean>

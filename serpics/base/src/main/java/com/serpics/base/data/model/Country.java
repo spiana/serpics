@@ -57,6 +57,10 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     // bi-directional many-to-one association to Region
     @OneToMany(mappedBy = "country", fetch=FetchType.LAZY)
     private Set<Region> regions;
+    
+    // bi-directional many-to-one association to District
+    @OneToMany(mappedBy = "country", fetch=FetchType.LAZY)
+    private Set<District> districts;
 
     public Country() {
     }
@@ -118,6 +122,16 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
 
 	public void setIsoNumber(Integer isoNumber) {
 		this.isoNumber = isoNumber;
+	}
+
+
+	public Set<District> getDistricts() {
+		return districts;
+	}
+
+
+	public void setDistricts(Set<District> districts) {
+		this.districts = districts;
 	}
 
 }

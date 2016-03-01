@@ -302,8 +302,8 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		try{
 			address = restUtils.addressDataRequestToAddressData(addressDataRequest, address);
-			Assert.notNull(address.getUuid(), "UUID can not be null !");
-			userFacade.updateDestinationAddress(address, address.getUuid());
+			Assert.notNull(address.getId(), "ID can not be null !");
+			userFacade.updateDestinationAddress(address, address.getId());
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 			responseBuilder = Response.ok();
 		}
@@ -340,7 +340,6 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		try{
 			address = restUtils.addressDataRequestToAddressData(addressDataRequest, address);
-			Assert.notNull(address.getUuid(), "UUID can not be null !");
 			userFacade.addDestinationAddress(address);
 			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 			responseBuilder = Response.ok();
@@ -367,13 +366,13 @@ public class CustomerServiceImpl implements CustomerService {
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("destinationAddress/{addressUID}")
+	@Path("destinationAddress/{addressId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
-	public Response deleteDestinationAddress(@PathParam ("addressUID")String addressUID,@HeaderParam(value = "ssid") String ssid) {
+	public Response deleteDestinationAddress(@PathParam ("addressId")Long addressId,@HeaderParam(value = "ssid") String ssid) {
 
 		ApiRestResponse<UserData> apiRestResponse = new ApiRestResponse<UserData>();
 
-		userFacade.deleteDestinationAddress(addressUID);
+		userFacade.deleteDestinationAddress(addressId);
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		return Response.ok(apiRestResponse).build();

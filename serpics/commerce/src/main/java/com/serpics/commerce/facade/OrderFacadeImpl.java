@@ -29,6 +29,7 @@ import com.serpics.stereotype.StoreFacade;
 import com.serpics.warehouse.InventoryNotAvailableException;
 
 @StoreFacade("orderFacade")
+@Transactional(readOnly = true)
 public class OrderFacadeImpl implements OrderFacade {
 
 	private Logger LOG = LoggerFactory.getLogger(OrderFacadeImpl.class);
@@ -100,7 +101,6 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
-	@Transactional
 	public List<OrderData> getOrders() {
 		User currentUser = userService.getCurrentCustomer();
 		List<OrderData> orderDataList = new ArrayList<OrderData>();

@@ -7,5 +7,9 @@ public interface GeographicRestService {
 	public Response getCountryList(String ssid);
 
 	public Response getRegionByCountry(Long countryId, String ssid);
+	
+	public Response getDistrictByCountry(Long countryId, String ssid);
+	
+	public Response getDistrictByRegion(Long regionId, String ssid);
 
 }
