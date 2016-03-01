@@ -9,7 +9,7 @@
 				<p  ng-if="category.childCategoryNumber !=0" ng-class="{ 'fa fa-minus badge pull-right': categoryData[$index].active, 'fa fa-plus badge pull-right': !categoryData[$index].active }" ng-click="getChild(category.id,$index,category)">
         		</p>
         		<h4 class="panel-title">
-        			<a href="${ctx.contextPath}/${ctx.baseSite}/Category.html?categoryId={{category.id}}&categoryName={{category.code}}">
+        			<a href="${ctx.contextPath}/${ctx.baseSite}/Category?categoryId={{category.id}}&categoryName={{category.code}}">
         				{{category.code}}
         			</a>
         		</h4>
@@ -17,7 +17,7 @@
         			<div class="panel-body">
 						<ul >
                 			<li ng-if="category.childCategoryNumber !=0" ng-repeat="subCat in categoryData[$index].subCategory"  ng-show="category.active">
-                    			<a href="${ctx.contextPath}/${ctx.baseSite}/Category.html?categoryId={{subCat.id}}&categoryName={{subCat.code}}">{{subCat.code}}</a>
+                    			<a href="${ctx.contextPath}/${ctx.baseSite}/Category?categoryId={{subCat.id}}&categoryName={{subCat.code}}">{{subCat.code}}</a>
                 			</li>
             			</ul>
             		</div>

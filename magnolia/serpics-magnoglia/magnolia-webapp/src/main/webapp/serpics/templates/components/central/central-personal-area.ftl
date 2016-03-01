@@ -1,7 +1,7 @@
 <section id="cart_items" ng-controller="customerController">
 	<h2 class="title text-center">PERSONAL AREA</h2>
 	<div  ng-show="currentUser.userType=='ANONYMOUS'">
-		<div>Please <a href="${ctx.contextPath}/${ctx.baseSite}/Login.html">LOGIN</a> to acces to your Personal Area.</div>
+		<div>Please <a href="${ctx.contextPath}/${ctx.baseSite}/Login">LOGIN</a> to acces to your Personal Area.</div>
 	</div>
 	<div  ng-if="currentUser.userType=='REGISTERED'" ng-init="getOrders(); getCountryList();">
 		<div class="col-sm-12 clearfix" style="margin-bottom: 30px;">

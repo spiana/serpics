@@ -1,5 +1,5 @@
 [#assign textSearch = ctx.textSearch!]
-<div class="features_items" ng-controller="productController" ng-init="findBySearch('${textSearch}',$scope.page, $scope.size); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart.html'"">
+<div class="features_items" ng-controller="productController" ng-init="findBySearch('${textSearch}',$scope.page, $scope.size); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart'"">
 	<!--features_items-->
 	<h2 class="title text-center">Search Page</h2>
 	<div ng-show="product.totalElements > 0" style="margin-bottom: 15px;" >Found {{product.totalElements}} products for <i>${textSearch}</i>.
@@ -31,14 +31,14 @@
 				<div class="productinfo text-center">
 					<img src="${ctx.contextPath}/.resources/serpics/webresources/images/home/product1.jpg" alt="" />
 					<h2>&euro;{{product.price.currentPrice}}</h2>
-					<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product.html?productId={{product.id}}">{{product.code}}</a></p>				
+					<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.code}}</a></p>				
 					<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
 						class="fa fa-shopping-cart"></i>Add to cart</a>
 				</div>
 				<div class="product-overlay">
 					<div class="overlay-content">
 						<h2>&euro;{{product.price.currentPrice}}</h2>
-						<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product.html?productId={{product.id}}">{{product.code}}</a></p>				
+						<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.code}}</a></p>				
 						<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
 							class="fa fa-shopping-cart"></i>Add to cart</a>
 					</div>
