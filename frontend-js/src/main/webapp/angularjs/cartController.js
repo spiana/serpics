@@ -1,9 +1,9 @@
  var app = angular.module("cart.controller", ['cart.service', 'customer.service','serpics.router','geographic.service'])
  
  /** cartController **/
-.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams','geographicService',
+.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams','geographicService','$window',
                                   
-function($state,$scope,customerService,cartService,$log,$stateParams,geographicService) {
+function($state,$scope,customerService,cartService,$log,$stateParams,geographicService,$window) {
 		
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
@@ -169,7 +169,12 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 	  			cartService.createPayment().then(function(response){
 	  			  $log.debug("cartController createPayment(): ramo then");
 	  			  $scope.payment = response;
-	  			  $state.go($stateParams.paymentPayPal)
+	  			  if (response.authorizedURL != null){
+	  				$window.location.href = response.authorizedURL;
+	  			  }else{
+	  				$state.go($stateParams.complete)
+	  			  }
+	  			  
 	  		  })
 	  	};
 	  	
