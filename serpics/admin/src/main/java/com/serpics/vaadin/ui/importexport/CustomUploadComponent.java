@@ -61,7 +61,7 @@ public class CustomUploadComponent extends CustomComponent {
 	Logger logger = LoggerFactory.getLogger(CustomUploadComponent.class);
 
 	@Resource
-	private ImportCsvService importCsvService;
+	private transient ImportCsvService importCsvService;
 	
 	private VerticalLayout layout;
 	private HorizontalLayout wrap;
@@ -112,8 +112,8 @@ public class CustomUploadComponent extends CustomComponent {
 					FileOutputStream fos = null;
 					try {
 						String basepath = I18nUtils.getMessage("smc.upload.file.path", "");
-						fos = new FileOutputStream(FileUtils.getTempDirectoryPath() + "filename");
-						fileToLoad = FileUtils.getTempDirectoryPath() + "filename";
+						fos = new FileOutputStream(FileUtils.getFile(FileUtils.getTempDirectoryPath(), filename));
+						fileToLoad = FileUtils.getFile(FileUtils.getTempDirectoryPath(), filename).getAbsolutePath();
 					} catch (final Exception e) {
 						 new Notification("Could not open file<br/>",
 	                             e.getMessage(),
@@ -169,7 +169,7 @@ public class CustomUploadComponent extends CustomComponent {
 						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
 					}
 				} catch (IOException e) {
-					logger.error("Import failed!!!!!!!!");
+					logger.error("Import failed!!!!!!!!",e);
 					
 	        	}
 				//progress.setValue(0F);
@@ -203,8 +203,7 @@ public class CustomUploadComponent extends CustomComponent {
 		layout.addComponent(title);
 
 		
-		String[] combo_value =  I18nUtils.getMessage("smc.upload.valid.classname", "").split(",") ;
-		final FormLayout form = buildFieldFormLayout("Map to Class:","Or Choose From Here",combo_value);
+		final FormLayout form = buildFieldFormLayout("Map to Class:","Or Choose From Here");
 
 		layout.addComponent(form);
 
@@ -275,7 +274,8 @@ public class CustomUploadComponent extends CustomComponent {
 						data.setValue("");
 						text_f.setValue("");
 					}catch(Exception e){
-						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.scv.string.notvalid", ""), Position.TOP_RIGHT, 6000, "failure closable");
+						showNotification("Serpics Ecommerce Platform",I18nUtils.getMessage("smc.upload.scv.string.notvalid", "") , Position.TOP_RIGHT, 6000, "failure closable");
+						logger.debug("Error importCsvService.importCsv():",e); 
 					}finally{
 						UI.getCurrent().setPollInterval(-1);
 					}
@@ -341,7 +341,7 @@ public class CustomUploadComponent extends CustomComponent {
 	}
 
 
-	public FormLayout buildFieldFormLayout(String text_f_v, String combo_v,String[] combo_item){
+	public FormLayout buildFieldFormLayout(String text_f_v, String combo_v){
 
 		final FormLayout form = new FormLayout();
 		form.setMargin(false);
@@ -355,7 +355,7 @@ public class CustomUploadComponent extends CustomComponent {
 		text_f.setImmediate(true);
 		text_f.setEnabled(false);
 		
-		class_c = new ComboBox(combo_v,Arrays.asList(combo_item));
+		class_c = new ComboBox(combo_v);
 		class_c.setTextInputAllowed(true);
 		class_c.setNullSelectionAllowed(false);
 		
