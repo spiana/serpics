@@ -6,7 +6,6 @@ import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.PaymentException;
-import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Payment;
@@ -90,7 +89,7 @@ public interface CartService {
 
 	public void addPaymethod(String paymethodName);
 	
-	public Payment createPayment(PaymentIntent sale) throws PaymentException;
+	public Payment createPayment() throws PaymentException;
 	
 	public void addPaymentInfo(String paymentIdentifier, String PayerId) throws PaymentException;
       
