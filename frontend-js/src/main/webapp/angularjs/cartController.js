@@ -84,10 +84,13 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 	  	 $scope.submitBillingForm = function (billingAddress,shippingToBill){
 				if (billingAddress.country != null){
 					billingAddress.countryIso3Code = billingAddress.country.iso3Code;
-					}
-					if (billingAddress.region != null){
-						billingAddress.regionName = billingAddress.region.name;
-					} 
+  				}
+  				if (billingAddress.region != null){
+  					billingAddress.regionName = billingAddress.region.name;
+  				}
+  				if (billingAddress.district != null){
+  					billingAddress.districtIsoCode = billingAddress.district.isoCode;
+  				}
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
 				  $log.debug("cartController addBillingAddress(billingAddress): ramo then1");
 				  var complete = $stateParams.complete;
@@ -116,7 +119,10 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 				}
 				if (shippingAddress.region != null){
 					shippingAddress.regionName = shippingAddress.region.name;
-				} 
+				}
+				if (shippingAddress.district != null){
+					shippingAddress.districtIsoCode = shippingAddress.district.isoCode;
+				}
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
 	  			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
 	  			  $scope.cart = response;

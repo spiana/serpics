@@ -46,12 +46,13 @@
 							</div>
 							<div class="form-two">
 								<form>
-									<select ng-options="country as country.description for country in countries track by country.description" ng-model="currentUser.destinationAddress[$scope.shippingAddress].country" ng-init="getDistrictByCountry(currentUser.destinationAddress[$scope.shippingAddress].country.id)" ng-change="getDistrictByCountry(currentUser.destinationAddress[$scope.shippingAddress].country.id)">
+								<div ng-if="currentUser.userType == 'REGISTERED'" ng-init="getDistrictByCountry(currentUser.shippingAddress.country.id)"></div>
+									<select ng-options="country as country.description for country in countries track by country.description" ng-model="currentUser.shippingAddress.country" ng-change="getDistrictByCountry(currentUser.shippingAddress.country.id)">
 										<option value ="" disabled>-- Country --</option>
 									</select>
-									<select ng-options="district as district.description for district in districts track by district.description" ng-model="currentUser.destinationAddress[$scope.shippingAddress].district" >
+									<select ng-options="district as district.description for district in districts track by district.description" ng-model="currentUser.shippingAddress.district" >
 										<option value = "" >-- District --</option>
-									</select>								<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="currentUser.destinationAddress[$scope.shippingAddress].zipcode" required>
+									</select>							<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="currentUser.destinationAddress[$scope.shippingAddress].zipcode" required>
 									<input type="text" name="email" placeholder="Email *" ng-model="currentUser.destinationAddress[$scope.shippingAddress].email" required>
 									<input type="text" name="phone" placeholder="Phone" ng-model="currentUser.destinationAddress[$scope.shippingAddress].phone" required>
 									<input type="text" name="mobile" placeholder="Mobile Phone" ng-model="currentUser.destinationAddress[$scope.shippingAddress].mobile">
