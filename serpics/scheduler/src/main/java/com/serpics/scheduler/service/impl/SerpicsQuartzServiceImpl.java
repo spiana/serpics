@@ -22,8 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.core.service.AbstractService;
 import com.serpics.scheduler.exception.SerpicsSchedulerException;
 import com.serpics.scheduler.job.AbstractSerpicsJob;
 import com.serpics.scheduler.model.CronJob;
@@ -181,6 +179,19 @@ public class SerpicsQuartzServiceImpl implements SerpicsQuartzService {
 //			scheduler.start();
 //		}
 		LOG.info("Added in quartz the trigger with key {} ",triggerScheduler.getKey());
+		
+	}
+
+	@Override
+	public void pauseJob(SerpicsJobDetails jobToPaused) throws SchedulerException {
+		
+		scheduler.pauseJob(new JobKey(jobToPaused.getUuid(),KEY_GROUP_JOB));
+	}
+
+	@Override
+	public void resumeJob(SerpicsJobDetails jobToResume) throws SchedulerException {
+		
+		scheduler.resumeJob(new JobKey(jobToResume.getUuid(),KEY_GROUP_JOB));
 		
 	}
 }

@@ -1,5 +1,7 @@
 package com.serpics.scheduler.service;
 
+import org.quartz.SchedulerException;
+
 import com.serpics.scheduler.exception.SerpicsSchedulerException;
 import com.serpics.scheduler.job.AbstractSerpicsJob;
 import com.serpics.scheduler.model.CronJob;
@@ -15,4 +17,8 @@ public interface SerpicsQuartzService {
 
 	void addCronTrigger(CronJob cronJob, SerpicsJobDetails jobToExecute) throws SerpicsSchedulerException;
 
+	void pauseJob(SerpicsJobDetails jobToPaused) throws SchedulerException;
+	
+	void resumeJob(SerpicsJobDetails jobToResume) throws SchedulerException;
+	
 }

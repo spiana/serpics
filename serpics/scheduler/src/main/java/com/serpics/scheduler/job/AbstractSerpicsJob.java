@@ -40,10 +40,15 @@ public abstract class AbstractSerpicsJob extends QuartzJobBean {
 	protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
 		Assert.notNull(realmStore,"Store cannot be null");
 		CommerceSessionContext commerceContext = connectToStore();
+		try{
+			executeJob(arg0, commerceContext);
+		}catch(JobExecutionException e){
+			logger.error("Errore nell'esecuzione del job",e);
+			throw e;
+		}finally{
 		
-		executeJob(arg0, commerceContext);
-		
-		commerceEngine.disconnect(commerceContext);
+			commerceEngine.disconnect(commerceContext);
+		}
 	}
 	
 	/**
@@ -52,7 +57,7 @@ public abstract class AbstractSerpicsJob extends QuartzJobBean {
 	 * @param jobcontext
 	 * @param commerceContext
 	 */
-	protected abstract void executeJob(JobExecutionContext jobcontext,CommerceSessionContext commerceContext);
+	protected abstract void executeJob(JobExecutionContext jobcontext,CommerceSessionContext commerceContext) throws JobExecutionException;
 
 	private CommerceSessionContext connectToStore() throws JobExecutionException{
 		

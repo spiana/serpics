@@ -49,18 +49,32 @@ public class SerpicsJobDetails extends AbstractEntity {
 	@Column(name="last_run_date")
 	private Date lastRun;
 	
+	@Column(name="state_of_job")
+	private JobDetailState stateOfJob;
+	
+	@Column(name="stop_on_fail")
+	private boolean stopOnFail;
+	
 	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="jobRunned")
 	private List<JobLog> logs;
 
 	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="jobDetail")
 	private List<AbstractSchedulerSerpicsJob> schedulers;
-	
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getNameClassJob() {
+		return nameClassJob;
+	}
+
+	public void setNameClassJob(String nameClassJob) {
+		this.nameClassJob = nameClassJob;
 	}
 
 	public Store getStore() {
@@ -87,20 +101,28 @@ public class SerpicsJobDetails extends AbstractEntity {
 		this.lastRun = lastRun;
 	}
 
+	public JobDetailState getStateOfJob() {
+		return stateOfJob;
+	}
+
+	public void setStateOfJob(JobDetailState stateOfJob) {
+		this.stateOfJob = stateOfJob;
+	}
+
+	public boolean isStopOnFail() {
+		return stopOnFail;
+	}
+
+	public void setStopOnFail(boolean stopOnFail) {
+		this.stopOnFail = stopOnFail;
+	}
+
 	public List<JobLog> getLogs() {
 		return logs;
 	}
 
 	public void setLogs(List<JobLog> logs) {
 		this.logs = logs;
-	}
-
-	public String getNameClassJob() {
-		return nameClassJob;
-	}
-
-	public void setNameClassJob(String nameClassJob) {
-		this.nameClassJob = nameClassJob;
 	}
 
 	public List<AbstractSchedulerSerpicsJob> getSchedulers() {
@@ -110,5 +132,5 @@ public class SerpicsJobDetails extends AbstractEntity {
 	public void setSchedulers(List<AbstractSchedulerSerpicsJob> schedulers) {
 		this.schedulers = schedulers;
 	}
-
+	
 }

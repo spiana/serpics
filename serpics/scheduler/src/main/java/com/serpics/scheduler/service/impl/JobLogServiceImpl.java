@@ -1,5 +1,7 @@
 package com.serpics.scheduler.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
 import com.serpics.scheduler.model.AbstractSchedulerSerpicsJob;
 import com.serpics.scheduler.model.JobLog;
+import com.serpics.scheduler.model.SerpicsJobDetails;
 import com.serpics.scheduler.repositories.JobLogRepository;
 import com.serpics.scheduler.service.JobLogService;
 import com.serpics.scheduler.service.SchedulerSerpicsService;
@@ -34,4 +37,9 @@ public class JobLogServiceImpl implements JobLogService {
 		jobLogRepository.saveAndFlush(jLog);
 	}
 
+	@Override
+	public List<JobLog> getLogForJobDetail(SerpicsJobDetails jobDetail){
+		
+		return jobLogRepository.findLogFroJobDetails(jobDetail);
+	}
 }

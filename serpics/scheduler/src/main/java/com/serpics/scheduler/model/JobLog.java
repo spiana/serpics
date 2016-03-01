@@ -23,7 +23,7 @@ public class JobLog extends AbstractEntity {
     protected Long id;
 	
 	@Column(name="state")
-	private String state;
+	private JobLogState state;
 	
 	@Column(name="message")
 	private String message;
@@ -47,11 +47,11 @@ public class JobLog extends AbstractEntity {
 		this.id = id;
 	}
 
-	public String getState() {
+	public JobLogState getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(JobLogState state) {
 		this.state = state;
 	}
 

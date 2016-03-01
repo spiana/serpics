@@ -14,7 +14,7 @@ import org.quartz.listeners.TriggerListenerSupport;
 
 import com.serpics.scheduler.model.AbstractSchedulerSerpicsJob;
 import com.serpics.scheduler.model.JobLog;
-import com.serpics.scheduler.model.JobState;
+import com.serpics.scheduler.model.JobLogState;
 import com.serpics.scheduler.model.TriggerJob;
 import com.serpics.scheduler.service.JobLogService;
 import com.serpics.scheduler.service.JobService;
@@ -27,7 +27,7 @@ import com.serpics.scheduler.service.SchedulerSerpicsService;
  */
 public class SchedulerTriggerListener extends TriggerListenerSupport {
 
-	private List<Trigger.CompletedExecutionInstruction> listOfSuccesfullJob = Arrays.asList(Trigger.CompletedExecutionInstruction.NOOP,Trigger.CompletedExecutionInstruction.SET_ALL_JOB_TRIGGERS_COMPLETE,Trigger.CompletedExecutionInstruction.SET_TRIGGER_COMPLETE);
+	private List<Trigger.CompletedExecutionInstruction> listOfErrorJob = Arrays.asList(Trigger.CompletedExecutionInstruction.SET_TRIGGER_ERROR,Trigger.CompletedExecutionInstruction.SET_ALL_JOB_TRIGGERS_ERROR);
 	@Resource
 	private JobLogService jobLogService;
 	
@@ -49,7 +49,7 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 		
 		JobLog jLog = new JobLog();
 		jLog.setDateLog(new Date());
-		jLog.setState(JobState.RUNNING.name());
+		jLog.setState(JobLogState.STARTING);
 		
 		jobLogService.addJobLog(trigger.getKey().getName(), jLog);
 		
@@ -68,10 +68,10 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 		
 		JobLog jLog = new JobLog();
 		jLog.setDateLog(new Date());
-		if(listOfSuccesfullJob.contains(triggerInstructionCode)){
-			jLog.setState(JobState.SUCCESFULL.name());
+		if(listOfErrorJob.contains(triggerInstructionCode)){
+			jLog.setState(JobLogState.ERROR);
 		}else{
-			jLog.setState(JobState.ERROR.name());
+			jLog.setState(JobLogState.FINISHED);
 		}
 		
 		jobLogService.addJobLog(trigger.getKey().getName(), jLog);
