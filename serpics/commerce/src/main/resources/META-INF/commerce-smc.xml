@@ -80,4 +80,11 @@
 		<property name="created" table="true"/>
 	</entity>
 
+	<entity name="shipmode">
+		<property name="name" table="true" select="true" search="true" />
+		<property name="description"  table="true"/>
+		<property name="shippings" />
+		<property name="shipmodeStrategy" />
+	</entity>
+
 </smc-definition>

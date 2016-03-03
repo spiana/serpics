@@ -3,8 +3,8 @@
 						<h2 class="title text-center">{{product.name}}</h2>
 						<div class="col-sm-5">
 							<div class="view-product">
-	 								<a href="${ctx.contextPath}/.resources/serpics/webresources/images/product-details/1.jpg" rel="prettyPhoto" title="title here">  
-								<img src="${ctx.contextPath}/.resources/serpics/webresources/images/product-details/1.jpg" alt="">
+	 								<a href="{{product.primaryImage.source}}" rel="prettyPhoto" title="title here">  
+								<img src="{{product.primaryImage.source}}" alt="">
 									</a>
 								<h3>ZOOM</h3>
 							</div>

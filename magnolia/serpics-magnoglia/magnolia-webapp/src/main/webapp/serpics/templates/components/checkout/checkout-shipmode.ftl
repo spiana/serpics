@@ -4,9 +4,9 @@
 						<div class="shopper-info">
 							<p>Choose a Shipmode</p>
 							<div style="width: 100%">
-								<input ng-show="cart.shipmode" type="submit" id="submit" value="Continue" ng-click="addShipmode(shipMode)" class="btn btn-primary">
+								<input ng-show="cart.shipmode" type="submit" id="submit" value="Continue" href="${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod" class="btn btn-primary">
 								<input ng-hide="cart.shipmode" type="submit" value="Continue" class="btn btn-primary" disabled>
-								<a href="${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod" ><input type="submit" id="submit" value="Continue without Shipmode" class="btn btn-primary"></a>
+								<input ng-hide="cart.shipmode" type="submit" id="submit" value="Continue without Shipmode" href="${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod" class="btn btn-primary">
 							</div>
 						</div>
 					</div>
@@ -15,15 +15,11 @@
 							<p style="margin-bottom: 33px;">Shipmode List</p>
 							<div class="total_area">
 								<ul>
-									<a class="check_out" href="">Shipmode 1 name</a>
-									<li style="margin-bottom: 33px;">Shipmode 1 long description</li>
-									
-									<a class="check_out" href="">Shipmode 2 name</a>
-									<li>Shipmode 2 long description</li>
 									
 									<div ng-repeat="shipmode in shipmodeList">
-										<a class="check_out" ng-click="addShipmode(shipmode.id)">{{shipmode.name}}</a>
-										<li>{{shipmode.description}}</li>
+										<a class="check_out" ng-click="addShipmode(shipmode.name)">{{shipmode.name}}</a>
+										<li style="margin-bottom: 33px;"><i ng-class="{ 'fa fa-check fa-fw': cart.shipmode.name == shipmode.name, 'fa fa-fw' : cart.paymethod.name != paymethod.name}" ng-style="cart.paymethod && {'color':'red'}"></i>
+										{{shipmode.description}}</li>
 									</div>
 									
 								</ul>

@@ -139,7 +139,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 	  			cartService.addShipmode(shipmode).then(function(response){
 	  			  $log.debug("cartController addShipmode(shipMode): ramo then");
 	  			  $scope.cart = response;
-	  			  $state.go($stateParams.payment)
+//	  			  $state.go($stateParams.payment)
 	  		  })
 	  	};
 	  	
