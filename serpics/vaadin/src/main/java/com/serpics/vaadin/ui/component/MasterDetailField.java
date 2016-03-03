@@ -217,6 +217,16 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		return form;
 	  }
 	  
+	  public EntityFormWindow<X> buildEntityWindow() {
+			EntityFormWindow<X> editorWindow =  (EntityFormWindow<X> ) PropertiesUtils.get().getEditBean(container.getEntityClass().getSimpleName());	
+			if (editorWindow == null){
+				editorWindow = new EntityFormWindow<X>();
+										editorWindow.addTab(buildMainComponent(), "main");
+			}
+			editorWindow.setCaption(I18nUtils.getMessage(container.getEntityClass().getSimpleName() , container.getEntityClass().getSimpleName()));
+			return editorWindow;
+		}
+	  
 	  private void addNew()
 	  {
 	    try {
@@ -225,10 +235,9 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	      beanItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity);
 	      EntityItem<X> item = this.container.createEntityItem(newInstance);
 		 
-		  EntityFormWindow<X> editorWindow = new EntityFormWindow<X>();
+		  EntityFormWindow<X> editorWindow = buildEntityWindow();
 		  editorWindow.setNewItem(true);
 	      editorWindow.setReadOnly(false);
-	      editorWindow.addTab(buildMainComponent(), "main");
 	      editorWindow.setEntityItem(item);
 		      
 	      UI.getCurrent().addWindow(editorWindow);
@@ -244,10 +253,9 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	 
 	private void modify(Object item){
 		if(item != null){
-			 EntityFormWindow<X> editorWindow = new EntityFormWindow<X>();
+			 EntityFormWindow<X> editorWindow = buildEntityWindow();
 		      editorWindow.setNewItem(false);
 		      editorWindow.setReadOnly(false);
-		      editorWindow.addTab(buildMainComponent(), "main");
 		      editorWindow.setEntityItem(this.container.getItem(item));
 		      UI.getCurrent().addWindow(editorWindow);
 		}

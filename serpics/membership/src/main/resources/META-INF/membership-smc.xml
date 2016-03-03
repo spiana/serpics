@@ -25,7 +25,7 @@
 		<property name="zipcode" table="true" search="true" />
 		<property name="city" table="true" search="true" />
 		<property name="country"/>
-		<property name="region"/>
+		<property name="district"/>
 		<property name="email" />
 		<property name="mobile" />
 		<property name="phone" />
@@ -42,7 +42,7 @@
 		<property name="zipcode" table="true" />
 		<property name="city" table="true" />
 		<property name="country"/>
-		<property name="region"/>
+		<property name="district"/>
 		<property name="email" />
 		<property name="mobile" />
 		<property name="phone" />
@@ -59,7 +59,7 @@
 		<property name="zipcode" table="true" search="true"/>
 		<property name="city" table="true"  search="true" />
 		<property name="country"/>
-		<property name="region"/>
+		<property name="district"/>
 		<property name="email" />
 		<property name="mobile" />
 		<property name="phone" />
@@ -77,7 +77,7 @@
 		<property name="zipcode" table="true"  search="true"/>
 		<property name="city" table="true"  search="true"/>
 		<property name="country"/>
-		<property name="region"/>
+		<property name="district"/>
 		<property name="email" />
 		<property name="mobile" />
 		<property name="phone" />

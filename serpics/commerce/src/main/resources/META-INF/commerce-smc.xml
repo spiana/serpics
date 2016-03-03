@@ -33,12 +33,11 @@
 	<entity name="order">
 		<property name="customer.uuid" table="true" search="true" edit="false" />
 		<property name="customer" />
-		<property name="status" search="true" table="true" width="10%" style="color2"/>
-		<property name="currency"  width="15%"/>
-		<property name="cookie" />
-		
-		<property name="billingAddress" />
-		<property name="shippingAddress" />
+		<property name="status" search="true" table="true" width="40%" style="color2"/>
+		<property name="currency"  width="25%"/>
+<!-- 		<property name="cookie" /> -->
+<!-- 		<property name="billingAddress" /> -->
+<!-- 		<property name="shippingAddress" /> -->
 		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
 		<property name="orderitems"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>

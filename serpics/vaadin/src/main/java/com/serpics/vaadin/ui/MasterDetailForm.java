@@ -19,6 +19,11 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
         super(clazz);
     }
 
+    public MasterDetailForm(final Class<DETAIL> clazz , String parentProperty) {
+        super(clazz);
+        setParentProperty(parentProperty);
+    }
+    
     @SuppressWarnings({ "unchecked" })
 	@Override
     public void setParentEntity(final EntityItem<MASTER> masterEntity) {

@@ -20,7 +20,7 @@
 		<property name="name"  table ="true" search="true"/>
 	</entity>
 	
-	<entity name="ctentrymedia">
+	<entity name="ctentrymedia" editbean="mediaEditForm">
 		<property name="name"  table ="true" select="true" search="true"/>
 		<property name="type" table="true" search="true"/>
 		<property name="contentType" table="true" search="true"/>

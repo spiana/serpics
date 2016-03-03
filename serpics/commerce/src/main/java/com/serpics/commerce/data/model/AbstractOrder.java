@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,7 @@ import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
+import com.serpics.commerce.OrderStatus;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.User;
@@ -32,16 +35,13 @@ import com.serpics.membership.data.model.User;
  * The persistent class for the orders database table.
  * 
  */
+
 @Entity
 @Table(name = "orders")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "pending", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    public static transient final String PENDING = "P";
-    public static transient final String WAITING = "W"; // Waiting Payment
-    public static transient final String COMPLETE = "C";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -82,9 +82,10 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     // @Column(name="shipping_address_id")
     // private Long shippingAddressId;
 
-    @NotNull
-    @Column(nullable = false, length = 2)
-    protected String status;
+   
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    protected OrderStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "store_id")
@@ -173,11 +174,11 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.discountPerc = discountPerc;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(final String status) {
+    public void setStatus(final OrderStatus status) {
         this.status = status;
     }
 

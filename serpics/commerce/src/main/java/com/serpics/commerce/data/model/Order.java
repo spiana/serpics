@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
+import com.serpics.commerce.OrderStatus;
+
 @Entity(name = "Order")
 @DiscriminatorValue(value = "0")
 public class Order extends AbstractOrder {
@@ -55,12 +57,9 @@ public class Order extends AbstractOrder {
     @PrePersist
     public void prepareNewOrder() {
         if (this.status == null) {
-            this.status = AbstractOrder.PENDING;
+            this.status = OrderStatus.CREATED;
         }
-        // if (this.orderNumber == null)
-        // orderNumber = "1";
-
-    }
+       }
 
     public String getOrderNumber() {
         return orderNumber;

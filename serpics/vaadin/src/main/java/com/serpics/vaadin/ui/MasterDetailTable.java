@@ -23,6 +23,11 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
         super(entityClass);
         setSearchFormEnable(false);
     }
+    public MasterDetailTable(final Class<T> entityClass , Object parentProperty) {
+        super(entityClass);
+        setSearchFormEnable(false);
+        this.propertyId= parentProperty;
+    }
 
     @Override
     public void setParentEntity(final EntityItem<P> parent) {

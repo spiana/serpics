@@ -17,6 +17,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Region;
 import com.serpics.membership.AddressType;
 
@@ -86,6 +87,10 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "country_id", nullable = true)
     protected Country country;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "district_id", nullable = true)
+    protected District district;
 
     @Size(max = 30)
     @Column(length = 30)
@@ -347,5 +352,13 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     public void setFax(final String fax) {
         this.fax = fax;
     }
+
+	public District getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(District district) {
+		this.district = district;
+	}
     
 }
