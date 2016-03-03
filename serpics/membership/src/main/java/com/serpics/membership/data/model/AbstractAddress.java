@@ -79,10 +79,6 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @Size(max = 200)
     @Column(length = 200)
     protected String city;
-
-    @ManyToOne
-    @JoinColumn(name = "district_id", nullable = true)
-    protected District district;
     
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = true)
