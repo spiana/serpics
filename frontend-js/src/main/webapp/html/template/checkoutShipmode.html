@@ -18,7 +18,7 @@
 									
 									<div ng-repeat="shipmode in shipmodeList">
 										<a class="check_out" ng-click="addShipmode(shipmode.name)">{{shipmode.name}}</a>
-										<li style="margin-bottom: 33px;"><i ng-class="{ 'fa fa-check fa-fw': cart.shipmode.name == shipmode.name, 'fa fa-fw' : cart.paymethod.name != paymethod.name}" ng-style="cart.paymethod && {'color':'red'}"></i>
+										<li style="margin-bottom: 33px;"><i ng-class="{ 'fa fa-check fa-fw': cart.shipmode.name == shipmode.name, 'fa fa-fw' : cart.shipmode.name != shipmode.name}" ng-style="cart.shipmode && {'color':'red'}"></i>
 										{{shipmode.description}}</li>
 									</div>
 									
