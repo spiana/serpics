@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.serpics.base.data.model.Country;
+import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Geocode;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.model.Store;
@@ -43,6 +44,10 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
 	@ManyToOne(optional=true)
 	@JoinColumn(name="regions_id" , nullable=true)
 	private Region region;
+	
+	@ManyToOne(optional=true)
+	@JoinColumn(name="districts_id" , nullable=true)
+	private District district;
 
 	@ManyToOne
 	@JoinColumn(name="store_id", nullable=false)
@@ -114,6 +119,14 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
 
 	public void setStore(Store store) {
 		this.store = store;
+	}
+
+	public District getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(District district) {
+		this.district = district;
 	}
 	
 }

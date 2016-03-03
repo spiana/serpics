@@ -13,10 +13,10 @@
 			<div class="col-sm-8">
 				<div class="shop-menu pull-right">
 					<ul class="nav navbar-nav">
-						<li ng-show="currentUser.userType=='REGISTERED'"><a href="${ctx.contextPath}/${ctx.baseSite}/PersonalArea.html"><i class="fa fa-user"></i> Personal Area</a></li>
-						<li ng-click="showModalOnSuccess()"><a href="${ctx.contextPath}/${ctx.baseSite}/CheckoutBilling.html"><i	class="fa fa-crosshairs"></i> Checkout</a></li>
-						<li><a href="${ctx.contextPath}/${ctx.baseSite}/Cart.html"><i	class="fa fa-shopping-cart"></i> Cart</a></li>
-						<li ng-show="currentUser.userType=='ANONYMOUS'"><a href="${ctx.contextPath}/${ctx.baseSite}/Login.html"><i ng-class="{ 'fa fa-sign-out': currentUser.userType=='REGISTERED', 'fa fa-sign-in': currentUser.userType=='ANONYMOUS' }" ></i> Login</a></li>
+						<li ng-show="currentUser.userType=='REGISTERED'"><a href="${ctx.contextPath}/${ctx.baseSite}/PersonalArea"><i class="fa fa-user"></i> Personal Area</a></li>
+						<li ng-click="showModalOnSuccess()"><a href="${ctx.contextPath}/${ctx.baseSite}/CheckoutBilling"><i	class="fa fa-crosshairs"></i> Checkout</a></li>
+						<li><a href="${ctx.contextPath}/${ctx.baseSite}/Cart"><i	class="fa fa-shopping-cart"></i> Cart</a></li>
+						<li ng-show="currentUser.userType=='ANONYMOUS'"><a href="${ctx.contextPath}/${ctx.baseSite}/Login"><i ng-class="{ 'fa fa-sign-out': currentUser.userType=='REGISTERED', 'fa fa-sign-in': currentUser.userType=='ANONYMOUS' }" ></i> Login</a></li>
 						<li ng-show="currentUser.userType=='REGISTERED'" ng-click="logout()"><a href=""><i class="fa fa-sign-out"></i> Logout</a></li>
 					</ul>
 				</div>

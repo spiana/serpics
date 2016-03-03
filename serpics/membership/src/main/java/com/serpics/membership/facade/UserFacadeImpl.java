@@ -219,18 +219,19 @@ public class UserFacadeImpl implements UserFacade {
 
 	@Override
 	@Transactional
-	public void updateDestinationAddress(AddressData a, String uuid) {
+	public void updateDestinationAddress(AddressData a, Long id) {
 		// User _u = userService.getCurrentCustomer();
-		PermanentAddress _address = permanentAddressService.findByUUID(uuid);
+		PermanentAddress _address = permanentAddressService.findOne(id);
 		_address = (PermanentAddress) addressFacade.buildAddress(a, _address);
 		permanentAddressService.update(_address);
 
 	}
 
+	@Override
 	@Transactional
-	public void deleteDestinationAddress(String uuid) {
+	public void deleteDestinationAddress(Long id) {
 		User _u = userService.getCurrentCustomer();
-		PermanentAddress _address = permanentAddressService.findByUUID(uuid);
+		PermanentAddress _address = permanentAddressService.findOne(id);
 		userService.deletePermanentAddress(_u, _address);
 	}
 }

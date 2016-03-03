@@ -9,4 +9,5 @@
 	<module>system-serpics.xml</module>
 	<module>admin-serpics.xml</module>
 	<module>paypal-serpics.xml</module>
+	<module>importexport-serpics.xml</module>
 </modules>

@@ -68,8 +68,8 @@ public class RegionFacadeImpl implements RegionFacade {
 	}
 	
 	@Override
-	public RegionData findRegionByName(String name) {
-		return regionConverter.convert(regionService.getRegionByCode(name));
+	public RegionData findRegionByCode(String isoCode) {
+		return regionConverter.convert(regionService.getRegionByCode(isoCode));
 	}
 	
 	@Override

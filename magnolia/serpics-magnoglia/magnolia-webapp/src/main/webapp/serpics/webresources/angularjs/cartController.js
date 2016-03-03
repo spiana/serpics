@@ -11,6 +11,7 @@ function($scope,customerService,cartService,$log,geographicService) {
 		$scope.paymethodList = {};
 		$scope.countries = {};
 		$scope.regions = {};
+		$scope.districts = {};
 		$scope.payment = {};
 	  	
 	    function getCurrentCart() {
@@ -219,6 +220,22 @@ function($scope,customerService,cartService,$log,geographicService) {
 		  		  })
 			} else {
 				$scope.regions = {};
+			}
+	  	};
+	  	
+	  	/**
+	  	 * @param		 			countryId
+	  	 * @return 					district list
+	  	 * @use 					geographicService,
+	  	 */	  	 
+		$scope.getDistrictByCountry = function (countryId){
+			if (countryId != undefined){
+				geographicService.getDistrictByCountry(countryId).then(function(response){
+		  			  $log.debug("cartController getDistrictByCountry(countryId): ramo then");
+		  			  $scope.districts = response;
+		  		  })
+			} else {
+				$scope.districts = {};
 			}
 	  	};
   		

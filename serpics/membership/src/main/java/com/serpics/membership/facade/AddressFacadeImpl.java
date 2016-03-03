@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.services.CountryService;
+import com.serpics.base.services.DistrictService;
 import com.serpics.base.services.RegionService;
 import com.serpics.membership.data.model.AbstractAddress;
 import com.serpics.membership.data.model.Address;
@@ -20,6 +21,9 @@ public class AddressFacadeImpl implements AddressFacade{
 	RegionService regionService;
 	
 	@Autowired
+	DistrictService districtService;
+	
+	@Autowired
 	CountryService countryService;
 	
 	@Autowired
@@ -27,6 +31,7 @@ public class AddressFacadeImpl implements AddressFacade{
 
 	@Override
 	public AbstractAddress buildAddress(AddressData source, AbstractAddress destination) {
+
 		destination.setFirstname(source.getFirstname());
 		destination.setLastname(source.getLastname());
 		destination.setAddress1(source.getAddress1());
@@ -44,6 +49,11 @@ public class AddressFacadeImpl implements AddressFacade{
 
 		if ((source.getRegion() != null) && (source.getRegion().getIsoCode() != null)){
 			destination.setRegion(regionService.getRegionByCode(source.getRegion().getIsoCode()));
+		} else {
+			destination.setRegion(null);
+		}
+		if ((source.getDistrict() != null) && (source.getDistrict().getIsoCode() != null)){
+			destination.setDistrict(districtService.getDistrictByCode(source.getDistrict().getIsoCode()));
 		} else {
 			destination.setRegion(null);
 		}

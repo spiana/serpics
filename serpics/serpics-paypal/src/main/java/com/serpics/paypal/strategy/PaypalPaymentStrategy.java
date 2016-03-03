@@ -2,6 +2,7 @@ package com.serpics.paypal.strategy;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.paypal.api.payments.Amount;
+import com.paypal.api.payments.Item;
+import com.paypal.api.payments.ItemList;
 import com.paypal.api.payments.Link;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.PaymentExecution;
@@ -16,12 +19,14 @@ import com.paypal.api.payments.RedirectUrls;
 import com.paypal.api.payments.Transaction;
 import com.paypal.core.rest.OAuthTokenCredential;
 import com.paypal.core.rest.PayPalRESTException;
+import com.serpics.base.data.model.Currency;
 import com.serpics.commerce.PaymentException;
 import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.PaymentState;
 import com.serpics.commerce.PaymentTransactionState;
 import com.serpics.commerce.PaymentTransactionType;
 import com.serpics.commerce.data.model.AbstractOrder;
+import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.data.model.Payment;
 import com.serpics.commerce.data.model.PaymentTransaction;
 import com.serpics.commerce.data.model.Paymethod;
@@ -32,7 +37,7 @@ import com.serpics.commerce.services.PaymentService;
 import com.serpics.commerce.strategies.PaymentStrategy;
 import com.serpics.stereotype.StoreStrategy;
 
-@StoreStrategy("paypalPayment")
+@StoreStrategy("paypalPaymentStrategy")
 public class PaypalPaymentStrategy implements PaymentStrategy {
 
 	@Resource
@@ -43,6 +48,7 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 	
 	@Resource
 	PaymentRepository paymentRepository;
+	
 	
 	@Override
 	public Payment createPayment(AbstractOrder order, PaymentIntent intent)
@@ -61,12 +67,32 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 			DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols();
 			formatSymbols.setDecimalSeparator('.');
 			DecimalFormat decimalFormat = new DecimalFormat("#.00",formatSymbols);
+			NumberFormat numberFormat =  NumberFormat.getInstance();
+			
 			String orderAmount = decimalFormat.format(order.getOrderAmount());
 
 			amount.setTotal(orderAmount);
 			
 			Transaction t = new Transaction();
 			t.setAmount(amount);
+			List<Item> items = new ArrayList<Item>();
+			
+			for (AbstractOrderitem item : order.getItems()){
+				Item paypalItem = new Item();
+				//Required
+				paypalItem.setQuantity(numberFormat.format(item.getQuantity()));
+				paypalItem.setName(item.getSkuDescription());
+				paypalItem.setPrice(decimalFormat.format(item.getSkuCost()));
+				paypalItem.setSku(item.getSku());
+
+				paypalItem.setCurrency(order.getCurrency().getIsoCode());
+				items.add(paypalItem);
+			}
+			t.setDescription("Order Id: "+order.getId().toString());
+			ItemList itemList = new ItemList();
+			itemList.setItems(items);
+			t.setItemList(itemList);
+			
 		
 			
 			RedirectUrls urls= new RedirectUrls();
@@ -107,7 +133,7 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 
 			payment.setState(PaymentState.valueOf(paypalPayment.getState().toUpperCase()));
 			payment.setPaymentIdentifier(paypalPayment.getId());
-			//payment.setAuthorizedURL(getSelfLink(paypalPayment.getLinks()));
+
 			payment.setAuthorizedURL(getApprovalLink(paypalPayment.getLinks()));
 			
 
@@ -117,15 +143,6 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 		return payment;
 	}
 
-	private String getSelfLink(List<Link> links ){
-		for (Link link : links) {
-			if (link.getRel().equals("self"))
-			 return link.getHref();
-			
-		}
-		return null;
-	}
-	
 	private String getApprovalLink(List<Link> links ){
 		for (Link link : links) {
 			if (link.getRel().equals("approval_url"))

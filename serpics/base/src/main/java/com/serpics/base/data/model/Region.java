@@ -1,15 +1,18 @@
 package com.serpics.base.data.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -40,6 +43,10 @@ public class Region extends com.serpics.core.data.jpa.AbstractEntity implements 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_stringid")
     private MultilingualString description = new MultilingualString();
+    
+    // bi-directional many-to-one association to District
+    @OneToMany(mappedBy = "region", fetch=FetchType.LAZY)
+    private Set<District> districts;
 
     public Region() {
     }
@@ -75,6 +82,14 @@ public class Region extends com.serpics.core.data.jpa.AbstractEntity implements 
 
 	public void setIsoCode(String isoCode) {
 		this.isoCode = isoCode;
+	}
+
+	public Set<District> getDistricts() {
+		return districts;
+	}
+
+	public void setDistricts(Set<District> districts) {
+		this.districts = districts;
 	}
 
 

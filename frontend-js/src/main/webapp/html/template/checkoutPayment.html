@@ -4,8 +4,8 @@
 						<div class="shopper-info">
 							<p>Choose a Payment Method</p>
 							<div style="width: 100%" ng-model="cart" >
-								<input ng-if="cart.paymethod" type="submit" id="submit" value="Create Payment" ng-click="createPayment()" class="btn btn-primary">
-								<input ng-hide="cart.paymethod" type="submit" value="Create Payment" class="btn btn-primary" disabled>
+								<input ng-if="cart.paymethod" type="submit" id="submit" value="Pay" ng-click="createPayment()" class="btn btn-primary">
+								<input ng-hide="cart.paymethod" type="submit" value="Pay" class="btn btn-primary" disabled>
 								<input type="submit" id="submit" value="Continue without Payment Method" ui-sref="complete" class="btn btn-primary">
 							</div>
 						</div>
@@ -22,7 +22,8 @@
 									<li style="margin-bottom: 33px;">Payment method 2 long description</li>
 
 									<div ng-repeat="paymethod in paymethodList" >
-										<a class="check_out" ng-click="addPaymethod(paymethod.name)">{{paymethod.name}}</a>
+										<a class="check_out " ng-click="addPaymethod(paymethod.name)"><i class="fa fa-credit-card" ng-class="{ 'fa-paypal' : paymethod.name == 'PayPal' }" ></i>
+										{{paymethod.name}}</a>
 										<li style="margin-bottom: 33px;"><i ng-class="{ 'fa fa-check fa-fw': cart.paymethod.name == paymethod.name, 'fa fa-fw' : cart.paymethod.name != paymethod.name}" ng-style="cart.paymethod && {'color':'red'}"></i>
 										{{paymethod.description}}</li>
 									</div>

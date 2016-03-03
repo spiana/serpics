@@ -116,7 +116,7 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    	 if (arguments.length === 1 || arguments.length === 2 ) {
 	    		 findBySearchUrl= URL + endpoint + 'search';
 	    		 }else{
-	    			 findBySearchUrl = URL + endpoint + 'sarch' + '?searchText=' + searchText + '&page=' + page + '&size=' + size;
+	    			 findBySearchUrl = URL + endpoint + 'search' + '?searchText=' + searchText + '&page=' + page + '&size=' + size;
 	    		 }
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){

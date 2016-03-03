@@ -14,7 +14,6 @@ import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.PaymentException;
-import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Payment;
@@ -281,7 +280,7 @@ public class CartFacadeImpl implements CartFacade {
 		Payment payment = null;
 
 		try {
-			payment = cartService.createPayment(PaymentIntent.SALE);
+			payment = cartService.createPayment();
 			if (payment != null) {
 				paymentData = paymentConverter.convert(payment);
 			}

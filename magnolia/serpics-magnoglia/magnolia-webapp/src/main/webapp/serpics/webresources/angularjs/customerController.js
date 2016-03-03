@@ -9,6 +9,7 @@
 		 $scope.orders = {}
 		 $scope.countries = {};
 		 $scope.regions = {};
+		 $scope.districts = {};
 		 
 		 /**
   	     * @return 					list of orders
@@ -32,8 +33,11 @@
 				if (contactAddress.country != null){
 					contactAddress.countryIso3Code = contactAddress.country.iso3Code;
   				}
+  				if (contactAddress.district != null){
+  					contactAddress.districtIsoCode = contactAddress.district.isoCode;
+  				}
   				if (contactAddress.region != null){
-  					contactAddress.regionName = contactAddress.region.name;
+  					contactAddress.regionIsoCode = contactAddress.region.isoCode;
   				}
   			 customerService.updateContactAddress(contactAddress).then( function( response ) {
   				$log.debug("customerController: updateContactAddress(): ramo then");
@@ -48,6 +52,9 @@
   				if (billingAddress.region != null){
   					billingAddress.regionName = billingAddress.region.name;
   				}
+  				if (billingAddress.district != null){
+  					billingAddress.districtIsoCode = billingAddress.district.isoCode;
+  				}
   			 customerService.updateBillingAddress(billingAddress).then( function( response ) {
   				$log.debug("customerController: updateBillingAddress(): ramo then");
 				customerService.updateCurrentUser();
@@ -55,8 +62,15 @@
   		 }
   		 
   		 $scope.updateDestinationAddress = function(destinationAddress) {
-  			 	destinationAddress.countryIso3Code = destinationAddress.country.iso3Code;
-  			 	destinationAddress.regionName = destinationAddress.region.name;
+				if (destinationAddress.country != null){
+  					destinationAddress.countryIso3Code = destinationAddress.country.iso3Code;
+  				}
+  				if (destinationAddress.region != null){
+  					destinationAddress.regionName = destinationAddress.region.name;
+  				}
+  				if (destinationAddress.district != null){
+  					destinationAddress.districtIsoCode = destinationAddress.district.isoCode;
+  				}
 	  			 customerService.updateDestinationAddress(destinationAddress).then( function( response ) {
 	  				$log.debug("customerController: updateDestinationAddress(): ramo then");
 					customerService.updateCurrentUser();
@@ -64,11 +78,14 @@
   		 }
   		 
   		$scope.addDestinationAddress = function(destinationAddress) {
-  				if (destinationAddress.country != null){
+				if (destinationAddress.country != null){
   					destinationAddress.countryIso3Code = destinationAddress.country.iso3Code;
   				}
   				if (destinationAddress.region != null){
   					destinationAddress.regionName = destinationAddress.region.name;
+  				}
+  				if (destinationAddress.district != null){
+  					destinationAddress.districtIsoCode = destinationAddress.district.isoCode;
   				}
 	  			 customerService.addDestinationAddress(destinationAddress).then( function( response ) {
 		  				$log.debug("customerController: updateDestinationAddress(): ramo then");
@@ -111,4 +128,20 @@
 			}
 	  	};
 	  	
+	  	
+	  	/**
+	  	 * @param		 			countryId
+	  	 * @return 					district list
+	  	 * @use 					geographicService,
+	  	 */	  	 
+		$scope.getDistrictByCountry = function (countryId){
+			if (countryId != undefined){
+				geographicService.getDistrictByCountry(countryId).then(function(response){
+		  			  $log.debug("customerController getDistrictByCountry(countryId): ramo then");
+		  			  $scope.districts = response;
+		  		  })
+			} else {
+				$scope.districts = {};
+			}
+	  	};
 }])

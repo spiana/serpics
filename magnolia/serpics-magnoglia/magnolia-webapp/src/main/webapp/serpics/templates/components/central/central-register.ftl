@@ -10,7 +10,7 @@
         <p><i class="fa fa-check"></i> User Registered Succesfully!!!. Back To Home Or Login Please!!!</p>
 		</div>
 		<div class="modal-footer">
-		<a href="${ctx.contextPath}/${ctx.baseSite}/Home.html" class="btn btn-default" id="home" >Home</a>
+		<a href="${ctx.contextPath}/${ctx.baseSite}/Home" class="btn btn-default" id="home" >Home</a>
 		<a class="btn btn-default" id="modalGo" ng-click="closeThisDialog()">Login</a>
 	</div>
  </div>          
@@ -20,7 +20,7 @@
 [#if model.root.content == "CheckoutLogin"]
 [#assign url = "Checkout"]
 [/#if]
-<section id="form" ng-controller="loginController" ng-init="afterRegisterUrl='${ctx.contextPath}/${ctx.baseSite}/${url}Login.html'">
+<section id="form" ng-controller="loginController" ng-init="afterRegisterUrl='${ctx.contextPath}/${ctx.baseSite}/${url}Login'">
 	<div class="container">
 		<div class="row">			
 			<div class="col-sm-8">

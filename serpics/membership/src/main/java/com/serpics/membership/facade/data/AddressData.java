@@ -1,6 +1,7 @@
 package com.serpics.membership.facade.data;
 
 import com.serpics.base.facade.data.CountryData;
+import com.serpics.base.facade.data.DistrictData;
 import com.serpics.base.facade.data.RegionData;
 import com.serpics.core.facade.AbstractData;
 
@@ -20,6 +21,7 @@ public class AddressData extends AbstractData{
 	protected String city;
 	protected RegionData region;
 	protected CountryData country;
+	protected DistrictData district;
 	protected String vatcode;
 	protected String idNumber;
 	protected String phone;
@@ -160,6 +162,12 @@ public class AddressData extends AbstractData{
 	}
 	public void setField4(Long field4) {
 		this.field4 = field4;
+	}
+	public DistrictData getDistrict() {
+		return district;
+	}
+	public void setDistrict(DistrictData district) {
+		this.district = district;
 	}
 
 	

@@ -1,9 +1,9 @@
  var app = angular.module("cart.controller", ['cart.service', 'customer.service','serpics.router','geographic.service'])
  
  /** cartController **/
-.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams','geographicService',
+.controller("cartController",['$state','$scope','customerService', 'cartService','$log','$stateParams','geographicService','$window',
                                   
-function($state,$scope,customerService,cartService,$log,$stateParams,geographicService) {
+function($state,$scope,customerService,cartService,$log,$stateParams,geographicService,$window) {
 		
 		$scope.cart = getCurrentCart();
 		$scope.currentUser = customerService.currentUser;
@@ -11,6 +11,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 		$scope.paymethodList = {};
 		$scope.countries = {};
 		$scope.regions = {};
+		$scope.districts = {};
 		$scope.payment = {};
 		
 	  	
@@ -83,10 +84,13 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 	  	 $scope.submitBillingForm = function (billingAddress,shippingToBill){
 				if (billingAddress.country != null){
 					billingAddress.countryIso3Code = billingAddress.country.iso3Code;
-					}
-					if (billingAddress.region != null){
-						billingAddress.regionName = billingAddress.region.name;
-					} 
+  				}
+  				if (billingAddress.region != null){
+  					billingAddress.regionName = billingAddress.region.name;
+  				}
+  				if (billingAddress.district != null){
+  					billingAddress.districtIsoCode = billingAddress.district.isoCode;
+  				}
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
 				  $log.debug("cartController addBillingAddress(billingAddress): ramo then1");
 				  var complete = $stateParams.complete;
@@ -115,7 +119,10 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 				}
 				if (shippingAddress.region != null){
 					shippingAddress.regionName = shippingAddress.region.name;
-				} 
+				}
+				if (shippingAddress.district != null){
+					shippingAddress.districtIsoCode = shippingAddress.district.isoCode;
+				}
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
 	  			  $log.debug("cartController shippingAddress(shippingAddress): ramo then");
 	  			  $scope.cart = response;
@@ -169,7 +176,12 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 	  			cartService.createPayment().then(function(response){
 	  			  $log.debug("cartController createPayment(): ramo then");
 	  			  $scope.payment = response;
-	  			  $state.go($stateParams.paymentPayPal)
+	  			  if (response.authorizedURL != null){
+	  				$window.location.href = response.authorizedURL;
+	  			  }else{
+	  				$state.go($stateParams.complete)
+	  			  }
+	  			  
 	  		  })
 	  	};
 	  	
@@ -211,7 +223,7 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
   		
 	  	/**
 	  	 * @param		 			countryId
-	  	 * @return 					country list
+	  	 * @return 					region list
 	  	 * @use 					geographicService,
 	  	 */	  	 
 		$scope.getRegionByCountry = function (countryId){
@@ -222,6 +234,22 @@ function($state,$scope,customerService,cartService,$log,$stateParams,geographicS
 		  		  })
 			} else {
 				$scope.regions = {};
+			}
+	  	};
+	  	
+	  	/**
+	  	 * @param		 			countryId
+	  	 * @return 					district list
+	  	 * @use 					geographicService,
+	  	 */	  	 
+		$scope.getDistrictByCountry = function (countryId){
+			if (countryId != undefined){
+				geographicService.getDistrictByCountry(countryId).then(function(response){
+		  			  $log.debug("cartController getDistrictByCountry(countryId): ramo then");
+		  			  $scope.districts = response;
+		  		  })
+			} else {
+				$scope.districts = {};
 			}
 	  	};
   		

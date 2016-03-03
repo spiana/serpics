@@ -1,18 +1,20 @@
 var app = angular.module('geographic.service',['serpics.config','serpics.services'])
 
-app.service("geographicService", function( $http, $q,serpicsServices,URL,$log ) {
+app.service("geographicService", function( $http, $q,serpicsServices,COOKIE_EXPIRES,$cookies,URL,$log ) {
 	
 	
 	var endpoint = '/jax-rs/geographicService/';
 	
     var service =({
     	getCountryList		:	getCountryList,
-    	getRegionByCountry	:	getRegionByCountry
+    	getRegionByCountry	:	getRegionByCountry,
+    	getDistrictByCountry:	getDistrictByCountry,
+    	getDistrictByRegion :	getDistrictByRegion
     });
     return service;
 	
 	/**
-	 *@return CountryList
+	 *@return RegionList
 	 *
 	 */
 	function getRegionByCountry(countryId) {
@@ -51,7 +53,45 @@ app.service("geographicService", function( $http, $q,serpicsServices,URL,$log ) 
 		});
 	}
 	
+	/**
+	 *@return DistrictList
+	 *
+	 */
+	function getDistrictByCountry(countryId) {
+		var serviceSSID = serpicsServices;
+		return $q(function(resolve, reject) {
+			serviceSSID.getSessionId().then(function(sessionId){
+				$log.debug("session Id nel promise"+sessionId) ;
+				$http({
+					method: 	'GET',
+					url: URL + endpoint +  'district/country/' + countryId,
+					headers: {
+						'ssid': sessionId
+						}
+				}).then(handleSuccess, handleError).then(resolve, reject);
+			});
+		});
+	}
 	
+	/**
+	 *@return DistrictList
+	 *
+	 */
+	function getDistrictByRegion(regionId) {
+		var serviceSSID = serpicsServices;
+		return $q(function(resolve, reject) {
+			serviceSSID.getSessionId().then(function(sessionId){
+				$log.debug("session Id nel promise"+sessionId) ;
+				$http({
+					method: 	'GET',
+					url: URL + endpoint +  'district/region/' + regionId,
+					headers: {
+						'ssid': sessionId
+						}
+				}).then(handleSuccess, handleError).then(resolve, reject);
+			});
+		});
+	}
     
     
     /**

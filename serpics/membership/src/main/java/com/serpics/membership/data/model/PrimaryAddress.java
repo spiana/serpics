@@ -6,6 +6,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Region;
 
 @XmlRootElement(name="address")
@@ -22,8 +23,8 @@ public class PrimaryAddress extends AbstractAddress {
 
     public PrimaryAddress(final String nickname, final String firstname, final String lastname, final String company, final String email,
             final String address1, final String streetNumber, final String address2, final String address3, final String zipcode, final String city, final Region region,
-            final String country, final String vatcode) {
-        super(nickname, firstname, lastname, company, email, address1, streetNumber, address2, address3, zipcode, city, region,
+            final String country, final District district, final String vatcode) {
+        super(nickname, firstname, lastname, company, email, address1, streetNumber, address2, address3, zipcode, city, region, district,
                vatcode);
 
     }

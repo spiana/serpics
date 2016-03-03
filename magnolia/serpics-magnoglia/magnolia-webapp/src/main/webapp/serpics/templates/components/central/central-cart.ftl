@@ -17,11 +17,11 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="item in cart.orderItems">
-							<td class="cart_product"><a href="${ctx.contextPath}/${ctx.baseSite}/Product.html?productId={{product.id}}"><img
+							<td class="cart_product"><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}"><img
 									src="${ctx.contextPath}/.resources/serpics/webresources/images/cart/two.png" alt=""></a></td>
 							<td class="cart_description">
 								<h4>
-									<a href="${ctx.contextPath}/${ctx.baseSite}/Product.html?productId={{product.id}}"">{{item.sku}}</a>
+									<a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}"">{{item.sku}}</a>
 									<p>Web ID: {{item.product.id}}</p>
 								</h4>
 							</td>
@@ -63,7 +63,7 @@
 					</div>
 	</div>
 						<div class="col-sm-12" ng-show="cart.orderItems.length">
-							<a class="btn btn-default check_out pull-right" href="${ctx.contextPath}/${ctx.baseSite}/CheckoutBilling.html" >Continue to Checkout</a>
+							<a class="btn btn-default check_out pull-right" href="${ctx.contextPath}/${ctx.baseSite}/CheckoutBilling" >Continue to Checkout</a>
 						</div>
 	</div>
 	<!--/#cart_items-->

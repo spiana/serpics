@@ -1,9 +1,9 @@
 <!--form-->
 [#assign url = ""]
 [#if model.root.content == "CheckoutLogin"]
-[#assign url = "CheckoutShipping"]
+[#assign url = "/CheckoutShipping"]
 [/#if]
-<section id="form" ng-controller="loginController" ng-init="afterLoginUrl='${ctx.contextPath}/${ctx.baseSite}/${url}.html'">
+<section id="form" ng-controller="loginController" ng-init="afterLoginUrl='${ctx.contextPath}/${ctx.baseSite}${url}'">
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
@@ -19,7 +19,7 @@
 							<span class="pull-right"><input type="checkbox" class="checkbox"> Keep me signed	in	</span>
 						<div class="pull-left">
 							<button type="submit" class="btn btn-default" id="submit">Login</button>
-							<a href="${ctx.contextPath}/${ctx.baseSite}/Register.html" class="btn btn-default register" role="button">Register</a>
+							<a href="${ctx.contextPath}/${ctx.baseSite}/Register" class="btn btn-default register" role="button">Register</a>
 						</div>
 					</form>
 				</div>

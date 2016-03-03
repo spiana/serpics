@@ -17,16 +17,16 @@
 						<li class="dropdown"><a href="#">Shop<i
 								class="fa fa-angle-down"></i></a>
 							<ul role="menu" class="sub-menu">								
-								<li><a href="${ctx.contextPath}/${ctx.baseSite}/CheckoutBilling.html">Checkout</a></li>
-								<li><a href="${ctx.contextPath}/${ctx.baseSite}/Cart.html">Cart</a></li>	
-								<li><a href="${ctx.contextPath}/${ctx.baseSite}/Register.html">Register</a></li>	
+								<li><a href="${ctx.contextPath}/${ctx.baseSite}/CheckoutBilling">Checkout</a></li>
+								<li><a href="${ctx.contextPath}/${ctx.baseSite}/Cart">Cart</a></li>	
+								<li><a href="${ctx.contextPath}/${ctx.baseSite}/Register">Register</a></li>	
 							</ul>
 						</li>						
 					</ul>
 				</div>
 			</div>
 			<div class="col-sm-3">
-				<form action="${ctx.contextPath}/${ctx.baseSite}/Search.html">
+				<form action="${ctx.contextPath}/${ctx.baseSite}/Search">
 					<div class="search_box input-group pull-right">
 					    <input name="textSearch" type="text" class="pull-right form-control" ng-model="searchText" placeholder="Search" >
 					    <span class="input-group-btn">

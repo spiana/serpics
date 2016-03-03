@@ -70,7 +70,7 @@
 									<div class="form-description">Street Number</div>
 									<div class="form-description">City</div>
 									<div class="form-description">Country</div>
-									<div class="form-description">Region</div>
+									<div class="form-description">District</div>
 									<div class="form-description">Zip / Postal Code</div>
 									<div class="form-description">Email</div>
 									<div class="form-description">Phone</div>
@@ -87,8 +87,8 @@
 									<input type="text" name="address2" ng-model="order.billingAddress.address2" readonly>
 									<input type="text" name="streetNumber" ng-model="order.billingAddress.streetNumber" readonly>
 									<input type="text" name="city" ng-model="order.billingAddress.city" readonly>
-									<input type="text" name="country" ng-model="order.billingAddress.country.iso3Code" readonly>
-									<input type="text" name="region" ng-model="order.billingAddress.region.name" readonly>
+									<input type="text" name="country" ng-model="order.billingAddress.country.description" readonly>
+									<input type="text" name="district" ng-model="order.billingAddress.district.description" readonly>
 									<input type="text" name="zipcode" ng-model="order.billingAddress.zipcode" readonly>
 									<input type="text" name="email" ng-model="order.billingAddress.email" readonly>
 									<input type="text" name="phone" ng-model="order.billingAddress.phone" readonly>
@@ -111,7 +111,7 @@
 									<div class="form-description">Street Number</div>
 									<div class="form-description">City</div>
 									<div class="form-description">Country</div>
-									<div class="form-description">Region</div>
+									<div class="form-description">District</div>
 									<div class="form-description">Zip / Postal Code</div>
 									<div class="form-description">Email</div>
 									<div class="form-description">Phone</div>
@@ -128,8 +128,8 @@
 									<input type="text" name="address2" ng-model="order.shippingAddress.address2" readonly>
 									<input type="text" name="streetNumber" ng-model="order.shippingAddress.streetNumber" readonly>
 									<input type="text" name="city" ng-model="order.shippingAddress.city" readonly>
-									<input type="text" name="country" ng-model="order.shippingAddress.country.iso3Code" readonly>
-									<input type="text" name="region" ng-model="order.shippingAddress.region.name" readonly>
+									<input type="text" name="country" ng-model="order.shippingAddress.country.description" readonly>
+									<input type="text" name="region" ng-model="order.shippingAddress.district.description" readonly>
 									<input type="text" name="zipcode" ng-model="order.shippingAddress.zipcode" readonly>
 									<input type="text" name="email" ng-model="order.shippingAddress.email" readonly>
 									<input type="text" name="phone" ng-model="order.shippingAddress.phone" readonly>
@@ -144,3 +144,4 @@
 		</div>
 	</div>
 </div>
+

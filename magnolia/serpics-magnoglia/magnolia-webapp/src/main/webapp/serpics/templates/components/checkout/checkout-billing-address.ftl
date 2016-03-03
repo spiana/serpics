@@ -39,11 +39,12 @@
 							</div>
 							<div class="form-two">
 								<form>
-									<select ng-options="country as country.iso3Code for country in countries track by country.iso3Code" ng-model="currentUser.billingAddress.country" ng-change="getRegionByCountry(currentUser.billingAddress.country.id)">
+								<div ng-if="currentUser.userType == 'REGISTERED'" ng-init="getDistrictByCountry(currentUser.billingAddress.country.id)"></div>
+									<select ng-options="country as country.description for country in countries track by country.description" ng-model="currentUser.billingAddress.country" ng-change="getDistrictByCountry(currentUser.billingAddress.country.id)">
 										<option value ="" disabled>-- Country --</option>
 									</select>
-									<select ng-options="region as region.name for region in regions track by region.name" ng-model="currentUser.billingAddress.region" ng-init="getRegionByCountry(currentUser.billingAddress.country.id)">
-										<option value = "" >-- Region --</option>
+									<select ng-options="district as district.description for district in districts track by district.description" ng-model="currentUser.billingAddress.district" >
+										<option value = "" >-- District --</option>
 									</select>
 									<input type="text" name="zipcode" placeholder="Zip / Postal Code *" ng-model="currentUser.billingAddress.zipcode" required>
 									<input type="text" name="email" placeholder="Email *" ng-model="currentUser.billingAddress.email" required>

@@ -26,7 +26,7 @@ public interface UserFacade {
 	public void deleteBillingAddress();
 
 	public void addDestinationAddress(AddressData address);
-	public void updateDestinationAddress(AddressData address, String uuid);
-	public void deleteDestinationAddress(String uuid);
+	public void updateDestinationAddress(AddressData address, Long id);
+	public void deleteDestinationAddress(Long id);
 	
 }

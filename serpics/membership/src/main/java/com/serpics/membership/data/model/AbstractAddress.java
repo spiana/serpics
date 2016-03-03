@@ -81,6 +81,10 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     protected String city;
 
     @ManyToOne
+    @JoinColumn(name = "district_id", nullable = true)
+    protected District district;
+    
+    @ManyToOne
     @JoinColumn(name = "region_id", nullable = true)
     protected Region region;
 
@@ -146,7 +150,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     }
     
     public AbstractAddress(final String nickname, final String firstname, final String lastname, final String company, final String email,
-            final String address1, final String streetNumber, final String address2, final String address3, final String zipcode, final String city, final Region region,
+            final String address1, final String streetNumber, final String address2, final String address3, final String zipcode, final String city, final Region region, final District district,
           final String vatcode) {
         super();
 
@@ -162,7 +166,7 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
         this.zipcode = zipcode;
         this.city = city;
         this.region = region;
-     
+        this.district = district;
         this.vatcode = vatcode;
     }
 

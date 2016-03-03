@@ -23,6 +23,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Currency;
+import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
@@ -34,6 +35,7 @@ import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.model.Payment;
 import com.serpics.commerce.data.model.Paymethod;
+import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.data.repositories.CartItemRepository;
 import com.serpics.commerce.data.repositories.CartRepository;
@@ -494,9 +496,13 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			String zipCode = address.getZipcode();
 			Country country = address.getCountry();
 			Region region = address.getRegion();
+			District district = address.getDistrict();
 //			Geocode geocode = address.getGeocode();
 			if (zipCode != null){
 				shipmodeList.addAll(shipmodeRepository.getShipmodeFromZipCode(store, zipCode));
+			}
+			if (district != null){
+				shipmodeList.addAll(shipmodeRepository.getShipmodeFromDistrict(store, district));
 			}
 			if (region != null){
 				shipmodeList.addAll(shipmodeRepository.getShipmodeFromRegion(store, region));
@@ -564,12 +570,12 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			if (sessionCart != null) {
 				// sono presenti dei carrelli nel repository devo effettuare il merge con quello in sessione
 				cartStrategy.mergeCart(repositoryCart, sessionCart);
-				
+				cartRepositoryDelete(repositoryCart);				
 			} else {
-				prepareCart(sessionCart);
-				cartRepositoryDelete(repositoryCart);
+				LOG.debug("è presente solamente il repositoryCart");
 			}
-			putCartinSession(sessionCart);
+			
+			//putCartinSession(sessionCart);
 
 		} else {
 			// non sono presenti non viene effettuato il merge
@@ -578,7 +584,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			LOG.debug("Non sono presenti carrelli per effettuare il merge");
 		}
 
-		
+		prepareCart(sessionCart);
 		sessionCart.setUser((User)user);
 		sessionCart.setCustomer(customer);	
 		
@@ -589,15 +595,19 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Override
 	@Transactional
-	public Payment createPayment(PaymentIntent intent) throws PaymentException {
+	public Payment createPayment() throws PaymentException {
 
 		Cart sessionCart = getSessionCart();
 		Payment payment = null;
+		Paymethod payMethod = sessionCart.getPaymethod();
 		
-		if ( sessionCart.getPaymethod() != null){
+		
+		if ( payMethod != null){
+			
+			Paymethodlookup paymethodlookup = paymentService.findPaymethodInfo(payMethod);
+			PaymentIntent intent = paymethodlookup.getIntent();
 
 			LOG.debug("Strategy for del current cart payment: {}",sessionCart.getPaymethod().getPaymentStrategy());
-
 			try{
 				payment = paymentService.createPayment(sessionCart, intent);
 			}catch(PaymentException e){

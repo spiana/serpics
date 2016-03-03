@@ -165,6 +165,8 @@
     <module>vaadin</module>
     <module>warehouse</module>
     <module>serpics-paypal</module>
+    <module>scheduler</module>
+
   </modules>
   
   <version>1.0-SNAPSHOT</version>

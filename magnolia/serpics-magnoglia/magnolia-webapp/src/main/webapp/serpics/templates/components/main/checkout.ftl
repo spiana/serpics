@@ -1,4 +1,4 @@
-	<section id="cart_items" ng-controller="cartController" ng-init="shippingAddressUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutShipping.html'; shipmodeUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutShipmode.html'; paymentUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod.html'; paypalCheckoutUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethodPaypal.html'">
+	<section id="cart_items" ng-controller="cartController" ng-init="shippingAddressUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutShipping'; shipmodeUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutShipmode'; paymentUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethod'; paypalCheckoutUrl='${ctx.contextPath}/${ctx.baseSite}/CheckoutPaymethodPaypal'">
 		<div class="container">
 		[#assign page = model.root.content]
 			<div class="step-one">
@@ -15,13 +15,13 @@
 				<p>Checkout options</p>
 				<ul class="nav">
 					<li>
-						<label><a href="CheckoutBilling.html" > Guest checkout</a></label>
+						<label><a href="CheckoutBilling" > Guest checkout</a></label>
 					</li>
 					<li>
-						<label><a href="CheckoutLogin.html" > Login</a></label>
+						<label><a href="CheckoutLogin" > Login</a></label>
 					</li>
 					<li>
-						<label><a href="CheckoutRegister.html" > Register</a></label>
+						<label><a href="CheckoutRegister" > Register</a></label>
 					</li>
 				</ul>
 			</div><!--/checkout-options-->
@@ -52,11 +52,11 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="item in cart.orderItems">
-							<td class="cart_product"><a href="${ctx.contextPath}/${ctx.baseSite}/Product.html?productId={{product.id}}"><img
+							<td class="cart_product"><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}"><img
 									src="${ctx.contextPath}/.resources/serpics/webresources/images/cart/two.png" alt=""></a></td>
 							<td class="cart_description">
 								<h4>
-									<a href="${ctx.contextPath}/${ctx.baseSite}/Product.html?productId={{product.id}}">{{item.sku}}</a>
+									<a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{item.sku}}</a>
 									<p>Web ID: {{item.product.id}}</p>
 								</h4>
 							</td>

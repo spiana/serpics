@@ -107,7 +107,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService deleteItem(itemId) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'DELETE',
-			             url: URL + endpoint + 'cartItem/' + itemId,
+			             url: URL + endpoint + 'cartitem/' + itemId,
 			             headers: {
 			             	'ssid': sessionId,
 			            }

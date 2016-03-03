@@ -45,6 +45,7 @@ public class CartStrategyImpl implements CartStrategy {
 				cartItem.setSku(repoItem.getSku());
 				cartItem.setQuantity(repoItem.getQuantity());
 				cartItem.setProduct(product);
+				//cartItem.setSkuNetPrice(repoItem.getSkuNetPrice());
 
 				
 				final Iterator<Cartitem> items = sessionCart.getCartitems().iterator();

@@ -19,6 +19,6 @@ public interface CustomerService  {
 	public Response updateBillingAddress(AddressDataRequest addressDataRequest,String ssid);
 	public Response updateDestinationAddress(AddressDataRequest addressDataRequest,String ssid);
 	public Response addDestinationAddress(AddressDataRequest addressDataRequest,String ssid);
-	public Response deleteDestinationAddress(String addressuid,String ssid);
+	public Response deleteDestinationAddress(Long addressId,String ssid);
 
 }

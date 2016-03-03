@@ -1,5 +1,5 @@
 [#assign productId = ctx.productId!]
-					<div class="product-details" ng-controller="productController" ng-init="getProduct(${productId}); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart.html'"><!--product-details-->
+					<div class="product-details" ng-controller="productController" ng-init="getProduct(${productId}); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart'"><!--product-details-->
 						<h2 class="title text-center">{{product.name}}</h2>
 						<div class="col-sm-5">
 							<div class="view-product">

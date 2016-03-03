@@ -4,7 +4,7 @@
 						<div class="shopper-info">
 							<p>Choose a Payment Method</p>
 							<div style="width: 100%" ng-model="cart" >
-								<input ng-if="cart.paymethod" type="submit" id="submit" value="Create Payment" ng-click="createPayment()" class="btn btn-primary">
+								<input ng-if="cart.paymethod" type="submit" id="submit" value="Pay" ng-click="createPayment()" class="btn btn-primary">
 								<input ng-hide="cart.paymethod" type="submit" value="Create Payment" class="btn btn-primary" disabled>
 								<input type="submit" id="submit" value="Continue without Payment Method" href="${ctx.contextPath}/${ctx.baseSite}/Complete" class="btn btn-primary">
 							</div>
