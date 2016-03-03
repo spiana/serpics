@@ -30,6 +30,7 @@ import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.commerce.PaymentException;
 import com.serpics.commerce.PaymentIntent;
+import com.serpics.commerce.ShipmodeException;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
@@ -112,6 +113,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	
 	@Resource
 	CommerceEngine commerceEngine;
+	
+	@Resource
+	ShipmodeService shipmodeService;
 
 	protected Specification<Shipmode> findShipmodeByNameSpecification(final String name) {
 		return new Specification<Shipmode>() {
@@ -324,7 +328,12 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 		discountStrategy.applyOrderDiscount(cart);
 
-		commerceStrategy.calculateShipping(cart);
+		try {
+			commerceStrategy.calculateShipping(cart);
+		} catch (ShipmodeException e) {
+			LOG.error("Error to calculate Shipping Cost", e);
+		}
+		
 		commerceStrategy.calculateTax(cart);
 		commerceStrategy.calculateOrderTotal(cart);
 

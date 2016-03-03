@@ -1,5 +1,6 @@
 package com.serpics.commerce.strategies;
 
+import com.serpics.commerce.ShipmodeException;
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
 
@@ -8,7 +9,7 @@ public interface CommerceStrategy {
 
     public void calculateShipping(AbstractOrderitem orderitem);
 
-    public void calculateShipping(AbstractOrder order);
+    public void calculateShipping(AbstractOrder order) throws ShipmodeException;
 
     public void calculateProductTotal(AbstractOrder order);
 

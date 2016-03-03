@@ -59,6 +59,8 @@ public class Shipmode extends AbstractEntity implements Serializable {
     @OneToMany(mappedBy = "shipmode" , fetch=FetchType.LAZY)
     private Set<Suborder> suborders;
 
+    private String shipmodeStrategy;
+    
     public Shipmode() {
     }
 
@@ -125,6 +127,14 @@ public class Shipmode extends AbstractEntity implements Serializable {
 
 	public void setDescription(MultilingualString description) {
 		this.description = description;
+	}
+
+	public String getShipmodeStrategy() {
+		return shipmodeStrategy;
+	}
+
+	public void setShipmodeStrategy(String shipmodeStrategy) {
+		this.shipmodeStrategy = shipmodeStrategy;
 	}
 
 }

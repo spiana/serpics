@@ -79,9 +79,25 @@
 							<td colspan="2">
 								<table class="table table-condensed total-result">
 										<tr>
-											<td>Total</td>
+											<td>Cart Sub Total</td>
 											<td><span>&euro;{{(cart.totalProduct | number:2) || 0}}</span></td>
 										</tr>
+										<tr>
+											<td>Services Sub Total</td>
+											<td><span>&euro;{{(cart.totalService | number:2) || 0}}</span></td>
+										</tr>
+										<tr>
+											<td>Tax Sub Total</td>
+											<td><span>&euro;{{(cart.totalTax | number:2) || 0}}</span></td>
+										</tr>
+										<tr>
+											<td>Shipping Cost</td>
+											<td><span>&euro;{{(cart.totalShipping | number:2) || 0}}</span></td>
+										</tr>
+										<tr>
+											<td>Total</td>
+											<td><span>&euro;{{(cart.orderAmount | number:2) || 0}}</span></td>
+										</tr>										
 									</table>
 							</td>
 						</tr>

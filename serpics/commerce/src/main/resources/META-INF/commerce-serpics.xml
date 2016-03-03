@@ -115,6 +115,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	   <property name="abstractOrderItemConverter" ref="cartItemConvert"/>
 	   <property name="addressConverter" ref="addressConverter"/>
 	   <property name="paymethodConverter" ref="paymethodConverter"/>
+	   <property name="shipmodeConverter" ref="shipmodeConverter"/>
 	</bean>
 	
 	<alias name="defaulCartConverter" alias="cartConverter"/>
@@ -149,6 +150,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	   <property name="abstractOrderItemConverter" ref="orderItemConverter"/>
 	   <property name="addressConverter" ref="addressConverter"/>
 	   <property name="paymethodConverter" ref="paymethodConverter"/>
+	   <property name="shipmodeConverter" ref="shipmodeConverter"/>
 	</bean>
 	
 	<alias name="defaulOrderConverter" alias="orderConverter"/>

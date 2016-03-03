@@ -1,14 +1,21 @@
 package com.serpics.commerce.strategies;
 
+import javax.annotation.Resource;
+
 import com.serpics.base.data.model.TaxCategory;
+import com.serpics.commerce.ShipmodeException;
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
+import com.serpics.commerce.services.ShipmodeService;
 import com.serpics.core.utils.CurrencyUtils;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy(value = "commerceStrategy")
 public class CommerceStrategyImpl  implements CommerceStrategy {
 
+	@Resource
+	ShipmodeService shipmodeService;
+	
     @Override
     public void calculateTax(final AbstractOrder order) {
     	TaxCategory defaultTaxCategory = order.getStore().getTaxcategory();
@@ -39,8 +46,9 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
     }
 
     @Override
-    public void calculateShipping(final AbstractOrder order) {
-        // TODO Auto-generated method stub
+    public void calculateShipping(final AbstractOrder order) throws ShipmodeException {
+       
+    	shipmodeService.calculateShippingCost(order);
 
     }
 

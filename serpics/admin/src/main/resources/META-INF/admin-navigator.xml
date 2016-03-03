@@ -24,6 +24,9 @@ xsi:schemaLocation="file:/Users/spiana/git/serpics-code/serpics/admin/src/main/r
 		<navigator-item	allow-child="false"	bean="orderMasterTable" name="order" parent="orders" />
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethodlookup" name="payMethods" parent="orders" />
 	
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Shipmode" name="shipmode" parent="orders" roles="ROLE_SUPERUSER"/>
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Shipmodelookup" name="shipmodeLookup" parent="orders" />
+	
 		<navigator-item	allow-child="true"  name="system" parent="" />
 		<navigator-item allow-child="false" class="com.serpics.base.data.model.Store" name="store" parent="system"  roles="ROLE_SUPERUSER" />
 		<navigator-item	allow-child="false"	class="com.serpics.base.data.model.BaseAttribute" name="baseAttribute" parent="system" />
