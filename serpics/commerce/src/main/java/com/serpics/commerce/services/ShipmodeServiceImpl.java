@@ -37,10 +37,11 @@ public class ShipmodeServiceImpl extends AbstractCommerceService implements Ship
 			else
 				throw new ShipmodeException(String.format("Shipmode stategy %s not found for order %d",
 						shipmode != null ? shipmode.getShipmodeStrategy() : null , order.getId()));
-		}else {
+		}else if (shipmode != null){
 			throw new ShipmodeException(String.format("Shipmode method %s not found for order %d",
 					shipmode != null ? shipmode.getName() : null , order.getId()));
 		}
+		return null;
 	
 	}
 

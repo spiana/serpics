@@ -2,40 +2,28 @@
 						<h2 class="title text-center">{{product.name}}</h2>
 						<div class="col-sm-5">
 							<div class="view-product">
-	 								<a href="{{product.primaryImage.source}}" rel="prettyPhoto" title="title here">  
-								<img src="{{product.primaryImage.source}}" alt="">
-									</a>
-								<h3>ZOOM</h3>
+									<div style="background-image: url('{{product.primaryImage.source || 'images/home/product1.jpg'}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 380px;"></div>
+									<a href="{{product.primaryImage.source}}" rel="prettyPhoto" title="title here"><h3>ZOOM</h3></a>
 							</div>
-							<div id="similar-product" class="carousel slide" data-ride="carousel">
+							<div id="similar-product" class="carousel slide" data-ride="carousel" ng-init="gallery = 0">
 								
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner" data-role="image">
 										<div class="item active">
-										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-										</div>
-										<div class="item">
-										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-										</div>
-										<div class="item">
-										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+										  <div ng-repeat="i in range(3)" style="width:33%; float:left">
+										  <a href="{{product.medias[i + gallery].source || 'images/home/product1.jpg'}}"><div style="display: table;margin: 0 auto;background-image: url('{{product.medias[i + gallery].source || 'images/home/product1.jpg'}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 85px;width:85px" /></a>
+										  </div>
 										</div>
 										
 									</div>
 
 								  <!-- Controls -->
-								  <a class="left item-control" href="#similar-product" data-slide="prev">
+								  <button style="padding: 0px; border: none;" class="left item-control" data-slide="prev" ng-click="gallery = gallery - 1" ng-disabled="gallery < 1">
 									<i class="fa fa-angle-left"></i>
-								  </a>
-								  <a class="right item-control" href="#similar-product" data-slide="next">
+								  </button>
+								  <button style="padding: 0px; border: none;" class="right item-control" data-slide="next"  ng-click="gallery = gallery + 1" ng-disabled="gallery > (product.medias.length - 4)">
 									<i class="fa fa-angle-right"></i>
-								  </a>
+								  </button>
 							</div>
 
 						</div>
