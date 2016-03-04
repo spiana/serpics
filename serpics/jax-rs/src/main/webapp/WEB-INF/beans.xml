@@ -39,6 +39,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
       <bean class="com.serpics.jaxrs.BrandRestServiceImpl" />
       <bean class="com.serpics.jaxrs.OrderRestServiceImpl" />
       <bean class="com.serpics.jaxrs.GeographicRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.InventoryRestServiceImpl" />
     </jaxrs:serviceBeans>
    
    

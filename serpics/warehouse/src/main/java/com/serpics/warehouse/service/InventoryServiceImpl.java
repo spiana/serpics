@@ -16,7 +16,7 @@ import com.serpics.warehouse.InventoryStatus;
 import com.serpics.warehouse.data.model.Warehouse;
 import com.serpics.warehouse.strategies.InventoryStrategy;
 
-@StoreService("innventoryService")
+@StoreService("inventoryService")
 @Transactional(readOnly=true)
 public class InventoryServiceImpl  extends AbstractService<CommerceSessionContext> implements InventoryService {
 

@@ -83,9 +83,7 @@ public class ProductPopulator implements Populator<Product, ProductData> {
 		if (source.getTaxcategory() != null){
 			target.setTaxCategory(taxcategoryConverter.convert(source.getTaxcategory()));
 		}
-		
-		
-		
+				
 	}
 
 		@Required

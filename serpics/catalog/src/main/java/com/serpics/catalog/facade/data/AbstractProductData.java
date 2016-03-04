@@ -24,6 +24,8 @@ public class AbstractProductData  extends CtentryData{
 	protected String metaKey;
 	
 	protected TaxCategoryData taxCategory;
+	
+	protected InventoryData inventoryData;
 
 	public String getManufacturSku() {
 		return manufacturSku;
@@ -111,5 +113,11 @@ public class AbstractProductData  extends CtentryData{
 	}
 	public void setTaxCategory(TaxCategoryData taxCategory) {
 		this.taxCategory = taxCategory;
+	}
+	public InventoryData getInventoryData() {
+		return inventoryData;
+	}
+	public void setInventoryData(InventoryData inventoryData) {
+		this.inventoryData = inventoryData;
 	}
 }

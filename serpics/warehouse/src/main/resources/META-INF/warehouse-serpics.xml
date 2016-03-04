@@ -35,4 +35,21 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 	  <property name="order" value="100"/>
 	  <property name="interceptor" ref="inventorySaveInterceptor" />
  	</bean>
+ 	
+ 	<alias name="productWarehousePopulator" alias="productWarehousePopulator"/>
+    <bean name="productWarehousePopulator" class="com.serpics.warehouse.facade.ProductWarehousePopulator" >
+    </bean>
+ 	
+ 	<alias name="defaultProductConverter" alias="productConverter"/>
+	<bean name="defaultProductConverter" parent="abstractConverter">
+	<property name="targetClass" value="com.serpics.catalog.facade.data.ProductData"/>
+	<property name="populators">
+	  <list>
+	      <ref bean="ctentryPopulator"/>  
+	      <ref bean="productPopulator"/>  
+	      <ref bean="productWarehousePopulator"/> 
+	  </list>
+	</property>
+	</bean>
+	
 </beans>    
