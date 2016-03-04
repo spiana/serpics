@@ -42,9 +42,7 @@ import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.repositories.PaymentRepository;
 import com.serpics.commerce.data.repositories.PaymentTransactionRepository;
 import com.serpics.commerce.services.PaymentService;
-import com.serpics.commerce.services.PaymentServiceImpl;
 import com.serpics.commerce.strategies.PaymentStrategy;
-import com.serpics.stereotype.StorePaymentStrategy;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy("paypalPaymentStrategy")
