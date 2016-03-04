@@ -10,6 +10,19 @@
 		<property name="created" readonly="true"/>
 	</entity>
 	
+		<entity name="CategoryProductRelation">
+		<property name="parentCategory"  table ="true" select="true" search="true"/>
+		<property name="parentCategory"  table ="true" select="true" search="true"/>
+		<property name="created" readonly="true"/>
+	</entity>
+	
+		<entity name="price">
+		<property name="currency"  table ="true" select="true" search="true"/>
+		<property name="productCost" table ="true"/>
+		<property name="productPrice" table ="true"/>
+		<property name="created" readonly="true"/>
+	</entity>
+	
 	<entity name="product">
 		<property name="code"  table ="true" select="true" search="true"/>
 		<property name="name"  table ="true" search="true"/>
