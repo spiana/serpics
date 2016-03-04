@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.services.CategoryService;
