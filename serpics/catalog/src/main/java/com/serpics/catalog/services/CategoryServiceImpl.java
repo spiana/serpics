@@ -3,6 +3,7 @@ package com.serpics.catalog.services;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -128,6 +129,11 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
 	@Override
 	public int getCountChildCategory(Category category) {
 		return categoryRelationRepository.getCountCategoryChild(category);
+	}
+	
+	@Override
+	public Set<Category> getParentCategories(Category category) {
+		return categoryRelationRepository.getParentCategories(category);
 	}
 
 	@Override

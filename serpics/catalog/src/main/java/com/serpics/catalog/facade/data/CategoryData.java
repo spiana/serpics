@@ -1,5 +1,7 @@
 package com.serpics.catalog.facade.data;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -10,6 +12,7 @@ public class CategoryData  extends CtentryData{
 	protected String catalogId;
 	protected int childCategoryNumber;
 	protected int childProductNumber;
+	protected Set<CategoryData> parentCategories;
 	protected boolean published;
 
 	public String getCatalogId() {
@@ -35,6 +38,12 @@ public class CategoryData  extends CtentryData{
 	}
 	public void setPublished(boolean published) {
 		this.published = published;
+	}
+	public Set<CategoryData> getParentCategories() {
+		return parentCategories;
+	}
+	public void setParentCategories(Set<CategoryData> parentCategories) {
+		this.parentCategories = parentCategories;
 	}
 	
 }

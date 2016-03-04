@@ -1,6 +1,7 @@
 package com.serpics.catalog.services;
 
 import java.util.List;
+import java.util.Set;
 
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Product;
@@ -22,5 +23,7 @@ public interface CategoryService extends EntityService<Category, Long> {
     public int getCountChildCategory(Category category);
     
     public int getCountChildProduct(Category category);
+
+	public Set<Category> getParentCategories(Category category);
 
 }

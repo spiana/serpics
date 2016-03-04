@@ -101,6 +101,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	
 	<alias name="defaultCategoryPopulator" alias="categoryPopulator"/>
     <bean name="defaultCategoryPopulator" class="com.serpics.catalog.facade.CategoryPopulator" >
+		<property name="categoryConverter" ref="categoryConverter"/>
     </bean>
       
 
