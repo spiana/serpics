@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.commerce.PaymentException;
+import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.PaymentState;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Order;
@@ -60,7 +61,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 			cartService.prepareCart(cart, true);
 			order = orderRepository.createOrderFromcart(cart);
 			Payment payment = paymentService.findCurrentPendingPayment(order);
-			if (payment != null && payment.getState().equals(PaymentState.CREATED))
+			if (payment != null && payment.getState().equals(PaymentState.CREATED) && !payment.getIntent().equals(PaymentIntent.ORDER))
 				paymentService.authorizePayment(payment);
 			
 		} catch (InventoryNotAvailableException | ProductNotFoundException | PaymentException e) {

@@ -3,28 +3,36 @@ package com.serpics.paypal.strategy;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.paypal.api.payments.Amount;
+import com.paypal.api.payments.Authorization;
 import com.paypal.api.payments.Item;
 import com.paypal.api.payments.ItemList;
-import com.paypal.api.payments.Link;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Order;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.PaymentExecution;
 import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.Sale;
 import com.paypal.api.payments.Transaction;
-import com.paypal.core.rest.OAuthTokenCredential;
-import com.paypal.core.rest.PayPalRESTException;
-import com.serpics.base.data.model.Currency;
+import com.paypal.base.rest.PayPalRESTException;
 import com.serpics.commerce.PaymentException;
 import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.PaymentState;
 import com.serpics.commerce.PaymentTransactionState;
 import com.serpics.commerce.PaymentTransactionType;
+import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.data.model.Payment;
@@ -34,11 +42,15 @@ import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.repositories.PaymentRepository;
 import com.serpics.commerce.data.repositories.PaymentTransactionRepository;
 import com.serpics.commerce.services.PaymentService;
+import com.serpics.commerce.services.PaymentServiceImpl;
 import com.serpics.commerce.strategies.PaymentStrategy;
+import com.serpics.stereotype.StorePaymentStrategy;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy("paypalPaymentStrategy")
 public class PaypalPaymentStrategy implements PaymentStrategy {
+	
+	Logger LOG = LoggerFactory.getLogger(PaypalPaymentStrategy.class);
 
 	@Resource
 	PaymentService paymentService ;
@@ -48,6 +60,9 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 	
 	@Resource
 	PaymentRepository paymentRepository;
+	
+	@Resource
+	CommerceEngine commerceEngine;
 	
 	
 	@Override
@@ -72,29 +87,33 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 			String orderAmount = decimalFormat.format(order.getOrderAmount());
 
 			amount.setTotal(orderAmount);
+
 			
 			Transaction t = new Transaction();
 			t.setAmount(amount);
+	
 			List<Item> items = new ArrayList<Item>();
-			
-			for (AbstractOrderitem item : order.getItems()){
+	
+			for (AbstractOrderitem item : order.getItems()) {
 				Item paypalItem = new Item();
-				//Required
+				// Required
 				paypalItem.setQuantity(numberFormat.format(item.getQuantity()));
-				paypalItem.setName(item.getSkuDescription());
+				paypalItem.setName(
+						item.getProduct().getName().getText(commerceEngine.getCurrentContext().getLocale().getLanguage()));
 				paypalItem.setPrice(decimalFormat.format(item.getSkuCost()));
 				paypalItem.setSku(item.getSku());
-
+				paypalItem.setDescription(item.getSkuDescription());
+	
 				paypalItem.setCurrency(order.getCurrency().getIsoCode());
 				items.add(paypalItem);
 			}
-			t.setDescription("Order Id: "+order.getId().toString());
+			t.setInvoiceNumber(order.getId().toString());
+			t.setDescription("Order Id: " + order.getId().toString());
+			t.setInvoiceNumber(order.getId().toString());
 			ItemList itemList = new ItemList();
 			itemList.setItems(items);
 			t.setItemList(itemList);
-			
-		
-			
+
 			RedirectUrls urls= new RedirectUrls();
 			urls.setCancelUrl(p.getCancelURL());
 			urls.setReturnUrl(p.getReturnURL());
@@ -117,7 +136,7 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 			try {
 				 paypalPayment =  makePaypalRequest(paymentRequest, p);
 				
-			} catch (PayPalRESTException e) {
+			} catch (com.paypal.base.rest.PayPalRESTException e) {
 				throw new PaymentException(e);
 			}
 			
@@ -143,16 +162,16 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 		return payment;
 	}
 
-	private String getApprovalLink(List<Link> links ){
-		for (Link link : links) {
+	private String getApprovalLink(List<Links> links ){
+		for (Links link : links) {
 			if (link.getRel().equals("approval_url"))
 			 return link.getHref();
 			
 		}
 		return null;
 	}
-	private com.paypal.api.payments.Payment makePaypalRequest(com.paypal.api.payments.Payment payment , Paymethodlookup payInfo) throws PayPalRESTException{
-		String token = new OAuthTokenCredential(payInfo.getMerchantKey(),
+	private com.paypal.api.payments.Payment makePaypalRequest(com.paypal.api.payments.Payment payment , Paymethodlookup payInfo) throws com.paypal.base.rest.PayPalRESTException{
+		String token = new com.paypal.base.rest.OAuthTokenCredential(payInfo.getMerchantKey(),
 				payInfo.getMerchantSecret()).getAccessToken();
 		
 		com.paypal.api.payments.Payment c = payment.create(token);
@@ -160,8 +179,8 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 	}
 	
 	private com.paypal.api.payments.Payment makePaypalConfirm(Paymethodlookup payInfo , Payment payment) throws PayPalRESTException{
-		OAuthTokenCredential tokenCredential =
-				  new OAuthTokenCredential(payInfo.getMerchantKey(), payInfo.getMerchantSecret());
+		com.paypal.base.rest.OAuthTokenCredential tokenCredential =
+				  new com.paypal.base.rest.OAuthTokenCredential(payInfo.getMerchantKey(), payInfo.getMerchantSecret());
 				  
 				String accessToken = tokenCredential.getAccessToken();
 
@@ -189,16 +208,46 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
 		
 		
 		PaymentTransaction transaction = new PaymentTransaction();
-		if (payment.getIntent().equals(PaymentIntent.SALE))
-			transaction.setTransactionId(paypalPayment.getTransactions().get(0).getRelatedResources().get(0).getSale().getId());
-		else
-			transaction.setTransactionId(paypalPayment.getTransactions().get(0).getRelatedResources().get(0).getAuthorization().getId());
+		String transactionState = null;
+		if (payment.getIntent().equals(PaymentIntent.SALE)){
+			Sale saleResources = paypalPayment.getTransactions().get(0).getRelatedResources().get(0).getSale();
+			transaction.setTransactionId(saleResources.getId());
+			transactionState = saleResources.getState();
+			transaction.setTransactionType(PaymentTransactionType.SALE);
+			transaction.setReason_code(saleResources.getReasonCode());
+			transaction.setState(transactionState.equals("completed") ? PaymentTransactionState.COMPLETE : PaymentTransactionState.FAILED);
+		}else{
+			if (payment.getIntent().equals(PaymentIntent.AUTHORIZE)){
+				Authorization authorizationResources = paypalPayment.getTransactions().get(0).getRelatedResources().get(0).getAuthorization();
+				transaction.setTransactionId(authorizationResources.getId());
+				transactionState = authorizationResources.getState();
+				transaction.setTransactionType(PaymentTransactionType.AUTHORIZATION);
+				transaction.setReason_code(authorizationResources.getReasonCode());
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+				try {
+					Date date = simpleDateFormat.parse(authorizationResources.getValidUntil());
+					transaction.setValidUntil(date);
+					LOG.debug("date : " + simpleDateFormat.format(date));
+				} catch (ParseException ex) {
+					LOG.debug("parse error", ex);
+				}
+
+				transaction.setState(transactionState.equals("authorized") ? PaymentTransactionState.PENDING : PaymentTransactionState.FAILED);
+			}else{
+				Order orderResources = paypalPayment.getTransactions().get(0).getRelatedResources().get(0).getOrder();
+				transaction.setTransactionId(orderResources.getId());
+				transactionState = orderResources.getState();
+				transaction.setTransactionType(PaymentTransactionType.AUTHORIZATION);
+				transaction.setReason_code(orderResources.getReasonCode());
+				if(paypalPayment.getState().equals("approved") && transactionState.equals("completed")){
+					transaction.setState(PaymentTransactionState.PENDING);
+				}else{
+					transaction.setState(PaymentTransactionState.FAILED);
+				}
+			}
+		}
 		
 		transaction.setAmount(new Double(paypalPayment.getTransactions().get(0).getAmount().getTotal()));
-		
-		transaction.setState(payment.getIntent().equals(PaymentIntent.SALE) ? PaymentTransactionState.COMPLETE :PaymentTransactionState.PENDING);
-		
-		transaction.setTransactionType((payment.getIntent().equals(PaymentIntent.SALE))?PaymentTransactionType.SALE:PaymentTransactionType.AUTHORIZATION);
 		
 		transaction.setPayment(payment);
 		paymentTransactionRepository.saveAndFlush(transaction);

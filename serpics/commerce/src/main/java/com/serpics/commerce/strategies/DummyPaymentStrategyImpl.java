@@ -17,12 +17,15 @@ import com.serpics.commerce.PaymentTransactionType;
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.Payment;
 import com.serpics.commerce.data.model.PaymentTransaction;
+import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.repositories.PaymentRepository;
 import com.serpics.commerce.data.repositories.PaymentTransactionRepository;
+import com.serpics.commerce.services.PaymentService;
+import com.serpics.stereotype.StorePaymentStrategy;
 import com.serpics.stereotype.StoreStrategy;
 
 
-@StoreStrategy("dummyPayment")
+@StoreStrategy("dummyPaymentStrategy")
 public class DummyPaymentStrategyImpl implements PaymentStrategy {
 	
 	Logger LOG = LoggerFactory.getLogger(DummyPaymentStrategyImpl.class);
@@ -33,9 +36,14 @@ public class DummyPaymentStrategyImpl implements PaymentStrategy {
 	@Resource
 	PaymentTransactionRepository paymentTransactionRepository;
 	
+	@Resource
+	PaymentService paymentService;
+	
 	@Override
 	public Payment createPayment(AbstractOrder order , PaymentIntent intent)  throws PaymentException{
 		Assert.notNull(order , "order can not be null !");
+		
+		Paymethodlookup paymethodlookup = paymentService.findPaymethodInfo(order.getPaymethod());
 		
 		Payment payment = new Payment();
 		payment.setAmount(order.getOrderAmount());
@@ -48,6 +56,8 @@ public class DummyPaymentStrategyImpl implements PaymentStrategy {
 		payment.setRefoundAmount(0D);
 		payment.setOrder(order);
 		payment.setPaymentIdentifier(order.getId().toString());
+		
+		payment.setAuthorizedURL(paymethodlookup.getReturnURL());
 		paymentRepository.saveAndFlush(payment);
 		
 		return payment;
