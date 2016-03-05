@@ -4,7 +4,7 @@
  */
 app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 'COOKIE_EXPIRES','$log', function( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES,$log) {
 	
-	var endpoint = '/jax-rs/cartService/';
+	var endpoint = '/api/v1/cartService/';
 	 
 	    /** Return public API. (like java interface) **/
 	  	var service =   ({

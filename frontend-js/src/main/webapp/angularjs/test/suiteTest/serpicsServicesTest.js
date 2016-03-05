@@ -149,7 +149,7 @@ describe("Testing serpics.services module:", function() {
 		spyOn($httpBackend, 'expectGET').and.callThrough();
 		
 		
-		$httpBackend.expectGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+		$httpBackend.expectGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 			return [400];
 			
 		});

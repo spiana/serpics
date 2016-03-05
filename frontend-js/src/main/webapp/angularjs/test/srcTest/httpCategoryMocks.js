@@ -39,39 +39,39 @@ httpCategoryMocks.run(['$httpBackend',function($httpBackend) {
 		                                        		{"updated":"2015-11-16T17:01:36 GMT","created":"2015-11-16T17:01:36 GMT","uuid":"12358ab9-0549-4d66-9f9f-fe5ba309aef3","id":18,"code":"WOMENS","url":"/default-catalog/WOMENS","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0}]}};
 			
 	//Authentication endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
 	  });
 	
 	//***CategoryService rest-api endpoint***//
 	
 	//getTopQ getTop
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/top').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/top').respond(function(method, url, data) {
 	    return [status,categoryTop];
 	  });
 	
 	//getCategoryById
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/4').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/4').respond(function(method, url, data) {
 	    return [status,category];
 	  });
 	
 	//getCategoryByCode
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/code/GUESS').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/code/GUESS').respond(function(method, url, data) {
 	    return [status,category];
 	  });
 	
 	//findAll
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/').respond(function(method, url, data) {
 	    return [status,categoryPageSize];
 	  });
 	
 	//getChild
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/getChild/0').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/getChild/0').respond(function(method, url, data) {
 	    return [status,categoryList];
 	  });
 	
 	//findAll
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/?page=0&size=3').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/?page=0&size=3').respond(function(method, url, data) {
 	    return [status,categoryPage0Size3];
 	  });
 	

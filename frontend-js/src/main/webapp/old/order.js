@@ -1,6 +1,6 @@
 var app = angular.module("order", ['AuthManager','ngCookies'])
 
-	.constant('api_endpoint', 	'http://localhost:8080/jax-rs/orderService/')
+	.constant('api_endpoint', 	'http://localhost:8080/orderService/')
 
  app.service("orderService", function( $http, $q,api_endpoint) {
 	 
@@ -86,7 +86,7 @@ app.controller("orderController",['$scope','$cookies','authManagerService','orde
                                   
       function($scope,$cookies,authManagerService,orderService) {	
    	
-  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
+  	    var endpoint    = 'http://localhost:8080/auth/connect/default-store'
   	    	
   	    $scope.data = {
   	    		sessionIn	: '',

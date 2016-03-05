@@ -4,7 +4,7 @@
  */
 app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPIRES,$log,$cookies ) {
 	
-	var endpoint = '/jax-rs/orderService/';
+	var endpoint = '/api/v1/orderService/';
 	var localSessionId = '';
 	
 	    /** Return public API. (like java interface) **/

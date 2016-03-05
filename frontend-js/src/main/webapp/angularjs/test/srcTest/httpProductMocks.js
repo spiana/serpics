@@ -473,69 +473,69 @@ httpProductMocks.run(['$httpBackend',function($httpBackend) {
 	var category={"responseObject":{"updated":"2015-11-16T16:12:17 GMT","created":"2015-11-16T16:12:17 GMT","uuid":"c4d5a364-4a07-4e9a-aa68-4fe5cd31c538","id":4,"code":"GUESS","url":"/default-catalog/provacategoria3","published":1,"catalogId":"default-catalog","childCategoryNumber":0,"childProductNumber":0}};
 	
 	//Authentication endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
 	  });
 	
 	//***ProductService rest-api endpoint***//
 	
 	//getCategoryById
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/1').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/1').respond(function(method, url, data) {
 	    return [status,product];
 	  });
 	
 	//getProductByName
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/byCode/MONITOR').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/byCode/MONITOR').respond(function(method, url, data) {
 	    return [status,product];
 	  });
 	
 	//getCategoryProduct
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/getCategory/1').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/getCategory/1').respond(function(method, url, data) {
 	    return [status,category];
 	  });
 	
 	//findByCategory(categoryId, page, size)
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/pageCategory/1?page=0&size=10').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/pageCategory/1?page=0&size=10').respond(function(method, url, data) {
 	    return [status,productCategoryPage0Size3];
 	  });
 	
 	//findByCategory(categoryId)
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/pageCategory/1').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/pageCategory/1').respond(function(method, url, data) {
 	    return [status,productCategory];
 	  });
 	
 	//findByBrand(brandId, page, size)
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/pageBrand/1?page=0&size=10').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/pageBrand/1?page=0&size=10').respond(function(method, url, data) {
 	    return [status,productBrandPage0Size3];
 	  });
 	
 	//findByBrand(brandId)
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/pageBrand/1').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/pageBrand/1').respond(function(method, url, data) {
 	    return [status,productBrand];
 	  });
 	
 	//findAll(page, size)
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/?page=0&size=10').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/?page=0&size=10').respond(function(method, url, data) {
 	    return [status,productBrandPage0Size3];
 	  });
 	
 	//findAll()
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/').respond(function(method, url, data) {
 	    return [status,productBrand];
 	  });
 	
 	//findAll(page, size 9)
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/?page=0&size=9').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/?page=0&size=9').respond(function(method, url, data) {
 	    return [status,productBrandPage0Size3];
 	  });
 	
 	//$scope.range
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/productService/?page=0&size=3').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/productService/?page=0&size=3').respond(function(method, url, data) {
 	    return [status,productBrandPage0Size3];
 	  });
 	
 	//$scope.addToCart(sku,quantity)
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/cartService/').respond(function(method, url, data) {
 	    return [400,cartModification];
 	  });
 	

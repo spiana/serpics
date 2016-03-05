@@ -18,43 +18,43 @@ httpCartMocks.run(['$httpBackend',function($httpBackend) {
 	
 	
 	//Authentication endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
 	  });
 	
 	//***CartService rest-api endpoint***//
 	
 	//getCurrent endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/customerService/getCurrent').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/customerService/getCurrent').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 	
 	//CartService endpoint getCurrentCart
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/cartService/').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/cartService/').respond(function(method, url, data) {
 	    return [status,currentCart];
 	  });
 	//cartDelete
-	$httpBackend.whenDELETE('http://localhost:8080/jax-rs/cartService/?itemId=1').respond(function(method, url, data) {
+	$httpBackend.whenDELETE('http://localhost:8080/api/v1/cartService/?itemId=1').respond(function(method, url, data) {
 	    return [status,cartModification];
 	  });
 	
 	//cartAdd
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/cartService/').respond(function(method, url, data) {
 	    return [status,cartModification];
 	  });
 	
 	//cartUpdate
-	$httpBackend.whenPUT('http://localhost:8080/jax-rs/cartService/').respond(function(method, url, data) {
+	$httpBackend.whenPUT('http://localhost:8080/api/v1/cartService/').respond(function(method, url, data) {
 	    return [status,cartModificationUpdate];
 	  });
 	
 	//addBillingAddress
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/address/billing').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/cartService/address/billing').respond(function(method, url, data) {
 	    return [status,cartModificationUpdate];
 	  });
 
 	//addShippingAddress
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/address/shipping').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/cartService/address/shipping').respond(function(method, url, data) {
 	    return [status,cartModificationUpdate];
 	  });	
 	

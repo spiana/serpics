@@ -69,87 +69,87 @@ httpBrandMocks.run(['$httpBackend',function($httpBackend) {
 	
 	
 	//Authentication endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
 	  });
 	
 	
 	//***Brand rest-api endpoint***
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/?page=0&size=10').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/brandService/?page=0&size=10').respond(function(method, url, data) {
 	    return [status,brandList];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/code/1').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/brandService/code/1').respond(function(method, url, data) {
 	    return [status,brand];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/PHILIPHS').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/brandService/PHILIPHS').respond(function(method, url, data) {
 	    return [status,brand];
 	  });
 	
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/brandService/').respond(function(method, url, data) {
 	    return [status,brandList];
 	  });
 	
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/brandService/?page=0&size=3').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/brandService/?page=0&size=3').respond(function(method, url, data) {
 	    return [status,brandPageSize];
 	  });
 	
 	
 	//***Category rest-api endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/top').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/top').respond(function(method, url, data) {
 	    return [status,categoryTop];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/4').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/4').respond(function(method, url, data) {
 	    return [status,category];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/code/GUESS').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/code/GUESS').respond(function(method, url, data) {
 	    return [status,category];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/').respond(function(method, url, data) {
 	    return [status,categoryPageSize];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/getChild/0').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/getChild/0').respond(function(method, url, data) {
 	    return [status,categoryList];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/categoryService/?page=0&size=3').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/categoryService/?page=0&size=3').respond(function(method, url, data) {
 	    return [status,categoryPage0Size3];
 	  });
 	
 	
 	//Cart endpoint getCurrentCart
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/cartService/').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/cartService/').respond(function(method, url, data) {
 	    return [status,currentCart];
 	  });
 	//cartDelete
-	$httpBackend.whenDELETE('http://localhost:8080/jax-rs/cartService/?itemId=1').respond(function(method, url, data) {
+	$httpBackend.whenDELETE('http://localhost:8080/api/v1/cartService/?itemId=1').respond(function(method, url, data) {
 	    return [status,currentCart];
 	  });
 	
 	//cartAdd
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/?sku=TASTIERA&qty=1').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/cartService/?sku=TASTIERA&qty=1').respond(function(method, url, data) {
 	    return [status,cartModification];
 	  });
 	
 	//cartUpdate
-	$httpBackend.whenPUT('http://localhost:8080/jax-rs/cartService/').respond(function(method, url, data) {
+	$httpBackend.whenPUT('http://localhost:8080/api/v1/cartService/').respond(function(method, url, data) {
 	    return [status,cartModificationUpdate];
 	  });
 	
 	//addBillingAddress
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/address/billing').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/cartService/address/billing').respond(function(method, url, data) {
 	    return [status,cartModificationUpdate];
 	  });
 
 	//addShippingAddress
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/cartService/address/shipping').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/cartService/address/shipping').respond(function(method, url, data) {
 	    return [status,cartModificationUpdate];
 	  });	
 

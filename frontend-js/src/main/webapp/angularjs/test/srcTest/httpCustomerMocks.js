@@ -16,7 +16,7 @@ httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 		"destinationAddress":[]}};
 
 	//Authentication endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
 	  });
 
@@ -24,53 +24,53 @@ httpCustomerMocks.run(['$httpBackend',function($httpBackend) {
 	//***CustomerService rest-api endpoint***//
 	
 	//getCurrent
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/customerService/getCurrent').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/customerService/getCurrent').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 	
 	
 	//login endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/customerService/login?username=user&password=password').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/customerService/login?username=user&password=password').respond(function(method, url, data) {
 	    return [status,customerLogged];
 	  });
 	
 	//logout endpoint
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/customerService/logout').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/customerService/logout').respond(function(method, url, data) {
 	    return [status,customerLoggedOut];
 	  });
 	
 	//register endpoint
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/customerService/register').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/customerService/register').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 	
 	//updateUserData endpoint
-	$httpBackend.whenPUT('http://localhost:8080/jax-rs/customerService/').respond(function(method, url, data) {
+	$httpBackend.whenPUT('http://localhost:8080/api/v1/customerService/').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 
 	//updateContactAddress endpoint
-	$httpBackend.whenPUT('http://localhost:8080/jax-rs/customerService/updateContactAddress').respond(function(method, url, data) {
+	$httpBackend.whenPUT('http://localhost:8080/api/v1/customerService/updateContactAddress').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 	
 	//updateBillingAddress endpoint
-	$httpBackend.whenPUT('http://localhost:8080/jax-rs/customerService/updateBillingAddress').respond(function(method, url, data) {
+	$httpBackend.whenPUT('http://localhost:8080/api/v1/customerService/updateBillingAddress').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 	
 	//updateDestinationAddress endpoint
-	$httpBackend.whenPUT('http://localhost:8080/jax-rs/customerService/updateDestinationAddress').respond(function(method, url, data) {
+	$httpBackend.whenPUT('http://localhost:8080/api/v1/customerService/updateDestinationAddress').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 	
 	//addDestinationAddress endpoint
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/customerService/addDestinationAddress').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/customerService/addDestinationAddress').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 	
 	//deleteDestinationAddress endpoint
-	$httpBackend.whenDELETE('http://localhost:8080/jax-rs/customerService/deleteDestinationAddress/123456').respond(function(method, url, data) {
+	$httpBackend.whenDELETE('http://localhost:8080/api/v1/customerService/deleteDestinationAddress/123456').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 

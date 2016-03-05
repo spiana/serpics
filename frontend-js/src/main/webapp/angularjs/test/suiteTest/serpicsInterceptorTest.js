@@ -39,7 +39,7 @@ describe('Testing serpics.interceptor module:', function() {
 	it('serpicsInterceptor should return a 200 status', inject(function(serpicsInterceptor,$httpBackend,$http,$state) {
 		
 		var risposta= {};
-		$http.get('http://localhost:8080/jax-rs/auth/connect/200').then(function(response){risposta=response;},function(response){});
+		$http.get('http://localhost:8080/api/v1/auth/connect/200').then(function(response){risposta=response;},function(response){});
 		
 		$httpBackend.flush();
 
@@ -57,7 +57,7 @@ describe('Testing serpics.interceptor module:', function() {
 		
 		var risposta= {};
 		
-		$http.get('http://localhost:8080/jax-rs/auth/connect/500').then(function(response){},function(response){risposta=response;});
+		$http.get('http://localhost:8080/api/v1/auth/connect/500').then(function(response){},function(response){risposta=response;});
 		
 		$httpBackend.flush();
 		
@@ -87,7 +87,7 @@ describe('Testing serpics.interceptor module:', function() {
 		
 		var risposta= {};
 		
-		$http.get('http://localhost:8080/jax-rs/auth/connect/403').then(function(response){risposta=response;},function(response){risposta=response;});
+		$http.get('http://localhost:8080/api/v1/auth/connect/403').then(function(response){risposta=response;},function(response){risposta=response;});
 		
 		$httpBackend.flush();
 		
@@ -103,7 +103,7 @@ describe('Testing serpics.interceptor module:', function() {
 		
 		var risposta= {};
 		
-		$http.get('http://localhost:8080/jax-rs/auth/connect/401').then(function(response){},function(response){risposta=response;});
+		$http.get('http://localhost:8080/api/v1/auth/connect/401').then(function(response){},function(response){risposta=response;});
 		
 		$httpBackend.flush();
 		
@@ -121,7 +121,7 @@ describe('Testing serpics.interceptor module:', function() {
 		
 		var risposta= {};
 		
-		$http.get('http://localhost:8080/jax-rs/auth/connect/402').then(function(response){},function(response){risposta=response;});
+		$http.get('http://localhost:8080/api/v1/auth/connect/402').then(function(response){},function(response){risposta=response;});
 		
 		$httpBackend.flush();
 		
@@ -139,7 +139,7 @@ describe('Testing serpics.interceptor module:', function() {
 		
 		var risposta= {};
 		
-		$http.get('http://localhost:8080/jax-rs/auth/connect/404').then(function(response){},function(response){risposta=response;});
+		$http.get('http://localhost:8080/api/v1/auth/connect/404').then(function(response){},function(response){risposta=response;});
 		
 		$httpBackend.flush();
 		
@@ -159,7 +159,7 @@ describe('Testing serpics.interceptor module:', function() {
 		var buffer = {};
 		var deferred = $q.defer();
 		
-		$http.get('http://localhost:8080/jax-rs/auth/connect/404').then(function(response){},function(response){risposta=response;});
+		$http.get('http://localhost:8080/api/v1/auth/connect/404').then(function(response){},function(response){risposta=response;});
 		
 		$httpBackend.flush();
 		

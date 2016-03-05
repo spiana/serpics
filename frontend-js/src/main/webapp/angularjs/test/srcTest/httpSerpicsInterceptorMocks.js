@@ -23,35 +23,35 @@ httpSerpicsServicesMocks.run(['$httpBackend',function($httpBackend) {
 	var customer = {};
 	
 	//Authentication endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status200,dataOk];
 	  });
 
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/200').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/200').respond(function(method, url, data) {
 	    return [status200,dataOk];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/500').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/500').respond(function(method, url, data) {
 	    return [status500,dataFault];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/403').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/403').respond(function(method, url, data) {
 	    return [status403,dataFault];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/401').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/401').respond(function(method, url, data) {
 	    return [status401,dataFault];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/402').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/402').respond(function(method, url, data) {
 	    return [status402,dataFault];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/404').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/404').respond(function(method, url, data) {
 	    return [status404,dataFault];
 	  });
 	
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/customerService/getCurrent').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/customerService/getCurrent').respond(function(method, url, data) {
 	    return [status,customer];
 	  });
 

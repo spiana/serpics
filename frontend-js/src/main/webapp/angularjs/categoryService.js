@@ -4,7 +4,7 @@
  */
  app.service("categoryService", function( $http, $q,serpicsServices,URL,COOKIE_EXPIRES,$cookies,$log ) {
 	 
-	 var endpoint   	= '/jax-rs/categoryService/';
+	 var endpoint   	= '/api/v1/categoryService/';
 	 var localSessionId = '';
  
 	    /** Return public API. (like java interface)**/

@@ -8,7 +8,7 @@ httpSerpicsServicesMocks.run(['$httpBackend',function($httpBackend) {
 	var customer = {};
 	
 	//Authentication endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
 	  });
 

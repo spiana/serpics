@@ -1,6 +1,6 @@
 var app = angular.module("cart",  ['AuthManager','ngCookies'])
 
-	.constant('api_endpoint', 	'http://localhost:8080/jax-rs/cartService/')
+	.constant('api_endpoint', 	'http://localhost:8080/cartService/')
 
  app.service("cartService", function( $http, $q ,api_endpoint) {
 	 
@@ -157,7 +157,7 @@ app.controller("cartController",['$scope','$cookies','authManagerService','cartS
                                   
       function($scope,$cookies,authManagerService,cartService) {	
    	
-  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
+  	    var endpoint    = 'http://localhost:8080/auth/connect/default-store'
   	    	
   	    $scope.data = {
   	    		sessionIn:'',

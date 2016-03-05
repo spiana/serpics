@@ -1,6 +1,6 @@
 var app = angular.module("brand", ['AuthManager','ngCookies'])
 
-.constant('api_endpoint', 			'http://localhost:8080/jax-rs/brandService/')
+.constant('api_endpoint', 			'http://localhost:8080/brandService/')
 
  app.service("brandService",['authManager',
             function( $http, $q ,api_endpoint) {
@@ -150,7 +150,7 @@ app.controller("brandController",['$scope','$cookies','authManagerService','bran
                                      
      function($scope,$cookies,authManagerService,brandService) {	
   	
- 	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
+ 	    var endpoint    = 'http://localhost:8080/auth/connect/default-store'
  	    	
  	    $scope.data 	= {
 	    		sessionId	: '',

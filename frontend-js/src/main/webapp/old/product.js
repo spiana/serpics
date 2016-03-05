@@ -1,6 +1,6 @@
 var app = angular.module("product", ['AuthManager'])
 
-.constant('api_endpoint', 			'http://localhost:8080/jax-rs/productService/')
+.constant('api_endpoint', 			'http://localhost:8080/productService/')
 
  app.service("productService",function( $http, $q ,api_endpoint) {
 	        		 
@@ -296,7 +296,7 @@ app.controller("productController",['$scope','$cookies','authManagerService','pr
                                   
 	      function($scope,$cookies,authManagerService,productService) {	
 	   	
-	  	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store'
+	  	    var endpoint    = 'http://localhost:8080/auth/connect/default-store'
 	  	    	
 	  	    $scope.data = {
 	  	    		sessionIn	: '',

@@ -31,23 +31,23 @@ httpOrderMocks.run(['$httpBackend',function($httpBackend) {
 	
 	
 	//Authentication endpoint
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/auth/connect/default-store').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/auth/connect/default-store').respond(function(method, url, data) {
 	    return [status,ssid];
 	  });
 
 	//***OrderService rest-api endpoint***//
 	
 	//OrderService endpoint getOrders
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/orderService/').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/orderService/').respond(function(method, url, data) {
 	    return [status,orders];
 	  });
 	//addPayment
-	$httpBackend.whenPOST('http://localhost:8080/jax-rs/orderService/addPayment/1').respond(function(method, url, data) {
+	$httpBackend.whenPOST('http://localhost:8080/api/v1/orderService/addPayment/1').respond(function(method, url, data) {
 	    return [status,order];
 	  });
 	
 	//placeOrder
-	$httpBackend.whenGET('http://localhost:8080/jax-rs/orderService/placeOrder').respond(function(method, url, data) {
+	$httpBackend.whenGET('http://localhost:8080/api/v1/orderService/placeOrder').respond(function(method, url, data) {
 	    return [status,order];
 	  });
 

@@ -1,6 +1,6 @@
 var app = angular.module("category", ['AuthManager','ngCookies'])
 
-.constant('api_endpoint', "http://localhost:8080/jax-rs/categoryService/")
+.constant('api_endpoint', "http://localhost:8080/categoryService/")
 
  app.service("categoryService", function( $http, $q, api_endpoint) {
  
@@ -222,7 +222,7 @@ app.controller("categoryController",['$scope','$cookies','authManagerService','c
                                      
     function($scope,$cookies,authManagerService,categoryService,$timeout) {	
  	
-	    var endpoint    = 'http://localhost:8080/jax-rs/auth/connect/default-store' 	
+	    var endpoint    = 'http://localhost:8080/auth/connect/default-store' 	
 	    	
 	    /**
 	     * function to create the sessiion id , opening appliazione

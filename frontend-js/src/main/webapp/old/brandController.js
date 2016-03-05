@@ -1,6 +1,6 @@
 var app = angular.module("product", ['AuthManager','ngload'])
 
-.constant('api_endpoint', 			'http://localhost:8080/jax-rs/productService/')
+.constant('api_endpoint', 			'http://localhost:8080/productService/')
 
  app.service("productService",['authManager','ngload',function( $http, $q ,authManager,api_endpoint) {
 	        		 
