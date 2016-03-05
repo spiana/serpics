@@ -5,7 +5,7 @@
 		
 	<artifactId>serpics-standalone</artifactId>
 	<packaging>war</packaging>
-	<name>Serpics Admin</name>
+	<name>standalone</name>
 	
   <parent>
   	<groupId>com.serpics</groupId>
