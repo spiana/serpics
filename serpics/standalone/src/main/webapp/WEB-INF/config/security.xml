@@ -1,0 +1,43 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http realm="admin" auto-config="true" pattern="/smc/**" >
+	 	<csrf disabled="true"/>
+		<intercept-url pattern="/smc/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
+		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page="/login"  username-parameter="ssoId" password-parameter="password" />
+		<logout invalidate-session="true" />	
+	</http>
+
+	  
+	<http realm="Protected API" use-expressions="true" auto-config="false" pattern="/api/**"
+		 entry-point-ref="restAuthenticationEntryPoint" >
+		
+		<custom-filter ref="authenticationProcessingFilter" position="FORM_LOGIN_FILTER" />
+		<intercept-url pattern="/auth/connect/**" access="permitAll" />
+		<intercept-url pattern="/customerService/login**" access="isAnonymous() or isAuthenticated()" />
+		<intercept-url pattern="/**" access="permitAll" />
+		<csrf disabled="true" />
+		
+	</http> 
+	
+	<http pattern="/**" auto-config="true" >
+	  	<csrf disabled="true"/>
+	  	<intercept-url pattern="/resources/**" access="permitAll" />
+	 	<intercept-url pattern="/login" access="permitAll" />
+	 	
+		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page="/login"  username-parameter="ssoId" password-parameter="password" />
+	 </http> 	
+
+	<beans:bean id="restAuthenticationEntryPoint" class="com.serpics.system.security.RestAuthenticationEntryPoint" />
+	<beans:bean id="authenticationProcessingFilter" class="com.serpics.system.security.RestAuthenticationFilter"/>
+	<beans:bean id ="userDetailsService" class="com.serpics.system.services.UserDetailsServiceImpl"/>
+	
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailsService" />
+	</authentication-manager>
+
+</beans:beans>
