@@ -19,10 +19,12 @@ xsi:schemaLocation="file:/Users/spiana/git/serpics-code/serpics/admin/src/main/r
 		
 		<navigator-item allow-child="true" 	name="orders" parent="" />
 <!-- 		<navigator-item	allow-child="false" bean="orderMasterTable"	name="order" parent="orders" /> -->
-		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethod" name="payMethod" parent="orders" roles="ROLE_SUPERUSER"/>
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Cart" name="cart" parent="orders" />
+		<navigator-item	allow-child="false"	bean="paymethodMasterTable" name="paymethodCustom" parent="orders" />
 		<navigator-item	allow-child="false"	bean="orderMasterTable" name="order" parent="orders" />
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethod" name="payMethod" parent="orders" roles="ROLE_SUPERUSER"/>
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethodlookup" name="payMethods" parent="orders" />
+		
 	
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Shipmode" name="shipmode" parent="orders" roles="ROLE_SUPERUSER"/>
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Shipmodelookup" name="shipmodeLookup" parent="orders" />

@@ -7,9 +7,10 @@ import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentHistory;
 import com.paypal.api.payments.RedirectUrls;
 import com.paypal.api.payments.Transaction;
-import com.paypal.core.rest.OAuthTokenCredential;
-import com.paypal.core.rest.PayPalRESTException;
-import com.paypal.core.rest.QueryParameters;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
+import com.paypal.base.rest.QueryParameters;
+
 
 
 public class MyTest {
@@ -31,7 +32,7 @@ public class MyTest {
 		QueryParameters queryParameters = new QueryParameters();
 		queryParameters.setCount("10");
 
-		PaymentHistory paymentHistory = Payment.get(token, queryParameters);	
+		PaymentHistory paymentHistory = Payment.list(token, queryParameters.getContainerMap());	
 	
 		Amount a = new Amount();
 		a.setCurrency("EUR");

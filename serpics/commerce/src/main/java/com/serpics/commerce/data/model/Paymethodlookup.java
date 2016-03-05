@@ -49,6 +49,7 @@ public class Paymethodlookup extends com.serpics.core.data.jpa.AbstractEntity im
     
     private String merchantSecret;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     PaymentIntent intent ;
     

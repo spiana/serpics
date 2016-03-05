@@ -1,7 +1,7 @@
 <!--form-->
 [#assign url = ""]
 [#if model.root.content == "CheckoutLogin"]
-[#assign url = "/CheckoutShipping"]
+[#assign url = "/CheckoutBilling"]
 [/#if]
 <section id="form" ng-controller="loginController" ng-init="afterLoginUrl='${ctx.contextPath}/${ctx.baseSite}${url}'">
 	<div class="container">

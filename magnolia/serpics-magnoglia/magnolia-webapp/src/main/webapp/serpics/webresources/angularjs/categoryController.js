@@ -4,7 +4,8 @@
 .controller("categoryController",['$scope','categoryService','$log', 
                                      
          function($scope,categoryService,$log) {
-      	
+	
+      		$scope.category = {};
 		 	$scope.categoryData 	= getTopQ();;
 		 	//auxiliary var
 		 	var cache = {
@@ -53,7 +54,7 @@
      	    	$log.debug("Category Controller getCategoryById(categoryId)"+categoryId);
      	    	categoryService.getCategoryById(categoryId).then(function(response){
      	    		$log.debug("Category Controller getCategoryById(categoryId) ramo then");
-     	    		$scope.categoryData = response;
+     	    		$scope.category = response;
      	    	})
     	    };
      	    
@@ -66,7 +67,7 @@
     	    	$log.debug("Category Controller getCategoryByCode(code)"+code);
      	    	categoryService.getCategoryByCode(code).then(function(response){
      	    		$log.debug("Category Controller getCategoryByCode(code) ramo then");
-     	    		$scope.categoryData = response;
+     	    		$scope.category = response;
      	    	})
      	    };
      	    
@@ -104,6 +105,25 @@
      	    		$scope.categoryData = response;
      	    	})
      	    };
+     	    
+     	    $scope.openParentCategory = function (categoryId){
+     	    	if (categoryId != null && categoryId != undefined && categoryId != ""){
+         	    	categoryService.getCategoryById(categoryId).then(function(response){
+         	    		if (response.parentCategories[0] != undefined){
+         	    			$scope.categoryData.forEach(function(cat){
+         	    				if (response.parentCategories[0].id == cat.id){
+         	    	     		   cat.active=!cat.active;
+         	     				   categoryService.getChild(cat.id).then(function(response){
+         	     					   $log.debug("openParentCategory(categoryId) ramo then");
+         	     					   cache.isAdded += '#' + cat.id;
+         	     					   cat.subCategory=response;
+         	     					   $log.debug("Request effettuata "+cat.active);
+         	     				   })}
+         	    			})
+         	    		}
+         	    	})
+     	    	}
+     	    }
  }]);
  
 

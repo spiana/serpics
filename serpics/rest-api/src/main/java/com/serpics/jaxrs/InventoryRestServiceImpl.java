@@ -37,7 +37,7 @@ public class InventoryRestServiceImpl implements InventoryRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{productId}")
-	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.warehouse.facade.data.InventoryData>")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.InventoryData>")
 	public Response getInventoryForProduct(@HeaderParam(value = "ssid") String ssid, @PathParam("productId") Long productId){
 		ApiRestResponse<InventoryData> apiRestResponse = new ApiRestResponse<InventoryData>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);

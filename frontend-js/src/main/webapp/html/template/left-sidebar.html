@@ -10,14 +10,14 @@
         		</p>
         		<h4 class="panel-title">
         			<a ui-sref="shop.category({id: category.id, name: category.code})">
-        				{{category.code}}
+        				{{category.name || category.code}}
         			</a>
         		</h4>
         		<div ng-class="{ 'panel-collapse': categoryData[$index].active, 'panel-collapse collapse': !categoryData[$index].active }">
         			<div class="panel-body">
 						<ul >
                 			<li ng-if="category.childCategoryNumber !=0" ng-repeat="subCat in categoryData[$index].subCategory"  ng-show="category.active">
-                    			<a ui-sref="shop.category({id: subCat.id, name: subCat.code})">{{subCat.code}}</a>
+                    			<a ui-sref="shop.category({id: subCat.id, name: subCat.code})">{{subCat.name || subCat.code}}</a>
                 			</li>
             			</ul>
             		</div>

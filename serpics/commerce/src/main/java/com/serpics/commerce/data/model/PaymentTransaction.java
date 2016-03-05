@@ -56,6 +56,8 @@ public class PaymentTransaction extends AbstractEntity {
 	@OneToOne
 	@JoinColumn(name="referred_transaction_id", insertable=true, updatable=false)
 	PaymentTransaction transaction;
+	
+	private String reason_code;
 	 
 	public Long getId() {
 		return id;
@@ -129,6 +131,14 @@ public class PaymentTransaction extends AbstractEntity {
 
 	public void setTransaction(PaymentTransaction transaction) {
 		this.transaction = transaction;
+	}
+
+	public String getReason_code() {
+		return reason_code;
+	}
+
+	public void setReason_code(String reason_code) {
+		this.reason_code = reason_code;
 	}
 	 
 }
