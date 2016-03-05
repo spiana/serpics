@@ -58,12 +58,12 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	private MasterTableListner masterTableListner;
 	protected Table entityList;
 
-	private final HorizontalLayout editButtonPanel = new HorizontalLayout();
-	private final HorizontalLayout searchPanel = new HorizontalLayout();
+	protected final HorizontalLayout editButtonPanel = new HorizontalLayout();
+	protected final HorizontalLayout searchPanel = new HorizontalLayout();
 	
-	private Button newButton ;
-	private Button editButton ;
-	private Button deleteButton ;
+	protected Button newButton ;
+	protected Button editButton ;
+	protected Button deleteButton ;
 
 	protected transient JPAContainer<T> container;
 

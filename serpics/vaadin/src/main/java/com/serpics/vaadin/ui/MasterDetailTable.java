@@ -17,7 +17,7 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
     protected P masterEntity;
     protected Object propertyId;
     protected EntityItem<P> parentEntity;
-	private transient Object backReferencePropertyId;
+	protected transient Object backReferencePropertyId;
 
     public MasterDetailTable(final Class<T> entityClass) {
         super(entityClass);

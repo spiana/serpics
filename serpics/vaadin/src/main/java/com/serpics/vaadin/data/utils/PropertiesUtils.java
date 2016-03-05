@@ -420,10 +420,12 @@ public class PropertiesUtils implements ApplicationContextAware,
 
 	public List<SmcPropertyDef> getPropertyForEntity(String entity) {
 		SmcDefinition def = properties.get(entity.toLowerCase());
+		if (def == null)
+			return new ArrayList<PropertiesUtils.SmcPropertyDef>();
+			
 		List<SmcPropertyDef> _l = def.getProperties();
 		if (_l == null)
 			_l = new ArrayList<PropertiesUtils.SmcPropertyDef>();
-
 		return _l;
 	}
 
