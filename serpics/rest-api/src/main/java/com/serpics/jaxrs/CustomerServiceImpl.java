@@ -43,7 +43,7 @@ import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
 
 @Path("/customerService")
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class CustomerServiceImpl implements CustomerService {
 
 	Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);

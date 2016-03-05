@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.qmino.miredot.annotations.ReturnType;
@@ -46,7 +45,7 @@ import com.serpics.jaxrs.utils.RestServiceUtils;
 import com.serpics.membership.facade.data.AddressData;
 
 @Path("/cartService")
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class CartRestServiceImpl implements CartRestService {
 
 	Logger LOG = LoggerFactory.getLogger(CartRestServiceImpl.class);

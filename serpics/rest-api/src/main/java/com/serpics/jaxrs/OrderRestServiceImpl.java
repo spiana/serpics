@@ -20,7 +20,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.qmino.miredot.annotations.ReturnType;
@@ -36,7 +35,7 @@ import com.serpics.jaxrs.data.OrderPaymentDataRequest;
 import com.serpics.membership.facade.data.AddressData;
 
 @Path("/orderService")
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class OrderRestServiceImpl implements OrderRestService {
 
 	Logger LOG = LoggerFactory.getLogger(OrderRestServiceImpl.class);
