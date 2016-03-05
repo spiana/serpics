@@ -1,6 +1,6 @@
 package com.serpics.commerce.data.model;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,6 +8,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.serpics.base.data.model.Store;
 import com.serpics.membership.data.model.User;
@@ -33,7 +34,8 @@ public class Cart extends AbstractOrder {
 
     // bi-directional many-to-one association to Orderitem
     @OneToMany(mappedBy = "cart", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity=Cartitem.class)
-    protected Set<Cartitem> cartitems = new HashSet<Cartitem>(0);
+    @OrderBy
+    protected Set<Cartitem> cartitems = new LinkedHashSet<Cartitem>(0);
 
 	public Set<Cartitem> getCartitems() {
 		return cartitems;

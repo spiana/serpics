@@ -1,6 +1,7 @@
 package com.serpics.commerce.facade;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -45,7 +46,7 @@ public  class AbstractOrderPopulator {
 		target.setTotalShipping(source.getTotalShipping());
 		target.setOrderAmount(source.getOrderAmount());
 		target.setTotalTax(source.getTotalTax());
-		Set<AbstractOrderItemData> items = new HashSet<AbstractOrderItemData>();
+		Set<AbstractOrderItemData> items = new LinkedHashSet<AbstractOrderItemData>();
 		
 		if(source.getItems() != null) {
 		

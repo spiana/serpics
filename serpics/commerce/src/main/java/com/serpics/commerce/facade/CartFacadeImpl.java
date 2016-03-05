@@ -75,6 +75,7 @@ public class CartFacadeImpl implements CartFacade {
 	@Resource(name = "paymentConverter")
 	AbstractPopulatingConverter<Payment, PaymentData> paymentConverter;
 
+	@Transactional
 	public CartModification cartAdd(String sku) {
 		return cartAdd(sku, 1);
 	}
