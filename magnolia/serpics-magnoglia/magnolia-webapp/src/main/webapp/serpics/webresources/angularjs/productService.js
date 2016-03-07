@@ -2,7 +2,7 @@
  
 app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXPIRES', '$cookies','$log', function( $http, $q, serpicsServices, URL,COOKIE_EXPIRES, $cookies,$log) {
 	
-	var endpoint = '/jax-rs/productService/';
+	var endpoint = '/api/v1/productService/';
 	 
 	     /** Return public API. (loki java interface)**/
 	     var service =({

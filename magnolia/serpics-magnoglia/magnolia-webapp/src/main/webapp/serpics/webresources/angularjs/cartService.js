@@ -4,7 +4,7 @@
  */
 app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 'COOKIE_EXPIRES','$log', function( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES,$log) {
 	
-	var endpoint = '/jax-rs/cartService/';
+	var endpoint = '/api/v1/cartService/';
 	 
 	    /** Return public API. (like java interface) **/
 	  	var service =   ({
@@ -107,7 +107,7 @@ app.service("cartService",['$http', '$q', 'serpicsServices', 'URL', '$cookies', 
 	    			$log.debug("cartService deleteItem(itemId) ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'DELETE',
-			             url: URL + endpoint + 'cartItem/' + itemId,
+			             url: URL + endpoint + 'cartitem/' + itemId,
 			             headers: {
 			             	'ssid': sessionId,
 			            }

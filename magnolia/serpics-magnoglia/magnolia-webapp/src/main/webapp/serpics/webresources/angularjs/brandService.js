@@ -4,7 +4,7 @@
  */
 app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXPIRES', '$cookies','$log', function( $http, $q, serpicsServices, URL, COOKIE_EXPIRES, $cookies,$log ) {
 	
-	var endpoint = '/jax-rs/brandService/';
+	var endpoint = '/api/v1/brandService/';
 	 
         /** Return public API. (like java interface)**/
 	    
