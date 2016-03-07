@@ -83,8 +83,24 @@
 	<entity name="shipmode">
 		<property name="name" table="true" select="true" search="true" />
 		<property name="description"  table="true"/>
-<!-- 		<property name="shippings" /> -->
 		<property name="shipmodeStrategy" />
 	</entity>
-
+	
+	<entity name="shipmodelookup">
+		<property name="shipmode.name" edit="false" table="true" />
+		<property name="shipmode" />
+		<property name="geocode" />
+		<property name="country" />
+		<property name="region" />
+		<property name="district" />
+		<property name="zipcode" />
+		<property name="shippings" />
+	</entity>
+	
+	<entity name="shipping">
+		<property name="rangestart" table="true"/>
+		<property name="currency" table ="true"/>
+		<property name="value" table ="true"/>
+	</entity>
+	
 </smc-definition>
