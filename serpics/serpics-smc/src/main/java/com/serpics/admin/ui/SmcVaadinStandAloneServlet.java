@@ -15,15 +15,13 @@
  */
 package com.serpics.admin.ui;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.spring.server.SpringVaadinServlet;
 
 /**
  * @author spiana
  *
  */
-@WebServlet(value = {"/smc/*" , "/VAADIN/*"}, asyncSupported = true)
+//@WebServlet(value = {"/admin/smc/*" , "/VAADIN/*"}, asyncSupported = true)
 public class SmcVaadinStandAloneServlet extends SpringVaadinServlet {
 
 }
