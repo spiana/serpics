@@ -1,6 +1,8 @@
 package com.serpics.commerce.test;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,14 +13,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.data.model.Shipmodelookup;
+import com.serpics.commerce.data.model.Shipping;
 import com.serpics.commerce.data.repositories.CartRepository;
 import com.serpics.commerce.data.repositories.ShipmodeRepository;
 import com.serpics.commerce.data.repositories.ShipmodelookupRepository;
+import com.serpics.commerce.data.repositories.ShippingRepository;
 import com.serpics.commerce.services.CartService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
@@ -51,6 +56,8 @@ public class ShipmodeTest extends AbstractTransactionalJunit4SerpicTest {
 	CartRepository cartRepository;
 	@Autowired
 	AddressRepository addressRepository;
+	@Autowired
+	ShippingRepository shippingRepository;
 	
 	@Before
 	public void beforeTest(){
@@ -63,19 +70,6 @@ public class ShipmodeTest extends AbstractTransactionalJunit4SerpicTest {
 	public void shipmodeTest() throws SerpicsException{
 		CommerceSessionContext c= commerceEngine.connect("default-store");
 		
-		Shipmode s1 = new Shipmode();
-		s1.setName("Poste");
-		
-		s1 = shipmodeRepository.save(s1);
-		
-		Shipmodelookup sl1 = new Shipmodelookup();
-		sl1.setStore((Store) c.getStoreRealm());
-		sl1.setShipmode(s1);
-		sl1 = shipmodelookupRepository.save(sl1);
-		
-		List<Shipmode> l = cartService.getShipmode();
-		Assert.assertEquals(1, l.size());
-		
 		Cart cart = cartService.createSessionCart();
 		Address address = new Address();
 		
@@ -87,9 +81,42 @@ public class ShipmodeTest extends AbstractTransactionalJunit4SerpicTest {
 		
 		cartRepository.saveAndFlush(cart);
 		
+		Shipmode s1 = new Shipmode();
+		s1.setName("Poste");
+		s1.setShipmodeStrategy("defaultShipmodeStrategy");
+		s1 = shipmodeRepository.save(s1);
+		
+		Shipmodelookup sl1 = new Shipmodelookup();
+		sl1.setStore((Store) c.getStoreRealm());
+		sl1.setShipmode(s1);
+		sl1.setZipcode("26025");
+		sl1 = shipmodelookupRepository.save(sl1);
+		Set<Shipping> shippings1 = new HashSet<Shipping>();
+		Shipping shipping1 = new Shipping();
+		shipping1.setShipmodelookup(sl1);
+		shipping1.setRangestart((double) 0);
+		shipping1.setValue((double) 10);
+		shipping1.setCurrency((Currency) c.getCurrency());
+		shippingRepository.saveAndFlush(shipping1);
+		shippings1.add(shipping1);
+		sl1.setShippings(shippings1);
+		sl1 = shipmodelookupRepository.save(sl1);
+		Set<Shipmodelookup> shipmodelookups = new HashSet<Shipmodelookup>();
+		s1.setShipmodelookups(shipmodelookups);
+		shipmodelookups.add(sl1);
+		s1 = shipmodeRepository.save(s1);
+
+		List<Shipmode> l = cartService.getShipmode();
+		Assert.assertEquals(1, l.size());
+		cart.setShipmode(s1);
+		cartRepository.saveAndFlush(cart);
+		cart = cartService.prepareCart();
+		
+		Assert.assertEquals((double) 10, (double) cart.getTotalShipping(), (double) 0 );
+		
 		Shipmode s2 = new Shipmode();
 		s2.setName("Poste2");
-		
+		s2.setShipmodeStrategy("defaultShipmodeStrategy");
 		s2 = shipmodeRepository.save(s2);
 		
 		Shipmodelookup sl2 = new Shipmodelookup();
@@ -100,7 +127,7 @@ public class ShipmodeTest extends AbstractTransactionalJunit4SerpicTest {
 		
 		Shipmode s3 = new Shipmode();
 		s3.setName("Poste3");
-		
+		s3.setShipmodeStrategy("defaultShipmodeStrategy");
 		s3 = shipmodeRepository.save(s3);
 		
 		Shipmodelookup sl3 = new Shipmodelookup();

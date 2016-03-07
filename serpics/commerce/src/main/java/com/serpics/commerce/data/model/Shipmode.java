@@ -51,10 +51,6 @@ public class Shipmode extends AbstractEntity implements Serializable {
     @OneToMany(mappedBy = "shipmode", fetch=FetchType.LAZY )
     private Set<Shipmodelookup> shipmodelookups;
 
-    // bi-directional many-to-one association to Shipping
-    @OneToMany(mappedBy = "shipmode" , fetch=FetchType.LAZY)
-    private Set<Shipping> shippings;
-
     // bi-directional many-to-one association to Suborder
     @OneToMany(mappedBy = "shipmode" , fetch=FetchType.LAZY)
     private Set<Suborder> suborders;
@@ -103,14 +99,6 @@ public class Shipmode extends AbstractEntity implements Serializable {
 
     public void setShipmodelookups(final Set<Shipmodelookup> shipmodelookups) {
         this.shipmodelookups = shipmodelookups;
-    }
-
-    public Set<Shipping> getShippings() {
-        return this.shippings;
-    }
-
-    public void setShippings(final Set<Shipping> shippings) {
-        this.shippings = shippings;
     }
 
     public Set<Suborder> getSuborders() {

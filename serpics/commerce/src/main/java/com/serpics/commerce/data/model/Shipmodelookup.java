@@ -1,14 +1,17 @@
 package com.serpics.commerce.data.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.serpics.base.data.model.Country;
@@ -60,6 +63,10 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
     @ManyToOne
 	@JoinColumn(name="shipmode_id", nullable=false)
 	private Shipmode shipmode;
+    
+    // bi-directional many-to-one association to Shipping
+    @OneToMany(mappedBy = "shipmodelookup" , fetch=FetchType.LAZY)
+    private Set<Shipping> shippings;
 
     public Shipmodelookup() {
     }
@@ -127,6 +134,14 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
 
 	public void setDistrict(District district) {
 		this.district = district;
+	}
+
+	public Set<Shipping> getShippings() {
+		return shippings;
+	}
+
+	public void setShippings(Set<Shipping> shippings) {
+		this.shippings = shippings;
 	}
 	
 }

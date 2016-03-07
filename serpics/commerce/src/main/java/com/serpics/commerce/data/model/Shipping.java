@@ -38,10 +38,10 @@ public class Shipping extends com.serpics.core.data.jpa.AbstractEntity implement
 	@Column(precision=10, scale=4)
 	private Double value;
 
-	//bi-directional many-to-one association to Shipmode
+	//bi-directional many-to-one association to Shipmodelookup
     @ManyToOne
-	@JoinColumn(name="shipmode_id", nullable=false)
-	private Shipmode shipmode;
+	@JoinColumn(name="shipmodelookup_id", nullable=false)
+	private Shipmodelookup shipmodelookup;
 
     public Shipping() {
     }
@@ -78,12 +78,12 @@ public class Shipping extends com.serpics.core.data.jpa.AbstractEntity implement
 		this.value = value;
 	}
 
-	public Shipmode getShipmode() {
-		return this.shipmode;
+	public Shipmodelookup getShipmodelookup() {
+		return this.shipmodelookup;
 	}
 
-	public void setShipmode(Shipmode shipmode) {
-		this.shipmode = shipmode;
+	public void setShipmodelookup(Shipmodelookup shipmodelookup) {
+		this.shipmodelookup = shipmodelookup;
 	}
 	
 }
