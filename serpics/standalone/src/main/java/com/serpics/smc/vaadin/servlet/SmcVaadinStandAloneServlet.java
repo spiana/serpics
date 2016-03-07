@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.serpics.admin.ui;
+package com.serpics.smc.vaadin.servlet;
+
+import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.spring.server.SpringVaadinServlet;
 
@@ -21,7 +23,7 @@ import com.vaadin.spring.server.SpringVaadinServlet;
  * @author spiana
  *
  */
-//@WebServlet(value = {"/admin/smc/*" , "/VAADIN/*"}, asyncSupported = true)
+@WebServlet(value = {"/admin/smc/*" , "/VAADIN/*"}, asyncSupported = true)
 public class SmcVaadinStandAloneServlet extends SpringVaadinServlet {
 
 }
