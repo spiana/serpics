@@ -19,6 +19,6 @@ public class MainController {
 	
 	@RequestMapping(value="/" , method = RequestMethod.GET)
 	public String runsmc(){
-		return "redirect:/smc";
+		return "redirect:smc";
 	}
 }

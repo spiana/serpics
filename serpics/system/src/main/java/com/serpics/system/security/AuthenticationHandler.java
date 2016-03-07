@@ -34,6 +34,8 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
     @Autowired
     private CatalogService catalogService;
 
+    private String redirectURL = "/";
+    
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
             final Authentication authentication)
@@ -65,8 +67,17 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
             authentication.setAuthenticated(false);
             throw new ServletException(e);
         }
-        response.sendRedirect(request.getContextPath() + "/");
+      
+        response.sendRedirect(request.getContextPath() + redirectURL);
         return;
     }
 
+	public String getRedirectURL() {
+		return redirectURL;
+	}
+
+	public void setRedirectURL(String redirectURL) {
+		this.redirectURL = redirectURL;
+	}
+    
 }
