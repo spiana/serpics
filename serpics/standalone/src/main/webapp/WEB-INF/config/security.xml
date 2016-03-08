@@ -5,7 +5,7 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<http realm="admin" auto-config="true" pattern="/admin/**" >
+	<http realm="admin" auto-config="true" pattern="/admin/**" security-context-repository-ref="securityContextRepositoryAdmin">
 	 	<csrf disabled="true"/>
 	 	<intercept-url pattern="/admin/login/**" access="permitAll" />
 	 	 <intercept-url pattern="/resources/**" access="permitAll" />
@@ -17,7 +17,7 @@
 
 	  
 	<http realm="Protected API" use-expressions="true" auto-config="true" pattern="/api/**"
-		 entry-point-ref="restAuthenticationEntryPoint" >
+		 entry-point-ref="restAuthenticationEntryPoint" security-context-repository-ref="securityContextRepositoryFrontend">
 		<custom-filter ref="authenticationProcessingFilter" before="BASIC_AUTH_FILTER" />
 		<intercept-url pattern="/auth/connect/**" access="permitAll" />
 		<intercept-url pattern="/customerService/login**" access="isAnonymous() or isAuthenticated()" />
@@ -27,7 +27,17 @@
 	</http> 
 	
 	<http pattern="/**" security="none" />
+	
+	<beans:bean id="securityContextRepositoryAdmin" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository">
+	  <beans:property name="allowSessionCreation" value="true" />
+	  <beans:property name="springSecurityContextKey" value="ADMIN_SPRING_SECURITY_CONTEXT" />
+	</beans:bean>
 
+	<beans:bean id="securityContextRepositoryFrontend" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository">
+	  <beans:property name="allowSessionCreation" value="true" />
+	  <beans:property name="springSecurityContextKey" value="FRONTEND_SPRING_SECURITY_CONTEXT" />
+	</beans:bean>
+	
 	<beans:bean id="restAuthenticationEntryPoint" class="com.serpics.system.security.RestAuthenticationEntryPoint" />
 	<beans:bean id="authenticationProcessingFilter" class="com.serpics.system.security.RestAuthenticationFilter"/>
 	<beans:bean id ="userDetailsService" class="com.serpics.system.services.UserDetailsServiceImpl"/>
