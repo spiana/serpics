@@ -14,11 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.serpics.base.data.model.AbstractStoreEntity;
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Geocode;
 import com.serpics.base.data.model.Region;
-import com.serpics.base.data.model.Store;
 
 
 /**
@@ -27,7 +27,7 @@ import com.serpics.base.data.model.Store;
  */
 @Entity
 @Table(name="shipmodelookup" )
-public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
+public class Shipmodelookup extends AbstractStoreEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -51,10 +51,6 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
 	@ManyToOne(optional=true)
 	@JoinColumn(name="districts_id" , nullable=true)
 	private District district;
-
-	@ManyToOne
-	@JoinColumn(name="store_id", nullable=false)
-	private Store store;
 
 	@Column(length=30)
 	private String zipcode;
@@ -118,14 +114,6 @@ public class Shipmodelookup extends com.serpics.core.data.jpa.AbstractEntity imp
 
 	public void setRegion(Region region) {
 		this.region = region;
-	}
-
-	public Store getStore() {
-		return store;
-	}
-
-	public void setStore(Store store) {
-		this.store = store;
 	}
 
 	public District getDistrict() {

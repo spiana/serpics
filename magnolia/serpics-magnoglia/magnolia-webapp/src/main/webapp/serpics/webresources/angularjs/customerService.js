@@ -8,7 +8,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 				currentUser:{}
 		};
 		
-		var endpoint = '/jax-rs/customerService/';
+		var endpoint = '/api/v1/customerService/';
 		
         /** public methods**/
         

@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.ContextLoader;
 
 import com.serpics.core.EngineFactory;
@@ -25,5 +26,12 @@ public class ContextLoaderListener extends
 		if (EngineFactory.getCurrentApplicationContext() == null)
 			EngineFactory.init();
 		return  EngineFactory.getCurrentApplicationContext();
+	}
+	
+	@Override
+	public void contextDestroyed(ServletContextEvent event) {
+		if (EngineFactory.getCurrentApplicationContext() != null)
+			((ClassPathXmlApplicationContext) EngineFactory.getCurrentApplicationContext()).destroy();
+		super.contextDestroyed(event);
 	}
 }

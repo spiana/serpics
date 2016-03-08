@@ -3,7 +3,7 @@ var app = angular.module("serpics.services", ['ngCookies','serpics.config'])
 app.service("serpicsServices",['$http', '$q', '$cookies', 'URL', 'COOKIE_EXPIRES', 'STORE', '$log',  function( $http, $q ,$cookies,URL,COOKIE_EXPIRES,STORE,$log) {
  
 	var promiseSession = null;
-    var endpoint   	= '/jax-rs/auth/connect/' 
+    var endpoint   	= '/api/v1/auth/connect/' 
     	
         /** Return public API. (interface public service) **/
       	var service =   ({

@@ -3,7 +3,7 @@ var app = angular.module('geographic.service',['serpics.config','serpics.service
 app.service("geographicService", function( $http, $q,serpicsServices,COOKIE_EXPIRES,$cookies,URL,$log ) {
 	
 	
-	var endpoint = '/jax-rs/geographicService/';
+	var endpoint = '/api/v1/geographicService/';
 	
     var service =({
     	getCountryList		:	getCountryList,

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -50,6 +52,7 @@ public class JobDetails extends AbstractEntity {
 	private Date lastRun;
 	
 	@Column(name="state_of_job")
+	@Enumerated(EnumType.STRING)
 	private JobDetailState stateOfJob;
 	
 	@Column(name="stop_on_fail")
