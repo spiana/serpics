@@ -32,4 +32,11 @@ public interface JobService {
 
 	void manageJobFinished(JobExecutionContext context, JobExecutionException jobException);
 
+	JobDetails modifyJobDetail(Class<? extends AbstractJob> jobToCreate, JobDetails jobDetails)
+			throws JobSchedulerException;
+
+	AbstractSchedulerJob modifyTrigger(TriggerJob trigger, JobDetails jobToExecute) throws JobSchedulerException;
+
+	AbstractSchedulerJob modifyCronJob(CronJob cronJob, JobDetails jobToExecute) throws JobSchedulerException;
+
 }

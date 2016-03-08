@@ -40,6 +40,9 @@ public class JobDetails extends AbstractEntity {
 	@Column(name="name_class")
 	private String nameClassJob;
 	
+	@Column(name="name_job")
+	private String name;
+	
 	@ManyToOne
 	@JoinColumn(name="store_id")
 	private Store store;
@@ -64,6 +67,9 @@ public class JobDetails extends AbstractEntity {
 	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="jobDetail")
 	private List<AbstractSchedulerJob> schedulers;
 
+	@Column(name="job_param")
+	private String jobParameters;
+	
 	public Long getId() {
 		return id;
 	}
@@ -134,6 +140,22 @@ public class JobDetails extends AbstractEntity {
 
 	public void setSchedulers(List<AbstractSchedulerJob> schedulers) {
 		this.schedulers = schedulers;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getJobParameters() {
+		return jobParameters;
+	}
+
+	public void setJobParameters(String jobParameters) {
+		this.jobParameters = jobParameters;
 	}
 	
 }

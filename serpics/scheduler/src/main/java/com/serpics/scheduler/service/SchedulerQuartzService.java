@@ -10,15 +10,16 @@ import com.serpics.scheduler.model.TriggerJob;
 
 public interface SchedulerQuartzService {
 
-	void addJob(Class<? extends AbstractJob> jobToCreate, JobDetails jobDetails)
-			throws JobSchedulerException;
-
-	void addSimpleTrigger(TriggerJob triggerJob, JobDetails jobToExecute) throws JobSchedulerException;
-
-	void addCronTrigger(CronJob cronJob, JobDetails jobToExecute) throws JobSchedulerException;
-
 	void pauseJob(JobDetails jobToPaused) throws SchedulerException;
 	
 	void resumeJob(JobDetails jobToResume) throws SchedulerException;
+
+	void saveJob(Class<? extends AbstractJob> jobToCreate, JobDetails jobDetails, boolean replace)
+			throws JobSchedulerException;
+
+	void saveSimpleTrigger(TriggerJob triggerJob, JobDetails jobToExecute, boolean replace)
+			throws JobSchedulerException;
+
+	void saveCronTrigger(CronJob cronJob, JobDetails jobToExecute, boolean replace) throws JobSchedulerException;
 	
 }
