@@ -1,8 +1,8 @@
  var app = angular.module("product.controller", ['product.service', 'cart.service','serpics.services','serpics.router'])
 /** productController **/
-.controller("productController",['$scope','serpicsServices','productService', '$state', 'cartService','$log',
+.controller("productController",['$scope','serpicsServices','productService', '$state', 'cartService','$log','$sce',
                                   
-	      function($scope,serpicsServices,productService,$state,cartService,$log) {	
+	      function($scope,serpicsServices,productService,$state,cartService,$log,$sce) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -10,6 +10,8 @@
 			var textSearch = $scope.textSearch;
 			var page = getPage();
 			var size = getSize();
+			
+			$scope.trustAsHtml = $sce.trustAsHtml;
 			
 			$scope.defaultQuantity = 1;
 	
@@ -59,6 +61,7 @@
 	  	     */
 	  	    function getProduct(productId) {		
 	  	    	productService.getProduct(productId).then( function( response ) {
+	  	    		$log.debug("ProductController getProduct(productId): ramo then");
 	  	    		$scope.product 	= response;
 	              })
 	  	    };  	   	  
