@@ -5,6 +5,7 @@ import java.util.Calendar;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -13,6 +14,7 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.quartz.impl.triggers.SimpleTriggerImpl;
 import org.slf4j.Logger;
@@ -43,63 +45,70 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 
 	@Override
 	@Transactional
-	public void addJob(Class<? extends AbstractJob> jobToCreate, JobDetails jobDetails)
-			throws JobSchedulerException {
-
+	public void saveJob(Class<? extends AbstractJob> jobToCreate, JobDetails jobDetails,boolean replace) throws JobSchedulerException {
+		
 		Assert.notNull(jobDetails, "Job Details cannot be null");
-		LOG.debug("Try to create job in quartz with identity key [ name: {} , group: {} ]",jobDetails.getUuid(), KEY_GROUP_JOB);
+		LOG.debug("Try to save job in quartz with identity key [ name: {} , group: {} ]",jobDetails.getUuid(), KEY_GROUP_JOB);
 		
 		JobDetail jobInQuartz;
 		try {
-			jobInQuartz = findJobInQuartz(jobDetails.getUuid(), KEY_GROUP_JOB);
-			
-			if (jobInQuartz != null) {
-				throw new JobSchedulerException("Job with same key just exist in quartz");
-			}
-			
-			jobInQuartz = JobBuilder.newJob(jobToCreate).withIdentity(jobDetails.getUuid(), KEY_GROUP_JOB)
-					.usingJobData("realmStore", jobDetails.getStore().getName())
-					.usingJobData("catalog", jobDetails.getCatalog()!=null?jobDetails.getCatalog().getCode():"")
-					.storeDurably(true)
-					.build();
-
-			scheduler.addJob(jobInQuartz, false);
-			LOG.info("Add job in scheduler with identity key [ name: {} , group: {} ]", jobDetails.getUuid(),
-					KEY_GROUP_JOB);
+				JobKey jobKey = new JobKey(jobDetails.getUuid(), KEY_GROUP_JOB);
+				jobInQuartz = findJobInQuartz(jobKey);
+				
+				if (!replace && jobInQuartz != null) {
+					throw new JobSchedulerException("Job with same key just exist in quartz");
+				}
+				
+				jobInQuartz = JobBuilder.newJob(jobToCreate).withIdentity(jobKey)
+						.usingJobData(createJobDataMap(jobDetails))
+						.storeDurably(true)
+						.build();
+				
+				scheduler.addJob(jobInQuartz, true);
+				LOG.info("Add job in scheduler with identity key [ {} ]", jobKey);
 			} catch (SchedulerException e) {
 				LOG.error("Error to add job in scheduler", e);
 				throw new JobSchedulerException("Error to add Job " + jobDetails.getUuid(), e);
 			}
 	}
-
-	private JobDetail findJobInQuartz(String uuid, String group) throws SchedulerException {
+	
+	private JobDataMap createJobDataMap(JobDetails jobdetails){
+		
+		JobDataMap dataMap = new JobDataMap();
+		dataMap.put("realmStore", jobdetails.getStore().getName());
+		dataMap.put("catalog", jobdetails.getCatalog()!=null?jobdetails.getCatalog().getCode():"");
+		
+		return dataMap;
+	}
+	
+	private JobDetail findJobInQuartz(JobKey jobkey) throws SchedulerException {
 		JobDetail jobToReturn = null;
-
-		jobToReturn = scheduler.getJobDetail(new JobKey(uuid, group));
+		jobToReturn = scheduler.getJobDetail(jobkey);
 		return jobToReturn;
 	}
 	
 	@Override
 	@Transactional
-	public void addSimpleTrigger(TriggerJob triggerJob,JobDetails jobToExecute) throws JobSchedulerException{
-		
+	public void saveSimpleTrigger(TriggerJob triggerJob,JobDetails jobToExecute,boolean replace) throws JobSchedulerException{
 		try {
-			JobDetail jobDetailsQuartz = findJobInQuartz(jobToExecute.getUuid(),KEY_GROUP_JOB);
+			JobKey jobKey = new JobKey(jobToExecute.getUuid(),KEY_GROUP_JOB);
+			TriggerKey triggerKey = new TriggerKey(triggerJob.getUuid(),KEY_GROUP_TRIGGER);
+			
+			JobDetail jobDetailsQuartz = findJobInQuartz(jobKey);
+			
 			if(jobDetailsQuartz==null){
 				throw new JobSchedulerException("Impossible to create a Trigger if job does not create. Create it first!");
 			}
 			
 			TriggerBuilder<SimpleTrigger> triggerBuilder = new SimpleTriggerImpl().getTriggerBuilder();
+			LOG.debug("Set trigger identity new Key({})",triggerKey);
+			triggerBuilder.withIdentity(triggerKey);
 			
-			
-			
-			LOG.debug("Set trigger identity new Key({},{})",triggerJob.getUuid(),KEY_GROUP_TRIGGER);
-			triggerBuilder.withIdentity(triggerJob.getUuid(),KEY_GROUP_TRIGGER);
-			
-			LOG.debug("Set trigger job new JobKey({},{}) == {}",jobToExecute.getUuid(),KEY_GROUP_JOB,jobDetailsQuartz.getKey());
+			LOG.debug("Set trigger job new JobKey({}) == {}",jobKey,jobDetailsQuartz.getKey());
 			triggerBuilder.forJob(jobDetailsQuartz);
 			
 			LOG.debug("Set trigger date start {}",triggerJob.getWhenStart());
+			
 			if(triggerJob.getWhenStart().after(Calendar.getInstance().getTime())){
 				triggerBuilder.startAt(triggerJob.getWhenStart());
 			}else{
@@ -112,7 +121,7 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 				triggerBuilder.endAt(triggerJob.getWhenEnd());
 			}
 			
-			LOG.debug("Create simple Scheduler for trigger {}",triggerJob.getUuid());
+			LOG.debug("Create simple Scheduler for trigger {}",triggerKey);
 			SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
 			
 			if(triggerJob.getNumberOfIteration()!=null && triggerJob.getNumberOfIteration()>0){
@@ -129,8 +138,8 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 			}
 			
 			triggerBuilder.withSchedule(simpleScheduleBuilder);
+			saveTrigger(triggerBuilder.build(),replace);
 			
-			addTrigger(triggerBuilder.build());
 		}catch(SchedulerException e){
 			LOG.error("Error to create trigger for job in scheduler", e);
 			throw new JobSchedulerException("Error to add trigger " + triggerJob.getUuid(), e);
@@ -139,28 +148,31 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 	
 	@Override
 	@Transactional
-	public void addCronTrigger(CronJob cronJob,JobDetails jobToExecute) throws JobSchedulerException{
-		
+	public void saveCronTrigger(CronJob cronJob,JobDetails jobToExecute,boolean replace) throws JobSchedulerException{
 		try {
-			JobDetail jobDetailsQuartz = findJobInQuartz(jobToExecute.getUuid(),KEY_GROUP_JOB);
+			JobKey jobKey = new JobKey(jobToExecute.getUuid(),KEY_GROUP_JOB);
+			TriggerKey triggerKey = new TriggerKey(cronJob.getUuid(),KEY_GROUP_CRONJOB);
+			
+			JobDetail jobDetailsQuartz = findJobInQuartz(jobKey);
 			if(jobDetailsQuartz==null){
 				throw new JobSchedulerException("Impossible to create a Trigger if job does not create. Create it first!");
 			}
 			
 			TriggerBuilder<CronTrigger> cronTriggerBuilder = new CronTriggerImpl().getTriggerBuilder();
 			
-			LOG.debug("Set crontrigger identity new Key({},{})",cronJob.getUuid(),KEY_GROUP_CRONJOB);
-			cronTriggerBuilder.withIdentity(jobToExecute.getUuid(),KEY_GROUP_CRONJOB);
+			LOG.debug("Set crontrigger identity new Key({})",triggerKey);
+			cronTriggerBuilder.withIdentity(triggerKey);
 			
-			LOG.debug("Set crontrigger job new JobKey({},{})",jobToExecute.getUuid(),KEY_GROUP_JOB);
-			cronTriggerBuilder.forJob(jobDetailsQuartz.getKey());
+			LOG.debug("Set crontrigger job new JobKey({})",jobKey);
+			cronTriggerBuilder.forJob(jobKey);
 			
 			LOG.debug("Create simple Scheduler for trigger {}",cronJob.getUuid());
 			CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cronJob.getCronExpression());
 			
 			cronTriggerBuilder.withSchedule(cronScheduleBuilder);
 			
-			addTrigger(cronScheduleBuilder.build());
+			saveTrigger(cronScheduleBuilder.build(),replace);
+			
 		}catch(SchedulerException e){
 			LOG.error("Error to create cron trigger for job in scheduler", e);
 			throw new JobSchedulerException("Error to add cron trigger " + cronJob.getUuid(), e);
@@ -168,12 +180,24 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 	}
 	
 	@Transactional
-	public void addTrigger(Trigger triggerScheduler) throws SchedulerException{
+	public void saveTrigger(Trigger triggerScheduler,boolean replace) throws SchedulerException, JobSchedulerException{
 
 		LOG.info("Try to add in quartz the trigger [] with key {} ",triggerScheduler.getClass().getName(),triggerScheduler.getKey());
 		
-		scheduler.scheduleJob(triggerScheduler);
-
+		if(scheduler.checkExists(triggerScheduler.getKey())){
+			
+			LOG.debug("The trigger with key {} exist in quartz.",triggerScheduler.getKey());
+			
+			if(replace){
+				LOG.info("Reschedule in quartz the trigger with key {} ",triggerScheduler.getKey());
+				scheduler.rescheduleJob(triggerScheduler.getKey(), triggerScheduler);
+			}else{
+				throw new JobSchedulerException("Trigger exist in quartz, cannot create ttrigger with the same key");
+			}
+			
+		}else{
+			scheduler.scheduleJob(triggerScheduler);
+		}
 		LOG.info("Added in quartz the trigger with key {} ",triggerScheduler.getKey());
 		
 	}

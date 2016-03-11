@@ -63,7 +63,7 @@ public class JobServiceImpl implements JobService {
 		LOG.debug("Saved JobDetails : [uuid: {} ] ",jobDetails.getUuid());
 		
 		LOG.debug("Create job in quartz");
-		schedulerQuartzService.addJob(jobToCreate, jobDetails);
+		schedulerQuartzService.saveJob(jobToCreate, jobDetails,false);
 		return jobDetails;
 	}
 	
@@ -83,7 +83,21 @@ public class JobServiceImpl implements JobService {
 		jobDetails.setStopOnFail(false);
 		return createJobDetail(jobToCreate, jobDetails);
 	}
-
+	
+	@Override
+	@Transactional
+	public JobDetails modifyJobDetail(Class<? extends AbstractJob> jobToCreate,JobDetails jobDetails)throws JobSchedulerException{
+		
+		jobDetails.setStateOfJob(JobDetailState.MODIFIED);
+		
+		jobDetails = jobDetailsRepository.saveAndFlush(jobDetails);
+		LOG.debug("Saved JobDetails : [uuid: {} ] ",jobDetails.getUuid());
+		
+		LOG.debug("Create job in quartz");
+		schedulerQuartzService.saveJob(jobToCreate, jobDetails,true);
+		return jobDetails;
+	}
+	
 	@Override
 	@Transactional
 	public AbstractSchedulerJob createTrigger(TriggerJob trigger,JobDetails jobToExecute) throws JobSchedulerException{
@@ -106,10 +120,36 @@ public class JobServiceImpl implements JobService {
 		LOG.debug("Saved trigger: [uuid: {} ],",trigger.getUuid());
 		
 		LOG.debug("Schedule in quartz the job");
-		schedulerQuartzService.addSimpleTrigger(trigger, jobToExecute);
+		schedulerQuartzService.saveSimpleTrigger(trigger, jobToExecute,false);
 		return trigger;
 	}
 
+	@Override
+	@Transactional
+	public AbstractSchedulerJob modifyTrigger(TriggerJob trigger,JobDetails jobToExecute) throws JobSchedulerException{
+		
+		LOG.debug("Try to save trigger : {}",trigger.getStringDetail());
+		
+		Assert.notNull(trigger, "If you want create trigger, please provide an trigger object.");
+		Assert.notNull(jobToExecute,"Indicate what the Job perform.");
+		
+		LOG.info("Start to schedule job by trigger");
+		
+		
+		if(trigger.getWhenStart()==null){
+			trigger.setWhenStart(Calendar.getInstance().getTime());
+		}
+		trigger.setItereted(0);
+		trigger.setJobDetail(jobToExecute);
+		trigger = triggerJobRepository.saveAndFlush(trigger);
+		
+		LOG.debug("Saved trigger: [uuid: {} ],",trigger.getUuid());
+		
+		LOG.debug("Schedule in quartz the job");
+		schedulerQuartzService.saveSimpleTrigger(trigger, jobToExecute,true);
+		return trigger;
+	}
+	
 	@Override
 	@Transactional
 	public AbstractSchedulerJob createCronJob(CronJob cronJob, JobDetails jobToExecute) throws JobSchedulerException{
@@ -123,7 +163,24 @@ public class JobServiceImpl implements JobService {
 		
 		cronJob = cronJobRepository.saveAndFlush(cronJob);
 		
-		schedulerQuartzService.addCronTrigger(cronJob, jobToExecute);
+		schedulerQuartzService.saveCronTrigger(cronJob, jobToExecute,false);
+		return cronJob;
+	}
+	
+	@Override
+	@Transactional
+	public AbstractSchedulerJob modifyCronJob(CronJob cronJob, JobDetails jobToExecute) throws JobSchedulerException{
+		
+		LOG.debug("Try to save cronJob : {}",cronJob.getStringDetail());
+		
+		Assert.notNull(cronJob, "If you want create a cron, please provide a cron object.");
+		Assert.notNull(jobToExecute,"Indicate what the Job perform.");
+		
+		cronJob.setJobDetail(jobToExecute);
+		
+		cronJob = cronJobRepository.saveAndFlush(cronJob);
+		
+		schedulerQuartzService.saveCronTrigger(cronJob, jobToExecute,true);
 		return cronJob;
 	}
 	@Override

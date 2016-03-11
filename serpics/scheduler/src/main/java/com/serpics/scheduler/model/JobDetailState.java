@@ -13,6 +13,6 @@ package com.serpics.scheduler.model;
  */
 
 public enum JobDetailState {
-	CREATED,ERROR,SUCCESFULL,PAUSED,RESUMING, RUNNING;
+	CREATED,MODIFIED,ERROR,SUCCESFULL,PAUSED,RESUMING, RUNNING;
 	
 }
