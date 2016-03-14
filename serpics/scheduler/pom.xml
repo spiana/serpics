@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.serpics</groupId>
-	<artifactId>scheduler</artifactId>
+	<artifactId>serpics-scheduler</artifactId>
 	<packaging>jar</packaging>
 
 
@@ -51,12 +51,7 @@
   	<version>1.0-SNAPSHOT</version>
   </parent>
   
-  <dependencies>
-  <dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>catalog</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>	
+  <dependencies>	
   <dependency>
     <groupId>org.quartz-scheduler</groupId>
     <artifactId>quartz</artifactId>
@@ -78,5 +73,21 @@
 	<artifactId>commons-collections</artifactId>
 	<version>3.2.2</version>
 </dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>serpics-vaadin</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>commerce</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>import-export</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
   </dependencies>
 </project>

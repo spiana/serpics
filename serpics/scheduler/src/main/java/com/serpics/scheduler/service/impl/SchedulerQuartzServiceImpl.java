@@ -155,7 +155,6 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 			}
 			
 			TriggerBuilder<Trigger> cronTriggerBuilder = TriggerBuilder.newTrigger();
-			
 			LOG.debug("Set crontrigger identity new Key({})",triggerKey);
 			cronTriggerBuilder.withIdentity(triggerKey);
 			
@@ -166,8 +165,8 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 			CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cronJob.getCronExpression());
 			
 			cronTriggerBuilder.withSchedule(cronScheduleBuilder);
-			
-			saveTrigger(cronScheduleBuilder.build(),replace);
+	
+			saveTrigger(cronTriggerBuilder.build(),replace);
 			
 		}catch(SchedulerException e){
 			LOG.error("Error to create cron trigger for job in scheduler", e);
@@ -178,7 +177,7 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 	@Transactional
 	public void saveTrigger(Trigger triggerScheduler,boolean replace) throws SchedulerException, JobSchedulerException{
 
-		LOG.info("Try to add in quartz the trigger [] with key {} ",triggerScheduler.getClass().getName(),triggerScheduler.getKey());
+		LOG.info("Try to add in quartz the trigger [{}] with key {} ",triggerScheduler.getClass().getName(),triggerScheduler.getKey());
 		
 		if(scheduler.checkExists(triggerScheduler.getKey())){
 			

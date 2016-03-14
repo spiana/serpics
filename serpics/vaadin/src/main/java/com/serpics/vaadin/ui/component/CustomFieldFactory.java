@@ -77,7 +77,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	if (p != null)
     		LOG.debug("create field for property {} of type {}" , propertyId , p.getType() );
     	else{
-    		LOG.warn ("property {} not found !");
+    		LOG.warn ("property {} not found !" , propertyId);
     		return null;
     	}
     	

@@ -36,6 +36,11 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import de.steinwedel.messagebox.ButtonId;
+import de.steinwedel.messagebox.Icon;
+import de.steinwedel.messagebox.MessageBox;
+import de.steinwedel.messagebox.MessageBoxListener;
+
 public abstract class MasterTable<T> extends CustomComponent implements MasterTableComponent<T> {
 
 
@@ -175,19 +180,19 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
             private static final long serialVersionUID = 2068314108919135281L;
 
             public void itemClick(ItemClickEvent event) {
-                if (event.isDoubleClick()) {
-                	if (entityList.getValue() == null)
-    					return;
-                	
-    				if (!entityList.isEditable()) {					
-    					EntityFormWindow<T> editorWindow = buildEntityWindow();
-    					editorWindow.setNewItem(false);
-    					editorWindow.setReadOnly(false);
-    					editorWindow.setEntityItem(container.getItem(entityList.getValue()));
-    					UI.getCurrent().addWindow(editorWindow);
-    				}
-                	
-                }
+            	 if (event.isDoubleClick()) {
+                 	if (entityList.getValue() == null)
+     					return;
+                 	
+     				if (!entityList.isEditable()) {					
+     					EntityFormWindow<T> editorWindow = buildEntityWindow();
+     					editorWindow.setNewItem(false);
+     					editorWindow.setReadOnly(false);
+     					editorWindow.setEntityItem(container.getItem(entityList.getValue()));
+     					UI.getCurrent().addWindow(editorWindow);
+     				}
+                 	
+                 }
             }
         });
 		
@@ -199,16 +204,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-				if (!entityList.isEditable()) {
-					EntityFormWindow<T> editorWindow = buildEntityWindow();
-					editorWindow.setNewItem(true);
-					editorWindow.setReadOnly(false);
-					editorWindow.setEntityItem(createEntityItem());					
-					UI.getCurrent().addWindow(editorWindow);
-				} else {
-					// createEntityItem();
-					// entityList.refreshRowCache();
-				}
+					add();
 			}
 		});
 
@@ -221,15 +217,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			public void buttonClick(final ClickEvent event) {
 				if (entityList.getValue() == null)
 					return;
-				if (!entityList.isEditable()) {					
-					EntityFormWindow<T> editorWindow = buildEntityWindow();
-					editorWindow.setNewItem(false);
-					editorWindow.setReadOnly(false);
-					 EntityItem item = container.getItem(entityList.getValue());
-					 item.refresh();
-					editorWindow.setEntityItem(item);
-					UI.getCurrent().addWindow(editorWindow);
-				}
+				 modify(entityList.getValue());
 			}
 		});
 		
@@ -254,7 +242,18 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	    
 
 		deleteButton = new Button(I18nUtils.getMessage("smc.button.remove", "Remove"));		
-		masterTableListner.get().deleteButtonClickListener(container, entityList, deleteButton);
+		
+		deleteButton.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+				public void buttonClick(final ClickEvent event) {
+					if (entityList.getValue() == null)
+						return;
+					delete(entityList.getValue());
+			}
+		});
+		
 		editButtonPanel.addComponent(deleteButton);	
 		
 		if(searchFormEnable){
@@ -275,6 +274,50 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		setSizeFull();
 	}
 
+	
+	public void add(){
+		if (!entityList.isEditable()) {
+			edit(createEntityItem() , true);
+		} 
+	}
+	public void modify(final Object itemId){
+		if (!entityList.isEditable()) {					
+			 EntityItem<T> item = container.getItem(itemId);
+			edit(item, false);
+		}
+	}
+	
+	public void edit(EntityItem<? extends T> item , boolean isNew){
+		EntityFormWindow<? extends T> editorWindow = buildEntityWindow();
+		edit(editorWindow , item , isNew);
+	}
+
+	public void edit(EntityFormWindow<? extends T> editorWindow , EntityItem<? extends T> item , boolean isNew){
+		editorWindow.setNewItem(isNew);
+		editorWindow.setReadOnly(false);
+		if (!isNew)
+			item.refresh();
+		editorWindow.setEntityItem(item);
+		UI.getCurrent().addWindow(editorWindow);	
+		
+	}
+	public void delete(final Object itemId){
+		
+		MessageBox.showPlain(Icon.QUESTION, I18nUtils.getMessage("smc.messagebox.delete.title", ""),
+		I18nUtils.getMessage("smc.messagebox.delete.text", ""), new MessageBoxListener() {
+			@Override
+			public void buttonClicked(final ButtonId buttonId) {
+				if (buttonId.compareTo(ButtonId.YES) == 0) {
+					if (!container.removeItem(itemId))
+						System.out.println("Errore !");
+					else
+						container.commit();
+				}
+			}
+		}, ButtonId.NO, ButtonId.YES);
+	}
+	
+	
 	@Override
 	public void setTableFieldFactory(final TableFieldFactory factory) {
 		entityList.setTableFieldFactory(factory);

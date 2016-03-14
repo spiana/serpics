@@ -2,8 +2,9 @@ package com.serpics.scheduler.service;
 
 import java.util.List;
 
-import com.serpics.scheduler.model.JobLog;
+import com.serpics.scheduler.model.AbstractSchedulerJob;
 import com.serpics.scheduler.model.JobDetails;
+import com.serpics.scheduler.model.JobLog;
 
 public interface JobLogService {
 	
@@ -11,4 +12,5 @@ public interface JobLogService {
 
 	List<JobLog> getLogForJobDetail(JobDetails jobDetail);
 	
+	public JobLog findPendingJobLogForJob(AbstractSchedulerJob job);
 }

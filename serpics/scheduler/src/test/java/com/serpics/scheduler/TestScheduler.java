@@ -24,9 +24,9 @@ import com.serpics.scheduler.job.TestJob;
 import com.serpics.scheduler.job.TestJobInError;
 import com.serpics.scheduler.model.AbstractSchedulerJob;
 import com.serpics.scheduler.model.JobDetailState;
+import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.model.JobLog;
 import com.serpics.scheduler.model.JobLogState;
-import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.model.TriggerJob;
 import com.serpics.scheduler.service.JobLogService;
 import com.serpics.scheduler.service.JobService;
@@ -85,7 +85,7 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 		
 		List<JobLog> logs = jobLogService.getLogForJobDetail(abstractScheduler.getJobDetail());
 		
-		Assert.assertEquals("Number of job logs", 6, logs.size());
+		Assert.assertEquals("Number of job logs", 3, logs.size());
 		
 		int numberOfSuccess = CollectionUtils.countMatches(logs, new Predicate() {
 			
@@ -110,7 +110,7 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 		
 		List<JobLog> logs = jobLogService.getLogForJobDetail(abstractScheduler.getJobDetail());
 		
-		Assert.assertEquals("Number of job logs", 3, logs.size());
+		Assert.assertEquals("Number of job logs", 2, logs.size());
 		
 		int numberOfexception = CollectionUtils.countMatches(logs, new Predicate() {
 			

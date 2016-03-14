@@ -15,10 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import com.serpics.base.data.model.Store;
+import com.serpics.base.data.model.AbstractStoreEntity;
 import com.serpics.catalog.data.model.Catalog;
-import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
  * Entity show details of job which can be reschedule in various type.
@@ -28,7 +29,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
  */
 @Entity
 @Table(name = "job_details")
-public class JobDetails extends AbstractEntity {
+public class JobDetails extends AbstractStoreEntity {
 
 	private static final long serialVersionUID = 7129859920615052949L;
 	
@@ -43,15 +44,13 @@ public class JobDetails extends AbstractEntity {
 	@Column(name="name_job")
 	private String name;
 	
-	@ManyToOne
-	@JoinColumn(name="store_id")
-	private Store store;
-	
+
 	@ManyToOne
 	@JoinColumn(name="catalog_id",nullable=true)
 	private Catalog catalog;
 	
 	@Column(name="last_run_date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastRun;
 	
 	@Column(name="state_of_job")
@@ -64,7 +63,7 @@ public class JobDetails extends AbstractEntity {
 	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="jobRunned")
 	private List<JobLog> logs;
 
-	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="jobDetail")
+	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=false,mappedBy="jobDetail")
 	private List<AbstractSchedulerJob> schedulers;
 
 	@Column(name="job_param")
@@ -86,14 +85,7 @@ public class JobDetails extends AbstractEntity {
 		this.nameClassJob = nameClassJob;
 	}
 
-	public Store getStore() {
-		return store;
-	}
-
-	public void setStore(Store store) {
-		this.store = store;
-	}
-
+	
 	public Catalog getCatalog() {
 		return catalog;
 	}

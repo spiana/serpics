@@ -3,14 +3,21 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:jaxrs="http://cxf.apache.org/jaxrs"
   xmlns:cxf="http://cxf.apache.org/core"
+  xmlns:tx="http://www.springframework.org/schema/tx" 
   xmlns:context="http://www.springframework.org/schema/context"
   xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx.xsd 
+http://cxf.apache.org/jaxrs 
+http://cxf.apache.org/schemas/jaxrs.xsd
+http://cxf.apache.org/core 
+http://cxf.apache.org/schemas/core.xsd">
 
+  <tx:annotation-driven/>
  <bean id="commerceFilter" class="com.serpics.system.web.CommerceRequestFilter"/>
  
   <import resource="classpath:META-INF/cxf/cxf.xml" />
@@ -20,9 +27,11 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer"/>
 <!--   <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/> -->
 
+	<bean class="com.serpics.jaxrs.utils.RestServiceUtils"/>
+	
    <bean name="mapper" class="com.serpics.jaxrs.JaxbMapper"/>
-   
-   <jaxrs:server id="services" address="/">
+
+   <jaxrs:server id="services" address="/api/v1/">
  	 
  	 <jaxrs:features>
     	 <cxf:logging/>
@@ -31,6 +40,12 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
       <bean class="com.serpics.jaxrs.CustomerServiceImpl" />
       <bean class="com.serpics.jaxrs.TestRestServiceImpl"/>
       <bean class="com.serpics.jaxrs.CartRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.ProductRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.CategoryRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.BrandRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.OrderRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.GeographicRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.InventoryRestServiceImpl" />
     </jaxrs:serviceBeans>
    
    
@@ -40,16 +55,14 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
    <jaxrs:providers>
  	  	<bean class="com.serpics.jaxrs.AuthenticationHandler" />
 <!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
+<!--        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/> -->
        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
-<!--        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"> -->
-<!--       		 <property name="mapper" ref="mapper"/> -->
-<property name="mapper" ref="jacksonMapper" />
-
+      		 <property name="mapper" ref="mapper"/>
        </bean>
     </jaxrs:providers>
     </jaxrs:server>
 
-	<jaxrs:server id="auth" address="/auth">
+	<jaxrs:server id="auth" address="/api/v1/auth">
  	 <jaxrs:features>
     	 <cxf:logging/>
 	</jaxrs:features>
@@ -64,14 +77,10 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
    <jaxrs:providers>
 <!--  	  	<bean class="com.serpics.jaxrs.AuthenticationHandler" /> -->
 <!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
-       <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
-<!--        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"> -->
-<!--       		 <property name="mapper" ref="mapper"/> -->
-<property name="mapper" ref="jacksonMapper" />
-
-       </bean>
+       <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" >
+       	 <property name="mapper" ref="mapper"/>
+       	</bean> 
     </jaxrs:providers>
     </jaxrs:server>
-
 
 </beans>
