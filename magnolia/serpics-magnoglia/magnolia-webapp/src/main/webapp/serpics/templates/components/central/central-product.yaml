@@ -1,3 +1,10 @@
 templateScript: /serpics/templates/components/central/central-product.ftl
 renderType: freemarker
 title: Product Page
+areas:
+  serpics-topArea:
+    renderType: freemarker
+    type: list
+    availableComponents:
+      breadcrumbComponent:
+        id: serpics:components/central/central-breadcrumb
