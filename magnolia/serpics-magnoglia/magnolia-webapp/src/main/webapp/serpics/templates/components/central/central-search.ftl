@@ -29,7 +29,7 @@
 		<div class="product-image-wrapper">
 			<div class="single-products">
 				<div class="productinfo text-center">
-					<img src="${ctx.contextPath}/.resources/serpics/webresources/images/home/product1.jpg" alt="" />
+				<div style="background-image: url('{{product.primaryImage.source || '${ctx.contextPath}/.resources/serpics/webresources/images/home/product1.jpg'}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 245px;"></div>
 					<h2>&euro;{{product.price.currentPrice}}</h2>
 					<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.code}}</a></p>				
 					<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i

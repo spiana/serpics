@@ -12,8 +12,8 @@
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner" data-role="image">
 										<div class="item active">
-										  <div ng-repeat="i in range(3)" style="width:33%; float:left">
-										  <a href="{{product.medias[i + gallery].source || 'images/home/product1.jpg'}}"><div style="display: table;margin: 0 auto;background-image: url('{{product.medias[i + gallery].source || 'images/home/product1.jpg'}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 85px;width:85px" /></a>
+										  <div ng-repeat="i in range(3)" style="width:33%; float:left" ng-show="product.medias[i + gallery]">
+										  <a href="{{product.medias[i + gallery].source}}"><div style="display: table;margin: 0 auto;background-image: url('{{product.medias[i + gallery].source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 85px;width:85px" /></a>
 										  </div>
 										</div>
 										
@@ -46,8 +46,8 @@
 								</span>
 								<p id="buyable"></p>
 								<p><strong>Condition:</strong> New</p>
-								<p id="productCategory"><strong>Category: {{product.categories[0].code}}</strong></p>								
-								<p id="productBrand"><strong>Brand: {{product.brand.name}}</strong></p>
+								<p id="productCategory"><strong>Category: {{product.categories[0].name || product.categories[0].code}}</strong></p>								
+								<p id="productBrand"><strong>Brand: {{product.brand.name || product.brand.code}}</strong></p>
 								<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							</div><!--/product-information-->
 						</div>
