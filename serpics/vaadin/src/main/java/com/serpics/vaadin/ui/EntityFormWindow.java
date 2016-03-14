@@ -138,19 +138,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
 	
 	            @Override
 	            public void buttonClick(final ClickEvent event) {
-	
-	                MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "se sicuro di abbandonare tutte le modifiche ?",
-	                        new MessageBoxListener() {
-	                    @Override
-	                    public void buttonClicked(final ButtonId buttonId) {
-	                        if (buttonId.compareTo(ButtonId.YES) == 0) {
-	                            discardAllComponent();
-	                            close();
-	                        }
-	                    }
-	
-	                }, ButtonId.NO, ButtonId.YES);
-	
+	            	delete();
 	            }
 	        });
 	
@@ -158,11 +146,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
 	
 	            @Override
 	            public void buttonClick(final ClickEvent event) {
-	
-	                if (validateAllFormComponent()) {
-	                   if( saveAllComponent());
-	                    	close();	
-	                }
+	            	save();
 	            }
 	        });
         }else{
@@ -170,17 +154,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
         		
 	            @Override
 	            public void buttonClick(final ClickEvent event) {
-	
-	                if (isModified() && validateAllFormComponent()) {
-	                    if (saveAllComponent()){
-	                    	if (!singletab){
-	                    		setNewItem(false);
-	                    		initContent();
-	                    	}else
-	                    		close();
-	                    	
-	                    }
-	                }
+	            	create();
 	            }
 	        });
         }
@@ -249,6 +223,45 @@ public class EntityFormWindow<T> extends Window implements Handler {
         return false;
     }
 
+    public void save(){
+        if (validateAllFormComponent()) {
+           if( saveAllComponent());
+            	close();	
+        }
+    }
+    public void create(){
+
+        if (isModified() && validateAllFormComponent()) {
+           if (saveAllComponent()){
+           	if (!singletab){
+           		setNewItem(false);
+           		initContent();
+           	}else
+           		close();
+           	
+           }
+        }
+    }
+    
+    public void delete(){
+    	 MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "se sicuro di abbandonare tutte le modifiche ?",
+                 new MessageBoxListener() {
+             @Override
+             public void buttonClicked(final ButtonId buttonId) {
+                 if (buttonId.compareTo(ButtonId.YES) == 0) {
+                     discardAllComponent();
+                     close();
+                 }
+             }
+
+         }, ButtonId.NO, ButtonId.YES);
+
+     }
+    	
+    
+    public void add(){
+    	
+    }
 
     @SuppressWarnings("rawtypes")
     private boolean validateAllFormComponent() {

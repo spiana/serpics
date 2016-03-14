@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
@@ -20,9 +22,11 @@ public class TriggerJob extends AbstractSchedulerJob {
 	private Integer itereted;
 	
 	@Column(name="start_at", nullable=true)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date whenStart;
 	
 	@Column(name="end_to", nullable=true)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date whenEnd;
 
 	@Column(name="seconds_interval", nullable=true)

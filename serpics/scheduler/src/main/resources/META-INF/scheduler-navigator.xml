@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigator-definition 
+xmlns="http://www.serpicsframework.com/schema/smc-navigator" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	
+xsi:schemaLocation="file:/Users/spiana/git/serpics-code/serpics/admin/src/main/resources/META-INF/smc-navigator.xsd">
+
+	<navigator name="mainNav">
+		<navigator-item	allow-child="true"  name="scheduler" parent="" />
+		<navigator-item	allow-child="false" bean="jobDetailTable" 	name="cronjob" parent="scheduler" />
+	</navigator>
+
+</navigator-definition>

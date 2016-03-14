@@ -22,9 +22,9 @@ import com.serpics.scheduler.job.AbstractJob;
 import com.serpics.scheduler.model.AbstractSchedulerJob;
 import com.serpics.scheduler.model.CronJob;
 import com.serpics.scheduler.model.JobDetailState;
+import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.model.JobLog;
 import com.serpics.scheduler.model.JobLogState;
-import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.model.TriggerJob;
 import com.serpics.scheduler.repositories.CronJobRepository;
 import com.serpics.scheduler.repositories.JobDetailsRepository;
@@ -146,6 +146,7 @@ public class JobServiceImpl implements JobService {
 		LOG.debug("Saved trigger: [uuid: {} ],",trigger.getUuid());
 		
 		LOG.debug("Schedule in quartz the job");
+		
 		schedulerQuartzService.saveSimpleTrigger(trigger, jobToExecute,true);
 		return trigger;
 	}
@@ -158,11 +159,11 @@ public class JobServiceImpl implements JobService {
 		
 		Assert.notNull(cronJob, "If you want create a cron, please provide a cron object.");
 		Assert.notNull(jobToExecute,"Indicate what the Job perform.");
-		
+
 		cronJob.setJobDetail(jobToExecute);
-		
 		cronJob = cronJobRepository.saveAndFlush(cronJob);
 		
+			
 		schedulerQuartzService.saveCronTrigger(cronJob, jobToExecute,false);
 		return cronJob;
 	}
@@ -175,15 +176,15 @@ public class JobServiceImpl implements JobService {
 		
 		Assert.notNull(cronJob, "If you want create a cron, please provide a cron object.");
 		Assert.notNull(jobToExecute,"Indicate what the Job perform.");
-		
 		cronJob.setJobDetail(jobToExecute);
-		
 		cronJob = cronJobRepository.saveAndFlush(cronJob);
 		
 		schedulerQuartzService.saveCronTrigger(cronJob, jobToExecute,true);
 		return cronJob;
 	}
+	
 	@Override
+	@Transactional
 	public void pauseJob(JobDetails jobToPaused){
 		
 		LOG.info("Stopping all Scheduler of JOB [{}]",jobToPaused.getUuid());
@@ -200,12 +201,14 @@ public class JobServiceImpl implements JobService {
 			stateOfJob = JobDetailState.ERROR;
 		}
 		
+		jobDetailsRepository.saveAndFlush(jobToPaused);
 		jobToPaused.setStateOfJob(stateOfJob);
 		
-		jobDetailsRepository.saveAndFlush(jobToPaused);
+	
 	}
 	
 	@Override
+	@Transactional
 	public void resumeJob(JobDetails jobToResume){
 		
 		LOG.info("Resume all Scheduler of JOB [{}]",jobToResume.getUuid());
@@ -221,13 +224,13 @@ public class JobServiceImpl implements JobService {
 			LOG.error("Error to resume all scheduler of Job ["+jobToResume.getUuid()+"]",e);
 			stateOfJob = JobDetailState.ERROR;
 		}
-		jobToResume.setStateOfJob(stateOfJob);
-		
 		jobDetailsRepository.saveAndFlush(jobToResume);
+		jobToResume.setStateOfJob(stateOfJob);
 		
 	}	
 	
 	@Override
+	@Transactional
 	public void manageJobToStart(JobExecutionContext context){
 		
 		JobDetails job = jobDetailsRepository.findByUUID(context.getJobDetail().getKey().getName());
@@ -236,6 +239,7 @@ public class JobServiceImpl implements JobService {
 	}
 	
 	@Override
+	@Transactional
 	public void manageJobFinished(JobExecutionContext context,JobExecutionException jobException){
 		
 		LOG.debug("Manage Finished Job {}",context.getJobDetail().getKey());
@@ -247,7 +251,8 @@ public class JobServiceImpl implements JobService {
 		if(jobException!=null){
 			LOG.debug("Job {} throw an exception with message [{}]",context.getJobDetail().getKey(),jobException.getMessage());
 			JobLog jLog = new JobLog();
-			jLog.setDateLog(new Date());
+			jLog.setDateStart(new Date());
+			jLog.setDateEnd(new Date());
 			jLog.setMessage(jobException.getMessage());
 			jLog.setState(JobLogState.EXCEPTION);
 			jobLogService.addJobLog(context.getTrigger().getKey().getName(), jLog);

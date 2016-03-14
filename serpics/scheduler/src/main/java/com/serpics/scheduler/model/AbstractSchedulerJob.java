@@ -14,6 +14,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.serpics.core.data.jpa.AbstractEntity;
 
@@ -23,7 +25,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
 @DiscriminatorColumn(name="type_of_scheduler",discriminatorType = DiscriminatorType.INTEGER)
 public class AbstractSchedulerJob extends AbstractEntity{
 	
-	private static final long serialVersionUID = -5324712912301319990L;
+	protected static final long serialVersionUID = -5324712912301319990L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,14 +34,19 @@ public class AbstractSchedulerJob extends AbstractEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="jobdetail_id")
-	private JobDetails jobDetail;
+	protected JobDetails jobDetail;
 	
 	@Column(name="last_run_date")
-	private Date lastRun;
+	@Temporal(TemporalType.TIMESTAMP)
+	protected Date lastRun;
 	
 	@Column(name="next_run_date")
-	private Date nextRun;
+	@Temporal(TemporalType.TIMESTAMP)
+	protected Date nextRun;
 
+	@Column(name="type_of_scheduler" , insertable=false , updatable=false)
+	protected Integer type;
+	
 	public Long getId() {
 		return id;
 	}
@@ -70,6 +77,14 @@ public class AbstractSchedulerJob extends AbstractEntity{
 
 	public void setNextRun(Date nextRun) {
 		this.nextRun = nextRun;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 }
