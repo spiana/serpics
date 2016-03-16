@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
@@ -34,13 +35,16 @@ public class BaseAttribute extends AbstractEntity implements Serializable {
 
     @Column(name = "attribute_type", nullable = false)
     @Enumerated(EnumType.ORDINAL)
+    @NotNull
     private AttributeType attributeType;
 
     @Column(nullable = false )
     @Enumerated(EnumType.STRING)
+    @NotNull
     private AvailableforType availablefor;
 
     @Column(nullable = false, length = 100)
+    @NotNull
     private String name;
     
     @Column(name="store_id" , nullable= false)
