@@ -48,7 +48,7 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 		getLog().debug("triggerFired {}  of Job {} on store {}, mayFireAgain? ",trigger.getKey(),trigger.getJobKey(),context.getJobDetail().getJobDataMap().get("realmStore"),trigger.mayFireAgain());
 		
 		JobLog jLog = new JobLog();
-		jLog.setDateLog(new Date());
+		jLog.setDateStart(new Date());
 		jLog.setState(JobLogState.STARTING);
 		
 		jobLogService.addJobLog(trigger.getKey().getName(), jLog);
@@ -60,14 +60,19 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 		getLog().info("triggerMisfired");
 	}
 	
+
 	@Override
 	public void triggerComplete(Trigger trigger, JobExecutionContext context,
 			Trigger.CompletedExecutionInstruction triggerInstructionCode) {
 		
 		getLog().info("triggerComplete "+triggerInstructionCode+"  next? "+trigger.mayFireAgain());
 		
-		JobLog jLog = new JobLog();
-		jLog.setDateLog(new Date());
+		AbstractSchedulerJob abstractScedulerJob = schedulerService.getSchedulerJob(trigger.getKey().getName());
+		
+		
+		JobLog jLog = jobLogService.findPendingJobLogForJob(abstractScedulerJob);
+		jLog.setDateEnd(new Date());
+		
 		if(listOfErrorJob.contains(triggerInstructionCode)){
 			jLog.setState(JobLogState.ERROR);
 		}else{
@@ -76,13 +81,14 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 		
 		jobLogService.addJobLog(trigger.getKey().getName(), jLog);
 		
-		AbstractSchedulerJob abstractScedulerJob = schedulerService.getSchedulerJob(trigger.getKey().getName());
+		
 		
 		if(trigger instanceof SimpleTrigger){
 			
 			SimpleTrigger simple = (SimpleTrigger)trigger;
 			getLog().info("SimpleTrigger timesTriggered (" + simple.getTimesTriggered() +") count ("+simple.getRepeatCount()+") ");
 			abstractScedulerJob.setNextRun(simple.getNextFireTime());
+			abstractScedulerJob.setLastRun(new Date());
 			((TriggerJob)abstractScedulerJob).setItereted(simple.getTimesTriggered());
 			
 		}else if(trigger instanceof CronTrigger){
@@ -90,6 +96,7 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 			CronTrigger cron = (CronTrigger)trigger;
 			getLog().info("CronTrigger "+cron.getExpressionSummary()+ "  "+cron.getNextFireTime());
 			abstractScedulerJob.setNextRun(cron.getNextFireTime());
+			abstractScedulerJob.setLastRun(new Date());
 			
 		}else{
 			getLog().info("No trigger recognise");

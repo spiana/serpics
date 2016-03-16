@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
-import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.component.MultilingualTextField;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -36,15 +35,9 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-
-import de.steinwedel.messagebox.ButtonId;
-import de.steinwedel.messagebox.Icon;
-import de.steinwedel.messagebox.MessageBox;
-import de.steinwedel.messagebox.MessageBoxListener;
 
 /**
  * 
@@ -73,37 +66,7 @@ public class MasterTableListner extends FormLayout implements Serializable {
 		return instance;
 	}
 
-	/**
-	 * 
-	 * @param container
-	 * @param _search
-	 */
-	public <T> void deleteButtonClickListener(final JPAContainer<T> container, final Table entityList,
-			final Button delete) {
-
-		delete.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				if (entityList.getValue() == null)
-					return;
-				MessageBox.showPlain(Icon.QUESTION, I18nUtils.getMessage("smc.messagebox.delete.title", ""),
-						I18nUtils.getMessage("smc.messagebox.delete.text", ""), new MessageBoxListener() {
-					@Override
-					public void buttonClicked(final ButtonId buttonId) {
-						if (buttonId.compareTo(ButtonId.YES) == 0) {
-							if (!container.removeItem(entityList.getValue()))
-								System.out.println("Errore !");
-							else
-								container.commit();
-						}
-					}
-				}, ButtonId.NO, ButtonId.YES);
-			}
-		});
-	}
-
+	
 	/**
 	 * 
 	 * @param container

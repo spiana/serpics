@@ -12,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.serpics.core.data.jpa.AbstractEntity;
+
 
 @Entity(name="JobLog")
 @Table(name="job_scheduler_log")
@@ -33,8 +36,13 @@ public class JobLog extends AbstractEntity {
 	@Column(name="message")
 	private String message;
 	
-	@Column(name="date_log")
-	private Date dateLog;
+	@Column(name="date_start")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateStart;
+	
+	@Column(name="date_end")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateEnd;
 	
 	@ManyToOne
 	@JoinColumn(name="job_id",nullable=false)
@@ -84,13 +92,23 @@ public class JobLog extends AbstractEntity {
 		this.schedulerJob = schedulerJob;
 	}
 
-	public Date getDateLog() {
-		return dateLog;
+	public Date getDateStart() {
+		return dateStart;
 	}
 
-	public void setDateLog(Date dateLog) {
-		this.dateLog = dateLog;
-	} 
+	public void setDateStart(Date dateStart) {
+		this.dateStart = dateStart;
+	}
+
+	public Date getDateEnd() {
+		return dateEnd;
+	}
+
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+
+	
 	
 	
 }

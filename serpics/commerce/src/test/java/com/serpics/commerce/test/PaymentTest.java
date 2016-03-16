@@ -85,12 +85,12 @@ public class PaymentTest extends AbstractTransactionalJunit4SerpicTest {
 	
 	@Test
 	@Transactional
-	public void PaymentTest() throws SerpicsException{
+	public void paymentTest() throws SerpicsException{
 		CommerceSessionContext c= commerceEngine.connect("default-store");
 		catalogService.initialize();
 		
 		Paymethod p1 = new Paymethod("dummy");
-		p1.setPaymentStrategy("dummyPayment");
+		p1.setPaymentStrategy("dummyPaymentStrategy");
 		
 		p1 =paymethodRepository.save(p1);
 		Paymethodlookup pl1= new Paymethodlookup();

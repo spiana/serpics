@@ -5,8 +5,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,7 +31,7 @@ import com.serpics.base.data.model.MultilingualText;
 @Entity
 @Table(name = "ctentry" , uniqueConstraints= @UniqueConstraint(columnNames= {"catalog_id","ctentry_type", "code"}))
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "ctenytry_type", discriminatorType = DiscriminatorType.INTEGER)
+//@DiscriminatorColumn(name = "ctenytry_type", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Ctentry extends AbstractCatalogEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 

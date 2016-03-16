@@ -29,7 +29,7 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
 	       	serviceSSID.getSessionId().then(function(sessionId){	       		
 	   	       $http({
 	   	            method: 'POST',
-	   	            url: URL + endpoint + 'login' + '?username=' + username + '&password=' + password,
+	   	            url: URL + endpoint + 'login',
 	   	            headers: {
 	   	            	'ssid': sessionId
 	   	            },

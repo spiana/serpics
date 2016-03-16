@@ -11,6 +11,7 @@
 			var page = getPage();
 			var size = getSize();
 			
+			$scope.breadcrumbCategories = [];
 			$scope.defaultQuantity = 1;
 	
 //	  	    $scope.product 	= findAllQ(page, size);
@@ -63,8 +64,10 @@
 	              })
 	  	    };
 	  	    
-	  	    $scope.getProduct = function(productId) {		
-	  	    	getProduct(productId);
+	  	    $scope.getProduct = function(productId) {	
+	  	    	if (productId != undefined){
+	  	    		getProduct(productId);
+	  	    	}
 	  	    }; 
 	  	    
 	  	    /**
@@ -191,6 +194,18 @@
 	  	    		size = getSize();
 	  	    	}
 	  	    	findBySearch(text, page, size);
+	  	    }
+	  	    
+	  	    $scope.getBreadcrumb = function (){
+	  	    	if ($scope.product.categories != undefined){
+	  	    		parent = $scope.product.categories[0];
+	  	    		i = 0;
+	  	    		while (parent != undefined){
+		  	    		$scope.breadcrumbCategories[i] = parent;
+		  	    		parent = $scope.breadcrumbCategories[i].parentCategories[0];
+		  	    		i = i+1;
+	  	    		}
+	  	    	}
 	  	    }
 	  	    	
 }])

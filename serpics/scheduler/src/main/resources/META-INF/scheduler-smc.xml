@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="" xsi:schemaLocation="xmc.xsd">
+
+	<entity name="jobdetails">
+		<property name="nameClassJob"  table="true" select="true"/>
+		<property name="catalog" />
+		<property name="stopOnFail"/>
+		<property name="lastRun" table="true"/>
+		<property name="stateOfJob" table="true"/>
+		<property name="logs"/>
+	</entity>
+	
+	<entity name="joblog">
+		<property name="state" table="true" readonly="true"/>
+		<property name="message" table="true" readonly="true" />
+		<property name="dateStart" table="true" readonly="true"/>
+		<property name="dateEnd" table="true" readonly="true"/>
+	</entity>
+</smc-definition>
