@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.serpics.vaadin.ui;
+package com.serpics.vaadin.ui.component;
 
 import java.util.Collection;
 

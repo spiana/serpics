@@ -24,6 +24,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.VerticalLayout;
@@ -108,7 +109,7 @@ public class MainView extends CustomComponent {
 		final HorizontalLayout menuTitle = new HorizontalLayout();
 		menuTitle.addStyleName("valo-menu-title");
 
-		final Label title = new Label("<b>Serpics Admin Console</b>" , ContentMode.HTML);
+		final Label title = new Label("<center><b>Serpics Management <br/> Console</b></center>" , ContentMode.HTML);
 		menuTitle.addComponent(title);
 		title.setSizeFull();
 		title.setStyleName("h3");
@@ -118,11 +119,14 @@ public class MainView extends CustomComponent {
 		
 
 		navigatorMenuTree.setWidth("100%");
-		VerticalLayout leftPanel = new VerticalLayout();
 		
-		
+		Panel leftPanel = new Panel();
 		leftPanel.addStyleName("valo-menu");
-		leftPanel.addComponent(menuTitle);
+		
+		VerticalLayout leftSide = new VerticalLayout();
+		
+		//leftSide.addStyleName("valo-menu");
+		leftSide.addComponent(menuTitle);
 		
 		final MenuBar settings = new MenuBar();
         settings.addStyleName("user-menu");
@@ -137,8 +141,10 @@ public class MainView extends CustomComponent {
 			}
 		});
         
-        leftPanel.addComponent(settings);
-		leftPanel.addComponent(navigatorMenuTree);
+        leftSide.addComponent(settings);
+		leftSide.addComponent(navigatorMenuTree);
+		
+		leftPanel.setContent(leftSide);
 		
 		content.addComponent(leftPanel);
 

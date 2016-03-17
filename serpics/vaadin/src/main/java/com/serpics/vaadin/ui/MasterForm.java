@@ -19,7 +19,6 @@ import com.serpics.vaadin.ui.component.CustomFieldFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -72,12 +71,12 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		return entityClass;
 	}
 
-	public Item getEntityItem() {
+	public EntityItem<T> getEntityItem() {
 		return entityItem;
 	}
 
 	protected void buildContent() {
-		removeAllComponents();
+		
 		fieldGroup = new FieldGroup();
 		// fieldGroup.setFieldFactory(this);
 		fieldGroup.setItemDataSource(entityItem);
@@ -108,6 +107,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 	@Override
 	public void setEntityItem(final EntityItem<T> entityItem) {
 		this.entityItem = entityItem;
+		removeAllComponents();
 		buildContent();
 	}
 

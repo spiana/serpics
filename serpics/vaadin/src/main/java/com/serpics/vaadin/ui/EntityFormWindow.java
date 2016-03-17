@@ -128,8 +128,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
        
         
         setModal(true);
-        setHeight("60.0%");
-        setWidth("50.0%");
+        setHeight("80.0%");
+        setWidth("80.0%");
         setResizable(true);
         addStyleName("color1");
        

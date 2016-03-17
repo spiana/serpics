@@ -2,8 +2,8 @@ package com.serpics.vaadin.ui.memeship;
 
 import com.serpics.membership.data.model.PermanentAddress;
 import com.serpics.stereotype.VaadinComponent;
-import com.serpics.vaadin.ui.ComboBox;
 import com.serpics.vaadin.ui.MasterForm;
+import com.serpics.vaadin.ui.component.ComboBox;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.Property.ValueChangeEvent;

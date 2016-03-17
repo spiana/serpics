@@ -18,7 +18,7 @@ package com.serpics.vaadin.ui.base;
 import com.serpics.catalog.data.model.CtentryMedia;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.serpics.vaadin.ui.component.MediaEditForm;
+import com.serpics.vaadin.ui.component.MediaComponent;
 
 /**
  * @author spiana
@@ -32,7 +32,7 @@ public class MediaEditWindow extends EntityFormWindow<CtentryMedia>{
 	 */
 	public MediaEditWindow() {
 		super();
-		MediaEditForm<CtentryMedia> m = new MediaEditForm<CtentryMedia>(CtentryMedia.class) {};
+		MediaComponent<CtentryMedia> m = new MediaComponent<CtentryMedia>(CtentryMedia.class) {};
 		addTab(m, "main");
 	}
 	

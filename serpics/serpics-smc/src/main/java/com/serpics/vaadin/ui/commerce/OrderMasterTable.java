@@ -30,8 +30,8 @@ public class OrderMasterTable extends MasterTable<Order>{
 	public EntityFormWindow<Order> buildEntityWindow() {
 		EntityFormWindow<Order> w = new EntityFormWindow<Order>();
 		w.addTab(buildMainWindow(), "main");
-		w.addTab(buildAddressWindow("billingAddress" ), "billingAddress");
-		w.addTab(buildAddressWindow("shippingAddress"), "destinationAddress");
+	//	w.addTab(buildAddressWindow("billingAddress" ), "billingAddress");
+	//	w.addTab(buildAddressWindow("shippingAddress"), "destinationAddress");
 		
 		return w;
 	}

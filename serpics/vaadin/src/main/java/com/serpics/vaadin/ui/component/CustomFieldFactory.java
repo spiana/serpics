@@ -13,7 +13,6 @@ import com.serpics.base.data.model.Media;
 import com.serpics.base.data.model.MultilingualText;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
-import com.serpics.vaadin.ui.ComboBox;
 import com.serpics.vaadin.ui.converters.AttributeTypeDateConverter;
 import com.serpics.vaadin.ui.converters.AttributeTypeDoubleConverter;
 import com.serpics.vaadin.ui.converters.AttributeTypeIntegerConverter;
@@ -222,7 +221,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 		String referencedProperty = PropertiesUtils.get().getSelectProperty(referencedType.getSimpleName());
 		
 		if (referencedProperty == null)
-			referencedProperty = "code"; // this is default
+			referencedProperty = "uuid"; // this is default
 		
 		return referencedProperty;
 	}
