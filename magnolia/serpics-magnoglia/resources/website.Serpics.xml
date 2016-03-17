@@ -391,7 +391,7 @@
       <sv:value>superuser</sv:value>
     </sv:property>
     <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-      <sv:value>2016-02-24T11:45:25.570+01:00</sv:value>
+      <sv:value>2016-03-14T14:29:31.516+01:00</sv:value>
     </sv:property>
     <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
       <sv:value>superuser</sv:value>
@@ -526,7 +526,7 @@
         <sv:value>superuser</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-        <sv:value>2016-02-22T17:37:11.969+01:00</sv:value>
+        <sv:value>2016-03-14T14:29:31.516+01:00</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
         <sv:value>superuser</sv:value>
@@ -548,7 +548,7 @@
           <sv:value>superuser</sv:value>
         </sv:property>
         <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-          <sv:value>2016-02-22T17:37:11.969+01:00</sv:value>
+          <sv:value>2016-03-14T14:29:31.516+01:00</sv:value>
         </sv:property>
         <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
           <sv:value>superuser</sv:value>
@@ -654,7 +654,7 @@
             <sv:value>superuser</sv:value>
           </sv:property>
           <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-            <sv:value>2016-02-22T11:57:33.620+01:00</sv:value>
+            <sv:value>2016-03-14T14:29:31.516+01:00</sv:value>
           </sv:property>
           <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
             <sv:value>superuser</sv:value>
@@ -676,7 +676,7 @@
               <sv:value>superuser</sv:value>
             </sv:property>
             <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-              <sv:value>2016-02-22T11:57:33.621+01:00</sv:value>
+              <sv:value>2016-03-14T14:29:31.516+01:00</sv:value>
             </sv:property>
             <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
               <sv:value>superuser</sv:value>
@@ -684,6 +684,58 @@
             <sv:property sv:name="mgnl:template" sv:type="String">
               <sv:value>serpics:components/central/central-product</sv:value>
             </sv:property>
+            <sv:node sv:name="serpics-topArea">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name">
+                <sv:value>mgnl:area</sv:value>
+              </sv:property>
+              <sv:property sv:name="jcr:mixinTypes" sv:type="Name" sv:multiple="true">
+                <sv:value>mix:lockable</sv:value>
+              </sv:property>
+              <sv:property sv:name="jcr:uuid" sv:type="String">
+                <sv:value>345ce520-0bb7-49c4-b4c7-f6790a2fd7f0</sv:value>
+              </sv:property>
+              <sv:property sv:name="jcr:createdBy" sv:type="String">
+                <sv:value>admin</sv:value>
+              </sv:property>
+              <sv:property sv:name="mgnl:created" sv:type="Date">
+                <sv:value>2016-03-14T14:22:22.453+01:00</sv:value>
+              </sv:property>
+              <sv:property sv:name="mgnl:createdBy" sv:type="String">
+                <sv:value>superuser</sv:value>
+              </sv:property>
+              <sv:property sv:name="mgnl:lastModified" sv:type="Date">
+                <sv:value>2016-03-14T14:29:31.516+01:00</sv:value>
+              </sv:property>
+              <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
+                <sv:value>superuser</sv:value>
+              </sv:property>
+              <sv:node sv:name="0">
+                <sv:property sv:name="jcr:primaryType" sv:type="Name">
+                  <sv:value>mgnl:component</sv:value>
+                </sv:property>
+                <sv:property sv:name="jcr:uuid" sv:type="String">
+                  <sv:value>f1c5d0ed-4d8c-44a0-aa55-25c8b804b36d</sv:value>
+                </sv:property>
+                <sv:property sv:name="jcr:createdBy" sv:type="String">
+                  <sv:value>admin</sv:value>
+                </sv:property>
+                <sv:property sv:name="mgnl:created" sv:type="Date">
+                  <sv:value>2016-03-14T14:29:31.519+01:00</sv:value>
+                </sv:property>
+                <sv:property sv:name="mgnl:createdBy" sv:type="String">
+                  <sv:value>superuser</sv:value>
+                </sv:property>
+                <sv:property sv:name="mgnl:lastModified" sv:type="Date">
+                  <sv:value>2016-03-14T14:29:31.519+01:00</sv:value>
+                </sv:property>
+                <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
+                  <sv:value>superuser</sv:value>
+                </sv:property>
+                <sv:property sv:name="mgnl:template" sv:type="String">
+                  <sv:value>serpics:components/central/central-breadcrumb</sv:value>
+                </sv:property>
+              </sv:node>
+            </sv:node>
           </sv:node>
         </sv:node>
       </sv:node>

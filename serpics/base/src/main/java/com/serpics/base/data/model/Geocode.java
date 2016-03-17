@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -31,7 +32,7 @@ public class Geocode extends com.serpics.core.data.jpa.AbstractEntity implements
     private Long geocodeId;
 
     @Column(nullable = false, length = 100 , name="name" )
-    
+    @NotNull
     @Pattern(regexp="[a-zA-Z0-9]+",message="only letters and numbers allowed !")
     private String code;
 

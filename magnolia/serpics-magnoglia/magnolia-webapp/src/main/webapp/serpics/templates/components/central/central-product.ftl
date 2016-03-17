@@ -1,5 +1,8 @@
 [#assign productId = ctx.productId!]
-					<div class="product-details" ng-controller="productController" ng-init="getProduct(${productId}); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart'"><!--product-details-->
+<div ng-controller="productController" ng-init="getProduct(${productId}); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart'">
+[@cms.area name="serpics-topArea" contextAttributes={"baseSite":ctx.baseSite}/]
+					<div class="product-details" ><!--product-details-->
+
 						<h2 class="title text-center">{{product.name}}</h2>
 						<div class="col-sm-5">
 							<div class="view-product">
@@ -19,6 +22,7 @@
 										</div>
 										
 									</div>
+									</div>
 
 								  <!-- Controls -->
 								  <button style="padding: 0px; border: none;" class="left item-control" data-slide="prev" ng-click="gallery = gallery - 1" ng-hide="gallery < 1">
@@ -28,7 +32,7 @@
 									<i class="fa fa-angle-right"></i>
 								  </button>
 							</div>
-						</div>
+
 						</div>
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
@@ -53,3 +57,4 @@
 							</div><!--/product-information-->
 						</div>
 					</div><!--/product-details-->
+				</div>
