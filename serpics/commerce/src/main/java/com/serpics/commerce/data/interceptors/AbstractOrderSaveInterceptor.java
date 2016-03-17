@@ -6,7 +6,7 @@ import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.core.data.SaveInterceptor;
-import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.model.User;
 
 
 public class AbstractOrderSaveInterceptor implements SaveInterceptor<AbstractOrder> {
@@ -25,7 +25,7 @@ public class AbstractOrderSaveInterceptor implements SaveInterceptor<AbstractOrd
 			entity.setStore((Store)engine.getCurrentContext().getStoreRealm());
 			
 		if (entity.getUser() == null)
-			entity.setUser((UsersReg) engine.getCurrentContext().getUserPrincipal() );
+			entity.setUser((User) engine.getCurrentContext().getUserPrincipal() );
 		
 	}
 

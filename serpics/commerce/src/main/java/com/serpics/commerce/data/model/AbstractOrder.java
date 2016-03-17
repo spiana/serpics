@@ -20,7 +20,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -130,17 +129,14 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     protected Set<Suborder> suborders = new HashSet<Suborder>(0);
 
-//    @ManyToOne(fetch=FetchType.LAZY )
-//    @JoinColumn(name = "billing_address_id" )
-    @OneToOne(optional=true)
+    @ManyToOne(fetch=FetchType.LAZY )
+//    @OneToOne(optional=true)
     @JoinColumn(
         name="billing_address_id", unique=true, nullable=true, updatable=true)
     protected Address  billingAddress;
 
-//    @ManyToOne(fetch=FetchType.LAZY )
-//    @JoinColumn(name = "shipping_address_id")
-    
-    @OneToOne(optional=true)
+    @ManyToOne(fetch=FetchType.LAZY )
+//    @OneToOne(optional=true)
     @JoinColumn(
         name="shipping_address_id", unique=true, nullable=true, updatable=true)
     protected Address shippingAddress;
