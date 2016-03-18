@@ -39,7 +39,8 @@ public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL
 			this.entityItem = container.getItem(container.getEntityProvider()
 				.getIdentifier(value));
 		}
-        buildContent();
+		removeAllComponents();
+		buildContent();
     }
     
 	private EntityItem<DETAIL> createEntityItem(JPAContainer<DETAIL> container) {
