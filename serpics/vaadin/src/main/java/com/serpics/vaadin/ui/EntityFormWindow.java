@@ -50,14 +50,31 @@ public class EntityFormWindow<T> extends Window implements Handler {
     private transient VerticalLayout vl = new VerticalLayout();
     
     public EntityFormWindow() throws SecurityException {
-    	setCaption("caption");
-
+    	init();
     }
 
-    public EntityFormWindow(String Caption) throws SecurityException {
-       		I18nUtils.getMessage(Caption, Caption);
-       		setImmediate(true);
+    public EntityFormWindow(String caption) throws SecurityException {
+       		setCaption(caption);
+       		init();
     }
+    
+   /**
+    * 
+    */
+    private void init() {
+   		setImmediate(true);
+   		
+   		addAttachListener(new AttachListener() {
+			
+			@Override
+			public void attach(AttachEvent event) {
+				initContent();
+				
+			}
+		});
+    }
+    
+    
     interface saveListener extends Listener {
     }
 
@@ -303,7 +320,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void setEntityItem(final EntityItem entityItem) {
     	this.item = entityItem;
-        initContent();
+    	setNewItem(!entityItem.isPersistent());
     }
 
     public void initContent() {

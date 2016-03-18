@@ -30,8 +30,11 @@ xsi:schemaLocation="file:/Users/spiana/git/serpics-code/serpics/admin/src/main/r
 	
 		<navigator-item	allow-child="true"  name="system" parent="" />
 		<navigator-item allow-child="false" class="com.serpics.base.data.model.Store" name="store" parent="system"  roles="ROLE_SUPERUSER" />
-		<navigator-item	allow-child="false"	class="com.serpics.base.data.model.BaseAttribute" name="baseAttribute" parent="system" />
+		
 		<navigator-item	allow-child="false" bean="currencyTable" name="currency" parent="system" roles="ROLE_SUPERUSER" />
+		<navigator-item	allow-child="false" class="ccom.serpics.base.data.model.taxCategory" name="taxcategory" parent="system" roles="ROLE_SUPERUSER" />
+		<navigator-item	allow-child="false"	class="com.serpics.base.data.model.BaseAttribute" name="baseAttribute" parent="system" />
+		
 		<navigator-item allow-child="true" name="geographic" parent="system" roles ="ROLE_SUPERUSER,ROLE_ADMIN"/>
 		<navigator-item	allow-child="false" bean="countryTable"	name="country" parent="geographic" roles="ROLE_SUPERUSER"/>	
 		<navigator-item	allow-child="false" class="com.serpics.base.data.model.Region"	name="region" parent="geographic" roles="ROLE_SUPERUSER"/>

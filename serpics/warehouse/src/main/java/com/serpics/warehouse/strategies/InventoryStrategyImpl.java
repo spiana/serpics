@@ -37,13 +37,12 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 	@Resource
 	private WarehouseStoreConfigRepository warehouseStoreConfigRepository;
 	
-	private WarehouseStoreConfig storeConfig;
 	
 	
 	@Override
 	public InventoryStatus checkInventory(Product product , double quantity) {
-		
-		if (getStoreConfig().isAlwaysInstock())
+		WarehouseStoreConfig storeConfig = getStoreConfig();
+		if (storeConfig.isAlwaysInstock())
 			return InventoryStatusEnum.InStock;
 		
 		Double available = inventoryRepository.getAvailable(product,(Store) getCurrentContext().getStoreRealm());
@@ -59,13 +58,13 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 	}
 
 	public WarehouseStoreConfig getStoreConfig(){
-		if (this.storeConfig != null)
-			return storeConfig;
-		
+//		if (this.storeConfig != null)
+//			return storeConfig;
+//		
 		List<WarehouseStoreConfig> storeConfigList =  warehouseStoreConfigRepository.findAll();
 		WarehouseStoreConfig storeConfig = !storeConfigList.isEmpty() ?storeConfigList.get(0): new WarehouseStoreConfig();
-		this.storeConfig= storeConfig;
-		return this.storeConfig;
+//		this.storeConfig= storeConfig;
+		return storeConfig;
 	}
 	
 	@Override
@@ -79,7 +78,8 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 	
 	@Override
 	public InventoryStatus getInventoryStatus(Product product ) {
-		if (getStoreConfig().isAlwaysInstock())
+		WarehouseStoreConfig storeConfig = getStoreConfig();
+		if (storeConfig.isAlwaysInstock())
 			return InventoryStatusEnum.InStock;
 		
 		Double available = inventoryRepository.getAvailable(product,(Store) getCurrentContext().getStoreRealm());

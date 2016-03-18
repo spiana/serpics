@@ -11,14 +11,14 @@ import com.serpics.warehouse.data.model.Warehouse;
 
 public interface InventoryRepository extends Repository<Inventory, Long>{
 	
-	@Query("select sum(i.available - i.reserved) from Inventory i join i.warehouse w  where w.store=:store and i.product=:product")
+	@Query("select coalesce(sum(i.available - i.reserved), 0) from Inventory i join i.warehouse w  where w.store=:store and i.product=:product")
 	public Double getAvailable(@Param("product")Product product , @Param("store") Store store);
 	
 	
-	@Query("select sum(i.available - i.reserved) from Inventory i where i.warehouse=:warehouse and i.product=:product")
+	@Query("select coalesce(sum(i.available - i.reserved),0) from Inventory i where i.warehouse=:warehouse and i.product=:product")
 	public Double getAvailableByWarehouse(@Param("product")Product product , @Param("warehouse") Warehouse warehouse);
 	
-	@Query("select i.reserved from Inventory i where i.warehouse=:warehouse and i.product=:product")
+	@Query("select coalesce(i.reserved,0) from Inventory i where i.warehouse=:warehouse and i.product=:product")
 	public Double getReservedByWarehouse(@Param("product")Product product , @Param("warehouse") Warehouse warehouse);
 
 	

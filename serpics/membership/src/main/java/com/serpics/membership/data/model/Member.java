@@ -60,6 +60,9 @@ public class Member extends AbstractEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "member_type", nullable = false)
     protected MemberType memberType;
+    
+    @Column(name="commonname" , length=200 , nullable= false)
+    protected String commonName;
 
     @OneToOne( fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL , orphanRemoval=true)
     @JoinColumn(name="primary_address_id")
@@ -171,4 +174,12 @@ public class Member extends AbstractEntity implements Serializable {
     public void setMembersRoles(final Set<MembersRole> membersRoles) {
         this.membersRoles = membersRoles;
     }
+
+	public String getCommonName() {
+		return commonName;
+	}
+
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
+	}
 }

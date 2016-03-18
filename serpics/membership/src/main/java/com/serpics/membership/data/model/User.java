@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -47,6 +48,7 @@ public class User extends Member implements UserDetail, Customer{
     private String firstname;
 
     @Column(length = 200)
+    @NotNull
     private String lastname;
 
     @Size(max = 25)

@@ -20,20 +20,22 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
     public void calculateTax(final AbstractOrder order) {
     	TaxCategory defaultTaxCategory = order.getStore().getTaxcategory();
     	Double totalTax = 0D;
-    	if (order.getItems() != null){
-    		for (AbstractOrderitem item : order.getItems()) {
-				TaxCategory tx = item.getTaxcategory();
-				Double rate = 0D;
-				
-				if (tx == null)
-					tx = defaultTaxCategory;
-				
-				if (tx != null){
-					rate =tx.getRate() != null ? tx.getRate() :0D;
-				}
-				totalTax += CurrencyUtils.round(item.getSkuNetPrice()*rate/100);
-    		}
-    		
+    	if (defaultTaxCategory != null ){
+	    	if (order.getItems() != null){
+	    		for (AbstractOrderitem item : order.getItems()) {
+					TaxCategory tx = item.getTaxcategory();
+					Double rate = 0D;
+					
+					if (tx == null)
+						tx = defaultTaxCategory;
+					
+					if (tx != null){
+						rate =tx.getRate() != null ? tx.getRate() :0D;
+					}
+					totalTax += CurrencyUtils.round(item.getSkuNetPrice()*item.getQuantity()*rate/100);
+	    		}
+	    		
+	    	}
     	}
     	order.setTotalTax(totalTax);
     }

@@ -214,6 +214,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		cartItem.setSku(product.getCode());
 		cartItem.setQuantity(quantity);
 		cartItem.setProduct(product);
+		cartItem.setTaxcategory(product.getTaxcategory());
 
 		InventoryStatusEnum status = (InventoryStatusEnum) inventoryService.checkInventory(product, quantity);
 		if (status == InventoryStatusEnum.OutOfStock)
@@ -288,6 +289,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	}
 
 	@Override
+	@Transactional
 	public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
 		final Cart cart = getSessionCart();
 		Assert.notNull(cart);

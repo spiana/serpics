@@ -116,6 +116,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 			if (pid.contains(".")){
 				propertyList.addNestedProperty(pid);
 			}
+			LOG.info("try to initialize property {}" , pid);
 			
 			if (propertyList.getPropertyKind(pid) == null)
 				LOG.error("properity {} not found !", pid);

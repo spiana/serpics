@@ -34,7 +34,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
     private boolean reconnectEnable = true;
     
     @Resource
-    SessionManager sessionManager;
+    private transient SessionManager sessionManager;
 
     public SessionManager getSessionManager() {
         return sessionManager;
