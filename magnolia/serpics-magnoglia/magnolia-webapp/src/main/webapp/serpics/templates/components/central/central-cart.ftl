@@ -17,8 +17,7 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="item in cart.orderItems">
-							<td class="cart_product"><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}"><img
-									src="${ctx.contextPath}/.resources/serpics/webresources/images/cart/two.png" alt=""></a></td>
+							<td class="cart_product"><div style="background-image: url('{{item.product.primaryImage.source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 110px; width: 110px;"></div></td>
 							<td class="cart_description">
 								<h4>
 									<a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}"">{{item.sku}}</a>
