@@ -25,7 +25,9 @@ public class UserSaveInterceptor  implements SaveInterceptor<User> {
 			entity.getStores().add((Store)ce.getCurrentContext().getStoreRealm());
 		}
 		if (entity.getCommonName() == null){
-			entity.setCommonName("cn=" + StringUtils.capitalize(entity.getFirstname() )+ " " + StringUtils.capitalize(entity.getLastname()));
+			entity.setCommonName("cn=" + StringUtils.capitalize(entity.getFirstname() )+ 
+					entity.getFirstname() != null ?" ":"" + 
+					StringUtils.capitalize(entity.getLastname()));
 		}
 	}
 

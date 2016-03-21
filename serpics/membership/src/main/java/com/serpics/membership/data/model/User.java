@@ -72,11 +72,7 @@ public class User extends Member implements UserDetail, Customer{
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_visit")
     private Date lastVisit;
-
-    // bi-directional many-to-one association to MemberRelation
-    //   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    //   protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
-
+  
     @ManyToMany(fetch = FetchType.LAZY )
     @JoinTable(name = "user2storerel", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "store_id"))
     protected Set<Store> stores = new HashSet<Store>(0);
