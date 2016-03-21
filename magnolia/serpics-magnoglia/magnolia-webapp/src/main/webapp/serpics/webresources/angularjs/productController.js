@@ -1,8 +1,8 @@
  var app = angular.module("product.controller", ['product.service', 'cart.service','serpics.services'])
 /** productController **/
-.controller("productController",['$scope','serpicsServices','productService','cartService','$log',
+.controller("productController",['$scope','serpicsServices','productService','cartService','$log','ngDialog',
                                   
-	      function($scope,serpicsServices,productService,cartService,$log) {	
+	      function($scope,serpicsServices,productService,cartService,$log,ngDialog) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -207,5 +207,15 @@
 	  	    		}
 	  	    	}
 	  	    }
+	  	    
+			$scope.openGalleryImageModal = function(imageUrl){
+				$scope.imageUrl = imageUrl;
+			 	var dialog = ngDialog.open({
+				    		  template: 'galleryImageDialog',
+				    		  keyboard: true,
+				    		  className:'',
+				    		  scope:    $scope,
+				 });
+		}
 	  	    	
 }])
