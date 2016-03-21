@@ -2,6 +2,7 @@ package com.serpics.scheduler.service.impl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -191,7 +192,7 @@ public class JobServiceImpl implements JobService {
 		
 		Assert.notNull(jobToPaused,"Indicate what the Job to stop.");
 		
-		jobToPaused = jobDetailsRepository.findByUUID(jobToPaused.getUuid());
+		jobToPaused =findJobByUUID(jobToPaused.getUuid()) ;
 		JobDetailState stateOfJob = JobDetailState.PAUSED;
 		
 		try {
@@ -215,7 +216,7 @@ public class JobServiceImpl implements JobService {
 		
 		Assert.notNull(jobToResume,"Indicate what the Job to resume.");
 		
-		jobToResume = jobDetailsRepository.findByUUID(jobToResume.getUuid());
+		jobToResume = findJobByUUID(jobToResume.getUuid());
 		JobDetailState stateOfJob = JobDetailState.RESUMING;
 		
 		try {
@@ -233,7 +234,7 @@ public class JobServiceImpl implements JobService {
 	@Transactional
 	public void manageJobToStart(JobExecutionContext context){
 		
-		JobDetails job = jobDetailsRepository.findByUUID(context.getJobDetail().getKey().getName());
+		JobDetails job =findJobByUUID(context.getJobDetail().getKey().getName());
 		job.setStateOfJob(JobDetailState.RUNNING);
 		jobDetailsRepository.save(job);
 	}
@@ -244,7 +245,7 @@ public class JobServiceImpl implements JobService {
 		
 		LOG.debug("Manage Finished Job {}",context.getJobDetail().getKey());
 		
-		JobDetails job = jobDetailsRepository.findByUUID(context.getJobDetail().getKey().getName());
+		JobDetails job = findJobByUUID(context.getJobDetail().getKey().getName()) ;
 		
 		Assert.notNull(job, "Not found job to manage");
 		
@@ -272,5 +273,12 @@ public class JobServiceImpl implements JobService {
 		}
 		
 		
+	}
+	
+	private JobDetails findJobByUUID(String uuid){
+		List<JobDetails> jobs = jobDetailsRepository.findJobByUUID(uuid);
+		if (!jobs.isEmpty())
+			return jobs.get(0);
+		return null;
 	}
 }
