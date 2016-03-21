@@ -166,6 +166,7 @@
     <module>warehouse</module>
     <module>serpics-paypal</module>
     <module>scheduler</module>
+    <module>postman</module>
 
     <module>serpics-smc</module>
     <module>standalone</module>
