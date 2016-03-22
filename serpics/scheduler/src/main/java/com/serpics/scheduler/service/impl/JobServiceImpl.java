@@ -26,6 +26,7 @@ import com.serpics.scheduler.model.JobDetailState;
 import com.serpics.scheduler.model.JobDetails;
 import com.serpics.scheduler.model.JobLog;
 import com.serpics.scheduler.model.JobLogState;
+import com.serpics.scheduler.model.StoreJobDetails;
 import com.serpics.scheduler.model.TriggerJob;
 import com.serpics.scheduler.repositories.CronJobRepository;
 import com.serpics.scheduler.repositories.JobDetailsRepository;
@@ -77,7 +78,7 @@ public class JobServiceImpl implements JobService {
 		
 		LOG.info("Create Job Details for job  [{}] with params store [ {} ] , catalog [ {} ]",jobToCreate.getCanonicalName(),store.getName(),catalog!=null?catalog.getCode():"No Catalog");
 		
-		JobDetails jobDetails = new JobDetails();
+		JobDetails jobDetails = new StoreJobDetails();
 		jobDetails.setStore(store);
 		jobDetails.setCatalog(catalog);
 		jobDetails.setNameClassJob(jobToCreate.getCanonicalName());

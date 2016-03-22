@@ -5,7 +5,7 @@ import org.quartz.JobExecutionException;
 
 import com.serpics.commerce.session.CommerceSessionContext;
 
-public class TestJobInError extends AbstractJob {
+public class TestJobInError extends AbstractStoreJob {
 
 	@Override
 	protected void executeJob(JobExecutionContext jobcontext, CommerceSessionContext commerceContext)
