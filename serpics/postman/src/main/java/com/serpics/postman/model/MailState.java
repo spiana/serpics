@@ -1,5 +1,5 @@
 package com.serpics.postman.model;
 
 public enum MailState {
-	NEW,SEND,ERROR;
+	NEW,SEND,ERROR,RETRY;
 }

@@ -62,6 +62,4 @@ public abstract class AbstractMediaService<T extends Media>  implements MediaSer
 		return destinationPath;
 	}
 
-
-
 }

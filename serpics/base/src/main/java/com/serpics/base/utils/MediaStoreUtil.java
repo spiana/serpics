@@ -18,6 +18,7 @@ package com.serpics.base.utils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,11 +27,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.serpics.base.data.model.Media;
 import com.serpics.commerce.core.CommerceEngine;
 
 /**
@@ -125,6 +128,16 @@ public class MediaStoreUtil implements InitializingBean{
 		return destinationPath;
 	}
 	
+	
+	public byte[] getLocalMedia(Media media) throws IOException{
+		String sourceStorePath = getMediaStorePathFromSource(media.getSourcePath());
+		File fileMedia = new File(sourceStorePath);
+		if(fileMedia.exists()){
+			return FileUtils.readFileToByteArray(fileMedia);
+		}else{
+			throw new FileNotFoundException(sourceStorePath);
+		}
+	}
 	
 	public static MediaStoreUtil getInstance(){
 		return instance;

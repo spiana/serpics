@@ -121,5 +121,33 @@ public class MetaDataMail extends AbstractStoreEntity {
 	public void setError(String error) {
 		this.error = error;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MetaDataMail [id=");
+		builder.append(id);
+		builder.append(", attachment=");
+		if(attachment!=null){
+			builder.append(attachment.getName());
+			builder.append("{ path=");
+			builder.append(attachment.getSourcePath());
+			builder.append(" } ");
+		}else{
+			builder.append("No Attachment");
+		}
+		builder.append(", mailFrom=");
+		builder.append(mailFrom);
+		builder.append(", mailTo=");
+		builder.append(mailTo);
+		builder.append(", mailCC=");
+		builder.append(mailCC);
+		builder.append(", subject=");
+		builder.append(subject);
+		builder.append(", state=");
+		builder.append(state);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 }
