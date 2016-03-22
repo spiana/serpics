@@ -8,20 +8,20 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.User;
 import com.serpics.stereotype.DefaultSpec;
 
-@DefaultSpec(Product.class)
-public class DefaultRegisteredProductSpecification implements Specification<Product>{
+@DefaultSpec(AbstractProduct.class)
+public class DefaultRegisteredProductSpecification implements Specification<AbstractProduct>{
 	@Autowired
 	CommerceEngine engine;
 	
 
 	@Override
-	public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> cq,
+	public Predicate toPredicate(Root<AbstractProduct> root, CriteriaQuery<?> cq,
 			CriteriaBuilder cb) {
 		User u = (User) engine.getCurrentContext().getUserPrincipal();
 		if (u.getUserType() == UserType.REGISTERED || u.getUserType() == UserType.ANONYMOUS )

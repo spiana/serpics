@@ -27,7 +27,7 @@ import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CategoryRelation;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
@@ -96,10 +96,10 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
     public void test(){
     
 		String b = "code[unique];name{it}\np1;prodotto 1\np2;prodotto 2\np3;prodotto 3\n";
-		importCsvService.importCsv(new StringReader(b), Product.class);
+		importCsvService.importCsv(new StringReader(b), AbstractProduct.class);
 		Assert.assertEquals(3, productRepository.findAll().size());
 		String b1 = "code[unique];name{en}\np1;product 1\np5;product 5\np3;product 3\np4;product four\n";
-		importCsvService.importCsv(new StringReader(b1), Product.class);
+		importCsvService.importCsv(new StringReader(b1), AbstractProduct.class);
 		Assert.assertEquals(5, productRepository.findAll().size());
 		Assert.assertEquals("product 5", productService.findByName("p5").getName().getText("en"));
 		Assert.assertEquals("prodotto 1",productService.findByName("p1").getName().getText("it"));
@@ -147,7 +147,7 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
 			}
 		}).getName().getText("en"));
     
-    	importCsvService.importCsv(new InputStreamReader(products), Product.class);
+    	importCsvService.importCsv(new InputStreamReader(products), AbstractProduct.class);
     	importCsvService.importCsv(new InputStreamReader(productsRel), CategoryProductRelation.class);
     	
     }
@@ -197,7 +197,7 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
                 .getResourceAsStream("product.csv");
     	
     	importCsvService.importCsv(new InputStreamReader(in), Warehouse.class);
-    	importCsvService.importCsv(new InputStreamReader(products), Product.class);
+    	importCsvService.importCsv(new InputStreamReader(products), AbstractProduct.class);
     	importCsvService.importCsv(new InputStreamReader(in1), Inventory.class);
     	
     	List<Warehouse> warehouses = warehouseRepository.findAll();

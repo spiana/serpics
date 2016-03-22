@@ -1,0 +1,250 @@
+iso2Code[unique];iso3Code;isoNumber;description{it}
+AF;AFG;4;Afghanistan
+AL;ALB;8;Albania
+DZ;DZA;12;Algeria
+AD;AND;20;Andorra
+AO;AGO;24;Angola
+AI;AIA;660;Anguilla
+AQ;ATA;10;Antartide
+AG;ATG;28;Antigua e Barbuda
+SA;SAU;682;Arabia Saudita
+AR;ARG;32;Argentina
+AM;ARM;51;Armenia
+AW;ABW;533;Aruba
+AU;AUS;36;Australia
+AT;AUT;40;Austria
+AZ;AZE;31;Azerbaigian
+BS;BHS;44;Bahamas
+BH;BHR;48;Bahrein
+BD;BGD;50;Bangladesh
+BB;BRB;52;Barbados
+BE;BEL;56;Belgio
+BZ;BLZ;84;Belize
+BJ;BEN;204;Benin
+BM;BMU;60;Bermuda
+BT;BTN;64;Bhutan
+BY;BLR;112;Bielorussia
+MM;MMR;104;Birmania
+BO;BOL;68;Bolivia
+BA;BIH;70;Bosnia ed Erzegovina
+BW;BWA;72;Botswana
+BR;BRA;76;Brasile
+BN;BRN;96;Brunei
+BG;BGR;100;Bulgaria
+BF;BFA;854;Burkina Faso
+BI;BDI;108;Burundi
+KH;KHM;116;Cambogia
+CM;CMR;120;Camerun
+CA;CAN;124;Canada
+CV;CPV;132;Capo Verde
+TD;TCD;148;Ciad
+CL;CHL;152;Cile
+CN;CHN;156;Cina
+CY;CYP;196;Cipro
+VA;VAT;336;Città del Vaticano
+CO;COL;170;Colombia
+KM;COM;174;Comore
+KP;PRK;408;Corea del Nord
+KR;KOR;410;Corea del Sud
+CI;CIV;384;Costa d'Avorio
+CR;CRI;188;Costa Rica
+HR;HRV;191;Croazia
+CU;CUB;192;Cuba
+CW;CUW;531;Curaçao
+DK;DNK;208;Danimarca
+DM;DMA;212;Dominica
+EC;ECU;218;Ecuador
+EG;EGY;818;Egitto
+SV;SLV;222;El Salvador
+AE;ARE;784;Emirati Arabi Uniti
+ER;ERI;232;Eritrea
+EE;EST;233;Estonia
+ET;ETH;231;Etiopia
+FJ;FJI;242;Figi
+PH;PHL;608;Filippine
+FI;FIN;246;Finlandia
+FR;FRA;250;Francia
+GA;GAB;266;Gabon
+GM;GMB;270;Gambia
+GE;GEO;268;Georgia
+GS;SGS;239;Georgia del Sud e isole Sandwich meridionali
+DE;DEU;276;Germania
+GH;GHA;288;Ghana
+JM;JAM;388;Giamaica
+JP;JPN;392;Giappone
+GI;GIB;292;Gibilterra
+DJ;DJI;262;Gibuti
+JO;JOR;400;Giordania
+GR;GRC;300;Grecia
+GD;GRD;308;Grenada
+GL;GRL;304;Groenlandia
+GP;GLP;312;Guadalupa
+GU;GUM;316;Guam
+GT;GTM;320;Guatemala
+GG;GGY;831;Guernsey
+GN;GIN;324;Guinea
+GW;GNB;624;Guinea-Bissau
+GQ;GNQ;226;Guinea Equatoriale
+GY;GUY;328;Guyana
+GF;GUF;254;Guyana francese
+HT;HTI;332;Haiti
+HN;HND;340;Honduras
+HK;HKG;344;Hong Kong
+IN;IND;356;India
+ID;IDN;360;Indonesia
+IR;IRN;364;Iran
+IQ;IRQ;368;Iraq
+IE;IRL;372;Irlanda
+IS;ISL;352;Islanda
+BV;BVT;74;Isola Bouvet
+IM;IMN;833;Isola di Man
+CX;CXR;162;Isola di Natale
+NF;NFK;574;Isola Norfolk
+AX;ALA;248;Isole Åland
+BQ;BES;535;Isole BES
+KY;CYM;136;Isole Cayman
+CC;CCK;166;Isole Cocos (Keeling)
+CK;COK;184;Isole Cook
+FO;FRO;234;Fær Øer
+FK;FLK;238;Isole Falkland
+HM;HMD;334;Isole Heard e McDonald
+MP;MNP;580;Isole Marianne Settentrionali
+MH;MHL;584;Isole Marshall
+UM;UMI;581;Isole minori esterne degli Stati Uniti
+PN;PCN;612;Isole Pitcairn
+SB;SLB;90;Isole Salomone
+VG;VGB;92;Isole Vergini britanniche
+VI;VIR;850;Isole Vergini americane
+IL;ISR;376;Israele
+IT;ITA;380;Italia
+JE;JEY;832;Jersey
+KZ;KAZ;398;Kazakistan
+KE;KEN;404;Kenya
+KG;KGZ;417;Kirghizistan
+KI;KIR;296;Kiribati
+KW;KWT;414;Kuwait
+LA;LAO;418;Laos
+LS;LSO;426;Lesotho
+LV;LVA;428;Lettonia
+LB;LBN;422;Libano
+LR;LBR;430;Liberia
+LY;LBY;434;Libia
+LI;LIE;438;Liechtenstein
+LT;LTU;440;Lituania
+LU;LUX;442;Lussemburgo
+MO;MAC;446;Macao
+MK;MKD;807;Macedonia
+MG;MDG;450;Madagascar
+MW;MWI;454;Malawi
+MY;MYS;458;Malesia
+MV;MDV;462;Maldive
+ML;MLI;466;Mali
+MT;MLT;470;Malta
+MA;MAR;504;Marocco
+MQ;MTQ;474;Martinica
+MR;MRT;478;Mauritania
+MU;MUS;480;Mauritius
+YT;MYT;175;Mayotte
+MX;MEX;484;Messico
+FM;FSM;583;Micronesia
+MD;MDA;498;Moldavia
+MN;MNG;496;Mongolia
+ME;MNE;499;Montenegro
+MS;MSR;500;Montserrat
+MZ;MOZ;508;Mozambico
+NA;NAM;516;Namibia
+NR;NRU;520;Nauru
+NP;NPL;524;Nepal
+NI;NIC;558;Nicaragua
+NE;NER;562;Niger
+NG;NGA;566;Nigeria
+NU;NIU;570;Niue
+NO;NOR;578;Norvegia
+NC;NCL;540;Nuova Caledonia
+NZ;NZL;554;Nuova Zelanda
+OM;OMN;512;Oman
+NL;NLD;528;Paesi Bassi
+PK;PAK;586;Pakistan
+PW;PLW;585;Palau
+PS;PSE;275;Palestina
+PA;PAN;591;Panamá
+PG;PNG;598;Papua Nuova Guinea
+PY;PRY;600;Paraguay
+PE;PER;604;Perù
+PF;PYF;258;Polinesia Francese
+PL;POL;616;Polonia
+PR;PRI;630;Porto Rico
+PT;PRT;620;Portogallo
+MC;MCO;492;Monaco
+QA;QAT;634;Qatar
+GB;GBR;826;Regno Unito
+CD;COD;180;RD del Congo
+CZ;CZE;203;Rep. Ceca
+CF;CAF;140;Rep. Centrafricana
+CG;COG;178;Rep. del Congo
+DO;DOM;214;Rep. Dominicana
+RE;REU;638;Riunione
+RO;ROU;642;Romania
+RW;RWA;646;Ruanda
+RU;RUS;643;Russia
+EH;ESH;732;Sahara Occidentale
+KN;KNA;659;Saint Kitts e Nevis
+LC;LCA;662;Santa Lucia
+SH;SHN;654;"Sant'Elena; Ascensione e Tristan da Cunha"
+VC;VCT;670;Saint Vincent e Grenadine
+BL;BLM;652;Saint-Barthélemy
+MF;MAF;663;Saint-Martin
+PM;SPM;666;Saint-Pierre e Miquelon
+WS;WSM;882;Samoa
+AS;ASM;16;Samoa Americane
+SM;SMR;674;San Marino
+ST;STP;678;São Tomé e Príncipe
+SN;SEN;686;Senegal
+RS;SRB;688;Serbia
+SC;SYC;690;Seychelles
+SL;SLE;694;Sierra Leone
+SG;SGP;702;Singapore
+SX;SXM;534;Sint Maarten
+SY;SYR;760;Siria
+SK;SVK;703;Slovacchia
+SI;SVN;705;Slovenia
+SO;SOM;706;Somalia
+ES;ESP;724;Spagna
+LK;LKA;144;Sri Lanka
+US;USA;840;Stati Uniti
+ZA;ZAF;710;Sudafrica
+SD;SDN;729;Sudan
+SS;SSD;728;Sudan del Sud
+SR;SUR;740;Suriname
+SJ;SJM;744;Svalbard e Jan Mayen
+SE;SWE;752;Svezia
+CH;CHE;756;Svizzera
+SZ;SWZ;748;Swaziland
+TW;TWN;158;Taiwan
+TJ;TJK;762;Tagikistan
+TZ;TZA;834;Tanzania
+TF;ATF;260;Terre australi e antartiche francesi
+IO;IOT;86;Territorio britannico dell'oceano Indiano
+TH;THA;764;Thailandia
+TL;TLS;626;Timor Est
+TG;TGO;768;Togo
+TK;TKL;772;Tokelau
+TO;TON;776;Tonga
+TT;TTO;780;Trinidad e Tobago
+TN;TUN;788;Tunisia
+TR;TUR;792;Turchia
+TM;TKM;795;Turkmenistan
+TC;TCA;796;Turks e Caicos
+TV;TUV;798;Tuvalu
+UA;UKR;804;Ucraina
+UG;UGA;800;Uganda
+HU;HUN;348;Ungheria
+UY;URY;858;Uruguay
+UZ;UZB;860;Uzbekistan
+VU;VUT;548;Vanuatu
+VE;VEN;862;Venezuela
+VN;VNM;704;Vietnam
+WF;WLF;876;Wallis e Futuna
+YE;YEM;887;Yemen
+ZM;ZMB;894;Zambia
+ZW;ZWE;716;Zimbabwe

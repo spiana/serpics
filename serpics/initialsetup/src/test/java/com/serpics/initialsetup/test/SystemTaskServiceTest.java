@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.serpics.base.data.repositories.LocaleRepository;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
@@ -79,7 +79,7 @@ public class SystemTaskServiceTest extends AbstractTransactionalJunit4SerpicTest
 		context.setLocale(localeRepository.findByLanguage("en"));
 		catalogService.initialize();
 		
-		Product prodotto = productService.findByCode("P11");
+		AbstractProduct prodotto = productService.findByCode("P11");
 		logger.info("Prodotto: esiste?"+ (prodotto!=null));
 		if(prodotto!=null){
 			logger.info(" prodotto.code = "+prodotto.getCode()+" ; prodotto.weight"+prodotto.getWeight());
@@ -100,7 +100,7 @@ public class SystemTaskServiceTest extends AbstractTransactionalJunit4SerpicTest
 		context.setLocale(localeRepository.findByLanguage("en"));
 		catalogService.initialize();
 		
-		Product prodotto = productService.findByCode("P21");
+		AbstractProduct prodotto = productService.findByCode("P21");
 		
 		logger.info("Prodotto: esiste?"+ (prodotto!=null));
 		if(prodotto!=null){

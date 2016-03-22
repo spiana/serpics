@@ -66,7 +66,7 @@ public class Price extends AbstractStoreEntity implements Serializable {
     // bi-directional many-to-one association to Product
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private AbstractProduct product;
 
     public Price() {
     }
@@ -145,11 +145,11 @@ public class Price extends AbstractStoreEntity implements Serializable {
         this.pricelist = pricelist;
     }
 
-    public Product getProduct() {
+    public AbstractProduct getProduct() {
         return product;
     }
 
-    public void setProduct(final Product product) {
+    public void setProduct(final AbstractProduct product) {
         this.product = product;
     }
 

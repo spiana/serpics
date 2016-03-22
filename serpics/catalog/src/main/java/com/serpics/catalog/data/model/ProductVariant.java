@@ -36,7 +36,7 @@ public class ProductVariant extends Ctentry implements Serializable {
 
     @ManyToOne(optional=true)
     @JoinColumn(name="parent_product")
-    protected Product parentProduct;
+    protected AbstractProduct parentProduct;
    
 	// bi-directional many-to-one association to Productffmt
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)

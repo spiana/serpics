@@ -11,7 +11,7 @@ import com.serpics.catalog.data.model.CtentryAttribute;
 import com.serpics.catalog.data.model.Feature;
 import com.serpics.catalog.data.model.FeatureValues;
 import com.serpics.catalog.data.model.Price;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -33,7 +33,7 @@ import com.vaadin.ui.Field;
 
 
 @VaadinComponent("productTable")
-public class ProductTable extends MasterTable<Product> {
+public class ProductTable extends MasterTable<AbstractProduct> {
     private static final long serialVersionUID = 6586616418061870098L;
 
     private CategoryRepository categoryRepository;
@@ -41,11 +41,11 @@ public class ProductTable extends MasterTable<Product> {
 
     
     public ProductTable() {
-        super(Product.class);
+        super(AbstractProduct.class);
     }
 
-    private MasterForm<Product> buildMainTab(){
-    	return new MasterForm<Product>(Product.class) {
+    private MasterForm<AbstractProduct> buildMainTab(){
+    	return new MasterForm<AbstractProduct>(AbstractProduct.class) {
             @Override
             public void init() {
                 super.init();
@@ -58,8 +58,8 @@ public class ProductTable extends MasterTable<Product> {
     
     
     @Override
-    public EntityFormWindow<Product> buildEntityWindow() {
-    	 EntityFormWindow<Product> editorWindow = new EntityFormWindow<Product>();
+    public EntityFormWindow<AbstractProduct> buildEntityWindow() {
+    	 EntityFormWindow<AbstractProduct> editorWindow = new EntityFormWindow<AbstractProduct>();
     	 
     	 editorWindow.addTab(buildMainTab(), "main");
     	 editorWindow.addTab(buildPriceTab(), "prices");
@@ -70,9 +70,9 @@ public class ProductTable extends MasterTable<Product> {
     	return editorWindow;
     }
    
-    private MasterDetailTable<CategoryProductRelation, Product> buildCategoriesTab(){
+    private MasterDetailTable<CategoryProductRelation, AbstractProduct> buildCategoriesTab(){
 
-    	return new MasterDetailTable<CategoryProductRelation, Product>(
+    	return new MasterDetailTable<CategoryProductRelation, AbstractProduct>(
                 CategoryProductRelation.class){
     		
         private static final long serialVersionUID = -2478612011226738573L;
@@ -129,9 +129,9 @@ public class ProductTable extends MasterTable<Product> {
     
     }
 
-    private  MasterDetailTable<Price, Product> buildPriceTab(){
+    private  MasterDetailTable<Price, AbstractProduct> buildPriceTab(){
     	
-    	return new MasterDetailTable<Price, Product>(Price.class) {
+    	return new MasterDetailTable<Price, AbstractProduct>(Price.class) {
             private static final long serialVersionUID = 7566839007224552531L;
 
             @Override
@@ -168,9 +168,9 @@ public class ProductTable extends MasterTable<Product> {
         entityList.setConverter("description", new MultilingualFieldConvert());
     }
 
-	private MasterDetailTable<FeatureValues, Product> buildFeatureValueTab(){
+	private MasterDetailTable<FeatureValues, AbstractProduct> buildFeatureValueTab(){
 		
-		return new MasterDetailTable<FeatureValues , Product>(FeatureValues.class) {
+		return new MasterDetailTable<FeatureValues , AbstractProduct>(FeatureValues.class) {
     		
     		@Override
     		public void init() {
@@ -180,7 +180,7 @@ public class ProductTable extends MasterTable<Product> {
     		}
     		
     		@Override
-    		public void setParentEntity(EntityItem<Product> parent) {
+    		public void setParentEntity(EntityItem<AbstractProduct> parent) {
     			super.setParentEntity(parent);
     			if (parent.getItemProperty("featureModel").getValue() == null)
     				buttonsEnabler(false, false, false);

@@ -157,7 +157,7 @@ public class ProductFacadeImpl implements ProductFacade {
 			price.setPrecedence(new Double(priceData.getPrecedence()).doubleValue());
 			price.setProductPrice(priceData.getProductPrice());
 			price.setProductCost(priceData.getProductCost());
-			product = priceService.addPrice(product, price);
+			product = (Product)priceService.addPrice(product, price);
 	}
 	
 	

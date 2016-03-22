@@ -4,11 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.core.facade.Populator;
 
-public class ProductWarehousePopulator implements Populator<Product, ProductData> {
+public class ProductWarehousePopulator implements Populator<AbstractProduct, ProductData> {
 	
 	private static Logger LOG = LoggerFactory.getLogger(ProductWarehousePopulator.class);
 	
@@ -16,7 +16,7 @@ public class ProductWarehousePopulator implements Populator<Product, ProductData
 	InventoryFacade inventoryFacade;
 	
 	@Override
-	public void populate(Product source, ProductData target) {
+	public void populate(AbstractProduct source, ProductData target) {
 		
 		target.setInventoryData(inventoryFacade.getInventoryForProduct(source));
 		

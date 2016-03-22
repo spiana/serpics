@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.commerce.PaymentException;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
@@ -44,7 +44,7 @@ public interface CartService {
     public void cartItemDelete(Long id) throws InventoryNotAvailableException;
     
     // Add Commands with create new row, and if merge set true, merge evenutaly product in cart's row
-    public Cart cartAdd(Product product, double quantity, Cart cart, boolean merge)
+    public Cart cartAdd(AbstractProduct product, double quantity, Cart cart, boolean merge)
             throws InventoryNotAvailableException, ProductNotFoundException;
 
     public Cart cartAdd(String sku, double quantity, Cart cart, boolean merge) throws InventoryNotAvailableException,
@@ -53,7 +53,7 @@ public interface CartService {
     public Cart cartAdd(String sku, double quantity, boolean merge) throws InventoryNotAvailableException,
     ProductNotFoundException;
 
-    public Cart cartAdd(Product product, double quantity, boolean merge) throws InventoryNotAvailableException, 
+    public Cart cartAdd(AbstractProduct product, double quantity, boolean merge) throws InventoryNotAvailableException, 
     ProductNotFoundException;
     
     //Update row in cart and remove if quantity is zero

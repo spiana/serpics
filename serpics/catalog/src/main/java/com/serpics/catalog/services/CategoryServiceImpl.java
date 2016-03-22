@@ -23,7 +23,7 @@ import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CategoryRelation;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.repositories.Category2ProductRepository;
 import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.catalog.data.repositories.CategoryRepository;
@@ -112,7 +112,7 @@ public class CategoryServiceImpl extends AbstractCommerceEntityService<Category,
 
     
     @Transactional
-    public List<Category> getCategoriesByProduct(final Product product){
+    public List<Category> getCategoriesByProduct(final AbstractProduct product){
     	final List<Category> res = new ArrayList<>();
     	
     	try {

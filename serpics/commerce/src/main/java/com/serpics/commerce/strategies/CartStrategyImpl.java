@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Cartitem;
 import com.serpics.commerce.data.repositories.CartRepository;
@@ -41,7 +41,7 @@ public class CartStrategyImpl implements CartStrategy {
 				final Cartitem repoItem = repoItems.next();
 
 				Cartitem cartItem = new Cartitem();
-				Product product = repoItem.getProduct();
+				AbstractProduct product = repoItem.getProduct();
 				cartItem.setSku(repoItem.getSku());
 				cartItem.setQuantity(repoItem.getQuantity());
 				cartItem.setProduct(product);

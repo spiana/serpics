@@ -9,6 +9,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Store;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.warehouse.InventoryNotAvailableException;
@@ -87,7 +88,7 @@ public class InventoryTest extends WarehouseBaseTest{
 	@Test
 	@Transactional
 	public void findPreferredWarehouse(){
-		Product p = productService.findByName("p1");
+		AbstractProduct p = productService.findByName("p1");
 		Warehouse w =  warehouseService.findPreferredForReserve(p , 1.0);
 		Assert.assertNotNull(w);
 		Assert.assertEquals("W2", w.getName());
@@ -100,7 +101,7 @@ public class InventoryTest extends WarehouseBaseTest{
 	@Test
 	@Transactional
 	public void reserveandreleasetest() throws InventoryNotAvailableException{
-		Product p = productService.findByName("p1");
+		AbstractProduct p = productService.findByName("p1");
 		double available = inventoryService.getStockLevelAmount(p);
 		inventoryService.reserve(p, 15.0);
 		inventoryService.release(p, 10.0);
@@ -112,7 +113,7 @@ public class InventoryTest extends WarehouseBaseTest{
 	@Test
 	@Transactional
 	public void reserveWithAlwaysInstockWarehouse() throws InventoryNotAvailableException{
-		Product p = productService.findByName("p1");
+		AbstractProduct p = productService.findByName("p1");
 		double available = inventoryService.getStockLevelAmount(p);
 		inventoryService.reserve(p, 10.0);
 		Assert.assertEquals(0, inventoryService.getStockLevelAmount(p) ,5.0);

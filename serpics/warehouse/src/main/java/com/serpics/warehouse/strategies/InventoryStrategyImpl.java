@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Store;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 import com.serpics.warehouse.InventoryNotAvailableException;
@@ -40,7 +40,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 	
 	
 	@Override
-	public InventoryStatus checkInventory(Product product , double quantity) {
+	public InventoryStatus checkInventory(AbstractProduct product , double quantity) {
 		WarehouseStoreConfig storeConfig = getStoreConfig();
 		if (storeConfig.isAlwaysInstock())
 			return InventoryStatusEnum.InStock;
@@ -68,7 +68,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 	}
 	
 	@Override
-	public double getStockLevelAmount(Product product) {
+	public double getStockLevelAmount(AbstractProduct product) {
 		if(getStoreConfig().isAlwaysInstock() )
 			return Integer.MAX_VALUE;
 			
@@ -77,7 +77,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 	}
 	
 	@Override
-	public InventoryStatus getInventoryStatus(Product product ) {
+	public InventoryStatus getInventoryStatus(AbstractProduct product ) {
 		WarehouseStoreConfig storeConfig = getStoreConfig();
 		if (storeConfig.isAlwaysInstock())
 			return InventoryStatusEnum.InStock;
@@ -95,14 +95,14 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 	}
 
 	@Override
-	public double getStockLevelAmount(Product product ,Warehouse warehouse) {
+	public double getStockLevelAmount(AbstractProduct product ,Warehouse warehouse) {
 		if (BooleanUtils.isTrue(warehouse.getForceInStock()))
 			return Integer.MAX_VALUE;
 		
 		return inventoryRepository.getAvailableByWarehouse(product, warehouse);
 	}
 	@Override
-	public InventoryStatus getInventoryStatus(Product product,Warehouse warehouse) {
+	public InventoryStatus getInventoryStatus(AbstractProduct product,Warehouse warehouse) {
 		if (BooleanUtils.isTrue(warehouse.getForceInStock()))
 			return InventoryStatusEnum.InStock;
 		
@@ -122,7 +122,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 
 	@Override
 	@Transactional
-	public void reserve(Product product, double quantity,
+	public void reserve(AbstractProduct product, double quantity,
 			Warehouse warehouse) throws InventoryNotAvailableException {
 		
 		if (warehouse.getForceInStock())
@@ -138,7 +138,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 
 	@Override
 	@Transactional
-	public void release(final Product product, final double quantity,
+	public void release(final AbstractProduct product, final double quantity,
 			final Warehouse warehouse) {
 			if (warehouse.getForceInStock())
 				return ;
@@ -153,7 +153,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 
 	
 
-	private Inventory  findInventory(final Product product , final Warehouse warehouse  ){
+	private Inventory  findInventory(final AbstractProduct product , final Warehouse warehouse  ){
 		return  inventoryRepository.findOne(new Specification<Inventory>() {
 			@Override
 			public Predicate toPredicate(Root<Inventory> root, CriteriaQuery<?> cq,
@@ -166,7 +166,7 @@ public class InventoryStrategyImpl extends AbstractStrategy implements Inventory
 	}
 
 	@Override
-	public double getStockLevelReserve(Product product, Warehouse warehouse) {
+	public double getStockLevelReserve(AbstractProduct product, Warehouse warehouse) {
 		if (warehouse.getForceInStock())
 			return Integer.MAX_VALUE;
 				
