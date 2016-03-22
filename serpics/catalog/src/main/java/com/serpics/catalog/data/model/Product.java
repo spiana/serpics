@@ -6,8 +6,9 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +19,8 @@ import javax.persistence.Table;
 
 import com.serpics.base.data.model.TaxCategory;
 import com.serpics.catalog.data.CatalogEntryType;
-import com.serpics.core.datatype.ProductType;
+import com.serpics.catalog.data.ProductType;
+
 
 /**
  * The persistent class for the product database table.
@@ -26,8 +28,6 @@ import com.serpics.core.datatype.ProductType;
  */
 @Entity
 @Table(name = "abstractProducts")
-@DiscriminatorValue("3")
-//@DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.INTEGER)
 public class Product extends Ctentry implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -37,14 +37,14 @@ public class Product extends Ctentry implements Serializable {
         this.published = buyable;
         this.code = sku;
         this.downlodable = false;
-        this.ctentryType = 1;
+        this.ctentryType = CatalogEntryType.PRODUCT;
     }
 
     public Product() {
         super();
         this.buyable = this.published =true; this.downlodable = false;
         this.ctentryType = CatalogEntryType.PRODUCT;
-        this.productType = ProductType.PRODUCT;
+        this.productType = ProductType.SINGLE;
     }
 
     @Column(name = "buyable", nullable = false)
@@ -56,8 +56,9 @@ public class Product extends Ctentry implements Serializable {
     @Column(name = "manufacturer_sku")
     protected String manufacturerSku;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "product_type", nullable = false)
-    protected Integer productType;
+    protected ProductType productType;
 
     @Column(name = "published", nullable = false)
     protected boolean published;
@@ -80,7 +81,11 @@ public class Product extends Ctentry implements Serializable {
     @JoinColumn(name = "brand_id")
     protected Brand brand;
 
-    // bi-directional many-to-one association to Productffmt
+    @ManyToOne(optional=true)
+    @JoinColumn(name="parent_product")
+    protected Product parentProduct;
+   
+	// bi-directional many-to-one association to Productffmt
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     protected Set<Productffmt> productffmts;
     
@@ -156,18 +161,6 @@ public class Product extends Ctentry implements Serializable {
         this.productffmts = productffmts;
     }
 
-   
-
-    public Integer getProductType() {
-        return productType;
-    }
-
-    public void setProductType(final Integer productType) {
-        this.productType = productType;
-    }
-
-    
-
     @PrePersist
     public void prepersist(){
         if (this.url == null)
@@ -230,11 +223,27 @@ public class Product extends Ctentry implements Serializable {
 		this.featureModel = featureModel;
 	}
 
+	public com.serpics.catalog.data.ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(com.serpics.catalog.data.ProductType productType) {
+		this.productType = productType;
+	}
+
 	public TaxCategory getTaxcategory() {
 		return taxcategory;
 	}
 
 	public void setTaxcategory(TaxCategory taxcategory) {
 		this.taxcategory = taxcategory;
+	}
+
+	public Product getParentProduct() {
+		return parentProduct;
+	}
+
+	public void setParentProduct(Product parentProduct) {
+		this.parentProduct = parentProduct;
 	}
 }
