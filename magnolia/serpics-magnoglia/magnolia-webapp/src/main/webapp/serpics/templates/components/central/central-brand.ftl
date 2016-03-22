@@ -8,9 +8,11 @@
 	<div class="col-sm-12 clearfix">
 		<div class="col-sm-9 clearfix">	
 		<ul class="pagination">
-		    <li><a href="" ng-click="findByBrand(${brandId},product.number - 1,product.size)" ng-show="product.number > 0">&laquo;</a></li>
-		    <li ng-repeat="i in range(product.totalPages)" ng-class="{active: product.number == $index}"><a href="" ng-click="findByBrand(${brandId},$index,product.size)">{{$index+1}}</a></li>
-		    <li><a href="" ng-click="findByBrand(${brandId},product.number + 1,product.size)" ng-show="product.number < product.totalPages - 1">&raquo;</a></li>
+		    <li><a href="" ng-click="findByBrand(${brandId},0,product.size)" ng-show="product.number > 0">&laquo;</a></li>
+		    <li><a href="" ng-click="findByBrand(${brandId},product.number - 1,product.size)" ng-show="product.number > 0">&lsaquo;</a></li>
+		    <li ng-repeat="i in range(product.totalPages)" ng-class="{active: product.number == $index}" ng-show="((((product.number - $index > -3) || $index < 5) && product.number < $index) || (((product.number - $index < 3) || $index > (product.totalPages - 6)) && product.number > $index) || (product.number == $index))"><a href="" ng-click="findByBrand(${brandId},$index,product.size)">{{$index+1}}</a></li>
+		    <li><a href="" ng-click="findByBrand(${brandId},product.number + 1,product.size)" ng-show="product.number < product.totalPages - 1">&rsaquo;</a></li>
+		    <li><a href="" ng-click="findByBrand(${brandId},product.totalPages - 1,product.size)" ng-show="product.number < product.totalPages - 1">&raquo;</a></li>
 		</ul>
 		</div>
 		<div class="col-sm-3 clearfix">
@@ -59,11 +61,12 @@
 	<div ng-show="product.totalElements == 0"><h4>Nessun prodotto trovato!</h4></div>
 	
 </div>
-
-<ul class="pagination">
-    <li><a href="" ng-click="findByBrand(${brandId},product.number - 1,product.size)" ng-show="product.number > 0">&laquo;</a></li>
-    <li ng-repeat="i in range(product.totalPages)" ng-class="{active: product.number == $index}"><a href="" ng-click="findByBrand(${brandId},$index,product.size)">{{$index+1}}</a></li>
-    <li><a href="" ng-click="findByBrand(${brandId},product.number + 1,product.size)" ng-show="product.number < product.totalPages - 1">&raquo;</a></li>
-</ul>
+		<ul class="pagination">
+		    <li><a href="" ng-click="findByBrand(${brandId},0,product.size)" ng-show="product.number > 0">&laquo;</a></li>
+		    <li><a href="" ng-click="findByBrand(${brandId},product.number - 1,product.size)" ng-show="product.number > 0">&lsaquo;</a></li>
+		    <li ng-repeat="i in range(product.totalPages)" ng-class="{active: product.number == $index}" ng-show="((((product.number - $index > -3) || $index < 5) && product.number < $index) || (((product.number - $index < 3) || $index > (product.totalPages - 6)) && product.number > $index) || (product.number == $index))"><a href="" ng-click="findByBrand(${brandId},$index,product.size)">{{$index+1}}</a></li>
+		    <li><a href="" ng-click="findByBrand(${brandId},product.number + 1,product.size)" ng-show="product.number < product.totalPages - 1">&rsaquo;</a></li>
+		    <li><a href="" ng-click="findByBrand(${brandId},product.totalPages - 1,product.size)" ng-show="product.number < product.totalPages - 1">&raquo;</a></li>
+		</ul>
 </div>
 <!--features_items-->
