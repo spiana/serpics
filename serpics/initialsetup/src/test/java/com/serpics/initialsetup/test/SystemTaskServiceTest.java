@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
@@ -100,7 +101,7 @@ public class SystemTaskServiceTest extends AbstractTransactionalJunit4SerpicTest
 		context.setLocale(localeRepository.findByLanguage("en"));
 		catalogService.initialize();
 		
-		AbstractProduct prodotto = productService.findByCode("P21");
+		Product prodotto = productService.findByCode("P21");
 		
 		logger.info("Prodotto: esiste?"+ (prodotto!=null));
 		if(prodotto!=null){

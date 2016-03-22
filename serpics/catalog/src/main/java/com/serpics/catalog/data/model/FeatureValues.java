@@ -28,7 +28,7 @@ public class FeatureValues extends AbstractCatalogEntry{
 
     @ManyToOne
     @JoinColumn(name = "product_id" , nullable=false)
-    private AbstractProduct product;
+    private Product product;
 
     @Embedded
     MultiValueAttribute value = new MultiValueAttribute();
@@ -45,10 +45,10 @@ public class FeatureValues extends AbstractCatalogEntry{
     public void setFeature(final Feature feature) {
         this.feature = feature;
     }
-    public AbstractProduct getProduct() {
+    public Product getProduct() {
         return product;
     }
-    public void setProduct(final AbstractProduct product) {
+    public void setProduct(final Product product) {
         this.product = product;
     }
 	public MultiValueAttribute getValue() {

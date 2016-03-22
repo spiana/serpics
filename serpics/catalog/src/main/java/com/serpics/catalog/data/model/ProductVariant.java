@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import com.serpics.catalog.data.CatalogEntryType;
 
@@ -18,8 +16,8 @@ import com.serpics.catalog.data.CatalogEntryType;
  * The persistent class for the product database table.
  * 
  */
-@Entity
-@Table(name = "variants")
+//@Entity
+//@Table(name = "variants")
 public class ProductVariant extends Ctentry implements Serializable {
     private static final long serialVersionUID = 1L;
 

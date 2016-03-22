@@ -17,6 +17,7 @@
 		<class>com.serpics.catalog.data.model.Price</class>
 		<class>com.serpics.catalog.data.model.Productffmt</class>
 		<class>com.serpics.catalog.data.model.ProductffmtPK</class>
+		<class>com.serpics.catalog.data.model.AbstractProduct</class>
 		<class>com.serpics.catalog.data.model.Product</class>
 		<class>com.serpics.catalog.data.model.CategoryRelation</class>
 		<class>com.serpics.catalog.data.model.CategoryProductRelation</class>

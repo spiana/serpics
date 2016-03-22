@@ -24,10 +24,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.repositories.LocaleRepository;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CategoryRelation;
-import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.CategoryRelationRepository;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
@@ -147,7 +148,7 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
 			}
 		}).getName().getText("en"));
     
-    	importCsvService.importCsv(new InputStreamReader(products), AbstractProduct.class);
+    	importCsvService.importCsv(new InputStreamReader(products), Product.class);
     	importCsvService.importCsv(new InputStreamReader(productsRel), CategoryProductRelation.class);
     	
     }
@@ -197,7 +198,7 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
                 .getResourceAsStream("product.csv");
     	
     	importCsvService.importCsv(new InputStreamReader(in), Warehouse.class);
-    	importCsvService.importCsv(new InputStreamReader(products), AbstractProduct.class);
+    	importCsvService.importCsv(new InputStreamReader(products), Product.class);
     	importCsvService.importCsv(new InputStreamReader(in1), Inventory.class);
     	
     	List<Warehouse> warehouses = warehouseRepository.findAll();
