@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.MultilingualString;
@@ -31,7 +32,7 @@ import com.serpics.base.data.model.MultilingualText;
 @Entity
 @Table(name = "ctentry" , uniqueConstraints= @UniqueConstraint(columnNames= {"catalog_id","ctentry_type", "code"}))
 @Inheritance(strategy = InheritanceType.JOINED)
-//@DiscriminatorColumn(name = "ctenytry_type", discriminatorType = DiscriminatorType.INTEGER)
+//@DiscriminatorColumn(name = "ctentry_type", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Ctentry extends AbstractCatalogEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -44,8 +45,9 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
     @Column(name = "ctentry_type", nullable = false)
     protected Integer ctentryType;
 
-    @NotNull
-    @Size(max = 250)
+    @NotNull(message = "{ctentry.code.notnull}")
+    @Size(max = 250, message = "{ctentry.code.size}")
+    @Pattern(regexp="[a-zA-Z0-9]*", message= "{ctentry.code.pattern}")
     @Column(name = "code", nullable = false, length = 250)
     protected String code;
 

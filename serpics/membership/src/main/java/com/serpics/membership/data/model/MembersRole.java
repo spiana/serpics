@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Store;
 
@@ -32,6 +33,7 @@ public class MembersRole  extends com.serpics.core.data.jpa.AbstractEntity imple
     //bi-directional many-to-one association to Role
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="role_id", nullable=false, insertable=false, updatable=false)
+    @NotNull(message = "{membersRole.role.notnull}")
     private Role role;
 
     //bi-directional many-to-one association to Store

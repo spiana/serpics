@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.serpics.core.data.jpa.AbstractEntity;
 import com.serpics.core.security.StoreRealm;
@@ -30,10 +32,13 @@ public class Store extends AbstractEntity implements Serializable, StoreRealm {
     protected Long id;
     
     @Column(nullable = false, length = 250, unique = false)
+    @NotNull(message="{store.name.notnull}")
+    @Size(max=250, message="{store.name.size}")
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "currency_id")
+    @NotNull(message="{store.currency.notnull}")
     private Currency currency;
     
     @ManyToOne(fetch = FetchType.LAZY, optional = true)

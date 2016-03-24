@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Pattern;
 
 import com.serpics.base.AttributeType;
 import com.serpics.base.data.model.MultilingualString;
@@ -29,6 +30,7 @@ public class Feature  extends AbstractCatalogEntry{
     @Column(name="feature_id")
     private Long id;
 
+	@Pattern(regexp="[a-zA-Z0-9]*", message= "{feature.name.pattern}")
     private String name;
 
     private AttributeType type;

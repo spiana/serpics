@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
@@ -50,7 +51,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @Column(name = "cookie", length = 250, unique = false, nullable = true)
     protected String cookie;
 
-    @NotNull
+    @NotNull(message="{abstractOrder.currency.notnull}")
     @ManyToOne(fetch = FetchType.LAZY, optional = false, targetEntity = Currency.class)
     @JoinColumn(name = "currency_id")
     private Currency currency;
@@ -59,12 +60,12 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
      * this field must be EAGER 
      *  Vaadin JPAContainer  does not work correctly when LAZY
      */
-    @NotNull
+    @NotNull(message="{abstractOrder.customer.notnull}")
     @ManyToOne( fetch = FetchType.EAGER,optional = false , targetEntity= Member.class) 
     @JoinColumn(name = "customer_id")
     protected Member customer;
 
-    @NotNull
+    @NotNull(message="{abstractOrder.user.notnull}")
     @ManyToOne(fetch = FetchType.LAZY, optional = false , targetEntity= User.class)
     @JoinColumn(name = "user_id")
     protected User user;

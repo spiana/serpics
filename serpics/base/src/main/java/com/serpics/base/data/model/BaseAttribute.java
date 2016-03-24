@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
@@ -35,16 +37,18 @@ public class BaseAttribute extends AbstractEntity implements Serializable {
 
     @Column(name = "attribute_type", nullable = false)
     @Enumerated(EnumType.ORDINAL)
-    @NotNull
+    @NotNull(message = "{baseAttribute.attributeType.notnull}")
     private AttributeType attributeType;
 
     @Column(nullable = false )
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "{baseAttribute.availablefor.notnull}")
     private AvailableforType availablefor;
 
     @Column(nullable = false, length = 100)
-    @NotNull
+    @NotNull(message = "{baseAttribute.name.notnull}")
+    @Pattern(regexp="[A-Za-z0-9-_]+" , message="{baseAttribute.name.pattern}")
+    @Size(max=100, message = "{baseAttribute.name.size}")
     private String name;
     
     @Column(name="store_id" , nullable= false)

@@ -14,28 +14,28 @@ import com.serpics.base.data.model.Region;
 @MappedSuperclass
 public abstract class BaseAddress {
 
-		@Size(max = 512)
+		@Size(max=250, message="{baseAddress.address1.size}")
 	    @Column(length = 512)
 	    protected String address1;
 	  
-	 	@Size(max = 512)
+		@Size(max=250, message="{baseAddress.address2.size}")
 	    @Column(length = 512)
 	    protected String address2;
 
-	    @Size(max = 512)
+		@Size(max=250, message="{baseAddress.address3.size}")
 	    @Column(length = 512)
 	    protected String address3;
 
 
-	    @Size(max = 10)
+		@Size(max=10, message="{baseAddress.streetNumber.size}")
 	    @Column(nullable = true, length = 10)
 	    protected String streetNumber;
 	    
-	    @Size(max = 20)
+		@Size(max=20, message="{baseAddress.zipcode.size}")
 	    @Column(length = 20)
 	    protected String zipcode;
 
-	    @Size(max = 200)
+		@Size(max=200, message="{baseAddress.city.size}")
 	    @Column(length = 200)
 	    protected String city;
 
@@ -51,15 +51,15 @@ public abstract class BaseAddress {
 	    @JoinColumn(name = "country_id", nullable = true)
 	    protected Country country;
 
-	    @Size(max = 25)
+	    @Size(max=25, message="{baseAddress.phone.size}")
 	    @Column(length = 25)
 	    protected String phone;
 
-	    @Size(max = 25)
+	    @Size(max=25, message="{baseAddress.mobile.size}")
 	    @Column(length = 25)
 	    protected String mobile;
 
-	    @Size(max = 25)
+	    @Size(max=25, message="{baseAddress.fax.size}")
 	    @Column(length = 25)
 	    protected String fax;
 

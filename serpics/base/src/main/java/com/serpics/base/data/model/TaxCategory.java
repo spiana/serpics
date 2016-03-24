@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -34,8 +35,9 @@ public class TaxCategory extends AbstractStoreEntity implements Serializable {
 	@Column(name="taxes_id", unique=true, nullable=false)
 	private Long id;
 
-	@Pattern(regexp="[A-Za-z0-9-_]+" , message="validation.onlynumberandletter")
-	@Size(min=3 , max=50)
+	@Pattern(regexp="[A-Za-z0-9-_]+" , message="{taxCategory.name.pattern}")
+	@NotNull(message="{taxCategory.name.notnull}")
+	@Size(min=3 , max=50, message ="{taxCategory.name.size}")
 	@Column(name="name" , length=100 )
 	private String name;
 	

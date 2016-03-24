@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * The persistent class for the regions database table.
@@ -32,12 +33,14 @@ public class Region extends com.serpics.core.data.jpa.AbstractEntity implements 
     private Long Id;
 
     @Column(nullable = false, length = 20 , unique=true)
-    @NotNull
+    @NotNull(message = "{region.isoCode.notnull}")
+    @Size(max = 20,  message = "{region.isoCode.size}")
     private String isoCode;
 
     // bi-directional many-to-one association to Country
     @ManyToOne
     @JoinColumn(name = "countries_id", nullable = false)
+    @NotNull(message = "{region.country.notnull}")
     private Country country;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
