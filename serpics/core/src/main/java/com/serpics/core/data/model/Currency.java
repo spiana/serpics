@@ -4,7 +4,7 @@ public interface Currency {
 
 	public Long getCurrencyId();
 
-	public String getDescriprion();
+	public String getDescription();
 
 	public String getIsoCode();
 
