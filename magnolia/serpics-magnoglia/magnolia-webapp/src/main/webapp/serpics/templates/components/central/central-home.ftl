@@ -32,14 +32,14 @@
 				<div class="productinfo text-center">
 				<div style="background-image: url('{{product.primaryImage.source || '${ctx.contextPath}/.resources/serpics/webresources/images/home/product1.jpg'}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 245px;"></div>
 					<h2>&euro;{{product.price.currentPrice}}</h2>
-					<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.code}}</a></p>				
+					<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.name || product.code}}</a></p>				
 					<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
 						class="fa fa-shopping-cart"></i>Add to cart</a>
 				</div>
 				<div class="product-overlay">
 					<div class="overlay-content">
 						<h2>&euro;{{product.price.currentPrice}}</h2>
-						<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.code}}</a></p>				
+						<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.name || product.code}}</a></p>				
 						<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
 							class="fa fa-shopping-cart"></i>Add to cart</a>
 					</div>

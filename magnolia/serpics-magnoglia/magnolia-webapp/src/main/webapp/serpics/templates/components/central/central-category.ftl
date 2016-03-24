@@ -1,5 +1,5 @@
-[#assign categoryId = ctx.categoryId!]
-[#assign categoryName = ctx.categoryName!]
+[#assign categoryId = ctx.categoryId!content.categoryId!model.root.content.categoryId!]
+[#assign categoryName = ctx.categoryName!content.categoryName!model.root.content.categoryName!]
 <div class="features_items" ng-controller="productController" ng-init="findByCategory(${categoryId},$scope.page, $scope.size); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart'"">
 	<!--features_items-->
 	<h2 class="title text-center">${categoryName}</h2>
@@ -34,14 +34,14 @@
 				<div class="productinfo text-center">
 				<div style="background-image: url('{{product.primaryImage.source || '${ctx.contextPath}/.resources/serpics/webresources/images/home/product1.jpg'}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 245px;"></div>
 					<h2>&euro;{{product.price.currentPrice}}</h2>
-					<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.code}}</a></p>
+					<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.name || product.code}}</a></p>
 					<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
 						class="fa fa-shopping-cart"></i>Add to cart</a>
 				</div>
 				<div class="product-overlay">
 					<div class="overlay-content">
 						<h2>&euro;{{product.price.currentPrice}}</h2>
-						<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.code}}</a></p>				
+						<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.name || product.code}}</a></p>				
 						<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
 							class="fa fa-shopping-cart"></i>Add to cart</a>
 					</div>
