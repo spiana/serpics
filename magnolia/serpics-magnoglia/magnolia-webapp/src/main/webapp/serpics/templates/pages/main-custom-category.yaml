@@ -1,7 +1,8 @@
 templateScript: /serpics/templates/pages/main.ftl
 renderType: freemarker
 visible: true
-title: Serpics template
+title: Serpics custom category template
+dialog: serpics:pages/main-custom-category
 areas:
   serpics-header:
     renderType: freemarker

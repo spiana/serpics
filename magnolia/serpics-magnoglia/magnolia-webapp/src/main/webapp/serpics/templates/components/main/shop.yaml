@@ -8,6 +8,10 @@ areas:
     availableComponents:
       categoryComponent:
         id: serpics:components/sidebar/sidebar-category
+      categoryComponentCustom:
+        id: serpics:components/sidebar/sidebar-category-custom
+      categoryComponentChild:
+        id: serpics:components/sidebar/sidebar-category-child
       brandComponent:
         id: serpics:components/sidebar/sidebar-brand
   serpics-central:
@@ -17,6 +21,8 @@ areas:
         id: serpics:components/central/central-home
       categoryComponent:
         id: serpics:components/central/central-category
+      categoryComponentCustom:
+        id: serpics:components/central/central-category-custom
       brandComponent:
         id: serpics:components/central/central-brand
       productComponent:

@@ -6,30 +6,14 @@
          function($scope,categoryService,$log) {
 	
       		$scope.category = {};
-		 	$scope.categoryData 	= getTopQ();;
+		 	$scope.categoryData = {};
 		 	//auxiliary var
 		 	var cache = {
 		 			isAdded:''
 		 	};
 		 	
-	 		
-//			getTop();
-//		 	getTopQ();
 
 			 /** implemented category service **/ 
-			
-     	    /**
-     	     * @return 					all category pather
-     	     * @use 					categoryService,
-     	     */
-		 	function getTop(){	
-		 		$log.debug("Category Controller getTop()");
-                 	categoryService.getTop().then( function( response ) {
-                 		$log.debug("Category Controller getTop() ramo then");
-                 		$scope.categoryData 	= response.data;                  	
-                 })
-     	    };
-     	    
 
      	    /**
      	     * @return 					all top category
@@ -44,6 +28,10 @@
      	    	})
      	    		
      	    };
+     	    
+     	    $scope.getTop = function(){
+     	    	getTopQ();
+     	    }
      	    
      	    /**
      	     * @param categoryId 			category id to be retrive
@@ -92,6 +80,14 @@
      					   $log.debug("Request effettuata "+$scope.categoryData[index].active);
      				   });
      			   }
+     	    };
+     	    
+      	   $scope.getChildData = function(parentId){
+      		   if (parentId != ""){
+     				   categoryService.getChild(parentId).then(function(response){
+     					   $scope.categoryData=response;
+     				   });
+      		   }
      	    };
      	    
      	    /**

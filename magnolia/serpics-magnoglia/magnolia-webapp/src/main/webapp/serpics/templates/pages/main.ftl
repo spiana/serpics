@@ -62,9 +62,27 @@
 <body class="ng-cloak" >
 
 [#assign baseSite = cmsfn.asContentMap(model.root.node.parent)]
+
 [#if baseSite == ""]
-[#assign baseSite = model.root.content]
-[/#if]					
+	[#assign baseSite = model.root.content]
+[#else]
+	[#if cmsfn.parent(baseSite) == ""]
+	[#else]
+		[#assign baseSite = cmsfn.parent(baseSite)]
+		[#if cmsfn.parent(baseSite) == ""]
+		[#else]
+			[#assign baseSite = cmsfn.parent(baseSite)]
+			[#if cmsfn.parent(baseSite) == ""]
+			[#else]
+				[#assign baseSite = cmsfn.parent(baseSite)]
+				[#if cmsfn.parent(baseSite) == ""]
+				[#else]
+					[#assign baseSite = cmsfn.parent(baseSite)]
+				[/#if]	
+			[/#if]	
+		[/#if]	
+	[/#if]	
+[/#if]
 
  <!--  dinamyc html with custom directive -->
 	
