@@ -527,6 +527,31 @@ public class ProductRestServiceImpl implements ProductRestService {
 		apiRestResponse.setResponseObject(productFacade.listProductByCategory(categoryId, new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
+	
+    /**
+     * This method gets all products of a given category.
+     * @summary  Method: findByCategoryCode(String categoryCode, int page, int size)
+     * @param 	categoryCode The category code to search
+     * @param 	page The number of page requested
+     * @param 	size The size of product to display in a page
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("pageCategory/code/{categoryCode}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
+	public Response findByCategoryCode(@PathParam("categoryCode") String categoryCode,
+			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(productFacade.listProductByCategoryCode(categoryCode, new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
+	}
 
     /**
      * This method gets all products of a given brand.

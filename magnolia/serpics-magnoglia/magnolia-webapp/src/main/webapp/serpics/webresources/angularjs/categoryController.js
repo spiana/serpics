@@ -90,6 +90,14 @@
       		   }
      	    };
      	    
+       	   $scope.getChildDataByCode = function(parentCode){
+      		   if (parentCode != undefined){
+     				   categoryService.getChildByCode(parentCode).then(function(response){
+     					   $scope.categoryData=response;
+     				   });
+      		   }
+     	    };
+     	    
      	    /**
      	     * @return 						all category 
      	     * @use 						categoryService,

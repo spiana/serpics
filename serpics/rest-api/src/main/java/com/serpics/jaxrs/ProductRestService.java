@@ -23,5 +23,6 @@ public interface ProductRestService {
 	public Response findByCategory(Long categoryId, int page, int size, String ssid);
 	public Response findByBrand(Long brandId, int page, int size, String ssid);
 	public Response findBySearch(String searchText, int page, int size, String ssid);
+	public Response findByCategoryCode(String categoryCode, int page, int size, String ssid);
 	
 }

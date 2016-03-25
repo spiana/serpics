@@ -35,5 +35,6 @@ public interface ProductFacade {
 	public void addMedia(Long productId, MediaData media);
 	
 	public ProductData addBrand(Long productId, Long brandId);
+	public Page<ProductData> listProductByCategoryCode(String categoryCode, Pageable page);
 	
 }

@@ -104,6 +104,17 @@
 	  	    };  	  	
 	  	    
 	  	    /**
+	  	     * @param categoryCode 			code of category of product to retrieve  	    
+	  	     * @return 						product with category equal @param categoryId
+	  	     * @use 						productService,serpicsServices
+	  	     */
+	  	    function findByCategoryCode(categoryCode, page, size) {		
+	  	    	productService.findByCategoryCode(categoryCode, page, size).then( function( response ) {
+	  	    		$scope.product 	= response;
+	              })
+	  	    };  
+	  	    
+	  	    /**
 	  	     * @param brandId 				id of brand of product to retrieve    
 	  	     * @return 						product with brand equal @param brandId
 	  	     * @use 						productService,serpicsServices
@@ -180,12 +191,16 @@
 	  	    	findByBrand(brandId, page, size);
 	  	    }
 	  	    
-	  	    $scope.findByCategory = function (categoryId, page, size) {
+	  	    $scope.findByCategory = function (categoryId, categoryCode, page, size) {
 	  	    	if (page == undefined || size == undefined){
 	  	    		page = getPage();
 	  	    		size = getSize();
 	  	    	}
-	  	    	findByCategory(categoryId, page, size);
+	  	    	if (categoryId != "false"){
+	  	    		findByCategory(categoryId, page, size);
+	  	    	} else if (categoryCode != "false"){
+	  	    		findByCategoryCode(categoryCode, page, size);
+	  	    	}
 	  	    }
 	  	    
 	  	    $scope.findBySearch = function (text, page, size) {

@@ -1,5 +1,5 @@
 [#assign categoryId = ctx.categoryId!""]
-<div class="left-sidebar" ng-controller="categoryController" ng-init="getChildData(${model.root.content.categoryId})">
+<div class="left-sidebar" ng-controller="categoryController" ng-init="getChildDataByCode('${model.root.content.categoryCode}')">
 <div ng-if="categoryData.length" ng-init="openParentCategory(${categoryId})">
 </div>
 	<h2>${model.root.content.categoryName}</h2>

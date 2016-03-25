@@ -7605,8 +7605,8 @@
       <sv:property sv:name="jcr:uuid" sv:type="String">
         <sv:value>5d10e97d-2eee-4dab-a487-19c7f1fbcd14</sv:value>
       </sv:property>
-      <sv:property sv:name="categoryId" sv:type="String">
-        <sv:value>1</sv:value>
+      <sv:property sv:name="categoryCode" sv:type="String">
+        <sv:value>WOM</sv:value>
       </sv:property>
       <sv:property sv:name="categoryName" sv:type="String">
         <sv:value>Donna</sv:value>
@@ -7621,7 +7621,7 @@
         <sv:value>superuser</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-        <sv:value>2016-03-23T12:35:01.604+01:00</sv:value>
+        <sv:value>2016-03-25T11:46:45.413+01:00</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
         <sv:value>superuser</sv:value>
@@ -7981,8 +7981,8 @@
       <sv:property sv:name="jcr:uuid" sv:type="String">
         <sv:value>c0facd78-34db-40fb-9683-b3623bfc489b</sv:value>
       </sv:property>
-      <sv:property sv:name="categoryId" sv:type="String">
-        <sv:value>2</sv:value>
+      <sv:property sv:name="categoryCode" sv:type="String">
+        <sv:value>MAN</sv:value>
       </sv:property>
       <sv:property sv:name="categoryName" sv:type="String">
         <sv:value>Uomo</sv:value>
@@ -8006,7 +8006,7 @@
         <sv:value>superuser</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-        <sv:value>2016-03-23T12:35:21.644+01:00</sv:value>
+        <sv:value>2016-03-25T11:59:36.583+01:00</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
         <sv:value>superuser</sv:value>
@@ -8483,8 +8483,8 @@
       <sv:property sv:name="jcr:uuid" sv:type="String">
         <sv:value>e53c8584-92f1-400f-bc24-79828738e1d9</sv:value>
       </sv:property>
-      <sv:property sv:name="categoryId" sv:type="String">
-        <sv:value>3</sv:value>
+      <sv:property sv:name="categoryCode" sv:type="String">
+        <sv:value>KIDS</sv:value>
       </sv:property>
       <sv:property sv:name="categoryName" sv:type="String">
         <sv:value>Bambini</sv:value>
@@ -8508,7 +8508,7 @@
         <sv:value>superuser</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-        <sv:value>2016-03-23T12:35:42.603+01:00</sv:value>
+        <sv:value>2016-03-25T11:59:50.806+01:00</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
         <sv:value>superuser</sv:value>
@@ -8985,8 +8985,8 @@
       <sv:property sv:name="jcr:uuid" sv:type="String">
         <sv:value>758bbdd2-697a-4964-b9a8-ffcc21789ec1</sv:value>
       </sv:property>
-      <sv:property sv:name="categoryId" sv:type="String">
-        <sv:value>43</sv:value>
+      <sv:property sv:name="categoryCode" sv:type="String">
+        <sv:value>DONNA</sv:value>
       </sv:property>
       <sv:property sv:name="categoryName" sv:type="String">
         <sv:value>Donna</sv:value>
@@ -9010,7 +9010,7 @@
         <sv:value>superuser</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModified" sv:type="Date">
-        <sv:value>2016-03-23T12:38:49.885+01:00</sv:value>
+        <sv:value>2016-03-25T11:47:20.191+01:00</sv:value>
       </sv:property>
       <sv:property sv:name="mgnl:lastModifiedBy" sv:type="String">
         <sv:value>superuser</sv:value>

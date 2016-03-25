@@ -1,11 +1,11 @@
 form:
   tabs:
     - name: tabText
-      label: Texts
+      label: Category Info
       fields:
-        - name: categoryId
+        - name: categoryCode
           class: info.magnolia.ui.form.field.definition.TextFieldDefinition
-          label: categoryId
+          label: categoryCode
         - name: categoryName
           class: info.magnolia.ui.form.field.definition.TextFieldDefinition
           label: categoryName
