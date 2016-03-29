@@ -14,6 +14,8 @@ areas:
         id: serpics:components/sidebar/sidebar-category-child
       brandComponent:
         id: serpics:components/sidebar/sidebar-brand
+      imageLinkComponent:
+        id: serpics:components/sidebar/sidebar-image-link
   serpics-central:
     renderType: freemarker
     availableComponents:
@@ -41,4 +43,9 @@ areas:
         id: serpics:components/central/central-404
       500Component:
         id: serpics:components/central/central-500
+  serpics-banner-head:
+    renderType: freemarker
+    availableComponents:
+      BannerLinkImage:
+        id: serpics:components/banner/banner-head
 # eof: areas

@@ -7,7 +7,8 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	     /** Return public API. (loki java interface)**/
 	     var service =({
 	    	 
-	     		getProduct	  			: getProduct,                   
+	     		getProduct	  			: getProduct,                
+	     		getProductByCode		: getProductByCode,
 	     		getCategoryProduct 		: getCategoryProduct,
 	     		getProductByName		: getProductByName,
 	     		findByCategory			: findByCategory,
@@ -40,6 +41,27 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    		 });
 	    	 });
 	     }
+	     
+		    /**
+		     * @param productCode
+		     * @return 
+		     */      
+		     function getProductByCode(productCode) {
+		    	 
+		    	 var serviceSSID = serpicsServices;
+		    	 return $q(function(resolve, reject) {
+		    		 serviceSSID.getSessionId().then(function(sessionId){
+		    			 $log.debug("session Id nel promise"+sessionId) ;
+		    			 $http({
+		    				 method: 	'GET',
+		    				 url: URL + endpoint + 'product/code/' + productCode,
+		    				 headers: {
+		    					 'ssid': sessionId
+		    					 }
+		    			 }).then(handleSuccess, handleError).then(resolve, reject);
+		    		 });
+		    	 });
+		     }
 	     
 	    /**
 	     * @param categoryId

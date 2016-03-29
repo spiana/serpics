@@ -36,5 +36,6 @@ public interface ProductFacade {
 	
 	public ProductData addBrand(Long productId, Long brandId);
 	public Page<ProductData> listProductByCategoryCode(String categoryCode, Pageable page);
+	public ProductData findByCode(String code);
 	
 }

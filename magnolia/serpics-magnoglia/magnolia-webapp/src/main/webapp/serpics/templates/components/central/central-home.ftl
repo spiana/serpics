@@ -25,38 +25,7 @@
 			</ul>
 		</div>
 	</div>
-
-	<div class="col-sm-4" ng-repeat="product in product.content">
-		<div class="product-image-wrapper">
-			<div class="single-products">
-				<div class="productinfo text-center">
-				<div style="background-image: url('{{product.primaryImage.source || '${ctx.contextPath}/.resources/serpics/webresources/images/home/product1.jpg'}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 245px;"></div>
-					<h2>&euro;{{product.price.currentPrice}}</h2>
-					<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.name || product.code}}</a></p>				
-					<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
-						class="fa fa-shopping-cart"></i>Add to cart</a>
-				</div>
-				<div class="product-overlay">
-					<div class="overlay-content">
-						<h2>&euro;{{product.price.currentPrice}}</h2>
-						<p><a href="${ctx.contextPath}/${ctx.baseSite}/Product?productId={{product.id}}">{{product.name || product.code}}</a></p>				
-						<a class="btn btn-default add-to-cart" ng-click="addToCart(product.code,1)"><i
-							class="fa fa-shopping-cart"></i>Add to cart</a>
-					</div>
-				</div>
-			</div>
-			<div class="choose">
-				<ul class="nav nav-pills nav-justified">
-					<li><a href="#"><i class="fa fa-plus-square"></i>Add to
-							wishlist</a></li>
-					<li><a href="#"><i class="fa fa-plus-square"></i>Add to
-							compare</a></li>
-				</ul>
-			</div>
-		</div>
-</div>
-	
-	<div ng-show="product.totalElements == 0"><h4>Nessun prodotto trovato!</h4></div>
+[@cms.area name="serpics-product-list" contextAttributes={"baseSite":ctx.baseSite}/]
 	
 </div>
 

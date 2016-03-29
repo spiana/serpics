@@ -1,0 +1,28 @@
+form:
+  tabs:
+    - name: tabText
+      label: Texts
+      fields:
+        - name: image
+          class: info.magnolia.dam.app.ui.field.definition.DamUploadFieldDefinition
+          label: Image
+          required: true
+          binaryNodeName: image
+          allowedMimeTypePattern: image.*
+        - name: imageLink
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Image link
+          required: true
+        - name: carouselTitle
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Carousel title
+          required: true
+        - name: carouselText
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Carousel text
+          required: true
+actions:
+  commit:
+    class: info.magnolia.ui.admincentral.dialog.action.SaveDialogActionDefinition
+  cancel:
+    class: info.magnolia.ui.admincentral.dialog.action.CancelDialogActionDefinition

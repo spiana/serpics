@@ -298,6 +298,41 @@ public class ProductRestServiceImpl implements ProductRestService {
 		}
 
 	}
+	
+    /**
+     * This method gets a product by productCode.
+     * @summary  Method: getProductByCode(String productCode)
+     * @param 	productCode The product code to get
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     * @statuscode 200 Product found
+     * @statuscode 404 Product not found
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/product/code/{productCode}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response getProductByCode(@PathParam("productCode") String productCode, @HeaderParam(value = "ssid") String ssid) {
+
+		// Assert.notNull(productId);
+
+		ProductData productData = null;
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
+		productData = productFacade.findByCode(productCode);
+		if (productData != null) {
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			return Response.ok(apiRestResponse).build();
+		} else {
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, Product not found");
+			return Response.status(404).entity(apiRestResponse).build();
+		}
+
+	}
 
     /**
      * This method deletes a product by productId.

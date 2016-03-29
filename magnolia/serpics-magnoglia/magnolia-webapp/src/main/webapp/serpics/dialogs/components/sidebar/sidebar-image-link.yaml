@@ -1,0 +1,16 @@
+form:
+  tabs:
+    - name: tabText
+      label: Texts
+      fields:
+        - name: imageUrl
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Image Url
+        - name: imageLink
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Image link
+actions:
+  commit:
+    class: info.magnolia.ui.admincentral.dialog.action.SaveDialogActionDefinition
+  cancel:
+    class: info.magnolia.ui.admincentral.dialog.action.CancelDialogActionDefinition
