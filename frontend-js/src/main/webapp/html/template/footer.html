@@ -159,10 +159,6 @@
 			<div class="row">
 				<p class="pull-left">Copyright © 2015-2016 StepFour srl. All
 					rights reserved.</p>
-				<p class="pull-right">
-					Designed by <span><a target="_blank"
-						href="http://www.stepfour.it">Christian Chiama</a></span>
-				</p>
 			</div>
 		</div>
 	</div>
