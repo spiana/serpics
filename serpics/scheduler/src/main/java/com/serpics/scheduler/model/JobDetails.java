@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,8 +22,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.serpics.base.data.model.AbstractStoreEntity;
+import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Catalog;
+import com.serpics.core.data.jpa.AbstractEntity;
 
 /**
  * Entity show details of job which can be reschedule in various type.
@@ -29,8 +34,10 @@ import com.serpics.catalog.data.model.Catalog;
  */
 @Entity
 @Table(name = "job_details")
-public class JobDetails extends AbstractStoreEntity {
-
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="type_of_jobdetails",discriminatorType = DiscriminatorType.INTEGER)
+public class JobDetails extends AbstractEntity{
+	
 	private static final long serialVersionUID = 7129859920615052949L;
 	
 	@Id
@@ -68,6 +75,10 @@ public class JobDetails extends AbstractStoreEntity {
 
 	@Column(name="job_param")
 	private String jobParameters;
+	
+	@ManyToOne
+	@JoinColumn(name="store_id", insertable=true, updatable=false)
+	protected Store store;
 	
 	public Long getId() {
 		return id;
@@ -148,6 +159,14 @@ public class JobDetails extends AbstractStoreEntity {
 
 	public void setJobParameters(String jobParameters) {
 		this.jobParameters = jobParameters;
+	}
+	
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 	
 }

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.core.data.jpa.AbstractEntity;
@@ -31,6 +32,7 @@ public class Catalog extends AbstractEntity implements
 	@Column(name = "catalog_id")
 	private Long id;
 
+	@Pattern(regexp="[a-zA-Z0-9]*", message= "{catalog.code.pattern}")
 	private String code;
 
 	@OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)

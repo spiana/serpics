@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.serpics.commerce.OrderStatus;
 
@@ -23,10 +25,11 @@ public class Order extends AbstractOrder {
 
     private static final long serialVersionUID = 1L;
 
+    @Size(max = 100, message = "{order.orderNumber.size}")
     @Column(name = "orderNumber", unique = true, nullable = true, length = 100)
     protected String orderNumber;
 
-     @Column(name = "pay_amount", nullable = true, precision = 10, scale = 4)
+    @Column(name = "pay_amount", nullable = true, precision = 10, scale = 4)
     private Double payAmount = new Double(0);
 
     // bi-directional many-to-one association to Orderpayment

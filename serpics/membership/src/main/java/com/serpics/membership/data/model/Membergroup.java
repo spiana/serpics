@@ -37,12 +37,12 @@ public class Membergroup  extends AbstractStoreEntity implements Serializable {
     @Column(name="membergroups_id", unique=true, nullable=false)
     private Long id;
 
-    @NotNull
-    @Size(max = 100)
+    @NotNull(message="{membergroup.name.notnull}")
+    @Size(max = 100, message ="{membergroup.name.size}")
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Size(max = 254)
+    @Size(max = 254, message ="{membergroup.description.size}")
     @Column(length=254)
     private String description;
 

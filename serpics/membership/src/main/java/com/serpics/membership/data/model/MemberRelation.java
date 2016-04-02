@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.serpics.core.data.jpa.AbstractEntity;
 
@@ -22,9 +24,11 @@ public abstract class MemberRelation extends AbstractEntity implements Serializa
 	@EmbeddedId
 	protected MemberRelationPK id;
 
+	@Size(max=250, message = "{memberRelation.field1.size}")
     @Column(length=250)
     protected String field1;
 
+	@Size(max=200, message = "{memberRelation.field2.size}")
 	@Column(length=200)
 	private String field2;
 

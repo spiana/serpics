@@ -35,13 +35,13 @@ public class Paymethodlookup extends com.serpics.core.data.jpa.AbstractEntity im
 
 	//bi-directional many-to-one association to Store
     @ManyToOne
-    @NotNull
+    @NotNull(message ="{paymethodlookup.store.notnull}")
 	@JoinColumn(name="store_id", insertable=false, updatable=false)
 	private Store store;
 
 	//bi-directional many-to-one association to Paymethod
     @ManyToOne
-    @NotNull
+    @NotNull(message ="{paymethodlookup.paymethod.notnull}")
 	@JoinColumn(name="paymethod_id", insertable=false, updatable=false)
 	private Paymethod paymethod;
 

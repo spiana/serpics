@@ -1,0 +1,4 @@
+templateScript: /serpics/templates/components/sidebar/sidebar-image-link.ftl
+renderType: freemarker
+dialog: serpics:components/sidebar/sidebar-image-link
+title: Sidebar Image Link

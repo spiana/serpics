@@ -21,5 +21,6 @@ public interface CategoryFacade {
 	
 	public CategoryData updateCategory(CategoryData category);
 	public void deleteCategory(Long id);
+	public List<CategoryData> listChildCategories(String code);
 	
 }

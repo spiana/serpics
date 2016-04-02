@@ -1,3 +1,10 @@
 templateScript: /serpics/templates/components/central/central-search.ftl
 renderType: freemarker
 title: Search Page
+areas:
+  serpics-product-list:
+    renderType: freemarker
+    type: list
+    availableComponents:
+      productListComponent:
+        id: serpics:components/central/central-product-list

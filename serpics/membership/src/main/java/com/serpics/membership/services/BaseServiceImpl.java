@@ -70,7 +70,7 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 
         Currency currency = new Currency();
         currency.setIsoCode("EUR");
-        currency.setDescriprion("Euro");
+        currency.setDescription("Euro");
         currency = currencyRepository.saveAndFlush(currency);
 
         Locale locale = new Locale();

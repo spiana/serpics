@@ -18,6 +18,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.TaxCategory;
 import com.serpics.catalog.data.model.AbstractProduct;
@@ -56,12 +59,15 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
     @JoinColumn(name = "product_id", nullable = true)
     protected AbstractProduct product;
 
+    @NotNull(message ="{abstractOrderitem.sku.notnull}")
+    @Size(max=250, message="{abstractOrderitem.sku.size}")
     @Column(nullable = false, length = 250)
     protected String sku;
 
     @Column(name = "sku_cost", precision = 10, scale = 4)
     protected Double skuCost = new Double(0);
 
+    @Size(max=1000, message ="{abstractOrderitem.skuDescription.size}")
     @Column(name = "sku_description", length = 1000)
     protected String skuDescription;
 

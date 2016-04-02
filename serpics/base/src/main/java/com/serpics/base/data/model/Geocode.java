@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * The persistent class for the geocode database table.
@@ -32,8 +33,9 @@ public class Geocode extends com.serpics.core.data.jpa.AbstractEntity implements
     private Long geocodeId;
 
     @Column(nullable = false, length = 100 , name="name" )
-    @NotNull
-    @Pattern(regexp="[a-zA-Z0-9]+",message="only letters and numbers allowed !")
+    @NotNull(message = "{geocode.code.notnull}")
+    @Pattern(regexp="[a-zA-Z0-9]+",message="{geocode.code.pattern}")
+    @Size(max = 100, message = "{geocode.code.size}")
     private String code;
 
     // bi-directional many-to-one association to Country

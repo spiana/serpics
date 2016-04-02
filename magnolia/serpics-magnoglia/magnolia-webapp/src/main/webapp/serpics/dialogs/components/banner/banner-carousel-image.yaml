@@ -1,0 +1,26 @@
+form:
+  tabs:
+    - name: tabText
+      label: Texts
+      fields:
+        - name: imageUrl
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Image url
+          required: true
+        - name: imageLink
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Image link
+          required: true
+        - name: carouselTitle
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Carousel title
+          required: true
+        - name: carouselText
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          label: Carousel text
+          required: true
+actions:
+  commit:
+    class: info.magnolia.ui.admincentral.dialog.action.SaveDialogActionDefinition
+  cancel:
+    class: info.magnolia.ui.admincentral.dialog.action.CancelDialogActionDefinition

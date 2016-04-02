@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.serpics.base.data.model.Currency;
 
@@ -30,6 +32,7 @@ public class Shipping extends com.serpics.core.data.jpa.AbstractEntity implement
 	
 	@ManyToOne
 	@JoinColumn(name="currency_id", nullable=false)
+	@NotNull(message ="{shipping.currency.notnull")
 	private Currency currency;
 
 	@Column(precision=10, scale=4)

@@ -16,5 +16,6 @@ public interface CategoryRestService {
 	public Response delete(Long categoryId,String ssid);
 	public Response findAll(int page, int size,String ssid);
 	public Response getTop(String ssid);
+	public Response getChildByCode(String code, String ssid);
 	
 }

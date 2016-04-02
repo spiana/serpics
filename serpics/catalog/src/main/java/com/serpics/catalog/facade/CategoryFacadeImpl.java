@@ -73,10 +73,24 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		}
 		return list;
 	}
+	
 	@Override
 	public List<CategoryData> listChildCategories(Long id) {
 		List<CategoryData> list = new ArrayList<CategoryData>();
 		Category parent = categoryService.findOne(id);
+		Assert.notNull(parent);
+		List<Category> categories = categoryService.getChildCategories(parent);
+		for (Category category : categories) {
+			list.add(categoryConverter.convert(category));
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<CategoryData> listChildCategories(String code) {
+		List<CategoryData> list = new ArrayList<CategoryData>();
+		Category parent = categoryService.findByCode(code);
 		Assert.notNull(parent);
 		List<Category> categories = categoryService.getChildCategories(parent);
 		for (Category category : categories) {

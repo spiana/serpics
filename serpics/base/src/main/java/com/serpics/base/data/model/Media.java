@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.serpics.base.MediaSupportType;
 
@@ -33,9 +34,10 @@ public abstract class Media extends AbstractStoreEntity{
     private Long id;
 
     @Column(name="content_type")
-    @NotNull
+    @NotNull(message = "{media.contentType.notnull}")
     private String contentType;
 
+    @Pattern(regexp="[a-zA-Z0-9]+", message = "{media.name.pattern}")
     private String name;
 
     private String sourcePath;

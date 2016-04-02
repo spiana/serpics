@@ -1,0 +1,14 @@
+templateScript: /serpics/templates/components/banner/banner-head.ftl
+renderType: freemarker
+title: Banner Head
+areas:
+  serpics-carousel:
+    renderType: freemarker
+    type: list
+    availableComponents:
+      carouselImage:
+        id: serpics:components/banner/banner-carousel-image
+      carouselProduct:
+        id: serpics:components/banner/banner-carousel-product
+      carouselImageUpload:
+        id: serpics:components/banner/banner-carousel-image-upload

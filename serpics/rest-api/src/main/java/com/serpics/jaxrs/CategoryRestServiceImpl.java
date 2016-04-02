@@ -240,6 +240,29 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	}
 	
     /**
+     * This method gets a list of category whith same parent
+     * @summary  Method: getChild(String code)
+     * @param parentId The category code of the parent
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     * 
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/parent/getChild/code/{code}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
+	public Response getChildByCode(@PathParam("code") String code,@HeaderParam(value = "ssid") String ssid){
+		Assert.notNull(code);
+		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(code);
+		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(listCategoryData);
+		return Response.ok(apiRestResponse).build();
+	}
+	
+    /**
      * This method updates a category
      * @summary  Method: update(CategoryDataRequest categoryDataRequest)
      * @param categoryDataRequest The category to update

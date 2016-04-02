@@ -1,8 +1,8 @@
  var app = angular.module("product.controller", ['product.service', 'cart.service','serpics.services'])
 /** productController **/
-.controller("productController",['$scope','serpicsServices','productService','cartService','$log','ngDialog',
+.controller("productController",['$scope','serpicsServices','productService','cartService','$log','ngDialog','$sce',
                                   
-	      function($scope,serpicsServices,productService,cartService,$log,ngDialog) {	
+	      function($scope,serpicsServices,productService,cartService,$log,ngDialog,$sce) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -12,8 +12,10 @@
 			var size = getSize();
 			
 			$scope.breadcrumbCategories = [];
-			$scope.defaultQuantity = 1;
-	
+			$scope.defaultQuantity = 1;	
+			
+			$scope.trustAsHtml = $sce.trustAsHtml;
+			
 //	  	    $scope.product 	= findAllQ(page, size);
 	  	    
 	  	    
@@ -82,15 +84,21 @@
 	  	    };  	    
 	  	    
 	  	    /**
-	  	     * @param productName 			name of product to retrieve  	    
-	  	     * @return 						product name equal @param productName
+	  	     * @param productCode 			code of product to retrieve  	    
+	  	     * @return 						product code equal @param productCode
 	  	     * @use 						productService,serpicsServices
 	  	     */
-	  	   function getProductByName(productName) {		
-	  	    	productService.getProductByName(productName).then( function( response ) {
+	  	   function getProductByCode(productCode) {		
+	  	    	productService.getProductByCode(productCode).then( function( response ) {
 	  	    		$scope.product 	= response;
 	              })
-	  	    };  	  
+	  	    };
+	  	    
+	  	    $scope.getProductByCode = function(productCode) {	
+	  	    	if (productCode != undefined){
+	  	    		getProductByCode(productCode);
+	  	    	}
+	  	    }; 
 	  	    
 	  	    /**
 	  	     * @param categoryId 			id of category of product to retrieve  	    
@@ -102,6 +110,17 @@
 	  	    		$scope.product 	= response;
 	              })
 	  	    };  	  	
+	  	    
+	  	    /**
+	  	     * @param categoryCode 			code of category of product to retrieve  	    
+	  	     * @return 						product with category equal @param categoryId
+	  	     * @use 						productService,serpicsServices
+	  	     */
+	  	    function findByCategoryCode(categoryCode, page, size) {		
+	  	    	productService.findByCategoryCode(categoryCode, page, size).then( function( response ) {
+	  	    		$scope.product 	= response;
+	              })
+	  	    };  
 	  	    
 	  	    /**
 	  	     * @param brandId 				id of brand of product to retrieve    
@@ -180,12 +199,16 @@
 	  	    	findByBrand(brandId, page, size);
 	  	    }
 	  	    
-	  	    $scope.findByCategory = function (categoryId, page, size) {
+	  	    $scope.findByCategory = function (categoryId, categoryCode, page, size) {
 	  	    	if (page == undefined || size == undefined){
 	  	    		page = getPage();
 	  	    		size = getSize();
 	  	    	}
-	  	    	findByCategory(categoryId, page, size);
+	  	    	if (categoryId != "false"){
+	  	    		findByCategory(categoryId, page, size);
+	  	    	} else if (categoryCode != "false"){
+	  	    		findByCategoryCode(categoryCode, page, size);
+	  	    	}
 	  	    }
 	  	    
 	  	    $scope.findBySearch = function (text, page, size) {

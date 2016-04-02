@@ -1,0 +1,11 @@
+templateScript: /serpics/templates/components/central/central-category.ftl
+renderType: freemarker
+title: Category Page Custom
+dialog: serpics:components/central/central-category-custom
+areas:
+  serpics-product-list:
+    renderType: freemarker
+    type: list
+    availableComponents:
+      productListComponent:
+        id: serpics:components/central/central-product-list

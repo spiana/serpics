@@ -32,7 +32,7 @@ public class MediaSupport extends AbstractEntity{
 	private String name;
 	
 	@Column(nullable=false)
-	@NotNull
+	@NotNull(message = "{mediaSupport.format.notnull}")
 	//@Pattern(regexp="[A-Z][a-z][0-9]-")
 	private String format;
 

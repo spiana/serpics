@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.commerce.PaymentIntent;
@@ -29,13 +30,16 @@ public class Payment extends AbstractEntity{
 	@Column(name = "payment_id", unique = true, nullable = false)
 	private Long id;
 	
+	@NotNull(message ="{payment.intent.notnull}")
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private PaymentIntent intent;
 	
+	@NotNull(message ="{payment.paymentIdentifier.notnull}")
 	@Column(nullable=false)
 	private String paymentIdentifier;
 
+	@NotNull(message ="{payment.amount.notnull}")
 	@Column(nullable=false)
 	private Double amount;
 	
@@ -47,9 +51,11 @@ public class Payment extends AbstractEntity{
 	
 	
 	@ManyToOne
+	@NotNull(message ="{payment.currency.notnull}")
 	@JoinColumn(name="currence_id" , nullable=false)
 	private Currency currency;
 	
+	@NotNull(message ="{payment.state.notnull}")
 	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private PaymentState state; 
@@ -61,10 +67,12 @@ public class Payment extends AbstractEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="order_id" , nullable=false)
+	@NotNull(message ="{payment.order.notnull}")
 	private AbstractOrder order;
 	
 	@ManyToOne
 	@JoinColumn(name="paymethod_id" , nullable=false)
+	@NotNull(message ="{payment.paymethod.notnull}")
 	private Paymethod paymethod;
 
 	

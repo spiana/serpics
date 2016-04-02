@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * The persistent class for the regions database table.
@@ -29,7 +30,8 @@ public class District extends com.serpics.core.data.jpa.AbstractEntity implement
     private Long Id;
 
     @Column( length = 20 , unique=true , nullable= false)
-    @NotNull
+    @NotNull(message = "{district.isoCode.notnull}")
+    @Size(max = 20 , message = "{district.isoCode.size}")
     private String isoCode;
     
     // bi-directional many-to-one association to Country

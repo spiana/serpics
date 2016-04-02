@@ -14,6 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.Country;
@@ -40,43 +41,45 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     protected Long id;
 
     @Column(nullable = true, length = 50)
+    @Size(max=50, message="{abstractAddress.nickname.size}")
     protected String nickname;
     
     @Column(nullable = true, length = 50)
     protected String firstname;
 
     @Column(nullable = true, length = 50)
+    @Size(max=50, message="{abstractAddress.lastname.size}")
     protected String lastname;
 
-    @Size(max = 80)
+    @Size(max=80, message="{abstractAddress.company.size}")
     @Column(length = 80)
     protected String company;
 
-    @Size(max = 60)
+    @Size(max=60, message="{abstractAddress.email.size}")
     @Column(nullable = true, length = 60)
     protected String email;
 
-    @Size(max = 512)
+    @Size(max=512, message="{abstractAddress.address1.size}")
     @Column(length = 512)
     protected String address1;
     
-    @Size(max = 10)
+    @Size(max=10, message="{abstractAddress.streetNumber.size}")
     @Column(nullable = true, length = 10)
     protected String streetNumber;
         
-	@Size(max = 512)
+    @Size(max=512, message="{abstractAddress.address2.size}")
     @Column(length = 512)
     protected String address2;
 
-    @Size(max = 512)
+    @Size(max=512, message="{abstractAddress.address3.size}")
     @Column(length = 512)
     protected String address3;
 
-    @Size(max = 20)
+    @Size(max=20, message="{abstractAddress.zipcode.size}")
     @Column(length = 20)
     protected String zipcode;
 
-    @Size(max = 200)
+    @Size(max=20, message="{abstractAddress.city.size}")
     @Column(length = 200)
     protected String city;
     
@@ -92,27 +95,27 @@ public abstract class AbstractAddress extends com.serpics.core.data.jpa.Abstract
     @JoinColumn(name = "district_id", nullable = true)
     protected District district;
 
-    @Size(max = 30)
+    @Size(max=30, message="{abstractAddress.vatcode.size}")
     @Column(length = 30)
     protected String vatcode;
 
-    @Size(max = 25)
+    @Size(max=25, message="{abstractAddress.phone.size}")
     @Column(length = 25)
     protected String phone;
 
-    @Size(max = 25)
+    @Size(max=25, message="{abstractAddress.mobile.size}")
     @Column(length = 25)
     protected String mobile;
 
-    @Size(max = 25)
+    @Size(max=25, message="{abstractAddress.fax.size}")
     @Column(length = 25)
     protected String fax;
 
-    @Size(max = 250)
+    @Size(max=250, message="{abstractAddress.field1.size}")
     @Column(length = 250)
     protected String field1;
 
-    @Size(max = 250)
+    @Size(max=250, message="{abstractAddress.field2.size}")
     @Column(length = 254)
     protected String field2;
 

@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import com.serpics.commerce.PaymentTransactionState;
 import com.serpics.commerce.PaymentTransactionType;
@@ -28,15 +29,17 @@ public class PaymentTransaction extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -8060844144474643891L;
 
-	@Id
+	 @Id
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 @Column(name = "paytransaction_id", unique = true, nullable = false)
 	 private Long id ;
 	 
 	 @Column(name="transaction_id" , nullable=false)
+	 @NotNull(message ="{paymentTransaction.transactionId.notnull}")
 	 private String transactionId;
 
 	 @Column(nullable=false )
+	 @NotNull(message ="{paymentTransaction.amount.notnull}")
 	 private Double amount;
 	 
 	 @Enumerated(EnumType.STRING)
