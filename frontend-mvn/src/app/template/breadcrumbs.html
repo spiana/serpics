@@ -1,0 +1,9 @@
+<div style="width:100%">
+	<div class='row'>
+		<ul class='breadcrumb'>
+			<li><a ui-sref="shop.home">Home</a></li>
+			<li ng-show="product.categories.length"><a ui-sref="shop.category({id: product.categories[0].id, name: product.categories[0].code})">{{product.categories[0].name || product.categories[0].code | lowercase}}</a></li>
+			<li class="active">{{name | lowercase}}</li>
+		</ul>
+	</div>
+</div>
