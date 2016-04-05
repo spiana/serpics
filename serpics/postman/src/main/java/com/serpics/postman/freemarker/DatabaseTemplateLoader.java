@@ -27,7 +27,7 @@ import freemarker.cache.TemplateLoader;
  * mechanism implemented in the template engine framework.
  * 
  * @author alessandro.marasco@tinvention.net
- *
+ * @deprecated Prefer to use com.serpics.postman.freemarker.DatabaseTemplateStoreLoader for bypassing Freemarker cache
  */
 public class DatabaseTemplateLoader implements TemplateLoader {
 

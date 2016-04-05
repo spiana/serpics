@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.AbstractStoreEntity;
+import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.MultilingualText;
 @Table(name="template_store")
 @Entity
@@ -31,10 +32,22 @@ public class TemplateStore extends AbstractStoreEntity {
 	@JoinColumn(name="template_type_id",nullable=false)
 	private TemplateType templateType;
 	
+	@NotNull
+	@Column(name="name")
+	private String name;
+	
 	@OneToOne( cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
     @JoinColumn(name = "template_id")
+	private MultilingualString templateSubjectMail;
+
+	
+	@OneToOne( cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
+    @JoinColumn(name = "template_subject_id")
 	private MultilingualText templateMail;
 
+	@Column(name="active")
+	private Boolean active;
+	
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +71,21 @@ public class TemplateStore extends AbstractStoreEntity {
 	public void setTemplateMail(MultilingualText templateMail) {
 		this.templateMail = templateMail;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public MultilingualString getTemplateSubjectMail() {
+		return templateSubjectMail;
+	}
+
+	public void setTemplateSubjectMail(MultilingualString templateSubjectMail) {
+		this.templateSubjectMail = templateSubjectMail;
+	}
 	
 }

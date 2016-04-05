@@ -7,11 +7,13 @@ import org.springframework.data.repository.query.Param;
 
 import com.serpics.core.data.Repository;
 import com.serpics.postman.model.TemplateStore;
+import com.serpics.postman.model.TemplateType;
 
 public interface TemplateStoreRepository extends Repository<TemplateStore, Long> {
 
+	@Query("select ts from TemplateStore ts where ts.templateType= :templateType")
+	public Page<TemplateStore> findLastTemplateForType(@Param("templateType") TemplateType template,Pageable pageable);
+	
 	@Query("select ts from TemplateStore ts where ts.templateType.id= :templateType")
 	public Page<TemplateStore> findLastTemplateForType(@Param("templateType") String template,Pageable pageable);
-	
-	
 }

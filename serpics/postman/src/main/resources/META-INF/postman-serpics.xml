@@ -18,13 +18,13 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<bean id="freemarkerConfiguration"
 		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-		<property name="preTemplateLoaders">
-			<list>
-				<ref bean="databaseTemplateLoader" />
-			</list>
-		</property>
+<!-- 		<property name="preTemplateLoaders"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="databaseTemplateLoader" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
 	</bean>
 	
-	<bean name="databaseTemplateLoader" class="com.serpics.postman.freemarker.DatabaseTemplateLoader" />
+<!-- 	<bean name="databaseTemplateLoader" class="com.serpics.postman.freemarker.DatabaseTemplateLoader" /> -->
 	
 </beans>    
