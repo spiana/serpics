@@ -1,4 +1,4 @@
-package com.serpics.postman.job;
+package com.serpics.postmanservice.job;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import com.serpics.postman.model.MetaDataMail;
-import com.serpics.postman.service.SendEmailService;
+import com.serpics.postmanservice.service.SendEmailService;
 import com.serpics.scheduler.job.AbstractJob;
 
 public class PostManJob extends AbstractJob {

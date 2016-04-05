@@ -20,6 +20,7 @@ public class TemplateType extends AbstractEntity{
     @Column(name = "templatetype_id", unique = true, nullable = false)
 	private Long id;
 	
+	@Column(name="name",nullable=false)
 	private String name;
 
 	public Long getId() {

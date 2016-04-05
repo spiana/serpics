@@ -26,5 +26,4 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	</bean>
 	
 	<bean name="databaseTemplateLoader" class="com.serpics.postman.freemarker.DatabaseTemplateLoader" />
-	
 </beans>    

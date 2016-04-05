@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.Assert;
 
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.core.data.model.Locale;
 import com.serpics.postman.data.DataTemplate;
 import com.serpics.postman.model.MailState;
 import com.serpics.postman.model.MetaDataMail;

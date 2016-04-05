@@ -1,4 +1,4 @@
-package com.serpics.postman.service.impl;
+package com.serpics.postmanservice.service.impl;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -26,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ import com.serpics.base.utils.MediaStoreUtil;
 import com.serpics.postman.model.MailState;
 import com.serpics.postman.model.MetaDataMail;
 import com.serpics.postman.repositories.MetaDataMailRepository;
-import com.serpics.postman.service.SendEmailService;
+import com.serpics.postmanservice.service.SendEmailService;
 
 @Service("sendEmailService")
 public class SendEmailServiceImpl implements SendEmailService {
@@ -147,13 +148,16 @@ public class SendEmailServiceImpl implements SendEmailService {
 			
 			logger.debug("sendmail end");
 		} catch (AddressException e) {
-			logger.error("errore nel SendMail",e);
+			logger.error("errore in SendMail",e);
 			throw e;
 		} catch (MessagingException e) {
-			logger.error("errore nel SendMail",e);
+			logger.error("errore in SendMail",e);
 			throw e;
 		} catch (IOException e) {
-			logger.error("errore nel SendMail",e);
+			logger.error("errore in SendMail",e);
+			throw e;
+		} catch (MailException e){
+			logger.error("errore in SendMail",e);
 			throw e;
 		}
 	}

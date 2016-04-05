@@ -1,4 +1,4 @@
-package com.serpics.postman.service;
+package com.serpics.postmanservice.service;
 
 import org.springframework.data.domain.Page;
 

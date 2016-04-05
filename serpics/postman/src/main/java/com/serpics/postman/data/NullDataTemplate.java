@@ -1,12 +1,12 @@
 package com.serpics.postman.data;
 
-import org.hsqldb.lib.HashMap;
+import java.util.HashMap;
 
 public class NullDataTemplate implements DataTemplate {
 
 	@Override
 	public Object getDataForTemplate() {
-		return new HashMap();
+		return new HashMap<String,String>();
 	}
 
 }
