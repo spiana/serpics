@@ -87,5 +87,13 @@ public class TemplateStore extends AbstractStoreEntity {
 	public void setTemplateSubjectMail(MultilingualString templateSubjectMail) {
 		this.templateSubjectMail = templateSubjectMail;
 	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 	
 }

@@ -31,6 +31,7 @@ import com.serpics.membership.facade.data.UserData;
 import com.serpics.membership.services.BillingAddressService;
 import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.membership.services.UserService;
+import com.serpics.postman.service.EmailService;
 import com.serpics.stereotype.StoreFacade;
 
 @StoreFacade("userFacade")
@@ -60,6 +61,9 @@ public class UserFacadeImpl implements UserFacade {
 	@Resource(name = "userConverter")
 	AbstractPopulatingConverter<User, UserData> userConvert;
 
+	@Autowired
+	EmailFacade emailFacade;
+	
 	@Override
 	public UserData getCurrentuser() {
 		User u = userService.getCurrentCustomer();
@@ -142,6 +146,12 @@ public class UserFacadeImpl implements UserFacade {
 				primaryAddress = new PrimaryAddress();
 
 			_u = userService.registerUser(_u, primaryAddress);
+			
+			UserData userData = userConvert.convert(_u);
+			
+			emailFacade.sendEmailRegister(userData);
+			
+			
 		} else{
 			LOG.error("Invalid user Logonid inserted {}: already registered",user.getLogonid());
 			

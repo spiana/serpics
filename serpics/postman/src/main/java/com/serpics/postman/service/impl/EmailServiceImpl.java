@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.postman.data.DataTemplate;
 import com.serpics.postman.freemarker.DatabaseTemplateStoreLoader;
 import com.serpics.postman.model.MailState;
 import com.serpics.postman.model.MetaDataMail;
@@ -47,7 +46,7 @@ public class EmailServiceImpl implements EmailService {
 	CommerceEngine commerceEngine;
 	
 	@Override
-	public void sendMail(TemplateType typeOfTemplate,MetaDataMail mail,DataTemplate dataTemplate) throws Exception{
+	public void sendMail(TemplateType typeOfTemplate,MetaDataMail mail,Object dataTemplate) throws Exception{
 		
 		Assert.notNull(typeOfTemplate,"Cannot send email if the type of template is not indicated");
 		Assert.notNull(dataTemplate,"Data for generate template is required. If you don't need data, use NullDataTemplate class");
@@ -69,12 +68,12 @@ public class EmailServiceImpl implements EmailService {
 			try {
 				Template templateFreemarker = new Template(template.getName(), template.getTemplateMail().getText(language), configuration);
 				
-				String bodyOfMail = FreeMarkerTemplateUtils.processTemplateIntoString(templateFreemarker, dataTemplate.getDataForTemplate());
+				String bodyOfMail = FreeMarkerTemplateUtils.processTemplateIntoString(templateFreemarker, dataTemplate);
 				mail.setBody(bodyOfMail);
 				
 				templateFreemarker = new Template(template.getName(), template.getTemplateSubjectMail().getText(language), configuration);
 				
-				String subjectOfMail = FreeMarkerTemplateUtils.processTemplateIntoString(templateFreemarker, dataTemplate.getDataForTemplate());
+				String subjectOfMail = FreeMarkerTemplateUtils.processTemplateIntoString(templateFreemarker, dataTemplate);
 				mail.setSubject(subjectOfMail);
 				
 				LOG.info("save Mail with subject [{}] and type of tempate [{}]",mail.getSubject(),template.getName() );
