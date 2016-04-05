@@ -386,9 +386,9 @@ public class CustomerServiceImpl implements CustomerService {
      * @return Response		object type: apiRestResponse
      */
 	@Override
-	@POST
+	@GET
 	@Path("logout")
-	@Consumes(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.membership.facade.data.UserData>")
 	public Response logout(@HeaderParam(value = "ssid") String ssid) {
