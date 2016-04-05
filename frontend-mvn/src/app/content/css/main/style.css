@@ -1,0 +1,145 @@
+@CHARSET "UTF-8";
+/** custom css **/
+
+
+/**************************************/
+/*      Loader css                    */
+/**************************************/
+
+@-moz-keyframes rotate-loading {
+    0%  {transform: rotate(0deg);-ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); -o-transform: rotate(0deg); -moz-transform: rotate(0deg);}
+    100% {transform: rotate(360deg);-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -moz-transform: rotate(360deg);}
+}
+
+@-o-keyframes rotate-loading {
+    0%  {transform: rotate(0deg);-ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); -o-transform: rotate(0deg); -moz-transform: rotate(0deg);}
+    100% {transform: rotate(360deg);-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -moz-transform: rotate(360deg);}
+}
+
+@-webkit-keyframes rotate-loading {
+    0%  {transform: rotate(0deg);-ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); -o-transform: rotate(0deg); -moz-transform: rotate(0deg);}
+    100% {transform: rotate(360deg);-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -moz-transform: rotate(360deg);}
+}
+
+@keyframes rotate-loading {
+    0%  {transform: rotate(0deg);-ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); -o-transform: rotate(0deg); -moz-transform: rotate(0deg);}
+    100% {transform: rotate(360deg);-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -moz-transform: rotate(360deg);}
+}
+
+@-moz-keyframes loading-text-opacity {
+    0%  {opacity: 0}
+    20% {opacity: 0}
+    50% {opacity: 1}
+    100%{opacity: 0}
+}
+
+
+@-o-keyframes loading-text-opacity {
+    0%  {opacity: 0}
+    20% {opacity: 0}
+    50% {opacity: 1}
+    100%{opacity: 0}
+}
+
+@-webkit-keyframes loading-text-opacity {
+    0%  {opacity: 0}
+    20% {opacity: 0}
+    50% {opacity: 1}
+    100%{opacity: 0}
+}
+
+@keyframes loading-text-opacity {
+    0%  {opacity: 0}
+    20% {opacity: 0}
+    50% {opacity: 1}
+    100%{opacity: 0}
+}
+
+.loading {
+    height: 150px;
+    position: relative;
+    width: 150px;
+    z-index:9999;
+}
+
+
+.loading {
+   border: 2px solid transparent;
+    border-color: transparent #FFF transparent #FFF;
+    border-radius: 50%;
+    -moz-animation: rotate-loading 1.5s linear 0s infinite normal;
+    -moz-transform-origin: 50% 50%;
+    -o-animation: rotate-loading 1.5s linear 0s infinite normal;
+    -o-transform-origin: 50% 50%;
+    -webkit-animation: rotate-loading 1.5s linear 0s infinite normal;
+    -webkit-transform-origin: 50% 50%;
+    animation: rotate-loading 1.5s linear 0s infinite normal;
+    transform-origin: 50% 50%;
+    top:40%;
+    left:45%;
+}
+
+
+
+.loading-container {
+    top:0;
+    left:0;
+    margin:0;
+    padding:0;
+    position:fixed;
+    background-color:#51657E;
+    width:100%;
+    height:100%;
+    z-index:9999;    
+}
+.loading-container .loading,
+.loading-container .loading {
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;  
+}
+
+#loading-text {
+    -moz-animation: loading-text-opacity 1s linear 0s infinite normal;
+    -o-animation: loading-text-opacity 1s linear 0s infinite normal;
+    -webkit-animation: loading-text-opacity 1s linear 0s infinite normal;
+    animation: loading-text-opacity 1s linear 0s infinite normal;
+    color: #fff;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 70px;
+    margin-left: 25px;    
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top:40%;
+    left:45%;
+    width: 100px;
+}
+strong{
+	font-weight:500;
+}
+.fade.in {
+    background-color: rgba(0, 0, 0, 0.66);
+}
+.modal-content {
+    margin-top: 200px;
+    border-radius: 0px;
+}
+a{
+ cursor:pointer;
+}
+
+input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:focus {
+    border: 1px solid #F01B15;
+    box-shadow: none;
+}
+input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus {
+    border-color: none;
+    outline: 0px none;
+    box-shadow: none;
+}
