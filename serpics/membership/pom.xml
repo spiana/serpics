@@ -6,16 +6,16 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>core</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>base</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.serpics</groupId> -->
+<!-- 			<artifactId>core</artifactId> -->
+<!-- 			<version>${serpics.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.serpics</groupId> -->
+<!-- 			<artifactId>base</artifactId> -->
+<!-- 			<version>${serpics.version}</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>com.serpics</groupId>
 			<artifactId>postman</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${serpics.version}</version>
 		</dependency>
 	</dependencies>
 

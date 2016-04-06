@@ -40,7 +40,7 @@ import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" ,"classpath:META-INF/postman-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     Logger log = LoggerFactory.getLogger(UserServiceTest.class);
