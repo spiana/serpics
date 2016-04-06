@@ -19,7 +19,7 @@ import com.serpics.membership.data.repositories.MemberGroupRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" ,"classpath:META-INF/postman-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class MemberGroupTest extends AbstractTransactionalJunit4SerpicTest{
