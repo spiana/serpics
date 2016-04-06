@@ -122,7 +122,7 @@ public class OrderRestServiceImpl implements OrderRestService {
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/placeOrder")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.OrderData>")

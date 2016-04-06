@@ -18,65 +18,13 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<bean id="freemarkerConfiguration"
 		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-		<property name="preTemplateLoaders">
-			<list>
-				<ref bean="databaseTemplateLoader" />
-			</list>
-		</property>
+<!-- 		<property name="preTemplateLoaders"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="databaseTemplateLoader" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
 	</bean>
 	
-	<bean name="databaseTemplateLoader" class="com.serpics.postman.freemarker.DatabaseTemplateLoader" />
+<!-- 	<bean name="databaseTemplateLoader" class="com.serpics.postman.freemarker.DatabaseTemplateLoader" /> -->
 	
-	<!-- JavaMail with SMTP open -->
-	 <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-    <property name="host" value="${mail.normal.smtp.host}" />
-    <property name="port" value="${mail.normal.smtp.port}" />
-    <property name="username" value="${mail.normal.username}" />
-    <property name="password" value="${mail.normal.password}" />
-    <property name="javaMailProperties">
-      <props>
-       <prop key="mail.debug">${mail.normal.debug}</prop>
-      	<prop key="mail.smtp.auth">${mail.normal.auth}</prop>
-      </props>
-    </property>
-  </bean>
-  
-  <!-- EXAMPLE OF JAVAMAIL WITH DIFFERENT COMUNICATION WAY -->
-  <!-- JavaMail with SMTP ON SLL -->
-<!--   <bean id="javaMailSSLSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> -->
-<!--     <property name="host" value="${mail.ssl.smtp.host}" /> -->
-<!--     <property name="port" value="${mail.ssl.smtp.port}" /> -->
-<!--     <property name="username" value="${mail.ssl.username}" /> -->
-<!--     <property name="password" value="${mail.ssl.password}" /> -->
-<!--     <property name="javaMailProperties"> -->
-<!--       <props> -->
-<!--         <prop key="mail.debug">${mail.ssl.debug}</prop> -->
-<!--         <prop key="mail.smtp.auth">{mail.ssl.auth}</prop> -->
-<!--         <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop> -->
-<!--         <prop key="mail.smtp.socketFactory.fallback">false</prop> -->
-<!--         <prop key="mail.smtp.socketFactory.port">{mail.ssl.smtp.port}</prop> -->
-<!--         <prop key="mail.transport.protocol">smtp</prop> -->
-<!--         <prop key="mail.smtp.timeout">8000</prop> -->
-<!--         <prop key="mail.smtp.connectiontimeout">10000</prop> -->
-<!--       </props> -->
-<!--     </property> -->
-<!--   </bean> -->
-  
-  <!-- JavaMail with SMTP on STARTTLS -->
-<!--   <bean id="javaMailTLSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> -->
-<!--     <property name="host" value="${mail.starttls.smtp.host}" /> -->
-<!--     <property name="port" value="${mail.starttls.smtp.port}" /> -->
-<!--     <property name="username" value="${mail.starttls.username}" /> -->
-<!--     <property name="password" value="${mail.starttls.password}" /> -->
-<!--     <property name="javaMailProperties"> -->
-<!--       <props> -->
-<!--         <prop key="mail.smtp.auth">${mail.starttls.auth}</prop> -->
-<!-- 	   	<prop key="mail.debug">${mail.starttls.debug}</prop> -->
-<!-- 	  	<prop key="mail.smtp.starttls.enable">${mail.starttls.enabled}</prop> -->
-<!-- 	  	<prop key="mail.smtp.ssl.trust">${mail.starttls.trust}</prop> -->
-<!--       </props> -->
-<!--     </property> -->
-<!--   </bean> -->
-  
-  
 </beans>    

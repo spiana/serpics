@@ -96,11 +96,11 @@ var app = angular.module('customer.service',['serpics.config','serpics.services'
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
  	   	       $http({
- 	   	            method: 'POST',
+ 	   	            method: 'GET',
  	   	            url: URL + endpoint + 'logout' ,
  	   	            headers: {
- 	   	            	'ssid': sessionId
- 	   	            },
+ 	   	            	'ssid': sessionId,
+ 	   	            }
  	   	        	}).then(handleSuccess, handleError).then(resolve, reject);	   				
  	   			});   		
  	       	});        	

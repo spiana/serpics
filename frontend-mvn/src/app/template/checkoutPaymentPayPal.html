@@ -1,0 +1,31 @@
+<div class="shopper-informations">
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="shopper-info">
+							<p>Choose a Method to Complete Order</p>
+							<div style="width: 100%" ng-model="payment" >
+								<input type="submit" id="submit" value="Continue without PayPal Approval Url" ui-sref="complete" class="btn btn-primary">
+								<a class="btn btn-primary" ng-style="{'background-color':'#009cde'}"ng-href="{{payment.authorizedURL}}">PayPal Approval Url</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8 clearfix">
+						<div class="shopper-info">
+							<p style="margin-bottom: 33px;">Payment Spec</p>
+							<div class="total_area">
+								<ul>
+									<li style="margin-bottom: 33px;">ID: {{payment.id}}</li>
+									<li style="margin-bottom: 33px;">INTENT: {{payment.intent}}</li>
+									<li style="margin-bottom: 33px;">PAYMENTIDENTIFIER: {{payment.paymentIdentifier}}</li>
+									<li style="margin-bottom: 33px;">AMOUNT: {{payment.amount}}</li>
+									<li style="margin-bottom: 33px;">AUTHORIZEDAMOUNT: {{payment.authorizedAmount}}</li>
+									<li style="margin-bottom: 33px;">CAPTUREAMOUNT: {{payment.captureAmount}}</li>
+									<li style="margin-bottom: 33px;">REFOUNDAMOUNT: {{payment.refoundAmount}}</li>
+									<li style="margin-bottom: 33px;">STATE: {{payment.state}}</li>
+									<li style="margin-bottom: 33px;">AUTHORIZEDURL: {{payment.authorizedURL}}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+</div>
