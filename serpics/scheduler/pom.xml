@@ -27,6 +27,7 @@
 	   		<threadCount>5</threadCount>
 	   		      -->
 	   		<useSystemClassLoader>false</useSystemClassLoader> 
+	   	<skipTests>true</skipTests>
 	     </configuration>
  
         <executions>
