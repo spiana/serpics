@@ -14,6 +14,8 @@ xsi:schemaLocation="file:/Users/spiana/git/serpics-code/serpics/admin/src/main/r
 		<navigator-item allow-child="false" bean="brandTable" name="brand" parent="catalog" />	
 		<navigator-item	allow-child="false" bean="categoryTable" name="category" parent="catalog" />
 		<navigator-item allow-child="false" bean="productTable" name="product" parent="catalog" />
+		<navigator-item allow-child="false" bean="variantTable" name="variant" parent="catalog" />
+
 		<navigator-item allow-child="false" bean="featureModelTable" name="featureModel" parent="catalog" />
 		<navigator-item allow-child="false" class="com.serpics.catalog.data.model.CtentryMedia" name="ctentryMedia" parent="catalog" />
 		

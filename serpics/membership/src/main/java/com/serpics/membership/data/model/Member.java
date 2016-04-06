@@ -61,7 +61,7 @@ public class Member extends AbstractEntity implements Serializable {
     @Column(name = "member_type", nullable = false)
     protected MemberType memberType;
     
-    @Column(name="commonname" , length=200 , nullable= false)
+    @Column(name="common_name" , length=200 , nullable= false)
     protected String commonName;
 
     @OneToOne( fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL , orphanRemoval=true)

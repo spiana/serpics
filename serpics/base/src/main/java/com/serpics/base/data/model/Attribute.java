@@ -1,51 +1,43 @@
-package com.serpics.catalog.data.model;
+package com.serpics.base.data.model;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-import com.serpics.base.data.model.BaseAttribute;
-import com.serpics.base.data.model.MultiValueAttribute;
+import com.serpics.core.data.jpa.AbstractEntity;
 
 
 /**
  * The persistent class for the ctentry_attributes database table.
  * 
  */
-@Entity
-@Table(name="ctentry_attributes" )
-public class CtentryAttribute extends AbstractCatalogEntry implements Serializable {
+@Embeddable
+public class Attribute extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="attribute_id")
     private Long id;
-
+   
     @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="base_attribute_id" ,updatable=false)
     private BaseAttribute baseAttribute;
     
     private double sequence;
 
-    //bi-directional many-to-one association to Ctentry
-    @ManyToOne
-    @JoinColumn(name="ctentry_id")
-    private Ctentry ctentry;
-
     @Embedded
     private MultiValueAttribute value;
     
-    public CtentryAttribute() {
+    public Attribute() {
     }
 
     public Long getId() {
@@ -65,14 +57,6 @@ public class CtentryAttribute extends AbstractCatalogEntry implements Serializab
         this.sequence = sequence;
     }
   
-    public Ctentry getCtentry() {
-        return this.ctentry;
-    }
-
-    public void setCtentry(final Ctentry ctentry) {
-        this.ctentry = ctentry;
-    }
-
     public BaseAttribute getBaseAttribute() {
         return baseAttribute;
     }
@@ -88,6 +72,5 @@ public class CtentryAttribute extends AbstractCatalogEntry implements Serializab
 	public void setValue(MultiValueAttribute value) {
 		this.value = value;
 	}
-
 
 }

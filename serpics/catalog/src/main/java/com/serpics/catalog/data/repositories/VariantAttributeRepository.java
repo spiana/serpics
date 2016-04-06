@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.serpics.catalog.data;
+package com.serpics.catalog.data.repositories;
+
+import com.serpics.catalog.data.model.VariantAttribute;
+import com.serpics.core.data.Repository;
 
 /**
  * @author spiana
  *
  */
-public enum ProductType {
+public interface VariantAttributeRepository extends Repository<VariantAttribute, Long>{
 
-	SINGLE, CONFIGURABLE
 }

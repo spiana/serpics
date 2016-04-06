@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.MappingStrategy;
+import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
 import com.serpics.core.data.Repository;
 import com.serpics.core.data.RepositoryInitializer;
@@ -78,12 +79,25 @@ public class SerpicsCsvToBean<T> extends CsvToBean<T> {
 					m.addText(this.mapper.languageMapping.get(this.mapper.getColumnName(col)), value);
 				else
 					prop.getWriteMethod().invoke(bean, new Object[] { addMultilingualFiled(this.mapper.languageMapping.get(this.mapper.getColumnName(col)), value, prop) });
+				
+			}else if (MultiValueField.class.isAssignableFrom(prop.getPropertyType())){
+				MultiValueField m = (MultiValueField) prop.getReadMethod().invoke(bean, null);
+				if (m != null)
+					m.setStringValue(value);
+				else
+					prop.getWriteMethod().invoke(bean, new Object[] { addMultivalueField(value, prop) });
 			}else
 				prop.getWriteMethod().invoke(bean, new Object[] { obj });
 		}
 
 	}
 	
+	private MultiValueField addMultivalueField(String text , PropertyDescriptor prop) throws IntrospectionException,
+		InstantiationException, IllegalAccessException, InvocationTargetException{
+		MultiValueField m = (MultiValueField) prop.getPropertyType().newInstance();
+		m.setStringValue(text);
+		return m;
+	}
 	private Multilingual addMultilingualFiled(String language , String text , PropertyDescriptor prop) throws IntrospectionException,
 	InstantiationException, IllegalAccessException, InvocationTargetException{
 		Multilingual m = (Multilingual) prop.getPropertyType().newInstance();

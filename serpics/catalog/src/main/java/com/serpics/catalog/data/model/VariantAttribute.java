@@ -2,6 +2,7 @@ package com.serpics.catalog.data.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -11,10 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
+import com.serpics.base.data.model.MultilingualString;
 
 
 /**
@@ -22,8 +25,8 @@ import com.serpics.base.data.model.MultiValueAttribute;
  * 
  */
 @Entity
-@Table(name="ctentry_attributes" )
-public class CtentryAttribute extends AbstractCatalogEntry implements Serializable {
+@Table(name="variant_attributes" )
+public class VariantAttribute extends AbstractCatalogEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -39,13 +42,17 @@ public class CtentryAttribute extends AbstractCatalogEntry implements Serializab
 
     //bi-directional many-to-one association to Ctentry
     @ManyToOne
-    @JoinColumn(name="ctentry_id")
-    private Ctentry ctentry;
+    @JoinColumn(name="product_id")
+    private ProductVariant product;
 
     @Embedded
     private MultiValueAttribute value;
     
-    public CtentryAttribute() {
+    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
+    @JoinColumn(name = "localize_string_id")
+    private MultilingualString localize ;
+    
+    public VariantAttribute() {
     }
 
     public Long getId() {
@@ -64,14 +71,6 @@ public class CtentryAttribute extends AbstractCatalogEntry implements Serializab
     public void setSequence(final double sequence) {
         this.sequence = sequence;
     }
-  
-    public Ctentry getCtentry() {
-        return this.ctentry;
-    }
-
-    public void setCtentry(final Ctentry ctentry) {
-        this.ctentry = ctentry;
-    }
 
     public BaseAttribute getBaseAttribute() {
         return baseAttribute;
@@ -89,5 +88,19 @@ public class CtentryAttribute extends AbstractCatalogEntry implements Serializab
 		this.value = value;
 	}
 
+	public ProductVariant getProduct() {
+		return product;
+	}
 
+	public void setProduct(ProductVariant product) {
+		this.product = product;
+	}
+
+	public MultilingualString getLocalize() {
+		return localize;
+	}
+
+	public void setLocalize(MultilingualString localize) {
+		this.localize = localize;
+	}
 }

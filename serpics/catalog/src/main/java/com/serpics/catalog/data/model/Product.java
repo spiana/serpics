@@ -1,7 +1,7 @@
 package com.serpics.catalog.data.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -50,13 +50,6 @@ public class Product extends AbstractProduct implements Serializable {
     @JoinColumn(name = "brand_id")
     protected Brand brand;
 
-
-    @Column(name = "buyable", nullable = false)
-    protected boolean buyable;
-
-    @Column(name = "downlodable", nullable = false)
-    protected boolean downlodable;
-
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "product_type", nullable = false)
     protected ProductType productType;
@@ -67,13 +60,17 @@ public class Product extends AbstractProduct implements Serializable {
     @ManyToOne(optional=true)
     @JoinColumn(name="featuremodel_id")
     protected FeatureModel featureModel;
+    
+    @OneToMany(mappedBy="parentProduct")
+    @OrderBy("sequence ASC")
+    protected Set<ProductVariant> variants;
 
     @OneToMany(mappedBy="product" , orphanRemoval=true , cascade=CascadeType.REMOVE , fetch=FetchType.LAZY)
-    Set<FeatureValues> featureValues = new HashSet<FeatureValues>(0);
+    Set<FeatureValues> featureValues = new LinkedHashSet<FeatureValues>(0);
 
  // bi-directional many-to-one association to CtentryRelation
     @OneToMany(mappedBy = "childProduct", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class,cascade = CascadeType.REMOVE)
-    @OrderBy("sequence desc")
+    @OrderBy("sequence ASC")
     private Set<CategoryProductRelation> categories;
 
 	public Brand getBrand() {
@@ -138,6 +135,14 @@ public class Product extends AbstractProduct implements Serializable {
 
 	public void setCategories(Set<CategoryProductRelation> categories) {
 		this.categories = categories;
+	}
+
+	public Set<ProductVariant> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(Set<ProductVariant> variants) {
+		this.variants = variants;
 	}
     
 

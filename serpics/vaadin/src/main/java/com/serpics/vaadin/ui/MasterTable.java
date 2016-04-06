@@ -81,6 +81,14 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			
 			@Override
 			public void attach(AttachEvent event) {
+
+				if (!initialized) {
+					buildContainer();
+					buildContent();
+					initialized = true;
+				}
+
+				
 				if (container != null)
 					container.refresh();
 			}
@@ -97,9 +105,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		if (!initialized) {
 			buildContainer();
 			buildContent();
-			this.initialized = true;
+			initialized = true;
 		}
-
 	}
 
 	protected void buildContainer() {
@@ -131,6 +138,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 	@SuppressWarnings({ "static-access", "serial" })
 	protected void buildContent() {
+		
 		this.entityList = new Table();
 		entityList.setSelectable(true);
 		entityList.setImmediate(true);

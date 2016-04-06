@@ -3,7 +3,7 @@
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
 	<entity name="member">
-		<property name="commonName" edit="false"  select="true"/>
+		<property name="commonName" edit="false" select="true"/>
 	</entity>
 	
 	<entity name="usersreg">

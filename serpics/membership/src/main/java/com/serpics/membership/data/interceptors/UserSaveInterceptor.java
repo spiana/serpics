@@ -25,9 +25,7 @@ public class UserSaveInterceptor  implements SaveInterceptor<User> {
 			entity.getStores().add((Store)ce.getCurrentContext().getStoreRealm());
 		}
 		if (entity.getCommonName() == null){
-			entity.setCommonName("cn=" + StringUtils.capitalize(entity.getFirstname() )+ 
-					entity.getFirstname() != null ?" ":"" + 
-					StringUtils.capitalize(entity.getLastname()));
+			entity.setCommonName(makeCommonName(entity));
 		}
 	}
 
@@ -37,4 +35,16 @@ public class UserSaveInterceptor  implements SaveInterceptor<User> {
 		
 	}
 
+	private String makeCommonName (User entity){
+	  StringBuffer sb = new StringBuffer();
+	  sb.append ("cn=");
+	  
+	  if (entity.getFirstname() != null){
+		  StringUtils.capitalize(entity.getLastname());
+		  sb.append(" " );
+	  }
+	  sb.append(StringUtils.capitalize(entity.getLastname()));
+	  
+	  return sb.toString();
+	}
 }

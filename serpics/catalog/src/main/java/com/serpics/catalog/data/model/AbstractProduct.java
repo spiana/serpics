@@ -6,8 +6,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,7 +14,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.serpics.base.data.model.TaxCategory;
-import com.serpics.catalog.data.ProductType;
 
 
 /**
@@ -27,18 +24,15 @@ import com.serpics.catalog.data.ProductType;
 @Table(name = "abstractProducts")
 public abstract class AbstractProduct extends Ctentry implements Serializable {
     private static final long serialVersionUID = 1L;
-
    
     @Column(name = "manufacturer_sku")
     protected String manufacturerSku;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "product_type", nullable = false)
-    protected ProductType productType;
-
+   
     @Column(name = "buyable", nullable = false)
     protected boolean buyable;
 
+    @Column(name = "downlodable", nullable = false)
+    protected boolean downlodable;
     
     @Column(name = "unit_meas")
     protected String unitMeas;
@@ -116,20 +110,29 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
             this.url = "/" + getCatalog().getCode() + "/p/" + getCode();
     }
 
-	public com.serpics.catalog.data.ProductType getProductType() {
-		return productType;
-	}
-
-	public void setProductType(com.serpics.catalog.data.ProductType productType) {
-		this.productType = productType;
-	}
-
+	
 	public TaxCategory getTaxcategory() {
 		return taxcategory;
 	}
 
 	public void setTaxcategory(TaxCategory taxcategory) {
 		this.taxcategory = taxcategory;
+	}
+
+	public boolean isBuyable() {
+		return buyable;
+	}
+
+	public void setBuyable(boolean buyable) {
+		this.buyable = buyable;
+	}
+
+	public boolean isDownlodable() {
+		return downlodable;
+	}
+
+	public void setDownlodable(boolean downlodable) {
+		this.downlodable = downlodable;
 	}
 
 }
