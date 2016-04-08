@@ -4,7 +4,7 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	
 	var endpoint = '/api/v1/productService/';
 	 
-	     /** Return public API. (loki java interface)**/
+	     /** Return public API. (java interface)**/
 	     var service =({
 	    	 
 	     		getProduct	  			: getProduct,                
