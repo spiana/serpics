@@ -21,11 +21,21 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.AttributeType;
+import com.serpics.base.AvailableforType;
+import com.serpics.base.data.model.BaseAttribute;
+import com.serpics.base.data.model.MultiValueAttribute;
+import com.serpics.base.data.repositories.BaseAttributeRepository;
 import com.serpics.catalog.data.ProductType;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.ProductVariant;
+import com.serpics.catalog.data.model.VariantAttribute;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.data.repositories.ProductVariantRepository;
+import com.serpics.catalog.data.repositories.VariantAttributeRepository;
+import com.serpics.catalog.facade.ProductFacade;
+import com.serpics.catalog.facade.data.ProductData;
+import com.serpics.catalog.services.ProductService;
 
 /**
  * @author spiana
@@ -40,9 +50,60 @@ public class VariantsTest extends CatalogBaseTest{
 	@Resource
 	ProductRepository productRepository;
 	
+	@Resource
+	ProductService productService;
+	
+	@Resource
+	BaseAttributeRepository baseAttributeRepository;
+	
+	@Resource
+	VariantAttributeRepository variantAttributeRepository;
+	
+	@Resource
+	ProductFacade productFacade;
+	
 	@Transactional
 	@Test
 	public void variantTest(){
+		
+		createProduct();
+		
+		Product p = productService.findByCode("P");
+		
+		Assert.assertEquals(3, p.getVariants().size());
+		Assert.assertEquals("P.0", p.getVariants().iterator().next().getCode());
+		Assert.assertEquals("P.1.5", p.getVariants().toArray(new ProductVariant[]{})[1].getCode());
+		
+		
+	}
+	
+	@Test
+	@Transactional
+	public void testProductVariantFacade(){
+		createProduct();
+		
+		ProductData  p = productFacade.findByCode("P");
+		
+		Assert.assertEquals(3, p.getVariants().size());
+		Assert.assertEquals(1, p.getVariants().get(0).getAttributes().size());
+	}
+	
+	
+	private void createProduct(){
+		
+		BaseAttribute color = new BaseAttribute();
+		color.setAvailablefor(AvailableforType.VARIANT);
+		color.setAttributeType(AttributeType.STRING);
+		color.setName("COLOR");
+		baseAttributeRepository.save(color);
+	
+		BaseAttribute size= new BaseAttribute();
+		size.setAvailablefor(AvailableforType.VARIANT);
+		size.setName("SIZE");
+		size.setAttributeType(AttributeType.STRING);
+		baseAttributeRepository.save(size);
+		
+		
 		Product p = new Product();
 		p.setProductType(ProductType.CONFIGURABLE);
 		p.setCode("P");
@@ -62,6 +123,16 @@ public class VariantsTest extends CatalogBaseTest{
 		
 		productVariantRepository.save(pv0);
 		
+		MultiValueAttribute value =  new MultiValueAttribute();
+		value.setStringValue("L");
+		
+		VariantAttribute attr1 = new VariantAttribute();
+		attr1.setBaseAttribute(size);
+		attr1.setValue(value);
+		attr1.setProduct(pv0);
+		
+		variantAttributeRepository.save(attr1);
+		
 		ProductVariant pv2 = new ProductVariant();
 		pv2.setCode("P.1.5");
 		pv2.setParentProduct(p);
@@ -69,14 +140,9 @@ public class VariantsTest extends CatalogBaseTest{
 		
 		productVariantRepository.save(pv2);
 		
+		productVariantRepository.detach(pv0);
+		productVariantRepository.detach(pv1);
+		productVariantRepository.detach(pv2);
 		productRepository.detach(p);
-
-		p = productRepository.findOne(p.getId());
-		
-		Assert.assertEquals(3, p.getVariants().size());
-		Assert.assertEquals("P.0", p.getVariants().iterator().next().getCode());
-		Assert.assertEquals("P.1.5", p.getVariants().toArray(new ProductVariant[]{})[1].getCode());
-		
-		
 	}
 }

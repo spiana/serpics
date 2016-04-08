@@ -5,11 +5,12 @@
     <groupId>com.serpics</groupId>
     <artifactId>magnolia</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>magnolia-webapp</artifactId>
-  <name>magnolia: webapp</name>
+  
+  <artifactId>webapp-1</artifactId>
+  <name>magnolia webapp</name>
   <packaging>war</packaging>
+  
   <dependencies>
     <!--
      Add your project specific dependencies here:
@@ -21,6 +22,7 @@
 
     <!-- option i - magnolia-empty-webapp -->
     <!-- Dependencies versions are already imported by parent pom. Requires "Option A" in the parent pom. -->
+  
     <dependency>
       <groupId>info.magnolia</groupId>
       <artifactId>magnolia-empty-webapp</artifactId>
@@ -31,11 +33,10 @@
       <artifactId>magnolia-empty-webapp</artifactId>
       <type>war</type>
     </dependency>
-
 
     <!-- option ii - magnolia-community-webapp -->
     <!-- Dependencies versions are already imported by parent pom. Requires "Option A" in the parent pom. -->
-    <!--
+  <!--  
     <dependency>
       <groupId>info.magnolia.bundle</groupId>
       <artifactId>magnolia-community-webapp</artifactId>
@@ -46,7 +47,7 @@
       <artifactId>magnolia-community-webapp</artifactId>
       <type>war</type>
     </dependency>
-    -->
+   -->
 
 
     <!-- option iii - magnolia-enterprise-standard-webapp -->
@@ -89,25 +90,22 @@
 	<artifactId>resteasy-client</artifactId>
 	<version>3.0.14.Final</version>
 </dependency>
-
+<!-- 
 	<dependency>
 	  <groupId>info.magnolia.templating</groupId>
 	  <artifactId>magnolia-templating-kit</artifactId>
-	  <version>0.8</version>
 	</dependency>
 	
 	<dependency>
 	  <groupId>info.magnolia.templating</groupId>
 	  <artifactId>magnolia-templating-essentials-models</artifactId>
-	  <version>0.8</version>
 	</dependency>
     
           <dependency>
       <groupId>info.magnolia.dam</groupId>
       <artifactId>magnolia-dam</artifactId>
-      <version>2.1</version>
     </dependency>
-    
+  -->  
   </dependencies>
 
   <build>

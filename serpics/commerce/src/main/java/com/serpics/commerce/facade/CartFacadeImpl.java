@@ -91,7 +91,7 @@ public class CartFacadeImpl implements CartFacade {
 		} catch (InventoryNotAvailableException e) {
 			return new CartModification(CartModificationStatus.LOW_STOCK, getCurrentCart(), "not available !");
 		} catch (ProductNotFoundException e) {
-			return new CartModification(CartModificationStatus.ERROR, getCurrentCart(), "product not found !");
+			return new CartModification(CartModificationStatus.ERROR, getCurrentCart(), e.getMessage());
 		}
 
 	}

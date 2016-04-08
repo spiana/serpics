@@ -40,13 +40,21 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
     <bean name="productWarehousePopulator" class="com.serpics.warehouse.facade.ProductWarehousePopulator" >
     </bean>
  	
- 	<alias name="defaultProductConverter" alias="productConverter"/>
-	<bean name="defaultProductConverter" parent="abstractConverter">
+ 	<alias name="stockProductConverter" alias="productConverter"/>
+	<bean name="stockProductConverter" parent="defaultProductConverter">
 	<property name="targetClass" value="com.serpics.catalog.facade.data.ProductData"/>
 	<property name="populators">
-	  <list>
-	      <ref bean="ctentryPopulator"/>  
-	      <ref bean="productPopulator"/>  
+	  <list merge="true">
+	      <ref bean="productWarehousePopulator"/> 
+	  </list>
+	</property>
+	</bean>
+	
+	<alias name="stockProductVariantConverter" alias="productVariantConverter"/>
+	<bean name="stockProductVariantConverter" parent="defaultProductVariantConverter">
+	<property name="targetClass" value="com.serpics.catalog.facade.data.ProductVariantData"/>
+	<property name="populators">
+	  <list merge="true">
 	      <ref bean="productWarehousePopulator"/> 
 	  </list>
 	</property>
