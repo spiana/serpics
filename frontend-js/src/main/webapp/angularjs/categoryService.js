@@ -4,7 +4,7 @@
  */
  app.service("categoryService", function( $http, $q,serpicsServices,URL,COOKIE_EXPIRES,$cookies,$log ) {
 	 
-	 var endpoint   	= '/api/v1/categoryService/';
+	 var endpoint   	= '/api/v1/categories/';
 	 var localSessionId = '';
  
 	    /** Return public API. (like java interface)**/
@@ -122,7 +122,7 @@
 	    			$log.debug("CategoryService getChild(parentId) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint +   'parent/getChild/' + parentId,
+	    				url: URL + endpoint +   'parentId/childs',
 	    				headers: {
 	    					'ssid': sessionId
 	    					}
@@ -143,7 +143,7 @@
 	    			$log.debug("CategoryService getChildByCode(parentCode) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint +   'parent/getChild/code/' + parentCode,
+	    				url: URL + endpoint +   '/code/' + parentCode + '/childs',
 	    				headers: {
 	    					'ssid': sessionId
 	    					}

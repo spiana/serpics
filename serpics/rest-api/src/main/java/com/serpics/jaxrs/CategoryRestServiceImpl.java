@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.qmino.miredot.annotations.MireDotIgnore;
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.CategoryFacade;
 import com.serpics.catalog.facade.data.CategoryData;
@@ -34,7 +35,7 @@ import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.CategoryDataRequest;
 
-@Path("/categoryService")
+@Path("/categories")
 @Transactional(readOnly=true)
 public class CategoryRestServiceImpl implements CategoryRestService{
 	
@@ -129,6 +130,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("parent/{parentId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response createParent(CategoryDataRequest categoryDataRequest, @PathParam("parentId") Long parentId,@HeaderParam(value = "ssid") String ssid){
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
@@ -167,6 +169,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response create(CategoryDataRequest categoryDataRequest,@HeaderParam(value = "ssid") String ssid){
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
@@ -206,6 +209,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("parent/{childId}/{parentId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response addParent(@PathParam("childId") Long childId, @PathParam("parentId") Long parentId,@HeaderParam(value = "ssid") String ssid){
 		Assert.notNull(childId);
@@ -219,7 +223,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
     /**
      * This method gets a list of category whith same parent
      * @summary  Method: getChild(Long parentId)
-     * @param parentId The category id of the parent
+     * @param categoryId The category id of the parent
      * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      * 
@@ -228,11 +232,11 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/parent/getChild/{parentId}")
+	@Path("/id/{categoryId}/childs")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
-	public Response getChild(@PathParam("parentId") Long parentId,@HeaderParam(value = "ssid") String ssid){
-		Assert.notNull(parentId);
-		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(parentId);
+	public Response getChild(@PathParam("categoryId") Long categoryId,@HeaderParam(value = "ssid") String ssid){
+		Assert.notNull(categoryId);
+		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(categoryId);
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(listCategoryData);
@@ -242,7 +246,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
     /**
      * This method gets a list of category whith same parent
      * @summary  Method: getChild(String code)
-     * @param parentId The category code of the parent
+     * @param categoryCode The category code of the parent
      * @param ssid The sessionId for the store authentication
      * @return Response		object type: apiRestResponse
      * 
@@ -251,11 +255,11 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/parent/getChild/code/{code}")
+	@Path("/code/{categoryCode}/childs")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<java.util.List<com.serpics.catalog.facade.data.CategoryData>>")
-	public Response getChildByCode(@PathParam("code") String code,@HeaderParam(value = "ssid") String ssid){
-		Assert.notNull(code);
-		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(code);
+	public Response getChildByCode(@PathParam("categoryCode") String categoryCode,@HeaderParam(value = "ssid") String ssid){
+		Assert.notNull(categoryCode);
+		List<CategoryData> listCategoryData = categoryFacade.listChildCategories(categoryCode);
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(listCategoryData);
@@ -276,6 +280,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@PUT
 	@Path("/id/{categoryId}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response update(@PathParam("categoryId") Long categoryId,CategoryDataRequest categoryDataRequest,@HeaderParam(value = "ssid") String ssid){
 		ApiRestResponse<CategoryData> apiRestResponse = new ApiRestResponse<CategoryData>();
@@ -314,6 +319,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/id/{categoryId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.CategoryData>")
 	public Response delete(@PathParam("categoryId") Long categoryId,@HeaderParam(value = "ssid") String ssid){
 		Assert.notNull(categoryId);
@@ -336,6 +342,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/page")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.CategoryData>>")
 	public Response findAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size,@HeaderParam(value = "ssid") String ssid){
 		ApiRestResponse<Page<CategoryData> > apiRestResponse = new ApiRestResponse<Page<CategoryData> >();

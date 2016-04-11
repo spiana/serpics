@@ -4,7 +4,7 @@ var app = angular.module("product", ['AuthManager'])
 
  app.service("productService",function( $http, $q ,api_endpoint) {
 	        		 
-      	     /** Return public API. (loki java interface)**/
+      	     /** Return public API. (java interface)**/
       	     var service =({
       	     		insert	  			: insert,
       	     		insertCategory	  	: createParent,
