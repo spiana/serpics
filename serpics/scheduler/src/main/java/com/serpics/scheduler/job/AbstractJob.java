@@ -12,7 +12,7 @@ public abstract class AbstractJob extends QuartzJobBean {
 			
 	@Override
 	protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
-		execute(arg0);
+		executeJob(arg0);
 	}
 	
 	/**

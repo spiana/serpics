@@ -1,24 +1,43 @@
- (function() {
+(function() {
 	 'use strict';
-	 angular.module('serpics.config', ['ngDialog'])
+	 angular.module('app.config', [])
 			.constant('APP_NAME','Serpics App')
-			.constant('APP_VERSION','0.1')
-			.constant('URL','http://localhost:8080/jax-rs')
-			.constant('COOKIE_EXPIRES','20') //[minuti]
-			.constant('STORE','default-store') //Store constant for Auth Connect
+			.constant('APP_VERSION','2.0')
 			.constant('TIMEOUT','15') //[minuti]
-			.config(function($logProvider){
-				$logProvider.debugEnabled(true);
-				});
- })();
-				
-var modal = angular.module('serpics.Modal', ['ngDialog']);			
-		modal.config(['ngDialogProvider', function (ngDialogProvider) {
-		    ngDialogProvider.setDefaults({
-		        className: 'ngdialog-theme-default',
-		        plain: true,
-		        showClose: true,
-		        closeByDocument: true,
-		        closeByEscape: true
-		  });
-}]);
+			.constant('DEBUG','true')
+			.config(config);
+	 
+	 config.$inject = ['$httpProvider'];
+	 
+	 /** @ngInject */
+	 function config ($httpProvider){
+		 
+		 $httpProvider.interceptors.push('serpicsInterceptor');
+		 
+		  }
+	 
+	  })();
+	 
+//(function() {
+
+
+//"ng-dialog": "0.2.9"
+//	 'use strict';
+//	 angular.module('serpics.Modal', [])
+//	 .config(config);
+//	 
+//	 config.$inject = ['$httpProvider','ngDialogProvider'];
+//	 /** @ngInject */
+//	 function config(ngDialogProvider) {
+//		    ngDialogProvider.setDefaults({
+//		        className: 'ngdialog-theme-defaulted',
+//		        plain: true,
+//		        showClose: true,
+//		        closeByDocument: true,
+//		        closeByEscape: true
+//		  });
+//}
+//
+//
+//		 
+//})();

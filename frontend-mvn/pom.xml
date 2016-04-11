@@ -80,7 +80,7 @@
 		<profile>
 			<id>build</id>
 			<activation>
-			<activeByDefault>false</activeByDefault>
+			<activeByDefault>true</activeByDefault>
 				<property>
 					<name>env</name>
 					<value>build</value>
@@ -97,7 +97,7 @@
 		<profile>
 			<id>serve</id>
 			<activation>
-			<activeByDefault>true</activeByDefault>
+			<activeByDefault>false</activeByDefault>
 				<property>
 					<name>env</name>
 					<value>serve</value>

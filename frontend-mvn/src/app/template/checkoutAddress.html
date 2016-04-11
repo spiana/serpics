@@ -10,7 +10,7 @@
 								currentUser.billingAddress.streetNumber.length &&
 								currentUser.billingAddress.city.length &&
 								currentUser.billingAddress.zipcode.length &&
-								currentUser.billingAddress.email.length" type="submit" id="submit" value="Continue" ng-click="submitBillingForm(currentUser.billingAddress,shippingToBill)" class="btn btn-primary">
+								currentUser.billingAddress.email.length" type="submit" id="submit" value="Continue" ng-click="cartVm.submitBillingForm(currentUser.billingAddress,shippingToBill)" class="btn btn-primary">
 								<input ng-hide="currentUser.billingAddress.firstname.length &&
 								currentUser.billingAddress.lastname.length &&
 								currentUser.billingAddress.address1.length &&

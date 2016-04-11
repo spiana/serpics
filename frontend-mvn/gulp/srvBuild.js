@@ -24,13 +24,25 @@ gulp.task('srvUglify',['srvInject'],function () {
     .pipe(jsFilter.restore)
     .pipe(gulp.dest(path.join(conf.paths.srv, '/')))
     .pipe(gulp.dest(path.join('../magnolia/serpics-magnoglia/magnolia-webapp/src/main/webapp/serpics/webresources/services', '/')))
-    .pipe($.size({ title: path.join(conf.paths.srv, '/'), showFiles: true }));
+    .pipe($.size({ title: path.join(conf.paths.distSrv, '/'), showFiles: true }));
   });
-  
+
+gulp.task('srvOther', function () {
+	  var fileFilter = $.filter(function (file) {
+	    return file.stat.isFile();
+	  });
+
+	  return gulp.src([
+	                   path.join(conf.paths.srv, '/*.config.js'),
+	  ])
+	    .pipe(fileFilter)
+	    .pipe(gulp.dest(path.join(conf.paths.distSrv, '/')));
+	});
+
   //Primo task eseguito nella fase di default
 gulp.task('srvClean', function () {
 	$.util.log(gutil.colors.red('Cleaning Directory:')+JSON.stringify([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]));
 	return $.del([path.join(conf.paths.tmp, '/'),path.join(conf.paths.dist, '/')],{force: true});
 });
 
-gulp.task('srv', ['srvClean','srvUglify']);
+gulp.task('srv', ['srvClean','srvUglify','srvOther']);
