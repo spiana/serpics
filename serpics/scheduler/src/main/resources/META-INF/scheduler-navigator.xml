@@ -7,6 +7,7 @@ xsi:schemaLocation="file:/Users/spiana/git/serpics-code/serpics/admin/src/main/r
 	<navigator name="mainNav">
 		<navigator-item	allow-child="true"  name="scheduler" parent="" />
 		<navigator-item	allow-child="false" bean="jobDetailTable" 	name="cronjob" parent="scheduler" />
+		<navigator-item	allow-child="false" bean="systemJobDetailTable" name="systemcronjob" parent="scheduler" roles="ROLE_SUPERUSER"  />
 	</navigator>
 
 </navigator-definition>

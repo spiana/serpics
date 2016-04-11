@@ -1,6 +1,7 @@
 package com.serpics.postmanservice.service.impl;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.activation.DataHandler;
@@ -54,13 +55,7 @@ public class SendEmailServiceImpl implements SendEmailService {
 	@Override
 	public Page<MetaDataMail> getListOfMailToProcess(int numberOfMail) {
 
-		return metaDataMailRepository.findAll(new Specification<MetaDataMail>() {
-
-			@Override
-			public Predicate toPredicate(Root<MetaDataMail> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-				return root.get("state").in(MailState.NEW, MailState.RETRY);
-			}
-		}, new PageRequest(0, numberOfMail, Sort.Direction.ASC, "created"));
+		return metaDataMailRepository.findMailToSend(Arrays.asList(MailState.NEW, MailState.RETRY), new PageRequest(0, numberOfMail, Sort.Direction.ASC, "created"));
 
 	}
 
