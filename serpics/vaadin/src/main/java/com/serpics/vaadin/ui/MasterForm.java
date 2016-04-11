@@ -76,6 +76,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 	}
 
 	protected void buildContent() {
+		removeAllComponents();
 		
 		fieldGroup = new FieldGroup();
 		// fieldGroup.setFieldFactory(this);
