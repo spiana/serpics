@@ -55,11 +55,8 @@
       <dependency>
       <groupId>info.magnolia.dam</groupId>
       <artifactId>magnolia-dam</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>info.magnolia.dam</groupId>
-      <artifactId>magnolia-dam-imaging</artifactId>
-    </dependency>
+      <version>2.1</version>
+      </dependency>
     
 	<dependency>
 	  <groupId>info.magnolia.templating</groupId>
@@ -133,6 +130,6 @@
   </repositories>
 
   <modules>
-    <module>magnolia-webapp</module>
+  	<module>magnolia-webapp</module>
   </modules>
 </project>
