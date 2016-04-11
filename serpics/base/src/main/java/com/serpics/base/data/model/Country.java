@@ -15,11 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
  * The persistent class for the countries database table.
- * 
+ *
  */
 @Entity
 @Table(name = "countries")
@@ -34,17 +35,19 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     @Column(name = "iso2_code", nullable = false, length = 2)
  //   @Size(min=2,max=2)
     @Pattern(regexp="[A-Z]{2}")
+    @NotNull(message = "{country.iso2Code.notnull}")
     private String iso2Code;
 
     @Column(name = "iso3_code", nullable = false, length = 3)
  //   @Size(min=3,max=3)
-    @Pattern(regexp="[A-Z]{3}")
+    @Pattern(regexp="[A-Z]{3}", message = "{country.iso3Code.pattern}" )
+    @NotNull(message = "{country.iso3Code.notnull}")
     private String iso3Code;
 
     @Column(name = "iso_num_code", nullable = true)
     private Integer isoNumber;
 
-    
+
     // bi-directional many-to-one association to Geocode
     @ManyToOne
     @JoinColumn(name = "geocode_id", nullable = true)
@@ -57,7 +60,7 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     // bi-directional many-to-one association to Region
     @OneToMany(mappedBy = "country", fetch=FetchType.LAZY)
     private Set<Region> regions;
-    
+
     // bi-directional many-to-one association to District
     @OneToMany(mappedBy = "country", fetch=FetchType.LAZY)
     private Set<District> districts;
@@ -65,7 +68,7 @@ public class Country extends com.serpics.core.data.jpa.AbstractEntity implements
     public Country() {
     }
 
-   
+
     public Long getCountriesId() {
         return this.countriesId;
     }

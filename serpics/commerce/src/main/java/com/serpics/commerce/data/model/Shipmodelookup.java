@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.AbstractStoreEntity;
 import com.serpics.base.data.model.Country;
@@ -53,6 +54,7 @@ public class Shipmodelookup extends AbstractStoreEntity implements Serializable 
 	private District district;
 
 	@Column(length=30)
+	@Size(max=30, message = "{shipmodelookup.zipcode.size}")
 	private String zipcode;
 
 	//bi-directional many-to-one association to Shipmode

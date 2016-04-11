@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Pattern;
 
 import com.serpics.base.data.model.MultilingualString;
 
@@ -24,8 +25,10 @@ public class FeatureGroup extends AbstractCatalogEntry {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
+	
     private String code;
 
+    @Pattern(regexp="[a-zA-Z0-9]*", message= "{featureGroup.name.pattern}")
     private String name;
 
     private double sequence;

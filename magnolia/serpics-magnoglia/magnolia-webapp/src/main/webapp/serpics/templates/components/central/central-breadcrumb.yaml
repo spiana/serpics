@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/central/central-breadcrumb.ftl
+renderType: freemarker
+title: Breadcrumb Component

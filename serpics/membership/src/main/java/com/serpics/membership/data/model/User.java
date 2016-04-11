@@ -43,17 +43,19 @@ import com.serpics.membership.UserType;
 public class User extends Member implements UserDetail, Customer{
  	private static final long serialVersionUID = 545575485685613766L;
 
+ 	@Size(max=200, message="{user.firstname.size}")
 	@Column(length = 200)
     private String firstname;
 
-    @Column(length = 200)
+    @Column(length = 200, nullable = true)
+    @Size(max=200, message="{user.lastname.size}")
     private String lastname;
 
-    @Size(max = 25)
+    @Size(max = 25, message = "{user.phone.size}")
     @Column(length = 25)
     private String phone;
 
-    @Size(max = 254)
+    @Size(max=200, message="{user.email.size}")
     @Column(length = 254)
     private String email;
 
@@ -70,11 +72,7 @@ public class User extends Member implements UserDetail, Customer{
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_visit")
     private Date lastVisit;
-
-    // bi-directional many-to-one association to MemberRelation
-    //   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    //   protected Set<UserStoreRelation> storeRelation = new HashSet<UserStoreRelation>(0);
-
+  
     @ManyToMany(fetch = FetchType.LAZY )
     @JoinTable(name = "user2storerel", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "store_id"))
     protected Set<Store> stores = new HashSet<Store>(0);

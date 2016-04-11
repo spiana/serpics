@@ -10,9 +10,10 @@
 	 	<intercept-url pattern="/admin/login/**" access="permitAll" />
 	 	 <intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/admin/smc/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
+		<intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
 		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page="/admin/login"  username-parameter="ssoId" password-parameter="password" 
 		 login-processing-url="/admin/login"  />
-		<logout invalidate-session="false" logout-url="/admin/logout" />	
+		<logout invalidate-session="true" logout-url="/admin/logout" />	
 	</http>
 
 	  

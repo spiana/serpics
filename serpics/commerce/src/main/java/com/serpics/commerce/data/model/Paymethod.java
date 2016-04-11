@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.core.data.jpa.AbstractEntity;
@@ -31,6 +33,8 @@ public class Paymethod extends AbstractEntity implements Serializable {
     @Column(name = "paymethod_id", unique = true, nullable = false)
     private Long paymethodId;
 
+    @Size(max = 100, message ="{paymethod.name.size}")
+    @NotNull(message="{paymethod.name.notnull}")
     @Column(nullable = false, length = 100, unique = true)
     private String name;
 

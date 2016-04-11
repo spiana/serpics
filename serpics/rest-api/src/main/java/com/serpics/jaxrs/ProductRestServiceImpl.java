@@ -298,6 +298,41 @@ public class ProductRestServiceImpl implements ProductRestService {
 		}
 
 	}
+	
+    /**
+     * This method gets a product by productCode.
+     * @summary  Method: getProductByCode(String productCode)
+     * @param 	productCode The product code to get
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     * @statuscode 200 Product found
+     * @statuscode 404 Product not found
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/product/code/{productCode}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response getProductByCode(@PathParam("productCode") String productCode, @HeaderParam(value = "ssid") String ssid) {
+
+		// Assert.notNull(productId);
+
+		ProductData productData = null;
+		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
+
+		productData = productFacade.findByCode(productCode);
+		if (productData != null) {
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			return Response.ok(apiRestResponse).build();
+		} else {
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, Product not found");
+			return Response.status(404).entity(apiRestResponse).build();
+		}
+
+	}
 
     /**
      * This method deletes a product by productId.
@@ -525,6 +560,31 @@ public class ProductRestServiceImpl implements ProductRestService {
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(productFacade.listProductByCategory(categoryId, new PageRequest(page, size)));
+		return Response.ok(apiRestResponse).build();
+	}
+	
+    /**
+     * This method gets all products of a given category.
+     * @summary  Method: findByCategoryCode(String categoryCode, int page, int size)
+     * @param 	categoryCode The category code to search
+     * @param 	page The number of page requested
+     * @param 	size The size of product to display in a page
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("pageCategory/code/{categoryCode}")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
+	public Response findByCategoryCode(@PathParam("categoryCode") String categoryCode,
+			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(productFacade.listProductByCategoryCode(categoryCode, new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
 

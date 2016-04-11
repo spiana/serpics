@@ -1,0 +1,31 @@
+<div class="left-sidebar" ng-controller="CategoryController as categoryVm">
+	<h2>Category</h2>
+	<div class="panel-group category-products">
+		<!--category-products-->
+		<div class="panel panel-default" ng-repeat="category in categoryVm.categoryData">
+		<div class="panel-heading">
+		<ul>
+			<li >
+				<p  ng-if="category.childCategoryNumber !=0" ng-class="{ 'fa fa-minus badge pull-right': categoryVm.categoryData[$index].active, 'fa fa-plus badge pull-right': !categoryVm.categoryData[$index].active }" ng-click="categoryVm.getChild(category.id,$index,category)">
+        		</p>
+        		<h4 class="panel-title">
+        			<a ui-sref="shop.category({id: category.id, name: category.code})">
+        				{{category.name || category.code}}
+        			</a>
+        		</h4>
+        		<div ng-class="{ 'panel-collapse': categoryData[$index].active, 'panel-collapse collapse': !categoryVm.categoryData[$index].active }">
+        			<div class="panel-body">
+						<ul >
+                			<li ng-if="category.childCategoryNumber !=0" ng-repeat="subCat in categoryVm.categoryData[$index].subCategory"  ng-show="category.active">
+                    			<a ui-sref="shop.category({id: subCat.id, name: subCat.code})">{{subCat.name || subCat.code}}</a>
+                			</li>
+            			</ul>
+            		</div>
+            	</div>
+        	</li>
+    	</ul>
+		</div> 
+		</div>
+	</div>
+</div>
+<!--/category-products-->

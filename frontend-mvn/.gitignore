@@ -1,0 +1,13 @@
+/node/
+/node_modules/
+/etc/
+/bower_components/
+/.yo-rc.json
+/target/
+/target
+/.tmp
+/.forge_settings
+/.classpath
+/.settings
+/.project
+/conflict

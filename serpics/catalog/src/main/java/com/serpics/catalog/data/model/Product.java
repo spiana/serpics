@@ -1,34 +1,32 @@
 package com.serpics.catalog.data.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import com.serpics.base.data.model.TaxCategory;
 import com.serpics.catalog.data.CatalogEntryType;
-import com.serpics.core.datatype.ProductType;
+import com.serpics.catalog.data.ProductType;
+
 
 /**
  * The persistent class for the product database table.
  * 
  */
 @Entity
-@Table(name = "abstractProducts")
-@DiscriminatorValue("3")
-//@DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.INTEGER)
-public class Product extends Ctentry implements Serializable {
+@Table(name = "products")
+public class Product extends AbstractProduct implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public Product(final boolean buyable, final String sku) {
@@ -37,165 +35,50 @@ public class Product extends Ctentry implements Serializable {
         this.published = buyable;
         this.code = sku;
         this.downlodable = false;
-        this.ctentryType = 1;
+        this.ctentryType = CatalogEntryType.PRODUCT;
     }
 
     public Product() {
         super();
         this.buyable = this.published =true; this.downlodable = false;
         this.ctentryType = CatalogEntryType.PRODUCT;
-        this.productType = ProductType.PRODUCT;
+        this.productType = ProductType.SINGLE;
     }
-
-    @Column(name = "buyable", nullable = false)
-    protected boolean buyable;
-
-    @Column(name = "downlodable", nullable = false)
-    protected boolean downlodable;
-
-    @Column(name = "manufacturer_sku")
-    protected String manufacturerSku;
-
-    @Column(name = "product_type", nullable = false)
-    protected Integer productType;
-
-    @Column(name = "published", nullable = false)
-    protected boolean published;
-
-    @Column(name = "unit_meas")
-    protected String unitMeas;
-
-    @Column(name = "weight")
-    protected Double weight;
-
-    @Column(name = "weight_meas")
-    protected String weightMeas;
-
-    // bi-directional many-to-one association to Price
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    protected Set<Price> prices;
-
+    
     // bi-directional many-to-one association to Brand
     @ManyToOne(optional = true)
     @JoinColumn(name = "brand_id")
     protected Brand brand;
 
-    // bi-directional many-to-one association to Productffmt
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
-    protected Set<Productffmt> productffmts;
-    
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "product_type", nullable = false)
+    protected ProductType productType;
+
+    @Column(name = "published", nullable = false)
+    protected boolean published;
+
     @ManyToOne(optional=true)
     @JoinColumn(name="featuremodel_id")
     protected FeatureModel featureModel;
+    
+    @OneToMany(mappedBy="parentProduct")
+    @OrderBy("sequence ASC")
+    protected Set<ProductVariant> variants;
 
     @OneToMany(mappedBy="product" , orphanRemoval=true , cascade=CascadeType.REMOVE , fetch=FetchType.LAZY)
-    Set<FeatureValues> featureValues = new HashSet<FeatureValues>(0);
+    Set<FeatureValues> featureValues = new LinkedHashSet<FeatureValues>(0);
 
  // bi-directional many-to-one association to CtentryRelation
     @OneToMany(mappedBy = "childProduct", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CategoryProductRelation.class,cascade = CascadeType.REMOVE)
-    @OrderBy("sequence desc")
+    @OrderBy("sequence ASC")
     private Set<CategoryProductRelation> categories;
-    
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "taxcategory_id")
-    private TaxCategory taxcategory;
 
-    public String getManufacturerSku() {
-        return this.manufacturerSku;
-    }
-
-    public void setManufacturerSku(final String manufacturerSku) {
-        this.manufacturerSku = manufacturerSku;
-    }
-
-    public String getUnitMeas() {
-        return this.unitMeas;
-    }
-
-    public void setUnitMeas(final String unitMeas) {
-        this.unitMeas = unitMeas;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(final Double weight) {
-        this.weight = weight;
-    }
-
-    public String getWeightMeas() {
-        return this.weightMeas;
-    }
-
-    public void setWeightMeas(final String weightMeas) {
-        this.weightMeas = weightMeas;
-    }
-
-    public Set<Price> getPrices() {
-        return this.prices;
-    }
-
-    public void setPrices(final Set<Price> prices) {
-        this.prices = prices;
-    }
-
-    public Brand getBrand() {
-        return this.brand;
-    }
-
-    public void setBrand(final Brand brand) {
-        this.brand = brand;
-    }
-
-    public Set<Productffmt> getProductffmts() {
-        return this.productffmts;
-    }
-
-    public void setProductffmts(final Set<Productffmt> productffmts) {
-        this.productffmts = productffmts;
-    }
-
-   
-
-    public Integer getProductType() {
-        return productType;
-    }
-
-    public void setProductType(final Integer productType) {
-        this.productType = productType;
-    }
-
-    
-
-    @PrePersist
-    public void prepersist(){
-        if (this.url == null)
-            this.url = "/" + getCatalog().getCode() + "/p/" + getCode();
-    }
-
-    public FeatureModel getfeautureModel() {
-        return featureModel;
-    }
-
-    public void setFeautureModel(final FeatureModel featureModel) {
-        this.featureModel = featureModel;
-    }
-
-    public Set<FeatureValues> getFeatureValues() {
-        return featureValues;
-    }
-
-    public void setFeatureValues(final Set<FeatureValues> featureValues) {
-        this.featureValues = featureValues;
-    }
-
-	public Set<CategoryProductRelation> getCategories() {
-		return categories;
+	public Brand getBrand() {
+		return brand;
 	}
 
-	public void setCategories(Set<CategoryProductRelation> categories) {
-		this.categories = categories;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	public boolean isBuyable() {
@@ -214,6 +97,14 @@ public class Product extends Ctentry implements Serializable {
 		this.downlodable = downlodable;
 	}
 
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
+
 	public boolean isPublished() {
 		return published;
 	}
@@ -230,11 +121,29 @@ public class Product extends Ctentry implements Serializable {
 		this.featureModel = featureModel;
 	}
 
-	public TaxCategory getTaxcategory() {
-		return taxcategory;
+	public Set<FeatureValues> getFeatureValues() {
+		return featureValues;
 	}
 
-	public void setTaxcategory(TaxCategory taxcategory) {
-		this.taxcategory = taxcategory;
+	public void setFeatureValues(Set<FeatureValues> featureValues) {
+		this.featureValues = featureValues;
 	}
+
+	public Set<CategoryProductRelation> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<CategoryProductRelation> categories) {
+		this.categories = categories;
+	}
+
+	public Set<ProductVariant> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(Set<ProductVariant> variants) {
+		this.variants = variants;
+	}
+    
+
 }

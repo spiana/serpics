@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.facade.data.InventoryData;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.stereotype.StoreFacade;
@@ -22,14 +22,14 @@ public class InventoryFacadeImpl implements InventoryFacade {
 	
 	@Override
 	public InventoryData getInventoryForProductId(Long productId){
-		Product product = productService.findOne(productId);
+		AbstractProduct product = productService.findOne(productId);
 		Assert.notNull(product);
 		InventoryData inventoryData = getInventoryForProduct(product);
 		return inventoryData;
 	}
 	
 	@Override
-	public InventoryData getInventoryForProduct(Product product){
+	public InventoryData getInventoryForProduct(AbstractProduct product){
 		InventoryData inventoryData = new InventoryData();
 		inventoryData.setInventoryStatus(inventoryService.getInventoryStatus(product).toString());
 		inventoryData.setStockLevelAmount(inventoryService.getStockLevelAmount(product));

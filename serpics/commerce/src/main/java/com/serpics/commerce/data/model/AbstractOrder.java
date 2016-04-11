@@ -20,9 +20,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
@@ -51,7 +51,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @Column(name = "cookie", length = 250, unique = false, nullable = true)
     protected String cookie;
 
-    @NotNull
+    @NotNull(message="{abstractOrder.currency.notnull}")
     @ManyToOne(fetch = FetchType.LAZY, optional = false, targetEntity = Currency.class)
     @JoinColumn(name = "currency_id")
     private Currency currency;
@@ -60,12 +60,12 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
      * this field must be EAGER 
      *  Vaadin JPAContainer  does not work correctly when LAZY
      */
-    @NotNull
+    @NotNull(message="{abstractOrder.customer.notnull}")
     @ManyToOne( fetch = FetchType.EAGER,optional = false , targetEntity= Member.class) 
     @JoinColumn(name = "customer_id")
     protected Member customer;
 
-    @NotNull
+    @NotNull(message="{abstractOrder.user.notnull}")
     @ManyToOne(fetch = FetchType.LAZY, optional = false , targetEntity= User.class)
     @JoinColumn(name = "user_id")
     protected User user;
@@ -130,17 +130,14 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     protected Set<Suborder> suborders = new HashSet<Suborder>(0);
 
-//    @ManyToOne(fetch=FetchType.LAZY )
-//    @JoinColumn(name = "billing_address_id" )
-    @OneToOne(optional=true)
+    @ManyToOne(fetch=FetchType.LAZY )
+//    @OneToOne(optional=true)
     @JoinColumn(
         name="billing_address_id", unique=true, nullable=true, updatable=true)
     protected Address  billingAddress;
 
-//    @ManyToOne(fetch=FetchType.LAZY )
-//    @JoinColumn(name = "shipping_address_id")
-    
-    @OneToOne(optional=true)
+    @ManyToOne(fetch=FetchType.LAZY )
+//    @OneToOne(optional=true)
     @JoinColumn(
         name="shipping_address_id", unique=true, nullable=true, updatable=true)
     protected Address shippingAddress;

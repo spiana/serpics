@@ -1,0 +1,17 @@
+{
+  "extends": "eslint:recommended",
+  "plugins": ["angular"],
+  "env": {
+    "browser": true,
+    "jasmine": true,
+    "node": true
+  },
+  "globals": {
+    "angular": true,
+    "module": true,
+    "inject": true
+  },
+    "rules": {
+        "no-mixed-spaces-and-tabs": [0, "smart-tabs"]
+    }
+}

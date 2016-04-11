@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.Store;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.core.data.jpa.AbstractEntity;
 
 
@@ -43,7 +43,7 @@ public class Inventory extends AbstractEntity implements Serializable {
     @NotNull
     @ManyToOne
 	@JoinColumn(name="product_id" , insertable=true , updatable=true , nullable=false)
-    private Product product ;
+    private AbstractProduct product ;
     
     @ManyToOne
 	@JoinColumn(name ="store_id" , insertable=true , updatable=false , nullable=false)
@@ -86,11 +86,11 @@ public class Inventory extends AbstractEntity implements Serializable {
 		this.warehouse = warehouse;
 	}
 
-	public Product getProduct() {
+	public AbstractProduct getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(AbstractProduct product) {
 		this.product = product;
 	}
 

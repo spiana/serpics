@@ -4,11 +4,13 @@ import javax.annotation.Resource;
 
 import com.serpics.commerce.OrderStatus;
 import com.serpics.commerce.data.model.Order;
+import com.serpics.commerce.data.model.Payment;
 import com.serpics.commerce.services.OrderService;
 import com.serpics.membership.data.model.Address;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailForm;
+import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -30,8 +32,8 @@ public class OrderMasterTable extends MasterTable<Order>{
 	public EntityFormWindow<Order> buildEntityWindow() {
 		EntityFormWindow<Order> w = new EntityFormWindow<Order>();
 		w.addTab(buildMainWindow(), "main");
-		w.addTab(buildAddressWindow("billingAddress" ), "billingAddress");
-		w.addTab(buildAddressWindow("shippingAddress"), "destinationAddress");
+		w.addTab(buildPaymentForm("payments" ), "payments");
+	//	w.addTab(buildAddressWindow("shippingAddress"), "destinationAddress");
 		
 		return w;
 	}
@@ -54,6 +56,12 @@ public class OrderMasterTable extends MasterTable<Order>{
 		};
 		
 		return main;
+	}
+	
+	private MasterDetailTable<Payment, Order> buildPaymentForm(final String parentProperty){
+		return new MasterDetailTable<Payment, Order>(Payment.class , parentProperty){
+			
+		};
 	}
 	private MasterDetailForm<Order,Address> buildAddressWindow(final String parentproperty){
 		return new MasterDetailForm<Order,Address>(Address.class , parentproperty){};

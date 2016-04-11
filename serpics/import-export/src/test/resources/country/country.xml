@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<importdefinition>
+	<importentry name="country" cvs="country_it.csv" class="com.serpics.base.data.model.Country" />
+	<importentry name="country_en" cvs="country_en.csv" class="com.serpics.base.data.model.Country" />
+</importdefinition>

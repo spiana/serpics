@@ -1,12 +1,15 @@
 [#assign productId = ctx.productId!]
-					<div class="product-details" ng-controller="productController" ng-init="getProduct(${productId}); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart'"><!--product-details-->
+<div ng-controller="productController" ng-init="getProduct(${productId}); cartUrl='${ctx.contextPath}/${ctx.baseSite}/Cart'">
+[@cms.area name="serpics-topArea" contextAttributes={"baseSite":ctx.baseSite}/]
+					<div class="product-details" ><!--product-details-->
+
 						<h2 class="title text-center">{{product.name}}</h2>
 						<div class="col-sm-5">
 							<div class="view-product">
 							<h2 ng-hide="product.primaryImage.source"><i class="fa fa-spinner fa-spin fa-2x" style="background-image: url('');background-position: center;background-size: contain;background-repeat: no-repeat;"></i></h2>
 							
 									<div  ng-show="product.primaryImage.source" style="background-image: url('{{product.primaryImage.source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 380px;"></div>
-									<a href="{{product.primaryImage.source}}" rel="prettyPhoto" title="title here"><h3>ZOOM</h3></a>
+									<a href="" rel="prettyPhoto" title="title here" ng-click="openGalleryImageModal(product.primaryImage.source)" ><h3>ZOOM</h3></a>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel" ng-init="gallery = 0">
 								
@@ -14,10 +17,11 @@
 								    <div class="carousel-inner" data-role="image">
 										<div class="item active">
 										  <div ng-repeat="i in range(3)" style="width:33%; float:left" ng-show="product.medias[i + gallery]">
-										  <a href="{{product.medias[i + gallery].source}}"><div style="display: table;margin: 0 auto;background-image: url('{{product.medias[i + gallery].source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 85px;width:85px" /></a>
+										  <div ng-click="openGalleryImageModal(product.medias[i + gallery].source)" style="cursor: pointer;display: table;margin: 0 auto;background-image: url('{{product.medias[i + gallery].source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 85px;width:85px" />
 										  </div>
 										</div>
 										
+									</div>
 									</div>
 
 								  <!-- Controls -->
@@ -28,7 +32,7 @@
 									<i class="fa fa-angle-right"></i>
 								  </button>
 							</div>
-						</div>
+
 						</div>
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
@@ -53,3 +57,17 @@
 							</div><!--/product-information-->
 						</div>
 					</div><!--/product-details-->
+				</div>
+<script type="text/ng-template" id="galleryImageDialog">
+   <div class="modal-dialog" style="height:auto; max-height:50%; max-width:90%">
+    <div class="modal-content" style="margin-top: auto;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="closeThisDialog()">&times;</button>
+        <h4 class="modal-title">Serpics Platform Ecommerce</h4>
+      	</div>
+      	<div class="modal-body" style="max-height: 100%; max-width:100%">
+        <img ng-src="{{imageUrl}}" style="max-height: 100%; max-width:100%; margin: auto; display: block">
+	</div>
+ </div>          
+</div>
+</script>

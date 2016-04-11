@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.serpics.membership.Member2GroupRelType;
 
@@ -32,14 +33,15 @@ public class Membergrouprel extends com.serpics.core.data.jpa.AbstractEntity imp
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
+    @Size(max=50, message = "{membgrouprel.status.notnull}")
     private Member2GroupRelType status;
 
-    @NotNull
+    @NotNull(message = "{membgrouprel.validFrom.notnull}")
     @Temporal( TemporalType.DATE)
     @Column(name="valid_from", nullable=false)
     private Date validFrom;
 
-    @NotNull
+    @NotNull(message = "{membgrouprel.validTo.notnull}")
     @Temporal( TemporalType.DATE)
     @Column(name="valid_to", nullable=false)
     private Date validTo;

@@ -112,7 +112,7 @@ public class PaymentServiceImpl extends AbstractCommerceService implements Payme
 				throw new PaymentException(String.format("Payment stategy %s not found for order %d",
 						pmethod != null ? pmethod.getPaymentStrategy() : null , order.getId()));
 		}else {
-			throw new PaymentException(String.format("Payment method %s not found for order %d",
+			throw new PaymentException(String.format("Payment method %s not found or payment strategy not set, for order %d ",
 					pmethod != null ? pmethod.getName() : null , order.getId()));
 		}
 	

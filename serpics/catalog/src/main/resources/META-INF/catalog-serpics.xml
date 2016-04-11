@@ -116,14 +116,19 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     </property>
     </bean>
     
-	<alias name="defaultProductPopulator" alias="productPopulator"/>
-    <bean name="defaultProductPopulator" class="com.serpics.catalog.facade.ProductPopulator" >
-        <property name="brandConverter" ref="brandConverter"/>
+	<alias name="defaultAbstractProductPopulator" alias="abstractProductPopulator"/>
+    <bean name="defaultAbstractProductPopulator" class="com.serpics.catalog.facade.AbstractProductPopulator" >
         <property name="priceConverter" ref="priceConverter"/>
         <property name="mediaConverter" ref="mediaConverter"/>
-        <property name="categoryConverter" ref="categoryConverter"/>
         <property name="taxcategoryConverter" ref="taxcategoryConverter" />
     </bean>
+    
+    <alias name="defaultProductPopulator" alias="productPopulator"/>
+    <bean name="defaultProductPopulator" class="com.serpics.catalog.facade.ProductPopulator" >
+        <property name="brandConverter" ref="brandConverter"/>
+        <property name="categoryConverter" ref="categoryConverter"/>
+        <property name="variantConverter" ref="productVariantConverter"/>
+     </bean>
     
     <alias name="defaultProductConverter" alias="productConverter"/>
 	<bean name="defaultProductConverter" parent="abstractConverter">
@@ -131,7 +136,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<property name="populators">
 	  <list>
 	      <ref bean="ctentryPopulator"/>  
-	      <ref bean="productPopulator"/>  
+	      <ref bean="abstractProductPopulator"/> 
+	      <ref bean="productPopulator"/>   
 	  </list>
 	</property>
 	</bean>
@@ -150,6 +156,20 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     </property>
     </bean>
     
+    <alias name="defaultProductVariantPopulator" alias="productVariantPopulator"/> 
+    <bean name="defaultProductVariantPopulator" class="com.serpics.catalog.facade.ProductVariantPopulator" />
+    
+    <alias name="defaultProductVariantConverter" alias="productVariantConverter"/>
+    <bean name="defaultProductVariantConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.ProductVariantData"/>
+    <property name="populators">
+      <list>
+       		<ref bean="ctentryPopulator"/> 
+       		<ref bean="abstractProductPopulator"/>  
+      	  	<ref bean="productVariantPopulator"/>  
+      </list>
+    </property>
+    </bean>
     
     <alias name="defaultPricePopulator" alias="pricePopulator"/> 
     <bean name="defaultPricePopulator" class="com.serpics.catalog.facade.PricePopulator" />
@@ -164,5 +184,30 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     </property>
     </bean>
     
+    <alias name="defaultVariantAttributePopulator" alias="variantAttributePopulator"/> 
+    <bean name="defaultVariantAttributePopulator" class="com.serpics.catalog.facade.VariantAttributePopulator" />
+    
+    <alias name="defaultAttributeValuePopulator" alias="attributeValuePopulator"/> 
+    <bean name="defaultAttributeValuePopulator" class="com.serpics.catalog.facade.AttributeValuePopulator" />
+    
+    <alias name="defaultAttributeValueConverter" alias="attributeValueConverter"/>
+    <bean name="defaultAttributeValueConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.AttributeValueData"/>
+    <property name="populators">
+      <list>
+          <ref bean="attributeValuePopulator"/>  
+      </list>
+    </property>
+    </bean>
+   
+    <alias name="defaultVariantAttributeConverter" alias="variantAttributeConverter"/>
+    <bean name="defaultVariantAttributeConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.VariantAttributeData"/>
+    <property name="populators">
+      <list>
+          <ref bean="variantAttributePopulator"/>  
+      </list>
+    </property>
+    </bean>
     
 </beans>    

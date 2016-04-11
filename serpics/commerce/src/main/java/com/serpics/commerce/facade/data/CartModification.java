@@ -1,10 +1,18 @@
 package com.serpics.commerce.facade.data;
 
-public class CartModification {
+import java.io.Serializable;
 
-	CartModificationStatus modificationStatus;
-	CartData cart;
-	String errorMessage;
+public class CartModification implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4603170717467708916L;
+	
+	
+	private CartModificationStatus modificationStatus;
+	private CartData cart;
+	private String errorMessage;
 	
 	public CartModification(CartModificationStatus modificationStatus,
 			CartData cart, String errorMessage) {

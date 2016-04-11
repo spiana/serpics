@@ -1,0 +1,43 @@
+<!--header-bottom-->
+<div class="header-bottom">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="mainmenu pull-left">
+					<ul class="nav navbar-nav collapse navbar-collapse">
+						<li><a ui-sref="shop.home" class="active">Home</a></li>
+						<li class="dropdown"><a href="#">Shop<i
+								class="fa fa-angle-down"></i></a>
+							<ul role="menu" class="sub-menu">								
+								<li><a ui-sref="checkout.address">Checkout</a></li>
+								<li><a ui-sref="shop.cart">Cart</a></li>	
+								<li><a ui-sref="shop.register">Register</a></li>	
+							</ul>
+						</li>						
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<form action="ui-sref='shop.search({textSearch: searchText})'">
+					<div class="search_box input-group pull-right">
+					<input type="text" class="pull-right form-control" ng-model="searchText" placeholder="Search">
+					    <span class="input-group-btn">
+					    	<button class="btn btn-default" ui-sref='shop.search({textSearch: searchText})' type="submit" ></button>
+					    </span>
+    				</div><!-- /input-group -->
+    			</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/header-bottom-->
+<!-- </header> -->
+<!--/header-->

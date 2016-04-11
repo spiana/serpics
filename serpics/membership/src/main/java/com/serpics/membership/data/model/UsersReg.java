@@ -32,16 +32,19 @@ public class UsersReg extends User implements UserDetail {
 
 private static final long serialVersionUID = 9178702090616745340L;
 
-	@Size(max = 100)
+	@Size(max = 100, message = "{usersReg.alternateEmail.size}")
     @Column(name = "alternate_email", length = 100)
     private String alternateEmail;
 
+	@Size(max = 254, message = "{usersReg.alternateEmail.changeanswer}")
     @Column(length = 254)
     private String changeanswer;
 
+	@Size(max = 254, message = "{usersReg.alternateEmail.changequestion}")
     @Column(length = 254)
     private String changequestion;
 
+	@Size(max = 254, message = "{usersReg.dn.size}")
     @Column(length = 254)
     private String dn;
 
@@ -53,10 +56,12 @@ private static final long serialVersionUID = 9178702090616745340L;
     @JoinColumn(name="locale_id" , nullable=true)
     private Locale locale;
 
-    @Size(min = 5, max = 100)
+    @Size(min = 5, max = 100, message = "{usersReg.logonid.size}")
     @Column(nullable = false, length = 100, unique = true)
+    @NotNull(message = "{usersReg.logonid.notnull}")
     private String logonid;
 
+    @Size(max = 100, message = "{usersReg.password.size}")
     @Column(nullable = true, length = 100)
     private String password;
 
@@ -64,7 +69,7 @@ private static final long serialVersionUID = 9178702090616745340L;
     @Temporal(TemporalType.TIMESTAMP)
     private Date passwordChange;
 
-    @NotNull
+    @NotNull(message ="usersReg.status.notnull")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRegStatus status;

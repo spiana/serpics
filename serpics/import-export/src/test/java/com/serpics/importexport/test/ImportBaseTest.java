@@ -24,6 +24,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.repositories.LocaleRepository;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CategoryRelation;
@@ -96,10 +97,10 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
     public void test(){
     
 		String b = "code[unique];name{it}\np1;prodotto 1\np2;prodotto 2\np3;prodotto 3\n";
-		importCsvService.importCsv(new StringReader(b), Product.class);
+		importCsvService.importCsv(new StringReader(b), AbstractProduct.class);
 		Assert.assertEquals(3, productRepository.findAll().size());
 		String b1 = "code[unique];name{en}\np1;product 1\np5;product 5\np3;product 3\np4;product four\n";
-		importCsvService.importCsv(new StringReader(b1), Product.class);
+		importCsvService.importCsv(new StringReader(b1), AbstractProduct.class);
 		Assert.assertEquals(5, productRepository.findAll().size());
 		Assert.assertEquals("product 5", productService.findByName("p5").getName().getText("en"));
 		Assert.assertEquals("prodotto 1",productService.findByName("p1").getName().getText("it"));

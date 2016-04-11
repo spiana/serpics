@@ -11,7 +11,9 @@ import org.springframework.data.jpa.domain.Specification;
 import com.serpics.base.data.model.AbstractStoreEntity;
 import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.stereotype.DefaultSpec;
 
+@DefaultSpec(AbstractStoreEntity.class)
 public class DefaultAbstractStoreEntitySpecification  implements Specification<AbstractStoreEntity>{
 
 	@Resource

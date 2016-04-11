@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.catalog.ProductNotFoundException;
+import com.serpics.commerce.OrderStatus;
 import com.serpics.commerce.PaymentException;
 import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.PaymentState;
@@ -60,13 +61,24 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 		try {
 			cartService.prepareCart(cart, true);
 			order = orderRepository.createOrderFromcart(cart);
+			order.setStatus(OrderStatus.CREATED);
 			Payment payment = paymentService.findCurrentPendingPayment(order);
-			if (payment != null && payment.getState().equals(PaymentState.CREATED) && !payment.getIntent().equals(PaymentIntent.ORDER))
+			if (payment != null && payment.getState().equals(PaymentState.CREATED) && !payment.getIntent().equals(PaymentIntent.ORDER)){
 				paymentService.authorizePayment(payment);
+				
+				if (payment.getState().equals(PaymentState.APPROVED) || payment.getState().equals(PaymentState.COMPLETED))
+					order.setStatus(OrderStatus.READY);
+				else if (payment.getState().equals(PaymentState.CANCELLED) ||payment.getState().equals(PaymentState.FAILED) )
+					order.setStatus(OrderStatus.ANNULLED);
+			}else{
+				order.setStatus(OrderStatus.WAITING_PAYMENT);
+			}
 			
 		} catch (InventoryNotAvailableException | ProductNotFoundException | PaymentException e) {
 			throw new RuntimeException(e);
 		}
+		
+		orderRepository.save(order);
 		PlaceOrderEvent event = new PlaceOrderEvent(order);
 		eventPublisher.publishSerpicsEvent(event);
 		

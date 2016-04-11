@@ -30,7 +30,7 @@ import com.serpics.membership.services.MembershipService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
+@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/postman-serpics.xml" ,"classpath:META-INF/membership-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class ConvertTest extends AbstractTransactionalJunit4SerpicTest {

@@ -1,0 +1,27 @@
+<!--header-middle-->
+<div class="header-middle">
+	<div class="container">
+		<div class="row" ng-controller="LoginController as customerVm">
+			<div class="col-sm-4">
+				<div class="logo pull-left">
+					<span class="current-user">
+					<span  ng-show="customerVm.currentUser.userType=='REGISTERED'">Welcome  {{customerVm.currentUser.firstname + ' ' + customerVm.currentUser.lastname}}</span>								
+					<span  ng-show="customerVm.currentUser.userType=='ANONYMOUS'">Guest Access</span>										
+				</span>
+				</div>				
+			</div>
+			<div class="col-sm-8">
+				<div class="shop-menu pull-right">
+					<ul class="nav navbar-nav">
+						<li ng-show="customerVm.currentUser.userType=='REGISTERED'"><a ui-sref="shop.personalArea"><i class="fa fa-user"></i> Personal Area</a></li>
+						<li ng-click="showModalOnSuccess()"><a ui-sref="checkout.address"><i	class="fa fa-crosshairs"></i> Checkout</a></li>
+						<li><a ui-sref="shop.cart"><i	class="fa fa-shopping-cart"></i> Cart</a></li>
+						<li ng-show="customerVm.currentUser.userType=='ANONYMOUS'"><a ui-sref="shop.login"><i ng-class="{ 'fa fa-sign-out': customerVm.currentUser.userType=='REGISTERED', 'fa fa-sign-in': customerVm.currentUser.userType=='ANONYMOUS' }" ></i> Login</a></li>
+						<li ng-show="customerVm.currentUser.userType=='REGISTERED'" ng-click="customerVm.logout()"><a href=""><i class="fa fa-sign-out"></i> Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/header-middle-->

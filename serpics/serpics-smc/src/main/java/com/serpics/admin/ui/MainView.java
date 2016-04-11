@@ -11,9 +11,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.vaadin.data.utils.I18nUtils;
+import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
+import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.NavigatorMenuTree;
+import com.serpics.vaadin.ui.memeship.UserRegEditorComponent;
+import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.ThemeResource;
@@ -24,8 +30,10 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @Component("mainView")
@@ -40,6 +48,9 @@ public class MainView extends CustomComponent {
 
 	@Autowired
 	private transient CommerceEngine commerceEngine;
+	
+	@Autowired
+	private UserRegEditorComponent userProfile;
 
 	@Autowired
 	private NavigatorMenuTree navigatorMenuTree;
@@ -108,7 +119,7 @@ public class MainView extends CustomComponent {
 		final HorizontalLayout menuTitle = new HorizontalLayout();
 		menuTitle.addStyleName("valo-menu-title");
 
-		final Label title = new Label("<b>Serpics Admin Console</b>" , ContentMode.HTML);
+		final Label title = new Label("<center><b>Serpics Management <br/> Console</b></center>" , ContentMode.HTML);
 		menuTitle.addComponent(title);
 		title.setSizeFull();
 		title.setStyleName("h3");
@@ -118,16 +129,33 @@ public class MainView extends CustomComponent {
 		
 
 		navigatorMenuTree.setWidth("100%");
-		VerticalLayout leftPanel = new VerticalLayout();
 		
-		
+		Panel leftPanel = new Panel();
 		leftPanel.addStyleName("valo-menu");
-		leftPanel.addComponent(menuTitle);
+		
+		VerticalLayout leftSide = new VerticalLayout();
+		
+		//leftSide.addStyleName("valo-menu");
+		leftSide.addComponent(menuTitle);
 		
 		final MenuBar settings = new MenuBar();
         settings.addStyleName("user-menu");
         final MenuItem settingsItem = settings.addItem("", new ThemeResource("../tests-valo/img/profile-pic-300px.jpg") , null);
-        settingsItem.addItem("Edit Profile", null);
+        settingsItem.addItem("Edit Profile", new MenuBar.Command(){
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				JPAContainer<UsersReg> container = ServiceContainerFactory.make(UsersReg.class);
+				EntityItem<UsersReg> item = container.getItem(commerceEngine.getCurrentContext().getUserPrincipal().getId());
+				EntityFormWindow<UsersReg> _w = new EntityFormWindow<UsersReg>("user.profile");
+				_w.addTab(userProfile, "main");
+				_w.setEntityItem(item);
+				_w.setReadOnly(false);
+				UI.getCurrent().addWindow(_w);
+				
+			}
+        	
+        });
         settingsItem.addItem("Preferences", null);
         settingsItem.addSeparator();
         settingsItem.addItem("Sign Out",new MenuBar.Command() {
@@ -137,8 +165,10 @@ public class MainView extends CustomComponent {
 			}
 		});
         
-        leftPanel.addComponent(settings);
-		leftPanel.addComponent(navigatorMenuTree);
+        leftSide.addComponent(settings);
+		leftSide.addComponent(navigatorMenuTree);
+		
+		leftPanel.setContent(leftSide);
 		
 		content.addComponent(leftPanel);
 

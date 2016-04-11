@@ -42,10 +42,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     @Resource
     ProductRepository productRepository;
 
-
-    @Resource
-    ProductRepository abstractProductRepository;
-
+  
     @Resource
     BaseAttributeRepository attributeRepository;
     
@@ -110,7 +107,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         Assert.assertEquals(1, _l.size());
         
         int productInit = productRepository.findAll().size();
-        int abstractProductInit = abstractProductRepository.findAll().size();
+        int abstractProductInit = productRepository.findAll().size();
         int topCategoriesInit = categoryService.findRootCategory().size();
 
         Category category = new Category();
@@ -185,7 +182,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         final List<Product> l2 = productRepository.findAll();
         Assert.assertEquals(productInit + 2, l2.size());
         
-        final List<Product> l3 = abstractProductRepository.findAll();
+        final List<Product> l3 = productRepository.findAll();
         Assert.assertEquals(abstractProductInit + 2, l3.size());
         
         commerceEngine.connect("default-store");
@@ -194,7 +191,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
         final List<Product> l4 = productRepository.findAll();
         Assert.assertEquals(productInit + 1, l4.size());
         
-        final List<Product> l5 = abstractProductRepository.findAll();
+        final List<Product> l5 = productRepository.findAll();
         Assert.assertEquals(abstractProductInit + 1, l5.size());
         
         // catalogService.deleteCatalog(catalog);

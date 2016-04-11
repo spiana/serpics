@@ -1,0 +1,89 @@
+	<section id="cart_items"  ng-controller="CartController as cartVm">
+		<div class="container" >
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+					<li><a ui-sref="shop.home">Home</a></li>
+					<li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			<div >
+				<h4 ng-hide="cartVm.cart.orderItems.length">Carrello vuoto!<br><br></h4>
+			</div>
+<div class="row">
+									<div style="width: 73%;" ng-show="cartVm.cart.orderItems.length">
+							<a class="btn btn-default check_out pull-right" ui-sref="checkout.address">Continue to Checkout</a>
+							
+						</div>
+						</div>
+						<div class="row">
+			<div class="table-responsive cart_info" style="width: 73%; overflow-x: hidden;  margin-top: 10px;">
+			
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in cartVm.cart.orderItems">
+							<td class="cart_product"><div style="background-image: url('{{item.product.primaryImage.source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 110px; width: 110px;"></div></td>
+							<td class="cart_description">
+								<h4>
+									<a ui-sref="shop.product({id: item.product.id, name: item.product.code})">{{item.sku}}</a>
+									<p>Web ID: {{item.product.id}}</p>
+								</h4>
+							</td>
+							<td class="cart_price">
+								<p>&euro;{{item.skuNetPrice}}</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+								<a class="cart_quantity_down" ng-click="cartVm.cartUpdate(item, item.quantity - 1)"> - </a>
+									<input class="cart_quantity_input" ng-pattern="/^[0-9]{1,2}$/" ng-model="item.quantity" ng-change="cartVm.cartUpdate(item, item.quantity)" type="text" autocomplete="off" size="2">
+								<a class="cart_quantity_up" ng-click="cartVm.cartUpdate(item, item.quantity + 1)"> + </a>
+								</div>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" ng-click="cartVm.deleteItem(item.id)">
+									<i class="fa fa-times"></i>
+								</a>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+</div>
+</div>
+
+	<div class="col-sm-6" >
+	<div class="row">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span>&euro;{{(cartVm.cart.totalProduct | number:2) || 0}}</span></li>
+							<li>Services Sub Total <span>&euro;{{(cartVm.cart.totalService | number:2) || 0}}</span></li>
+							<li>Tax Sub Total <span>&euro;{{(cartVm.cart.totalTax | number:2) || 0}}</span></li>
+							<li>Shipping Cost <span>&euro;{{(cartVm.cart.totalShipping | number:2) || 0}}</span></li>
+							<li id="total">Total <span>&euro;{{(cartVm.cart.orderAmount | number:2) || (cartVm.cart.totalProduct | number:2) || 0}}</span></li>
+						</ul>
+						<div>
+							<a class="btn btn-default update" ng-click="cartVm.getCurrentCart()">Update Cart</a>
+							<a class="btn btn-default update" ng-click="cartVm.deleteCart()">Delete Cart</a>  
+						</div>
+					</div>
+	</div>
+	<div class="row">
+	
+		
+						<div style="margin-top: 10px;" ng-show="cartVm.cart.orderItems.length">
+							<a class="btn btn-default check_out pull-right" ui-sref="checkout.address">Continue to Checkout</a>
+						</div>
+						</div>
+						</div>
+
+							</section>
+	<!--/#cart_items-->

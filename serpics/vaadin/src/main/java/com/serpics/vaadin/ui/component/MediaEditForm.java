@@ -38,7 +38,9 @@ import com.vaadin.ui.Upload.SucceededListener;
  *
  */
 public class MediaEditForm<T extends Media> extends MasterForm<T> {
-
+	
+	public interface MediaSourceChangeEventListener extends Listener{}
+	
 	class ImageUploader implements Receiver, SucceededListener {
 	    public File file;
 
@@ -66,7 +68,7 @@ public class MediaEditForm<T extends Media> extends MasterForm<T> {
 	    	
 	    	fieldGroup.bind(fieldGroup.getField("source"), "source");
 	     	fieldGroup.bind(fieldGroup.getField("contentType"), "contentType");
-	       
+	     
 	    }
 	};
 	
@@ -78,12 +80,17 @@ public class MediaEditForm<T extends Media> extends MasterForm<T> {
 		super(clazz);
 	}
 
+	public void fireMediaSourceChangeEvent(){
+		fireComponentEvent();
+	}
 	/* (non-Javadoc)
 	 * @see com.serpics.vaadin.ui.MasterForm#buildContent()
 	 */
 	@Override
 	protected void buildContent() {
 		super.buildContent();
+		
+		
 		if (!entityItem.isPersistent()){
 			ImageUploader receiver = new ImageUploader();
 			// Create the upload with a caption and set receiver later
@@ -92,6 +99,7 @@ public class MediaEditForm<T extends Media> extends MasterForm<T> {
 			upload.addSucceededListener(receiver);
 			addComponent(upload);
 			upload.setVisible(false);
+			fieldGroup.getField("type").setBuffered(false);
 			fieldGroup.getField("type").addValueChangeListener(new ValueChangeListener() {
 				
 				@Override
@@ -101,11 +109,32 @@ public class MediaEditForm<T extends Media> extends MasterForm<T> {
 					else
 						upload.setVisible(false);
 				}
+				
 			});
+			fieldGroup.getField("source").addValueChangeListener(new ValueChangeListener() {
+				
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					entityItem.getItemProperty("source").setValue(event.getProperty().getValue());
+					fireMediaSourceChangeEvent();
+				}
+			});
+			fieldGroup.getField("contentType").addValueChangeListener(new ValueChangeListener() {
+				
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					entityItem.getItemProperty("contentType").setValue(event.getProperty().getValue());
+					fireMediaSourceChangeEvent();
+				}
+			});
+			
 		}else{
 			fieldGroup.getField("type").setReadOnly(true);
+			fieldGroup.getField("contentType").setReadOnly(true);
+			fieldGroup.getField("source").setReadOnly(true);
 		}
+		
+		
 	}
-	
 	
 }

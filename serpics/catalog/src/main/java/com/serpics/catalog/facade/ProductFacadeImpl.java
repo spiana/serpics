@@ -157,7 +157,7 @@ public class ProductFacadeImpl implements ProductFacade {
 			price.setPrecedence(new Double(priceData.getPrecedence()).doubleValue());
 			price.setProductPrice(priceData.getProductPrice());
 			price.setProductCost(priceData.getProductCost());
-			product = priceService.addPrice(product, price);
+			product = (Product)priceService.addPrice(product, price);
 	}
 	
 	
@@ -215,6 +215,26 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override
+	public Page<ProductData> listProductByCategoryCode(final String categoryCode,Pageable page) {
+		Category category = categoryService.findByCode(categoryCode);
+		List<ProductData> l = new ArrayList<ProductData>();
+		long totalElements = 0 ;
+		if(category!=null){
+			Page<Product> products = productService.findProductByCategory(category,page);
+			
+			totalElements = products.getTotalElements();
+			
+			for (Product product : products.getContent()) {
+				l.add(productConverter.convert(product));
+			}
+		}
+		
+		Page<ProductData> list = new PageImpl<ProductData>(l, page, totalElements);
+		
+		return list; 
+	}
+	
+	@Override
 	public Page<ProductData> listProductByBrand(Long brandId, Pageable page){
 		Brand brand = brandService.findOne(brandId);
 		List<ProductData> productDataList = new ArrayList<ProductData>();
@@ -245,6 +265,16 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override
 	public ProductData findById(final Long id) {
 		Product product = productService.findOne(id);
+		ProductData p = null;
+		if(product !=null){
+			p = productConverter.convert(product);
+		}
+		return p; 
+	}
+	
+	@Override
+	public ProductData findByCode(final String code) {
+		Product product = productService.findByCode(code);
 		ProductData p = null;
 		if(product !=null){
 			p = productConverter.convert(product);

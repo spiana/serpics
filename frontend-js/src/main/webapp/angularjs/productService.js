@@ -7,10 +7,12 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	     /** Return public API. (loki java interface)**/
 	     var service =({
 	    	 
-	     		getProduct	  			: getProduct,                   
+	     		getProduct	  			: getProduct,                
+	     		getProductByCode		: getProductByCode,
 	     		getCategoryProduct 		: getCategoryProduct,
 	     		getProductByName		: getProductByName,
 	     		findByCategory			: findByCategory,
+	     		findByCategoryCode		:findByCategoryCode,
 	     		findByBrand				: findByBrand,
 	     		findBySearch			: findBySearch,
 	     		findAll			  		: findAll
@@ -39,6 +41,27 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    		 });
 	    	 });
 	     }
+	     
+		    /**
+		     * @param productCode
+		     * @return 
+		     */      
+		     function getProductByCode(productCode) {
+		    	 
+		    	 var serviceSSID = serpicsServices;
+		    	 return $q(function(resolve, reject) {
+		    		 serviceSSID.getSessionId().then(function(sessionId){
+		    			 $log.debug("session Id nel promise"+sessionId) ;
+		    			 $http({
+		    				 method: 	'GET',
+		    				 url: URL + endpoint + 'product/code/' + productCode,
+		    				 headers: {
+		    					 'ssid': sessionId
+		    					 }
+		    			 }).then(handleSuccess, handleError).then(resolve, reject);
+		    		 });
+		    	 });
+		     }
 	     
 	    /**
 	     * @param categoryId
@@ -105,6 +128,32 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	    		 });
 	    	 });
 	     }
+	     
+	     	/**
+		     * @param categoryCode
+		     * @return 
+		     */              
+		     function findByCategoryCode(categoryCode, page, size) {
+		    	 var serviceSSID = serpicsServices;
+		    	 var findByCategoryUrl='';
+		    	 if (arguments.length === 0 || arguments.length === 1 ) {
+		    		 findByCategoryUrl= URL + endpoint +   'pageCategory/code/' + categoryCode;
+		    		 }else{
+		    			 findByCategoryUrl = URL + endpoint +   'pageCategory/code/' + categoryCode + '?page=' + page + '&size=' + size;
+		    		 }
+		    	 return $q(function(resolve, reject) {
+		    		 serviceSSID.getSessionId().then(function(sessionId){
+		    			 $log.debug("session Id nel promise"+sessionId) ;
+		    			 $http({
+		    				 method: 	'GET',
+		    				 url: 	findByCategoryUrl,
+		    				 headers: {
+		    					 'ssid': sessionId
+		    					 }
+		    			 }).then(handleSuccess, handleError).then(resolve, reject);
+		    		 });
+		    	 });
+		     }
 	     
 	   /**
 	     * @param searchText

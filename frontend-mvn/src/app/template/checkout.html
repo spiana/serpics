@@ -1,0 +1,117 @@
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a ui-sref="shop.home">Home</a></li>
+				  <li><a ui-sref="shop.cart">Cart</a></li>
+				  <li class="active">Check out</li>
+				</ol>
+			</div><!--/breadcrums-->
+			
+			<div class="step-one">
+
+				<h2 class="heading" ng-show="$state.is('.address')" >Step1</h2>
+				<h2 class="heading" ng-show="$state.is('checkout.shipping')" >Step2</h2>
+				<h2 class="heading" ng-show="$state.is('checkout.shipmode')" >Step3</h2>
+				<h2 class="heading" ng-show="$state.is('checkout.payment')" >Step4</h2>
+			</div>
+			
+			<div ng-controller="CustomerController " ng-show="currentUser.userType == 'ANONYMOUS'">
+						
+			<div class="checkout-options">
+				<h3>New User</h3>
+				<p>Checkout options</p>
+				<ul class="nav">
+					<li>
+						<label><a ui-sref="checkout.address" > Guest checkout</a></label>
+					</li>
+					<li>
+						<label><a ui-sref="checkout.login" > Login</a></label>
+					</li>
+					<li>
+						<label><a ui-sref="checkout.register" > Register</a></label>
+					</li>
+				</ul>
+			</div><!--/checkout-options-->
+
+			<div class="register-req">
+				<p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
+			</div><!--/register-req-->
+			
+			</div>
+			
+			<div ui-view></div>
+
+			
+			<div class="review-payment">
+				<h2>Review</h2>
+			</div>
+
+			<div class="table-responsive cart_info" style=" overflow-x: hidden;">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in cartVm.cart.orderItems">
+							<td class="cart_product"><div style="background-image: url('{{item.product.primaryImage.source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 110px; width: 110px;"></div></td>
+							<td class="cart_description">
+								<h4>
+									<a ui-sref="shop.product({id: item.product.id, name: item.product.code})">{{item.sku}}</a>
+									<p>Web ID: {{item.product.id}}</p>
+								</h4>
+							</td>
+							<td class="cart_price">
+								<p>&euro;{{item.skuNetPrice}}</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+								<a class="cart_quantity_down" ng-click="cartUpdate(item, item.quantity - 1)"> - </a>
+									<input class="cart_quantity_input" ng-pattern="/^[0-9]{1,2}$/" ng-model="item.quantity" ng-change="cartVm.cartUpdate(item, item.quantity)" type="text" autocomplete="off" size="2">
+								<a class="cart_quantity_up" ng-click="cartVm.cartUpdate(item, item.quantity + 1)"> + </a>
+								</div>
+							</td>
+							<td class="cart_delete"><a class="cart_quantity_delete"
+								ng-click="deleteItem(item.id)"><i class="fa fa-times">  REMOVE</i></a></td>
+						</tr>
+						
+												<tr>
+							<td colspan="4">&nbsp;</td>
+							<td colspan="2">
+								<table class="table table-condensed total-result">
+										<tr>
+											<td>Cart Sub Total</td>
+											<td><span>&euro;{{(cartVm.cart.totalProduct | number:2) || 0}}</span></td>
+										</tr>
+										<tr>
+											<td>Services Sub Total</td>
+											<td><span>&euro;{{(cartVm.cart.totalService | number:2) || 0}}</span></td>
+										</tr>
+										<tr>
+											<td>Tax Sub Total</td>
+											<td><span>&euro;{{(cartVm.cart.totalTax | number:2) || 0}}</span></td>
+										</tr>
+										<tr>
+											<td>Shipping Cost</td>
+											<td><span>&euro;{{(cartVm.cart.totalShipping | number:2) || 0}}</span></td>
+										</tr>
+										<tr>
+											<td>Total</td>
+											<td><span>&euro;{{(cartVm.cart.orderAmount | number:2) || 0}}</span></td>
+										</tr>										
+									</table>
+							</td>
+						</tr>
+						</tbody>
+				</table>
+			</div>
+		
+		</div>
+	</section> <!--/#cart_items-->
+

@@ -8,8 +8,7 @@
 		<property name="user" />
 		<property name="status" search="true" table="true" width="10%"  style="color3" />
 		<property name="currency" />
-		<property name="cookie" />
-		
+<!-- 		<property name="cookie" /> -->
 		<property name="billingAddress" />
 		<property name="shippingAddress" />
 		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
@@ -31,13 +30,14 @@
 	</entity>
 
 	<entity name="order">
-		<property name="customer.uuid" table="true" search="true" edit="false" />
+		<property name="customer.commonName" table="true" search="true" edit="false" />
 		<property name="customer" />
+		
 		<property name="status" search="true" table="true" width="40%" style="color2"/>
 		<property name="currency"  width="25%"/>
 <!-- 		<property name="cookie" /> -->
-<!-- 		<property name="billingAddress" /> -->
-<!-- 		<property name="shippingAddress" /> -->
+		<property name="billingAddress" />
+		<property name="shippingAddress" />
 		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
 		<property name="orderitems"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>
@@ -103,4 +103,24 @@
 		<property name="value" table ="true"/>
 	</entity>
 	
+	<entity name="payment">
+	
+		<property name="paymethod.name" readonly="true" table="true"  edit="false"/>
+		<property name="paymethod" readonly="true" />
+		<property name="intent" table="true"  readonly="true" />
+		<property name="amount" table="true" readonly="true"/>
+		<property name="currency.isoCode" table="true" edit ="false"/>
+		<property name="currency" table="false" edit ="true" readonly="true" />
+		<property name="state" table="true" readonly="true"/>
+		<property name="transactions" readonly="true"/>
+	</entity>
+	
+	<entity name="paymenttransaction">
+		<property name="transactionId" readonly="true" table="true"/>
+		<property name="state" readonly="true" table="true"/>
+		<property name="amount" readonly="true" table="true"/>
+		<property name="transactionType" readonly="true" table="true"/>
+		<property name="validUntil" readonly="true" table="true"/>
+		<property name="errorMessage" readonly="true" table="true"/>
+	</entity>
 </smc-definition>

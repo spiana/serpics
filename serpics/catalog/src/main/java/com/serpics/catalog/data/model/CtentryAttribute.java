@@ -15,7 +15,6 @@ import javax.persistence.Table;
 
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
-import com.serpics.core.data.jpa.AbstractEntity;
 
 
 /**
@@ -24,7 +23,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
  */
 @Entity
 @Table(name="ctentry_attributes" )
-public class CtentryAttribute extends AbstractEntity implements Serializable {
+public class CtentryAttribute extends AbstractCatalogEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,6 +34,7 @@ public class CtentryAttribute extends AbstractEntity implements Serializable {
     @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="base_attribute_id" ,updatable=false)
     private BaseAttribute baseAttribute;
+    
     private double sequence;
 
     //bi-directional many-to-one association to Ctentry

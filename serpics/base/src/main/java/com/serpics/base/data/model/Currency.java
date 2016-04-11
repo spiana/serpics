@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * The persistent class for the currency database table.
@@ -26,10 +28,12 @@ public class Currency extends com.serpics.core.data.jpa.AbstractEntity implement
 	private Long currencyId;
 
 	@Column(length = 1000)
-	private String descriprion;
+	@Size(max = 1000,  message = "{currency.description.size}")
+	private String description;
 
 	@Column(name = "iso_code", nullable = false, length = 3)
-	@NotNull
+	@NotNull(message = "{currency.isoCode.notnull}")
+    @Pattern(regexp="[A-Z]{3}", message = "{currency.isoCode.pattern}")
 	private String isoCode;
 
 	public Currency() {
@@ -43,12 +47,12 @@ public class Currency extends com.serpics.core.data.jpa.AbstractEntity implement
 		this.currencyId = currencyId;
 	}
 
-	public String getDescriprion() {
-		return this.descriprion;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescriprion(String descriprion) {
-		this.descriprion = descriprion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getIsoCode() {

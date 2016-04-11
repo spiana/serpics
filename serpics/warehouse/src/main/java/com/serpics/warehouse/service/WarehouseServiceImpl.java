@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.serpics.base.data.model.Store;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
 import com.serpics.stereotype.StoreService;
@@ -19,7 +19,7 @@ public class WarehouseServiceImpl extends AbstractService<CommerceSessionContext
 	WarehouseRepository warehouseRepository;
 
 	@Override
-	public Warehouse findPreferredForReserve(Product  product , Double needed) {
+	public Warehouse findPreferredForReserve(AbstractProduct  product , Double needed) {
 		List<Warehouse> _w = warehouseRepository.findPreferredForReserve(product, (Store) getCurrentContext().getStoreRealm() , needed);
 		if (_w.isEmpty())
 		 return null;
@@ -29,7 +29,7 @@ public class WarehouseServiceImpl extends AbstractService<CommerceSessionContext
 	}
 
 	@Override
-	public Warehouse  findPreferredForRelease(Product product , Double needed) {
+	public Warehouse  findPreferredForRelease(AbstractProduct product , Double needed) {
 		List<Warehouse> _w = warehouseRepository.findPreferredForRelease(product, (Store) getCurrentContext().getStoreRealm() , needed);
 		if (_w.isEmpty())
 		 return null;

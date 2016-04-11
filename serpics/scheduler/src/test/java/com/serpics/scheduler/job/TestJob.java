@@ -4,7 +4,7 @@ import org.quartz.JobExecutionContext;
 
 import com.serpics.commerce.session.CommerceSessionContext;
 
-public class TestJob extends AbstractJob {
+public class TestJob extends AbstractStoreJob {
 
 	@Override
 	protected void executeJob(JobExecutionContext jobcontext, CommerceSessionContext commerceContext) {

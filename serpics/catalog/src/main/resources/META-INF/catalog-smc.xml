@@ -28,6 +28,11 @@
 		<property name="name"  table ="true" search="true"/>
 	</entity>
 	
+	<entity name="abstractproduct">
+		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="name"  table ="true" search="true"/>
+	</entity>
+	
 	<entity name="category">
 		<property name="code"  table ="true" select="true" search="true"/>
 		<property name="name"  table ="true" search="true"/>
@@ -35,7 +40,7 @@
 	
 	<entity name="ctentrymedia" editbean="mediaEditForm">
 		<property name="name"  table ="true" select="true" search="true"/>
-		<property name="type" table="true" search="true"/>
+		<property name="type" table="true" />
 		<property name="contentType" table="true" search="true"/>
 		<property name="source"  table ="true" search="true"/>
 	</entity>

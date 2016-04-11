@@ -4,7 +4,7 @@
  */
  app.service("categoryService", function( $http, $q,serpicsServices,URL,COOKIE_EXPIRES,$cookies,$log ) {
 	 
-	 var endpoint   	= '/api/v1/categoryService/';
+	 var endpoint   	= '/api/v1/categories/';
 	 var localSessionId = '';
  
 	    /** Return public API. (like java interface)**/
@@ -14,6 +14,7 @@
 	        getTop			  	: getTop,
 	        getTopQ			  	: getTopQ,
 	        getChild		  	: getChild,
+	        getChildByCode		: getChildByCode,
 	        findAll			  	: findAll
 	    });                
 	    return service;
@@ -121,7 +122,28 @@
 	    			$log.debug("CategoryService getChild(parentId) ssid nel promise"+sessionId) ;
 	    			$http({
 	    				method: 	'GET',
-	    				url: URL + endpoint +   'parent/getChild/' + parentId,
+	    				url: URL + endpoint +   'parentId/childs',
+	    				headers: {
+	    					'ssid': sessionId
+	    					}
+	    			}).then(handleSuccess, handleError).then(resolve, reject);
+    			 });
+    		 });
+    	 }
+	    
+	    /**
+	     * @param parentCode                 
+	     * @return 
+	     */      
+	    function getChildByCode(parentCode) {
+	    	$log.debug("getChildByCode(parentCode): "+parentCode) ;
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("CategoryService getChildByCode(parentCode) ssid nel promise"+sessionId) ;
+	    			$http({
+	    				method: 	'GET',
+	    				url: URL + endpoint +   '/code/' + parentCode + '/childs',
 	    				headers: {
 	    					'ssid': sessionId
 	    					}

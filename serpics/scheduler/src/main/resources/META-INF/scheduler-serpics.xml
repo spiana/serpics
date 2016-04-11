@@ -13,7 +13,31 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<context:component-scan base-package="com.serpics.scheduler"></context:component-scan>
 	<data:repositories base-package="com.serpics.scheduler.repositories"
 		base-class="com.serpics.core.data.RepositoryImpl" />
-
+	
+	<!-- Specification -->
+	<bean name="defaultStoreJobDetailsSpecification" class="com.serpics.scheduler.specification.StoreJobDetailsSpecification"/>
+	<bean name="defaultSystemJobDetailsSpecification" class="com.serpics.scheduler.specification.SystemJobDetailsSpecification"/>
+	
+	<!-- Interceptor -->
+	<bean name="storeJobDetailsSaveInterceptor"
+		class="com.serpics.scheduler.interceptor.StoreJobDetailsSaveInterceptor" />
+		
+		<bean name="storeJobDetailsSaveMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.scheduler.model.StoreJobDetails" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="storeJobDetailsSaveInterceptor" />
+	</bean>
+	
+	<bean name="systemJobDetailsSaveInterceptor"
+		class="com.serpics.scheduler.interceptor.SystemJobDetailsSaveInterceptor" />
+		
+		<bean name="systemJobDetailsSaveMapping" class="com.serpics.core.data.InterceptorMapping">
+		<property name="targetEntity" value="com.serpics.scheduler.model.SystemJobDetails" />
+		<property name="order" value="10" />
+		<property name="interceptor" ref="systemJobDetailsSaveInterceptor" />
+	</bean>
+	
+	<!-- Quartz Configuration -->
 	<bean id="quartzDbInitializer"
 		class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
 		<property name="dataSource" ref="dataSource" />

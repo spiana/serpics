@@ -31,6 +31,9 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
 
     @Override
     public void setParentEntity(final EntityItem<P> parent) {
+    	
+    	buildContainer();
+    	
     	this.parentEntity = parent;
         this.masterEntity = parent.getEntity();
         if (this.backReferencePropertyId == null)

@@ -1,0 +1,17 @@
+product(code)[unique];currentPrice;currency(isoCode);store(code)[unique]
+Z001;30.95;EUR;default-store
+Z002;29.95;EUR;default-store
+A001;20;EUR;default-store
+M001;172;EUR;default-store
+L001;110;EUR;default-store
+MP001;79;EUR;default-store
+L001;60;EUR;default-store
+W7275DS12;29.95;EUR;default-store
+W4611VPPP;111.95;EUR;default-store
+BS001;1095;EUR;default-store
+BS002;95;EUR;default-store
+W0S04UF67;34.95;EUR;default-store
+BR001;25.95;EUR;default-store
+3TM4C13KP;12.95;EUR;default-store
+2ALC537E0;34.95;EUR;default-store
+A002;60;EUR;default-store

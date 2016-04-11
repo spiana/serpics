@@ -1,0 +1,21 @@
+country(iso2Code);isoCode[unique];description{en}
+IT;IT-65;Abruzzo
+IT;IT-77;Basilicata
+IT;IT-78;Calabria
+IT;IT-72;Campania
+IT;IT-45;Emilia-Romagna
+IT;IT-36;Friuli-Venezia Giulia
+IT;IT-62;Lazio
+IT;IT-42;Liguria
+IT;IT-25;Lombardia
+IT;IT-57;Marche
+IT;IT-67;Molise
+IT;IT-21;Piemonte
+IT;IT-75;Puglia
+IT;IT-88;Sardegna
+IT;IT-82;Sicilia
+IT;IT-52;Toscana
+IT;IT-32;Trentino-Alto Adige
+IT;IT-55;Umbria
+IT;IT-23;Valle d'Aosta
+IT;IT-34;Veneto

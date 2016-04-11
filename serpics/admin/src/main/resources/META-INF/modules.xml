@@ -12,5 +12,5 @@
 <!-- 	<module>scheduler-serpics.xml</module> -->
 	<module>smc-serpics.xml</module>
 	<module>admin-serpics.xml</module>
-	
+	<module>postman-serpics.xml</module>
 </modules>

@@ -91,6 +91,11 @@
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring.security}</version>
 		</dependency>
+		<dependency>
+   		<groupId>eu.maxschuster</groupId>
+   			<artifactId>vaadin-autocompletetextfield</artifactId>
+   			<version>1.0-alpha-3</version>
+		</dependency>
   </dependencies>
   
   

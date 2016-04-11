@@ -1,8 +1,8 @@
  var app = angular.module("product.controller", ['product.service', 'cart.service','serpics.services'])
 /** productController **/
-.controller("productController",['$scope','serpicsServices','productService','cartService','$log',
+.controller("productController",['$scope','serpicsServices','productService','cartService','$log','ngDialog','$sce',
                                   
-	      function($scope,serpicsServices,productService,cartService,$log) {	
+	      function($scope,serpicsServices,productService,cartService,$log,ngDialog,$sce) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -11,8 +11,11 @@
 			var page = getPage();
 			var size = getSize();
 			
-			$scope.defaultQuantity = 1;
-	
+			$scope.breadcrumbCategories = [];
+			$scope.defaultQuantity = 1;	
+			
+			$scope.trustAsHtml = $sce.trustAsHtml;
+			
 //	  	    $scope.product 	= findAllQ(page, size);
 	  	    
 	  	    
@@ -63,8 +66,10 @@
 	              })
 	  	    };
 	  	    
-	  	    $scope.getProduct = function(productId) {		
-	  	    	getProduct(productId);
+	  	    $scope.getProduct = function(productId) {	
+	  	    	if (productId != undefined){
+	  	    		getProduct(productId);
+	  	    	}
 	  	    }; 
 	  	    
 	  	    /**
@@ -79,15 +84,21 @@
 	  	    };  	    
 	  	    
 	  	    /**
-	  	     * @param productName 			name of product to retrieve  	    
-	  	     * @return 						product name equal @param productName
+	  	     * @param productCode 			code of product to retrieve  	    
+	  	     * @return 						product code equal @param productCode
 	  	     * @use 						productService,serpicsServices
 	  	     */
-	  	   function getProductByName(productName) {		
-	  	    	productService.getProductByName(productName).then( function( response ) {
+	  	   function getProductByCode(productCode) {		
+	  	    	productService.getProductByCode(productCode).then( function( response ) {
 	  	    		$scope.product 	= response;
 	              })
-	  	    };  	  
+	  	    };
+	  	    
+	  	    $scope.getProductByCode = function(productCode) {	
+	  	    	if (productCode != undefined){
+	  	    		getProductByCode(productCode);
+	  	    	}
+	  	    }; 
 	  	    
 	  	    /**
 	  	     * @param categoryId 			id of category of product to retrieve  	    
@@ -99,6 +110,17 @@
 	  	    		$scope.product 	= response;
 	              })
 	  	    };  	  	
+	  	    
+	  	    /**
+	  	     * @param categoryCode 			code of category of product to retrieve  	    
+	  	     * @return 						product with category equal @param categoryId
+	  	     * @use 						productService,serpicsServices
+	  	     */
+	  	    function findByCategoryCode(categoryCode, page, size) {		
+	  	    	productService.findByCategoryCode(categoryCode, page, size).then( function( response ) {
+	  	    		$scope.product 	= response;
+	              })
+	  	    };  
 	  	    
 	  	    /**
 	  	     * @param brandId 				id of brand of product to retrieve    
@@ -177,12 +199,16 @@
 	  	    	findByBrand(brandId, page, size);
 	  	    }
 	  	    
-	  	    $scope.findByCategory = function (categoryId, page, size) {
+	  	    $scope.findByCategory = function (categoryId, categoryCode, page, size) {
 	  	    	if (page == undefined || size == undefined){
 	  	    		page = getPage();
 	  	    		size = getSize();
 	  	    	}
-	  	    	findByCategory(categoryId, page, size);
+	  	    	if (categoryId != "false"){
+	  	    		findByCategory(categoryId, page, size);
+	  	    	} else if (categoryCode != "false"){
+	  	    		findByCategoryCode(categoryCode, page, size);
+	  	    	}
 	  	    }
 	  	    
 	  	    $scope.findBySearch = function (text, page, size) {
@@ -192,5 +218,27 @@
 	  	    	}
 	  	    	findBySearch(text, page, size);
 	  	    }
+	  	    
+	  	    $scope.getBreadcrumb = function (){
+	  	    	if ($scope.product.categories != undefined){
+	  	    		parent = $scope.product.categories[0];
+	  	    		i = 0;
+	  	    		while (parent != undefined){
+		  	    		$scope.breadcrumbCategories[i] = parent;
+		  	    		parent = $scope.breadcrumbCategories[i].parentCategories[0];
+		  	    		i = i+1;
+	  	    		}
+	  	    	}
+	  	    }
+	  	    
+			$scope.openGalleryImageModal = function(imageUrl){
+				$scope.imageUrl = imageUrl;
+			 	var dialog = ngDialog.open({
+				    		  template: 'galleryImageDialog',
+				    		  keyboard: true,
+				    		  className:'',
+				    		  scope:    $scope,
+				 });
+		}
 	  	    	
 }])

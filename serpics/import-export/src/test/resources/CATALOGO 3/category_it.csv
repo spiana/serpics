@@ -1,0 +1,18 @@
+code[unique]; name{it};description{it};published;primaryImage(name)
+WOM;Donna;Donna;true;WCAT
+MAN;Uomo;Uomo;true;MCAT
+KIDS;Bambini;Bambini;true;KCAT
+WCLH;Abbigliamento;Abbligliamento;true;WCLH
+MCLH;Abbigliamento;Abbligliamento;true;MCLH
+WDRESS;Abiti;Abiti;true;WDRESS
+WTOP;Top;Top;true;WTOP
+WBAGS;Borse;Borse;true;WBAGS
+MJACK;Giacche;Giacche;true;MJACK
+MJEANS;Jeans;Jeans;true;MJEANS
+MACC;Accessori;Accessori;true;MACC
+KGIRL;Bambine;Bambine;true
+KBOY;Bambino;Bambino;true
+GCLH;Abbigliamento;Abbligliamento;true;GCLH
+BCLH;Abbigliamento;Abbligliamento;true;BCLH
+KG610;6-10 Anni; 6-10 Anni;true;KG610
+KB610;6-10 Anni; 6-10 Anni;true;KG610

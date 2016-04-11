@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="" xsi:schemaLocation="xmc.xsd">
+
+	<entity name="templatetype">
+		<property name="name" table="true" select="true" />
+		<property name="created" table="true" readonly="true" />
+	</entity>
+
+</smc-definition>

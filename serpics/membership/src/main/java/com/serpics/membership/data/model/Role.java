@@ -1,12 +1,19 @@
 package com.serpics.membership.data.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-
-
-
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
@@ -24,9 +31,11 @@ public class Role extends com.serpics.core.data.jpa.AbstractEntity implements Se
 	@Column(name="role_id", unique=true, nullable=false)
 	private Long Id;
 
+	@Size(max=254, message = "{role.description.size}")
 	@Column(length=254)
 	private String description;
 
+	@NotNull(message = "{role.name.notnull}")
 	@Column(nullable=false, length=80)
 	private String name;
 

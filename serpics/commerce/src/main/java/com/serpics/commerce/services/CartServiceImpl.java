@@ -27,7 +27,7 @@ import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.commerce.PaymentException;
 import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.ShipmodeException;
@@ -207,13 +207,14 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Override
 	@Transactional
-	public Cart cartAdd(final Product product, final double quantity, Cart cart, final boolean merge)
+	public Cart cartAdd(final AbstractProduct product, final double quantity, Cart cart, final boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 
 		Cartitem cartItem = new Cartitem();
 		cartItem.setSku(product.getCode());
 		cartItem.setQuantity(quantity);
 		cartItem.setProduct(product);
+		cartItem.setTaxcategory(product.getTaxcategory());
 
 		InventoryStatusEnum status = (InventoryStatusEnum) inventoryService.checkInventory(product, quantity);
 		if (status == InventoryStatusEnum.OutOfStock)
@@ -248,7 +249,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	@Override
 	@Transactional
-	public Cart cartAdd(final Product product, final double quantity, final boolean merge)
+	public Cart cartAdd(final AbstractProduct product, final double quantity, final boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 		final Cart cart = createSessionCart();
 		return cartAdd(product, quantity, cart, merge);
@@ -274,7 +275,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	@Transactional
 	public Cart cartAdd(final String sku, final double quantity, final Cart cart, final boolean merge)
 			throws InventoryNotAvailableException, ProductNotFoundException {
-		final Product product = productStrategy.resolveSKU(sku);
+		final AbstractProduct product = productStrategy.resolveSKU(sku);
 		return cartAdd(product, quantity, merge);
 	}
 
@@ -288,6 +289,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	}
 
 	@Override
+	@Transactional
 	public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
 		final Cart cart = getSessionCart();
 		Assert.notNull(cart);
@@ -313,7 +315,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		cart.setTotalTax(0D);
 
 		for (final Cartitem orderitem : cart.getCartitems()) {
-			final Product product = productStrategy.resolveSKU(orderitem.getSku());
+			final AbstractProduct product = productStrategy.resolveSKU(orderitem.getSku());
 			if (updateInventory)
 				inventoryService.reserve(product, orderitem.getQuantity());
 
@@ -470,7 +472,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 				final Cartitem repoItem = repoItems.next();
 
 				Cartitem cartItem = new Cartitem();
-				Product product = repoItem.getProduct();
+				AbstractProduct product = repoItem.getProduct();
 				cartItem.setSku(repoItem.getSku());
 				cartItem.setQuantity(repoItem.getQuantity());
 				cartItem.setProduct(product);

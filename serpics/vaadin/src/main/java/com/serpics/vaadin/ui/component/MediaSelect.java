@@ -163,7 +163,7 @@ public class MediaSelect<T extends Media> extends CustomField<T> {
 				
 				try {
 					final EntityFormWindow<T> createForm  = new EntityFormWindow<T>();
-					createForm.addTab(new MediaEditForm<T>(item.getItemProperty(propertyId).getType()), "main");
+					createForm.addTab(new MediaComponent<T>(item.getItemProperty(propertyId).getType()), "main");
 					createForm.setNewItem(true);
 					createForm.setReadOnly(false);
 					createForm.setEntityItem(referencedContainer.createEntityItem(item.getItemProperty(propertyId).getType().newInstance()));

@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.catalog.ProductNotFoundException;
-import com.serpics.catalog.data.model.Product;
+import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
@@ -32,7 +32,7 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 	
 	@Override
 	public InventoryStatus checkInventory(String sku, double quantity) throws ProductNotFoundException {
-		Product product  = productService.findByName(sku);	
+		AbstractProduct product  = productService.findByName(sku);	
 		if (product == null)
 			throw new ProductNotFoundException();
 		
@@ -40,20 +40,20 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 	}
 
 	@Override
-	public InventoryStatus checkInventory(Product product, double quantity) {
+	public InventoryStatus checkInventory(AbstractProduct product, double quantity) {
 		return inventoryStrategy.checkInventory(product, quantity);
 	}
 	
 	
 	@Override
-	public void reserve(Product product, double quantity,
+	public void reserve(AbstractProduct product, double quantity,
 			Warehouse warehouse) throws InventoryNotAvailableException {
 		inventoryStrategy.reserve(product, quantity, warehouse);
 		
 	}
 
 	@Override
-	public void release(Product product, double quantity,
+	public void release(AbstractProduct product, double quantity,
 			Warehouse warehouse) {
 		inventoryStrategy.release(product, quantity, warehouse);
 		
@@ -61,25 +61,25 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 
 
 	@Override
-	public double getStockLevelAmount(Product product) {
+	public double getStockLevelAmount(AbstractProduct product) {
 		return inventoryStrategy.getStockLevelAmount(product);
 	}
 
 	@Override
-	public double getStockLevelAmount(Product product,
+	public double getStockLevelAmount(AbstractProduct product,
 			Warehouse warehouse) {
 		
 		return inventoryStrategy.getStockLevelAmount(product, warehouse);
 	}
 
 	@Override
-	public InventoryStatus getInventoryStatus(Product product) {
+	public InventoryStatus getInventoryStatus(AbstractProduct product) {
 	
 		return inventoryStrategy.getInventoryStatus(product);
 	}
 
 	@Override
-	public InventoryStatus getInventoryStatus(Product product,
+	public InventoryStatus getInventoryStatus(AbstractProduct product,
 			Warehouse warehouse) {
 		
 		return inventoryStrategy.getInventoryStatus(product, warehouse);
@@ -87,7 +87,7 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 
 	@Override
 	@Transactional
-	public void reserve(Product product, double quantity)
+	public void reserve(AbstractProduct product, double quantity)
 			throws InventoryNotAvailableException {
 		
 		if (inventoryStrategy.getStoreConfig().isAlwaysInstock())
@@ -118,7 +118,7 @@ public class InventoryServiceImpl  extends AbstractService<CommerceSessionContex
 
 	@Override
 	@Transactional
-	public void release(Product product, double quantity) {
+	public void release(AbstractProduct product, double quantity) {
 		if (inventoryStrategy.getStoreConfig().isAlwaysInstock())
 			return;
 		

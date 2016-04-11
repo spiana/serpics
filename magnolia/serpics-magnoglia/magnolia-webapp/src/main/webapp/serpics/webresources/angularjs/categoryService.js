@@ -14,6 +14,7 @@
 	        getTop			  	: getTop,
 	        getTopQ			  	: getTopQ,
 	        getChild		  	: getChild,
+	        getChildByCode		: getChildByCode,
 	        findAll			  	: findAll
 	    });                
 	    return service;
@@ -122,6 +123,27 @@
 	    			$http({
 	    				method: 	'GET',
 	    				url: URL + endpoint +   'parent/getChild/' + parentId,
+	    				headers: {
+	    					'ssid': sessionId
+	    					}
+	    			}).then(handleSuccess, handleError).then(resolve, reject);
+    			 });
+    		 });
+    	 }
+	    
+	    /**
+	     * @param parentCode                 
+	     * @return 
+	     */      
+	    function getChildByCode(parentCode) {
+	    	$log.debug("getChildByCode(parentCode): "+parentCode) ;
+	    	var serviceSSID = serpicsServices;
+	    	return $q(function(resolve, reject) {
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug("CategoryService getChildByCode(parentCode) ssid nel promise"+sessionId) ;
+	    			$http({
+	    				method: 	'GET',
+	    				url: URL + endpoint +   'parent/getChild/code/' + parentCode,
 	    				headers: {
 	    					'ssid': sessionId
 	    					}

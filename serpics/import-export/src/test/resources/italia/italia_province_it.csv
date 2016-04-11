@@ -1,0 +1,111 @@
+country(iso2Code);region(isoCode);isoCode[unique];description{it}
+IT;IT-82;IT-AG;Agrigento
+IT;IT-21;IT-AL;Alessandria
+IT;IT-57;IT-AN;Ancona
+IT;IT-23;IT-AO;Valle d'Aosta
+IT;IT-52;IT-AR;Arezzo
+IT;IT-57;IT-AP;Ascoli Piceno
+IT;IT-21;IT-AT;Asti
+IT;IT-72;IT-AV;Avellino
+IT;IT-75;IT-BA;Bari
+IT;IT-75;IT-BT;Barletta-Andria-Trani
+IT;IT-34;IT-BL;Belluno
+IT;IT-72;IT-BN;Benevento
+IT;IT-25;IT-BG;Bergamo
+IT;IT-21;IT-BI;Biella
+IT;IT-45;IT-BO;Bologna
+IT;IT-32;IT-BZ;Bolzano
+IT;IT-25;IT-BS;Brescia
+IT;IT-75;IT-BR;Brindisi
+IT;IT-88;IT-CA;Cagliari
+IT;IT-82;IT-CL;Caltanissetta
+IT;IT-67;IT-CB;Campobasso
+IT;IT-88;IT-CI;Carbonia-Iglesias
+IT;IT-72;IT-CE;Caserta
+IT;IT-82;IT-CT;Catania
+IT;IT-78;IT-CZ;Catanzaro
+IT;IT-65;IT-CH;Chieti
+IT;IT-25;IT-CO;Como
+IT;IT-78;IT-CS;Cosenza
+IT;IT-25;IT-CR;Cremona
+IT;IT-78;IT-KR;Crotone
+IT;IT-21;IT-CN;Cuneo
+IT;IT-82;IT-EN;Enna
+IT;IT-57;IT-FM;Fermo
+IT;IT-45;IT-FE;Ferrara
+IT;IT-52;IT-FI;Firenze
+IT;IT-75;IT-FG;Foggia
+IT;IT-45;IT-FC;Forlì-Cesena
+IT;IT-62;IT-FR;Frosinone
+IT;IT-42;IT-GE;Genova
+IT;IT-36;IT-GO;Gorizia
+IT;IT-52;IT-GR;Grosseto
+IT;IT-42;IT-IM;Imperia
+IT;IT-67;IT-IS;Isernia
+IT;IT-42;IT-SP;La Spezia
+IT;IT-65;IT-AQ;L'Aquila
+IT;IT-62;IT-LT;Latina
+IT;IT-75;IT-LE;Lecce
+IT;IT-25;IT-LC;Lecco
+IT;IT-52;IT-LI;Livorno
+IT;IT-25;IT-LO;Lodi
+IT;IT-52;IT-LU;Lucca
+IT;IT-57;IT-MC;Macerata
+IT;IT-25;IT-MN;Mantova
+IT;IT-52;IT-MS;Massa e Carrara
+IT;IT-77;IT-MT;Matera
+IT;IT-88;IT-VS;Medio Campidano
+IT;IT-82;IT-ME;Messina
+IT;IT-25;IT-MB;Monza e Brianza
+IT;IT-25;IT-MI;Milano
+IT;IT-45;IT-MO;Modena
+IT;IT-72;IT-NA;Napoli
+IT;IT-21;IT-NO;Novara
+IT;IT-88;IT-NU;Nuoro
+IT;IT-88;IT-OG;Ogliastra
+IT;IT-88;IT-OT;Olbia-Tempio
+IT;IT-88;IT-OR;Oristano
+IT;IT-34;IT-PD;Padova
+IT;IT-82;IT-PA;Palermo
+IT;IT-45;IT-PR;Parma
+IT;IT-25;IT-PV;Pavia
+IT;IT-55;IT-PG;Perugia
+IT;IT-57;IT-PU;Pesaro e Urbino
+IT;IT-65;IT-PE;Pescara
+IT;IT-45;IT-PC;Piacenza
+IT;IT-52;IT-PI;Pisa
+IT;IT-52;IT-PT;Pistoia
+IT;IT-36;IT-PN;Pordenone
+IT;IT-77;IT-PZ;Potenza
+IT;IT-52;IT-PO;Prato
+IT;IT-82;IT-RG;Ragusa
+IT;IT-45;IT-RA;Ravenna
+IT;IT-78;IT-RC;Reggio Calabria
+IT;IT-45;IT-RE;Reggio Emilia
+IT;IT-62;IT-RI;Rieti
+IT;IT-45;IT-RN;Rimini
+IT;IT-62;IT-RM;Roma
+IT;IT-34;IT-RO;Rovigo
+IT;IT-72;IT-SA;Salerno
+IT;IT-88;IT-SS;Sassari
+IT;IT-42;IT-SV;Savona
+IT;IT-52;IT-SI;Siena
+IT;IT-82;IT-SR;Siracusa
+IT;IT-25;IT-SO;Sondrio
+IT;IT-75;IT-TA;Taranto
+IT;IT-65;IT-TE;Teramo
+IT;IT-55;IT-TR;Terni
+IT;IT-21;IT-TO;Torino
+IT;IT-82;IT-TP;Trapani
+IT;IT-32;IT-TN;Trento
+IT;IT-34;IT-TV;Treviso
+IT;IT-36;IT-TS;Trieste
+IT;IT-36;IT-UD;Udine
+IT;IT-25;IT-VA;Varese
+IT;IT-34;IT-VE;Venezia
+IT;IT-21;IT-VB;Verbano-Cusio-Ossola
+IT;IT-21;IT-VC;Vercelli
+IT;IT-34;IT-VR;Verona
+IT;IT-78;IT-VV;Vibo Valentia
+IT;IT-34;IT-VI;Vicenza
+IT;IT-62;IT-VT;Viterbo

@@ -2,7 +2,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.scheduler.job.AbstractJob;
+import com.serpics.scheduler.job.AbstractStoreJob;
 
 /**
  * Copyright 2015-2016 StepFour Srl
@@ -24,7 +24,7 @@ import com.serpics.scheduler.job.AbstractJob;
  * @author spiana
  *
  */
-public class TestJobDetail extends AbstractJob{
+public class TestJobDetail extends AbstractStoreJob{
 
 	/* (non-Javadoc)
 	 * @see com.serpics.scheduler.job.AbstractJob#executeJob(org.quartz.JobExecutionContext, com.serpics.commerce.session.CommerceSessionContext)

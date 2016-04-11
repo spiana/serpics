@@ -60,8 +60,7 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="item in cart.orderItems">
-							<td class="cart_product"><a ui-sref="shop.product({id: item.product.id, name: item.product.code})"><img
-									src="images/cart/two.png" alt=""></a></td>
+							<td class="cart_product"><div style="background-image: url('{{item.product.primaryImage.source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 110px; width: 110px;"></div></td>
 							<td class="cart_description">
 								<h4>
 									<a ui-sref="shop.product({id: item.product.id, name: item.product.code})">{{item.sku}}</a>

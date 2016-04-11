@@ -21,7 +21,7 @@ public class FeatureModel extends Ctentry{
 
 	public FeatureModel() {
 		super();
-		ctentryType = CatalogEntryType.SPECIFICATION;
+		ctentryType = CatalogEntryType.FEATUREMODEL;
 	}
 
 	private static final long serialVersionUID = 1L;

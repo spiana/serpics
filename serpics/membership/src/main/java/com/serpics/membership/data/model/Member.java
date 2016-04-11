@@ -46,11 +46,11 @@ public class Member extends AbstractEntity implements Serializable {
     @Column(name = "member_id", unique = true, nullable = false)
     protected Long id;
 
-    @Size(max = 1000)
+	@Size(max=1000, message="{member.field1.size}")
     @Column(length = 1000)
     protected String field1;
 
-    @Size(max = 254)
+	@Size(max=254, message="{member.field2.size}")
     @Column(length = 254)
     protected String field2;
 
@@ -60,6 +60,9 @@ public class Member extends AbstractEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "member_type", nullable = false)
     protected MemberType memberType;
+    
+    @Column(name="common_name" , length=200 , nullable= false)
+    protected String commonName;
 
     @OneToOne( fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL , orphanRemoval=true)
     @JoinColumn(name="primary_address_id")
@@ -171,4 +174,12 @@ public class Member extends AbstractEntity implements Serializable {
     public void setMembersRoles(final Set<MembersRole> membersRoles) {
         this.membersRoles = membersRoles;
     }
+
+	public String getCommonName() {
+		return commonName;
+	}
+
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
+	}
 }

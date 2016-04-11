@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<importdefinition>
+	<importentry name="regioni_it" cvs="italia_regioni_it.csv" class="com.serpics.base.data.model.Region" />
+	<importentry name="province_it" cvs="italia_province_it.csv" class="com.serpics.base.data.model.District" />
+	<importentry name="regioni_en" cvs="italia_regioni_en.csv" class="com.serpics.base.data.model.Region" />
+	<importentry name="province_en" cvs="italia_province_en.csv" class="com.serpics.base.data.model.District" />
+</importdefinition>

@@ -1,0 +1,4 @@
+templateScript: /serpics/templates/components/banner/banner-carousel-image-upload.ftl
+renderType: freemarker
+dialog: serpics:components/banner/banner-carousel-image-upload
+title: Carousel Image Upload
