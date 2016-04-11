@@ -8,18 +8,18 @@
 									<a href="" rel="prettyPhoto" title="title here" ng-click="openGalleryImageModal(product.primaryImage.source)" ><h3>ZOOM</h3></a>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel" ng-init="gallery = 0">
-								
-								  <!-- Wrapper for slides -->
+								<div class="clearfix visible-xs-block"></div>
+<!-- 								  Wrapper for slides -->
 								    <div class="carousel-inner" data-role="image">
 										<div class="item active">
 										  <div ng-repeat="i in range(3)" style="width:33%; float:left" ng-show="product.medias[i + gallery]">
-										  <div ng-click="openGalleryImageModal(product.medias[i + gallery].source)" style="cursor: pointer;display: table;margin: 0 auto;background-image: url('{{product.medias[i + gallery].source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 85px;width:85px" />
+										  <div ng-click="openGalleryImageModal(product.medias[i + gallery].source)" style="cursor: pointer;display: table;margin: 0 auto;background-image: url('{{product.medias[i + gallery].source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 85px;width:85px" ></div>
 										  </div>
 										</div>
 										
 									</div>
 
-								  <!-- Controls -->
+								  <!--Controls -->
 								  <button style="padding: 0px; border: none;" class="left item-control" data-slide="prev" ng-click="gallery = gallery - 1" ng-hide="gallery < 1">
 									<i class="fa fa-angle-left"></i>
 								  </button>
@@ -27,7 +27,6 @@
 									<i class="fa fa-angle-right"></i>
 								  </button>
 							</div>
-
 						</div>
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
@@ -51,7 +50,8 @@
 								<a href=""><img src="assets/images/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							</div><!--/product-information-->
 						</div>
-					</div><!--/product-details-->
+					</div>
+					<!--/product-details-->
 <script type="text/ng-template" id="galleryImageDialog">
    <div class="modal-dialog" style="height:auto; max-height:50%; max-width:90%">
     <div class="modal-content" style="margin-top: auto;">

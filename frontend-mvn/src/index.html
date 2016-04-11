@@ -1,5 +1,6 @@
-<!doctype html>
-<html ng-app="serpics">
+<!DOCTYPE html>
+<html lang="en" ng-strict-di>
+<!-- ng-strict-di -->
   <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,17 +22,22 @@
     <!-- endinject -->
     <!-- endbuild -->
   </head>
-  <body>
+  <body ng-app="serpics" class="ng-cloak">
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    
+<!--     <div loader-directive text-loading="SERPICS"></div> -->
+	
 	<div top-header-directive></div>
 	<div middle-header-directive></div>
 	<div bottom-header-directive></div>
+    
     <div ui-view></div>
+    
     <div footer-directive></div>
-
-
+    
+    
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->
     <!-- run `gulp inject` to automatically populate bower script dependencies -->

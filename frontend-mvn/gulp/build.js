@@ -87,11 +87,17 @@ gulp.task('other', function () {
     return file.stat.isFile();
   });
 
+//File da escludere
+//  var exJsFiles1 = path.join('src/app/content/**/*jquery.prettyPhoto.js');
+//  var exJsFiles2 = path.join('src/app/content/**/*ngDialog.min.js');
   return gulp.src([
     path.join(conf.paths.src, '/**/*'),
     path.join('!' + conf.paths.src, '/**/*.{html,css,js}'),
     path.join('!' + conf.paths.src,'**/*.{eot,svg,ttf,woff,woff2,otf}'),
-    path.join('!' + conf.paths.src,'/app/content/css/**/*')
+    path.join('!' + conf.paths.src,'/app/content/css/**/*'),
+    path.join('!' + conf.paths.src, '/test/**/*')
+//    ,
+//    exJsFiles1,exJsFiles2
   ])
     .pipe(fileFilter)
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')));

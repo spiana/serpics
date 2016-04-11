@@ -10,13 +10,13 @@
 			
 			<div class="step-one">
 
-				<h2 class="heading" ng-show="$state.is('checkout.address') || $state.is('checkout.register') || $state.is('checkout.login')" >Step1</h2>
+				<h2 class="heading" ng-show="$state.is('.address')" >Step1</h2>
 				<h2 class="heading" ng-show="$state.is('checkout.shipping')" >Step2</h2>
 				<h2 class="heading" ng-show="$state.is('checkout.shipmode')" >Step3</h2>
 				<h2 class="heading" ng-show="$state.is('checkout.payment')" >Step4</h2>
 			</div>
 			
-			<div ng-show="currentUser.userType == 'ANONYMOUS'">
+			<div ng-controller="CustomerController " ng-show="currentUser.userType == 'ANONYMOUS'">
 						
 			<div class="checkout-options">
 				<h3>New User</h3>
@@ -59,7 +59,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="item in cart.orderItems">
+						<tr ng-repeat="item in cartVm.cart.orderItems">
 							<td class="cart_product"><div style="background-image: url('{{item.product.primaryImage.source}}');background-position: center;background-size: contain;background-repeat: no-repeat;height: 110px; width: 110px;"></div></td>
 							<td class="cart_description">
 								<h4>
@@ -73,8 +73,8 @@
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
 								<a class="cart_quantity_down" ng-click="cartUpdate(item, item.quantity - 1)"> - </a>
-									<input class="cart_quantity_input" ng-pattern="/^[0-9]{1,2}$/" ng-model="item.quantity" ng-change="cartUpdate(item, item.quantity)" type="text" autocomplete="off" size="2">
-								<a class="cart_quantity_up" ng-click="cartUpdate(item, item.quantity + 1)"> + </a>
+									<input class="cart_quantity_input" ng-pattern="/^[0-9]{1,2}$/" ng-model="item.quantity" ng-change="cartVm.cartUpdate(item, item.quantity)" type="text" autocomplete="off" size="2">
+								<a class="cart_quantity_up" ng-click="cartVm.cartUpdate(item, item.quantity + 1)"> + </a>
 								</div>
 							</td>
 							<td class="cart_delete"><a class="cart_quantity_delete"
@@ -87,23 +87,23 @@
 								<table class="table table-condensed total-result">
 										<tr>
 											<td>Cart Sub Total</td>
-											<td><span>&euro;{{(cart.totalProduct | number:2) || 0}}</span></td>
+											<td><span>&euro;{{(cartVm.cart.totalProduct | number:2) || 0}}</span></td>
 										</tr>
 										<tr>
 											<td>Services Sub Total</td>
-											<td><span>&euro;{{(cart.totalService | number:2) || 0}}</span></td>
+											<td><span>&euro;{{(cartVm.cart.totalService | number:2) || 0}}</span></td>
 										</tr>
 										<tr>
 											<td>Tax Sub Total</td>
-											<td><span>&euro;{{(cart.totalTax | number:2) || 0}}</span></td>
+											<td><span>&euro;{{(cartVm.cart.totalTax | number:2) || 0}}</span></td>
 										</tr>
 										<tr>
 											<td>Shipping Cost</td>
-											<td><span>&euro;{{(cart.totalShipping | number:2) || 0}}</span></td>
+											<td><span>&euro;{{(cartVm.cart.totalShipping | number:2) || 0}}</span></td>
 										</tr>
 										<tr>
 											<td>Total</td>
-											<td><span>&euro;{{(cart.orderAmount | number:2) || 0}}</span></td>
+											<td><span>&euro;{{(cartVm.cart.orderAmount | number:2) || 0}}</span></td>
 										</tr>										
 									</table>
 							</td>

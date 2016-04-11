@@ -1,33 +1,39 @@
-var routerApp = angular.module('serpics.router', ['ui.router'])
-
-routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$httpProvider', function($stateProvider, $urlRouterProvider,$locationProvider,$httpProvider) {
-	
-    $stateProvider
+(function() {
+	 'use strict';
+	 
+	 angular.module('serpics.router', [])
+	 .config(routerConfig);
+	 
+	 routerConfig.$inject = ['$stateProvider', '$urlRouterProvider']; 
+	          
+	 /** @ngInject */
+	 function routerConfig($stateProvider, $urlRouterProvider) {
+		 
+		 $stateProvider
+		 .state('shop', {
+			 abstract: true,
+			 url: '',
+			 controller: '',
+			 controllerAs: '',
+			 templateUrl: 'app/template/shop.html'
+		 })
     
-    .state('shop', {
-    	abstract: true,
-    	url: '',
-        templateUrl: 'app/template/shop.html'
-
-    })
-    
-     .state('shop.home', {
-    	url: '/home',
-        controller: function ($scope) {
-        	$scope.name = 'Home Page';
-        },
-        templateUrl: 'app/template/home-central.html'
-    })
-    
-    .state('shop.category', {
-    	url: '/category/:name/:id',
-        controller: function ($stateParams, $scope) {
-        	$scope.name = $stateParams.name;
-        	$scope.categoryId = $stateParams.id;
-        },
-        templateUrl: 'app/template/category-central.html'
-
-    })
+		 .state('shop.home', {
+			 url: '/home',
+			 controller: function ($scope) {
+				 $scope.name = 'Home Page';
+			 },
+			 templateUrl: 'app/template/home-central.html'
+		 })
+		 
+		 .state('shop.category', {
+			 url: '/category/:name/:id',
+			 controller: function ($stateParams, $scope) {
+				 $scope.name = $stateParams.name;
+				 $scope.categoryId = $stateParams.id;
+			 },
+			 templateUrl: 'app/template/category-central.html'
+		 })
     
     .state('shop.brand', {
     	url: '/brand/:name/:id',
@@ -40,7 +46,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
     })
     
     .state('shop.search', {
-    	url: "/search?:textSearch",
+    	url: '/search?:textSearch',
         controller: function ($stateParams, $scope) {
         	$scope.name = 'Search Page';
         	$scope.textSearch = $stateParams.textSearch;
@@ -60,94 +66,104 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
     
     .state('shop.login', {
     	url: '/login', 
-        templateUrl: 'app/template/login.html',   
-        controller: 'loginController',
+        templateUrl: 'app/template/login.html',
+        controller: 'LoginController',
         params: {
-        	login: "shop.home",
-        	register: "shop.login"
-        },
+        	login: 'shop.home',
+        	register: 'shop.login',
+        	error: ''
+        }
 	 })
     
     .state('shop.cart', {
     	url: '/cart',       
         templateUrl: 'app/template/cart.html',
-        controller: 'cartController',
+        controller: 'CartController',
+        contrllerAs: 'cartVm'
     })
 
 	.state('shop.register', {
 		url: '/register',
 		templateUrl: 'app/template/register.html',
-		controller: 'loginController',
+		controller: 'LoginController',
         params: {
-        	login: "shop.home",
-        	register: "shop.login"
+        	login: 'shop.home',
+        	register: 'shop.login'
         }
 	})
 	
 	.state('shop.personalArea', {
 		url: '/personalArea',
 		templateUrl: 'app/template/personalArea.html',
-		controller: 'customerController'	
+		controller: 'CustomerController'	
 	})
 	
 	.state('shop.500', {
 		url: '/500',
-		templateUrl: 'app/template/500.html'
+		templateUrl: 'app/template/errors/500.html'
 		
 	})
 	
 	.state('shop.404', {
 	   	url: '/404',	        
-	    templateUrl: 'app/template/404.html'
+	    templateUrl: 'app/template/errors/404.html'
 	})
 	
 	.state('shop.403', {
 	   	url: '/403',	        
-	    templateUrl: 'app/template/403.html'
+	    templateUrl: 'app/template/errors/403.html'
 	})	
+	
+	.state('shop.405', {
+	   	url: '/405',	        
+	    templateUrl: 'app/template/errors/405.html'
+	})
 		
 	.state('shop.orderError', {    	
 	   	url: '/orderError',	        
-	    templateUrl: 'app/template/orderError.html', 
+	    templateUrl: 'app/template/orderError.html'
 	})
 	
 	.state('shop.orderConfirm', {
 	   	url: '/orderConfirm',	        
-	    templateUrl: 'app/template/orderConfirm.html', 
+	    templateUrl: 'app/template/orderConfirm.html' 
 	})
 	    	
 	.state('checkout', {
     	abstract: true,
 	   	url: '/checkout',	        
 	    templateUrl: 'app/template/checkout.html', 
-	    controller: 'cartController',
+	    controller: 'CartController',
+	    controllerAs: 'cartVm',
         params: {
-        	complete: "complete",
-        	shipping: "checkout.shipping",
-        	shipmode: "checkout.shipmode",
-        	payment: "checkout.payment",
-        	paymentPayPal: "checkout.paymentPayPal"
+        	complete: 'complete',
+        	shipping: 'checkout.shipping',
+        	shipmode: 'checkout.shipmode',
+        	payment: 'checkout.payment',
+        	paymentPayPal: 'checkout.paymentPayPal'
         }
 	})
 	
 	.state('checkout.address', {
 	   	url: '/address',	        
 	    templateUrl: 'app/template/checkoutAddress.html',
+	    controller: 'CustomerController',
+	    controllerAs: 'customerVm'
 	})
 	
 	.state('checkout.shipping', {
 	   	url: '/shipping',	        
-	    templateUrl: 'app/template/checkoutShippingAddress.html',
+	    templateUrl: 'app/template/checkoutShippingAddress.html'
 	})
 	
 	.state('checkout.shipmode', {
 	   	url: '/shipmode',	        
-	    templateUrl: 'app/template/checkoutShipmode.html',
+	    templateUrl: 'app/template/checkoutShipmode.html'
 	})
 	
 	.state('checkout.payment', {
 	   	url: '/payment?token',	        
-	    templateUrl: 'app/template/checkoutPayment.html',
+	    templateUrl: 'app/template/checkoutPayment.html'
 	})
 	
 	.state('checkout.paymentPayPal', {
@@ -158,42 +174,43 @@ routerApp.config(['$stateProvider', '$urlRouterProvider','$locationProvider','$h
 	.state('checkout.login', {
 	   	url: '/login',	        
 	    templateUrl: 'app/template/login.html',
-	    controller: 'loginController',
+	    controller: 'LoginController',
         params: {
-        	login: "checkout.address",
-        	register: "checkout.login"
+        	login: 'checkout.address',
+        	register: 'checkout.login'
         }
 	})
 	
 	.state('checkout.register', {
 	   	url: '/register',	        
 	    templateUrl: 'app/template/register.html',
-	    controller: 'loginController',
+	    controller: 'LoginController',
         params: {
-        	login: "checkout.address",
-        	register: "checkout.login"
+        	login: 'checkout.address',
+        	register: 'checkout.login'
         }
 	})
 	
 	.state('complete' , {
 		url: '/complete',
 		templateUrl: 'app/template/orderComplete.html',
-		controller: 'orderController'
+		controller: 'OrderController'
  	})
  	
  		
  	.state('paid' , {
 		url: '/paid?paymentId&token&PayerID',
 		templateUrl: 'app/template/orderComplete.html',
-		controller: 'orderController'
+		controller: 'OrderController'
  	})
  	
  	.state('cancel', {
 		url: '/cancel',
 		templateUrl: 'app/template/checkoutPayment.html'
 
-	})
+	});
  	
-	$urlRouterProvider.otherwise("/home");
+	$urlRouterProvider.otherwise('/home');
 	    
-}])
+}
+})();

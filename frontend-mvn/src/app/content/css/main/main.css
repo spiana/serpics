@@ -1,4 +1,3 @@
-
 /*************************
 *******Typography******
 **************************/
@@ -6,7 +5,7 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700);
 @import url(http://fonts.googleapis.com/css?family=Abel);
 
-@import url("prettyPhoto.css");
+@import url("../../prettyPhoto/css/prettyPhoto.css");
 @import url("animate.css");
 @import url("style.css");
 
@@ -680,6 +679,10 @@ ul.sub-menu {
 
 .right {
   right: 0;
+}
+
+.left {
+  left: 0;
 }
 
 .category-products {
