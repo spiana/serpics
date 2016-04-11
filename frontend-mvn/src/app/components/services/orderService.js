@@ -78,7 +78,7 @@ angular.module('order.service', ['serpics.config','serpics.services'])
 			             	'ssid': sessionId
 			            },
 			            data: {
-			            	'order': 'orderId'
+			            	'cardId': 'cartId'
 			            }
 			          }).then(handleSuccess, handleError).then(resolve, reject);
 	    		});
