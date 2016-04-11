@@ -11,7 +11,7 @@ gulp.task('srvScripts', function() {
 });
 
 function buildSrvScripts() {
-	//Controllo presenza errori
+	//Controllo presenza errori nei services
   return gulp.src(path.join(conf.paths.src, '/app/**/*Service.js'))
     .pipe($.eslint())
     .pipe($.eslint.format())

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<title>Jasmine Spec Runner v2.4.0 For FrontendJs</title>
+
+<link rel="shortcut icon" type="image/png"
+	href="lib/jasmine-2.4.0/jasmine_favicon.png">
+<link rel="stylesheet" href="lib/jasmine-2.4.0/jasmine.css">
+
+<script src="lib/jasmine-2.4.0/jasmine.js"></script>
+<script src="lib/jasmine-2.4.0/jasmine-html.js"></script>
+<script src="lib/jasmine-2.4.0/boot.js"></script>
+
+<!-- Angular dependencies -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-cookies.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-loader.min.js"></script>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
+
+<!-- Angular mocks dependencies -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-mocks.js"></script>
+
+
+<!-- include source Matchers files here for extends jasmine... -->
+<script src="srcTest/customMatchers.js"></script>
+
+<!-- include source files here config Mocks constant... -->
+<script src="srcTest/configMocks.js"></script>
+
+<!-- include source $httpBackend files here for extends $http request and response... -->
+<script src="srcTest/httpBrandMocks.js"></script>
+<script src="srcTest/httpCartMocks.js"></script>
+<script src="srcTest/httpCategoryMocks.js"></script>
+<script src="srcTest/httpCustomerMocks.js"></script>
+<script src="srcTest/httpLoginMocks.js"></script>
+<script src="srcTest/httpOrderMocks.js"></script>
+<script src="srcTest/httpProductMocks.js"></script>
+<script src="srcTest/httpSerpicsInterceptorMocks.js"></script>
+<script src="srcTest/httpSerpicsServicesMocks.js"></script>
+
+
+
+
+<!--   Frontendjs -->
+<!-- include source files here... -->
+<script src="../config.js"></script>
+
+<script src="../serpicsServices.js"></script>
+
+<script src="../brandService.js"></script>
+<script src="../customerService.js"></script>
+<script src="../categoryService.js"></script>
+<script src="../cartService.js"></script>
+<script src="../orderService.js"></script>
+<script src="../productService.js"></script>
+
+<script src="../brandController.js"></script>
+
+<script src="../categoryController.js"></script>
+<script src="../productController.js"></script>
+<script src="../cartController.js"></script>
+<script src="../orderController.js"></script>
+<script src="../loginController.js"></script>
+<script src="../customerController.js"></script>
+
+<script src="../router.js"></script>
+<script src="../ngDialog.js"></script>
+
+
+
+
+<script src="../serpicsInterceptor.js"></script>
+<script src="../directive.js"></script>
+<script src="../serpicsApp.js"></script>
+
+
+
+<!--   Frontendjs -->
+<!-- include spec files here... -->
+<script src="suiteTest/serpicsServicesTest.js"></script>
+
+<script src="suiteTest/brandServiceTest.js"></script>
+<script src="suiteTest/cartServiceTest.js"></script>
+<script src="suiteTest/categoryServiceTest.js"></script>
+<script src="suiteTest/customerServiceTest.js"></script>
+<script src="suiteTest/orderServiceTest.js"></script>
+<script src="suiteTest/productServiceTest.js"></script>
+
+
+<script src="suiteTest/brandControllerTest.js"></script>
+<script src="suiteTest/cartControllerTest.js"></script>
+<script src="suiteTest/categoryControllerTest.js"></script>
+<script src="suiteTest/customerControllerTest.js"></script>
+<script src="suiteTest/loginControllerTest.js"></script>
+<script src="suiteTest/orderControllerTest.js"></script>
+<script src="suiteTest/productControllerTest.js"></script>
+
+<script src="suiteTest/routerTest.js"></script>
+<script src="suiteTest/serpicsInterceptorTest.js"></script>
+<script src="suiteTest/serpicsAppTest.js"></script>
+
+
+</head>
+
+<body>
+</body>
+</html>
