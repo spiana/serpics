@@ -86,6 +86,9 @@ public class VariantsTest extends CatalogBaseTest{
 		
 		Assert.assertEquals(3, p.getVariants().size());
 		Assert.assertEquals(1, p.getVariants().get(0).getAttributes().size());
+		
+		Assert.assertTrue(p.getVariantValues().containsKey("SIZE"));
+		Assert.assertEquals(1 , p.getVariantValues().get("SIZE").size());
 	}
 	
 	

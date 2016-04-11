@@ -15,16 +15,12 @@
  */
 package com.serpics.catalog.facade;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
-
 import javax.annotation.Resource;
 
-import com.serpics.base.AttributeType;
 import com.serpics.catalog.data.model.VariantAttribute;
+import com.serpics.catalog.facade.data.AttributeValueData;
 import com.serpics.catalog.facade.data.VariantAttributeData;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.core.data.model.Locale;
+import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 
 /**
@@ -33,44 +29,18 @@ import com.serpics.core.facade.Populator;
  */
 public class VariantAttributePopulator implements Populator<VariantAttribute, VariantAttributeData>{
 	
-	@Resource
-	CommerceEngine engine;
-
+	@Resource(name="attributeValueConverter")
+	AbstractPopulatingConverter<VariantAttribute, AttributeValueData> attributeValueConverter;
+	
 	/* (non-Javadoc)
 	 * @see com.serpics.core.facade.Populator#populate(java.lang.Object, java.lang.Object)
 	 */
 	@Override
 	public void populate(VariantAttribute source, VariantAttributeData target) {
 		
-		Locale l = engine.getCurrentContext().getLocale();
-		
-		
-		AttributeType type = source.getBaseAttribute().getAttributeType();
-		
-		switch (type) {
-
-		case DATE:
-			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, new java.util.Locale(l.getLanguage()));
-			break;
-		case STRING:
-			target.setFormattedValue(source.getValue().getStringValue());
-			if (source.getLocalize() != null)
-				target.setLocalization(source.getLocalize().getText(new java.util.Locale(l.getLanguage())));
-			break;
-		case DOUBLE:
-			NumberFormat dnf = NumberFormat.getIntegerInstance(new java.util.Locale(l.getLanguage()));
-			if (source.getValue().getDoubleValue() != null)
-				target.setFormattedValue(dnf.format(source.getValue().getDoubleValue()));
-			break;
-		case INTEGER:
-			NumberFormat inf = NumberFormat.getIntegerInstance(new java.util.Locale(l.getLanguage()));
-			if (source.getValue().getIntegerValue() != null)
-				target.setFormattedValue(inf.format(source.getValue().getIntegerValue()));
-			
-			break;
-		default:
-			break;
-		}
+		target.setName(source.getBaseAttribute().getName());
+		AttributeValueData value= attributeValueConverter.convert(source);
+		target.setValue(value);
 		
 	}
 

@@ -16,6 +16,7 @@
 package com.serpics.catalog.facade;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,10 +28,12 @@ import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.ProductVariant;
+import com.serpics.catalog.facade.data.AttributeValueData;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.facade.data.ProductVariantData;
+import com.serpics.catalog.facade.data.VariantAttributeData;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 
@@ -42,7 +45,7 @@ public class ProductPopulator implements Populator<Product, ProductData>{
 	private AbstractPopulatingConverter<Brand, BrandData> brandConverter;
 	private AbstractPopulatingConverter<Category, CategoryData> categoryConverter;
 	private AbstractPopulatingConverter<ProductVariant, ProductVariantData> variantConverter;
-	
+
 	/* (non-Javadoc)
 	 * @see com.serpics.core.facade.Populator#populate(java.lang.Object, java.lang.Object)
 	 */
@@ -66,12 +69,36 @@ public class ProductPopulator implements Populator<Product, ProductData>{
 		if(source.getVariants() != null){
 			List<ProductVariantData> variants = new ArrayList<ProductVariantData>();
 			for (ProductVariant variant : source.getVariants()) {
-				variants.add(variantConverter.convert(variant));
+				ProductVariantData _v  = variantConverter.convert(variant);
+				populateattributeValues(_v , target);
+				variants.add(_v);
+				
 			}
 			target.setVariants(variants);
 		}
 	}
 
+	
+	private void populateattributeValues (ProductVariantData variant , ProductData target){
+		
+		if (variant.getAttributes() == null)
+			return; 
+		
+		for (VariantAttributeData attribute : variant.getAttributes() ) {
+				String name = attribute.getName();
+				if (target.getVariantValues() == null)
+					target.setVariantValues( new HashMap<String , List<AttributeValueData>>());
+
+				List<AttributeValueData> values  = target.getVariantValues().get(name);
+				if (values == null){
+					values = new ArrayList<AttributeValueData>();
+					values.add(attribute.getValue());
+				}
+				target.getVariantValues().put(name, values);
+		}
+			
+	}
+	
 	@Required
 	public void setBrandConverter(AbstractPopulatingConverter<Brand, BrandData> brandConverter) {
 		this.brandConverter = brandConverter;

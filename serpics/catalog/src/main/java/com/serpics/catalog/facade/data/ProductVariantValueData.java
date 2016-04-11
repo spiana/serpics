@@ -15,31 +15,16 @@
  */
 package com.serpics.catalog.facade.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author spiana
  *
  */
-public class VariantAttributeData {
-
-	private String name ;
+public class ProductVariantValueData {
 	
-	private AttributeValueData value;
+	String name ;
+	List<AttributeValueData> values   = new ArrayList<AttributeValueData>(0);
 
-	public AttributeValueData getValue() {
-		return value;
-	}
-
-	public void setValue(AttributeValueData value) {
-		this.value = value;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	
 }

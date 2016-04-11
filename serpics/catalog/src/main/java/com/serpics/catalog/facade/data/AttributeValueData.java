@@ -19,27 +19,21 @@ package com.serpics.catalog.facade.data;
  * @author spiana
  *
  */
-public class VariantAttributeData {
+public class AttributeValueData {
 
-	private String name ;
+	private String formattedValue;
+	private String localization;
 	
-	private AttributeValueData value;
-
-	public AttributeValueData getValue() {
-		return value;
+	public String getFormattedValue() {
+		return formattedValue;
 	}
-
-	public void setValue(AttributeValueData value) {
-		this.value = value;
+	public void setFormattedValue(String formattedValue) {
+		this.formattedValue = formattedValue;
 	}
-
-	public String getName() {
-		return name;
+	public String getLocalization() {
+		return localization;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setLocalization(String localization) {
+		this.localization = localization;
 	}
-	
-	
 }

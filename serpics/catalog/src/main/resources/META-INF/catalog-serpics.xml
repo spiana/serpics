@@ -187,6 +187,19 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <alias name="defaultVariantAttributePopulator" alias="variantAttributePopulator"/> 
     <bean name="defaultVariantAttributePopulator" class="com.serpics.catalog.facade.VariantAttributePopulator" />
     
+    <alias name="defaultAttributeValuePopulator" alias="attributeValuePopulator"/> 
+    <bean name="defaultAttributeValuePopulator" class="com.serpics.catalog.facade.AttributeValuePopulator" />
+    
+    <alias name="defaultAttributeValueConverter" alias="attributeValueConverter"/>
+    <bean name="defaultAttributeValueConverter" parent="abstractConverter">
+    <property name="targetClass" value="com.serpics.catalog.facade.data.AttributeValueData"/>
+    <property name="populators">
+      <list>
+          <ref bean="attributeValuePopulator"/>  
+      </list>
+    </property>
+    </bean>
+   
     <alias name="defaultVariantAttributeConverter" alias="variantAttributeConverter"/>
     <bean name="defaultVariantAttributeConverter" parent="abstractConverter">
     <property name="targetClass" value="com.serpics.catalog.facade.data.VariantAttributeData"/>

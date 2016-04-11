@@ -1,6 +1,7 @@
 package com.serpics.catalog.facade.data;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,6 +19,8 @@ public class ProductData  extends AbstractProductData{
 	protected List<ProductVariantData> variants;
 
 	protected String productType;
+	
+	protected Map<String , List<AttributeValueData>> variantValues;
 	
 	public BrandData getBrand() {
 		return brand;
@@ -58,5 +61,13 @@ public class ProductData  extends AbstractProductData{
 	public void setVariants(List<ProductVariantData> variants) {
 		this.variants = variants;
 	}
-	
+
+	public Map<String, List<AttributeValueData>> getVariantValues() {
+		return variantValues;
+	}
+
+	public void setVariantValues(Map<String, List<AttributeValueData>> variantValues) {
+		this.variantValues = variantValues;
+	}
+
 }
