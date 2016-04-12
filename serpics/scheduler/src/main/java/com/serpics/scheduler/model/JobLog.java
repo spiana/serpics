@@ -10,10 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.test.context.TestExecutionListeners;
 
 import com.serpics.core.data.jpa.AbstractEntity;
 
@@ -33,6 +36,7 @@ public class JobLog extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	private JobLogState state;
 	
+	@Lob
 	@Column(name="message")
 	private String message;
 	

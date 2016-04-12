@@ -71,7 +71,7 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 	private JobDataMap createJobDataMap(JobDetails jobdetails){
 		
 		JobDataMap dataMap = new JobDataMap();
-		dataMap.put("realmStore", jobdetails.getStore().getName());
+		dataMap.put("realmStore", jobdetails.getStore()!=null?jobdetails.getStore().getName():"");
 		dataMap.put("catalog", jobdetails.getCatalog()!=null?jobdetails.getCatalog().getCode():"");
 		
 		return dataMap;

@@ -11,6 +11,15 @@
 		<property name="logs"/>
 	</entity>
 	
+	<entity name="systemjobdetails">
+		<property name="nameClassJob"  table="true" select="true"/>
+		<property name="catalog" />
+		<property name="stopOnFail"/>
+		<property name="lastRun" table="true"/>
+		<property name="stateOfJob" table="true"/>
+		<property name="logs"/>
+	</entity>
+	
 	<entity name="joblog">
 		<property name="state" table="true" readonly="true"/>
 		<property name="message" table="true" readonly="true" />
