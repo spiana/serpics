@@ -6,11 +6,13 @@
 	<module>catalog-serpics.xml</module>
 	<module>warehouse-serpics.xml</module>
 	<module>commerce-serpics.xml</module>
-	<module>system-serpics.xml</module>
-	<module>paypal-serpics.xml</module>
 	<module>importexport-serpics.xml</module>
-<!-- 	<module>scheduler-serpics.xml</module> -->
+	<module>system-serpics.xml</module>
 	<module>smc-serpics.xml</module>
+	<module>scheduler-serpics.xml</module> 
+	<module>paypal-serpics.xml</module> 
+	<module>postman-serpics.xml</module> 
+	<module>postman-service-serpics.xml</module> 
 	<module>admin-serpics.xml</module>
-	<module>postman-serpics.xml</module>
 </modules>
+

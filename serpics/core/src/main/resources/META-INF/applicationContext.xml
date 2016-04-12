@@ -18,8 +18,9 @@ http://www.springframework.org/schema/aop
 	<bean name ="config" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
             <property name="locations">
                     <list>
-                            <value>classpath*:**/module.properties</value>
-                               <value>file:${serpics.home}/config/local.properties</value>
+                           <value>classpath*:**/module.properties</value>
+                           <value>classpath:local.properties</value>
+                           <value>file:${serpics.home}/config/local.properties</value>
                     </list>
             </property>
             <property name="searchSystemEnvironment" value="true" />

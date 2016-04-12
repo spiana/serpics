@@ -7,5 +7,7 @@
 	<module>warehouse-serpics.xml</module>
 	<module>commerce-serpics.xml</module>
 	<module>system-serpics.xml</module>
+	<module>postman-serpics.xml</module>
+	
 	<module>gae-app-serpics.xml</module>
 </modules>

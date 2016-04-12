@@ -25,9 +25,8 @@ public class EngineFactory implements ApplicationContextAware{
 	
 	private static final Map<ClassLoader, ApplicationContext> currentContextPerThread = new ConcurrentHashMap<ClassLoader, ApplicationContext>(1);
 
+	
 	public static void init()  {
-		List<String> modules = new ArrayList<String>();
-		modules.add("classpath:META-INF/applicationContext.xml");
 		String home_directory  = System.getProperty("serpics.home");
 		LOG.info("home directory [{}]" , home_directory);
 		URL l = null;
@@ -45,13 +44,15 @@ public class EngineFactory implements ApplicationContextAware{
 					LOG.info("file modules.xml not found in home directory try to load from classpath !");
 				}
 		}
-		
-		if (l == null)
-			l = Thread.currentThread().getContextClassLoader().getResource("WEB-INF/modules.xml");
-			
 		if (l == null)
 			l = Thread.currentThread().getContextClassLoader().getResource("META-INF/modules.xml");
 		
+		init(l);
+	}
+	
+	public static void init(URL l ){
+		List<String> modules = new ArrayList<String>();
+		modules.add("classpath:META-INF/applicationContext.xml");
 		if(l == null)
 			LOG.info("no modules.xml found in classpath !");
 		else{	
@@ -81,7 +82,6 @@ public class EngineFactory implements ApplicationContextAware{
 		ApplicationContext context = new ClassPathXmlApplicationContext(modules.toArray(new String[]{}));
 		currentContextPerThread.put(Thread.currentThread().getContextClassLoader(), context);
 	}
-
 	public void setApplicationContext(ApplicationContext appContext) {
 		currentContextPerThread.put(Thread.currentThread().getContextClassLoader(), appContext);
 	}
