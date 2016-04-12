@@ -1,5 +1,8 @@
 package com.serpics.system.web;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
@@ -23,8 +26,18 @@ public class ContextLoaderListener extends
 	
 	@Override
 	protected ApplicationContext loadParentContext(ServletContext servletContext) {
-		if (EngineFactory.getCurrentApplicationContext() == null)
-			EngineFactory.init();
+		if (EngineFactory.getCurrentApplicationContext() == null){
+			URL modulesURL = null;
+			try {
+				modulesURL =  servletContext.getResource("WEB-INF/modules.xml");
+			} catch (MalformedURLException e) {
+			
+			}
+			if (modulesURL != null)
+				EngineFactory.init(modulesURL);
+			else
+				EngineFactory.init();
+		}
 		return  EngineFactory.getCurrentApplicationContext();
 	}
 	

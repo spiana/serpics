@@ -45,6 +45,9 @@ public class EngineFactory implements ApplicationContextAware{
 					LOG.info("file modules.xml not found in home directory try to load from classpath !");
 				}
 		}
+		
+		if (l == null)
+			l = Thread.currentThread().getContextClassLoader().getResource("WEB-INF/modules.xml");
 			
 		if (l == null)
 			l = Thread.currentThread().getContextClassLoader().getResource("META-INF/modules.xml");
