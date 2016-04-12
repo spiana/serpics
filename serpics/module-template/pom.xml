@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>serpics-paypal</artifactId>
+	<artifactId>module-template</artifactId>
 	<packaging>jar</packaging>
 
 
@@ -57,18 +57,5 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-		  <groupId>com.paypal.sdk</groupId>
-		  <artifactId>rest-api-sdk</artifactId>
-		  <version>${paypal-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>commerce</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
   </dependencies>
-  <properties>
-  	<paypal-version>1.4.1</paypal-version>
-  </properties>
 </project>

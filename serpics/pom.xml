@@ -10,12 +10,12 @@
 	<name>serpics</name>
 	<url>http://maven.apache.org</url>
 
-<distributionManagement>
-   <snapshotRepository>
-      <id>nexus-snapshots</id>
-      <url>http://serpicsframework.com:8081/nexus/content/repositories/snapshots</url>
-   </snapshotRepository>
-</distributionManagement>
+	<distributionManagement>
+	   <snapshotRepository>
+	      <id>nexus-snapshots</id>
+	      <url>http://serpicsframework.com:8081/nexus/content/repositories/snapshots</url>
+	   </snapshotRepository>
+	</distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,40 +54,6 @@
 <!-- 		</repository> -->
 	</repositories>
 
-	<dependencies>
-<!-- 	
-	<dependency>
-		<groupId>com.serpics</groupId>
-		<artifactId>core</artifactId>
-		<version>{serpics.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>com.serpics</groupId>
-		<artifactId>base</artifactId>
-		<version>{serpics.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>com.serpics</groupId>
-		<artifactId>membership</artifactId>
-		<version>{serpics.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>com.serpics</groupId>
-		<artifactId>catalog</artifactId>
-		<version>{serpics.version}</version>
-	</dependency>
-	<dependency>
-	<groupId>com.serpics</groupId>
-		<artifactId>commerce</artifactId>
-		<version>{serpics.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>com.serpics</groupId>
-		<artifactId>warehouse</artifactId>
-		<version>{serpics.version}</version>
-	</dependency>
--->	
-	</dependencies>
 
 <build>
     <plugins>

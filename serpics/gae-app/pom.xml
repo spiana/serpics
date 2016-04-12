@@ -99,12 +99,12 @@
         <dependency>
         	<groupId>com.serpics</groupId>
         	<artifactId>system</artifactId>
-        	<version>1.0-SNAPSHOT</version>
+        	<version>${serpics.version}</version>
         </dependency>
         <dependency>
         	<groupId>com.serpics</groupId>
         	<artifactId>rest-api</artifactId>
-        	<version>1.0-SNAPSHOT</version>
+        	<version>${serpics.version}</version>
         </dependency>
         
         
