@@ -18,6 +18,7 @@ package com.serpics.smc.ui;
 import com.serpics.scheduler.exception.JobSchedulerException;
 import com.serpics.scheduler.job.AbstractJob;
 import com.serpics.scheduler.model.JobDetails;
+import com.serpics.scheduler.model.StoreJobDetails;
 import com.serpics.stereotype.VaadinComponent;
 
 /**
@@ -25,17 +26,17 @@ import com.serpics.stereotype.VaadinComponent;
  *
  */
 @VaadinComponent("jobDetailTable")
-public class JobDetailMasterTable extends AbstractJobDetailMasterTable<JobDetails> {
+public class JobDetailMasterTable extends AbstractJobDetailMasterTable<StoreJobDetails> {
 
 	private static final long serialVersionUID = 6013043943899872749L;
 
 	public JobDetailMasterTable() {
-		super(JobDetails.class);
+		super(StoreJobDetails.class);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void execSave(JobDetails entity, boolean create) throws ClassNotFoundException, JobSchedulerException {
+	public void execSave(StoreJobDetails entity, boolean create) throws ClassNotFoundException, JobSchedulerException {
 		if (create) {
 			jobService.createJobDetail((Class<? extends AbstractJob>) Class.forName(entity.getNameClassJob()), entity);
 		} else {
