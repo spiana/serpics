@@ -37,7 +37,9 @@ public class JobLogServiceImpl implements JobLogService {
 		
 		jLog.setSchedulerJob(schedulerJob);
 		jLog.setJobRunned(schedulerJob.getJobDetail());
-		
+		if(jLog.getState()!=JobLogState.EXCEPTION && schedulerJob.getJobDetail().isLogOnlyError()){
+			return;
+		}
 		jobLogRepository.saveAndFlush(jLog);
 	}
 
