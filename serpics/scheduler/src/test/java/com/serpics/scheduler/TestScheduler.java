@@ -6,6 +6,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.junit.Assert;
 import org.junit.Before;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -64,8 +66,12 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 	@Autowired
 	JobLogService jobLogService;
 	
+	@Autowired
+	private Scheduler scheduler;
+	
+	
 	@Before
-	public void setUp() throws SerpicsException {
+	public void setUp() throws SerpicsException, SchedulerException {
 		if (!baseService.isInitialized()) {
 			baseService.initIstance();
 		}
@@ -74,6 +80,7 @@ public class TestScheduler extends AbstractJUnit4SpringContextTests {
 		catalogService.initialize();
 
 		commerceEngine.disconnect(context);
+		scheduler.start();
 	}
 	
 	@org.junit.Test
