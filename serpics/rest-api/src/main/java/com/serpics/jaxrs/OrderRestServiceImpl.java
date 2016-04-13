@@ -34,7 +34,7 @@ import com.serpics.jaxrs.data.CartDataRequest;
 import com.serpics.jaxrs.data.OrderPaymentDataRequest;
 import com.serpics.membership.facade.data.AddressData;
 
-@Path("/orderService")
+@Path("/order")
 //@Transactional(readOnly = true)
 public class OrderRestServiceImpl implements OrderRestService {
 
@@ -122,17 +122,28 @@ public class OrderRestServiceImpl implements OrderRestService {
 	 * @return Response object type: apiRestResponse
 	 */
 	@Override
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/placeOrder")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.commerce.facade.data.OrderData>")
 	public Response placeOrder(@HeaderParam(value = "ssid") String ssid) {
 		ApiRestResponse<OrderData> apiRestResponse = new ApiRestResponse<OrderData>();
+		OrderData orderData = null;
+		ResponseBuilder responseBuilder = null;
+		try{
+			orderData = orderFacade.placeOrder();
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(orderData);
+			responseBuilder = Response.ok();
+		}catch(RuntimeException e){
+			LOG.error("EmptyCart Exception",e);
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("Error: Empty Cart");
+			//406 Not Acceptable
+			responseBuilder = Response.status(406);
+		}
 
-		OrderData orderData = orderFacade.placeOrder();
-		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(orderData);
-		return Response.ok(apiRestResponse).build();
+		return responseBuilder.entity(apiRestResponse).build();
 	}
 
 	/**

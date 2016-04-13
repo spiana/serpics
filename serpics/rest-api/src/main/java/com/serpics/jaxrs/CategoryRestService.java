@@ -14,8 +14,11 @@ public interface CategoryRestService {
 	public Response getCategoryByCode(String categoryCode,String ssid);
 	public Response update(Long categoryId,CategoryDataRequest category,String ssid);
 	public Response delete(Long categoryId,String ssid);
-	public Response findAll(int page, int size,String ssid);
+	public Response findAllPage(int page, int size,String ssid);
 	public Response getTop(String ssid);
 	public Response getChildByCode(String code, String ssid);
+	
+	public Response categoryProductsByCodePage(int page , int size,String categoryCode, String ssid);
+	public Response categoryProductsByIdPage(int page , int size, Long categoryId, String ssid);
 	
 }

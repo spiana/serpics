@@ -27,15 +27,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.qmino.miredot.annotations.MireDotIgnore;
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.BrandFacade;
+import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.BrandData;
+import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.BrandDataRequest;
 
 
-@Path("/brandService")
+@Path("/brands")
 @Transactional(readOnly = true)
 public class BrandRestServiceImpl implements BrandRestService {
 	
@@ -43,6 +46,9 @@ public class BrandRestServiceImpl implements BrandRestService {
 
 	@Resource
 	BrandFacade brandFacade;
+	
+	@Resource
+	ProductFacade productFacade;
 
 	
     /**
@@ -57,6 +63,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
 	public Response addBrand(BrandDataRequest brandDataRequest, @HeaderParam(value = "ssid") String ssid ) {
 		
@@ -93,9 +100,10 @@ public class BrandRestServiceImpl implements BrandRestService {
      */
 	@Override
 	@GET
+	@Path("/page")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.BrandData>>")
-	public Response findAll(@QueryParam("page") @DefaultValue("0") int page,
+	public Response findAllpage(@QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid ) {
 		
 		ApiRestResponse<Page<BrandData> > apiRestResponse = new ApiRestResponse<Page<BrandData> >();
@@ -115,7 +123,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/list")
+//	@Path("/list")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<java.util.List<com.serpics.catalog.facade.data.BrandData>>")
 	public Response findAllList( @HeaderParam(value = "ssid") String ssid ) {
 		
@@ -140,6 +148,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/id/{brandId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
 	public Response updateBrand(@PathParam("brandId") Long brandId,BrandDataRequest brandDataRequest, @HeaderParam(value = "ssid") String ssid ) {
 		ApiRestResponse<BrandData> apiRestResponse = new ApiRestResponse<BrandData>();
@@ -179,6 +188,7 @@ public class BrandRestServiceImpl implements BrandRestService {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/id/{brandId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.BrandData>")
 	public Response deleteBrand(@PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid ) {
 		
@@ -274,5 +284,159 @@ public class BrandRestServiceImpl implements BrandRestService {
 
 		return responseBuilder.entity(apiRestResponse).build();
 	}
+	
+    /**
+     * This method retrives a list of child products by id.
+     * @param brandId The name of brand to find
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     * @summary  Method: findBrandProductsById(Long name)
+     * @statuscode 200 name is correct
+     * @statuscode 404 name not found
+     */
+	@Override
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	// @Path("/name/{brandid : (brandid)?}")
+	@Path("/id/{brandid}/products")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response findBrandProductsById(@PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid ) {
 
+		// Assert.notNull(brandId, "name can not be null !");
+
+		ApiRestResponse<List<ProductData>> apiRestResponse = new ApiRestResponse<List<ProductData>>();
+		// if (productData != null) {
+		List<ProductData> productData = productFacade.listProductByBrandId(brandId);
+		ResponseBuilder responseBuilder = null;
+
+		if (productData != null) {
+			// 200 OK
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			responseBuilder = Response.ok();
+
+		} else {
+			// 404 Not Found - Brand Not Found
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, brand not found");
+			responseBuilder = Response.status(404);
+		}
+		// } else {
+		// // 400 Bad Request - productData is Null
+		// apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+		// apiRestResponse.setMessage("ERROR, productData can not be null !");
+		// return Response.status(400).entity(apiRestResponse).build();
+		//
+		// }
+
+		return responseBuilder.entity(apiRestResponse).build();
+	}
+	
+    /**
+     * This method retrives list of child products by code.
+     * @param brandId The name of brand to find
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     * @summary  Method: findBrandProductsById(Long name)
+     * @statuscode 200 name is correct
+     * @statuscode 404 name not found
+     */
+	@Override
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	// @Path("/name/{brandCode : (brandCode)?}")
+	@Path("/code/{brandCode}/products")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	public Response findBrandProductsByCode(@PathParam("brandCode") String brandCode, @HeaderParam(value = "ssid") String ssid ) {
+
+		// Assert.notNull(brandCode, "name can not be null !");
+
+		ApiRestResponse<List<ProductData>> apiRestResponse = new ApiRestResponse<List<ProductData>>();
+		// if (productData != null) {
+		List<ProductData> productData = productFacade.listProductByBrandCode(brandCode);
+		ResponseBuilder responseBuilder = null;
+
+		if (productData != null) {
+			// 200 OK
+			apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+			apiRestResponse.setResponseObject(productData);
+			responseBuilder = Response.ok();
+
+		} else {
+			// 404 Not Found - Brand Not Found
+			apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+			apiRestResponse.setMessage("ERROR, brand not found");
+			responseBuilder = Response.status(404);
+		}
+		// } else {
+		// // 400 Bad Request - productData is Null
+		// apiRestResponse.setStatus(ApiRestResponseStatus.ERROR);
+		// apiRestResponse.setMessage("ERROR, productData can not be null !");
+		// return Response.status(400).entity(apiRestResponse).build();
+		//
+		// }
+
+		return responseBuilder.entity(apiRestResponse).build();
+	}
+	
+    /**
+     * This method retrives pages of child products by code.
+     * @param brandId The name of brand to find
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     * @summary  Method: findBrandProductsById(Long name)
+     * @statuscode 200 name is correct
+     * @statuscode 404 name not found
+     */
+	@Override
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	// @Path("/name/{brandCode : (brandCode)?}")
+	@Path("/code/{brandCode}/products/page")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<org.springframework.data.domain.Page<ProductData>>>")
+	public Response brandProductsByCodePage(@QueryParam("page") @DefaultValue("0") int page,
+			@QueryParam("size") @DefaultValue("10") int size ,@PathParam("brandCode") String brandCode, @HeaderParam(value = "ssid") String ssid ) {
+
+		// Assert.notNull(brandCode, "name can not be null !");
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+		Page<ProductData> productDataPage = productFacade.pageProductByBrandCode(brandCode, new PageRequest(page, size));
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(productDataPage);
+
+		return Response.ok(apiRestResponse).build();
+
+	}
+	
+    /**
+     * This method retrives pages of child products by id.
+     * @param brandId The name of brand to find
+     * @param ssid The sessionId for the store authentication
+     * @return Response		object type: apiRestResponse
+     * @summary  Method: brandProductsByIdPage(Long name)
+     * @statuscode 200 name is correct
+     * @statuscode 404 name not found
+     */
+	@Override
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	// @Path("/name/{brandId : (brandId)?}")
+	@Path("/id/{brandId}/products/page")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<org.springframework.data.domain.Page<ProductData>>>")
+	public Response brandProductsByIdPage(@QueryParam("page") @DefaultValue("0") int page,
+			@QueryParam("size") @DefaultValue("10") int size, @PathParam("brandId") Long brandId,
+			@HeaderParam(value = "ssid") String ssid) {
+
+		// Assert.notNull(brandCode, "name can not be null !");
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+		Page<ProductData> productDataPage = productFacade.pageProductByBrandId(brandId, new PageRequest(page, size));
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(productDataPage);
+
+		return Response.ok(apiRestResponse).build();
+	}
+	
 }

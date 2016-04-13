@@ -28,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.qmino.miredot.annotations.MireDotIgnore;
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.CategoryFacade;
@@ -41,7 +42,7 @@ import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.PriceDataRequest;
 import com.serpics.jaxrs.data.ProductDataRequest;
 
-@Path("/productService")
+@Path("/products")
 @Transactional(readOnly = true)
 public class ProductRestServiceImpl implements ProductRestService {
 	
@@ -559,7 +560,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(productFacade.listProductByCategory(categoryId, new PageRequest(page, size)));
+		apiRestResponse.setResponseObject(productFacade.pageProductByCategoryId(categoryId, new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
 	
@@ -584,7 +585,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(productFacade.listProductByCategoryCode(categoryCode, new PageRequest(page, size)));
+		apiRestResponse.setResponseObject(productFacade.pageProductByCategoryCode(categoryCode, new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
 
@@ -602,6 +603,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("pageBrand/{brand}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findByBrand(@PathParam("brand") Long brandId, @QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
@@ -609,7 +611,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
 
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(productFacade.listProductByBrand(brandId, new PageRequest(page, size)));
+		apiRestResponse.setResponseObject(productFacade.pageProductByBrandId(brandId, new PageRequest(page, size)));
 		return Response.ok(apiRestResponse).build();
 	}
 	
