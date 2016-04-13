@@ -195,7 +195,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override
-	public Page<ProductData> listProductByCategory(final Long categoryId,Pageable page) {
+	public Page<ProductData> pageProductByCategoryId(final Long categoryId,Pageable page) {
 		Category category = categoryService.findOne(categoryId);
 		List<ProductData> l = new ArrayList<ProductData>();
 		long totalElements = 0 ;
@@ -215,7 +215,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override
-	public Page<ProductData> listProductByCategoryCode(final String categoryCode,Pageable page) {
+	public Page<ProductData> pageProductByCategoryCode(final String categoryCode,Pageable page) {
 		Category category = categoryService.findByCode(categoryCode);
 		List<ProductData> l = new ArrayList<ProductData>();
 		long totalElements = 0 ;
@@ -235,8 +235,26 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 	
 	@Override
-	public Page<ProductData> listProductByBrand(Long brandId, Pageable page){
+	public Page<ProductData> pageProductByBrandId(Long brandId, Pageable page){
 		Brand brand = brandService.findOne(brandId);
+		List<ProductData> productDataList = new ArrayList<ProductData>();
+		long totalElements = 0 ;
+		if(brand!=null){
+			Page<Product> products = productService.findProductByBrand(brand, page);
+			
+			totalElements = products.getTotalElements();
+			
+			for (Product product : products.getContent()) {
+				productDataList.add(productConverter.convert(product));
+			}
+		}		
+		Page<ProductData> pageProduct = new PageImpl<ProductData>(productDataList, page, totalElements);
+		return pageProduct;
+	}
+	
+	@Override
+	public Page<ProductData> pageProductByBrandCode(String brandCode, Pageable page){
+		Brand brand = brandService.findOneByCode(brandCode);
 		List<ProductData> productDataList = new ArrayList<ProductData>();
 		long totalElements = 0 ;
 		if(brand!=null){
@@ -345,6 +363,62 @@ public class ProductFacadeImpl implements ProductFacade {
 		destination.setMetaKeyword(new MultilingualString(locale, source.getMetaKey()));
 		destination.setName(new MultilingualString(locale, source.getName()));
 		return destination;
+	}
+
+	@Override
+	public List<ProductData> listProductByCategoryId(Long categoryId) {
+		Category category = categoryService.findOne(categoryId);
+		List<ProductData> list = new ArrayList<ProductData>();
+		if(category!=null){
+			List<Product> products = productService.listProductByCategory(category);
+			
+			for (Product product : products) {
+				list.add(productConverter.convert(product));
+			}
+		}
+		return list; 
+	}
+
+	@Override
+	public List<ProductData> listProductByCategoryCode(String categoryCode) {
+		Category category = categoryService.findByCode(categoryCode);
+		List<ProductData> list = new ArrayList<ProductData>();
+		if(category!=null){
+			List<Product> products = productService.listProductByCategory(category);
+			
+			for (Product product : products) {
+				list.add(productConverter.convert(product));
+			}
+		}
+		return list; 
+	}
+
+	@Override
+	public List<ProductData> listProductByBrandId(Long brandId) {
+		Brand brand = brandService.findOne(brandId);
+		List<ProductData> productDataList = new ArrayList<ProductData>();
+		if(brand!=null){
+			List<Product> products = productService.listProductByBrand(brand);
+			
+			for (Product product : products) {
+				productDataList.add(productConverter.convert(product));
+			}
+		}		
+		return productDataList;
+	}
+
+	@Override
+	public List<ProductData> listProductByBrandCode(String brandCode) {
+		Brand brand = brandService.findOneByCode(brandCode);
+		List<ProductData> productDataList = new ArrayList<ProductData>();
+		if(brand!=null){
+			List<Product> products = productService.listProductByBrand(brand);
+			
+			for (Product product : products) {
+				productDataList.add(productConverter.convert(product));
+			}
+		}		
+		return productDataList;
 	}
 	
 }

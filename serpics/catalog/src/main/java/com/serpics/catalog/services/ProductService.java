@@ -1,5 +1,7 @@
 package com.serpics.catalog.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,16 +20,19 @@ public interface ProductService extends EntityService<Product, Long>{
 	public Page<Product> findProductByCategory(Category category,Pageable pagination);
 	public Page<Product> findProductByBrand(Brand brand,Pageable pagination);
 	
+	public List<Product> listProductByCategory(Category category);
+	public List<Product> listProductByBrand(Brand brand);
+	
 	public Product addMedia(Product product, CtentryMedia media);
 
 	public Product findByName(String name);
+	Product findByCode(String code);
 
 	public Product addBrand(Product product, Brand brand);
 
 
 	public Page<Product> findProductsBySearch(String searchText, Pageable pagination);
 
-	Product findByCode(String code);
 
 	
 }
