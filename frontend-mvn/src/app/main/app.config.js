@@ -4,7 +4,7 @@
 			.constant('APP_NAME','Serpics App')
 			.constant('APP_VERSION','2.0')
 			.constant('TIMEOUT','15') //[minuti]
-			.constant('DEBUG','true')
+			.constant('DEBUG', false)
 			.config(config);
 	 
 	 config.$inject = ['$httpProvider'];

@@ -8,22 +8,22 @@
 	 
 	 serpicsHttpBuffer.$inject = ['$injector','$cookies'];
 	 serpicsInterceptor.$inject = ['serpicsHttpBuffer','$location', '$injector', 
-	                               '$q','$rootScope','$log','$stateParams' ];
+	                               '$q','$rootScope','logger','$stateParams' ];
 	 
 	 /** @ngInject */
-	 function serpicsInterceptor(serpicsHttpBuffer,$location, $injector, $q,$rootScope,$log,$stateParams){
+	 function serpicsInterceptor(serpicsHttpBuffer,$location, $injector, $q,$rootScope,logger,$stateParams){
 		 
 		 
 		 
 		 return {
 		
 //		'request' : function(response){
-//			$log.debug('intercept request 200: ', response.url,response)
+//			logger.debug('intercept request 200: ', response.url,response)
 //			// Your token shall be retreive in this part
-//			$log.debug('intercept request: uguale ssid', response.headers.ssid,$cookies.get('ssid'))
+//			logger.debug('intercept request: uguale ssid', response.headers.ssid,$cookies.get('ssid'))
 //			if (response.headers.ssid===null ||  response.headers.ssid===$cookies.get('ssid')){
 //				
-//				$log.debug('intercept request: 200 ssid detected ', response.headers.ssid,response,$cookies.get('ssid'));
+//				logger.debug('intercept request: 200 ssid detected ', response.headers.ssid,response,$cookies.get('ssid'));
 //			}else{
 //					
 //				response.headers.ssid=$cookies.get('ssid');
@@ -34,18 +34,18 @@
 			
 		'response' : function(response){
 			//$myService= $myService|| $injector.get('$myService'); // inject the service manually if constant is undefined
-			$log.debug('Intercept Response: '+response.status+' - Response Url: '+response.url);
+			logger.debug('Intercept Response: '+response.status+' - Response Url: '+response.url);
 			// Your token shall be retreive in this part
 			return response;
 			
 		},
 		'responseError': function(rejection) {
-			$log.debug('Interceptor Rocks!!');
-			$log.debug('ResponseError Intercepted: Response Status: '+rejection.status+
+			logger.debug('Interceptor Rocks!!');
+			logger.debug('ResponseError Intercepted: Response Status: '+rejection.status+
 					' - Response Url: '+rejection.config.url);
 			if (rejection.status === 500){
 				
-				$log.debug('ResponseError Intercepted: 500: '+ rejection);
+				logger.debug('ResponseError Intercepted: 500: '+ rejection);
 				
 				var stato500=$injector.get('$state');
 				stato500.transitionTo('shop.500');
@@ -54,7 +54,7 @@
 				
 			}
 			if (rejection.status === 403){
-				$log.debug('ResponseError intercepted: 403: '+ rejection);
+				logger.debug('ResponseError intercepted: 403: '+ rejection);
 				
 				var deferred = $q.defer();
 				
@@ -67,12 +67,12 @@
 			}
 			if (rejection.status === 401) {
 				
-				$log.debug('ResponseError Intercepted: 401: '+ rejection);
-				$log.debug('Messaggio d\'errore 401: %s',rejection.data.message);
+				logger.debug('ResponseError Intercepted: 401: '+ rejection);
+				logger.debug('Messaggio d\'errore 401: %s',rejection.data.message);
 				
 				var stato401=$injector.get('$state');
 				//stato.transitionTo('shop.login');
-				$log.debug('login: intercepted '+angular.toJson($stateParams));
+				logger.debug('login: intercepted '+angular.toJson($stateParams));
 				$rootScope.$broadcast('event:sessiondId-expired', rejection);
 				stato401.go('shop.login',{error: rejection.data.message});
 				
@@ -84,7 +84,7 @@
 					
 			}else  if  (rejection.status === 404){
 						
-				$log.debug('ResponseError Intercepted: 404: '+ rejection);
+				logger.debug('ResponseError Intercepted: 404: '+ rejection);
 						
 				var stato404=$injector.get('$state');
 				
@@ -93,7 +93,7 @@
 				return $q.reject(rejection);
 			} else if (rejection.status === 405){
 				
-				$log.debug('ResponseError Intercepted: 405: '+ rejection);
+				logger.debug('ResponseError Intercepted: 405: '+ rejection);
 				
 				var stato405=$injector.get('$state');
 				
@@ -103,7 +103,7 @@
 				
 			} else if (rejection.status === 406){
 				
-				$log.debug('ResponseError Intercepted: 406: '+ rejection.data.message);
+				logger.debug('ResponseError Intercepted: 406: '+ rejection.data.message);
 				
 				var stato406=$injector.get('$state');
 				

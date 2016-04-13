@@ -4,10 +4,10 @@
 	angular.module('category.controller',['category.service'])
 	.controller('CategoryController', categoryController);
 	
-	categoryController.$inject = ['categoryService', '$log','logger'];
+	categoryController.$inject = ['categoryService', 'logger'];
 	
 	/** @ngInject */
-	function categoryController(categoryService, $log,logger) {
+	function categoryController(categoryService, logger) {
 
 		logger.debug('Category');
 		/* jshint validthis: true */
@@ -25,9 +25,9 @@
 		 * @use 					categoryService,
 		 */
 //		function getTop() {
-//			$log.debug('Category Controller getTop()');
+//			logger.debug('Category Controller getTop()');
 //			categoryService.getTop().then(function(response) {
-//				$log.debug('Category Controller getTop() ramo then');
+//				logger.debug('Category Controller getTop() ramo then');
 //				vm.categoryData = response.data;
 //			})
 //		}
@@ -39,9 +39,9 @@
 		 */
 
 		function getTopQ() {
-			$log.debug('Category Controller getTopQ()');
+			logger.debug('Category Controller getTopQ()');
 			categoryService.getTopQ().then(function(response) {
-				$log.debug('Category Controller getTopQ() ramo then');
+				logger.debug('Category Controller getTopQ() ramo then');
 				vm.categoryData = response;
 				
 			});
@@ -55,12 +55,12 @@
 		 * @use 						categoryService,
 		 */
 		vm.getCategoryById = function(categoryId) {
-			$log.debug('Category Controller getCategoryById(categoryId)' + categoryId);
+			logger.debug('Category Controller getCategoryById(categoryId)' + categoryId);
 			categoryService
 					.getCategoryById(categoryId)
 					.then(
 							function(response) {
-								$log.debug('Category Controller getCategoryById(categoryId) ramo then');
+								logger.debug('Category Controller getCategoryById(categoryId) ramo then');
 								vm.categoryData = response;
 							});
 		};
@@ -71,11 +71,11 @@
 		 * @use 						categoryService,
 		 */
 		vm.getCategoryByCode = function(code) {
-			$log.debug('Category Controller getCategoryByCode(code)' + code);
+			logger.debug('Category Controller getCategoryByCode(code)' + code);
 			categoryService
 					.getCategoryByCode(code)
 					.then(function(response) {
-								$log.debug('Category Controller getCategoryByCode(code) ramo then');
+								logger.debug('Category Controller getCategoryByCode(code) ramo then');
 								vm.categoryData = response;
 							});
 		};
@@ -90,17 +90,17 @@
 
 		vm.getChild = function(parentId, index, category) {
 			category.active = !category.active;
-			$log.debug('Category Controller getChild(parentId,index,category) Category index: '	+ index);
+			logger.debug('Category Controller getChild(parentId,index,category) Category index: '	+ index);
 			if (cache.isAdded.indexOf(parentId) !== -1) {
-				$log.debug('Request gia\' effettuata: ' + ' Collapsed: '+ 
+				logger.debug('Request gia\' effettuata: ' + ' Collapsed: '+ 
 								category.active + ' Category Added: '+ 
 								cache.isAdded);
 			} else {
 				categoryService.getChild(parentId).then(function(response) {
-									$log.debug('getChild(parentId,index,category) ramo then');
+									logger.debug('getChild(parentId,index,category) ramo then');
 									cache.isAdded += '#' + parentId;
 									vm.categoryData[index].subCategory = response;
-									$log.debug('Request effettuata '+ vm.categoryData[index].active);
+									logger.debug('Request effettuata '+ vm.categoryData[index].active);
 								});
 			}
 		};
@@ -110,9 +110,9 @@
 		 * @use 						categoryService,
 		 */
 		vm.findAll = function(page, size) {
-			$log.debug('Category Controller findAll()');
+			logger.debug('Category Controller findAll()');
 			categoryService.findAll(page, size).then(function(response) {
-				$log.debug('Category Controller findAll() ramo then');
+				logger.debug('Category Controller findAll() ramo then');
 				vm.categoryData = response;
 			});
 		};

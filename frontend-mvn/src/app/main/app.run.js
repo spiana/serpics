@@ -5,10 +5,10 @@
 	angular.module('serpics.run',['customer.service'])
 	.run(runBlock);
 	
-	runBlock.$inject = [ 'serpicsServices', 'serpicsHttpBuffer', '$log',
+	runBlock.$inject = [ 'serpicsServices', 'serpicsHttpBuffer', 'logger',
 			'$rootScope', '$timeout', 'TIMEOUT', 'customerService' ];
 	/** @ngInject */
-	function runBlock(serpicsServices, httpBuffer, $log, $rootScope, $timeout,
+	function runBlock(serpicsServices, httpBuffer, logger, $rootScope, $timeout,
 			TIMEOUT, customerService) {
 
 		/* jshint validthis: true */
@@ -19,9 +19,9 @@
 		scope = $rootScope.$new();
 		scope.$on('event:sessiondId-expired', function() {
 			if (counter !== 0) {
-				$log.debug('Evento scatenato: sessiondId-expired' + counter);
+				logger.debug('Evento scatenato: sessiondId-expired' + counter);
 			} else {
-				$log.debug('Evento scatenato: sessiondId-expired ramo else'+
+				logger.debug('Evento scatenato: sessiondId-expired ramo else'+
 						counter);
 				counter += 1;
 				serpicsServices.removeCookie('ssid');
@@ -37,7 +37,7 @@
 		});
 		
 		function timeoutUser() {
-			$log.debug('Timeout function');
+			logger.debug('runBlock - Timeout function');
 			$timeout(function() {
 				customerService.updateCurrentUser();
 				timeoutUser();
