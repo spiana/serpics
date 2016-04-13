@@ -27,7 +27,7 @@ public class PostManJob extends AbstractJob {
 		
 		Page<MetaDataMail> listOfMailToSend = sendEmailService.getListOfMailToProcess(numberOfMail);
 		
-		logger.info("Find {} mail to send",listOfMailToSend.getSize());
+		logger.info("Find {} mail to send",listOfMailToSend.getNumberOfElements());
 		if(!listOfMailToSend.getContent().isEmpty()){
 			for(MetaDataMail metaDataMail : listOfMailToSend.getContent()){
 				logger.debug("Try to send mail with {} ",metaDataMail.toString());
