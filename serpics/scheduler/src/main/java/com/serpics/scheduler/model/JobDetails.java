@@ -51,7 +51,6 @@ public class JobDetails extends AbstractEntity{
 	@Column(name="name_job")
 	private String name;
 	
-
 	@ManyToOne
 	@JoinColumn(name="catalog_id",nullable=true)
 	private Catalog catalog;
@@ -66,6 +65,9 @@ public class JobDetails extends AbstractEntity{
 	
 	@Column(name="stop_on_fail")
 	private boolean stopOnFail;
+	
+	@Column(name="log_only_error")
+	private boolean logOnlyError;
 	
 	@OneToMany(fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="jobRunned")
 	private List<JobLog> logs;
@@ -167,6 +169,14 @@ public class JobDetails extends AbstractEntity{
 
 	public void setStore(Store store) {
 		this.store = store;
+	}
+
+	public boolean isLogOnlyError() {
+		return logOnlyError;
+	}
+
+	public void setLogOnlyError(boolean logOnlyError) {
+		this.logOnlyError = logOnlyError;
 	}
 	
 }
