@@ -16,6 +16,7 @@
   /** @ngInject */
   function logger($log,DEBUG) {
 
+	  //Factory method
       var service = {
          error: logError,
          info: logInfo,

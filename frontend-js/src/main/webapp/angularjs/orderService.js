@@ -4,7 +4,7 @@
  */
 app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPIRES,$log,$cookies ) {
 	
-	var endpoint = '/api/v1/orderService/';
+	var endpoint = '/api/v1/order/';
 	var localSessionId = '';
 	
 	    /** Return public API. (like java interface) **/
@@ -74,7 +74,8 @@ app.service("orderService", function( $http, $q, serpicsServices,URL,COOKIE_EXPI
 			             url: 	URL + endpoint +  'placeOrder',
 			             headers: {
 			             	'ssid': sessionId
-			            }
+			            },
+			            data: ''
 			          }).then(handleSuccess, handleError).then(resolve, reject);
 	    		});
 	    	});

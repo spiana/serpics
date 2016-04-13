@@ -12,7 +12,7 @@
 				currentUser:{}
 		};
 		
-		var endpoint = '/api/v1/customerService/';
+		var endpoint = '/api/v1/customer/';
 		
         /** public methods**/
         

@@ -78,8 +78,8 @@
     .state('shop.cart', {
     	url: '/cart',       
         templateUrl: 'app/template/cart.html',
-        controller: 'CartController',
-        contrllerAs: 'cartVm'
+        controller: '',
+        contrllerAs: ''
     })
 
 	.state('shop.register', {
@@ -117,6 +117,17 @@
 	.state('shop.405', {
 	   	url: '/405',	        
 	    templateUrl: 'app/template/errors/405.html'
+	})
+		.state('shop.406', {
+	   	url: '/406',	        
+	    templateUrl: 'app/template/errors/406.html',
+	    controller: '',
+	    contrllerAs: '',
+        params: {
+        	error: function ($stateParams) {
+            	return $stateParams.error;
+            }
+        }
 	})
 		
 	.state('shop.orderError', {    	
@@ -194,8 +205,15 @@
 	.state('complete' , {
 		url: '/complete',
 		templateUrl: 'app/template/orderComplete.html',
-		controller: 'OrderController'
+		controller: 'OrderController',
+		controllerAs: 'orderVm'
+//		resolve: {
+//			orderComplete : 	 ['orderService', function(orderService){
+//				return orderService.placeOrder();
+//				}]
+//		}
  	})
+ 	
  	
  		
  	.state('paid' , {
@@ -213,4 +231,6 @@
 	$urlRouterProvider.otherwise('/home');
 	    
 }
+	 
+
 })();

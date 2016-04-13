@@ -23,7 +23,9 @@
 			getTopQ : getTopQ,
 			getChild : getChild,
 			getChildByCode : getChildByCode,
-			findAll : findAll
+			findAll : findAll,
+			categoryProductsByCodePage: categoryProductsByCodePage,
+			categoryProductsByIdPage: categoryProductsByIdPage
 		});
 		return service;
 		/////////////////////
@@ -184,6 +186,62 @@
 											.then(resolve, reject);
 								});
 			});
+		}
+		
+		function categoryProductsByCodePage(categoryCode, page, size){
+			var serviceSSID = serpicsServices;
+
+			var findAllUrl = '';
+			if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
+				findAllUrl = URL + endpoint + 'code/' + categoryCode;
+			} else {
+				findAllUrl = URL + endpoint + 'code/' + categoryCode + '/products/page?page=' + page + '&size=' + size;
+			}
+
+			return $q(function(resolve, reject) {
+				serviceSSID.getSessionId().then(
+						function(sessionId) {
+							$log.debug('CategoryService categoryProductsByCodePage() ssid nel promise'+
+									sessionId);
+							$http({
+								method : 'GET',
+								url : findAllUrl,
+								headers : {
+									'ssid' : sessionId
+									}
+							}).then(handleSuccess, handleError).then(
+									resolve, reject);
+							});
+				});
+			
+		}
+		
+		function categoryProductsByIdPage(categoryId, page, size){
+			var serviceSSID = serpicsServices;
+
+			var findAllUrl = '';
+			if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
+				findAllUrl = URL + endpoint + 'id/' + categoryId;
+			} else {
+				findAllUrl = URL + endpoint + 'id/' + categoryId + '/products/page?page=' + page + '&size=' + size;
+			}
+
+			return $q(function(resolve, reject) {
+				serviceSSID.getSessionId().then(
+						function(sessionId) {
+							$log.debug('CategoryService categoryProductsByCodePage() ssid nel promise'+
+									sessionId);
+							$http({
+								method : 'GET',
+								url : findAllUrl,
+								headers : {
+									'ssid' : sessionId
+									}
+							}).then(handleSuccess, handleError).then(
+									resolve, reject);
+							});
+				});
+			
 		}
 
 		/**

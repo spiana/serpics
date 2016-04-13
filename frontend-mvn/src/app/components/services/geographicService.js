@@ -10,7 +10,7 @@
 	function geographicService( $http, $q,serpicsServices,COOKIE_EXPIRES,$cookies,URL,$log ) {
 	
 	
-	var endpoint = '/api/v1/geographicService/';
+	var endpoint = '/api/v1/geographic/';
 	
     var service =({
     	getCountryList		:	getCountryList,

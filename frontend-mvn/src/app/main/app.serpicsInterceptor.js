@@ -68,11 +68,7 @@
 			if (rejection.status === 401) {
 				
 				$log.debug('ResponseError Intercepted: 401: '+ rejection);
-//				$rootScope.error.message = rejection.data.message;
 				$log.debug('Messaggio d\'errore 401: %s',rejection.data.message);
-//				
-//				$rootScope.userData.login.username = '';
-//				$rootScope.userData.login.password  ='';
 				
 				var stato401=$injector.get('$state');
 				//stato.transitionTo('shop.login');
@@ -102,6 +98,16 @@
 				var stato405=$injector.get('$state');
 				
 				stato405.go('shop.405');
+						
+				return $q.reject(rejection);
+				
+			} else if (rejection.status === 406){
+				
+				$log.debug('ResponseError Intercepted: 406: '+ rejection.data.message);
+				
+				var stato406=$injector.get('$state');
+				
+				stato406.go('shop.406',{error: rejection.data.message});
 						
 				return $q.reject(rejection);
 				

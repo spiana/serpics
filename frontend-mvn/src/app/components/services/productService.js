@@ -8,7 +8,7 @@
 	 /** @ngInject */
 	 function productService( $http, $q, serpicsServices, URL,COOKIE_EXPIRES, $cookies,$log) {
 	
-	var endpoint = '/api/v1/productService/';
+	var endpoint = '/api/v1/products/';
 	 
 	     /** Return public API. (java interface)**/
 	     var service =({

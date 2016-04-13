@@ -12,7 +12,7 @@
 
 		var endpoint = '/api/v1/auth/connect/';
 
-		/** Return public API. (interface public service) * */
+		/** Return public API. (interface public service) **/
 		var service = ({
 			getSessionId : getSessionId,
 			setCookie : setCookie,

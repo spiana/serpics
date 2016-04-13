@@ -11,7 +11,8 @@
 	 
 	 /** @ngInject */
 	function brandService( $http, $q, serpicsServices, URL, COOKIE_EXPIRES, $cookies,$log ) {
-		var endpoint = '/api/v1/brandService/';
+		
+		var endpoint = '/api/v1/brands/';
 	 
         /** Return public API. (like java interface)**/
 	    
@@ -19,7 +20,9 @@
         	findBrandById	: findBrandById,
         	findBrandByCode	: findBrandByCode,
         	findAll			: findAll,
-        	getBrandList	: getBrandList
+        	getBrandList	: getBrandList,
+        	brandProductsByIdPage: brandProductsByIdPage,
+        	brandProductsByCodePage: brandProductsByCodePage
         });
        return service;
         
@@ -37,7 +40,7 @@
 	    			$log.debug('BrandService getBrandList() ssid nel promise '+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: 	URL + endpoint + 'list',
+			             url: 	URL + endpoint ,
 			             headers: {
 			             	'ssid': sessionId
 			            }
@@ -109,6 +112,67 @@
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
 	    			$log.debug('BrandService findAll(page,size) ssid nel promise '+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: findAllUrl,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
+        }
+        
+         /**
+         * @param page
+         * @param size        
+         * @return 
+         */      
+        function brandProductsByIdPage(brandId,page,size) {
+        	var serviceSSID = serpicsServices;
+        	
+        	var findAllUrl='';
+        	if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
+        		findAllUrl= URL + endpoint;
+        	}else{
+        		findAllUrl = URL + endpoint +  'id/' + brandId + '/products/page?page=' + page + '&size=' +size;
+        	}
+        	
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug('BrandService brandProductsByIdPage(page,size) ssid nel promise '+sessionId) ;
+	    			$http({
+			             method: 'GET',
+			             url: findAllUrl,
+			             headers: {
+			             	'ssid': sessionId
+			            }
+			          }).then(handleSuccess, handleError).then(resolve, reject);
+	    		});
+	    	});
+        }
+        
+        
+        /**
+         * @param page
+         * @param size        
+         * @return 
+         */      
+        function brandProductsByCodePage(brandCode,page,size) {
+        	var serviceSSID = serpicsServices;
+        	
+        	var findAllUrl='';
+        	if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
+        		findAllUrl= URL + endpoint;
+        	}else{
+        		findAllUrl = URL + endpoint +  'code/' + brandCode + '/products/page?page=' + page + '&size=' +size;
+        	}
+        	
+	    	return $q(function(resolve, reject) {
+	    		
+	    		serviceSSID.getSessionId().then(function(sessionId){
+	    			$log.debug('BrandService brandProductsByCodePage(page,size) ssid nel promise '+sessionId) ;
 	    			$http({
 			             method: 'GET',
 			             url: findAllUrl,

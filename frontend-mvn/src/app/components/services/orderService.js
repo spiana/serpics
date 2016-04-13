@@ -7,7 +7,7 @@ angular.module('order.service', ['serpics.config','serpics.services'])
  */
 .service('orderService', function( $http, $q, serpicsServices,URL,COOKIE_EXPIRES,$log,$cookies ) {
 	
-	var endpoint = '/api/v1/orderService/';
+	var endpoint = '/api/v1/order/';
 	
 	    /** Return public API. (like java interface) **/
 	  	var service =   ({
@@ -77,9 +77,7 @@ angular.module('order.service', ['serpics.config','serpics.services'])
 			             headers: {
 			             	'ssid': sessionId
 			            },
-			            data: {
-			            	'cardId': 'cartId'
-			            }
+			            data: {}
 			          }).then(handleSuccess, handleError).then(resolve, reject);
 	    		});
 	    	});
