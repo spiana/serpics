@@ -87,6 +87,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 			throw new EmptyCartException("Empty Cart Exception");
 		}
 
+		cartService.removeCartFromSession();
 		orderRepository.save(order);
 		PlaceOrderEvent event = new PlaceOrderEvent(order);
 		eventPublisher.publishSerpicsEvent(event);
