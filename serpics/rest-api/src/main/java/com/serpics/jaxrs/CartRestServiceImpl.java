@@ -44,7 +44,7 @@ import com.serpics.jaxrs.data.PaidDataRequest;
 import com.serpics.jaxrs.utils.RestServiceUtils;
 import com.serpics.membership.facade.data.AddressData;
 
-@Path("/cartService")
+@Path("/cart")
 //@Transactional(readOnly = true)
 public class CartRestServiceImpl implements CartRestService {
 

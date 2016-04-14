@@ -42,7 +42,7 @@ import com.serpics.membership.facade.UserFacade;
 import com.serpics.membership.facade.data.AddressData;
 import com.serpics.membership.facade.data.UserData;
 
-@Path("/customerService")
+@Path("/customer")
 //@Transactional(readOnly = true)
 public class CustomerServiceImpl implements CustomerService {
 

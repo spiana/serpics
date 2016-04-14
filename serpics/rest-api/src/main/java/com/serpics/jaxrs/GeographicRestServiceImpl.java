@@ -24,7 +24,7 @@ import com.serpics.base.facade.data.RegionData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 
-@Path("/geographicService")
+@Path("/geographic")
 @Transactional(readOnly = true)
 public class GeographicRestServiceImpl implements GeographicRestService{
 	

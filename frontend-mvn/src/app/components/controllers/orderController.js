@@ -10,7 +10,7 @@
 	function orderController($scope,orderService,$log,$stateParams,cartService) {	
    	
 		var vm = this;
-	    vm.order = {};
+//	    vm.order = {};
 	    placeOrder();
 
   	    

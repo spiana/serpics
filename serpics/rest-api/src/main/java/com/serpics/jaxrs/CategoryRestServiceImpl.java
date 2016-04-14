@@ -30,7 +30,9 @@ import org.springframework.util.Assert;
 import com.qmino.miredot.annotations.MireDotIgnore;
 import com.qmino.miredot.annotations.ReturnType;
 import com.serpics.catalog.facade.CategoryFacade;
+import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.CategoryData;
+import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.jaxrs.data.CategoryDataRequest;
@@ -43,6 +45,9 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	
 	@Autowired
 	CategoryFacade categoryFacade;
+	
+	@Autowired
+	ProductFacade productFacade;
 	
     /**
      * This method gets a category with some code.
@@ -344,7 +349,7 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/page")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.CategoryData>>")
-	public Response findAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size,@HeaderParam(value = "ssid") String ssid){
+	public Response findAllPage(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size,@HeaderParam(value = "ssid") String ssid){
 		ApiRestResponse<Page<CategoryData> > apiRestResponse = new ApiRestResponse<Page<CategoryData> >();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject( categoryFacade.listCategory(new PageRequest(page, size)));
@@ -369,6 +374,57 @@ public class CategoryRestServiceImpl implements CategoryRestService{
 		ApiRestResponse<List<CategoryData>> apiRestResponse = new ApiRestResponse<List<CategoryData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
 		apiRestResponse.setResponseObject(categoryFacade.listTopCategory());
+		return Response.ok(apiRestResponse).build();
+	}
+
+
+    /**
+     * This method gets all products with same category code.
+     * @summary  Method: categoryProductsByCodePage()
+     * @param ssid The sessionId for the store authentication
+     * @param categoryCode the code of the products category 
+     * @return Response		object type: apiRestResponse
+     * 
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/code/{categoryCode}/products/page")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<org.springframework.data.domain.Page<ProductData>>>")
+	public Response categoryProductsByCodePage(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size, @PathParam("categoryCode") String categoryCode, String ssid) {
+
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+		Page<ProductData> productDataPage = productFacade.pageProductByCategoryCode(categoryCode, new PageRequest(page, size));
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(productDataPage);
+
+		return Response.ok(apiRestResponse).build();
+	}
+
+
+    /**
+     * This method gets all products with same category id.
+     * @summary  Method: categoryProductsByIdPage()
+     * @param ssid The sessionId for the store authentication
+     * @param categoryId the id of the products category 
+     * @return Response		object type: apiRestResponse
+     * 
+     */
+	@Override
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/id/{categoryId}/products/page")
+	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
+	public Response categoryProductsByIdPage(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size" ) @DefaultValue("10") int size,@PathParam("categoryId") Long categoryId,@HeaderParam(value = "ssid") String ssid){
+		ApiRestResponse<Page<ProductData>> apiRestResponse = new ApiRestResponse<Page<ProductData>>();
+		Page<ProductData> productDataPage = productFacade.pageProductByCategoryId(categoryId, new PageRequest(page, size));
+
+		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
+		apiRestResponse.setResponseObject(productDataPage);
+
 		return Response.ok(apiRestResponse).build();
 	}
 	

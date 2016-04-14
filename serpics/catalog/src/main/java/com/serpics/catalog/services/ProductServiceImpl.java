@@ -233,4 +233,16 @@ public class ProductServiceImpl extends AbstractCommerceEntityService<Product, L
             }
 		});
 	}
+
+	@Override
+	public List<Product> listProductByCategory(Category category) {
+		List<Product> list =  getEntityRepository().findAll(findByCategorySpecification(category));
+		return list;
+	}
+
+	@Override
+	public List<Product> listProductByBrand(Brand brand) {
+		List<Product> list =  getEntityRepository().findAll(findByBrandSpecification(brand));
+		return list;
+	}
 }

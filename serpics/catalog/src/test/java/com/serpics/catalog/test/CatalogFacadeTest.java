@@ -105,11 +105,15 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     @Transactional
     public void testProductByCategory(){
     	CategoryData c = categoryFacade.findCategoryByCode("BLUES");
-    	Page<ProductData> list = productFacade.listProductByCategory(c.getId(), new PageRequest(0, 10));
+    	Page<ProductData> list = productFacade.pageProductByCategoryId(c.getId(), new PageRequest(0, 10));
     	
     	Assert.assertEquals(2, list.getNumberOfElements());
     	
-    	list = productFacade.listProductByCategory(c.getId(), new PageRequest(0, 1));
+    	List<ProductData> lista = productFacade.listProductByCategoryId(c.getId());
+    	
+    	Assert.assertEquals(2, lista.size());
+    	
+    	list = productFacade.pageProductByCategoryId(c.getId(), new PageRequest(0, 1));
     	Assert.assertEquals(1, list.getNumberOfElements());
     }
     
@@ -124,7 +128,7 @@ public class CatalogFacadeTest  extends CatalogBaseTest{
     	Assert.assertEquals("Number of products", productInit + 2, p.getTotalElements());
     	
     	CategoryData category = categoryFacade.findCategoryByCode("BLUES");
-    	Page<ProductData> lp = productFacade.listProductByCategory(category.getId(), new PageRequest(0, 10));
+    	Page<ProductData> lp = productFacade.pageProductByCategoryId(category.getId(), new PageRequest(0, 10));
     	Assert.assertNotNull("list product is null", lp);
     	Assert.assertEquals("Number of products under category BLUES",2, lp.getTotalElements());
     	

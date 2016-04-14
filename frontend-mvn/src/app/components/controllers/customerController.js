@@ -6,10 +6,10 @@
 
 	/** customerController **/
 	.controller('CustomerController', customerController);
-	customerController.$inject = [ '$scope','orderService', 'customerService', '$log','geographicService' ];
+	customerController.$inject = [ '$scope','orderService', 'customerService', 'logger','geographicService' ];
 
 	/** @ngInject */
-	function customerController($scope,orderService, customerService, $log,
+	function customerController($scope,orderService, customerService, logger,
 			geographicService) {
 		
 		//TODOJS
@@ -31,14 +31,14 @@
 		 */
 		$scope.getOrders = function() {
 			orderService.getOrders().then(function(response) {
-				$log.debug('customerController: getOrders(): ramo then');
+				logger.debug('customerController: getOrders(): ramo then');
 				$scope.orders = response;
 			});
 		};
 
 		$scope.updateUserData = function(userData) {
 			customerService.updateUserData(userData).then(function(response) {
-				$log.debug('customerController: updateUserData(): ramo then');
+				logger.debug('customerController: updateUserData(): ramo then');
 				customerService.updateCurrentUser();
 			});
 		};
@@ -54,7 +54,7 @@
 				contactAddress.regionIsoCode = contactAddress.region.isoCode;
 			}
 			customerService.updateContactAddress(contactAddress).then(function(response) {
-				$log.debug('customerController: updateContactAddress(): ramo then');
+				logger.debug('customerController: updateContactAddress(): ramo then');
 				customerService.updateCurrentUser();
 				});
 		};
@@ -70,7 +70,7 @@
 				billingAddress.districtIsoCode = billingAddress.district.isoCode;
 			}
 			customerService.updateBillingAddress(billingAddress).then(function(response) {
-								$log.debug('customerController: updateBillingAddress(): ramo then');
+								logger.debug('customerController: updateBillingAddress(): ramo then');
 								customerService.updateCurrentUser();
 							});
 		};
@@ -87,7 +87,7 @@
 			}
 			customerService.updateDestinationAddress(destinationAddress).then(
 					function(response) {
-						$log.debug('customerController: updateDestinationAddress(): ramo then');
+						logger.debug('customerController: updateDestinationAddress(): ramo then');
 						customerService.updateCurrentUser();
 						});
 		};
@@ -105,7 +105,7 @@
 			customerService
 					.addDestinationAddress(destinationAddress)
 					.then(function(response) {
-								$log.debug('customerController: updateDestinationAddress(): ramo then');
+								logger.debug('customerController: updateDestinationAddress(): ramo then');
 								customerService.updateCurrentUser();
 							});
 		};
@@ -114,7 +114,7 @@
 			customerService
 					.deleteDestinationAddress(addressId)
 					.then(function(response) {
-								$log.debug('customerController: deleteDestinationAddress(): ramo then');
+								logger.debug('customerController: deleteDestinationAddress(): ramo then');
 								customerService.updateCurrentUser();
 							});
 		};
@@ -126,7 +126,7 @@
 		 */
 		$scope.getCountryList = function() {
 			geographicService.getCountryList().then(function(response) {
-				$log.debug('customerController getCountryList(): ramo then');
+				logger.debug('customerController getCountryList(): ramo then');
 				$scope.countries = response;
 			});
 		};
@@ -141,7 +141,7 @@
 				geographicService
 						.getRegionByCountry(countryId)
 						.then(function(response) {
-							$log.debug('customerController getRegionByCountry(countryId): ramo then');
+							logger.debug('customerController getRegionByCountry(countryId): ramo then');
 							$scope.regions = response;
 								});
 			} else {
@@ -158,7 +158,7 @@
 			if (countryId !== angular.isUndefined ) {
 				geographicService.getDistrictByCountry(countryId)
 						.then(function(response) {
-							$log.debug('customerController getDistrictByCountry(countryId): ramo then');
+							logger.debug('customerController getDistrictByCountry(countryId): ramo then');
 							$scope.districts = response;
 								});
 			} else {

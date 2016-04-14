@@ -18,7 +18,7 @@ import com.serpics.jaxrs.data.ApiRestResponse;
 import com.serpics.jaxrs.data.ApiRestResponseStatus;
 import com.serpics.warehouse.facade.InventoryFacade;
 
-@Path("/inventoryService")
+@Path("/inventory")
 @Transactional(readOnly = true)
 public class InventoryRestServiceImpl implements InventoryRestService {
 

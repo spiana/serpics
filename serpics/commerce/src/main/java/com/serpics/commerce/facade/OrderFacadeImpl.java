@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.ProductNotFoundException;
+import com.serpics.commerce.EmptyCartException;
 import com.serpics.commerce.data.model.Cart;
 import com.serpics.commerce.data.model.Order;
 import com.serpics.commerce.data.model.Orderpayment;
@@ -66,6 +67,8 @@ public class OrderFacadeImpl implements OrderFacade {
 			LOG.error("InventoryNotAvailable", e);
 		} catch (ProductNotFoundException e) {
 			LOG.error("ProductNotFound", e);
+		} catch (EmptyCartException e) {
+			LOG.error("Empty Cart Exception", e);
 		}
 		return orderData;
 	}
@@ -77,12 +80,14 @@ public class OrderFacadeImpl implements OrderFacade {
 		Cart cart = cartService.getSessionCart();
 
 		LOG.debug("Convert cart with number " + cart.getId() + " in order");
-		Order order = orderService.createOrder(cart);
-
-		LOG.debug("Placed Order with number: " + order.getId() + " [Cart: " + cart.getId() + "]");
-
-		cartService.removeCartFromSession();
-
+		Order order = null;
+		try {
+			order = orderService.createOrder(cart);
+			LOG.debug("Placed Order with number: " + order.getId() + " [Cart: " + cart.getId() + "]");
+			cartService.removeCartFromSession();
+		} catch (EmptyCartException e) {
+			LOG.error("Empty Cart Exception", e);
+		}
 		return orderConverter.convert(order);
 	}
 

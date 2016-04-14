@@ -6,11 +6,11 @@
 	.controller('ProductController', productController);
 
 	productController.$inject = [ '$scope', 'serpicsServices',
-			'productService', '$state', 'cartService', '$log', '$sce',
+			'productService', '$state', 'cartService', 'categoryService', 'brandService', '$log', '$sce',
 			'ngDialog' ];
 
 	/** @ngInject */
-	function productController($scope, serpicsServices, productService, $state,cartService, $log, $sce, ngDialog) {
+	function productController($scope, serpicsServices, productService, $state,cartService, categoryService, brandService,$log, $sce, ngDialog) {
 
 		var categoryId = $scope.categoryId;
 		var brandId = $scope.brandId;
@@ -66,15 +66,12 @@
 		 * @use 						productService,serpicsServices
 		 */
 		function getProduct(productId) {
-			productService
-					.getProduct(productId)
-					.then(
-							function(response) {
-								$log
-										.debug('ProductController getProduct(productId): ramo then');
-								$scope.product = response;
-							});
-		}
+			productService.getProduct(productId).then(
+					function(response) {
+						$log.debug('ProductController getProduct(productId): ramo then');
+						$scope.product = response;
+						});
+			}
 
 		/**
 		 * @param productId 			id of product 
@@ -155,10 +152,14 @@
 					findBySearch(textSearch, page, size);
 				} else {
 					if (!categoryId && brandId) {
-						findByBrand(brandId, page, size);
+						brandService.brandProductsByIdPage(brandId, page, size).then(function(response) {
+							$scope.product = response;
+						});
 					}
 					if (categoryId && !brandId) {
-						findByCategory(categoryId, page, size);
+						categoryService.categoryProductsByIdPage(categoryId, page, size).then(function(response) {
+							$scope.product = response;
+						});
 					}
 					if (!categoryId && !brandId) {
 						findAll(page, size);

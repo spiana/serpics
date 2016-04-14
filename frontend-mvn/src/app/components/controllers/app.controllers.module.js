@@ -7,7 +7,8 @@
 	                                     'order.controller',
 	                                     'login.controller',
 	                                     'cart.controller',
-	                                     'customer.controller'
+	                                     'customer.controller',
+	                                     'error.controller'
 	                                     ]);
 
 })();

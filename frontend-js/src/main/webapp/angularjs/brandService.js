@@ -4,7 +4,7 @@
  */
 app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXPIRES', '$cookies','$log', function( $http, $q, serpicsServices, URL, COOKIE_EXPIRES, $cookies,$log ) {
 	
-	var endpoint = '/api/v1/brandService/';
+	var endpoint = '/api/v1/brands/';
 	 
         /** Return public API. (like java interface)**/
 	    
@@ -30,7 +30,7 @@ app.service("brandService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXP
 	    			$log.debug("BrandService getBrandList() ssid nel promise "+sessionId) ;
 	    			$http({
 			             method: 'GET',
-			             url: 	URL + endpoint + 'list',
+			             url: 	URL + endpoint,
 			             headers: {
 			             	'ssid': sessionId
 			            }

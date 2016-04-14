@@ -12,7 +12,7 @@
 	/** @ngInject */
 	function cartService( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES,$log) {
 	
-	var endpoint = '/api/v1/cartService/';
+	var endpoint = '/api/v1/cart/';
 	 
 	    /** Return public API. (like java interface) **/
 	  	var service =   ({
