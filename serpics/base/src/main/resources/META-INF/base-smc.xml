@@ -42,7 +42,7 @@
 
 	<entity name="currency">
 		<property name="isoCode" table="true"  search="true" select="true"/>
-		<property name="descriprion"  table="true" search="true" />
+		<property name="description"  table="true" search="true" />
 		<property name="created" readonly="true" />
 		<property name="updated" readonly="true"/>
 	</entity>
