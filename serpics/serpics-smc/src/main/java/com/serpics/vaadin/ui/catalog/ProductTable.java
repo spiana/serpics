@@ -6,6 +6,7 @@ import com.serpics.base.AvailableforType;
 import com.serpics.base.MultiValueField;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
+import com.serpics.catalog.data.ProductType;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.Ctentry;
@@ -44,6 +45,23 @@ public class ProductTable extends MasterTable<Product> {
     @Resource
     private ProductVariantTable variantTable;
     
+    
+    class ProductEditWindow extends EntityFormWindow<Product>{
+    	
+    	
+    	/* (non-Javadoc)
+    	 * @see com.serpics.vaadin.ui.EntityFormWindow#initContent()
+    	 */
+    	@Override
+    	public void initContent() {
+    		super.initContent();
+    		if (getEntityItem().getItemProperty("productType").getValue().equals(ProductType.SINGLE))
+    			getTabSheet().removeTab(getTabSheet().getTab(getTabComponentCount()-1));
+    	}
+    	
+    }
+    
+    
     public ProductTable() {
         super(Product.class);
     }
@@ -53,7 +71,7 @@ public class ProductTable extends MasterTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"productType","name","description","buyable","featureModel" , "brand" ,"primaryImage", "medias" , "weight" , "weightMeas", "taxcategory","created", "updated"});
+                setDisplayProperties(new String[]{"code" ,"productType","name","description","buyable","status", "featureModel" , "brand" ,"primaryImage", "medias" , "weight" , "weightMeas", "taxcategory","created", "updated"});
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
             }
             
@@ -61,19 +79,22 @@ public class ProductTable extends MasterTable<Product> {
     }
     
     
+    
+    
     @Override
     public EntityFormWindow<Product> buildEntityWindow() {
-    	 EntityFormWindow<Product> editorWindow = new EntityFormWindow<Product>();
+    	 EntityFormWindow<Product> editorWindow = new ProductEditWindow();
     	 
     	 editorWindow.addTab(buildMainTab(), "main");
     	 editorWindow.addTab(buildPriceTab(), "prices");
     	 editorWindow.addTab(buildCategoriesTab(), "categories");
     	 editorWindow.addTab(buildFeatureValueTab(), "features");
+    	 
     	 editorWindow.addTab(buildVariantTab(), "variant");
+    
     	 
-    	// editorWindow.addTab(buildProductAttributeTab(), "attributes");
     	 
-    	return editorWindow;
+    	 return editorWindow;
     }
    
     
@@ -96,7 +117,7 @@ public class ProductTable extends MasterTable<Product> {
         @Override
 		public EntityFormWindow<CategoryProductRelation> buildEntityWindow() {
 			
-        	EntityFormWindow<CategoryProductRelation> editorWindow = new EntityFormWindow<CategoryProductRelation>();
+        	EntityFormWindow<CategoryProductRelation> editorWindow = new EntityFormWindow<CategoryProductRelation>("CategoryProductRelation");
         	
         	editorWindow.addTab(new MasterForm<CategoryProductRelation>(CategoryProductRelation.class) {
 
@@ -171,7 +192,7 @@ public class ProductTable extends MasterTable<Product> {
     		 @Override
     		public EntityFormWindow<FeatureValues> buildEntityWindow() {
     			 
-    			 EntityFormWindow<FeatureValues> w =  new EntityFormWindow<FeatureValues>();
+    			 EntityFormWindow<FeatureValues> w =  new EntityFormWindow<FeatureValues>("featurevalue");
     			
     			
     			
@@ -273,7 +294,7 @@ private MasterDetailTable<CtentryAttribute, ? extends Ctentry> buildProductAttri
     		
     		 @Override
     		public EntityFormWindow<CtentryAttribute> buildEntityWindow() {
-    			 EntityFormWindow<CtentryAttribute> w =  new EntityFormWindow<CtentryAttribute>();
+    			 EntityFormWindow<CtentryAttribute> w =  new EntityFormWindow<CtentryAttribute>("ctentryadddribute");
     			 w.addTab(new MasterForm<CtentryAttribute>(CtentryAttribute.class) {
     				@Override
     				public void init() {

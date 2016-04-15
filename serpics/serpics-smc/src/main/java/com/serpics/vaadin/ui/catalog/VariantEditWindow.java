@@ -20,6 +20,7 @@ import com.serpics.base.MultiValueField;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
 import com.serpics.catalog.data.model.Price;
+import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.ProductVariant;
 import com.serpics.catalog.data.model.VariantAttribute;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -50,6 +51,8 @@ public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
 		addTab(buildMainTab(), "main");
 		addTab(buildPriceTab(), "prices");
 		addTab(buildProductAttributeTab() , "attribute");
+		addTab(buildVariantTab() , "variant");
+			
 	}
 	
 	
@@ -58,7 +61,7 @@ public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"name","parentProduct" , "description","buyable"  ,"primaryImage", "medias" , "weight" , "weightMeas", "taxcategory","created", "updated"});
+                setDisplayProperties(new String[]{"code" ,"name","parentProduct" , "description","buyable" ,"status" ,"primaryImage", "medias" , "weight" , "weightMeas", "taxcategory","created", "updated"});
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
             }
             
@@ -146,6 +149,28 @@ public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
     			 
     			 return w;
     		}
+		};
+	}
+	
+	private MasterDetailTable<ProductVariant, Product> buildVariantTab(){
+		return new MasterDetailTable<ProductVariant, Product>(ProductVariant.class , "variants") {
+			private static final long serialVersionUID = 4046128089106726731L;
+			/* (non-Javadoc)
+			 * @see com.serpics.vaadin.ui.MasterTable#init()
+			 */
+			@Override
+			public void init() {
+				super.init();
+				setPropertyToShow(new String[]{"code" , "description"});
+			}
+			/* (non-Javadoc)
+			 * @see com.serpics.vaadin.ui.MasterTable#buildEntityWindow()
+			 */
+			@Override
+			public EntityFormWindow<ProductVariant> buildEntityWindow() {
+				EntityFormWindow<ProductVariant> w = new VariantEditWindow();
+				return w;
+			}
 		};
 	}
 }
