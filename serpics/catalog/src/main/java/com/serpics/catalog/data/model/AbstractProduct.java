@@ -6,14 +6,17 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.TaxCategory;
+import com.serpics.catalog.data.ProductApprovalStatus;
 
 
 /**
@@ -42,6 +45,11 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
 
     @Column(name = "weight_meas")
     protected String weightMeas;
+    
+    @Enumerated
+    @Column(nullable = false)
+    @NotNull
+    protected ProductApprovalStatus status;
 
     // bi-directional many-to-one association to Price
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -133,6 +141,14 @@ public abstract class AbstractProduct extends Ctentry implements Serializable {
 
 	public void setDownlodable(boolean downlodable) {
 		this.downlodable = downlodable;
+	}
+
+	public ProductApprovalStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ProductApprovalStatus status) {
+		this.status = status;
 	}
 
 }

@@ -10,9 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.serpics.catalog.data.CatalogEntryType;
+import com.serpics.catalog.data.ProductApprovalStatus;
 
 
 /**
@@ -28,29 +30,35 @@ public class ProductVariant extends AbstractProduct implements Serializable {
         super();
         this.code = sku;
         this.ctentryType = CatalogEntryType.VARIANT;
-       this.buyable = true;
+        this.buyable = true;
+        this.status= ProductApprovalStatus.check;
+    
     }
 
     public ProductVariant() {
         super();
-        this.ctentryType = CatalogEntryType.VARIANT;
-       
+        this.ctentryType = CatalogEntryType.VARIANT;  
+        this.status= ProductApprovalStatus.check;
     }
 
     @ManyToOne(optional=true)
     @JoinColumn(name="parent_product")
-    protected Product parentProduct;
+    protected AbstractProduct parentProduct;
+    
+    @OneToMany(mappedBy="parentProduct")
+    @OrderBy("sequence ASC")
+    protected Set<ProductVariant> variants;
     
     protected double sequence = 0.0;
    
     @OneToMany(mappedBy="product" , orphanRemoval=true , cascade=CascadeType.REMOVE , fetch=FetchType.LAZY)
     Set<VariantAttribute> attributes = new LinkedHashSet<VariantAttribute>(0);
     
-	public Product getParentProduct() {
+	public AbstractProduct getParentProduct() {
 		return parentProduct;
 	}
 
-	public void setParentProduct(Product parentProduct) {
+	public void setParentProduct(AbstractProduct parentProduct) {
 		this.parentProduct = parentProduct;
 	}
 
@@ -68,6 +76,14 @@ public class ProductVariant extends AbstractProduct implements Serializable {
 
 	public void setAttributes(Set<VariantAttribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public Set<ProductVariant> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(Set<ProductVariant> variants) {
+		this.variants = variants;
 	}
     
 

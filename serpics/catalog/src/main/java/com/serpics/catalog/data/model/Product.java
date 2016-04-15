@@ -17,6 +17,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.serpics.catalog.data.CatalogEntryType;
+import com.serpics.catalog.data.ProductApprovalStatus;
 import com.serpics.catalog.data.ProductType;
 
 
@@ -36,6 +37,7 @@ public class Product extends AbstractProduct implements Serializable {
         this.code = sku;
         this.downlodable = false;
         this.ctentryType = CatalogEntryType.PRODUCT;
+        this.status= ProductApprovalStatus.check;
     }
 
     public Product() {
@@ -43,6 +45,7 @@ public class Product extends AbstractProduct implements Serializable {
         this.buyable = this.published =true; this.downlodable = false;
         this.ctentryType = CatalogEntryType.PRODUCT;
         this.productType = ProductType.SINGLE;
+        this.status= ProductApprovalStatus.check;
     }
     
     // bi-directional many-to-one association to Brand
@@ -51,14 +54,14 @@ public class Product extends AbstractProduct implements Serializable {
     protected Brand brand;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "product_type", nullable = false)
+    @Column(name = "product_type", nullable = false , updatable = false)
     protected ProductType productType;
 
     @Column(name = "published", nullable = false)
     protected boolean published;
 
     @ManyToOne(optional=true)
-    @JoinColumn(name="featuremodel_id")
+    @JoinColumn(name="featuremodel_id" ,updatable=false)
     protected FeatureModel featureModel;
     
     @OneToMany(mappedBy="parentProduct")
