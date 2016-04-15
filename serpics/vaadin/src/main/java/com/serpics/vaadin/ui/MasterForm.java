@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,7 +139,20 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 							Field<?> f = createField(pid);
 							if (readOnlyProperties.contains(pid))
 								f.setReadOnly(true);
-						
+							else if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class) != null){
+								Column c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class);
+								if (!c.updatable() && entityItem.isPersistent())
+									f.setReadOnly(true);
+								if (!c.insertable() && !entityItem.isPersistent())
+									f.setReadOnly(true);
+								
+							}else if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class) != null){
+								JoinColumn c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class);
+								if (!c.updatable() && entityItem.isPersistent())
+									f.setReadOnly(true);
+								if (!c.insertable() && !entityItem.isPersistent())
+									f.setReadOnly(true);
+							}
 							addComponent(f);
 						}
 					}

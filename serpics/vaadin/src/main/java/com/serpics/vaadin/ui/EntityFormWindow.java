@@ -50,11 +50,12 @@ public class EntityFormWindow<T> extends Window implements Handler {
     private transient VerticalLayout vl = new VerticalLayout();
     
     public EntityFormWindow() throws SecurityException {
+    	setCaption(I18nUtils.getMessage("editWindow", "Edit Window"));
     	init();
     }
 
     public EntityFormWindow(String caption) throws SecurityException {
-       		setCaption(caption);
+       		setCaption(I18nUtils.getMessage(caption, caption));
        		init();
     }
     
@@ -63,6 +64,13 @@ public class EntityFormWindow<T> extends Window implements Handler {
     */
     private void init() {
    		setImmediate(true);
+        
+   		setModal(true);
+        setHeight("80.0%");
+        setWidth("80.0%");
+        setResizable(true);
+        addStyleName("color1");
+        
    		
    		addAttachListener(new AttachListener() {
 			
@@ -144,11 +152,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
         vl.addComponent(bottomToolBar);
        
         
-        setModal(true);
-        setHeight("80.0%");
-        setWidth("80.0%");
-        setResizable(true);
-        addStyleName("color1");
+  
        
         if (!isNewItem()){
 	        cancelButton.addClickListener(new Button.ClickListener() {
@@ -394,5 +398,9 @@ public class EntityFormWindow<T> extends Window implements Handler {
     public int getTabComponentCount() {
         return tabSheet.getComponentCount() ;
     }
+
+	public TabSheet getTabSheet() {
+		return tabSheet;
+	}
 
 }
