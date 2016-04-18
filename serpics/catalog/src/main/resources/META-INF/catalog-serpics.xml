@@ -157,7 +157,10 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     </bean>
     
     <alias name="defaultProductVariantPopulator" alias="productVariantPopulator"/> 
-    <bean name="defaultProductVariantPopulator" class="com.serpics.catalog.facade.ProductVariantPopulator" />
+    <bean name="defaultProductVariantPopulator" class="com.serpics.catalog.facade.ProductVariantPopulator" >
+    <property name="variantConverter" ref="productVariantConverter" />	
+    <property name="variantAttributeConverter" ref="variantAttributeConverter"  />
+    </bean>
     
     <alias name="defaultProductVariantConverter" alias="productVariantConverter"/>
     <bean name="defaultProductVariantConverter" parent="abstractConverter">

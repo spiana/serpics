@@ -11,6 +11,8 @@ public class ProductVariantData  extends AbstractProductData{
 	
 	private double sequence;
 	
+	private List<ProductVariantData> variants;
+	
 	private List<VariantAttributeData> attributes;
 
 	public double getSequence() {
@@ -27,6 +29,14 @@ public class ProductVariantData  extends AbstractProductData{
 
 	public void setAttributes(List<VariantAttributeData> attributes) {
 		this.attributes = attributes;
+	}
+
+	public List<ProductVariantData> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(List<ProductVariantData> variants) {
+		this.variants = variants;
 	}
 		
 }

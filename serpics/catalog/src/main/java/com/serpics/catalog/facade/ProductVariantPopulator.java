@@ -18,13 +18,14 @@ package com.serpics.catalog.facade;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.serpics.catalog.data.model.ProductVariant;
 import com.serpics.catalog.data.model.VariantAttribute;
 import com.serpics.catalog.facade.data.ProductVariantData;
 import com.serpics.catalog.facade.data.VariantAttributeData;
 import com.serpics.core.facade.AbstractConverter;
+import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 
 /**
@@ -33,8 +34,10 @@ import com.serpics.core.facade.Populator;
  */
 public class ProductVariantPopulator implements Populator<ProductVariant, ProductVariantData>{
 	
-	@Resource(name="variantAttributeConverter")
-	AbstractConverter<VariantAttribute, VariantAttributeData> variantAttributeConverter;
+
+	private AbstractConverter<VariantAttribute, VariantAttributeData> variantAttributeConverter;
+	
+	private AbstractPopulatingConverter<ProductVariant, ProductVariantData> variantConverter;
 	
 	/* (non-Javadoc)
 	 * @see com.serpics.core.facade.Populator#populate(java.lang.Object, java.lang.Object)
@@ -49,6 +52,25 @@ public class ProductVariantPopulator implements Populator<ProductVariant, Produc
 			}
 		}
 		target.setAttributes(attributes);
+		
+		if(source.getVariants() != null){
+			List<ProductVariantData> variants = new ArrayList<ProductVariantData>();
+			for (ProductVariant variant : source.getVariants()) {
+				ProductVariantData _v =variantConverter.convert(variant);
+			}
+			target.setVariants(variants);
+		}
 	}
-	
+
+	@Required
+	public void setVariantConverter(
+			AbstractPopulatingConverter<ProductVariant, ProductVariantData> variantConverter) {
+		this.variantConverter = variantConverter;
+	}
+
+	@Required
+	public void setVariantAttributeConverter(
+			AbstractConverter<VariantAttribute, VariantAttributeData> variantAttributeConverter) {
+		this.variantAttributeConverter = variantAttributeConverter;
+	}
 }
