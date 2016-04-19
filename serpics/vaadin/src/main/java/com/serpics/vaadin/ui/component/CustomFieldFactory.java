@@ -17,7 +17,6 @@ import com.serpics.vaadin.ui.converters.AttributeTypeDateConverter;
 import com.serpics.vaadin.ui.converters.AttributeTypeDoubleConverter;
 import com.serpics.vaadin.ui.converters.AttributeTypeIntegerConverter;
 import com.serpics.vaadin.ui.converters.AttributeTypeStringConverter;
-import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -34,7 +33,6 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
 public class CustomFieldFactory extends DefaultFieldFactory{
@@ -82,15 +80,12 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	
         if (Multilingual.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
         	if (MultilingualText.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
-        		RichTextArea f = new RichTextArea();
-        		f.setConverter(new MultilingualFieldConvert(f));
-        		  f.setWidth(FIELD_WIDTH);
+        		MultilingualRichTextField f = new MultilingualRichTextField();
+        		f.setWidth(FIELD_WIDTH);
         		return f;
         	}else{
-	        	Field<?> f = super.createField(item, propertyId, uiContext);
-	            ((TextField) f).setConverter(new MultilingualFieldConvert((TextField)f));
+	        	MultilingualTextField f =  new MultilingualTextField();
 	            f.setWidth(FIELD_WIDTH);
-	            ((TextField) f).setNullRepresentation("");
 	            return f;
         	}
         }

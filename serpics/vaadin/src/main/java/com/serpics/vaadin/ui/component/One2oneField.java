@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,21 +119,21 @@ public class One2oneField<M, T> extends CustomField<T> {
 		if (readOnlyProperties.contains(pid) || isReadOnly())
 			f.setReadOnly(true);
 	
-		if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class) != null){
-			Column c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class);
-			if (!c.updatable() && entityItem.isPersistent())
-				f.setReadOnly(true);
-			if (!c.insertable() && !entityItem.isPersistent())
-				f.setReadOnly(true);
-		}
-		
-		if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class) != null){
-			JoinColumn c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class);
-			if (!c.updatable() && entityItem.isPersistent())
-				f.setReadOnly(true);
-			if (!c.insertable() && !entityItem.isPersistent())
-				f.setReadOnly(true);
-		}
+//		if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class) != null){
+//			Column c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class);
+//			if (!c.updatable() && entityItem.isPersistent())
+//				f.setReadOnly(true);
+//			if (!c.insertable() && !entityItem.isPersistent())
+//				f.setReadOnly(true);
+//		}
+//		
+//		if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class) != null){
+//			JoinColumn c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class);
+//			if (!c.updatable() && entityItem.isPersistent())
+//				f.setReadOnly(true);
+//			if (!c.insertable() && !entityItem.isPersistent())
+//				f.setReadOnly(true);
+//		}
 			
 		String message = I18nUtils.getMessage(getType().getSimpleName().toLowerCase() +"." + pid , null);
 		if (message != null)

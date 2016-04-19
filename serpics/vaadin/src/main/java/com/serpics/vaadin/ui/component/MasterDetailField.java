@@ -105,7 +105,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		 	this.container.addContainerFilter(filter);
 		}else{
 			Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
-		 	this.container.addContainerFilter(filter);
+			this.container.addContainerFilter(filter);
 		}
 		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
 				.getEntityClassMetadata(referencedType));
