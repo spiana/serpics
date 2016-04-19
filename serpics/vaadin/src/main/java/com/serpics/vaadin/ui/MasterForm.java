@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 
@@ -136,23 +135,6 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 							|| entityItem.isPersistent()){
 						if (!hideProperties.contains(pid)) {
 							Field<?> f = createField(pid);
-							if (readOnlyProperties.contains(pid))
-								f.setReadOnly(true);
-							else if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class) != null){
-								Column c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class);
-								if (!c.updatable() && entityItem.isPersistent())
-									f.setReadOnly(true);
-								if (!c.insertable() && !entityItem.isPersistent())
-									f.setReadOnly(true);
-								
-							}
-//							else if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class) != null){
-//								JoinColumn c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class);
-//								if (!c.updatable() && entityItem.isPersistent())
-//									f.setReadOnly(true);
-//								if (!c.insertable() && !entityItem.isPersistent())
-//									f.setReadOnly(true);
-//							}
 							addComponent(f);
 						}
 					}
@@ -183,7 +165,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		if (message != null)
 			f.setCaption(message);
 
-		PropertiesUtils.get().setFieldProperty(entityClass.getSimpleName(), pid, f);
+		PropertiesUtils.get().setFieldProperty(entityClass.getSimpleName(), pid, f , !entityItem.isPersistent());
 		return f;
 	}
 

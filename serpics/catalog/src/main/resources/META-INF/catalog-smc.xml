@@ -3,15 +3,14 @@
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
 	<entity name="brand">
-		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="code"  table ="true" select="true" search="true"  updatable="false"/>
 		<property name="name"  table ="true" search="true"/>
 		<property name="published" table ="true"/>
 		<property name="logoSrc" table ="true"/>
 		<property name="created" readonly="true"/>
 	</entity>
 	
-		<entity name="CategoryProductRelation">
-		<property name="parentCategory"  table ="true" select="true" search="true"/>
+	<entity name="CategoryProductRelation">
 		<property name="parentCategory"  table ="true" select="true" search="true"/>
 		<property name="created" readonly="true"/>
 	</entity>
@@ -24,8 +23,9 @@
 	</entity>
 	
 	<entity name="product">
-		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="code"  table ="true" select="true" search="true" updatable="false" />
 		<property name="name"  table ="true" search="true"/>
+		<property name="productType" updatable="false"/>
 	</entity>
 	
 	<entity name="abstractproduct">
@@ -34,19 +34,19 @@
 	</entity>
 	
 	<entity name="category">
-		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="code"  table ="true" select="true" search="true" updatable="false" />
 		<property name="name"  table ="true" search="true"/>
 	</entity>
 	
 	<entity name="ctentrymedia" editbean="mediaEditForm">
-		<property name="name"  table ="true" select="true" search="true"/>
+		<property name="name"  table ="true" select="true" search="true" updatable="false" />
 		<property name="type" table="true" />
 		<property name="contentType" table="true" search="true"/>
 		<property name="source"  table ="true" search="true"/>
 	</entity>
 	
 	<entity name="featuregroup">
-		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="code"  table ="true" select="true" search="true" updatable="false" />
 		<property name="name"  table ="true" search="true"/>
 		<property name="description" table ="true"/>
 		<property name="sequence" table ="true" />
@@ -55,14 +55,14 @@
 	</entity>
 	
 	<entity name="featuremodel">
-		<property name="code"  table ="true" select="true" search="true"/>
+		<property name="code"  table ="true" select="true" search="true" updatable="false" />
 		<property name="description" table ="true"/>
 		<property name="featureGroups" />
 		<property name="created" readonly="true" />
 	</entity>
 	
 	<entity name="feature">
-		<property name="name"  table ="true" select="true" search="true"/>
+		<property name="name"  table ="true" select="true" search="true" updatable="false" />
 		<property name="description" table ="true"/>
 		<property name="sequence" table ="true" />
 		<property name="type" table ="true"/>
@@ -72,7 +72,7 @@
 	<entity name="featurevalues">
 		<property name="feature.name" edit="false" table="true" search="true"/>
 		<property name="feature.description" edit="false" table="true" search="true"/>
-		<property name="feature" />
+		<property name="feature" updatabel="false" />
 		<property name="value" table="true" />
 	</entity>
 	

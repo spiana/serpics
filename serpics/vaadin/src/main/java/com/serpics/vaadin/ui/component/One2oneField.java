@@ -116,30 +116,16 @@ public class One2oneField<M, T> extends CustomField<T> {
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 		f.addValidator(new BeanValidator(getType(), pid));
-		if (readOnlyProperties.contains(pid) || isReadOnly())
+		
+		if (isReadOnly())
 			f.setReadOnly(true);
 	
-//		if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class) != null){
-//			Column c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(Column.class);
-//			if (!c.updatable() && entityItem.isPersistent())
-//				f.setReadOnly(true);
-//			if (!c.insertable() && !entityItem.isPersistent())
-//				f.setReadOnly(true);
-//		}
-//		
-//		if (propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class) != null){
-//			JoinColumn c = propertyList.getClassMetadata().getProperty(pid).getAnnotation(JoinColumn.class);
-//			if (!c.updatable() && entityItem.isPersistent())
-//				f.setReadOnly(true);
-//			if (!c.insertable() && !entityItem.isPersistent())
-//				f.setReadOnly(true);
-//		}
 			
 		String message = I18nUtils.getMessage(getType().getSimpleName().toLowerCase() +"." + pid , null);
 		if (message != null)
 			f.setCaption(message);
 		
-		PropertiesUtils.get().setFieldProperty(getType().getSimpleName(), pid, f);
+		PropertiesUtils.get().setFieldProperty(getType().getSimpleName(), pid, f , !entityItem.isPersistent());
 		
 		return f;
 	}

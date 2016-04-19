@@ -111,12 +111,12 @@ public class EmbeddedField<M ,T> extends CustomField<T> {
 		fieldGroup.bind(f, _pid);
 		f.setBuffered(true);
 		f.addValidator(new BeanValidator(masterEntity.getEntity().getClass(), _pid));
-		if (readOnlyProperties.contains(_pid) || isReadOnly())
+		if (isReadOnly())
 			f.setReadOnly(true);
 		String message = I18nUtils.getMessage(getType().getSimpleName().toLowerCase() +"." + pid , pid);
 		if (message != null)
 			f.setCaption(message);
-		PropertiesUtils.get().setFieldProperty(getType().getSimpleName(), pid, f);
+		PropertiesUtils.get().setFieldProperty(getType().getSimpleName(), pid, f , !entityItem.isPersistent());
 		
 		return f;
 	}

@@ -72,13 +72,16 @@ public class PropertiesUtils implements ApplicationContextAware,
 		private boolean readOnly = false;
 		private boolean searchProperty = false;
 		private boolean selectProperty = false;
-
+		
 		private String style;
 
 		private String width;
 
 		private Resolution resolution;
-
+		
+		private boolean insertable = true;
+		private boolean updatable = true;
+		
 		public SmcPropertyDef() {
 			super();
 		}
@@ -191,6 +194,26 @@ public class PropertiesUtils implements ApplicationContextAware,
 
 		public void setResolution(String resolution) {
 			this.resolution = Resolution.valueOf(resolution);
+		}
+
+		public boolean isInsertable() {
+			return insertable;
+		}
+
+		public void setInsertable(boolean insertable) {
+			this.insertable = insertable;
+		}
+
+		public boolean isUpdatable() {
+			return updatable;
+		}
+
+		public void setUpdatable(boolean updatable) {
+			this.updatable = updatable;
+		}
+
+		public void setResolution(Resolution resolution) {
+			this.resolution = resolution;
 		}
 
 	}
@@ -398,14 +421,19 @@ public class PropertiesUtils implements ApplicationContextAware,
 			if (property.attribute("search") != null)
 				def.setSearchProperty(BooleanUtils.toBoolean(property
 						.attribute("search").getValue()));
-
 			if (property.attribute("width") != null)
 				def.setWidth((property.attribute("width").getValue()));
 			if (property.attribute("style") != null)
 				def.setStyle(property.attribute("style").getValue());
 			if (property.attribute("resolution") != null)
 				def.setResolution(property.attribute("resolution").getValue());
-
+			if (property.attribute("insertable") != null)
+				def.setInsertable(BooleanUtils.toBoolean(property
+						.attribute("insertable").getValue()));
+			if (property.attribute("updatable") != null)
+				def.setUpdatable(BooleanUtils.toBoolean(property
+						.attribute("updatable").getValue()));
+			
 			LOG.debug("found property {}", def.getPropertyId());
 
 			properties.add(def);
@@ -439,8 +467,7 @@ public class PropertiesUtils implements ApplicationContextAware,
 		return null;
 	}
 
-	public void setFieldProperty(String entity, String propertyId,
-			Field<?> field) {
+	public void setFieldProperty(String entity, String propertyId,Field<?> field , boolean isnew) {
 		SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(entity,
 				propertyId);
 		if (def != null) {
@@ -457,6 +484,12 @@ public class PropertiesUtils implements ApplicationContextAware,
 					;
 				((DateField) field).setResolution(def.getResolution());
 			}
+			
+			if ( (isnew && !def.isInsertable()) || def.isReadOnly() )
+				field.setReadOnly(true);
+			
+			if ( ( !isnew && !def.isUpdatable() ) || def.isReadOnly() )
+				field.setReadOnly(true);
 		}
 	}
 
