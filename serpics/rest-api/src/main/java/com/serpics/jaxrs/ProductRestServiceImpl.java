@@ -71,7 +71,9 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("product/{categoryId}/{brandId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
+	
 	public Response insert(ProductDataRequest productDataRequest, @PathParam("categoryId") Long categoryId,
 			@PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid) {
 		
@@ -115,6 +117,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/category/{categoryId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response insertCategory(ProductDataRequest productDataRequest, @PathParam("categoryId") Long categoryId, @HeaderParam(value = "ssid") String ssid) {
 		
@@ -158,6 +161,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/brand/{brandId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response insertBrand(ProductDataRequest productDataRequest, @PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid) {
 		ApiRestResponse<ProductData> apiRestResponse = new ApiRestResponse<ProductData>();
@@ -194,6 +198,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response insert(ProductDataRequest productDataRequest, @HeaderParam(value = "ssid") String ssid) {
 		
@@ -235,6 +240,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response update(ProductDataRequest productDataRequest, @HeaderParam(value = "ssid") String ssid) {
 		
@@ -278,7 +284,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/product/{productId}")
+	@Path("/id/{productId}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response getProduct(@PathParam("productId") Long productId, @HeaderParam(value = "ssid") String ssid) {
 
@@ -313,7 +319,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/product/code/{productCode}")
+	@Path("/code/{productCode}")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response getProductByCode(@PathParam("productCode") String productCode, @HeaderParam(value = "ssid") String ssid) {
 
@@ -347,6 +353,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/product/{productId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response delete(@PathParam("productId") Long productId, @HeaderParam(value = "ssid") String ssid) {
 		Assert.notNull(productId);
@@ -403,6 +410,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("brand/{productId}/{brandId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response addBrand(@PathParam("productId") Long productId, @PathParam("brandId") Long brandId, @HeaderParam(value = "ssid") String ssid) {
 
@@ -429,6 +437,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("category/{productId}/{categoryId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response addCategory(@PathParam("productId") Long productId, @PathParam("categoryId") Long categoryId, @HeaderParam(value = "ssid") String ssid) {
 
@@ -455,6 +464,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("addPrice/{productId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<com.serpics.catalog.facade.data.ProductData>")
 	public Response addPrice(@PathParam("productId") Long productId, PriceDataRequest priceDataRequest, @HeaderParam(value = "ssid") String ssid) {
 
@@ -528,6 +538,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("page")
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findAll(@QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
@@ -553,6 +564,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("pageCategory/{categoryId}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findByCategory(@PathParam("categoryId") Long categoryId,
 			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
@@ -578,6 +590,7 @@ public class ProductRestServiceImpl implements ProductRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("pageCategory/code/{categoryCode}")
+	@MireDotIgnore
 	@ReturnType("com.serpics.jaxrs.data.ApiRestResponse<org.springframework.data.domain.Page<com.serpics.catalog.facade.data.ProductData>>")
 	public Response findByCategoryCode(@PathParam("categoryCode") String categoryCode,
 			@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10") int size, @HeaderParam(value = "ssid") String ssid) {
