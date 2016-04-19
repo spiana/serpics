@@ -2,14 +2,14 @@
 	'use strict';
 
 
-	angular.module('serpics.run',['customer.service'])
+	angular.module('serpics.run',[])
 	.run(runBlock);
 	
-	runBlock.$inject = [ 'serpicsServices', 'serpicsHttpBuffer', 'logger',
-			'$rootScope', '$timeout', 'TIMEOUT', 'customerService' ];
+	runBlock.$inject = [ 'serpicsHttpBuffer', 'logger',
+			'$rootScope', '$timeout', 'TIMEOUT', 'customerService', 'sessionService' ];
 	/** @ngInject */
-	function runBlock(serpicsServices, httpBuffer, logger, $rootScope, $timeout,
-			TIMEOUT, customerService) {
+	function runBlock( httpBuffer, logger, $rootScope, $timeout,
+			TIMEOUT, customerService, sessionService) {
 
 		/* jshint validthis: true */
 		var scope = this;
@@ -19,13 +19,13 @@
 		scope = $rootScope.$new();
 		scope.$on('event:sessiondId-expired', function() {
 			if (counter !== 0) {
-				logger.debug('Evento scatenato: sessiondId-expired' + counter);
+				logger.debug('runBlock - Evento scatenato: sessiondId-expired' + counter);
 			} else {
-				logger.debug('Evento scatenato: sessiondId-expired ramo else'+
+				logger.debug('runBlock - Evento scatenato: sessiondId-expired ramo else'+
 						counter);
 				counter += 1;
-				serpicsServices.removeCookie('ssid');
-				serpicsServices.getSessionId().then(
+				sessionService.removeCookie('ssid');
+				sessionService.getSessionId().then(
 						function(data, configUpdater) {
 							var updater = configUpdater || function(config) {
 								return config;

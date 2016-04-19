@@ -27,7 +27,7 @@
 
 		/**
 		 * @return 					list of orders
-		 * @use 					orderService,serpicsServices
+		 * @use 					orderService
 		 */
 		$scope.getOrders = function() {
 			orderService.getOrders().then(function(response) {

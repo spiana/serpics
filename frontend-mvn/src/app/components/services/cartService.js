@@ -1,16 +1,16 @@
 (function(){
 	'use strict';
-	angular.module('cart.service', ['serpics.config','serpics.services'])
+	angular.module('cart.service', [])
 	/**
 	 * cart service to handler rest call to cart service
 	 */
 	
 	.service('cartService', cartService);
 	
-	cartService.$inject = ['$http', '$q', 'serpicsServices', 'URL', '$cookies', 'COOKIE_EXPIRES','$log'];
+	cartService.$inject = ['$http', '$q', 'sessionService', 'URL', '$cookies', 'COOKIE_EXPIRES','$log'];
 	
 	/** @ngInject */
-	function cartService( $http, $q, serpicsServices, URL, $cookies,COOKIE_EXPIRES,$log) {
+	function cartService( $http, $q, sessionService, URL, $cookies,COOKIE_EXPIRES,$log) {
 	
 	var endpoint = '/api/v1/cart/';
 	 
@@ -39,7 +39,7 @@
 	     * @return 
 	     */
 	    function getCurrentCart() {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -61,7 +61,7 @@
 	     * @return 
 	     */
 	    function cartAdd(sku ,quantity) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -85,7 +85,7 @@
 	     * @return 
 	     */
 	    function cartUpdate( cartItem ) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -108,7 +108,7 @@
 	     * @return 
 	     */
 	    function deleteItem(itemId) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -130,7 +130,7 @@
 	     * @return 
 	     */     
 	    function addBillingAddress(billingAddress) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -153,7 +153,7 @@
 	     * @return 
 	     */     
 	    function addShippingAddress(shippingAddress) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -177,7 +177,7 @@
 	     * @return 
 	     */     
 	    function addShipmode(shipmodeName) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -197,7 +197,7 @@
 	     * @return list of shipmode
 	     */     
 	    function getShipmodeList() {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -218,7 +218,7 @@
 	     * @return 
 	     */     
 	    function addPaymethod(paymethodName) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -238,7 +238,7 @@
 	     * @return 
 	     */     
 	    function createPayment() {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -258,7 +258,7 @@
 	     * @return 
 	     */     
 	    function addPaymentInfo(paidData) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -279,7 +279,7 @@
 	     * @return list of paymethod
 	     */     
 	    function getPaymethodList() {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -299,7 +299,7 @@
 	     * @return a new currentCart
 	     */     
 	    function deleteCart() {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -341,7 +341,7 @@
 	     *from the API response payload.                
 	     */
 	    function handleSuccess( response ) {
-        	var serviceSSID = serpicsServices;
+        	var serviceSSID = sessionService;
         	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES);  /** expire 20 minut **/
 	        return( response.data.responseObject);
 	    }

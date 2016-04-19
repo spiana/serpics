@@ -1,5 +1,5 @@
 (function(){
-	angular.module('order.controller', ['order.service','serpics.router','cart.service'])
+	angular.module('order.controller', [ ])
 
 /** orderController **/
 .controller('OrderController',orderController);
@@ -49,7 +49,7 @@
   	     * @param order 				add payment for @param order
   	     * @param data 					data to send
   	     * @return 						a new cart
-  	     * @use 						orderService,serpicsServices
+  	     * @use 						orderService
   	     */
   	    vm.addPayment = function(orderId, paymentData) {		
   	    	orderService.addPayment(orderId, paymentData).then( function( response ) {

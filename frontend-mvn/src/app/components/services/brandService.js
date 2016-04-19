@@ -1,16 +1,16 @@
  (function() {
 	 'use strict';
 
-	angular.module('brand.service', ['serpics.config','serpics.services'])
+	angular.module('brand.service', [])
 /**
  * brand service to handler rest call to brand service
  */
 	.service('brandService',brandService);
 	
-	 brandService.$inject = ['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_EXPIRES', '$cookies','$log'];
+	 brandService.$inject = ['$http', '$q', 'sessionService', 'URL', 'COOKIE_EXPIRES', '$cookies','$log'];
 	 
 	 /** @ngInject */
-	function brandService( $http, $q, serpicsServices, URL, COOKIE_EXPIRES, $cookies,$log ) {
+	function brandService( $http, $q, sessionService, URL, COOKIE_EXPIRES, $cookies,$log ) {
 		
 		var endpoint = '/api/v1/brands/';
 	 
@@ -33,7 +33,7 @@
 	     * @return 
 	     */     
 	 function getBrandList() {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -56,7 +56,7 @@
          * @return 
          */      
         function findBrandById(brandId) {
-	    	var serviceSSID = serpicsServices;
+	    	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -77,7 +77,7 @@
          * @return 
          */      
         function findBrandByCode(brandCode) {
-        	var serviceSSID = serpicsServices;
+        	var serviceSSID = sessionService;
 	    	return $q(function(resolve, reject) {
 	    		
 	    		serviceSSID.getSessionId().then(function(sessionId){
@@ -99,7 +99,7 @@
          * @return 
          */      
         function findAll(page,size) {
-        	var serviceSSID = serpicsServices;
+        	var serviceSSID = sessionService;
         	
         	var findAllUrl='';
         	if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
@@ -129,7 +129,7 @@
          * @return 
          */      
         function brandProductsByIdPage(brandId,page,size) {
-        	var serviceSSID = serpicsServices;
+        	var serviceSSID = sessionService;
         	
         	var findAllUrl='';
         	if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
@@ -160,7 +160,7 @@
          * @return 
          */      
         function brandProductsByCodePage(brandCode,page,size) {
-        	var serviceSSID = serpicsServices;
+        	var serviceSSID = sessionService;
         	
         	var findAllUrl='';
         	if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
@@ -207,7 +207,7 @@
          *from the API response payload.                
          */
         function handleSuccess( response ) {
-        	var serviceSSID = serpicsServices;
+        	var serviceSSID = sessionService;
 //        	$log.debug(response.data.responseObject);
         	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES);  /** expire 20 minut **/ 
             return(response.data.responseObject);

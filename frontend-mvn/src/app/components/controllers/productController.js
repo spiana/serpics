@@ -1,18 +1,18 @@
 (function() {
-	angular.module('product.controller',[ 'product.service', 'cart.service', 'serpics.services',
-					'serpics.router' ])
+	angular.module('product.controller',[])
 
 	/** productController **/
 	.controller('ProductController', productController);
 
-	productController.$inject = [ '$scope', 'serpicsServices',
-			'productService', '$state', 'cartService', 'categoryService', 'brandService', '$log', '$sce',
+	productController.$inject = [ '$scope', 'productService', '$state', '$stateParams', 'cartService', 'categoryService', 'brandService', 'logger', '$sce',
 			'ngDialog' ];
 
 	/** @ngInject */
-	function productController($scope, serpicsServices, productService, $state,cartService, categoryService, brandService,$log, $sce, ngDialog) {
+	function productController($scope, productService, $state, $stateParams, cartService, categoryService, brandService,logger, $sce, ngDialog) {
 
-		var categoryId = $scope.categoryId;
+		
+		//console.log('stateParams:'+angular.toJson($stateParams));
+		var categoryId = $stateParams.categoryId;
 		var brandId = $scope.brandId;
 		var productId = $scope.productId;
 		var textSearch = $scope.textSearch;
@@ -51,9 +51,9 @@
 		};
 
 		$scope.addToCart = function(sku, quantity) {
-			$log.debug('ProductController cartAdd(sku ,quantity)');
-			cartService.cartAdd(sku, quantity).then(function(response) {
-								$log.debug('ProductController cartAdd(sku ,quantity): ramo then');
+			logger.debug('ProductController cartAdd(sku ,quantity)');
+			cartService.cartAdd(sku, quantity).then(function() {
+								logger.debug('ProductController cartAdd(sku ,quantity): ramo then');
 								$state.go('shop.cart');
 							});
 		};
@@ -63,12 +63,12 @@
 		/**
 		 * @param productId 			id of product 	  
 		 * @return 						product with id equal @param productId
-		 * @use 						productService,serpicsServices
+		 * @use 						productService
 		 */
 		function getProduct(productId) {
 			productService.getProduct(productId).then(
 					function(response) {
-						$log.debug('ProductController getProduct(productId): ramo then');
+						logger.debug('ProductController getProduct(productId): ramo then');
 						$scope.product = response;
 						});
 			}
@@ -76,54 +76,54 @@
 		/**
 		 * @param productId 			id of product 
 		 * @return 						product's main category
-		 * @use 						productService,serpicsServices    
+		 * @use 						productService  
 		 */
-		function getCategory(productId) {
-			productService.getCategoryProduct(productId).then(
-					function(response) {
-						$scope.productCategory = response;
-					});
-		}
+//		function getCategory(productId) {
+//			productService.getCategoryProduct(productId).then(
+//					function(response) {
+//						$scope.productCategory = response;
+//					});
+//		}
 
 		/**
 		 * @param productName 			name of product to retrieve  	    
 		 * @return 						product name equal @param productName
-		 * @use 						productService,serpicsServices
+		 * @use 						productService
 		 */
-		function getProductByName(productName) {
-			productService.getProductByName(productName).then(
-					function(response) {
-						$scope.product = response;
-					});
-		}
+//		function getProductByName(productName) {
+//			productService.getProductByName(productName).then(
+//					function(response) {
+//						$scope.product = response;
+//					});
+//		}
 
 		/**
 		 * @param categoryId 			id of category of product to retrieve  	    
 		 * @return 						product with category equal @param categoryId
-		 * @use 						productService,serpicsServices
+		 * @use 						productService
 		 */
-		function findByCategory(categoryId, page, size) {
-			productService.findByCategory(categoryId, page, size).then(
-					function(response) {
-						$scope.product = response;
-					});
-		}
+//		function findByCategory(categoryId, page, size) {
+//			productService.findByCategory(categoryId, page, size).then(
+//					function(response) {
+//						$scope.product = response;
+//					});
+//		}
 
 		/**
 		 * @param brandId 				id of brand of product to retrieve    
 		 * @return 						product with brand equal @param brandId
-		 * @use 						productService,serpicsServices
+		 * @use 						productService
 		 */
-		function findByBrand(brandId, page, size) {
-			productService.findByBrand(brandId, page, size).then(
-					function(response) {
-						$scope.product = response;
-					});
-		}
+//		function findByBrand(brandId, page, size) {
+//			productService.findByBrand(brandId, page, size).then(
+//					function(response) {
+//						$scope.product = response;
+//					});
+//		}
 
 		/**
 		 * @return 						all product
-		 * @use 						productService,serpicsServices
+		 * @use 						productService
 		 */
 		function findAll(page, size) {
 			productService.findAll(page, size).then(function(response) {
@@ -134,7 +134,7 @@
 		/**
 		 * @param textSearch 			text to seach   
 		 * @return 						product with textSearch in code, name or description
-		 * @use 						productService,serpicsServices
+		 * @use 						productService
 		 */
 		function findBySearch(searchText, page, size) {
 			productService.findBySearch(searchText, page, size).then(
@@ -144,7 +144,7 @@
 		}
 
 		function findAllQ(page, size) {
-			$log.debug('Controller ProductQ');
+			logger.debug('Controller ProductQ');
 			if (productId) {
 				getProduct(productId);
 			} else {
@@ -174,7 +174,7 @@
 
 		$scope.openGalleryImageModal = function(imageUrl) {
 			$scope.imageUrl = imageUrl;
-			var dialog = ngDialog.open({
+			ngDialog.open({
 				template : 'galleryImageDialog',
 				keyboard : true,
 				className : 'xxx',

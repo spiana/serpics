@@ -1,6 +1,6 @@
 (function() {
 	'use strict';
-	angular.module('controllers.module',[
+	angular.module('serpics.controllers',[
 	                                     'brand.controller',
 	                                     'category.controller',
 	                                     'product.controller',

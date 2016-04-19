@@ -1,13 +1,13 @@
 (function(){
 	'use strict';
-	angular.module('geographic.service',['serpics.config','serpics.services'])
+	angular.module('geographic.service',[])
 	
 	.service('geographicService', geographicService);
 	
-	geographicService.$inject = ['$http', '$q','serpicsServices','COOKIE_EXPIRES','$cookies','URL','$log'];
+	geographicService.$inject = ['$http', '$q','sessionService','COOKIE_EXPIRES','$cookies','URL','$log'];
 			
 	/** @ngInject */
-	function geographicService( $http, $q,serpicsServices,COOKIE_EXPIRES,$cookies,URL,$log ) {
+	function geographicService( $http, $q,sessionService,COOKIE_EXPIRES,$cookies,URL,$log ) {
 	
 	
 	var endpoint = '/api/v1/geographic/';
@@ -25,7 +25,7 @@
 	 *
 	 */
 	function getRegionByCountry(countryId) {
-		var serviceSSID = serpicsServices;
+		var serviceSSID = sessionService;
 		return $q(function(resolve, reject) {
 			serviceSSID.getSessionId().then(function(sessionId){
 				$log.debug('session Id nel promise'+sessionId) ;
@@ -45,7 +45,7 @@
 	 *
 	 */
 	function getCountryList() {
-		var serviceSSID = serpicsServices;
+		var serviceSSID = sessionService;
 		return $q(function(resolve, reject) {
 			serviceSSID.getSessionId().then(function(sessionId){
 				$log.debug('session Id nel promise'+sessionId) ;
@@ -65,7 +65,7 @@
 	 *
 	 */
 	function getDistrictByCountry(countryId) {
-		var serviceSSID = serpicsServices;
+		var serviceSSID = sessionService;
 		return $q(function(resolve, reject) {
 			serviceSSID.getSessionId().then(function(sessionId){
 				$log.debug('session Id nel promise'+sessionId) ;
@@ -85,7 +85,7 @@
 	 *
 	 */
 	function getDistrictByRegion(regionId) {
-		var serviceSSID = serpicsServices;
+		var serviceSSID = sessionService;
 		return $q(function(resolve, reject) {
 			serviceSSID.getSessionId().then(function(sessionId){
 				$log.debug('session Id nel promise'+sessionId) ;
@@ -125,7 +125,7 @@
      *from the API response payload.                
      */
     function handleSuccess( response ) {
-    	var serviceSSID = serpicsServices;
+    	var serviceSSID = sessionService;
     	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES);  /** expire 20 minut **/ 
         return(response.data.responseObject);
     }

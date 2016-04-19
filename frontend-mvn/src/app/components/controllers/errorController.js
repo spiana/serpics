@@ -1,5 +1,5 @@
 (function(){
-	angular.module('error.controller', ['serpics.router'])
+	angular.module('error.controller', [ ])
 	
 	.controller('ErrorController',errorController);
 	
@@ -24,9 +24,10 @@
 		
 		vm.goHome = function(){
 			$log.debug('errorController:  goHome function '+ angular.toJson($stateParams));
-			vm.errorMessage= {}
+			vm.errorMessage= {};
+			vm.errorStatus= {};
 			$state.go('shop.home');
-			}
+			};
 	
 	}
 

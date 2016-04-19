@@ -1,7 +1,7 @@
  (function() {
 	 'use strict';
 	 
-	 angular.module('serpics.interceptor', ['ngCookies'])
+	 angular.module('serpics.interceptor', [])
 	 .factory('serpicsHttpBuffer', serpicsHttpBuffer)
 
 	 .factory('serpicsInterceptor',serpicsInterceptor);
@@ -107,7 +107,7 @@
 				
 				var stato406=$injector.get('$state');
 				
-				stato406.go('shop.406',{error: rejection.data.message});
+				stato406.go('shop.406',{error: rejection.data.message, errorStatus: '406'});
 						
 				return $q.reject(rejection);
 				

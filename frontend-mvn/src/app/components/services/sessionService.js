@@ -1,12 +1,12 @@
 (function() {
 	'use strict';
 
-	angular.module('serpics.services', [ 'ngCookies', 'serpics.config' ])
-			.service('serpicsServices', serpicsServices);
+	angular.module('session.service', [])
+			.service('sessionService', sessionService);
 
-	serpicsServices.$inject = [ '$http', '$q', '$cookies', 'URL','COOKIE_EXPIRES', 'STORE', 'logger' ];
+	sessionService.$inject = [ '$http', '$q', '$cookies', 'URL','COOKIE_EXPIRES', 'STORE', '$log' ];
 	/** @ngInject */
-	function serpicsServices($http, $q, $cookies, URL, COOKIE_EXPIRES, STORE,logger) {
+	function sessionService($http, $q, $cookies, URL, COOKIE_EXPIRES, STORE,$log) {
 
 		var promiseSession = null;
 
@@ -27,20 +27,20 @@
 
 			var sessionCookie = getcookie();
 			if (sessionCookie === null) {
-				logger.debug('serpicsServices getSessionId(): ssid non presente nel cookie');
-				logger.debug('serpicsServices getSessionId(): promiseSession test=null: '+(promiseSession == null));
+				$log.debug('sessionService getSessionId(): ssid non presente nel cookie');
+				$log.debug('sessionService getSessionId(): promiseSession test=null: '+(promiseSession == null));
 
 				if (promiseSession === null) {
-					logger.debug('serpicsServices getSessionId(): ssid prima della chiamata getCallSessionId() '+ promiseSession);
+					$log.debug('sessionService getSessionId(): ssid prima della chiamata getCallSessionId() '+ promiseSession);
 					promiseSession = getCallSessionId();
-					logger.debug('serpicsServices getSessionId(): ssid dopo chiamata getCallSessionId() '+ promiseSession);
+					$log.debug('sessionService getSessionId(): ssid dopo chiamata getCallSessionId() '+ promiseSession);
 					return promiseSession;
 				} else {
-					logger.debug('serpicsServices getSessionId(): ssid gia richiesto al server');
+					$log.debug('sessionService getSessionId(): ssid gia richiesto al server');
 					return promiseSession;
 				}
 			} else {
-				logger.debug('serpicsServices getSessionId(): ssid presente nel cookie'+ sessionCookie);
+				$log.debug('sessionService getSessionId(): ssid presente nel cookie'+ sessionCookie);
 				var defer = $q.defer();
 				defer.resolve(sessionCookie);
 				return defer.promise;
@@ -52,7 +52,7 @@
 			var sessionId = null;
 			if ($cookies.get('ssid')) {
 				sessionId = $cookies.get('ssid');
-				logger.debug('serpicsServices getcookie(): ssid from cookie ->'+ sessionId);
+				$log.debug('sessionService getcookie(): ssid from cookie ->'+ sessionId);
 			}
 			return sessionId;
 
@@ -85,7 +85,7 @@
 			var lifeTime = new Date();
 			var now = new Date();
 			lifeTime.setTime(now.getTime() + (parseInt(expires) * 60000));
-			logger.debug('serpicsServices getSessionId(): setCookie(nameCookie,cookieValue,expires)'+ cookieValue);
+			$log.debug('sessionService getSessionId(): setCookie(nameCookie,cookieValue,expires)'+ cookieValue);
 			$cookies.put(nameCookie, cookieValue, {
 				expires : lifeTime.toGMTString()
 			});

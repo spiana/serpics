@@ -48,6 +48,10 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.sourcemaps.init())
     .pipe($.ngAnnotate())
     .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', conf.errorHandler('Uglify'))
+    .pipe($.rename({
+    	prefix: "serpics-sdk-",
+    	suffix: '.min'
+    }))
     .pipe($.sourcemaps.write('maps'))
     .pipe(jsFilter.restore)
     .pipe(cssFilter)
@@ -121,7 +125,7 @@ gulp.task('cssImages', function () {
 //Primo task eseguito nella fase di default
 gulp.task('clean', function () {
 	$.util.log(gutil.colors.red('Cleaning Directory:')+JSON.stringify([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]));
-	return $.del([path.join(conf.paths.tmp, '/'),path.join(conf.paths.dist, '/')],{force: true});
+	return $.del([path.join(conf.paths.tmp, '/**/*'),path.join(conf.paths.dist, '/**/*')],{force: true});
 });
 
 gulp.task('build', ['html', 'fonts', 'other','cssImages']);

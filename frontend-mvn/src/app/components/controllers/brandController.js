@@ -47,7 +47,7 @@
 		/**
 		 * @param name 				name of brand to retrieve
 		 * @return 					all brand by @param code
-		 * @use 					brandService,serpicsServices
+		 * @use 					brandService
 		 */
 		vm.findBrandByCode = function(code) {
 			logger.debug('Brand Controller findBrandByName: ' + code);
@@ -59,7 +59,7 @@
 
 		/**
 		 * @return 					all brand
-		 * @use 					brandService,serpicsServices
+		 * @use 					brandService
 		 */
 		vm.findAll = function(page, size) {
 			logger.debug('Brand Controller findAll: page:' + page + ' size: '+ size);

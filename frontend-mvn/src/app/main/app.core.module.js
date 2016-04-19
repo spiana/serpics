@@ -1,8 +1,9 @@
 (function() {
 	'use strict';
-	angular.module('app.core',['ngDialog',
+	angular.module('serpics.core',['ngDialog',
 	                           'ui.router',
 	                           'ngSanitize',
+	                           'ngCookies',
 	                           'app.config'
 	                           ]);
 

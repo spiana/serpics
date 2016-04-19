@@ -1,12 +1,12 @@
 (function(){
-	angular.module('login.controller', ['customer.service','serpics.router'])
+	angular.module('login.controller', [ ])
 	
 	.controller('LoginController',loginController);
 	
-	loginController.$inject = ['customerService','$state','ngDialog','$stateParams','$log'];
+	loginController.$inject = ['customerService','$state','ngDialog','$stateParams','logger'];
 	
 	/** @ngInject */
-	function loginController(customerService,$state,ngDialog,$stateParams,$log) {
+	function loginController(customerService,$state,ngDialog,$stateParams,logger) {
 	
 		/* jshint validthis: true */
 		var vm= this;
@@ -18,7 +18,7 @@
 			
 			activate();
 			function activate(){
-				$log.debug('LoginController:  activate: stateParams '+ angular.toJson($stateParams));
+				logger.debug('LoginController:  activate: stateParams '+ angular.toJson($stateParams));
 				vm.errorMessage=$stateParams.error;
 			}
 			 /**
@@ -40,7 +40,7 @@
 			vm.login = function(loginUser) {				
 		        	customerService.login(loginUser.username, loginUser.password).then(function () {
 		        		customerService.updateCurrentUser();
-		        		$log.debug('StateParams'+angular.toJson($stateParams));
+		        		logger.debug('StateParams'+angular.toJson($stateParams));
 		        		$stateParams.error={};
 		        		vm.errorMessage={};
 		        		$state.go($stateParams.login);

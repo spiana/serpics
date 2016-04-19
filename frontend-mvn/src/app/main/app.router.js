@@ -27,10 +27,10 @@
 		 })
 		 
 		 .state('shop.category', {
-			 url: '/category/:name/:id',
+			 url: '/category/:categoryName/:categoryId',
 			 controller: function ($stateParams, $scope) {
-				 $scope.name = $stateParams.name;
-				 $scope.categoryId = $stateParams.id;
+				 $scope.name = $stateParams.categoryName;
+				 $scope.categoryId = $stateParams.categoryId;
 			 },
 			 templateUrl: 'app/template/category-central.html'
 		 })
@@ -125,6 +125,9 @@
 	    contrllerAs: '',
         params: {
         	error: function ($stateParams) {
+            	return $stateParams.error;
+            },
+            errorStatus: function ($stateParams) {
             	return $stateParams.error;
             }
         }

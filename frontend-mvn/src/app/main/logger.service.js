@@ -61,7 +61,7 @@
        */
       function logDebug(msg) {
           var loggedMsg = 'Debug: ' + msg;
-          if(DEBUG == true){
+          if(DEBUG === true){
         	  $log.debug(loggedMsg);
         	  }
           return loggedMsg;

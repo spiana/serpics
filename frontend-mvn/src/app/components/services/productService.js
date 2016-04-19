@@ -1,19 +1,21 @@
  (function() {
 	 'use strict';
-	 angular.module('product.service', ['serpics.config'])
+	 angular.module('product.service', [])
 	 .service('productService',productService);
 	
-	 productService.$inject = ['$http', '$q', 'serpicsServices', 'URL','COOKIE_EXPIRES', '$cookies','$log'];
+	 productService.$inject = ['$http', '$q', 'sessionService', 'URL','COOKIE_EXPIRES', '$cookies','$log'];
 	 
 	 /** @ngInject */
-	 function productService( $http, $q, serpicsServices, URL,COOKIE_EXPIRES, $cookies,$log) {
+	 function productService( $http, $q, sessionService, URL,COOKIE_EXPIRES, $cookies,$log) {
 	
 	var endpoint = '/api/v1/products/';
 	 
 	     /** Return public API. (java interface)**/
 	     var service =({
 	    	 
-	     		getProduct	  			: getProduct,                   
+	     		getProduct	  			: getProduct,
+	     		getProductByCode		: getProductByCode,
+	     		findByCategoryCode		: findByCategoryCode,
 	     		getCategoryProduct 		: getCategoryProduct,
 	     		getProductByName		: getProductByName,
 	     		findByCategory			: findByCategory,
@@ -31,13 +33,13 @@
 	     */      
 	     function getProduct(productId) {
 	    	 
-	    	 var serviceSSID = serpicsServices;
+	    	 var serviceSSID = sessionService;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 $log.debug('session Id nel promise'+sessionId) ;
 	    			 $http({
 	    				 method: 	'GET',
-	    				 url: URL + endpoint + 'product/' + productId,
+	    				 url: URL + endpoint + 'id/' + productId,
 	    				 headers: {
 	    					 'ssid': sessionId
 	    					 }
@@ -51,7 +53,7 @@
 	     * @return 
 	     */      
 	     function getCategoryProduct(productId) {
-	    	 var serviceSSID = serpicsServices;
+	    	 var serviceSSID = sessionService;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 $log.debug('session Id nel promise'+sessionId) ;
@@ -71,7 +73,7 @@
 	     * @return 
 	     */              
 	     function getProductByName(productName) {
-	    	 var serviceSSID = serpicsServices;
+	    	 var serviceSSID = sessionService;
 	    	 return $q(function(resolve, reject) {
 	    		 serviceSSID.getSessionId().then(function(sessionId){
 	    			 $log.debug('session Id nel promise'+sessionId) ;
@@ -86,12 +88,33 @@
 	    	 });
 	     }
 	     
+		    /**
+		     * @param productCode
+		     * @return 
+		     */      
+		     function getProductByCode(productCode) {
+		    	 
+		    	 var serviceSSID = sessionService;
+		    	 return $q(function(resolve, reject) {
+		    		 serviceSSID.getSessionId().then(function(sessionId){
+		    			 $log.debug('session Id nel promise '+sessionId) ;
+		    			 $http({
+		    				 method: 	'GET',
+		    				 url: URL + endpoint + 'code/' + productCode,
+		    				 headers: {
+		    					 'ssid': sessionId
+		    					 }
+		    			 }).then(handleSuccess, handleError).then(resolve, reject);
+		    		 });
+		    	 });
+		     }
+	     
 	     /**
 	     * @param categoryId
 	     * @return 
 	     */              
 	     function findByCategory(categoryId, page, size) {
-	    	 var serviceSSID = serpicsServices;
+	    	 var serviceSSID = sessionService;
 	    	 var findByCategoryUrl='';
 	    	 if (arguments.length === 0 || arguments.length === 1 ) {
 	    		 findByCategoryUrl= URL + endpoint +   'pageCategory/' + categoryId;
@@ -112,12 +135,38 @@
 	    	 });
 	     }
 	     
+	     	/**
+		     * @param categoryCode
+		     * @return 
+		     */              
+		     function findByCategoryCode(categoryCode, page, size) {
+		    	 var serviceSSID = sessionService;
+		    	 var findByCategoryUrl='';
+		    	 if (arguments.length === 0 || arguments.length === 1 ) {
+		    		 findByCategoryUrl= URL + endpoint +   'pageCategory/code/' + categoryCode;
+		    		 }else{
+		    			 findByCategoryUrl = URL + endpoint +   'pageCategory/code/' + categoryCode + '?page=' + page + '&size=' + size;
+		    		 }
+		    	 return $q(function(resolve, reject) {
+		    		 serviceSSID.getSessionId().then(function(sessionId){
+		    			 $log.debug('session Id nel promise '+sessionId) ;
+		    			 $http({
+		    				 method: 	'GET',
+		    				 url: 	findByCategoryUrl,
+		    				 headers: {
+		    					 'ssid': sessionId
+		    					 }
+		    			 }).then(handleSuccess, handleError).then(resolve, reject);
+		    		 });
+		    	 });
+		     }
+	     
 	   /**
 	     * @param searchText
 	     * @return 
 	     */         
 	     function findBySearch(searchText, page, size) {
-	    	 var serviceSSID = serpicsServices;
+	    	 var serviceSSID = sessionService;
 	    	 var findBySearchUrl='';
 	    	 if (arguments.length === 1 || arguments.length === 2 ) {
 	    		 findBySearchUrl= URL + endpoint + 'search';
@@ -144,7 +193,7 @@
 		     * @return 
 		     */         
 		     function findByBrand(brandId, page, size) {
-		    	 var serviceSSID = serpicsServices;
+		    	 var serviceSSID = sessionService;
 		    	 var findByBrandUrl='';
 		    	 if (arguments.length === 1 || arguments.length === 2 ) {
 		    		 findByBrandUrl= URL + endpoint + 'pageBrand/' + brandId;
@@ -170,12 +219,12 @@
 	     */         
 	     function findAll(page, size) {
 	    	 
-	    	 var serviceSSID = serpicsServices;
+	    	 var serviceSSID = sessionService;
 	    	 var findAllUrl='';
 	    	 if (arguments.length === 0 || arguments.length === 1 ) {
 	    		 findAllUrl= URL + endpoint;
 	    		 }else{
-	    			 findAllUrl = URL + endpoint +  '?page=' + page + '&size=' +size;
+	    			 findAllUrl = URL + endpoint +  'page/?page=' + page + '&size=' +size;
 	    		 }
 	    	 
 	    	 return $q(function(resolve, reject) {
@@ -218,7 +267,7 @@
      * from the API response payload.                
      */
     function handleSuccess( response ) {
-    	var serviceSSID = serpicsServices;
+    	var serviceSSID = sessionService;
     	serviceSSID.setCookie('ssid',$cookies.get('ssid'),COOKIE_EXPIRES);  /** expire 20 minut **/
         return( response.data.responseObject);
     }
