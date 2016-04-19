@@ -1,4 +1,4 @@
-<div class="brands_products" ng-controller="brandController">
+<div class="brands_products" ng-controller="BrandController">
 <!--brands_products-->
 	<h2>Brand</h2>
 	<div class="brands-name">

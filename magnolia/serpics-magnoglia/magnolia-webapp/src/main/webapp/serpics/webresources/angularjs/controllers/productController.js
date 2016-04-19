@@ -1,8 +1,8 @@
- var app = angular.module("product.controller", ['product.service', 'cart.service','serpics.services'])
+ var app = angular.module("product.controller", ['product.service', 'cart.service','ngSanitize'])
 /** productController **/
-.controller("productController",['$scope','serpicsServices','productService','cartService','$log','ngDialog','$sce',
+.controller("productController",['$scope','productService','cartService','$log','ngDialog','$sce',
                                   
-	      function($scope,serpicsServices,productService,cartService,$log,ngDialog,$sce) {	
+	      function($scope,productService,cartService,$log,ngDialog,$sce) {	
 	   	
 			var categoryId = $scope.categoryId;
 			var brandId = $scope.brandId;
@@ -58,7 +58,7 @@
 	  	    /**
 	  	     * @param productId 			id of product 	  
 	  	     * @return 						product with id equal @param productId
-	  	     * @use 						productService,serpicsServices
+	  	     * @use 						productService
 	  	     */
 	  	    function getProduct(productId) {		
 	  	    	productService.getProduct(productId).then( function( response ) {
@@ -75,7 +75,7 @@
 	  	    /**
 	  	     * @param productId 			id of product 
 	  	     * @return 						product's main category
-	  	     * @use 						productService,serpicsServices    
+	  	     * @use 						productService    
 	  	     */
 	  	   function getCategory(productId) {		
 	  	    	productService.getCategoryProduct(productId).then( function( response ) {
@@ -86,7 +86,7 @@
 	  	    /**
 	  	     * @param productCode 			code of product to retrieve  	    
 	  	     * @return 						product code equal @param productCode
-	  	     * @use 						productService,serpicsServices
+	  	     * @use 						productService
 	  	     */
 	  	   function getProductByCode(productCode) {		
 	  	    	productService.getProductByCode(productCode).then( function( response ) {
@@ -103,7 +103,7 @@
 	  	    /**
 	  	     * @param categoryId 			id of category of product to retrieve  	    
 	  	     * @return 						product with category equal @param categoryId
-	  	     * @use 						productService,serpicsServices
+	  	     * @use 						productService
 	  	     */
 	  	    function findByCategory(categoryId, page, size) {		
 	  	    	productService.findByCategory(categoryId, page, size).then( function( response ) {
@@ -114,7 +114,7 @@
 	  	    /**
 	  	     * @param categoryCode 			code of category of product to retrieve  	    
 	  	     * @return 						product with category equal @param categoryId
-	  	     * @use 						productService,serpicsServices
+	  	     * @use 						productService
 	  	     */
 	  	    function findByCategoryCode(categoryCode, page, size) {		
 	  	    	productService.findByCategoryCode(categoryCode, page, size).then( function( response ) {
@@ -125,7 +125,7 @@
 	  	    /**
 	  	     * @param brandId 				id of brand of product to retrieve    
 	  	     * @return 						product with brand equal @param brandId
-	  	     * @use 						productService,serpicsServices
+	  	     * @use 						productService
 	  	     */
 	  	    function findByBrand(brandId, page, size) {		
 	  	    	productService.findByBrand(brandId, page, size).then( function( response ) {
@@ -135,7 +135,7 @@
 	  	    
 	  	    /**
 	  	     * @return 						all product
-	  	     * @use 						productService,serpicsServices
+	  	     * @use 						productService
 	  	     */
 	  	    function findAll(page, size) {		
 	  	    	productService.findAll(page, size).then( function( response ) {
@@ -146,7 +146,7 @@
 	  	    /**
 	  	     * @param textSearch 			text to seach   
 	  	     * @return 						product with textSearch in code, name or description
-	  	     * @use 						productService,serpicsServices
+	  	     * @use 						productService,sessionService
 	  	     */
 	  	    function findBySearch(searchText, page, size) {		
 	  	    	productService.findBySearch(searchText, page, size).then( function( response ) {
@@ -163,10 +163,14 @@
 	  	    			findBySearch(textSearch, page, size);
 	  	    		} else {
 			  	    	if (!categoryId && brandId){
-			  	    		findByBrand(brandId, page, size);
+			  	    		brandService.brandProductsByIdPage(brandId, page, size).then(function(response) {
+								$scope.product = response;
+			  	    		});
 			  	    	}
 			  	    	if (categoryId && !brandId){
-			  	    		findByCategory(categoryId, page, size);
+							categoryService.categoryProductsByIdPage(categoryId, page, size).then(function(response) {
+								$scope.product = response;
+							});
 			  	    	}
 			  	    	if (!categoryId && !brandId){
 			  	    		findAll(page, size);

@@ -43,6 +43,8 @@ areas:
         id: serpics:components/central/central-404
       500Component:
         id: serpics:components/central/central-500
+      406Component:
+        id: serpics:components/central/central-406
   serpics-banner-head:
     renderType: freemarker
     availableComponents:

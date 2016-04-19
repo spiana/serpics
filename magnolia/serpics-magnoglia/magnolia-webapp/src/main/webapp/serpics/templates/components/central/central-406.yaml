@@ -1,0 +1,3 @@
+templateScript: /serpics/templates/components/central/central-406.ftl
+renderType: freemarker
+title: Error 406 Page

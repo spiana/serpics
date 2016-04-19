@@ -1,0 +1,20 @@
+<div class="container text-center" ng-controller="ErrorController as errorVm">
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="content-406">
+				<h1>
+					<b>ERROR 406!</b> 					
+				</h1>
+				<i class="fa fa-chain-broken"></i>
+				<h1>
+					<b>OPPS!</b> {{errorVm.errorMessage}}
+				</h1>
+<!-- 				<p>Empty Cart Error.</p> -->
+				<h2>
+<!-- 					<a ui-sref="shop.home">Bring me back Home</a> -->
+						<a ng-click=errorVm.goHome()>Bring me back Home</a>
+				</h2>
+			</div>
+		</div>
+	</div>
+</div>
