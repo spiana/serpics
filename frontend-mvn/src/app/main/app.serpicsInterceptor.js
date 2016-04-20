@@ -45,10 +45,10 @@
 					' - Response Url: '+rejection.config.url);
 			if (rejection.status === 500){
 				
-				logger.debug('ResponseError Intercepted: 500: '+ rejection);
+				logger.debug('ResponseError Intercepted: 500: '+ rejection.data.message);
 				
 				var stato500=$injector.get('$state');
-				stato500.transitionTo('shop.500');
+				stato500.transitionTo('shop.500',{error: rejection.data.message, errorStatus: '500'});
 				
 				return $q.reject(rejection);
 				

@@ -1,8 +1,7 @@
 (function() {
 	'use strict';
 
-	angular.module('customer.controller',
-			[ 'order.service', 'customer.service', 'geographic.service' ])
+	angular.module('customer.controller',[ ])
 
 	/** customerController **/
 	.controller('CustomerController', customerController);

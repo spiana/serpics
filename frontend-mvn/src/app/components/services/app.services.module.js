@@ -8,6 +8,7 @@
 	                                 'product.service',
 	                                 'order.service',
 	                                 'cart.service',
-	                                 'customer.service'
+	                                 'customer.service',
+	                                 'geographic.service'
 	                                   ]);
 })();

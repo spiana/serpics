@@ -33,9 +33,9 @@
 				loadText: '@textLoading'
 			},
 			link: function($scope, $element, $attrs){
-		           angular.element(window).load(function() {
-		        	   angular.element('.loading-container').fadeOut(3000);
-		        	   angular.element('.loading,loading-text').delay(100).fadeOut('slow');
+				$(window).load(function() {
+		        	   $(".loading-container").fadeOut(3000);
+		       		   $(".loading,loading-text").delay(100).fadeOut("slow");
 		           });
 		       }
 		};

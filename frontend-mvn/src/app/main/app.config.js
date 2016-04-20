@@ -4,7 +4,7 @@
 			.constant('APP_NAME','Serpics App')
 			.constant('APP_VERSION','2.0')
 			.constant('TIMEOUT','15') //[minuti]
-			.constant('DEBUG', false)// attivo o disattivo il logger.service per il console.log -> angular.$log
+			.constant('DEBUG', false)// attivo o disattivo il logger.service per i controllers -> angular.$log
 			.config(config);
 	 
 	 config.$inject = ['$httpProvider'];

@@ -74,12 +74,11 @@
         	error: ''
         }
 	 })
-    
-    .state('shop.cart', {
+
+	 .state('shop.cart', {
     	url: '/cart',       
         templateUrl: 'app/template/cart.html',
-        controller: '',
-        contrllerAs: ''
+        controller: ''
     })
 
 	.state('shop.register', {
@@ -88,7 +87,8 @@
 		controller: 'LoginController',
         params: {
         	login: 'shop.home',
-        	register: 'shop.login'
+        	register: 'shop.login',
+        	error: ''
         }
 	})
 	

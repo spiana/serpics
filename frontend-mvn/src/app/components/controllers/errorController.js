@@ -3,17 +3,17 @@
 	
 	.controller('ErrorController',errorController);
 	
-	errorController.$inject = ['$state','$stateParams','$log'];
+	errorController.$inject = ['$state','$stateParams','logger'];
 	
 	/** @ngInject */
-	function errorController($state,$stateParams,$log) {
+	function errorController($state,$stateParams,logger) {
 		
 		var vm = this;
 		
 		activate();
 		
 		function activate(){
-			$log.debug('errorController:  activate: stateParams '+ angular.toJson($stateParams));
+			logger.debug('errorController:  activate: stateParams '+ angular.toJson($stateParams));
 			if ($stateParams.error == null){
 				$state.go('shop.home');
 				
@@ -23,7 +23,7 @@
 		}
 		
 		vm.goHome = function(){
-			$log.debug('errorController:  goHome function '+ angular.toJson($stateParams));
+			logger.debug('errorController:  goHome function '+ angular.toJson($stateParams));
 			vm.errorMessage= {};
 			vm.errorStatus= {};
 			$state.go('shop.home');

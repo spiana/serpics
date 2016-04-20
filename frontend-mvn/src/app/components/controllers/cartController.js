@@ -1,16 +1,15 @@
 (function(){
 	'use strict';
-	angular.module('cart.controller', ['cart.service', 'customer.service',
-	                                   'serpics.router','geographic.service'])
+	angular.module('cart.controller', [])
 	/** cartController **/
 	.controller('CartController',cartController);
 	
-	cartController.$inject = ['$state','customerService', 'cartService','$log',
+	cartController.$inject = ['$state','customerService', 'cartService','logger',
 	                          '$stateParams','geographicService','$window'];
                                   
 
 	/** @ngInject */
-	function cartController($state,customerService,cartService,$log,$stateParams,geographicService,$window) {
+	function cartController($state,customerService,cartService,logger,$stateParams,geographicService,$window) {
 		
 		/* jshint validthis: true */
 		var vm = this;
@@ -26,9 +25,9 @@
 		
 	  	
 	    function getCurrentCart() {
-	    	$log.debug('CartController getCurrentCart()'+angular.toJson(vm.stateParams));
+	    	logger.debug('CartController getCurrentCart()'+angular.toJson(vm.stateParams));
   			cartService.getCurrentCart().then(function(response){
-    			  $log.debug('CartController getCurrentCart(): ramo then');
+    			  logger.debug('CartController getCurrentCart(): ramo then');
     			  vm.cart = response;
     		  });
   	    }
@@ -52,9 +51,9 @@
   	     * @use 						cartService,
   	     */
   	    vm.cartAdd = function(sku ,quantity) {
-  	    	$log.debug('CartController cartAdd(sku ,quantity)');
+  	    	logger.debug('CartController cartAdd(sku ,quantity)');
   			cartService.cartAdd(sku ,quantity).then(function(response){
-    			  $log.debug('CartController cartAdd(sku ,quantity): ramo then');
+    			  logger.debug('CartController cartAdd(sku ,quantity): ramo then');
     			  vm.cart = response.cart;
     		  });
   	    };
@@ -66,9 +65,9 @@
   	     */
   	    vm.cartUpdate = function( cartItem, quantity ) {
   	    	cartItem.quantity = quantity;
-  	    	$log.debug('CartController cartUpdate(cartItem)');
+  	    	logger.debug('CartController cartUpdate(cartItem)');
   			cartService.cartUpdate(cartItem).then(function(){
-    			  $log.debug('CartController cartUpdate(cartItem): ramo then');
+    			  logger.debug('CartController cartUpdate(cartItem): ramo then');
     			  getCurrentCart();
     		  });
   	    };
@@ -79,9 +78,9 @@
   	     * @use 					cartService,
   	     */
   	    vm.deleteItem = function(itemId) {		
-  	    	$log.debug('CartController deleteItem(itemId)');
+  	    	logger.debug('CartController deleteItem(itemId)');
   			cartService.deleteItem(itemId).then(function(response){
-    			  $log.debug('CartController deleteItem(itemId): ramo then');
+    			  logger.debug('CartController deleteItem(itemId): ramo then');
     			  vm.cart = response.cart;
     		  });
   	    };
@@ -102,17 +101,17 @@
   					billingAddress.districtIsoCode = billingAddress.district.isoCode;
   				}
 	  		cartService.addBillingAddress(billingAddress).then(function(response){
-				  $log.debug('cartController addBillingAddress(billingAddress): ramo then1');
+				  logger.debug('cartController addBillingAddress(billingAddress): ramo then1');
 				  //var complete = $stateParams.complete;
 				  if (shippingToBill) {
 					  cartService.addShippingAddress(billingAddress).then(function(response){
-		    			  $log.debug('cartController billingAddress(billingAddress): ramo then');
+		    			  logger.debug('cartController billingAddress(billingAddress): ramo then');
 		    			  vm.cart = response;
 		    			  $state.go($stateParams.shipmode);
 					  });
 				  } else {
 					  vm.cart = response;
-					  $log.debug('cartController billingAddress(billingAddress): ramo else'+$stateParams.toJson());
+					  logger.debug('cartController billingAddress(billingAddress): ramo else'+$stateParams.toJson());
 	    			  $state.go($stateParams.shipping);
 				  }
 			 });
@@ -134,7 +133,7 @@
 					shippingAddress.districtIsoCode = shippingAddress.district.isoCode;
 				}
 	  			cartService.addShippingAddress(shippingAddress).then(function(response){
-	  			  $log.debug('cartController shippingAddress(shippingAddress): ramo then');
+	  			  logger.debug('cartController shippingAddress(shippingAddress): ramo then');
 	  			  vm.cart = response;
 	  			  $state.go($stateParams.shipmode);
 	  		  });
@@ -147,7 +146,7 @@
 	  	 */	  	 
 		vm.addShipmode = function (shipmode){
 	  			cartService.addShipmode(shipmode).then(function(response){
-	  			  $log.debug('cartController addShipmode(shipMode): ramo then');
+	  			  logger.debug('cartController addShipmode(shipMode): ramo then');
 	  			  vm.cart = response;
 //	  			  $state.go($stateParams.payment)
 	  		  });
@@ -160,7 +159,7 @@
 	  	 */	  	 
 		vm.getPaymethodList = function (){
 	  			cartService.getPaymethodList().then(function(response){
-	  			  $log.debug('cartController getPaymethodList(): ramo then');
+	  			  logger.debug('cartController getPaymethodList(): ramo then');
 	  			  vm.paymethodList = response;
 	  		  });
 	  	};
@@ -172,7 +171,7 @@
 	  	 */	  	 
 		vm.addPaymethod = function (paymethod){
 	  			cartService.addPaymethod(paymethod).then(function(response){
-	  			  $log.debug('cartController addPaymethod(shipMode): ramo then');
+	  			  logger.debug('cartController addPaymethod(shipMode): ramo then');
 	  			  vm.cart = response;
 	  			  $state.go($stateParams.payment);
 	  		  });
@@ -184,7 +183,7 @@
 	  	 */	  	 
 		vm.createPayment = function (){
 	  			cartService.createPayment().then(function(response){
-	  			  $log.debug('cartController createPayment(): ramo then');
+	  			  logger.debug('cartController createPayment(): ramo then');
 	  			  vm.payment = response;
 	  			  if (response.authorizedURL != null){
 	  				$window.location.href = response.authorizedURL;
@@ -202,7 +201,7 @@
 	  	 */	  	 
 		vm.getShipmodeList = function (){
 	  			cartService.getShipmodeList().then(function(response){
-	  			  $log.debug('cartController getShipmodeList(): ramo then');
+	  			  logger.debug('cartController getShipmodeList(): ramo then');
 	  			  vm.shipmodeList = response;
 	  		  });
 	  	};
@@ -214,7 +213,7 @@
 	  	 */	  	 
 		vm.deleteCart = function (){
 	  			cartService.deleteCart().then(function(response){
-	  			  $log.debug('cartController deleteCart(): ramo then');
+	  			  logger.debug('cartController deleteCart(): ramo then');
 	  			  vm.cart = response;
 	  		  });
 	  	};
@@ -226,7 +225,7 @@
 	  	 */	  	 
 		vm.getCountryList = function (){
 			geographicService.getCountryList().then(function(response){
-	  			  $log.debug('cartController getCountryList(): ramo then');
+	  			  logger.debug('cartController getCountryList(): ramo then');
 	  			  vm.countries = response;
 	  		  });
 	  	};
@@ -239,7 +238,7 @@
 		vm.getRegionByCountry = function (countryId){
 			if (countryId !== angular.isUndefined){
 				geographicService.getRegionByCountry(countryId).then(function(response){
-		  			  $log.debug('cartController getRegionByCountry(countryId): ramo then');
+		  			  logger.debug('cartController getRegionByCountry(countryId): ramo then');
 		  			  vm.regions = response;
 		  		  });
 			} else {
@@ -255,7 +254,7 @@
 		vm.getDistrictByCountry = function (countryId){
 			if (countryId !== angular.isUndefined){
 				geographicService.getDistrictByCountry(countryId).then(function(response){
-		  			  $log.debug('cartController getDistrictByCountry(countryId): ramo then');
+		  			  logger.debug('cartController getDistrictByCountry(countryId): ramo then');
 		  			  vm.districts = response;
 		  		  });
 			} else {
