@@ -173,12 +173,14 @@
 		};
 
 		$scope.openGalleryImageModal = function(imageUrl) {
-			$scope.imageUrl = imageUrl;
+
 			ngDialog.open({
 				template : 'galleryImageDialog',
 				keyboard : true,
 				className : 'xxx',
-				scope : $scope
+				data: {
+					imageUrl: imageUrl
+                  }
 			});
 		};
 	}

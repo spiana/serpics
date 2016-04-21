@@ -69,8 +69,9 @@
         templateUrl: 'app/template/login.html',
         controller: 'LoginController',
         params: {
-        	login: 'shop.home',
-        	register: 'shop.login',
+        	home: 'shop.home',
+        	login: 'shop.login',
+        	register: 'shop.register',
         	error: ''
         }
 	 })
@@ -86,8 +87,9 @@
 		templateUrl: 'app/template/register.html',
 		controller: 'LoginController',
         params: {
-        	login: 'shop.home',
-        	register: 'shop.login',
+        	home: 'shop.home',
+        	login: 'shop.login',
+        	register: 'shop.register',
         	error: ''
         }
 	})

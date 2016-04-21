@@ -11,6 +11,7 @@
 		/* jshint validthis: true */
 		var vm= this;
 			vm.currentUser = customerService.currentUser;
+			vm.image = 'imagessss';
 			
 			vm.updateUser = function() {
 				customerService.updateCurrentUser();
@@ -43,8 +44,8 @@
 		        		logger.debug('StateParams'+angular.toJson($stateParams));
 		        		$stateParams.error={};
 		        		vm.errorMessage={};
-		        		$state.go($stateParams.login);
-		        	});	   	 
+		        		$state.go($stateParams.home);
+		        	},failedLogin);	   	 
 			};
 		           
 		  /**
@@ -53,27 +54,52 @@
 		     * @returns new user and route to home
 		     */
 			vm.register = function(registerUser) {	  				
-		        	customerService.register(registerUser).then( function() {
-		        		customerService.updateCurrentUser();
-			        	showModalOnSuccess();						
-		        	});        
-		      };		 
+		        	customerService.register(registerUser).then( successRegister, failedRegister);        
+		      };
 		      
-		/**
-		 * show success message on modal angular with ngModal
-		 */
-		function showModalOnSuccess(){		    	  
-			 	var dialog = ngDialog.open({
-				    		  template: 'registerSuccessDialog',
-				    		  keyboard: true,
-				    		  className:'',
-				    		  scope:    vm  			  
-				 });
-			    dialog.closePromise.then(function () {			    	     
-			    	      $state.go($stateParams.register);
-			    	  });
-		}
-
+		      function successRegister(){
+		    	  customerService.updateCurrentUser();
+		    	  showModalOnSuccess();
+		      }
+		      
+		      function failedRegister(error){
+		    	  showModalOnFailed(error,$stateParams.register);
+		      }
+		      
+		      function failedLogin(error){
+		    	  showModalOnFailed(error,$stateParams.login);
+		      }
+		      
+		      /**
+		       * show success message on modal angular with ngModal
+		       */
+		      function showModalOnSuccess(){
+		    	  var dialog = ngDialog.open({
+		    		  template : 'registerSuccessDialog',
+		    		  keyboard : true,
+		    		  className : 'xxx',
+		    		  data: {
+		    			  message: 'User Registered Succesfully!!!. Back To Home Or Login Please!!!'
+		    		  }
+		    	  });
+		    	  dialog.closePromise.then(function () {
+		    		  $state.go($stateParams.login);
+		    		  });
+		      }
+		      
+		      function showModalOnFailed(error,stateParams){
+		    	  var dialog = ngDialog.open({
+		    		  template : 'registerSuccessDialog',
+		    		  keyboard : true,
+		    		  className : 'xxx',
+		    		  data: {
+		    			  message: error
+		    		  }
+		    	  });
+		    	  dialog.closePromise.then(function () {
+		    		  $state.go(stateParams);
+		    		  });
+		      }
 }
 })();
   
