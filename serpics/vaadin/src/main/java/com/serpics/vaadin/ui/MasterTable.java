@@ -2,6 +2,7 @@ package com.serpics.vaadin.ui;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
@@ -9,12 +10,14 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+
 import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
+import com.serpics.vaadin.ui.component.FilterComponent;
 import com.serpics.vaadin.ui.converters.AttributeTypeValueConverter;
 import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
@@ -28,8 +31,13 @@ import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.Command;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.TextField;
@@ -65,13 +73,17 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 
 	protected final HorizontalLayout editButtonPanel = new HorizontalLayout();
 	protected final HorizontalLayout searchPanel = new HorizontalLayout();
+	protected final HorizontalLayout filterPanel = new HorizontalLayout();
 	
 	protected Button newButton ;
 	protected Button editButton ;
 	protected Button deleteButton ;
 
+	protected MenuBar menuF = new MenuBar();
 	protected transient JPAContainer<T> container;
 
+	protected FilterComponent filterComponent;
+	protected Hashtable<String, String> ht;
 	public MasterTable(final Class<T> entityClass) {
 		super();
 		this.entityClass = entityClass;
@@ -161,8 +173,12 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
 		this.editButtonPanel.setEnabled(isEnabled());
 
+		this.filterPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+		this.filterPanel.setEnabled(false);
+		this.filterPanel.setVisible(false);
 
 		v.addComponent(editButtonPanel);
+		v.addComponent(filterPanel);
 		v.addComponent(entityList);
 
 		v.setExpandRatio(entityList, 1);
@@ -269,12 +285,79 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		editButtonPanel.setExpandRatio(searchPanel, 0.70F);
 		
 		
+		String[] lp = null;
+		if(searchProperties == null) lp = displayProperties;
+		else lp = searchProperties;
+		MenuItem iF = menuF.addItem(I18nUtils.getMessage("filter.filter", "Filter"), null);	
+		Object[] list = entityList.getVisibleColumns();
+		ht = new Hashtable<>();
+		for (String properties : lp) { 
+			String desc = I18nUtils.getMessage(container.getEntityClass().getSimpleName().toLowerCase() + "." +properties,properties);
+			MenuItem ip = iF.addItem(desc, addFilterComponent);
+			ht.put(desc, properties);
+			ip.setCheckable(true);
+		}
+		iF.addSeparator();
+		MenuItem clear = iF.addItem(I18nUtils.getMessage("filter.clear",null) , clearCommand);
+		clear.setCheckable(false);
+		editButtonPanel.addComponent(menuF);
 
 		setCompositionRoot(v);
 		setSizeFull();
 	}
 
-	
+	private Command clearCommand = new Command() {
+        public void menuSelected(MenuItem selectedItem) {
+        	List<MenuItem> li = selectedItem.getParent().getChildren();
+        	for (MenuItem mi : li) {
+				if(mi.isChecked()) mi.setChecked(false);
+			}
+        	filterComponent.removeAllContent(filterPanel);  
+        	filterPanel.setEnabled(false); // rimossi tutti filtri disabulito pannello
+			filterPanel.setVisible(false);
+        }
+    };
+    
+    private Command addFilterComponent = new Command() {
+    	public void menuSelected(MenuItem selectedItem) {
+    		
+    		String caption = ht.get(selectedItem.getText());
+			if (selectedItem.isChecked()) {
+				if(!filterPanel.isEnabled()) filterPanel.setEnabled(true);
+				if(!filterPanel.isVisible()) filterPanel.setVisible(true);
+    			
+				filterComponent = new FilterComponent();
+	    		filterComponent.setContainer(container);
+	    		filterComponent.setCaption(caption);
+	    		filterComponent.setId("fc-"+caption);
+    			filterComponent.buildContent();
+    			filterPanel.addComponent(filterComponent); 
+    		 } else {
+    			//SE TOLTI TUTTI GLI ELEMENTI DISABILITO PANNELLO FILTRI
+    			 List<MenuItem> li = selectedItem.getParent().getChildren();
+    			 boolean disableAll = true;
+    			 int countItem = li.size();
+    			 for (MenuItem menuItem : li) {
+					if(menuItem.isChecked()) {
+						disableAll = false;
+						break;
+					}
+				}
+    			//Rimozione  item corrent
+    			//filterComponent.removeContent(selectedItem, filterPanel);  
+    			 filterComponent.removeContent(caption, filterPanel);
+    			if(disableAll) {
+    				filterPanel.setEnabled(false); // rimossi tutti filtri disabulito pannello
+    				filterPanel.setVisible(false);
+    			}
+    			  		
+    		}
+    		 
+        }
+    };
+    
+    
+
 	public void add(){
 		if (!entityList.isEditable()) {
 			edit(createEntityItem() , true);
