@@ -8,10 +8,10 @@
 	 
 	 serpicsHttpBuffer.$inject = ['$injector','$cookies'];
 	 serpicsInterceptor.$inject = ['serpicsHttpBuffer','$location', '$injector', 
-	                               '$q','$rootScope','logger','$stateParams' ];
+	                               '$q','$rootScope','logger' ];
 	 
 	 /** @ngInject */
-	 function serpicsInterceptor(serpicsHttpBuffer,$location, $injector, $q,$rootScope,logger,$stateParams){
+	 function serpicsInterceptor(serpicsHttpBuffer,$location, $injector, $q,$rootScope,logger){
 		 
 		 
 		 
@@ -45,10 +45,9 @@
 					' - Response Url: '+rejection.config.url);
 			if (rejection.status === 500){
 				
-				logger.debug('ResponseError Intercepted: 500: '+ rejection.data.message);
+				logger.debug('ResponseError Intercepted: 500: '+ rejection);
 				
-				var stato500=$injector.get('$state');
-				stato500.transitionTo('shop.500',{error: rejection.data.message, errorStatus: '500'});
+				location.href = '/magnolia-webapp/Serpics/500.html'
 				
 				return $q.reject(rejection);
 				
@@ -69,12 +68,7 @@
 				
 				logger.debug('ResponseError Intercepted: 401: '+ rejection);
 				logger.debug('Messaggio d\'errore 401: %s',rejection.data.message);
-				
-				var stato401=$injector.get('$state');
-				//stato.transitionTo('shop.login');
-				logger.debug('login: intercepted '+angular.toJson($stateParams));
-				$rootScope.$broadcast('event:sessiondId-expired', rejection);
-				stato401.go('shop.login',{error: rejection.data.message});
+				location.href = '/magnolia-webapp/Serpics/Login.html'
 				
 				return $q.reject(rejection);
 				
@@ -86,9 +80,7 @@
 						
 				logger.debug('ResponseError Intercepted: 404: '+ rejection);
 						
-				var stato404=$injector.get('$state');
-				
-				stato404.go('shop.404');
+				location.href = '/magnolia-webapp/Serpics/404.html'
 						
 				return $q.reject(rejection);
 			} else if (rejection.status === 405){
@@ -105,9 +97,7 @@
 				
 				logger.debug('ResponseError Intercepted: 406: '+ rejection.data.message);
 				
-				var stato406=$injector.get('$state');
-				
-				stato406.go('shop.406',{error: rejection.data.message, errorStatus: '406'});
+				location.href = '/magnolia-webapp/Serpics/406.html'
 						
 				return $q.reject(rejection);
 				

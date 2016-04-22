@@ -17,7 +17,8 @@ exports.paths = {
   tmp: '.tmp',
   distSrv: 'target/services',
   srv: 'src/app/components/services',
-  e2e: 'src/test/e2e.test'
+  e2e: 'src/test/e2e.test',
+  mgnSrv: '../magnolia/serpics-magnoglia/magnolia-webapp/src/main/webapp/serpics/webresources/angularjs/services'
 };
 
 /**

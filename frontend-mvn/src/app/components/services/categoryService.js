@@ -1,16 +1,15 @@
 (function() {
-	angular.module('category.service',
-			[ 'ngCookies', 'serpics.config', 'serpics.services' ])
+	angular.module('category.service', [])
 
 	/**
 	 * category service to handler rest call to category service
 	 */
 	.service('categoryService', categoryService);
 
-	categoryService.$inject = [ '$http', '$q', 'serpicsServices', 'URL',
+	categoryService.$inject = [ '$http', '$q', 'sessionService', 'URL',
 			'COOKIE_EXPIRES', '$cookies', '$log' ];
 
-	function categoryService($http, $q, serpicsServices, URL, COOKIE_EXPIRES,
+	function categoryService($http, $q, sessionService, URL, COOKIE_EXPIRES,
 			$cookies, $log) {
 
 		var endpoint = '/api/v1/categories/';
@@ -38,7 +37,7 @@
 //		 */
 //		function getTop() {
 //			var defer = $q.defer();
-//			var response = serpicsServices.getSessionId();
+//			var response = sessionService.getSessionId();
 //			response.then(function(idSessione) {
 //
 //				var request = $http({
@@ -61,7 +60,7 @@
 		 * @return 
 		 */
 		function getTopQ() {
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 			return $q(function(resolve, reject) {
 
 				serviceSSID
@@ -88,7 +87,7 @@
 		 * @return 
 		 */
 		function getCategoryById(categoryId) {
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 			return $q(function(resolve, reject) {
 				serviceSSID
 						.getSessionId()
@@ -113,7 +112,7 @@
 		 * @return 
 		 */
 		function getCategoryByCode(code) {
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 			return $q(function(resolve, reject) {
 				serviceSSID
 						.getSessionId()
@@ -138,7 +137,7 @@
 		 */
 		function getChild(parentId) {
 			$log.debug('getChild(parentId): ' + parentId);
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 			return $q(function(resolve, reject) {
 				serviceSSID
 						.getSessionId()
@@ -166,7 +165,7 @@
 		 */
 		function getChildByCode(parentCode) {
 			$log.debug('getChildByCode(parentCode): ' + parentCode);
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 			return $q(function(resolve, reject) {
 				serviceSSID
 						.getSessionId()
@@ -189,7 +188,7 @@
 		}
 		
 		function categoryProductsByCodePage(categoryCode, page, size){
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 
 			var findAllUrl = '';
 			if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
@@ -217,7 +216,7 @@
 		}
 		
 		function categoryProductsByIdPage(categoryId, page, size){
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 
 			var findAllUrl = '';
 			if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
@@ -248,7 +247,7 @@
 		 * @return 
 		 */
 		function findAll(page, size) {
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 
 			var findAllUrl = '';
 			if (arguments.length === 0 || arguments.length === 1 || typeof page === 'undefined') {
@@ -302,7 +301,7 @@
 		 *from the API response payload.                
 		 */
 		function handleSuccess(response) {
-			var serviceSSID = serpicsServices;
+			var serviceSSID = sessionService;
 			serviceSSID.setCookie('ssid', $cookies.get('ssid'), COOKIE_EXPIRES);
 			/** expire 20 minut **/
 			return (response.data.responseObject);

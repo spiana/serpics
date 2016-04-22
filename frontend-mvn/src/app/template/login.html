@@ -1,13 +1,14 @@
 <!--form-->
+<div register-success-modal-directive></div>
 <section id="form">
-	<div class="container" ng-controller="LoginController as customerVm">
+	<div class="container" ng-controller="LoginController as loginVm">
 		<div class="row">
 			<div class="col-sm-8">
 				<div class="login-form">
 					<!--login form-->
 					<h2>Login to your account</h2>
-					<span class="help-block" ng-model="customerVm.errorMessage">{{customerVm.errorMessage}}</span>
-					<form ng-submit="customerVm.login(loginUser)">
+					<span class="help-block" ng-model="loginVm.errorMessage">{{loginVm.errorMessage}}</span>
+					<form ng-submit="loginVm.login(loginUser)">
 						<input type="text" ng-model="loginUser.username"
 							name="loginUser.username" placeholder="Name" required /> <input
 							type="password" ng-model="loginUser.password"

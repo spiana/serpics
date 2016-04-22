@@ -1,4 +1,4 @@
- var app = angular.module("category.controller", ['ngCookies','category.service'])
+ var app = angular.module("category.controller", ['category.service'])
 
  /** categoryController **/
 .controller("categoryController",['$scope','categoryService','$log', 

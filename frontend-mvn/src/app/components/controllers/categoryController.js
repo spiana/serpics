@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 	/** categoryController **/
-	angular.module('category.controller',['category.service'])
+	angular.module('category.controller',[])
 	.controller('CategoryController', categoryController);
 	
 	categoryController.$inject = ['categoryService', 'logger'];

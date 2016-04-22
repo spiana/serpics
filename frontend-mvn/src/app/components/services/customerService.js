@@ -1,12 +1,12 @@
 (function(){
 	'use strict';
-	angular.module('customer.service',['serpics.config','serpics.services'])
+	angular.module('customer.service',[])
 	
 	.factory('customerService',  customerService);
-	customerService.$inject = [ '$http', '$q','serpicsServices','URL'];
+	customerService.$inject = [ '$http', '$q','sessionService','URL'];
 	
 	/** @ngInject */
-    function customerService($http, $q, serpicsServices,URL) {
+    function customerService($http, $q, sessionService,URL) {
 	
 		var customerService = {
 				currentUser:{}
@@ -23,7 +23,7 @@
          */
 		customerService.login = function(username, password) {  
     	   
-    	var serviceSSID = serpicsServices;
+    	var serviceSSID = sessionService;
 	       	return $q(function(resolve, reject) {
 	       		var userRequest = {
 	       				username : username,
@@ -49,7 +49,7 @@
          */
         customerService.register = function(userData) {  
      	   
-        	var serviceSSID = serpicsServices;
+        	var serviceSSID = sessionService;
     	       	return $q(function(resolve, reject) {    	       		
     	       	serviceSSID.getSessionId().then(function(sessionId){	       		
     	   	       $http({
@@ -72,7 +72,7 @@
           */
         customerService.getCurrentUser = function(){  
      	   
-     	var serviceSSID = serpicsServices;
+     	var serviceSSID = sessionService;
  	    return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
@@ -94,7 +94,7 @@
           */
         customerService.logout = function() {  
      	   
-     	var serviceSSID = serpicsServices;
+     	var serviceSSID = sessionService;
  	       	return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
@@ -117,7 +117,7 @@
           */
         customerService.updateUserData = function(userData){  
      	   
-     	var serviceSSID = serpicsServices;
+     	var serviceSSID = sessionService;
  	    return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
@@ -140,7 +140,7 @@
           */
         customerService.updateContactAddress = function(contactAddress){  
      	   
-     	var serviceSSID = serpicsServices;
+     	var serviceSSID = sessionService;
  	    return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
@@ -163,7 +163,7 @@
           */
         customerService.updateBillingAddress = function(billingAddress){  
      	   
-     	var serviceSSID = serpicsServices;
+     	var serviceSSID = sessionService;
  	    return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
@@ -186,7 +186,7 @@
           */
         customerService.updateDestinationAddress = function(destinationAddress){  
      	   
-     	var serviceSSID = serpicsServices;
+     	var serviceSSID = sessionService;
  	    return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
@@ -209,7 +209,7 @@
           */
         customerService.addDestinationAddress = function(destinationAddress){  
      	   
-     	var serviceSSID = serpicsServices;
+     	var serviceSSID = sessionService;
  	    return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		
@@ -232,7 +232,7 @@
           */
         customerService.deleteDestinationAddress = function(addressID){  
      	   
-     	var serviceSSID = serpicsServices;
+     	var serviceSSID = sessionService;
  	    return $q(function(resolve, reject) {
  	       		
  	       	serviceSSID.getSessionId().then(function(sessionId){	       		

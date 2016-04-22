@@ -1,8 +1,8 @@
-var app = angular.module("login.controller", ['customer.service','ngDialog'])
+var app = angular.module("login.controller", ['customer.service'])
 
-.controller("loginController",['$scope','customerService','$log','ngDialog','$log',
+.controller("loginController",['$scope','customerService','$log',
                                   
-      function($scope,customerService,$log,ngDialog,$log) {
+      function($scope,customerService,$log) {
 	
 			$scope.currentUser = customerService.currentUser;
 			

@@ -12,12 +12,11 @@
    * @desc Application wide logger
    * @memberOf Factories
    */
-  logger.$inject = ['$log','DEBUG','SERVICE_DEBUG'];
+  logger.$inject = ['$log','DEBUG'];
   /** @ngInject */
-  function logger($log,DEBUG,SERVICE_DEBUG) {
+  function logger($log,DEBUG) {
 
 	  //Factory method
-
       var service = {
          error: logError,
          info: logInfo,
@@ -26,7 +25,6 @@
       return service;
 
       ////////////
-
 
       /**
        * @name logError
@@ -63,12 +61,9 @@
        */
       function logDebug(msg) {
           var loggedMsg = 'Debug: ' + msg;
-          if(SERVICE_DEBUG === true){
+          if(DEBUG === true){
         	  $log.debug(loggedMsg);
         	  }
-          else if (DEBUG === true){
-        	  $log.warn(loggedMsg);
-          }
           return loggedMsg;
       }
   }

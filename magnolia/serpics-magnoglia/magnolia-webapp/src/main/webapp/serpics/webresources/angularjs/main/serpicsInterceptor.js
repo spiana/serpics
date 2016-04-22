@@ -91,7 +91,7 @@ var app= angular.module('serpics.interceptor', [])
 				
 				$log.debug("ResponseError Intercepted: 500: "+ rejection);
 				
-				location.href = 'http://localhost:8080/magnolia-webapp/Serpics/500.html'
+				location.href = '/magnolia-webapp/Serpics/500.html'
 				
 				return $q.reject(rejection);
 				
@@ -117,7 +117,7 @@ var app= angular.module('serpics.interceptor', [])
 //				$rootScope.userData.login.username = '';
 //				$rootScope.userData.login.password  ='';
 				
-				location.href = 'http://localhost:8080/magnolia-webapp/Serpics/Login.html'
+				location.href = '/magnolia-webapp/Serpics/Login.html'
 
 				
 				return $q.reject(rejection);
@@ -130,7 +130,7 @@ var app= angular.module('serpics.interceptor', [])
 						
 				$log.debug("ResponseError Intercepted: 404: "+ rejection);
 						
-				location.href = 'http://localhost:8080/magnolia-webapp/Serpics/404.html'
+				location.href = '/magnolia-webapp/Serpics/404.html'
 						
 				return $q.reject(rejection);
 			}

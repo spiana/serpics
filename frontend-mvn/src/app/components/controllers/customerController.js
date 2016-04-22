@@ -1,8 +1,7 @@
 (function() {
 	'use strict';
 
-	angular.module('customer.controller',
-			[ 'order.service', 'customer.service', 'geographic.service' ])
+	angular.module('customer.controller',[ ])
 
 	/** customerController **/
 	.controller('CustomerController', customerController);
@@ -27,7 +26,7 @@
 
 		/**
 		 * @return 					list of orders
-		 * @use 					orderService,serpicsServices
+		 * @use 					orderService
 		 */
 		$scope.getOrders = function() {
 			orderService.getOrders().then(function(response) {

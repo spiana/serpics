@@ -12,7 +12,7 @@ app.service("productService",['$http', '$q', 'serpicsServices', 'URL', 'COOKIE_E
 	     		getCategoryProduct 		: getCategoryProduct,
 	     		getProductByName		: getProductByName,
 	     		findByCategory			: findByCategory,
-	     		findByCategoryCode		:findByCategoryCode,
+	     		findByCategoryCode		: findByCategoryCode,
 	     		findByBrand				: findByBrand,
 	     		findBySearch			: findBySearch,
 	     		findAll			  		: findAll

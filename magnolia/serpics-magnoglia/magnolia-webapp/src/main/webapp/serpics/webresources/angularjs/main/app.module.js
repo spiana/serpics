@@ -1,7 +1,14 @@
-var app = angular.module("serpics.App", ['category.controller','brand.controller','product.controller','order.controller','login.controller','cart.controller','customer.controller','serpics.interceptor','customer.service','serpics.config']);
+var app = angular.module("serpics", [
+                                     'serpics.core',
+                                     'serpics.logger',
+                                     'serpics.controllers',
+                                     'serpics.interceptor',
+                                     'customer.service',
+                                     'serpics.services',
+                                     ]);
 
-app.run(['serpicsServices','serpicsHttpBuffer','$log','$rootScope','$timeout','TIMEOUT','customerService',
-         function(serpicsServices,httpBuffer,$log,$rootScope,$timeout,TIMEOUT,customerService) {	
+app.run(['sessionService','serpicsHttpBuffer','$log','$rootScope','$timeout','TIMEOUT','customerService',
+         function(sessionService,httpBuffer,$log,$rootScope,$timeout,TIMEOUT,customerService) {	
 	        
 	        timeoutUser();
 		 	
@@ -14,8 +21,8 @@ app.run(['serpicsServices','serpicsHttpBuffer','$log','$rootScope','$timeout','T
 	        	}else{
 	        		$log.debug('Evento scatenato: sessiondId-expired ramo else'+counter);
 	        		counter+=1;
-	        		serpicsServices. removeCookie('ssid');
-	        		serpicsServices.getSessionId().then(function(data, configUpdater) {
+	        		sessionService. removeCookie('ssid');
+	        		sessionService.getSessionId().then(function(data, configUpdater) {
 	        	        var updater = configUpdater || function(config) {return config;};
 //	        	        $rootScope.$broadcast('event:auth-loginConfirmed', data);
 	        	        httpBuffer.retryAll(updater);

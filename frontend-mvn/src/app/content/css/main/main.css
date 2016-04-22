@@ -8,6 +8,10 @@
 @import url("../../prettyPhoto/css/prettyPhoto.css");
 @import url("animate.css");
 @import url("style.css");
+
+/*
+* Fonts
+*/
 @import url("../../fonts/roboto.css");
 @import url("../../fonts/abel.css");
 @import url("../../fonts/opensans.css");
@@ -2711,4 +2715,10 @@ p {
 	padding: 10px;
 	width: 100%;
 	font-weight: 300;
+}
+
+
+/* Used for disable breckets display */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }

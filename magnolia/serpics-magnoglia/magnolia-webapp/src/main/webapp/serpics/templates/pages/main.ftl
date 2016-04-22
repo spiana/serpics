@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="serpics.App">
+<html lang="en" ng-app="serpics">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,39 +22,56 @@
 <script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-cookies.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-loader.min.js"></script>
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-route.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.6.0/js/ngDialog.min.js"></script>
+
+
+
+<!-- <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-route.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script> -->
+
+
 
 <link rel="apple-touch-icon-pre0composed" sizes="144x144" href="${ctx.contextPath}/.resources/serpics/webresources/images/ico/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="${ctx.contextPath}/.resources/serpics/webresources/images/ico/apple-touch-icon-114-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="${ctx.contextPath}/.resources/serpics/webresources/images/ico/apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="${ctx.contextPath}/.resources/serpics/webresources/images/ico/apple-touch-icon-57-precomposed.png">
-
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/config.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/serpicsApp.js"></script>
- <!-- 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/router.js"></script> -->
+ 
 	
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/ngDialog.js"></script>
 	
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/serpicsInterceptor.js"></script>
+	
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/main/logger.service.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/main/app.serpicsInterceptor.js"></script>
+	
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/main/app.config.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/main/app.module.js"></script>
+	
+	
+	<!-- Serpics Services -->
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/services/scripts/serpics-sdk-services.config.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/services/scripts/serpics-sdk-services.min.js"></script>
 
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/categoryController.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/brandController.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/productController.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/cartController.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/orderController.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/loginController.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/customerController.js"></script>
+
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/controllers/categoryController.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/controllers/brandController.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/controllers/productController.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/controllers/cartController.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/controllers/orderController.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/controllers/loginController.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/controllers/customerController.js"></script>
+	
     
-    <script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/customerService.js"></script>
-    <script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/serpicsServices.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/categoryService.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/brandService.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/productService.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/cartService.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/orderService.js"></script>
-	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/geographicService.js"></script>
- <!-- 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/directive.js"></script> -->
+	
+	
+
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/controllers/app.controllers.module.js"></script>
+	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/main/app.core.module.js"></script>
+	
+	
+	<!-- 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/router.js"></script> -->
+	<!-- 	<script src="${ctx.contextPath}/.resources/serpics/webresources/angularjs/directive.js"></script> -->
+ 
 
 <title>Serpics Platform Ecommerce</title>
 [@cms.page /]

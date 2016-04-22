@@ -39,7 +39,7 @@
   	     * @param order 				add payment for @param order
   	     * @param data 					data to send
   	     * @return 						a new cart
-  	     * @use 						orderService,serpicsServices
+  	     * @use 						orderService
   	     */
   	    $scope.addPayment = function(orderId, paymentData) {		
   	    	orderService.addPayment(orderId, paymentData).then( function( response ) {

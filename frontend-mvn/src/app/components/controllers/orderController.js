@@ -1,13 +1,13 @@
 (function(){
-	angular.module('order.controller', ['order.service','serpics.router','cart.service'])
+	angular.module('order.controller', [ ])
 
 /** orderController **/
 .controller('OrderController',orderController);
 	
-	orderController.$inject = ['$scope','orderService','$log','$stateParams','cartService'];
+	orderController.$inject = ['$scope','orderService','logger','$stateParams','cartService'];
                     
 	/** @ngInject */
-	function orderController($scope,orderService,$log,$stateParams,cartService) {	
+	function orderController($scope,orderService,logger,$stateParams,cartService) {	
    	
 		var vm = this;
 //	    vm.order = {};
@@ -18,7 +18,7 @@
   	    
   	    function placeOrder() {
   	    	
-  	    	$log.debug('$stateParams:   '+$stateParams);
+  	    	logger.debug('$stateParams:   '+$stateParams);
 //  	    {'paymentId':'PAY-99K50069UF479600WK3HP111','token':'EC-8EL93027C49180111','PayerID':'SHB26LER8P111'}
   	    	if ($stateParams.paymentId != null  && $stateParams.PayerID != null){
   	    		var paidData = {
@@ -26,18 +26,18 @@
   	    				token: $stateParams.token,
   	    				payerId: $stateParams.PayerID
   	    		};
-  	    		$log.debug('OrderController: paidData:'+paidData.toJSON());
+  	    		logger.debug('OrderController: paidData:'+paidData.toJSON());
   	    		//removed response in function()
   	    		cartService.addPaymentInfo(paidData).then( function(  ) {
-  	  	    		$log.debug('OrderController: addPaymentInfo(paidData): paidData:'+paidData.toJson());
+  	  	    		logger.debug('OrderController: addPaymentInfo(paidData): paidData:'+paidData.toJson());
   	  	    		orderService.placeOrder().then( function( response){
-  	  	    			$log.debug('orderController after addPaymentInfo: placeOrder()');
+  	  	    			logger.debug('orderController after addPaymentInfo: placeOrder()');
   	  	    			vm.order = response;
   	  	    			});
   	    		});
   	    	}else{
   	  	    	orderService.placeOrder().then( function( response) {
-  	  	    		$log.debug('orderController: placeOrder() without stateParams');
+  	  	    		logger.debug('orderController: placeOrder() without stateParams');
   	  	    		vm.order = response;
   	  	    	});
   	    	}
@@ -49,11 +49,11 @@
   	     * @param order 				add payment for @param order
   	     * @param data 					data to send
   	     * @return 						a new cart
-  	     * @use 						orderService,serpicsServices
+  	     * @use 						orderService
   	     */
   	    vm.addPayment = function(orderId, paymentData) {		
   	    	orderService.addPayment(orderId, paymentData).then( function( response ) {
-  	    		$log.debug('OrderController: addPayment(orderId, paymentData): ramo then');
+  	    		logger.debug('OrderController: addPayment(orderId, paymentData): ramo then');
   	    		vm.order = response;
   	    	});
   	    };

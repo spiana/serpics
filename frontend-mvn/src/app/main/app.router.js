@@ -27,10 +27,10 @@
 		 })
 		 
 		 .state('shop.category', {
-			 url: '/category/:name/:id',
+			 url: '/category/:categoryName/:categoryId',
 			 controller: function ($stateParams, $scope) {
-				 $scope.name = $stateParams.name;
-				 $scope.categoryId = $stateParams.id;
+				 $scope.name = $stateParams.categoryName;
+				 $scope.categoryId = $stateParams.categoryId;
 			 },
 			 templateUrl: 'app/template/category-central.html'
 		 })
@@ -69,17 +69,17 @@
         templateUrl: 'app/template/login.html',
         controller: 'LoginController',
         params: {
-        	login: 'shop.home',
-        	register: 'shop.login',
+        	home: 'shop.home',
+        	login: 'shop.login',
+        	register: 'shop.register',
         	error: ''
         }
 	 })
-    
-    .state('shop.cart', {
+
+	 .state('shop.cart', {
     	url: '/cart',       
         templateUrl: 'app/template/cart.html',
-        controller: '',
-        contrllerAs: ''
+        controller: ''
     })
 
 	.state('shop.register', {
@@ -87,8 +87,10 @@
 		templateUrl: 'app/template/register.html',
 		controller: 'LoginController',
         params: {
-        	login: 'shop.home',
-        	register: 'shop.login'
+        	home: 'shop.home',
+        	login: 'shop.login',
+        	register: 'shop.register',
+        	error: ''
         }
 	})
 	
@@ -125,6 +127,9 @@
 	    contrllerAs: '',
         params: {
         	error: function ($stateParams) {
+            	return $stateParams.error;
+            },
+            errorStatus: function ($stateParams) {
             	return $stateParams.error;
             }
         }
