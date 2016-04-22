@@ -178,8 +178,15 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		this.editButtonPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
 		this.editButtonPanel.setEnabled(isEnabled());
 
-
 		v.addComponent(editButtonPanel);
+		
+    	filterPanel.setEnabled(false); 
+		filterPanel.setVisible(false);
+		filterPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+		
+		v.addComponent(filterPanel);
+		
+		
 		v.addComponent(entityList);
 
 		v.setExpandRatio(entityList, 1);

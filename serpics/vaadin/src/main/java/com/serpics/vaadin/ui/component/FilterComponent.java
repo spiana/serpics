@@ -16,10 +16,8 @@
 package com.serpics.vaadin.ui.component;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +25,6 @@ import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.FilterComponentListener;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.event.FieldEvents.TextChangeEvent;
-import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
