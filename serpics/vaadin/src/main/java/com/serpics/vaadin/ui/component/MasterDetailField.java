@@ -105,6 +105,10 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		 	this.container.addContainerFilter(filter);
 		}else{
 			Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
+			// is better user property uuid if exits to be sure no record will be found.
+			if (propertyList.getPropertyNames().contains("uuid"))
+				filter = new com.vaadin.data.util.filter.IsNull("uuid");
+			
 			this.container.addContainerFilter(filter);
 		}
 		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
