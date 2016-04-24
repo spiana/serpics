@@ -47,6 +47,23 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
         return catalogRepository.findByCode(code);
     }
 
+    /* (non-Javadoc)
+     * @see com.serpics.core.service.AbstractEntityService#create(java.lang.Object)
+     */
+    @Override
+    @Transactional
+    public Catalog create(Catalog entity) {
+    	entity =  super.create(entity);
+        
+        Catalog2StoreRelation rel = new Catalog2StoreRelation();
+        rel.setCatalog(entity);
+        rel.setStore((Store)getCurrentContext().getStoreRealm());
+        rel.setSelected(false);
+        catalog2StoreRepository.saveAndFlush(rel);
+    	
+    	return entity;
+    }
+    
     @Override
     @Transactional
     public void initialize() {

@@ -13,6 +13,6 @@ import com.serpics.core.data.Repository;
 
 public interface Catalog2StoreRelationRepository extends Repository<Catalog2StoreRelation, Catalog2StoreRelPK> {
 
-	@Query("select m.catalog from Catalog2StoreRelation m where m.store = :store")
+	@Query("select m.catalog from Catalog2StoreRelation m where m.store = :store and selected = true")
 	public List<Catalog> findPrimaryCatalog(@Param("store") Store store);
 }

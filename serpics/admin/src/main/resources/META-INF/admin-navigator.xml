@@ -11,6 +11,9 @@ xsi:schemaLocation="file:/Users/spiana/git/serpics-code/serpics/admin/src/main/r
 		<navigator-item	allow-child="false" bean="roleTable" name="roles" parent="admin"  roles="ROLE_SUPERUSER" />
 		
 		<navigator-item	allow-child="true" 	name="catalog" 	parent="" />
+		<navigator-item allow-child="false" class="com.serpics.catalog.data.model.Catalog" name="productCatalog" parent="catalog" roles="ROLE_SUPERUSER" />	
+		
+		<navigator-item allow-child="false" class="com.serpics.catalog.data.model.Catalog2StoreRelation" name="storeCatalog" parent="catalog" />	
 		<navigator-item allow-child="false" bean="brandTable" name="brand" parent="catalog" />	
 		<navigator-item	allow-child="false" bean="categoryTable" name="category" parent="catalog" />
 		<navigator-item allow-child="false" bean="productTable" name="product" parent="catalog" />

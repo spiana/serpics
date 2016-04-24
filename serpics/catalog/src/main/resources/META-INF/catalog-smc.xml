@@ -2,6 +2,13 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
+	<entity name="catalog" editbean="catalogEditWindow">
+		<property name="code"  table ="true" select="true" search="true"  updatable="false"/>
+		<property name="name"  table ="true" search="true"/>
+		<property name="published" table ="true"/>
+		<property name="created" readonly="true"/>
+	</entity>
+	
 	<entity name="brand">
 		<property name="code"  table ="true" select="true" search="true"  updatable="false"/>
 		<property name="name"  table ="true" search="true"/>
