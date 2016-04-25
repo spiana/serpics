@@ -66,13 +66,19 @@ public class CatalogServiceImpl extends AbstractCommerceEntityService<Catalog, L
     
     @Override
     @Transactional
-    public void initialize() {
+    public void initialize(){
+    	 initialize("default-catalog");
+    }
+    
+    @Override
+    @Transactional
+    public void initialize(String catalogName) {
         List<Catalog> defautCatalog = catalog2StoreRepository.findPrimaryCatalog((Store) getCurrentContext().getStoreRealm());
 
         
         if (defautCatalog.isEmpty()) {
             Catalog catalog = new Catalog();
-            catalog.setCode("default-catalog");
+            catalog.setCode(catalogName);
             catalog = catalogRepository.saveAndFlush(catalog);
             
             Catalog2StoreRelation rel = new Catalog2StoreRelation();

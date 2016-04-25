@@ -7,6 +7,8 @@ public interface CatalogService extends EntityService<Catalog, Long> {
 
     public void initialize();
 
+    public void initialize(String catalogname);
+    
     public Catalog findByCode(String code);
     public Catalog getDefaultCatalog();
     public void setDefaultCatalog(String catalog_code);

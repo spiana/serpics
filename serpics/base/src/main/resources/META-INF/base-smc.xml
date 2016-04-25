@@ -13,7 +13,7 @@
 		<property name="updated" readonly="true"/>
 	</entity>
 	
-	<entity name="store" editBean="" >
+	<entity name="store" editbean="storeEditWindow" >
 		<property name="name" table="true" search="true" select="true"/>
 		<property name="currency" />
 		<property name="taxcategory" />
