@@ -114,10 +114,12 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 
 	private void addField(final String[] propertyNames) {
 		for (final String pid : propertyNames) {
-			if (pid.contains(".")){
-				propertyList.addNestedProperty(pid);
-			}
 			LOG.info("try to initialize property {}" , pid);
+			
+			if (pid.contains(".")){
+				LOG.warn("can not edit nested property {} !", pid);
+				continue;
+			}
 			
 			if (propertyList.getPropertyKind(pid) == null)
 				LOG.error("properity {} not found !", pid);

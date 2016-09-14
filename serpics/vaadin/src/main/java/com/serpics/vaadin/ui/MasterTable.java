@@ -305,7 +305,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			ip.setCheckable(true);
 		}
 		iF.addSeparator();
-		MenuItem clear = iF.addItem(I18nUtils.getMessage("filter.clear",null) , clearCommand);
+		MenuItem clear = iF.addItem(I18nUtils.getMessage("filter.clear","clear") , clearCommand);
 		clear.setCheckable(false);
 		editButtonPanel.addComponent(menuF);
 

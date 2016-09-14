@@ -1,23 +1,16 @@
 package com.serpics.vaadin.ui;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.persistence.Transient;
 
-import org.hibernate.loader.collection.CollectionInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.orm.hibernate3.FilterDefinitionFactoryBean;
-import org.springframework.util.Assert;
 
-import com.google.gwt.uibinder.rebind.Statements.Empty;
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.ui.component.MultilingualTextField;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
@@ -25,9 +18,9 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.filter.Filters;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
+import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.Item;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
@@ -35,7 +28,6 @@ import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.CheckBox;
@@ -44,7 +36,6 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
 public class FilterComponentListener implements Container.Filter {
@@ -125,7 +116,7 @@ public class FilterComponentListener implements Container.Filter {
 		FilteringMode filteringMode = null;
 		Filter filter = null;
 		List<Filter> filters = new ArrayList<Filter>();
-		Collection<Filter> cf = container.getContainerFilters();
+		//Collection<Filter> filters = container.getContainerFilters();
 		if (entry != null) {
 			
 			if (MultilingualString.class.isAssignableFrom(container.getType(entry))

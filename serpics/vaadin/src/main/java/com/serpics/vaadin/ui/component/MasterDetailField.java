@@ -100,6 +100,10 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 				this.propertyId, masterEntityClass);
 		this.container= (EntityContainer<X>) ServiceContainerFactory.make(referencedType);
 		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());//HibernateUtil.getMappedByProperty(this.masterEntity, this.propertyId.toString());
+		
+		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
+				.getEntityClassMetadata(referencedType));
+		
 		if (entityItem.isPersistent()){
 			Container.Filter filter = new com.vaadin.data.util.filter.Compare.Equal(backReferencePropertyId, this.masterEntity);
 		 	this.container.addContainerFilter(filter);
@@ -111,8 +115,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 			
 			this.container.addContainerFilter(filter);
 		}
-		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
-				.getEntityClassMetadata(referencedType));
+		
 		
 		if (displayProperties == null){
 			displayProperties = PropertiesUtils.get().getTableProperty(referencedType.getSimpleName());

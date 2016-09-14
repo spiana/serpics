@@ -11,33 +11,47 @@ xsi:schemaLocation="file:/Users/spiana/git/serpics-code/serpics/admin/src/main/r
 		<navigator-item	allow-child="false" bean="roleTable" name="roles" parent="admin"  roles="ROLE_SUPERUSER" />
 		
 		<navigator-item	allow-child="true" 	name="catalog" 	parent="" />
+		<navigator-item allow-child="false" class="com.serpics.catalog.data.model.Catalog" name="productCatalog" parent="catalog" roles="ROLE_SUPERUSER" />	
+		
+		<navigator-item allow-child="false" class="com.serpics.catalog.data.model.Catalog2StoreRelation" name="storeCatalog" parent="catalog" />	
 		<navigator-item allow-child="false" bean="brandTable" name="brand" parent="catalog" />	
 		<navigator-item	allow-child="false" bean="categoryTable" name="category" parent="catalog" />
 		<navigator-item allow-child="false" bean="productTable" name="product" parent="catalog" />
+		<navigator-item allow-child="false" bean="variantTable" name="variant" parent="catalog" />
+		<navigator-item allow-child="false" class="com.serpics.catalog.data.model.Pricelist" name="priceList" parent="catalog" />
+		
+
 		<navigator-item allow-child="false" bean="featureModelTable" name="featureModel" parent="catalog" />
 		<navigator-item allow-child="false" class="com.serpics.catalog.data.model.CtentryMedia" name="ctentryMedia" parent="catalog" />
 		
 		<navigator-item allow-child="true" 	name="orders" parent="" />
 <!-- 		<navigator-item	allow-child="false" bean="orderMasterTable"	name="order" parent="orders" /> -->
-		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethod" name="payMethod" parent="orders" roles="ROLE_SUPERUSER"/>
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Cart" name="cart" parent="orders" />
 		<navigator-item	allow-child="false"	bean="orderMasterTable" name="order" parent="orders" />
+		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethod" name="payMethod" parent="orders" roles="ROLE_SUPERUSER"/>
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Paymethodlookup" name="payMethods" parent="orders" />
+		
 	
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Shipmode" name="shipmode" parent="orders" roles="ROLE_SUPERUSER"/>
 		<navigator-item	allow-child="false"	class="com.serpics.commerce.data.model.Shipmodelookup" name="shipmodeLookup" parent="orders" />
 	
 		<navigator-item	allow-child="true"  name="system" parent="" />
 		<navigator-item allow-child="false" class="com.serpics.base.data.model.Store" name="store" parent="system"  roles="ROLE_SUPERUSER" />
+		
 		<navigator-item	allow-child="false" bean="currencyTable" name="currency" parent="system" roles="ROLE_SUPERUSER" />
 		<navigator-item	allow-child="false" class="com.serpics.base.data.model.TaxCategory" name="taxcategory" parent="system" roles="ROLE_SUPERUSER" />
 		<navigator-item	allow-child="false"	class="com.serpics.base.data.model.BaseAttribute" name="baseAttribute" parent="system" />
 		
-		<navigator-item allow-child="true" name="geographic" parent="system" roles ="ROLE_SUPERUSER,ROLE_ADMIN"/>
+		<navigator-item allow-child="true" name="geographic" parent="system" roles ="ROLE_SUPERUSER,ROLE_ADMINISTRATOR"/>
+		<navigator-item allow-child="false" class="com.serpics.postman.model.TemplateType" name="templatetype" parent="system"  roles="ROLE_SUPERUSER" />
+		
 		<navigator-item	allow-child="false" bean="countryTable"	name="country" parent="geographic" roles="ROLE_SUPERUSER"/>	
 		<navigator-item	allow-child="false" class="com.serpics.base.data.model.Region"	name="region" parent="geographic" roles="ROLE_SUPERUSER"/>
 		<navigator-item	allow-child="false" class="com.serpics.base.data.model.District"	name="district" parent="geographic" roles="ROLE_SUPERUSER"/>	
-		<navigator-item	allow-child="false" bean="geocodeTable"	name="geocode" parent="geographic" roles ="ROLE_SUPERUSER,ROLE_ADMIN"/>
+		<navigator-item	allow-child="false" bean="geocodeTable"	name="geocode" parent="geographic" roles ="ROLE_SUPERUSER,ROLE_ADMINISTRATOR"/>
+		
+		<navigator-item	allow-child="true"  name="mail" parent=""/>
+		<navigator-item allow-child="false" class="com.serpics.postman.model.TemplateStore" name="templatestore" parent="mail"  roles="ROLE_SUPERUSER,ROLE_ADMINISTRATOR" />
 			
 	</navigator>
 

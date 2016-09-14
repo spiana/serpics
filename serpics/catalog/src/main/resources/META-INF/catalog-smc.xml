@@ -17,15 +17,29 @@
 		<property name="created" readonly="true"/>
 	</entity>
 	
+	<entity name="pricelist">
+		<property name="name"  table="true"  search="true"/>
+		<property name="description" table="true" search="true" />
+		<property name="defaultList"  table="true"  search="true"/>
+	</entity>
+
 	<entity name="CategoryProductRelation">
 		<property name="parentCategory"  table ="true" select="true" search="true"/>
 		<property name="created" readonly="true"/>
 	</entity>
 	
 		<entity name="price">
-		<property name="currency"  table ="true" select="true" search="true"/>
-		<property name="productCost" table ="true"/>
-		<property name="productPrice" table ="true"/>
+		<property name="pricelist.name"  table="true" edit="false" search="true" />
+		<property name="pricelist" />
+		<property name="currentPrice" table ="true"/>
+		<property name="productPrice" />
+		<property name="productCost" />
+		<property name="currency" />
+		<property name="currency.isoCode" table="true" search="true" edit="false" />
+		<property name="precedence" table="true" />
+		<property name="minQty" table="true" />
+		<property name= "validFrom" table="true" search="true" />
+		<property name= "validTo"  table="true" search="true" />
 		<property name="created" readonly="true"/>
 	</entity>
 	
