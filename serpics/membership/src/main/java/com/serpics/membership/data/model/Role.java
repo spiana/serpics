@@ -27,7 +27,7 @@ public class Role extends com.serpics.core.data.jpa.AbstractEntity implements Se
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="role_id", unique=true, nullable=false)
 	private Long Id;
 

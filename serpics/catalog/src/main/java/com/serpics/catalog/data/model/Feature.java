@@ -30,7 +30,7 @@ public class Feature  extends AbstractCatalogEntry{
     @Column(name="feature_id")
     private Long id;
 
-	@Pattern(regexp="[a-zA-Z0-9]*", message= "{feature.name.pattern}")
+	@Pattern(regexp="[a-zA-Z0-9_-]*", message= "{feature.name.pattern}")
     private String name;
 
     private AttributeType type;

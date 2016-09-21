@@ -46,7 +46,7 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
 
     @NotNull(message = "{ctentry.code.notnull}")
     @Size(max = 250, message = "{ctentry.code.size}")
-    @Pattern(regexp="[a-zA-Z0-9]*", message= "{ctentry.code.pattern}")
+    @Pattern(regexp="[a-zA-Z0-9_-]*", message= "{ctentry.code.pattern}")
     @Column(name = "code", nullable = false, length = 250)
     protected String code;
 

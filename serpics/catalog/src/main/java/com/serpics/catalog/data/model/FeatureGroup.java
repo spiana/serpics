@@ -26,9 +26,9 @@ public class FeatureGroup extends AbstractCatalogEntry {
     private Long id;
 
 	
+	@Pattern(regexp="[a-zA-Z0-9_-]*", message= "{featureGroup.code.pattern}")
     private String code;
 
-    @Pattern(regexp="[a-zA-Z0-9]*", message= "{featureGroup.name.pattern}")
     private String name;
 
     private double sequence;

@@ -32,7 +32,7 @@ public class Catalog extends AbstractEntity implements
 	@Column(name = "catalog_id")
 	private Long id;
 
-	@Pattern(regexp="[a-zA-Z0-9]*", message= "{catalog.code.pattern}")
+	@Pattern(regexp="[a-zA-Z0-9_-]*", message= "{catalog.code.pattern}")
 	private String code;
 
 	@OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
