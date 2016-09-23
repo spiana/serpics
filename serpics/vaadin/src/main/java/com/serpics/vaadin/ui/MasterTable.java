@@ -292,21 +292,27 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		editButtonPanel.addComponent(searchPanel);
 		editButtonPanel.setExpandRatio(searchPanel, 0.70F);
 
-		String[] lp = null;
-		if(searchProperties == null) lp = displayProperties;
-		else lp = searchProperties;
-		MenuItem iF = menuF.addItem(I18nUtils.getMessage("filter.filter", "Filter"), null);	
-		Object[] list = entityList.getVisibleColumns();
-		ht = new Hashtable<>();
-		for (String properties : lp) { 
-			String desc = I18nUtils.getMessage(container.getEntityClass().getSimpleName().toLowerCase() + "." +properties,properties);
-			MenuItem ip = iF.addItem(desc, addFilterComponent);
-			ht.put(desc, properties);
-			ip.setCheckable(true);
+		String[] filterProperties = null;
+		if(searchProperties == null) 
+			filterProperties = displayProperties;
+		else 
+			filterProperties = searchProperties;
+		
+		MenuItem filtermenu = menuF.addItem(I18nUtils.getMessage("filter.filter", "Filter"), null);	
+		ht = new Hashtable<String, String>();
+		for (String property : filterProperties) { 
+			String desc = I18nUtils.getMessage(container.getEntityClass().getSimpleName().toLowerCase() + "." +property,property);
+			ht.put(desc, property);
+			MenuItem filterItem = filtermenu.addItem(desc, addFilterComponent);
+			filterItem.setCheckable(true);
 		}
-		iF.addSeparator();
-		MenuItem clear = iF.addItem(I18nUtils.getMessage("filter.clear","clear") , clearCommand);
+		
+		filtermenu.addSeparator();
+		
+		MenuItem clear = filtermenu.addItem(I18nUtils.getMessage("filter.clear","clear") , clearCommand);
+		
 		clear.setCheckable(false);
+		
 		editButtonPanel.addComponent(menuF);
 
 		setCompositionRoot(v);
@@ -319,9 +325,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
         	for (MenuItem mi : li) {
 				if(mi.isChecked()) mi.setChecked(false);
 			}
-        	filterComponent.removeAllContent(filterPanel);  
-        	filterPanel.setEnabled(false); // rimossi tutti filtri disabulito pannello
-			filterPanel.setVisible(false);
+        	filterPanel.removeAllComponents();
+        	filterPanel.setEnabled(false); 
+        	filterPanel.setVisible(false);
+        	removeAllFilter();
         }
     };
     
@@ -329,7 +336,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     	public void menuSelected(MenuItem selectedItem) {
     		
     		String caption = ht.get(selectedItem.getText());
-			if (selectedItem.isChecked()) {
+    		if (selectedItem.isChecked()) {
 				if(!filterPanel.isEnabled()) filterPanel.setEnabled(true);
 				if(!filterPanel.isVisible()) filterPanel.setVisible(true);
     			
@@ -350,8 +357,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 						break;
 					}
 				}
-    			//Rimozione  item corrent
-    			//filterComponent.removeContent(selectedItem, filterPanel);  
     			 filterComponent.removeContent(caption, filterPanel);
     			if(disableAll) {
     				filterPanel.setEnabled(false); // rimossi tutti filtri disabulito pannello
@@ -362,8 +367,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     		 
         }
     };
-    
-
 	
 	public void add(){
 		if (!entityList.isEditable()) {

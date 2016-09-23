@@ -16,9 +16,7 @@ import com.serpics.vaadin.ui.component.MultilingualTextField;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.filter.Filters;
-import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.And;
@@ -38,26 +36,26 @@ import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
-public class FilterComponentListener implements Container.Filter {
+public class FilterComponentUtils {
 
 	private static final long serialVersionUID = -2736583181645447496L;
-	private static transient Logger LOG = LoggerFactory.getLogger(FilterComponentListener.class);
+	private static transient Logger LOG = LoggerFactory.getLogger(FilterComponentUtils.class);
 
 	 protected String propertyId;
 	 
 	@Transient
 	private transient String[] searchProperties;
 
-	private static FilterComponentListener instance;
+	private static FilterComponentUtils instance;
 
 	
-	public FilterComponentListener() {
+	public FilterComponentUtils() {
 		super();
 	}
 
-	public static FilterComponentListener get() {
+	public static FilterComponentUtils get() {
 		if (instance == null)
-			instance = new FilterComponentListener();
+			instance = new FilterComponentUtils();
 		return instance;
 	}
 	
@@ -281,7 +279,7 @@ public class FilterComponentListener implements Container.Filter {
 			 Filter children = cf.iterator().next();
 			 boolean findFilter = false;
 			 for (Filter f : lf) {
-				 if(And.class.isAssignableFrom(f.getClass())) LOG.info("v");
+				 if(And.class.isAssignableFrom(f.getClass())){
 				 And a = (And) f;
 				 Collection<Filter> sf = a.getFilters();
 				 for (Filter filter : sf) {
@@ -329,7 +327,7 @@ public class FilterComponentListener implements Container.Filter {
 					 }
 				}
 				if(findFilter) break;
-				 
+				 } 
 			 }
 		 }
 		
@@ -350,25 +348,13 @@ public class FilterComponentListener implements Container.Filter {
 		    return null; // none was found
 		}
 	private void showNotificationMessage(String message) {
-		Notification notification = new Notification("Commerce PlaTform Notification");
+		Notification notification = new Notification("");
 		notification.setHtmlContentAllowed(true);
 		notification.setDescription("<br /><span><p>" + message + "<br /></p></span>");
 		notification.setPosition(Position.BOTTOM_RIGHT);
 		notification.setDelayMsec(6000);
 		notification.setStyleName("commerce-notification");
 		notification.show(Page.getCurrent());
-	}
-	
-	@Override
-	public boolean passesFilter(Object itemId, Item item) throws UnsupportedOperationException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean appliesToProperty(Object propertyId) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 	
 

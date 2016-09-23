@@ -36,20 +36,32 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
     	
     	this.parentEntity = parent;
         this.masterEntity = parent.getEntity();
-        if (this.backReferencePropertyId == null)
+        setBackReferenceContainerFilter();
+    }
+
+    private void setBackReferenceContainerFilter(){
+    	if (this.backReferencePropertyId == null)
     		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());
     	 container.removeContainerFilters(backReferencePropertyId);
          container.addContainerFilter(new Compare.Equal(backReferencePropertyId, masterEntity));
          container.refresh();
     }
-
+    
+    
     @Override
     public void setParentProperty(final Object propertyId) {
         this.propertyId = propertyId;
-      
     }
    
-   
+   /* (non-Javadoc)
+    * @see com.serpics.vaadin.ui.MasterTable#removeAllFilter()
+    */
+	@Override
+	public void removeAllFilter() {
+		super.removeAllFilter();
+		setBackReferenceContainerFilter();
+	}
+    
     @SuppressWarnings("unchecked")
 	@Override
     public EntityItem<T> createEntityItem() {
