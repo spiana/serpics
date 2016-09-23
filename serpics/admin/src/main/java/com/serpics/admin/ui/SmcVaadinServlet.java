@@ -26,4 +26,5 @@ import com.vaadin.spring.server.SpringVaadinServlet;
 @WebServlet(value = {"/smc/*" , "/VAADIN/*"}, asyncSupported = true)
 public class SmcVaadinServlet extends SpringVaadinServlet {
 
+
 }

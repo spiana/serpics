@@ -67,6 +67,15 @@
 			<artifactId>vaadin-client-compiled</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.sap.cloud/neo-java-web-sdk -->
+<dependency>
+    <groupId>com.sap.cloud</groupId>
+    <artifactId>neo-java-web-sdk</artifactId>
+    <version>3.12.4.3</version>
+    <type>pom</type>
+</dependency>
+
 		<!--
 		  Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory).
 		  

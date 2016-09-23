@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xmlns:aop="http://www.springframework.org/schema/aop" 
+xmlns:tx="http://www.springframework.org/schema/tx" 
+xmlns:jee="http://www.springframework.org/schema/jee"
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop.xsd 
+http://www.springframework.org/schema/jee  
+http://www.springframework.org/schema/jee/spring-jee.xsd" >
+ 
+ 
+<!-- 	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!-- 		    	<property name="driverClassName" value="com.mysql.jdbc.GoogleDriver" /> -->
+<!-- 		     	<property name="url" value="jdbc:google:mysql://serpics-972:first-test/serpics?user=root" /> -->
+<!-- 	</bean>  -->
+	
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/DefaultDB"/>
+	
+	<bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+         <property name="persistenceUnitManager" ref="pum"/>
+       	 <property name="persistenceUnitName" value="serpics"/>
+         <property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">	
+				<property name="showSql" value="true"/>
+				<property name="generateDdl" value="true"/>
+			 <property name="databasePlatform" value="org.hibernate.dialect.HANARowStoreDialect" />
+			</bean>
+		 </property>
+		<property name="jpaProperties">
+	        <props>
+	            <prop key="javax.persistence.validation.mode">none</prop>
+	        </props>
+	     </property>
+        
+  </bean>  
+		
+ </beans>   

@@ -16,11 +16,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 
 import com.serpics.base.AttributeType;
 import com.serpics.base.data.model.MultilingualString;
 @Entity
+@Table( uniqueConstraints= @UniqueConstraint(columnNames= {"catalog_id", "name"}))
 public class Feature  extends AbstractCatalogEntry{
 
 	private static final long serialVersionUID = -1111581062897750056L;

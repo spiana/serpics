@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import com.serpics.base.data.model.MultilingualString;
 import com.serpics.vaadin.data.utils.I18nUtils;
-import com.serpics.vaadin.ui.FilterComponentListener;
+import com.serpics.vaadin.ui.FilterComponentUtils;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractTextField;
@@ -48,13 +48,15 @@ public class FilterComponent<T> extends CustomComponent {
 	private static transient Logger LOG = LoggerFactory.getLogger(FilterComponent.class);
 
 	HorizontalLayout main;
-	private String caption;
+	private String propertyId;	
 	private MenuBar mb;
 	private MenuItem mi;
+	
+	// private Map<String , Filter> appliedFilter = new HashMap<String, Container.Filter>();
 
 	protected transient JPAContainer<T> container;
 
-	private FilterComponentListener filterComponentListner;
+	private FilterComponentUtils filterComponentUtils;
 
 	public FilterComponent() {
 
@@ -66,22 +68,22 @@ public class FilterComponent<T> extends CustomComponent {
 
 		LOG.info("entry buildContent");
 		this.main = new HorizontalLayout();
-		this.main.setId("hl-"+this.caption);
+		this.main.setId("hl-"+this.propertyId);
 		this.mb = new MenuBar();
-		mb.setId("mb-"+this.caption);
-		this.mi = mb.addItem(printLabelLang(this.caption), null);
+		mb.setId("mb-"+this.propertyId);
+		this.mi = mb.addItem(printLabelLang(this.propertyId), null);
 
-		LOG.info("HL"  + " hl-"+this.caption);
-		LOG.info("mb"  + " mb-"+this.caption);
-		if (String.class.isAssignableFrom(this.container.getType(this.caption)))
+		LOG.info("HL"  + " hl-"+this.propertyId);
+		LOG.info("mb"  + " mb-"+this.propertyId);
+		if (String.class.isAssignableFrom(this.container.getType(this.propertyId)))
 			menuStrigItem();
-		else if (MultilingualString.class.isAssignableFrom(this.container.getType(caption)))
+		else if (MultilingualString.class.isAssignableFrom(this.container.getType(propertyId)))
 			menuStrigItem();
-		else if (Date.class.isAssignableFrom(this.container.getType(caption)))
+		else if (Date.class.isAssignableFrom(this.container.getType(propertyId)))
 			menuDateItem();
-		else if (Double.class.isAssignableFrom(this.container.getType(caption)))
+		else if (Double.class.isAssignableFrom(this.container.getType(propertyId)))
 			menuNumericItem();
-		else if (Boolean.class.isAssignableFrom(this.container.getType(caption)))
+		else if (Boolean.class.isAssignableFrom(this.container.getType(propertyId)))
 			menuBooleanItem();
 		this.main.addComponentAsFirst(this.mb);
 		this.main.setSpacing(true);
@@ -104,8 +106,8 @@ public class FilterComponent<T> extends CustomComponent {
 		searchString.setVisible(false);
 		searchString.setValue("");
 		searchString.setImmediate(true);
-		searchString.setId("absf-"+ this.caption);
-		filterComponentListner.get().filterAllContainerJPA(container, this.caption, this.mi,
+		searchString.setId("absf-"+ this.propertyId);
+		filterComponentUtils.get().filterAllContainerJPA(container, this.propertyId, this.mi,
 				(AbstractTextField) searchString);
 		
 		this.main.addComponent(searchString);
@@ -132,17 +134,17 @@ public class FilterComponent<T> extends CustomComponent {
 		dataField.setValue(new Date());
 		dataField.setVisible(false);
 		
-		dataField.setId("absf-"+ this.caption);
+		dataField.setId("absf-"+ this.propertyId);
 		this.main.addComponent(dataField);
 
 		DateField dataEnd = new DateField();
 		dataEnd.setValue(new Date());
 		dataEnd.setCaption(printLabelLang(getName(this.getId())));
 		dataEnd.setVisible(false);
-		dataEnd.setId("absfe-"+ this.caption);
+		dataEnd.setId("absfe-"+ this.propertyId);
 		
-		filterComponentListner.get().filterAllContainerJPA(container, this.caption, this.mi, (AbstractField) dataField, (AbstractField) dataEnd);
-		filterComponentListner.get().filterAllContainerJPARevert(container, this.caption, this.mi,  (AbstractField) dataEnd,(AbstractField) dataField);
+		filterComponentUtils.get().filterAllContainerJPA(container, this.propertyId, this.mi, (AbstractField) dataField, (AbstractField) dataEnd);
+		filterComponentUtils.get().filterAllContainerJPARevert(container, this.propertyId, this.mi,  (AbstractField) dataEnd,(AbstractField) dataField);
 
 		this.main.addComponent(dataEnd);
 	}
@@ -177,22 +179,22 @@ public class FilterComponent<T> extends CustomComponent {
 		item.setCheckable(true);
 
 		TextField textField = new TextField();
-		textField.setCaption(this.caption);
+		textField.setCaption(this.propertyId);
 		textField.setVisible(false);
 		textField.setValue("0");
 		textField.setConverter(Integer.class);
-		textField.setId("absf-"+ this.caption);
+		textField.setId("absf-"+ this.propertyId);
 		this.main.addComponent(textField);
 
 		TextField textFieldEnd = new TextField();
-		textFieldEnd.setCaption(this.caption);
+		textFieldEnd.setCaption(this.propertyId);
 		textFieldEnd.setVisible(false);
 		textFieldEnd.setValue("0");
 		textFieldEnd.setConverter(Integer.class);
-		textFieldEnd.setId("absfe-"+ this.caption);
+		textFieldEnd.setId("absfe-"+ this.propertyId);
 		this.main.addComponent(textFieldEnd);
 		
-		filterComponentListner.get().filterAllContainerJPA(container, this.caption, this.mi, (AbstractField) textField, (AbstractField) textFieldEnd);
+		filterComponentUtils.get().filterAllContainerJPA(container, this.propertyId, this.mi, (AbstractField) textField, (AbstractField) textFieldEnd);
 
 	}
 
@@ -241,10 +243,10 @@ public class FilterComponent<T> extends CustomComponent {
 				cb.setValue(value);
 				cb.setVisible(false);
 				
-				filterComponentListner.get().reloadFilterJpa(container, getName(mb.getId()), selectedItem, (AbstractField) cb, null);
+				filterComponentUtils.get().reloadFilterJpa(container, getName(mb.getId()), selectedItem, (AbstractField) cb, null);
 			}else  {
 				mb.getItems().get(0).setText(printLabelLang(getName(mb.getId())));
-				filterComponentListner.get().removeFilterJpa(container,getName(mb.getId()));
+				filterComponentUtils.get().removeFilterJpa(container,getName(mb.getId()));
 			}
 			
 		}
@@ -263,7 +265,7 @@ public class FilterComponent<T> extends CustomComponent {
 				ce.setVisible(true);				
 			}
 			
-			if(isChange) filterComponentListner.get().reloadFilterJpa(container, getName(this.mb.getId()), selectedItem, cs, ce); //AGGIORNA FILTRO SE CAMBIO TIPO DI RICERCA
+			if(isChange) filterComponentUtils.get().reloadFilterJpa(container, getName(this.mb.getId()), selectedItem, cs, ce); //AGGIORNA FILTRO SE CAMBIO TIPO DI RICERCA
 			String fieldTextCaption = cs.getCaption();
 			//LOG.info("FIELD TEXT " + fieldTextCaption);
 			
@@ -278,7 +280,7 @@ public class FilterComponent<T> extends CustomComponent {
 				cs.setVisible(false);
 			if ((ce != null) && ce.isVisible())
 				ce.setVisible(false);
-			filterComponentListner.get().removeFilterJpa(container,getName(this.mb.getId()));
+			filterComponentUtils.get().removeFilterJpa(container,getName(this.mb.getId()));
 
 		}
 	}
@@ -304,19 +306,13 @@ public class FilterComponent<T> extends CustomComponent {
 	public void removeContent(String id, HorizontalLayout filterPanel) {
 		//Component root = getCompositionRoot();
 		LOG.info("removeContent - id main" + this.main.getId() + " id menubar " + this.mb.getId() + " id attule " + id);
-		filterComponentListner.get().removeFilterJpa(container,id);
-		Component c = filterComponentListner.get().findComponentById(filterPanel, "fc-" + id);
+		filterComponentUtils.get().removeFilterJpa(container,id);
+		Component c = filterComponentUtils.get().findComponentById(filterPanel, "fc-" + id);
 		filterPanel.removeComponent(c);
 	}
-
-	public void removeAllContent(HorizontalLayout filterPanel) {
-		filterComponentListner.get().removeAllFilterJpa(container);
-		filterPanel.removeAllComponents();
-		
-	}
-
+	
 	public void setCaption(String caption) {
-		this.caption = caption;
+		this.propertyId = caption;
 	}
 	
 	private String getName(String name) {
