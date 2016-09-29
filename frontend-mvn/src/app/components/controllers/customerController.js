@@ -43,13 +43,13 @@
 		};
 
 		$scope.updateContactAddress = function(contactAddress) {
-			if (contactAddress.country !== null) {
+			if (contactAddress.country != null) {
 				contactAddress.countryIso3Code = contactAddress.country.iso3Code;
 			}
-			if (contactAddress.district !== null) {
+			if (contactAddress.district != null) {
 				contactAddress.districtIsoCode = contactAddress.district.isoCode;
 			}
-			if (contactAddress.region !== null) {
+			if (contactAddress.region != null) {
 				contactAddress.regionIsoCode = contactAddress.region.isoCode;
 			}
 			customerService.updateContactAddress(contactAddress).then(function(response) {
@@ -59,13 +59,13 @@
 		};
 
 		$scope.updateBillingAddress = function(billingAddress) {
-			if (billingAddress.country !== null) {
+			if (billingAddress.country != null) {
 				billingAddress.countryIso3Code = billingAddress.country.iso3Code;
 			}
-			if (billingAddress.region !== null) {
+			if (billingAddress.region != null) {
 				billingAddress.regionName = billingAddress.region.name;
 			}
-			if (billingAddress.district !== null) {
+			if (billingAddress.district != null) {
 				billingAddress.districtIsoCode = billingAddress.district.isoCode;
 			}
 			customerService.updateBillingAddress(billingAddress).then(function(response) {
@@ -75,13 +75,13 @@
 		};
 
 		$scope.updateDestinationAddress = function(destinationAddress) {
-			if (destinationAddress.country !== null) {
+			if (destinationAddress.country != null) {
 				destinationAddress.countryIso3Code = destinationAddress.country.iso3Code;
 			}
-			if (destinationAddress.region !== null) {
+			if (destinationAddress.region != null) {
 				destinationAddress.regionName = destinationAddress.region.name;
 			}
-			if (destinationAddress.district !== null) {
+			if (destinationAddress.district != null) {
 				destinationAddress.districtIsoCode = destinationAddress.district.isoCode;
 			}
 			customerService.updateDestinationAddress(destinationAddress).then(
@@ -92,13 +92,13 @@
 		};
 
 		$scope.addDestinationAddress = function(destinationAddress) {
-			if (destinationAddress.country !== null) {
+			if (destinationAddress.country != null) {
 				destinationAddress.countryIso3Code = destinationAddress.country.iso3Code;
 			}
-			if (destinationAddress.region !== null) {
+			if (destinationAddress.region != null) {
 				destinationAddress.regionName = destinationAddress.region.name;
 			}
-			if (destinationAddress.district !== null) {
+			if (destinationAddress.district != null) {
 				destinationAddress.districtIsoCode = destinationAddress.district.isoCode;
 			}
 			customerService
@@ -136,7 +136,7 @@
 		 * @use 					geographicService,
 		 */
 		$scope.getRegionByCountry = function(countryId) {
-			if (countryId !== angular.isUndefined ) {
+			if (!angular.isUndefined(countryId) ) {
 				geographicService
 						.getRegionByCountry(countryId)
 						.then(function(response) {
@@ -154,7 +154,7 @@
 		 * @use 					geographicService,
 		 */
 		$scope.getDistrictByCountry = function(countryId) {
-			if (countryId !== angular.isUndefined ) {
+			if ( !angular.isUndefined(countryId) ) {
 				geographicService.getDistrictByCountry(countryId)
 						.then(function(response) {
 							logger.debug('customerController getDistrictByCountry(countryId): ramo then');

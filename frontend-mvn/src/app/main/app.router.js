@@ -178,7 +178,7 @@
 	})
 	
 	.state('checkout.payment', {
-	   	url: '/payment?token',	        
+	   	url: '/payment?token',	 
 	    templateUrl: 'app/template/checkoutPayment.html'
 	})
 	
@@ -224,10 +224,11 @@
  	.state('paid' , {
 		url: '/paid?paymentId&token&PayerID',
 		templateUrl: 'app/template/orderComplete.html',
-		controller: 'OrderController'
+		controller: 'OrderController',
+		controllerAs: 'orderVm'
  	})
  	
- 	.state('cancel', {
+ 	.state('cancel?token', {
 		url: '/cancel',
 		templateUrl: 'app/template/checkoutPayment.html'
 

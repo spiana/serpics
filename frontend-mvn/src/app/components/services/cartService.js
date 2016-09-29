@@ -246,6 +246,7 @@
 	    			$http({
 			             method: 'POST',
 			             url: URL + endpoint + 'payment',
+			             data:{},
 			             headers: {
 			             	'ssid': sessionId
 			            }

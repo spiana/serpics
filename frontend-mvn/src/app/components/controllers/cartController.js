@@ -148,7 +148,7 @@
 	  			cartService.addShipmode(shipmode).then(function(response){
 	  			  logger.debug('cartController addShipmode(shipMode): ramo then');
 	  			  vm.cart = response;
-//	  			  $state.go($stateParams.payment)
+	  			  $state.go($stateParams.payment)
 	  		  });
 	  	};
 	  	
@@ -236,7 +236,7 @@
 	  	 * @use 					geographicService,
 	  	 */	  	 
 		vm.getRegionByCountry = function (countryId){
-			if (countryId !== angular.isUndefined){
+			if ( !angular.isUndefined(countryId)){
 				geographicService.getRegionByCountry(countryId).then(function(response){
 		  			  logger.debug('cartController getRegionByCountry(countryId): ramo then');
 		  			  vm.regions = response;
@@ -252,7 +252,7 @@
 	  	 * @use 					geographicService,
 	  	 */	  	 
 		vm.getDistrictByCountry = function (countryId){
-			if (countryId !== angular.isUndefined){
+			if ( !angular.isUndefined(countryId)){
 				geographicService.getDistrictByCountry(countryId).then(function(response){
 		  			  logger.debug('cartController getDistrictByCountry(countryId): ramo then');
 		  			  vm.districts = response;

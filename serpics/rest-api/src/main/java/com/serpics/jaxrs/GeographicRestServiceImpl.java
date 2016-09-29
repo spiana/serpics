@@ -1,5 +1,6 @@
 package com.serpics.jaxrs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -74,7 +75,11 @@ public class GeographicRestServiceImpl implements GeographicRestService{
 	public Response getRegionByCountry(@PathParam("countryId") Long countryId,@HeaderParam(value = "ssid") String ssid){
 		ApiRestResponse<List<RegionData>> apiRestResponse = new ApiRestResponse<List<RegionData>>();
 		apiRestResponse.setStatus(ApiRestResponseStatus.OK);
-		apiRestResponse.setResponseObject(regionFacade.findRegionByCountry(countryId));
+		List<RegionData> regions = new ArrayList<RegionData>();
+		if (countryId != null)
+			regions = regionFacade.findRegionByCountry(countryId);
+		
+		apiRestResponse.setResponseObject(regions);
 		return Response.ok(apiRestResponse).build();
 	}
 	

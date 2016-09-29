@@ -26,10 +26,10 @@
   	    				token: $stateParams.token,
   	    				payerId: $stateParams.PayerID
   	    		};
-  	    		logger.debug('OrderController: paidData:'+paidData.toJSON());
+  	    		logger.debug('OrderController: paidData:'+paidData);
   	    		//removed response in function()
   	    		cartService.addPaymentInfo(paidData).then( function(  ) {
-  	  	    		logger.debug('OrderController: addPaymentInfo(paidData): paidData:'+paidData.toJson());
+  	  	    		logger.debug('OrderController: addPaymentInfo(paidData): paidData:'+paidData);
   	  	    		orderService.placeOrder().then( function( response){
   	  	    			logger.debug('orderController after addPaymentInfo: placeOrder()');
   	  	    			vm.order = response;
