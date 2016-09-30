@@ -9,7 +9,7 @@
 				<p  ng-if="category.childCategoryNumber !=0" ng-class="{ 'fa fa-minus badge pull-right': categoryVm.categoryData[$index].active, 'fa fa-plus badge pull-right': !categoryVm.categoryData[$index].active }" ng-click="categoryVm.getChild(category.id,$index,category)">
         		</p>
         		<h4 class="panel-title">
-        			<a ui-sref="shop.category({id: category.id, name: category.code})">
+        			<a ui-sref="shop.category({id: category.id, name: category.name || category.code})">
         				{{category.name || category.code}}
         			</a>
         		</h4>
@@ -17,7 +17,7 @@
         			<div class="panel-body">
 						<ul >
                 			<li ng-if="category.childCategoryNumber !=0" ng-repeat="subCat in categoryVm.categoryData[$index].subCategory"  ng-show="category.active">
-                    			<a ui-sref="shop.category({id: subCat.id, name: subCat.code})">{{subCat.name || subCat.code}}</a>
+                    			<a ui-sref="shop.category({id: subCat.id, name: subCat.name || subCat.code})">{{subCat.name || subCat.code}}</a>
                 			</li>
             			</ul>
             		</div>

@@ -27,10 +27,10 @@
 		 })
 		 
 		 .state('shop.category', {
-			 url: '/category/:categoryName/:categoryId',
+			 url: '/category/:name/:id',
 			 controller: function ($stateParams, $scope) {
-				 $scope.name = $stateParams.categoryName;
-				 $scope.categoryId = $stateParams.categoryId;
+				 $scope.name = $stateParams.name;
+				 $scope.categoryId = $stateParams.id;
 			 },
 			 templateUrl: 'app/template/category-central.html'
 		 })
