@@ -15,11 +15,15 @@
 	      <id>nexus-snapshots</id>
 	      <url>http://serpicsframework.com:8081/nexus/content/repositories/snapshots</url>
 	   </snapshotRepository>
+	      <repository>
+	      <id>nexus-releases</id>
+	      <url>http://serpicsframework.com:8081/nexus/content/repositories/releases</url>
+	   </repository>
 	</distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<serpics.version>1.0-SNAPSHOT</serpics.version>
+		<serpics.version>1.0.RELEASE</serpics.version>
 		<spring-version>4.1.7.RELEASE</spring-version>
 		<cxf.version>2.7.2</cxf.version>
 		<jackson.version>1.9.11</jackson.version>
@@ -138,13 +142,13 @@
     <module>standalone</module>
   </modules>
   
-  <version>1.0-SNAPSHOT</version>
+  <version>${serpics.version}</version>
   <dependencyManagement>
   	<dependencies>
   		<dependency>
   			<groupId>org.hibernate</groupId>
   			<artifactId>hibernate-validator</artifactId>
-  			<version>5.0.1.Final</version>
+  			<version>5.2.4.Final</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>

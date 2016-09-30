@@ -15,8 +15,8 @@ http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<context:annotation-config />
-	<bean class="com.serpics.admin.ui.SmcVaadinConfiguration"  scope="store"/>
-	<context:component-scan base-package="com.serpics.admin.ui"/>
+	<bean class="com.serpics.smc.ui.SmcVaadinConfiguration"  scope="store"/>
+	<context:component-scan base-package="com.serpics.smc.ui"/>
 	
 	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
     <property name="scopes">

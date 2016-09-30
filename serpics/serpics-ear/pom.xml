@@ -4,12 +4,10 @@
     <parent>
         <artifactId>serpics</artifactId>
         <groupId>com.serpics</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.RELEASE</version>
     </parent>
 
-    <groupId>com.serpics</groupId>
     <artifactId>serpics-ear</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>ear</packaging>
 
     <name>serpics-ear</name>

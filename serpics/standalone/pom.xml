@@ -10,7 +10,7 @@
   <parent>
   	<groupId>com.serpics</groupId>
   	<artifactId>serpics</artifactId>
-  	<version>1.0-SNAPSHOT</version>
+  	<version>1.0.RELEASE</version>
   </parent>
   
   
@@ -159,7 +159,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.1.Final</version>
 		</dependency>
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.vaadin.spring</groupId> -->
@@ -208,7 +207,7 @@
 		<dependency>
 			<groupId>com.serpics</groupId>
 			<artifactId>scheduler</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${serpics.version}</version>
 		</dependency>
 	</dependencies>
 

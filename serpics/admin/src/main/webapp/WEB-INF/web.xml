@@ -62,7 +62,7 @@
 <!--     	<servlet-class>com.vaadin.server.VaadinServlet</servlet-class> -->
 <!--     	<init-param> -->
 <!--       		<param-name>UI</param-name> -->
-<!--       		<param-value>com.serpics.admin.ui.SerpicsStartApp</param-value> -->
+<!--       		<param-value>com.serpics.smc.ui.SerpicsStartApp</param-value> -->
 <!--    		 </init-param> -->
 <!--    </servlet> -->
   	

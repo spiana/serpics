@@ -10,11 +10,9 @@
   <parent>
   	<groupId>com.serpics</groupId>
   	<artifactId>serpics</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>${serpics.version}</version>
   </parent>
   
-  
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.4.0</vaadin.version>
@@ -26,16 +24,16 @@
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
-		<repository>
-			<id>vaadin-snapshots</id>
-			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
+<!-- 		<repository> -->
+<!-- 			<id>vaadin-snapshots</id> -->
+<!-- 			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url> -->
+<!-- 			<releases> -->
+<!-- 				<enabled>false</enabled> -->
+<!-- 			</releases> -->
+<!-- 			<snapshots> -->
+<!-- 				<enabled>true</enabled> -->
+<!-- 			</snapshots> -->
+<!-- 		</repository> -->
 	</repositories>
 <!-- 	<pluginRepositories> -->
 <!-- 		<pluginRepository> -->
