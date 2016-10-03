@@ -10,7 +10,7 @@
   <parent>
   	<groupId>com.serpics</groupId>
   	<artifactId>serpics</artifactId>
-	<version>${serpics.version}</version>
+	<version>1.0.RELEASE</version>
   </parent>
   
 	<properties>
