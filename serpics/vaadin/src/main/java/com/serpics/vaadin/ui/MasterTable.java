@@ -1,6 +1,7 @@
 package com.serpics.vaadin.ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -71,7 +72,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	protected final HorizontalLayout editButtonPanel = new HorizontalLayout();
 	protected final HorizontalLayout searchPanel = new HorizontalLayout();
 	protected final HorizontalLayout filterPanel = new HorizontalLayout();
-	protected FilterComponent filterComponent;
+	protected FilterComponent<T> filterComponent;
 	protected Hashtable<String, String> ht;
 	protected MenuBar menuF = new MenuBar();
 	
@@ -151,6 +152,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		this.entityList = new Table();
 		entityList.setSelectable(true);
 		entityList.setImmediate(true);
+		entityList.setMultiSelect(true);
 		entityList.setSizeFull();
 		entityList.setColumnCollapsingAllowed(true);
 		entityList.setColumnReorderingAllowed(true);
@@ -373,10 +375,18 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 			edit(createEntityItem() , true);
 		} 
 	}
-	public void modify(final Object itemId){
-		if (!entityList.isEditable()) {					
-			 EntityItem<T> item = container.getItem(itemId);
+	public void modify(final Object itemIds){
+		if (!entityList.isEditable()) {		
+			Object itemId = null;
+			if ((itemIds instanceof Collection)) {
+				itemId = ((Collection) itemIds).iterator().next();
+			}else{
+				itemId = itemIds;
+			}
+			
+			EntityItem<T> item = container.getItem(itemId);
 			edit(item, false);
+			
 		}
 	}
 	
@@ -395,16 +405,19 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		
 	}
 	public void delete(final Object itemId){
-		
 		MessageBox.showPlain(Icon.QUESTION, I18nUtils.getMessage("smc.messagebox.delete.title", ""),
 		I18nUtils.getMessage("smc.messagebox.delete.text", ""), new MessageBoxListener() {
 			@Override
 			public void buttonClicked(final ButtonId buttonId) {
 				if (buttonId.compareTo(ButtonId.YES) == 0) {
-					if (!container.removeItem(itemId))
-						System.out.println("Errore !");
-					else
-						container.commit();
+					if (itemId  instanceof Collection) {
+						for (Object value : (Collection)itemId) {
+							container.removeItem(value);	
+						}
+					}else{
+						container.removeItem(itemId);
+					}	
+					container.commit();
 				}
 			}
 		}, ButtonId.NO, ButtonId.YES);
