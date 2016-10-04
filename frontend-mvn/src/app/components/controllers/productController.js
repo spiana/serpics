@@ -151,17 +151,17 @@
 				if (textSearch) {
 					findBySearch(textSearch, page, size);
 				} else {
-					if (!categoryId && brandId) {
-						brandService.brandProductsByIdPage(brandId, page, size).then(function(response) {
+					if (!$scope.categoryId && $scope.brandId) {
+						brandService.brandProductsByIdPage($scope.brandId, page, size).then(function(response) {
 							$scope.product = response;
 						});
 					}
-					if (categoryId && !brandId) {
-						categoryService.categoryProductsByIdPage(categoryId, page, size).then(function(response) {
+					if ($scope.categoryId && !$scope.brandId) {
+						categoryService.categoryProductsByIdPage($scope.categoryId, page, size).then(function(response) {
 							$scope.product = response;
 						});
 					}
-					if (!categoryId && !brandId) {
+					if (!$scope.categoryId && !$scope.brandId) {
 						findAll(page, size);
 					}
 				}
