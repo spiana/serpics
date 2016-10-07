@@ -333,7 +333,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
     	
     	for (final EntityComponent c : componentList) {
             if (c instanceof EntityComponentChild) {
-                if (!newItem)
+              //  if (!newItem)
                     ((EntityComponentChild) c).setParentEntity(this.item);
             } else if (c instanceof EntityFormComponent)
                 ((EntityFormComponent) c).setEntityItem(this.item);

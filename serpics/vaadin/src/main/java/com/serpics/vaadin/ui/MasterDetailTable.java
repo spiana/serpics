@@ -8,6 +8,7 @@ import javax.persistence.OneToMany;
 
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.filter.Compare;
 
@@ -42,8 +43,14 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
     private void setBackReferenceContainerFilter(){
     	if (this.backReferencePropertyId == null)
     		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());
+    	
     	 container.removeContainerFilters(backReferencePropertyId);
-         container.addContainerFilter(new Compare.Equal(backReferencePropertyId, masterEntity));
+        if (parentEntity.isPersistent()	){
+        	container.addContainerFilter(new Compare.Equal(backReferencePropertyId, masterEntity));
+        }else{
+        	Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
+			this.container.addContainerFilter(filter);
+        }
          container.refresh();
     }
     
