@@ -2,6 +2,8 @@ package com.serpics.commerce.strategies;
 
 import javax.annotation.Resource;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.serpics.base.data.model.TaxCategory;
 import com.serpics.commerce.ShipmodeException;
 import com.serpics.commerce.data.model.AbstractOrder;
@@ -17,6 +19,7 @@ public class CommerceStrategyImpl  implements CommerceStrategy {
 	ShipmodeService shipmodeService;
 	
     @Override
+    @Transactional
     public void calculateTax(final AbstractOrder order) {
     	TaxCategory defaultTaxCategory = order.getStore().getTaxcategory();
     	Double totalTax = 0D;

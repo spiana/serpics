@@ -150,7 +150,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 			cart.setCurrency((Currency) getCurrentContext().getCurrency());
 			cart.setCustomer((Member) getCurrentContext().getCustomer());
-			cartRepository.save(cart);
+			cart= cartRepository.saveAndFlush(cart);
+			cartRepository.detach(cart);
+			cart = cartRepository.findOne(cart.getId());
 		}
 		putCartinSession(cart);
 		return cart;
