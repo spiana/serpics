@@ -76,9 +76,9 @@ public class FilterComponent<T> extends CustomComponent {
 		LOG.info("HL"  + " hl-"+this.propertyId);
 		LOG.info("mb"  + " mb-"+this.propertyId);
 		if (String.class.isAssignableFrom(this.container.getType(this.propertyId)))
-			menuStrigItem();
+			menuStringItem();
 		else if (MultilingualString.class.isAssignableFrom(this.container.getType(propertyId)))
-			menuStrigItem();
+			menuStringItem();
 		else if (Date.class.isAssignableFrom(this.container.getType(propertyId)))
 			menuDateItem();
 		else if (Double.class.isAssignableFrom(this.container.getType(propertyId)))
@@ -91,7 +91,7 @@ public class FilterComponent<T> extends CustomComponent {
 
 	}
 
-	protected void menuStrigItem() {
+	protected void menuStringItem() {
 		MenuItem item = this.mi.addItem(printFilterLabelLang("equals"), stringChecked);
 		item.setCheckable(true);
 		item = this.mi.addItem(printFilterLabelLang("startwith"), stringChecked);

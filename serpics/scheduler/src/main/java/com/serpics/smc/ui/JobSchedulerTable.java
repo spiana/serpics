@@ -15,6 +15,7 @@
  */
 package com.serpics.smc.ui;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
@@ -87,6 +88,7 @@ public class JobSchedulerTable extends MasterDetailTable<AbstractSchedulerJob, J
 	
 		MenuBar b = new MenuBar();
 		MenuItem items = b.addItem("add", null);
+		
 		items.addItem("add cronJob", new Command() {
 			
 			@Override
@@ -114,7 +116,13 @@ public class JobSchedulerTable extends MasterDetailTable<AbstractSchedulerJob, J
 	 * @see com.serpics.vaadin.ui.MasterTable#modify(java.lang.Object)
 	 */
 	@Override
-	public void modify(Object itemId) {
+	public void modify(Object itemsId) {
+		Object itemId = null;
+		if (itemsId instanceof Collection)
+				itemId = ((Collection)itemsId).iterator().next();
+		else
+			itemId = itemsId;
+		
 		switch (container.getItem(itemId).getEntity().getType()){
 		case 0: // cronjob
 			EntityItem<CronJob> cron = cronContainer.getItem(itemId);	

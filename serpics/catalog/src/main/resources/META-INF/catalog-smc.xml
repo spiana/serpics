@@ -64,6 +64,8 @@
 		<property name="type" table="true" />
 		<property name="contentType" table="true" search="true"/>
 		<property name="source"  table ="true" search="true"/>
+		<property name="uuid"  table ="true" search="true"/>
+		
 	</entity>
 	
 	<entity name="featuregroup">
