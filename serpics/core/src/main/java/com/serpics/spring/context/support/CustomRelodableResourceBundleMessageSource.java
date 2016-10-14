@@ -12,6 +12,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 
+import com.serpics.core.EngineFactoryUtils;
+
 public class CustomRelodableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource implements InitializingBean , ApplicationContextAware{
 	private ApplicationContext context;
 	
@@ -26,7 +28,8 @@ public class CustomRelodableResourceBundleMessageSource extends ReloadableResour
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Resource[] resources =this.context.getResources("classpath*:META-INF/*-messages*.properties");
+		
+		List<Resource> resources = EngineFactoryUtils.loadResourceByModule(context, "classpath*:META-INF/", "-messages*.properties");
 		List<String> baseNames = new ArrayList<String>();
 		
 		for (Resource resource : resources) {

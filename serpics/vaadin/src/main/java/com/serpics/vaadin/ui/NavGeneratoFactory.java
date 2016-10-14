@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -19,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 
+import com.serpics.core.EngineFactoryUtils;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Tree;
 
@@ -76,9 +78,8 @@ public class NavGeneratoFactory extends AbstractSelect
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
-
-		Resource[] resources = this.applicationContext.getResources("classpath*:META-INF/*-amc.xml");
-
+		List<Resource> resources = EngineFactoryUtils.loadResourceByModule(applicationContext, "classpath*:META-INF/", "-amc.xml")	;
+		
 		for (Resource resource : resources) {
 			LOG.info("found smp definition file : {} with URL {}", resource.getFilename(), resource.getURL());
 			menuPopulatorFromAmcDefinition(resource.getURL());

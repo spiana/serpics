@@ -22,6 +22,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 
 import com.serpics.core.EngineFactory;
+import com.serpics.core.EngineFactoryUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.DateField;
@@ -305,9 +306,8 @@ public class PropertiesUtils implements ApplicationContextAware,
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Resource[] resources = this.applicationContext
-				.getResources("classpath*:META-INF/*-smc.xml");
-
+		List<Resource> resources  = EngineFactoryUtils.loadResourceByModule(applicationContext, "classpath*:META-INF/", "-smc.xml");
+		
 		for (Resource resource : resources) {
 			LOG.info("found smc definition file : {} with URL {}",
 					resource.getFilename(), resource.getURL());

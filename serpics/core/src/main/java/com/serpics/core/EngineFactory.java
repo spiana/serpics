@@ -24,7 +24,8 @@ public class EngineFactory implements ApplicationContextAware{
 	private static transient Logger LOG = LoggerFactory.getLogger(EngineFactory.class);
 	
 	private static final Map<ClassLoader, ApplicationContext> currentContextPerThread = new ConcurrentHashMap<ClassLoader, ApplicationContext>(1);
-
+	private static List<String> activeModules = new ArrayList<String>();
+	
 	
 	public static void init()  {
 		String home_directory  = System.getProperty("serpics.home");
@@ -51,8 +52,10 @@ public class EngineFactory implements ApplicationContextAware{
 	}
 	
 	public static void init(URL l ){
-		List<String> modules = new ArrayList<String>();
-		modules.add("classpath:META-INF/applicationContext.xml");
+		List<String> modulesURL = new ArrayList<String>();
+		
+		
+		modulesURL.add("classpath:META-INF/applicationContext.xml");
 		if(l == null)
 			LOG.info("no modules.xml found in classpath !");
 		else{	
@@ -68,10 +71,16 @@ public class EngineFactory implements ApplicationContextAware{
 			            Element node = (Element) i.next();
 			            String module = node.getText();
 						LOG.info("adding module : {}" , module);
+						if (!module.endsWith("-serpics.xml")){
+							module = module+ "-serpics.xml";
+						}
+						activeModules.add(module.replace("-serpics.xml", ""));
+						
 						module = "classpath*:META-INF/"+ module;
-						modules.add(module);
+						modulesURL.add(module);
 			        }
 				
+			     	
 			} catch (DocumentException e) {
 				LOG.error("",e);
 			}
@@ -79,8 +88,9 @@ public class EngineFactory implements ApplicationContextAware{
 		
 			
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext(modules.toArray(new String[]{}));
+		ApplicationContext context = new ClassPathXmlApplicationContext(modulesURL.toArray(new String[]{}));
 		currentContextPerThread.put(Thread.currentThread().getContextClassLoader(), context);
+		
 	}
 	public void setApplicationContext(ApplicationContext appContext) {
 		currentContextPerThread.put(Thread.currentThread().getContextClassLoader(), appContext);
@@ -88,5 +98,9 @@ public class EngineFactory implements ApplicationContextAware{
 	
 	public final static ApplicationContext getCurrentApplicationContext() {
 		return currentContextPerThread.get(Thread.currentThread().getContextClassLoader());
+	}
+	
+	public final static List<String> getActiveModule(){
+		return activeModules;
 	}
 }
