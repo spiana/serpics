@@ -17,19 +17,19 @@ package com.serpics.smc.ui;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.BooleanUtils;
-
 import com.serpics.scheduler.exception.JobSchedulerException;
+import com.serpics.scheduler.model.JobLog;
 import com.serpics.scheduler.service.JobService;
 import com.serpics.scheduler.service.SchedulerService;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
+import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Field;
 
 /**
  * @author spiana
@@ -116,8 +116,11 @@ public abstract class AbstractJobDetailMasterTable<T> extends MasterTable<T> {
 	@Override
 	public EntityFormWindow<T> buildEntityWindow() {
 		EntityFormWindow<T> b = new EntityFormWindow<T>();
+		MasterDetailTable<JobLog, T> loggerTab = new MasterDetailTable<JobLog, T>(JobLog.class ,"logs") {};
+		
 		b.addTab(getMasterForm(), "main");
 		b.addTab(jobSchedulerTable, "triggers");
+		b.addTab(loggerTab, "logs");
 		return b;
 	}
 }

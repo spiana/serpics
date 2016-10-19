@@ -30,6 +30,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
+import com.serpics.core.EngineFactoryUtils;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.vaadin.ui.Tree;
 
@@ -86,7 +87,30 @@ public class NavigatorMenuTree extends Tree
 
 	private void prepareMenu(){
 	
+		// Step 1 add parent menu items
 		for (MenuItem _m : menuItems) {
+			
+			if (!StringUtils.isEmpty(_m.parent))
+				continue;
+			
+			Set<String> roles = new HashSet<String>(Arrays.asList(this.getComponetRoles(_m.name.toString())));
+			Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		
+			if (roles.contains("*")){
+				makeMenuItem(_m);
+			}else{
+				for (GrantedAuthority grantedAuthority : authorities) {
+					if (roles.contains(grantedAuthority.getAuthority()))
+							makeMenuItem(_m);
+				}
+			}
+		}
+		// Step 2 add child elements
+		for (MenuItem _m : menuItems) {
+			
+			if (StringUtils.isEmpty(_m.parent))
+				continue;
+			
 			Set<String> roles = new HashSet<String>(Arrays.asList(this.getComponetRoles(_m.name.toString())));
 			Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		
@@ -135,9 +159,7 @@ public class NavigatorMenuTree extends Tree
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
-
-		Resource[] resources = this.applicationContext.getResources("classpath*:META-INF/*-navigator.xml");
-
+		List<Resource> resources  = EngineFactoryUtils.loadResourceByModule(applicationContext, "classpath*:META-INF/", "-navigator.xml");
 		for (Resource resource : resources) {
 				LOG.info("found smp definition file : {} with URL {}", resource.getFilename(), resource.getURL());
 				menuPopulatorFromAmcDefinition(resource.getURL());

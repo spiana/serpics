@@ -74,7 +74,22 @@ public class SchedulerQuartzServiceImpl implements SchedulerQuartzService {
 		dataMap.put("realmStore", jobdetails.getStore()!=null?jobdetails.getStore().getName():"");
 		dataMap.put("catalog", jobdetails.getCatalog()!=null?jobdetails.getCatalog().getCode():"");
 		
+		String parameters = jobdetails.getJobParameters();
+		if (parameters !=  null){
+			mergeJobarameters(dataMap, parameters.split(","));
+		}
+		
 		return dataMap;
+	}
+	
+	private void mergeJobarameters(JobDataMap dataMap , String[] parameters){
+		for (String param : parameters) {
+			String[] _p = param.split("=");
+			if (_p.length == 2){
+				dataMap.put(_p[0], _p[1]);
+				LOG.debug("add job parameter [{}] witb value[{}]" , _p[0], _p[1]);
+			}
+		}
 	}
 	
 	private JobDetail findJobInQuartz(JobKey jobkey) throws SchedulerException {

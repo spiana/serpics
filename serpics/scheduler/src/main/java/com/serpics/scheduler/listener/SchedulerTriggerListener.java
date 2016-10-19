@@ -90,7 +90,6 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 			abstractScedulerJob.setNextRun(simple.getNextFireTime());
 			abstractScedulerJob.setLastRun(new Date());
 			((TriggerJob)abstractScedulerJob).setItereted(simple.getTimesTriggered());
-			
 		}else if(trigger instanceof CronTrigger){
 			
 			CronTrigger cron = (CronTrigger)trigger;

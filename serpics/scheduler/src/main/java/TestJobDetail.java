@@ -1,3 +1,4 @@
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
@@ -33,8 +34,13 @@ public class TestJobDetail extends AbstractStoreJob{
 	protected void executeJob(JobExecutionContext jobcontext,
 			CommerceSessionContext commerceContext)
 			throws JobExecutionException {
-				System.out.println("I'm running !");
 		
+			JobDataMap map = jobcontext.getJobDetail().getJobDataMap();
+			String param1 = map.getString("param1");
+			if (param1 == null)
+				System.out.println("I'm running !");
+			else
+				System.out.println("I'm running with " + param1 + " !");
 	}
 
 }

@@ -2,22 +2,22 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
-	<entity name="jobdetails">
+	<entity name="storejobdetails">
 		<property name="nameClassJob"  table="true" select="true"/>
+		<property name="jobParameters" />
 		<property name="catalog" />
 		<property name="stopOnFail"/>
 		<property name="lastRun" table="true"/>
 		<property name="stateOfJob" table="true"/>
-		<property name="logs"/>
 	</entity>
 	
 	<entity name="systemjobdetails">
 		<property name="nameClassJob"  table="true" select="true"/>
+		<property name="jobParameters" />
 		<property name="catalog" />
 		<property name="stopOnFail"/>
 		<property name="lastRun" table="true"/>
 		<property name="stateOfJob" table="true"/>
-		<property name="logs"/>
 	</entity>
 	
 	<entity name="joblog">
@@ -25,5 +25,22 @@
 		<property name="message" table="true" readonly="true" />
 		<property name="dateStart" table="true" readonly="true"/>
 		<property name="dateEnd" table="true" readonly="true"/>
+	</entity>
+	
+	<entity name="triggerjob">
+		<property name="secondsInterval" table="true"/>
+		<property name="numberOfIteration" table="true"/>
+		<property name="itereted" readonly="true"/>
+		<property name="whenStart" readonly="true" resolution="SECOND"/>
+		<property name="whenEnd" readonly="true" resolution="SECOND" />
+		<property name="lastRun" readonly="true" table="true" resolution="SECOND"/>
+		<property name="nextRun" readonly="true" table="true" resolution="SECOND"/>
+	</entity>
+	
+	<entity name="abstractschedulerjob">
+		<property name="whenStart" readonly="true" resolution="SECOND"/>
+		<property name="whenEnd" readonly="true" resolution="SECOND" />
+		<property name="lastRun" readonly="true" table="true" resolution="SECOND"/>
+		<property name="nextRun" readonly="true" table="true" resolution="SECOND" />
 	</entity>
 </smc-definition>

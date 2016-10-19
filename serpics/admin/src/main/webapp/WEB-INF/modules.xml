@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modules>
-	<module>core-serpics.xml</module>
-	<module>base-serpics.xml</module>
-	<module>membership-serpics.xml</module>
-	<module>catalog-serpics.xml</module>
-	<module>warehouse-serpics.xml</module>
-	<module>commerce-serpics.xml</module>
-	<module>importexport-serpics.xml</module>
-	<module>system-serpics.xml</module>
-	<module>smc-serpics.xml</module>
-	<module>scheduler-serpics.xml</module> 
-	<module>paypal-serpics.xml</module> 
-	<module>postman-serpics.xml</module> 
-	<module>postman-service-serpics.xml</module> 
-	<module>admin-serpics.xml</module>
+	<module>core</module>
+	<module>base</module>
+	<module>membership</module>
+	<module>catalog</module>
+	<module>commerce</module>
+	<module>system</module>
+	<module>smc</module>
+	<module>warehouse</module>
+	<module>importexport</module>
+	<module>scheduler</module> 
+	<module>paypal</module> 
+	<module>postman</module> 
+	<module>postman-service</module> 
+	<module>admin</module>
 </modules>
 
