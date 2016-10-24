@@ -201,12 +201,13 @@ public class JobSchedulerTable extends MasterDetailTable<AbstractSchedulerJob, J
 					
 					try{
 						if (!entityItem.isPersistent()){
-							jobService.createCronJob(entityItem.getEntity(),entityItem.getEntity().getJobDetail() );
-							cronContainer.addEntity(entityItem.getEntity());
-							container.addEntity(entityItem.getEntity());
+							 CronJob job = (CronJob)jobService.createCronJob(entityItem.getEntity(),entityItem.getEntity().getJobDetail() );
+							cronContainer.addEntity(job);
 						}
 						else
 							jobService.modifyCronJob(entityItem.getEntity(),entityItem.getEntity().getJobDetail() );
+					
+						container.refresh();
 						
 					}catch (JobSchedulerException e){
 						throw new CommitException(e);
@@ -235,12 +236,13 @@ public class JobSchedulerTable extends MasterDetailTable<AbstractSchedulerJob, J
 					
 					try{
 						if (!entityItem.isPersistent()){
-							jobService.createTrigger(entityItem.getEntity(),entityItem.getEntity().getJobDetail() );
-							triggerContainer.addEntity(entityItem.getEntity());
-							container.addEntity(entityItem.getEntity());							}
+							TriggerJob trigger = (TriggerJob) jobService.createTrigger(entityItem.getEntity(),entityItem.getEntity().getJobDetail() );
+							triggerContainer.addEntity(trigger);
+										}
 						else
 							jobService.modifyTrigger(entityItem.getEntity(),entityItem.getEntity().getJobDetail() );
 						
+						container.refresh();
 					}catch (JobSchedulerException e){
 						throw new CommitException(e);
 					}

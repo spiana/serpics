@@ -17,6 +17,8 @@
 package com.serpics.membership.data.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.serpics.base.data.model.District;
@@ -43,15 +45,15 @@ public class BillingAddress extends AbstractAddress {
     }
 
 //    // bi-directional many-to-one association to Member
-//    @OneToOne(mappedBy="billingAddress" ,fetch = FetchType.LAZY, optional = false , targetEntity=User.class)
-//    private User member;
-//  
-//    public User getUser() {
-//        return  member;
-//    }
-//
-//    public void setUser(final User member) {
-//        this.member = member;
-//    }
+    @OneToOne(mappedBy="billingAddress" ,fetch = FetchType.LAZY, optional = false , targetEntity=User.class)
+    private User member;
+  
+    public User getUser() {
+        return  member;
+    }
+
+    public void setUser(final User member) {
+        this.member = member;
+    }
 
 }

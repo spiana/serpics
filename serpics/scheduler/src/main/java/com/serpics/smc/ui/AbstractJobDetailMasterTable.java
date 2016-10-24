@@ -99,20 +99,20 @@ public abstract class AbstractJobDetailMasterTable<T> extends MasterTable<T> {
 			public void save() throws CommitException {
 				fieldGroup.commit();
 				entityItem.commit();
-
+				T job = null;
 				try {
-					execSave(entityItem.getEntity(), !entityItem.isPersistent());
+					job = execSave(entityItem.getEntity(), !entityItem.isPersistent());
 				} catch (ClassNotFoundException | JobSchedulerException e) {
 					throw new CommitException(e);
 				}
+				entityItem.refresh();
 
-				if (!entityItem.isPersistent())
-					entityItem.getContainer().addEntity(entityItem.getEntity());
-			}
+				entityItem.getContainer().refresh();
+				}
 		};
 	}
 
-	public abstract void execSave(T entity, boolean create) throws ClassNotFoundException, JobSchedulerException;// entityItem.getEntity().getNameClassJob()
+	public abstract T execSave(T entity, boolean create) throws ClassNotFoundException, JobSchedulerException;// entityItem.getEntity().getNameClassJob()
 
 	@Override
 	public EntityFormWindow<T> buildEntityWindow() {

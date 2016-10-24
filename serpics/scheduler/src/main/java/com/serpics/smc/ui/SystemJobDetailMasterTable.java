@@ -32,11 +32,11 @@ public class SystemJobDetailMasterTable extends AbstractJobDetailMasterTable<Sys
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void execSave(SystemJobDetails entity,boolean create) throws ClassNotFoundException, JobSchedulerException {
+	public SystemJobDetails execSave(SystemJobDetails entity,boolean create) throws ClassNotFoundException, JobSchedulerException {
 		if (create){
-				jobService.createJobDetail((Class<? extends AbstractJob>) Class.forName(entity.getNameClassJob()), entity);
+				return (SystemJobDetails)jobService.createJobDetail((Class<? extends AbstractJob>) Class.forName(entity.getNameClassJob()), entity);
 		}else {
-				jobService.modifyJobDetail((Class<? extends AbstractJob>) Class.forName(entity.getNameClassJob()), entity);
+				return (SystemJobDetails)jobService.modifyJobDetail((Class<? extends AbstractJob>) Class.forName(entity.getNameClassJob()), entity);
 		}
 		
 	}

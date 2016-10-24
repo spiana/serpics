@@ -17,6 +17,9 @@
 package com.serpics.membership.data.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.serpics.base.data.model.District;
@@ -43,16 +46,16 @@ public class PrimaryAddress extends AbstractAddress {
     }
 
     // bi-directional many-to-one association to Member
-//    @OneToOne(mappedBy="primaryAddress", optional = false , fetch=FetchType.LAZY)
-//    @PrimaryKeyJoinColumn
-//    private Member member;
-//
-//    public Member getMember() {
-//        return member;
-//    }
-//
-//    public void setMember(final Member member) {
-//        this.member = member;
-//    }
+    @OneToOne(mappedBy="primaryAddress", optional = false , fetch=FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    private Member member;
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(final Member member) {
+        this.member = member;
+    }
 
 }
