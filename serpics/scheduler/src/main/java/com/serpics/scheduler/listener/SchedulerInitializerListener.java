@@ -89,10 +89,10 @@ public class SchedulerInitializerListener implements ApplicationListener<Applica
 					triggerJob.setNumberOfIteration(toIterate);
 					triggerJob.setItereted(0);
 					triggerJobRepository.saveAndFlush(triggerJob);
-					
+					schedulerQuartzService.saveSimpleTrigger(triggerJob, job, true);
 					LOG.info("triggers JOB [{}] with {} iterations !" ,job.getNameClassJob() , toIterate );
 				}
-				schedulerQuartzService.saveSimpleTrigger(triggerJob, job, true);
+			
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
