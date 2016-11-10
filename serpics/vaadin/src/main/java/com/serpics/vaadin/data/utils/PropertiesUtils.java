@@ -343,7 +343,7 @@ public class PropertiesUtils implements ApplicationContextAware,
 		loadAllSmcDefinitions();
 	}
 
-	protected void loadSmcDefinition(URL smcdefinition) throws DocumentException,
+	public void loadSmcDefinition(URL smcdefinition) throws DocumentException,
 			IOException {
 
 		SAXReader reader = new SAXReader();
@@ -563,7 +563,7 @@ public class PropertiesUtils implements ApplicationContextAware,
 		return null;
 	}
 	
-	protected void loadAllSmcDefinitions() throws IOException, DocumentException{
+	public void loadAllSmcDefinitions() throws IOException, DocumentException{
 		List<Resource> resources  = EngineFactoryUtils.loadResourceByModule(applicationContext, "classpath*:META-INF/", "-smc.xml");
 		
 		for (Resource resource : resources) {
