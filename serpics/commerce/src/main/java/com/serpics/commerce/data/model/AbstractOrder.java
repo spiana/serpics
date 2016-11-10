@@ -38,7 +38,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
@@ -149,13 +148,13 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @ManyToOne(fetch=FetchType.LAZY )
 //    @OneToOne(optional=true)
     @JoinColumn(
-        name="billing_address_id", unique=true, nullable=true, updatable=true)
+        name="billing_address_id", nullable=true, updatable=true)
     protected Address  billingAddress;
 
     @ManyToOne(fetch=FetchType.LAZY )
 //    @OneToOne(optional=true)
     @JoinColumn(
-        name="shipping_address_id", unique=true, nullable=true, updatable=true)
+        name="shipping_address_id", nullable=true, updatable=true)
     protected Address shippingAddress;
 
     public AbstractOrder() {

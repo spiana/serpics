@@ -59,7 +59,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	private final Action add = new Action("Add");
 	private final Action modify = new Action("Modify");
 	private final Action remove = new Action("Remove");
-	private final Action[] actions = {this.add ,this.modify, this.remove};
+	private final Action[] actions = {this.add ,this.modify,this.remove};
 	
 	
 	private transient EntityContainer<T> containerForProperty ;
@@ -187,9 +187,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 
 	    getTable().setEditable(false);
 	    getTable().setSelectable(true);
-	  //  getTable().setSizeFull();
-		
-		
+	    
 	    for (Object pid : visibleProperties) {
 	    		if(Multilingual.class.isAssignableFrom(propertyList.getPropertyType((String)pid)) ){
 					table.setConverter(pid, new MultilingualFieldConvert());
@@ -213,6 +211,9 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	@Override
 	public void handleAction(com.vaadin.event.Action action, Object sender,
 			Object target) {
+		if(!entityItem.isPersistent())
+			return ; //do nothing is not persisted
+		
 		if (action == this.add)
 		      addNew();
 		   else if(action == this.modify)
@@ -222,14 +223,21 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		
 	}
 
-	private void remove(Object itemId) {
-	    if (itemId != null) {
-	      Collection collection = (Collection)getPropertyDataSource().getValue();
-	      EntityItem item = this.container.getItem(itemId);
-	     // item.getItemProperty(this.backReferencePropertyId).setValue(null);
-	      this.container.removeItem(itemId);
-	       collection.remove(item.getEntity());
-	      this.container.commit(); 
+	private void remove(Object items) {
+	    if (items != null) {
+	    	// Collection collection = (Collection)getPropertyDataSource().getValue();
+	    	// EntityItem item = this.container.getItem(itemId);
+	   
+    	  if (items  instanceof Collection) {
+				for (Object value : (Collection)items) {
+					container.removeItem(value);	
+				}
+			}else{
+				container.removeItem(items);
+			}	  
+    	  //this.container.removeItem(itemId);
+	       //collection.remove(item.getEntity());
+	      container.commit(); 
 	    }
 	  }
 
@@ -274,8 +282,14 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	  }
 	  
 	 
-	private void modify(Object item){
-		if(item != null){
+	private void modify(Object items){
+		if(items != null){
+			Object item = null;
+			if (items instanceof Collection){
+				item = ((Collection) items).iterator().next();
+			}else
+				item = items;
+			
 			 EntityFormWindow<X> editorWindow = buildEntityWindow();
 		      editorWindow.setNewItem(false);
 		      editorWindow.setReadOnly(false);
@@ -318,9 +332,11 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	      }
 	    }));
 	    
-	    vl.addComponent(buttons);
+	   // vl.addComponent(buttons);
 	    setCaption(this.propertyId.toString());
 	    return vl;
+	    
+	   
 	}
 	
 	@Override

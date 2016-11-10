@@ -9,8 +9,8 @@
 		<property name="status" search="true" table="true" width="10%"  style="color3" />
 		<property name="currency" />
 <!-- 		<property name="cookie" /> -->
-		<property name="billingAddress" />
-		<property name="shippingAddress" />
+		<property name="billingAddress" extendedCombo="true" />
+		<property name="shippingAddress"  extendedCombo="true" />
 		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
 		<property name="cartitems"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>
@@ -31,13 +31,13 @@
 
 	<entity name="order">
 		<property name="customer.commonName" table="true" search="true" edit="false" />
-		<property name="customer" />
+		<property name="customer" extendedcombo="true" mappedClass="com.serpics.membership.data.model.UsersReg"  />
 		
 		<property name="status" search="true" table="true" width="40%" style="color2"/>
 		<property name="currency"  width="25%"/>
 <!-- 		<property name="cookie" /> -->
-		<property name="billingAddress" />
-		<property name="shippingAddress" />
+		<property name="billingAddress"   extendedcombo="true" />
+		<property name="shippingAddress"  extendedcombo="true" />
 		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
 		<property name="orderitems"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>
@@ -99,7 +99,8 @@
 	
 	<entity name="shipping">
 		<property name="rangestart" table="true"/>
-		<property name="currency" table ="true"/>
+		<property name="currency.isoCode" table="true" edit="false"/> 
+		<property name="currency" table ="false"/>
 		<property name="value" table ="true"/>
 	</entity>
 	

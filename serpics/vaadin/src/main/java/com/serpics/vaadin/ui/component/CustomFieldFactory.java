@@ -28,6 +28,7 @@ import com.serpics.base.Multilingual;
 import com.serpics.base.data.model.Media;
 import com.serpics.base.data.model.MultilingualText;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils.SmcPropertyDef;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.converters.AttributeTypeDateConverter;
 import com.serpics.vaadin.ui.converters.AttributeTypeDoubleConverter;
@@ -175,18 +176,24 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	 if (referencedPropertyId.contains("."))
     		 referencedContainer.addNestedContainerProperty(referencedPropertyId);
     	 
-    	 item.getItemProperty(propertyId).getType();
-  
-    	 combo.setContainerDataSource(referencedContainer);
-         combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-         combo.setItemCaptionPropertyId(referencedPropertyId);
-         combo.setFilteringMode(FilteringMode.CONTAINS);
-         combo.setImmediate(true);
-         combo.setConverter(new SingleSelectConverter(combo));
-         combo.setWidth(FIELD_WIDTH);
-         
-         return combo;
+    	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass().getSimpleName(),propertyId.toString() );
     	
+    	 if (def != null && def.isExtendedCombo()){
+    		 ExtendedComboBox ecombo = new ExtendedComboBox(item,propertyId.toString());
+    	 	return ecombo;
+    	 } else{
+	    	 item.getItemProperty(propertyId).getType();
+	  
+	    	 combo.setContainerDataSource(referencedContainer);
+	         combo.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+	         combo.setItemCaptionPropertyId(referencedPropertyId);
+	         combo.setFilteringMode(FilteringMode.CONTAINS);
+	         combo.setImmediate(true);
+	         combo.setConverter(new SingleSelectConverter(combo));
+	         combo.setWidth(FIELD_WIDTH);
+	         
+	         return combo;
+    	 }
     }
     
     private MasterDetailField createOneToMany(Object propertyId , JPAContainerItem item){

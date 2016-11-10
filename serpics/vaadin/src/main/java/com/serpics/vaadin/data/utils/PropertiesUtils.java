@@ -89,6 +89,8 @@ public class PropertiesUtils implements ApplicationContextAware,
 		private boolean readOnly = false;
 		private boolean searchProperty = false;
 		private boolean selectProperty = false;
+		private boolean extendedCombo = true;
+		private Class<?> mappedClass;
 		
 		private String style;
 
@@ -233,6 +235,22 @@ public class PropertiesUtils implements ApplicationContextAware,
 			this.resolution = resolution;
 		}
 
+		public boolean isExtendedCombo() {
+			return extendedCombo;
+		}
+
+		public void setExtendedCombo(boolean extendedCombo) {
+			this.extendedCombo = extendedCombo;
+		}
+
+		public Class<?> getMappedClass() {
+			return mappedClass;
+		}
+
+		public void setMappedClass(Class<?> mappedClass) {
+			this.mappedClass = mappedClass;
+		}
+		
 	}
 
 	private ApplicationContext applicationContext;
@@ -322,17 +340,10 @@ public class PropertiesUtils implements ApplicationContextAware,
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		List<Resource> resources  = EngineFactoryUtils.loadResourceByModule(applicationContext, "classpath*:META-INF/", "-smc.xml");
-		
-		for (Resource resource : resources) {
-			LOG.info("found smc definition file : {} with URL {}",
-					resource.getFilename(), resource.getURL());
-			loadSmcDefinition(resource.getURL());
-		}
-
+		loadAllSmcDefinitions();
 	}
 
-	public void loadSmcDefinition(URL smcdefinition) throws DocumentException,
+	protected void loadSmcDefinition(URL smcdefinition) throws DocumentException,
 			IOException {
 
 		SAXReader reader = new SAXReader();
@@ -449,6 +460,22 @@ public class PropertiesUtils implements ApplicationContextAware,
 			if (property.attribute("updatable") != null)
 				def.setUpdatable(BooleanUtils.toBoolean(property
 						.attribute("updatable").getValue()));
+			if (property.attribute("extendedcombo") != null)
+				def.setExtendedCombo(BooleanUtils.toBoolean(property
+						.attribute("extendedcombo").getValue()));
+			if (property.attribute("mappedClass") != null){
+				String mappedClass = property
+						.attribute("mappedClass").getValue();
+				if (mappedClass != null){
+					try {
+						Class<?> _class = Class.forName(mappedClass);
+						def.setMappedClass(_class);
+					} catch (ClassNotFoundException e) {
+						LOG.error("mapped class {} not found for property {} !" , mappedClass , def.getPropertyId());
+					}
+				}
+				
+			}
 			
 			LOG.debug("found property {}", def.getPropertyId());
 
@@ -513,16 +540,19 @@ public class PropertiesUtils implements ApplicationContextAware,
 		SmcDefinition definition = properties.get(enityName.toLowerCase());
 		if (definition != null && definition.getEditBean() != null) {
 			try{
-			Object bean = applicationContext.getBean(definition.getEditBean());
-			if (bean != null
-					&& EntityFormWindow.class.isAssignableFrom(bean.getClass())) {
-				return bean;
-
-			} else {
-				LOG.error("Edit bean class [{}] does not extend  {}",
-						definition.getEditBean().getClass().getName(),
-						EntityFormWindow.class.getName());
-			}
+				Object bean = applicationContext.getBean(definition.getEditBean());
+				if (bean != null){
+					if  (EntityFormWindow.class.isAssignableFrom(bean.getClass())) {
+						return bean;
+					} else {
+						LOG.error("Edit bean class [{}] does not extend  {}",
+								bean.getClass().getName(),
+								EntityFormWindow.class.getName());
+					}
+				}else{
+					LOG.error("Edit bean [{}] does not exist in spring context !",
+							definition.getEditBean());
+				}
 			}catch ( BeansException e){
 				LOG.error(e.getMessage());
 			}
@@ -531,5 +561,35 @@ public class PropertiesUtils implements ApplicationContextAware,
 		}
 
 		return null;
+	}
+	
+	protected void loadAllSmcDefinitions() throws IOException, DocumentException{
+		List<Resource> resources  = EngineFactoryUtils.loadResourceByModule(applicationContext, "classpath*:META-INF/", "-smc.xml");
+		
+		for (Resource resource : resources) {
+//			LOG.info("found smc definition file : {} with URL {}",
+//					resource.getFilename(), resource.getURL());
+//			
+			Resource r = applicationContext.getResource("classpath:META-INF/"+ resource.getFilename());
+			if (r != null){
+				loadSmcDefinition(r.getURL());
+				LOG.info("found smc definition file : {} with URL {}",
+						r.getFilename(), r.getURL());
+			}
+		}
+	}
+	public void refrehProperties() throws IOException, DocumentException{
+		cleanAlldefinitions();
+		loadAllSmcDefinitions();
+	}
+	
+	public synchronized  void cleanAlldefinitions(){
+		editProperties.clear();
+		readOnlyProperties.clear();
+		tableProperties.clear();
+		selectProperties.clear();
+		searchProperties.clear();
+		properties.clear();
+		
 	}
 }

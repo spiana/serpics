@@ -117,7 +117,7 @@ public class ProductTable extends MasterTable<Product> {
     @Override
     public void init() {
         super.init();
-        setPropertyToShow(new String[] { "code", "productType", "name","description" , "buyable" });
+        setPropertyToShow(new String[] { "code", "productType","status", "name","description" , "buyable" });
     }
 
     

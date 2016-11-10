@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.vaadin.data.utils.I18nUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.smc.ui.memeship.UserRegEditorComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
@@ -173,6 +174,17 @@ public class MainView extends CustomComponent {
         	
         });
         settingsItem.addItem("Preferences", null);
+        settingsItem.addSeparator();
+        settingsItem.addItem("Reset Properties", new MenuBar.Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				try{
+					PropertiesUtils.get().refrehProperties();
+				}catch (Exception e){}
+				
+			}
+		});
         settingsItem.addSeparator();
         settingsItem.addItem("Sign Out",new MenuBar.Command() {
 			@Override

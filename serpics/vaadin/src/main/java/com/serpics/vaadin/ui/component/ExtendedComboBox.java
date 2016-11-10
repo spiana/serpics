@@ -17,36 +17,28 @@
 package com.serpics.vaadin.ui.component;
 
 
-import java.io.File;
+import java.lang.reflect.Modifier;
 
-import com.serpics.base.MediaSupportType;
-import com.serpics.base.data.model.Media;
-import com.serpics.base.utils.MediaStoreUtil;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils.SmcPropertyDef;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
+import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.Property;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FileResource;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.Command;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
@@ -54,19 +46,19 @@ import com.vaadin.ui.Window.CloseListener;
  * @author spiana
  *
  */
-public class MediaSelect<T extends Media> extends CustomField<T> {
+public class ExtendedComboBox<T> extends CustomField<T> {
 	private static final long serialVersionUID = 1L;
 	
-	private EntityItem item;
+	private EntityItem<? extends T> item;
 	private Object propertyId;
 	
 	private ComboBox combo;
-	private Image image;
 	
+	private Class<? extends T> mappedClass;
 	
-	 private JPAContainer referencedContainer;
+	private JPAContainer referencedContainer;
 	 
-	public MediaSelect(EntityItem item , Object propertyId) {
+	public ExtendedComboBox(EntityItem item , Object propertyId) {
 		super();
 		this.item = item;
 		this.propertyId = propertyId;
@@ -74,7 +66,15 @@ public class MediaSelect<T extends Media> extends CustomField<T> {
 		
 	
 		this.combo = new ComboBox();
-    	 referencedContainer =ServiceContainerFactory.make(item.getContainer().getType(propertyId));
+		
+		 
+     	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass().getSimpleName(), propertyId.toString());
+     	if (def != null){
+     		mappedClass =  (Class<? extends T>)def.getMappedClass();
+     	}
+     	
+    	 referencedContainer =ServiceContainerFactory.make(getMappedClass());
+    	 
     	 String referencedPropertyId = buildReferencedPropertyToShow(item.getContainer(), propertyId);
     	
     	 if (referencedPropertyId.contains("."))
@@ -88,20 +88,15 @@ public class MediaSelect<T extends Media> extends CustomField<T> {
          combo.setBuffered(true);
          combo.setConverter(new SingleSelectConverter(combo));
          combo.addValueChangeListener(new ValueChangeListener() {
-        
-     	 
+         
 			@Override
 			public void valueChange(
 					com.vaadin.data.Property.ValueChangeEvent event) {
 				setValue((T) referencedContainer.getItem(combo.getValue()).getEntity());
-				loadResource();
 			}
 		});
          
-         
-         
-       
-         image = new Image();
+        
         
    }
 	
@@ -124,86 +119,96 @@ public class MediaSelect<T extends Media> extends CustomField<T> {
 		HorizontalLayout hlayout = new HorizontalLayout();
 		hlayout.setSizeFull();
 		hlayout.setMargin(false);
-		
-		VerticalLayout v = new VerticalLayout();
-		v.setWidth("100%");
-		v.setMargin(new MarginInfo(false,true,false,false));
-		
-		image.setWidth("100%");
-		v.addComponent(image);
-		
+
 		combo.setWidth("100%");
-		hlayout.addComponent(v);
 		hlayout.addComponent(combo);
 		
 		
+		MenuBar editMenu = new MenuBar();
+		MenuItem items = editMenu.addItem("", null);
 		
-		image.addClickListener(new MouseEvents.ClickListener() {
+		items.addItem("Add", new Command() {
 			
 			@Override
-			public void click(ClickEvent event) {
-				if  (!event.isDoubleClick())
-					return;
-				Window w = new Window();
-				w.setModal(true);
-				w.setContent(new Image("", image.getSource()));
-				w.setClosable(true);
-				w.setHeight("400px");
-				w.setWidth("740px");
-				w.setCaption("zoom");
-				getUI().addWindow(w);
+			public void menuSelected(MenuItem selectedItem) {
+				add();
 			}
 		});
 
-		Button newMedia = new Button(I18nUtils.getMessage("smc.mediaselect.add.media", "add"));
-		newMedia.addStyleName("top");
-		newMedia.addClickListener(new ClickListener() {
-			private static final long serialVersionUID = 1L;
-
+		items.addItem("Modify", new Command() {
+			
 			@Override
-			public void buttonClick(com.vaadin.ui.Button.ClickEvent event) {
-				
-				try {
-					final EntityFormWindow<T> createForm  = new EntityFormWindow<T>();
-					createForm.addTab(new MediaComponent<T>(item.getItemProperty(propertyId).getType()), "main");
-					createForm.setNewItem(true);
-					createForm.setReadOnly(false);
-					createForm.setEntityItem(referencedContainer.createEntityItem(item.getItemProperty(propertyId).getType().newInstance()));
-					getUI().addWindow(createForm);
-					createForm.addCloseListener(new CloseListener() {
-						
-						@Override
-						public void windowClose(CloseEvent e) {
-							
-							if (createForm.getEntityItem().isPersistent())
-								setValue((T)createForm.getEntityItem().getEntity());
-							
-							
-							combo.markAsDirty();
-							combo.setValue(referencedContainer.lastItemId());
-							combo.setContainerDataSource(referencedContainer);		}
-					});
-					
-				} catch (InstantiationException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			public void menuSelected(MenuItem selectedItem) {
+				modify();
 			}
 		});
+	
 		
-		hlayout.addComponent(newMedia);
+		editMenu.addStyleName("borderless");
 		
-		hlayout.setExpandRatio(combo, 0.75F);
-		hlayout.setExpandRatio(v, 0.20F);
-		hlayout.setExpandRatio(newMedia, 0.5F);
+		hlayout.addComponent(editMenu);
+
+		hlayout.setExpandRatio(combo, 0.95F);
+		hlayout.setExpandRatio(editMenu, 0.5F);
 		
 		return hlayout;
 		
 	}
 
-	public Image getImage() {
-		return image;
+	protected void add(){
+		
+		try {
+			
+			if (!Modifier.isAbstract(getMappedClass().getModifiers())){
+				
+				EntityItem<? extends T> item = referencedContainer.createEntityItem(getMappedClass().newInstance());
+				edit(item, true);
+			}
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				 
 	}
+	protected void modify(){
+		Object currentValue  = combo.getValue();
+		if (currentValue != null){
+			EntityItem<? extends T> item = referencedContainer.getItem(currentValue);
+			edit(item, false);
+		}
+	}
+	
+	protected void edit(EntityItem<? extends T> item , boolean isnew){
+		final EntityFormWindow<? extends T> createForm  = buildEntityWindow();
+		createForm.setNewItem(true);
+		createForm.setReadOnly(false);
+		
+		createForm.setEntityItem(item);
+		getUI().addWindow(createForm);
+		createForm.addCloseListener(new CloseListener() {
+			
+			@Override
+			public void windowClose(CloseEvent e) {
+				
+				if (createForm.getEntityItem().isPersistent())
+					setValue((T)createForm.getEntityItem().getEntity());
+				combo.markAsDirty();
+				combo.setValue(referencedContainer.lastItemId());
+				combo.setContainerDataSource(referencedContainer);	
+				}
+		});
+	}
+	
+	private EntityFormWindow<? extends T> buildEntityWindow (){
+		EntityFormWindow<? extends T> editorWindow =  (EntityFormWindow<? extends T> ) PropertiesUtils.get().getEditBean(getMappedClass().getSimpleName());
+		if (editorWindow == null){
+			editorWindow = new EntityFormWindow<T>();
+			editorWindow.addTab(new MasterForm(getMappedClass()){}, "main");
+		}
+		editorWindow.setCaption(I18nUtils.getMessage(getType().getSimpleName() , getType().getSimpleName()));
+		return editorWindow;
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.vaadin.ui.AbstractField#getType()
 	 */
@@ -212,6 +217,12 @@ public class MediaSelect<T extends Media> extends CustomField<T> {
 		return item.getItemProperty(propertyId).getType();
 	}
 	
+	/**
+	 * @return the mappedClass
+	 */
+	public Class<? extends T> getMappedClass() {
+		return mappedClass != null ? mappedClass : getType();
+	}
 	/* (non-Javadoc)
 	 * @see com.vaadin.ui.AbstractField#setPropertyDataSource(com.vaadin.data.Property)
 	 */
@@ -221,29 +232,5 @@ public class MediaSelect<T extends Media> extends CustomField<T> {
 		combo.setPropertyDataSource(newDataSource);
 	}
 	
-	private void loadResource(){
-		Media media = getValue();
-		if (media != null){
-			if (media.getType().equals(MediaSupportType.REMOTE)){
-				String source = media.getSource();
-				if (source != null){
-					ExternalResource r = new ExternalResource(media.getSource());
-					this.image.setSource(r);
-					this.image.markAsDirty();
-				}
-			}else{
-				String source = media.getSource();
-				if (source != null){
-					String mediaFilePath = MediaStoreUtil.getInstance().getMediaStorePathFromSource(source);
-					FileResource resource = new FileResource(new File(mediaFilePath));
-					this.image.setSource(resource);
-					this.image.markAsDirty();
-				}
-			}
-				
-			
-		}
 		
-		
-	}
 }

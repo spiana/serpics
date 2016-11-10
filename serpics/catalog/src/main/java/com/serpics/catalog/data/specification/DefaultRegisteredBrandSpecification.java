@@ -39,7 +39,7 @@ public class DefaultRegisteredBrandSpecification implements Specification<Brand>
 	public Predicate toPredicate(Root<Brand> root, CriteriaQuery<?> cq,
 			CriteriaBuilder cb) {
 		User u = (User) engine.getCurrentContext().getUserPrincipal();
-		if (u.getUserType() == UserType.REGISTERED || u.getUserType() == UserType.ANONYMOUS )
+		if (u.getUserType().equals(UserType.REGISTERED) || u.getUserType().equals(UserType.ANONYMOUS) )
 			return  cb.equal(root.get("published"), true);
 		else
 			return cb.isNotNull(root.get("id"));

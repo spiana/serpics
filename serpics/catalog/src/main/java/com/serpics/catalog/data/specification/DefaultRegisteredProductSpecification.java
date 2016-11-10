@@ -40,8 +40,9 @@ public class DefaultRegisteredProductSpecification implements Specification<Abst
 	public Predicate toPredicate(Root<AbstractProduct> root, CriteriaQuery<?> cq,
 			CriteriaBuilder cb) {
 		User u = (User) engine.getCurrentContext().getUserPrincipal();
-		if (u.getUserType() == UserType.REGISTERED || u.getUserType() == UserType.ANONYMOUS )
-			return  cb.equal(root.get("buyable"), true);
+		if (u.getUserType().equals(UserType.REGISTERED) || u.getUserType().equals(UserType.ANONYMOUS) )
+			return  cb.and(cb.equal(root.get("buyable"), true) );
+				//	cb.equal(root.get("status"), ProductApprovalStatus.approved));
 		else
 			return cb.isNotNull(root.get("id"));
 	}
