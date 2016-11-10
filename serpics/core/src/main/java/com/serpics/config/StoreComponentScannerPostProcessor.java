@@ -23,28 +23,16 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 
-import com.impetus.annovention.ClasspathDiscoverer;
-import com.serpics.stereotype.StoreComponent;
-import com.serpics.stereotype.StoreFacade;
-import com.serpics.stereotype.StoreStrategy;
-import com.serpics.stereotype.StoreService;
-import com.serpics.stereotype.VaadinComponent;
-
 public class StoreComponentScannerPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
     private static Logger logger = LoggerFactory.getLogger(StoreComponentScannerPostProcessor.class);
 
-    ComponentScanner componentScanner = new ComponentScanner();
+    ClasspathComponentScanner componentScanner = new ClasspathComponentScanner();
 
     private void doServiceScan() {
 
         logger.info("start Service scanning scope store !");
-        // Discoverer discoverer = new ClasspathDiscoverer();
-
-        final String[] annotations = { StoreService.class.getName(), StoreStrategy.class.getName(),
-                StoreFacade.class.getName(), StoreComponent.class.getName(), VaadinComponent.class.getName() };
-        componentScanner.doScan(annotations, new ClasspathDiscoverer());
-
+        componentScanner.loadCustomComponents();
         logger.info("stop scanning !");
     }
 

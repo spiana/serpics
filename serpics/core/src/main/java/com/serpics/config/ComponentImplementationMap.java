@@ -15,14 +15,12 @@
  */
 package com.serpics.config;
 
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import java.util.TreeMap;
 
 /**
  * @author spiana
  *
  */
-public interface ComponentScanner {
+public class ComponentImplementationMap extends TreeMap<String, ComponentBean> {
 
-	public ComponentImplementationMap loadCustomComponents();
-	public void registerFactory(final BeanDefinitionRegistry registry) ;
 }

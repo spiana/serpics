@@ -15,14 +15,36 @@
  */
 package com.serpics.config;
 
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import java.util.Map;
 
 /**
  * @author spiana
  *
  */
-public interface ComponentScanner {
+public class ComponentBean {
 
-	public ComponentImplementationMap loadCustomComponents();
-	public void registerFactory(final BeanDefinitionRegistry registry) ;
+	 Map<String, Class<?>> storeImpl;
+     String scope;
+
+     public ComponentBean(final Map<String, Class<?>> storeImpl, final String scope) {
+         this.setStoreImpl(storeImpl);
+         this.setScope(scope);
+     }
+
+	public Map<String, Class<?>> getStoreImpl() {
+		return storeImpl;
+	}
+
+	public void setStoreImpl(Map<String, Class<?>> storeImpl) {
+		this.storeImpl = storeImpl;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+
 }
