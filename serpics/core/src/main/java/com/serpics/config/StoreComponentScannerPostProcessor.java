@@ -26,17 +26,26 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 public class StoreComponentScannerPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
     private static Logger logger = LoggerFactory.getLogger(StoreComponentScannerPostProcessor.class);
+    
+    private String basePackage=null;
 
-    ClasspathComponentScanner componentScanner = new ClasspathComponentScanner();
+  //  @Required
+    public void setBasePackage(String basePackage) {
+		this.basePackage = basePackage;
+	}
 
+	ClasspathComponentScanner componentScanner = new ClasspathComponentScanner();
+
+	
     private void doServiceScan() {
-
+    	
         logger.info("start Service scanning scope store !");
         componentScanner.loadCustomComponents();
         logger.info("stop scanning !");
     }
 
     private void perfomScan(final BeanDefinitionRegistry registry) {
+    	componentScanner.setBasePackage(basePackage);
         doServiceScan();
         componentScanner.registerFactory(registry);
     }

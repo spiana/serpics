@@ -24,7 +24,9 @@ http://www.springframework.org/schema/aop
     <bean name="DefaultGenerateSessionIdStrategy" class="com.serpics.core.session.GenerateSessionIdStrategyImpl" />
     
     <bean name="postprocessor" class="com.serpics.core.SerpicsPostProcessor"/>
-    <bean name="componetScanner" class="com.serpics.config.StoreComponentScannerPostProcessor" scope="prototype"/>
+    <bean name="componetScanner" class="com.serpics.config.StoreComponentScannerPostProcessor" scope="prototype">
+<!--  	   <property name="basePackage" value="com.serpics"/> -->
+    </bean>
       
      <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
     <property name="scopes">
@@ -51,5 +53,6 @@ http://www.springframework.org/schema/aop
 <bean name="memberService" class="com.serpics.core.service.FakeMembershipService" abstract="false"  scope="store" />
 
 <bean name="serpicsPublisherEvent" class="com.serpics.core.event.SerpicsPublisherEvent" />
+
  </beans>    
 
