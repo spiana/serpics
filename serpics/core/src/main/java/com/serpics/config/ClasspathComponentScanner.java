@@ -17,18 +17,12 @@
 package com.serpics.config;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.ConstructorArgumentValues;
-import org.springframework.beans.factory.config.ConstructorArgumentValues.ValueHolder;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.util.Assert;
 
 import com.impetus.annovention.ClasspathDiscoverer;
@@ -40,7 +34,7 @@ import com.serpics.stereotype.StoreService;
 import com.serpics.stereotype.StoreStrategy;
 import com.serpics.stereotype.VaadinComponent;
 
-class ClasspathComponentScanner implements ComponentScanner {
+class ClasspathComponentScanner extends AbstractComponentScanner implements ComponentScanner {
 	private static Logger logger = LoggerFactory
 			.getLogger(ClasspathComponentScanner.class);
 
@@ -205,41 +199,7 @@ class ClasspathComponentScanner implements ComponentScanner {
 
 	}
 
-	@Override
-	public void registerFactory(final BeanDefinitionRegistry registry) {
-
-		for (final String service : componentImplementationMap.keySet()) {
-			final String scope = componentImplementationMap.get(service).scope;
-			if (registry.containsBeanDefinition(service)) {
-				BeanDefinition b = registry.getBeanDefinition(service);
-				ConstructorArgumentValues values = b
-						.getConstructorArgumentValues();
-				ValueHolder _v = values.getIndexedArgumentValue(1, Map.class);
-				Map<String, Class<?>> _v1 = (Map<String, Class<?>>) _v
-						.getValue();
-				_v1.putAll(componentImplementationMap.get(service).storeImpl);
-				_v.setValue(_v1);
-				logger.info(
-						"Adding implementation in factory for component {}  and scope : {} !",
-						service, scope);
-			} else {
-				final BeanDefinition definition = new RootBeanDefinition(
-						StoreComponentFactory.class);
-				definition
-						.getConstructorArgumentValues()
-						.addGenericArgumentValue(
-								componentImplementationMap.get(service).storeImpl);
-
-				definition.setScope(scope);
-				registry.registerBeanDefinition(service, definition);
-				logger.info(
-						"Registered factory for component {}  and scope : {} !",
-						service, scope);
-			}
-
-		}
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

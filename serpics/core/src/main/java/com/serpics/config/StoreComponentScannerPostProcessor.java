@@ -37,17 +37,17 @@ public class StoreComponentScannerPostProcessor implements BeanDefinitionRegistr
 	ClasspathComponentScanner componentScanner = new ClasspathComponentScanner();
 
 	
-    private void doServiceScan() {
-    	
+    private ComponentImplementationMap doServiceScan() {
         logger.info("start Service scanning scope store !");
-        componentScanner.loadCustomComponents();
+        ComponentImplementationMap _m = componentScanner.loadCustomComponents();
         logger.info("stop scanning !");
+        return _m;
     }
 
     private void perfomScan(final BeanDefinitionRegistry registry) {
     	componentScanner.setBasePackage(basePackage);
-        doServiceScan();
-        componentScanner.registerFactory(registry);
+        ComponentImplementationMap m = doServiceScan();
+        componentScanner.registerFactory(registry , m);
     }
 
     @Override

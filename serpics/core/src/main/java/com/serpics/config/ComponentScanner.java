@@ -24,5 +24,5 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 public interface ComponentScanner {
 
 	public ComponentImplementationMap loadCustomComponents();
-	public void registerFactory(final BeanDefinitionRegistry registry) ;
+	public void registerFactory(final BeanDefinitionRegistry registry, ComponentImplementationMap componentImplementationMap ) ;
 }
