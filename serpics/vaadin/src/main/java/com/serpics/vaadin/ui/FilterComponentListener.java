@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -34,6 +35,7 @@ import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.Page;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractField;
@@ -53,15 +55,24 @@ public class FilterComponentListener implements Container.Filter {
 	private static transient Logger LOG = LoggerFactory.getLogger(FilterComponentListener.class);
 
 	 protected String propertyId;
-	 
+	private Hashtable<String,Filter> filterList;
 	@Transient
 	private transient String[] searchProperties;
 
 	private static FilterComponentListener instance;
 
+	private static final String FILTER_LIST = "FILTER_LIST";
 	
 	public FilterComponentListener() {
 		super();
+		filterList = (Hashtable<String, Container.Filter>) VaadinSession.getCurrent().getAttribute("FILTER_LIST");
+		if(filterList == null) {
+			filterList = new Hashtable<String,Filter>();
+			VaadinSession.getCurrent().setAttribute(FILTER_LIST, filterList);
+		}
+	
+		
+		
 	}
 
 	public static FilterComponentListener get() {
@@ -76,56 +87,62 @@ public class FilterComponentListener implements Container.Filter {
 		BEFORE, AFTER, BETWEEN;
 	}
 
-	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final String entry, final MenuItem item, final AbstractTextField absField) {
+	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final String entry, final MenuItem item, final AbstractTextField absField, final String id) {
 		
 		absField.addTextChangeListener(new TextChangeListener() {
 			
 			@Override
 			public void textChange(TextChangeEvent event) {
 				LOG.info("text change" + event.getText());
-				removeFilterJpa(container, entry);
+				//removeFilterJpa(container, entry, id);
+				removeFilterJpa(container,  id);
 				AbstractTextField c = (AbstractTextField)event.getComponent();
 				c.setValue(event.getText());
 				if (event.getText().equals("")) showNotificationMessage("Remove all filter from container!!");
-				else addFilter(container, entry, item, c, null); //CREA TIPOLOGIA FILTRIO
+				else addFilter(container, entry, item, c, null, id); //CREA TIPOLOGIA FILTRIO
 			}
 		});
-	}	
+	}	 
 	
-	public <T> void filterAllContainerJPARevert(final JPAContainer<T> container, final String entry, final MenuItem item, final AbstractField absFieldEnd, final AbstractField absField)  {
+	public <T> void filterAllContainerJPARevert(final JPAContainer<T> container, final String entry, final MenuItem item, final AbstractField absFieldEnd, final AbstractField absField,final String id)  {
 		
 		absFieldEnd.addValueChangeListener(new ValueChangeListener() {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				LOG.info("text change" + event.getProperty().getValue() + "  " +  event.getClass().toString());
-				removeFilterJpa(container, entry);
+				//removeFilterJpa(container, entry, id);
+				removeFilterJpa(container, id);
 				if (event.getProperty().getValue().equals("")) showNotificationMessage("Remove all filter from container!!");
-				else addFilter(container, entry, item, absField, absFieldEnd); //CREA TIPOLOGIA FILTRIO girando correttasmente i valori
+				else addFilter(container, entry, item, absField, absFieldEnd, id); //CREA TIPOLOGIA FILTRIO girando correttasmente i valori
 			}
 		});
 	}	
-	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final String entry, final MenuItem item, final AbstractField absField, final AbstractField absFieldEnd) {
+	public <T> void filterAllContainerJPA(final JPAContainer<T> container, final String entry, final MenuItem item, final AbstractField absField, final AbstractField absFieldEnd, final String id) {
 		
 		absField.addValueChangeListener(new ValueChangeListener() {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				LOG.info("text change" + event.getProperty().getValue() + "  " +  event.getClass().toString());
-				removeFilterJpa(container, entry);
+				//removeFilterJpa(container, entry,id);
+				removeFilterJpa(container, id);
 				if (event.getProperty().getValue().equals("")) showNotificationMessage("Remove all filter from container!!");
-				else addFilter(container, entry, item, absField, absFieldEnd); //CREA TIPOLOGIA FILTRIO
+				else addFilter(container, entry, item, absField, absFieldEnd, id); //CREA TIPOLOGIA FILTRIO
 				//else addFilteraddFilterJpa(container, entry, item, absField, absFieldEnd); //CREA TIPOLOGIA FILTRIO
+				
 			}
 		});
 	}	
 	
-	private  <T> void  addFilter(final JPAContainer<T> container, final String entry, MenuItem item,  final AbstractField dataField, final AbstractField dataFieldEnd){
+	
+private  <T> void  addFilter(final JPAContainer<T> container, final String entry, MenuItem item,  final AbstractField dataField, final AbstractField dataFieldEnd, String id){
 
 		FilteringMode filteringMode = null;
 		Filter filter = null;
-		List<Filter> filters = new ArrayList<Filter>();
-		Collection<Filter> cf = container.getContainerFilters();
+		//List<Filter> filters = new ArrayList<Filter>();
+		//Collection<Filter> cf = container.getContainerFilters();
+		//List<Filter> filters = container.getAppliedFilters();
 		if (entry != null) {
 			
 			if (MultilingualString.class.isAssignableFrom(container.getType(entry))
@@ -153,9 +170,15 @@ public class FilterComponentListener implements Container.Filter {
 			} else if(Boolean.class.isAssignableFrom(container.getType(entry))) {	
 				filter = new And(new Compare.Equal(entry, ((CheckBox) dataField).getValue()));
 			} else LOG.info("NESSUN TIPO");
-			filters.add(filter);
+			filterList.put(id, filter);
+			LOG.info("*** aggiungo a filterList " + item.getText() + " - " + filter.toString());
+			//filters.add(filter);
+			setHashListSession(filterList);
+			
+			
 		}
-		container.addContainerFilter(Filters.and(filters));
+		container.addContainerFilter(filter);
+		
 	}
 	
 	 protected Filter buildMultilinguaStringFilter(String entry, String filterString, FilteringMode filteringMode) {
@@ -164,7 +187,6 @@ public class FilterComponentListener implements Container.Filter {
 	        if (null != filterString && !"".equals(filterString)) {
 	            switch (filteringMode) {
 	            case EQUALS:
-	            	filterString = "'" + filterString + "'";
 	            	filter = new MultilingualLikeFilter(entry,locale.getLanguage(), filterString, true);
 	                break;
 	            case STARTSWITH:
@@ -185,8 +207,7 @@ public class FilterComponentListener implements Container.Filter {
 	        if (null != filterString && !"".equals(filterString)) {
 	            switch (filteringMode) {
 	            case EQUALS:
-	            	filterString = "'" + filterString + "'";
-	            	filter = new SimpleStringFilter(entry,filterString, false, true);
+	            	filter = new Compare.Equal(entry, filterString);
 	                break;
 	            case STARTSWITH:
 	            	filterString = filterString + '%';
@@ -263,88 +284,42 @@ public class FilterComponentListener implements Container.Filter {
 		return filteringMode;
 	}
 	
-	public <T> void reloadFilterJpa(final JPAContainer<T> container,final String entry, MenuItem selectedItem, final AbstractField absField, final AbstractField absFieldEnd){
+	public <T> void reloadFilterJpa(final JPAContainer<T> container,final String entry, MenuItem selectedItem, final AbstractField absField, final AbstractField absFieldEnd, final String id){
 		LOG.info("reloadFilterJpa " );
-	 	this.removeFilterJpa(container, entry);
-		if((absField != null) || (absFieldEnd != null)) this.addFilter(container, entry, selectedItem.getParent(), absField, absFieldEnd);
+	 	//this.removeFilterJpa(container, entry, id);
+		this.removeFilterJpa(container, id);
+		if((absField != null) || (absFieldEnd != null)) this.addFilter(container, entry, selectedItem.getParent(), absField, absFieldEnd, id);
 		
 	}
 	
-	public <T> void removeFilterJpa(final JPAContainer<T> container,String entry){
-		 	LOG.info("removeFilterJpa " );
-		 	Filter filter = getFilterJpa(container, entry);
-			if(filter != null) container.removeContainerFilter(filter);
+	//public <T> void removeFilterJpa(final JPAContainer<T> container,String entry, String id){
+	public <T> void removeFilterJpa(final JPAContainer<T> container, String id){
+		 	//LOG.info("removeFilterJpa "  + entry);
+		 	filterList = (Hashtable<String, Container.Filter>) VaadinSession.getCurrent().getAttribute(FILTER_LIST);
+		 	if(filterList == null) filterList = new Hashtable<String, Container.Filter>();
+		 	boolean findfilter = filterList.containsKey(id);
+		 	if(findfilter) {
+		 		Filter filter = filterList.get(id);
+		 		container.setApplyFiltersImmediately(true);
+		 		container.removeContainerFilter(filter);
+		 		filterList.remove(id);
+		 		setHashListSession(filterList);
+		 	}
+		 	
+		 	
 	 }
 	public <T> void removeAllFilterJpa(final JPAContainer<T> container){
 	 	LOG.info("remove allFilterJpa " );
 	 	container.removeAllContainerFilters();
+	 	//devo rimuover sulla filter list tutti gli elementi che inizaono comcomponent name 
+	 	filterList.clear();
+	 	
 	 	
  }
-	 private <T> Filter  getFilterJpa(final JPAContainer<T> container, final String entry){
-		 LOG.info("getFilterJpa emtry " );
-		 List<Filter> lf = container.getAppliedFilters();
-		 Filter currentFilter = null;
-		 Collection<Filter> cf = container.getContainerFilters();
-		 if(!cf.isEmpty()) {
-			
-			 Filter children = cf.iterator().next();
-			 boolean findFilter = false;
-			 for (Filter f : lf) {
-				 if(And.class.isAssignableFrom(f.getClass())) LOG.info("v");
-				 And a = (And) f;
-				 Collection<Filter> sf = a.getFilters();
-				 for (Filter filter : sf) {
-					 And sa = (And) filter;
-					 if(SimpleStringFilter.class.isAssignableFrom(sa.getFilters().getClass())) LOG.info("finalement");
-					 if(MultilingualLikeFilter.class.isAssignableFrom(sa.getFilters().getClass())) LOG.info("finalement multi");
-					 
-					 Filter thisF = (Filter)sa.getFilters().iterator().next();
-					 if(SimpleStringFilter.class.isAssignableFrom(thisF.getClass())) {
-						 final SimpleStringFilter ssf = (SimpleStringFilter) thisF;
-						 LOG.info("SimpleStringFilter " + ssf.getFilterString() + ssf.getPropertyId());
-						 if(ssf.getPropertyId().equals(entry)) findFilter = true;
-					 }
-					 if(MultilingualLikeFilter.class.isAssignableFrom(thisF.getClass())) {
-						 final MultilingualLikeFilter ssf = (MultilingualLikeFilter) thisF;
-						 LOG.info("MultilingualLikeFilter " + ssf.getSubqueryProperty());
-						 if(ssf.getSubqueryProperty().equals(entry)) findFilter = true;
-					 }
-					 if(Compare.LessOrEqual.class.isAssignableFrom(thisF.getClass())){
-						 final Compare.LessOrEqual ssf = (Compare.LessOrEqual) thisF;
-						 LOG.info("Compare less " + ssf.getPropertyId());
-						 if(ssf.getPropertyId().equals(entry)) findFilter = true;
-					 } else if(Compare.GreaterOrEqual.class.isAssignableFrom(thisF.getClass())){
-						 final Compare.GreaterOrEqual ssf = (Compare.GreaterOrEqual) thisF;
-						 LOG.info("Compare GreaterOrEqual " + ssf.getPropertyId());
-						 if(ssf.getPropertyId().equals(entry)) findFilter = true;
-					 } else  if(And.class.isAssignableFrom(thisF.getClass())){
-						 final And ssf = (And) thisF;
-						 Filter f1 = ssf.getFilters().iterator().next();
-						try {
-							final Compare.LessOrEqual cl = (Compare.LessOrEqual) f1;
-							LOG.info("Compare less " + cl.getPropertyId());
-							if(cl.getPropertyId().equals(entry)) findFilter = true;
-						} catch(Exception _e) {
-							LOG.info("NO SUB");
-						}
-					 } else if(Compare.Equal.class.isAssignableFrom(thisF.getClass())){
-						 final Compare.Equal ssf = (Compare.Equal) thisF;
-						 LOG.info("Compare less " + ssf.getPropertyId());
-						 if(ssf.getPropertyId().equals(entry)) findFilter = true;
-					 }
-					 if(findFilter) {
-						 currentFilter = a;
-						 break;
-					 }
-				}
-				if(findFilter) break;
-				 
-			 }
-		 }
-		
-		 return currentFilter;
-	}
 	
+	private void setHashListSession(Hashtable<String, Container.Filter> ht) {
+		VaadinSession.getCurrent().setAttribute(FILTER_LIST, ht);
+	}
 	 public static Component findComponentById(HasComponents root, String id) {
 		    for (Component child : root) {
 		        if (id.equals(child.getId())) {

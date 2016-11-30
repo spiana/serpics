@@ -52,6 +52,7 @@ public class FilterComponent<T> extends CustomComponent {
 	private MenuBar mb;
 	private MenuItem mi;
 
+	
 	protected transient JPAContainer<T> container;
 
 	private FilterComponentListener filterComponentListner;
@@ -97,6 +98,7 @@ public class FilterComponent<T> extends CustomComponent {
 		item = this.mi.addItem(printFilterLabelLang("like"), stringChecked);
 		item.setCheckable(true);
 
+		String id = getFilterComponentName();
 		TextField searchString = new TextField();
 		searchString.setCaption(printLabelLang(getName(this.getId())));
 		searchString.setTextChangeTimeout(200);
@@ -104,9 +106,10 @@ public class FilterComponent<T> extends CustomComponent {
 		searchString.setVisible(false);
 		searchString.setValue("");
 		searchString.setImmediate(true);
-		searchString.setId("absf-"+ this.caption);
+		searchString.setId(id);
+		
 		filterComponentListner.get().filterAllContainerJPA(container, this.caption, this.mi,
-				(AbstractTextField) searchString);
+				(AbstractTextField) searchString, id);
 		
 		this.main.addComponent(searchString);
 	}
@@ -126,23 +129,25 @@ public class FilterComponent<T> extends CustomComponent {
 		item.setCheckable(true);
 		item = this.mi.addItem(printFilterLabelLang("between"), dataBetweenChecked);
 		item.setCheckable(true);
-
+		
+		String id = getFilterComponentName("datas");
+		String ide = getFilterComponentName("datae");
 		DateField dataField = new DateField();
 		dataField.setCaption(printLabelLang(getName(this.getId())));
 		dataField.setValue(new Date());
 		dataField.setVisible(false);
 		
-		dataField.setId("absf-"+ this.caption);
+		dataField.setId(id);
 		this.main.addComponent(dataField);
 
 		DateField dataEnd = new DateField();
 		dataEnd.setValue(new Date());
 		dataEnd.setCaption(printLabelLang(getName(this.getId())));
 		dataEnd.setVisible(false);
-		dataEnd.setId("absfe-"+ this.caption);
+		dataEnd.setId(ide);
 		
-		filterComponentListner.get().filterAllContainerJPA(container, this.caption, this.mi, (AbstractField) dataField, (AbstractField) dataEnd);
-		filterComponentListner.get().filterAllContainerJPARevert(container, this.caption, this.mi,  (AbstractField) dataEnd,(AbstractField) dataField);
+		filterComponentListner.get().filterAllContainerJPA(container, this.caption, this.mi, (AbstractField) dataField, (AbstractField) dataEnd, id);
+		filterComponentListner.get().filterAllContainerJPARevert(container, this.caption, this.mi,  (AbstractField) dataEnd,(AbstractField) dataField, ide);
 
 		this.main.addComponent(dataEnd);
 	}
@@ -184,15 +189,16 @@ public class FilterComponent<T> extends CustomComponent {
 		textField.setId("absf-"+ this.caption);
 		this.main.addComponent(textField);
 
+		String id = getFilterComponentName("datae");
 		TextField textFieldEnd = new TextField();
 		textFieldEnd.setCaption(this.caption);
 		textFieldEnd.setVisible(false);
 		textFieldEnd.setValue("0");
 		textFieldEnd.setConverter(Integer.class);
-		textFieldEnd.setId("absfe-"+ this.caption);
+		textFieldEnd.setId(id);
 		this.main.addComponent(textFieldEnd);
 		
-		filterComponentListner.get().filterAllContainerJPA(container, this.caption, this.mi, (AbstractField) textField, (AbstractField) textFieldEnd);
+		filterComponentListner.get().filterAllContainerJPA(container, this.caption, this.mi, (AbstractField) textField, (AbstractField) textFieldEnd, id);
 
 	}
 
@@ -241,10 +247,11 @@ public class FilterComponent<T> extends CustomComponent {
 				cb.setValue(value);
 				cb.setVisible(false);
 				
-				filterComponentListner.get().reloadFilterJpa(container, getName(mb.getId()), selectedItem, (AbstractField) cb, null);
+				filterComponentListner.get().reloadFilterJpa(container, getName(mb.getId()), selectedItem, (AbstractField) cb, null, mb.getId());
 			}else  {
 				mb.getItems().get(0).setText(printLabelLang(getName(mb.getId())));
-				filterComponentListner.get().removeFilterJpa(container,getName(mb.getId()));
+				//filterComponentListner.get().removeFilterJpa(container,getName(mb.getId()),mb.getId());
+				filterComponentListner.get().removeFilterJpa(container,getFilterComponentName());
 			}
 			
 		}
@@ -263,7 +270,7 @@ public class FilterComponent<T> extends CustomComponent {
 				ce.setVisible(true);				
 			}
 			
-			if(isChange) filterComponentListner.get().reloadFilterJpa(container, getName(this.mb.getId()), selectedItem, cs, ce); //AGGIORNA FILTRO SE CAMBIO TIPO DI RICERCA
+			if(isChange) filterComponentListner.get().reloadFilterJpa(container, getName(this.mb.getId()), selectedItem, cs, ce, this.getFilterComponentName()); //AGGIORNA FILTRO SE CAMBIO TIPO DI RICERCA
 			String fieldTextCaption = cs.getCaption();
 			//LOG.info("FIELD TEXT " + fieldTextCaption);
 			
@@ -274,11 +281,14 @@ public class FilterComponent<T> extends CustomComponent {
 		} else {
 			this.mb.getItems().get(0).setText(printLabelLang(getName(this.mb.getId())));
 			cs.setImmediate(true);
+			cs.setValue((T)"" );
 			if ((cs != null) && cs.isVisible())
 				cs.setVisible(false);
 			if ((ce != null) && ce.isVisible())
 				ce.setVisible(false);
-			filterComponentListner.get().removeFilterJpa(container,getName(this.mb.getId()));
+			//filterComponentListner.get().removeFilterJpa(container,getName(this.mb.getId()),this.getFilterComponentName());
+			filterComponentListner.get().removeFilterJpa(container,this.getFilterComponentName());
+			
 
 		}
 	}
@@ -304,6 +314,7 @@ public class FilterComponent<T> extends CustomComponent {
 	public void removeContent(String id, HorizontalLayout filterPanel) {
 		//Component root = getCompositionRoot();
 		LOG.info("removeContent - id main" + this.main.getId() + " id menubar " + this.mb.getId() + " id attule " + id);
+		//filterComponentListner.get().removeFilterJpa(container,id,id);
 		filterComponentListner.get().removeFilterJpa(container,id);
 		Component c = filterComponentListner.get().findComponentById(filterPanel, "fc-" + id);
 		filterPanel.removeComponent(c);
@@ -330,5 +341,13 @@ public class FilterComponent<T> extends CustomComponent {
 	}
 	private String printFilterLabelLang(String name){
 		return I18nUtils.getMessage("filter." + name,name);
+	}
+	
+	private String getFilterComponentName() {
+		return getFilterComponentName("");
+	}
+	private String getFilterComponentName(String prex) {
+		String id = prex + container.getEntityClass().getSimpleName() + "-" +  this.caption;
+		return id;
 	}
 }

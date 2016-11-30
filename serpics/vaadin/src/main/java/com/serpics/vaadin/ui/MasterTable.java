@@ -80,6 +80,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	protected Button deleteButton ;
 
 	protected transient JPAContainer<T> container;
+	
+	public List<FilterComponent<T>> listFilter;
 
 	public MasterTable(final Class<T> entityClass) {
 		super();
@@ -130,7 +132,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		EntityFormWindow<T> editorWindow =  (EntityFormWindow<T> ) PropertiesUtils.get().getEditBean(entityClass.getSimpleName());	
 		if (editorWindow == null){
 			editorWindow = new EntityFormWindow<T>(entityClass.getSimpleName());
-			editorWindow.addTab(new MasterForm<T>(entityClass) {}, "main");
+			editorWindow.addTab(new MasterForm<T>(entityClass) {}, I18nUtils.getMessage(entityClass.getSimpleName(),"main"));
 		}
 		editorWindow.setCaption(entityClass.getSimpleName());
 		return editorWindow;
@@ -351,7 +353,6 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 					}
 				}
     			//Rimozione  item corrent
-    			//filterComponent.removeContent(selectedItem, filterPanel);  
     			 filterComponent.removeContent(caption, filterPanel);
     			if(disableAll) {
     				filterPanel.setEnabled(false); // rimossi tutti filtri disabulito pannello
