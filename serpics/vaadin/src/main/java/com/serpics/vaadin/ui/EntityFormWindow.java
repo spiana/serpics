@@ -120,12 +120,14 @@ public class EntityFormWindow<T> extends Window implements Handler {
         vl.setExpandRatio(tabSheet, 1);
 
         if (isNewItem()){
-        	createButton = new Button("Create");
+        	createButton = new Button(I18nUtils.getMessage("smc.button.add", "Create"));
         	createButton.addStyleName("primary");
+        	setCaption(I18nUtils.getMessage("panel.new",""));
         }else{
-        	saveButton = new Button("Save");
+        	saveButton = new Button(I18nUtils.getMessage("smc.button.save", "Save"));
         	saveButton.addStyleName("primary");
-        	cancelButton = new Button("Cancel");
+        	cancelButton = new Button(I18nUtils.getMessage("smc.button.cancel", "Cancel"));
+        	setCaption(I18nUtils.getMessage("panel.upd",""));
         }
       
      

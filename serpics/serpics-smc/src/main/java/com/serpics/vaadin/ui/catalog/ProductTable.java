@@ -18,6 +18,7 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.ProductVariant;
 import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
@@ -85,12 +86,12 @@ public class ProductTable extends MasterTable<Product> {
     public EntityFormWindow<Product> buildEntityWindow() {
     	 EntityFormWindow<Product> editorWindow = new ProductEditWindow();
     	 
-    	 editorWindow.addTab(buildMainTab(), "main");
-    	 editorWindow.addTab(buildPriceTab(), "prices");
-    	 editorWindow.addTab(buildCategoriesTab(), "categories");
-    	 editorWindow.addTab(buildFeatureValueTab(), "features");
+    	 editorWindow.addTab(buildMainTab(), I18nUtils.getMessage("product",""));
+    	 editorWindow.addTab(buildPriceTab(), I18nUtils.getMessage("prices",""));
+    	 editorWindow.addTab(buildCategoriesTab(), I18nUtils.getMessage("categories",""));
+    	 editorWindow.addTab(buildFeatureValueTab(), I18nUtils.getMessage("features",""));
     	 
-    	 editorWindow.addTab(buildVariantTab(), "variant");
+    	 editorWindow.addTab(buildVariantTab(), I18nUtils.getMessage("variant",""));
     
     	 
     	 

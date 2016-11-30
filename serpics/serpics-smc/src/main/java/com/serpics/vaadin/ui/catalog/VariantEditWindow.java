@@ -23,6 +23,7 @@ import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.ProductVariant;
 import com.serpics.catalog.data.model.VariantAttribute;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
@@ -48,10 +49,10 @@ public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
 	 * 
 	 */
 	public VariantEditWindow() {
-		addTab(buildMainTab(), "main");
-		addTab(buildPriceTab(), "prices");
-		addTab(buildProductAttributeTab() , "attribute");
-		addTab(buildVariantTab() , "variant");
+		addTab(buildMainTab(), I18nUtils.getMessage("variant", "main"));
+		addTab(buildPriceTab(), I18nUtils.getMessage("prices", "prices"));
+		addTab(buildProductAttributeTab() , I18nUtils.getMessage("attribute", "attribute"));
+		addTab(buildVariantTab() , I18nUtils.getMessage("listvariant", "list"));
 			
 	}
 	
@@ -145,7 +146,7 @@ public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
     						return super.createField(pid);
     				}
     			
-				}, "main");
+				}, "variantattribute");
     			 
     			 return w;
     		}

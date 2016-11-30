@@ -275,20 +275,20 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    if(!entityItem.isPersistent() || isReadOnly())
 	    	buttons.setEnabled(false);
 	    
-	    buttons.addComponent(new Button(I18nUtils.getMessage("button.add", "Add"), new Button.ClickListener()
+	    buttons.addComponent(new Button(I18nUtils.getMessage("smc.button.add", "Add"), new Button.ClickListener()
 	    {
 	      public void buttonClick(Button.ClickEvent event) {
 	        addNew();
 	      }
 	    }));
-	    buttons.addComponent(new Button(I18nUtils.getMessage("button.modify", "Modify"), new Button.ClickListener()
+	    buttons.addComponent(new Button(I18nUtils.getMessage("smc.button.modify", "Modify"), new Button.ClickListener()
 	    {
 	      public void buttonClick(Button.ClickEvent event) {
 	    	  if (getTable().getValue() != null	)
 	    		  modify(getTable().getValue());
 	      }
 	    }));
-	    buttons.addComponent(new Button(I18nUtils.getMessage("button.remove", "Remove"), new Button.ClickListener()
+	    buttons.addComponent(new Button(I18nUtils.getMessage("smc.button.remove", "Remove"), new Button.ClickListener()
 	    {
 	      public void buttonClick(Button.ClickEvent event) {
 	    	  remove(getTable().getValue());

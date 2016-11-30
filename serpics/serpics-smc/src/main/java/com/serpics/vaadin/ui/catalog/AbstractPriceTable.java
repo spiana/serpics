@@ -17,6 +17,7 @@ package com.serpics.vaadin.ui.catalog;
 
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Price;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
@@ -52,7 +53,7 @@ public abstract class AbstractPriceTable<P extends AbstractProduct> extends Mast
                         "validFrom", "validTo" });
             }
 
-        }, "main");
+        }, I18nUtils.getMessage(Price.class.getSimpleName().toLowerCase(),"main"));
     	return editorWindow;
     }
     @Override
