@@ -49,8 +49,8 @@ public abstract class AbstractPriceTable<P extends AbstractProduct> extends Mast
             @Override
             public void init() {
                 super.init();
-   //             setDisplayProperties(new String[] { "precedence","currentPrice", "productCost", "productPrice",
-    //                    "validFrom", "validTo" });
+             setDisplayProperties(new String[] { "precedence","currentPrice", "productCost", "productPrice",
+                      "validFrom", "validTo" });
             }
 
         }, "main");
@@ -58,8 +58,8 @@ public abstract class AbstractPriceTable<P extends AbstractProduct> extends Mast
     }
     @Override
     public void init() {
-      //  setPropertyToShow(new String[] { "precedence" ,"currentPrice", "productCost", "productPrice", "currency.isoCode",
-       //         "validFrom", "validTo" });
+       setPropertyToShow(new String[] { "precedence" ,"currentPrice", "productCost", "productPrice", "currency.isoCode",
+               "validFrom", "validTo" });
         setParentProperty("prices");
     }
 }

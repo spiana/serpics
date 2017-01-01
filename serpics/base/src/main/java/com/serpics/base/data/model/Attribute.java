@@ -24,7 +24,6 @@ import javax.persistence.Embedded;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -39,7 +38,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
 public class Attribute extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
+   
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="attribute_id")
     private Long id;

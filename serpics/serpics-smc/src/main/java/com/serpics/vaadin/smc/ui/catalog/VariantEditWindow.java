@@ -24,6 +24,7 @@ import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.ProductVariant;
 import com.serpics.catalog.data.model.VariantAttribute;
+import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
@@ -43,6 +44,7 @@ import com.vaadin.ui.Field;
  * @author spiana
  *
  */
+@VaadinComponent("variantEditWindow")
 public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
 
 	/**

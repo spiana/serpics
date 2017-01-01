@@ -140,6 +140,7 @@
     <module>postman-service</module>
     <module>serpics-smc</module>
     <module>standalone</module>
+    <module>b2bcatalog</module>
   </modules>
   
   <version>1.1-SNAPSHOT</version>
