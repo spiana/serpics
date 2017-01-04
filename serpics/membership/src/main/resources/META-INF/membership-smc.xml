@@ -94,5 +94,9 @@
 		<property name="name" table="true" select="true" />
 		<property name="description" table="true" />
 	</entity>
-
+	
+	<entity name="role">
+		<property name="name" search="true" />
+		<property name="description" search="true"/>
+	</entity>
 </smc-definition>

@@ -17,6 +17,7 @@ package com.serpics.config;
 
 import java.util.Map;
 
+
 /**
  * @author spiana
  *
@@ -37,6 +38,7 @@ public class ComponentBean {
 
 	public void setStoreImpl(Map<String, Class<?>> storeImpl) {
 		this.storeImpl = storeImpl;
+
 	}
 
 	public String getScope() {

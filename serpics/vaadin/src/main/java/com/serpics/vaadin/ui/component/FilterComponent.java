@@ -17,26 +17,38 @@
 package com.serpics.vaadin.ui.component;
 
 import java.util.Date;
-import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.FilterComponentUtils;
+import com.serpics.vaadin.ui.FilterComponentUtils.FilteringMode;
+import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
 /**
@@ -50,254 +62,408 @@ public class FilterComponent<T> extends CustomComponent {
 
 	HorizontalLayout main;
 	private String propertyId;	
-	private MenuBar mb;
-	private MenuItem mi;
+	private MenuBar menuBar;
+	private Filter currentFilter;
+	private FilteringMode filteringMode = FilteringMode.OFF;
 	
-	// private Map<String , Filter> appliedFilter = new HashMap<String, Container.Filter>();
-
 	protected transient JPAContainer<T> container;
 
-	private FilterComponentUtils filterComponentUtils;
-
-	public FilterComponent() {
-
-		super();
-
+	public FilterComponent(String propertyId) {
+		this.propertyId = propertyId;
 	}
 
 	public void buildContent() {
 
 		LOG.info("entry buildContent");
-		this.main = new HorizontalLayout();
-		this.main.setId("hl-"+this.propertyId);
-		this.mb = new MenuBar();
-		mb.setId("mb-"+this.propertyId);
-		this.mi = mb.addItem(printLabelLang(this.propertyId), null);
+		
+		main = new HorizontalLayout();
+		setCompositionRoot(main);
+		
+		main.setMargin(new MarginInfo(false,true,false,true));
+		
+		menuBar = new MenuBar();
+		menuBar.setCaption(printLabelLang(propertyId));
+		main.addComponentAsFirst(this.menuBar);
+		if (this.container.getPropertyKind(propertyId).equals(PropertyKind.SIMPLE)){
+			
+			if (String.class.isAssignableFrom(this.container.getType(this.propertyId)))
+				menuStringItem();
+			else if (Multilingual.class.isAssignableFrom(this.container.getType(propertyId)))
+				menuStringItem();
+			else if (Date.class.isAssignableFrom(this.container.getType(propertyId)))
+				menuDateItem();
+			else if (Number.class.isAssignableFrom(this.container.getType(propertyId)))
+				menuNumericItem();
+			else if (Boolean.class.isAssignableFrom(this.container.getType(propertyId)))
+				menuBooleanItem();
+			else if (Enum.class.isAssignableFrom(container.getType(propertyId)))
+				menuEnumeration();
+		}
+	
+		this.container.getPropertyKind(propertyId);
 
-		LOG.info("HL"  + " hl-"+this.propertyId);
-		LOG.info("mb"  + " mb-"+this.propertyId);
-		if (String.class.isAssignableFrom(this.container.getType(this.propertyId)))
-			menuStringItem();
-		else if (MultilingualString.class.isAssignableFrom(this.container.getType(propertyId)))
-			menuStringItem();
-		else if (Date.class.isAssignableFrom(this.container.getType(propertyId)))
-			menuDateItem();
-		else if (Double.class.isAssignableFrom(this.container.getType(propertyId)))
-			menuNumericItem();
-		else if (Boolean.class.isAssignableFrom(this.container.getType(propertyId)))
-			menuBooleanItem();
-		this.main.addComponentAsFirst(this.mb);
-		this.main.setSpacing(true);
-		setCompositionRoot(this.main);
 
 	}
 
-	protected void menuStringItem() {
-		MenuItem item = this.mi.addItem(printFilterLabelLang("equals"), stringChecked);
-		item.setCheckable(true);
-		item = this.mi.addItem(printFilterLabelLang("startwith"), stringChecked);
-		item.setCheckable(true);
-		item = this.mi.addItem(printFilterLabelLang("like"), stringChecked);
-		item.setCheckable(true);
+	protected void menuEnumeration(){
+		    try {
+		    	EntityItem<T> entityItem =  container.createEntityItem(container.getEntityClass().newInstance());
+		    	final Field<?> f  = CustomFieldFactory.get().createField(entityItem, propertyId, this);
+		    	f.setCaption("");
+		    	
+		    	final MenuItem item = menuBar.addItem("", null); 
+				item.addItem(printFilterLabelLang("isempty"), new Command() {
+					
+					@Override
+					public void menuSelected(MenuItem selectedItem) {
+						container.removeContainerFilter(currentFilter);
+						filteringMode = FilteringMode.ISEMPTY;
+						currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, (AbstractField) f , null);
+						
+					}
+				});
 
-		TextField searchString = new TextField();
-		searchString.setCaption(printLabelLang(getName(this.getId())));
+				item.addItem(printFilterLabelLang("equals"), new Command() {
+					
+					@Override
+					public void menuSelected(MenuItem selectedItem) {
+						container.removeContainerFilter(currentFilter);
+						filteringMode = FilteringMode.EQUALS;
+						selectedItem.getParent().setText(selectedItem.getText());
+						if (f.getValue() != null)
+							currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, (AbstractField) f  , null);
+					}
+				});
+		    	
+				
+				main.addComponent(f);
+				f.addValueChangeListener(new ValueChangeListener() {
+					
+					@Override
+					public void valueChange(ValueChangeEvent event) {
+						container.removeContainerFilter(currentFilter);	
+						if (f.getValue() != null){
+							currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, (AbstractField) f, null);
+							container.addContainerFilter(currentFilter);
+						}
+						
+					}
+				});
+			} catch (InstantiationException | IllegalAccessException e) {
+				
+				e.printStackTrace();
+			}
+	         
+	    }
+	
+	protected void menuStringItem() {
+		
+		final TextField searchString = new TextField();
+		
+		final MenuItem item = menuBar.addItem("", null); 
+		item.addItem(printFilterLabelLang("isempty"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ISEMPTY;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (!searchString.getValue().isEmpty())
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
+				
+			}
+		});
+
+		item.addItem(printFilterLabelLang("equals"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.EQUALS;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (!searchString.getValue().isEmpty())
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
+				
+			}
+		});
+		
+		item.addItem(printFilterLabelLang("startwith"), new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.STARTSWITH;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (StringUtils.isNotEmpty(searchString.getValue()))
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
+			}
+		});
+		
+		item.addItem(printFilterLabelLang("endwith"), new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ENDWITH;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (StringUtils.isNotEmpty(searchString.getValue()))
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
+			}
+		});
+		
+		item.addItem(printFilterLabelLang("like"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.CONTAINS;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (StringUtils.isNotEmpty(searchString.getValue()))
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
+				
+			}
+		});
+	
+		String id = getFilterComponentName();
+		
+		searchString.setCaption("");
 		searchString.setTextChangeTimeout(200);
 		searchString.setTextChangeEventMode(TextChangeEventMode.LAZY);
-		searchString.setVisible(false);
+		searchString.setVisible(true);
 		searchString.setValue("");
 		searchString.setImmediate(true);
-		searchString.setId("absf-"+ this.propertyId);
-		filterComponentUtils.get().filterAllContainerJPA(container, this.propertyId, this.mi,
-				(AbstractTextField) searchString);
+
+		searchString.setId(id);
+		
+		searchString.addTextChangeListener(new TextChangeListener() {
+			
+			@Override
+			public void textChange(TextChangeEvent event) {
+				LOG.info("text change" + event.getText());
+				container.removeContainerFilter(currentFilter);
+				AbstractTextField c = (AbstractTextField)event.getComponent();
+				c.setValue(event.getText());
+				if (event.getText().equals("")) 
+					showNotificationMessage("Remove all filter from container!!");
+				else
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, c, null); //CREA TIPOLOGIA FILTRIO
+			}
+		});
 		
 		this.main.addComponent(searchString);
 	}
 
-	private Command stringChecked = new Command() {
-		public void menuSelected(MenuItem selectedItem) {
-			AbstractTextField cs = (AbstractTextField) main.getComponent(1);
-			managerMenu(selectedItem, (AbstractField) cs, null);
-		}
-	};
+
 
 	private void menuDateItem() {
-		// TODO Auto-generated method stub
-		MenuItem item = this.mi.addItem(printFilterLabelLang("before"), dataChecked);
-		item.setCheckable(true);
-		item = this.mi.addItem(printFilterLabelLang("after"), dataChecked);
-		item.setCheckable(true);
-		item = this.mi.addItem(printFilterLabelLang("between"), dataBetweenChecked);
-		item.setCheckable(true);
-
-		DateField dataField = new DateField();
-		dataField.setCaption(printLabelLang(getName(this.getId())));
-		dataField.setValue(new Date());
-		dataField.setVisible(false);
 		
-		dataField.setId("absf-"+ this.propertyId);
-		this.main.addComponent(dataField);
-
-		DateField dataEnd = new DateField();
-		dataEnd.setValue(new Date());
-		dataEnd.setCaption(printLabelLang(getName(this.getId())));
-		dataEnd.setVisible(false);
-		dataEnd.setId("absfe-"+ this.propertyId);
+		final DateField dataStart = new DateField();
+		final DateField dataEnd = new DateField();
 		
-		filterComponentUtils.get().filterAllContainerJPA(container, this.propertyId, this.mi, (AbstractField) dataField, (AbstractField) dataEnd);
-		filterComponentUtils.get().filterAllContainerJPARevert(container, this.propertyId, this.mi,  (AbstractField) dataEnd,(AbstractField) dataField);
-
-		this.main.addComponent(dataEnd);
-	}
-
-	private Command dataChecked = new Command() {
-		public void menuSelected(MenuItem selectedItem) {
-			DateField cs = (DateField) main.getComponent(1);
-			DateField ce = (DateField) main.getComponent(2);
-			if(ce.isVisible()) {
-				ce.setValue(new Date());
-				ce.setVisible(false);
+		final MenuItem item = menuBar.addItem("", null); 
+		
+		item.addItem(printFilterLabelLang("isempty"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ISEMPTY;
+				selectedItem.getParent().setText(selectedItem.getText());
+				dataEnd.setVisible(false);
+				if (dataStart.getValue() != null)
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, dataStart , null);
 			}
- 			managerMenu(selectedItem, (AbstractField) cs, null);
-		}
-	};
-
-	private Command dataBetweenChecked = new Command() {
-		public void menuSelected(MenuItem selectedItem) {
-			// TextField tf = (TextField)main.getComponent(1);
-			DateField cs = (DateField) main.getComponent(1);
-			DateField ce = (DateField) main.getComponent(2);
-			managerMenu(selectedItem, (AbstractField) cs, (AbstractField) ce);
-		}
-	};
-
+		});
+		
+		item.addItem(printFilterLabelLang("before"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.LESSOREQUAL;
+				selectedItem.getParent().setText(selectedItem.getText());
+				dataEnd.setVisible(false);
+				if (dataStart.getValue() != null)
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, dataStart , null);
+			}
+		});
+		item.addItem(printFilterLabelLang("after"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.GREATEROREQUAL;
+				dataEnd.setVisible(false);
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (dataStart.getValue() != null)
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, dataStart , null);
+				
+			}
+		});
+		item.addItem(printFilterLabelLang("between"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.BETWEEN;
+				dataEnd.setVisible(true);
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (dataStart.getValue() != null && dataEnd.getValue() != null)
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, dataStart , dataEnd);
+				
+			}
+		});
+		
+		
+		
+		dataStart.setCaption("");
+		dataStart.setValue(new Date());
+		dataStart.setVisible(true);
+		main.addComponent(dataStart);
+		
+		dataEnd.setValue(new Date());
+		dataEnd.setCaption("");
+		dataEnd.setVisible(false);
+		main.addComponent(dataEnd);
+	
+		dataStart.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				container.removeContainerFilter(currentFilter);
+				if (event.getProperty().getValue() == null) 
+					showNotificationMessage("Remove all filter from container!!");
+				else {
+					currentFilter =FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart, dataEnd); 
+					container.addContainerFilter(currentFilter);
+				}
+			}
+		});
+		
+		dataEnd.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				container.removeContainerFilter(currentFilter);
+				if (event.getProperty().getValue().equals("")) 
+					showNotificationMessage("Remove all filter from container!!");
+				else {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart, dataEnd); 
+					container.addContainerFilter(currentFilter);
+				}
+			}
+		});
+		
+	}
+	
 	private void menuNumericItem() {
-		MenuItem item = this.mi.addItem(printFilterLabelLang("lessequal"), numberChecked);
-		item.setCheckable(true);
-		item = this.mi.addItem(printFilterLabelLang("greaterequal"), numberChecked);
-		item.setCheckable(true);
-		item = this.mi.addItem(printFilterLabelLang("between"), numberBetweenChecked);
-		item.setCheckable(true);
-
-		TextField textField = new TextField();
+		
+		final TextField textField = new TextField();
+		textField.setCaption("");
+		
+		final MenuItem item = menuBar.addItem("", null); 
+		
+		item.addItem(printFilterLabelLang("isempty"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ISEMPTY;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (StringUtils.isNotEmpty(textField.getValue()))
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, textField , null);
+				
+			}
+		});
+		
+		item.addItem(printFilterLabelLang("lessequal"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.LESSOREQUAL;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (StringUtils.isNotEmpty(textField.getValue()))
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, textField , null);
+				
+			}
+		});
+		item.addItem(printFilterLabelLang("greaterequal"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.GREATEROREQUAL;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (StringUtils.isNotEmpty(textField.getValue()))
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, textField , null);
+				
+			}
+		});
+		
+		
+		
 		textField.setCaption(this.propertyId);
-		textField.setVisible(false);
+		textField.setVisible(true);
 		textField.setValue("0");
 		textField.setConverter(Integer.class);
-		textField.setId("absf-"+ this.propertyId);
-		this.main.addComponent(textField);
-
-		TextField textFieldEnd = new TextField();
-		textFieldEnd.setCaption(this.propertyId);
-		textFieldEnd.setVisible(false);
-		textFieldEnd.setValue("0");
-		textFieldEnd.setConverter(Integer.class);
-		textFieldEnd.setId("absfe-"+ this.propertyId);
-		this.main.addComponent(textFieldEnd);
+		main.addComponent(textField);
 		
-		filterComponentUtils.get().filterAllContainerJPA(container, this.propertyId, this.mi, (AbstractField) textField, (AbstractField) textFieldEnd);
-
+		textField.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				LOG.info("text change" + event.getProperty().getValue() + "  " +  event.getClass().toString());
+				container.removeContainerFilter(currentFilter);
+				if (event.getProperty().getValue().equals("")) 
+					showNotificationMessage("Remove all filter from container!!");
+				else 
+					currentFilter =FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, textField, null); 
+			}
+		});
 	}
-
-	private Command numberChecked = new Command() {
-		public void menuSelected(MenuItem selectedItem) {
-			TextField cs = (TextField) main.getComponent(1);
-			TextField ce = (TextField) main.getComponent(2);
-			managerMenu(selectedItem, (AbstractField) cs, null);
-		}
-	};
-
-	private Command numberBetweenChecked = new Command() {
-		public void menuSelected(MenuItem selectedItem) {
-			TextField cs = (TextField) main.getComponent(1);
-			TextField ce = (TextField) main.getComponent(2);
-			managerMenu(selectedItem, (AbstractField) cs, (AbstractField) ce);
-		}
-	};
-
+	
 	
 	private void menuBooleanItem() {
-		MenuItem item = this.mi.addItem(printFilterLabelLang("true"), boolChecked);
-		item.setCheckable(true);
-		item = this.mi.addItem(printFilterLabelLang("false"), boolChecked);
-		item.setCheckable(true);
-	}
-	
-	private Command boolChecked = new Command() {
-		public void menuSelected(MenuItem selectedItem) {
-			boolean isChange = oneCheck(selectedItem);
+		final MenuItem item = menuBar.addItem("", null); 
+		item.addItem(printFilterLabelLang("true"), new Command() {
 			
-			List<MenuItem> parent = selectedItem.getParent().getChildren();
-			Boolean value = false;
-			
-			if(parent.get(0).isChecked() || parent.get(1).isChecked()) {
-				if(parent.get(0).isChecked())  {
-					value = true;
-					parent.get(1).setChecked(false);
-					
-				} else {
-					value = false;
-					parent.get(0).setChecked(false);
-				}
-				mb.getItems().get(0).setText(printLabelLang(getName(mb.getId())) + ": " + selectedItem.getText());
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.EQUALS;
+				selectedItem.getParent().setText(selectedItem.getText());
 				CheckBox cb = new CheckBox();
-				cb.setValue(value);
+				cb.setValue(true);
 				cb.setVisible(false);
+				currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, cb , null);
 				
-				filterComponentUtils.get().reloadFilterJpa(container, getName(mb.getId()), selectedItem, (AbstractField) cb, null);
-			}else  {
-				mb.getItems().get(0).setText(printLabelLang(getName(mb.getId())));
-				filterComponentUtils.get().removeFilterJpa(container,getName(mb.getId()));
 			}
+		});
+		item.addItem(printFilterLabelLang("false"), new Command() {
 			
-		}
-	};
-
-	private void managerMenu(MenuItem selectedItem, AbstractField<T> cs, AbstractField<T> ce) {
-		LOG.info("Menager menu - entry");
-		if (selectedItem.isChecked()) {
-			boolean isChange = oneCheck(selectedItem);
-			if ((cs != null) && !cs.isVisible()) {
-				cs.setCaption(null);
-				cs.setVisible(true);
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+					selectedItem.getParent().setText(selectedItem.getText());
+					container.removeContainerFilter(currentFilter);
+					filteringMode = FilteringMode.EQUALS;
+					selectedItem.getParent().setText(selectedItem.getText());
+					CheckBox cb = new CheckBox();
+					cb.setValue(false);
+					cb.setVisible(false);
+					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, cb , null);
 			}
-			if ((ce != null) && !ce.isVisible()){
-				ce.setCaption(null);
-				ce.setVisible(true);				
-			}
-			
-			if(isChange) filterComponentUtils.get().reloadFilterJpa(container, getName(this.mb.getId()), selectedItem, cs, ce); //AGGIORNA FILTRO SE CAMBIO TIPO DI RICERCA
-			String fieldTextCaption = cs.getCaption();
-			//LOG.info("FIELD TEXT " + fieldTextCaption);
-			
-			this.mb.getItems().get(0).setText(printLabelLang(getName(this.mb.getId())) + ": " + selectedItem.getText());
-			//LOG.info("ID PARENT" + selectedItem.getParent().getId() + selectedItem.getParent().getText());
-			//LOG.info("selectedItem" +selectedItem.getId() + "-" + selectedItem.getText());
-			
-		} else {
-			this.mb.getItems().get(0).setText(printLabelLang(getName(this.mb.getId())));
-			cs.setImmediate(true);
-			if ((cs != null) && cs.isVisible())
-				cs.setVisible(false);
-			if ((ce != null) && ce.isVisible())
-				ce.setVisible(false);
-			filterComponentUtils.get().removeFilterJpa(container,getName(this.mb.getId()));
-
-		}
+		});
 	}
-
-	/* @descritpion: solo un check per menu */
-	private boolean oneCheck(MenuItem selectedItem) {
-		List<MenuItem> parent = selectedItem.getParent().getChildren();
-		boolean isChange = false;
-		for (MenuItem menuItem : parent) {
-			if (!(menuItem.equals(selectedItem)) && menuItem.isChecked()) {
-				menuItem.setChecked(false);
-				isChange = true;
-				break;
-			}
-		}
-		return isChange;
+		
+	
+	
+	public void removeCurrentFilter(){
+		if (currentFilter != null)
+			container.removeContainerFilter(currentFilter);
 	}
 
 	public void setContainer(JPAContainer<T> container) {
@@ -305,27 +471,34 @@ public class FilterComponent<T> extends CustomComponent {
 	}
 
 	public void removeContent(String id, HorizontalLayout filterPanel) {
-		//Component root = getCompositionRoot();
-		LOG.info("removeContent - id main" + this.main.getId() + " id menubar " + this.mb.getId() + " id attule " + id);
-		filterComponentUtils.get().removeFilterJpa(container,id);
-		Component c = filterComponentUtils.get().findComponentById(filterPanel, "fc-" + id);
-		filterPanel.removeComponent(c);
+		LOG.info("removeContent - id main" + this.main.getId() + " id menubar " + this.menuBar.getId() + " id attule " + id);
+		container.removeContainerFilter(currentFilter);
+		filterPanel.removeComponent(this);
 	}
 	
-	public void setCaption(String caption) {
-		this.propertyId = caption;
-	}
-	
-	private String getName(String name) {
-		int idx = name.indexOf("-");
-		LOG.info("get correct name start " + name + "[" + idx +  "] esc --> " + name.substring(idx+1));
-		return name.substring(idx+1);
-	}
 	
 	private String printLabelLang(String name){
 		return I18nUtils.getMessage(container.getEntityClass().getSimpleName().toLowerCase() + "." + name,name);
 	}
 	private String printFilterLabelLang(String name){
 		return I18nUtils.getMessage("filter." + name,name);
+	}
+	
+	private String getFilterComponentName() {
+		return getFilterComponentName("");
+	}
+	private String getFilterComponentName(String prex) {
+		String id = prex + container.getEntityClass().getSimpleName() + "-" + getCaption();
+		return id;
+	}
+	
+	private void showNotificationMessage(String message) {
+		Notification notification = new Notification("");
+		notification.setHtmlContentAllowed(true);
+		notification.setDescription("<br /><span><p>" + message + "<br /></p></span>");
+		notification.setPosition(Position.BOTTOM_RIGHT);
+		notification.setDelayMsec(6000);
+		notification.setStyleName("commerce-notification");
+		notification.show(Page.getCurrent());
 	}
 }

@@ -18,14 +18,21 @@ package com.serpics.vaadin.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
@@ -65,7 +72,8 @@ import de.steinwedel.messagebox.MessageBoxListener;
 
 public abstract class MasterTable<T> extends CustomComponent implements MasterTableComponent<T> {
 
-
+	private static Logger LOG = LoggerFactory.getLogger(MasterTable.class);
+	
 	private static final long serialVersionUID = 8614651463123352933L;
 
 	private boolean initialized = false;
@@ -97,6 +105,8 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	protected Button deleteButton ;
 
 	protected transient JPAContainer<T> container;
+	
+	public Map<String ,FilterComponent<T>> filterMap = new HashMap<String, FilterComponent<T>>();
 
 	public MasterTable(final Class<T> entityClass) {
 		super();
@@ -147,7 +157,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		EntityFormWindow<T> editorWindow =  (EntityFormWindow<T> ) PropertiesUtils.get().getEditBean(entityClass.getSimpleName());	
 		if (editorWindow == null){
 			editorWindow = new EntityFormWindow<T>(entityClass.getSimpleName());
-			editorWindow.addTab(new MasterForm<T>(entityClass) {}, "main");
+			editorWindow.addTab(new MasterForm<T>(entityClass) {}, I18nUtils.getMessage(entityClass.getSimpleName(),"main"));
 		}
 		editorWindow.setCaption(entityClass.getSimpleName());
 		return editorWindow;
@@ -201,6 +211,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     	filterPanel.setEnabled(false); 
 		filterPanel.setVisible(false);
 		filterPanel.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+		filterPanel.setStyleName("wrapping");
 		
 		v.addComponent(filterPanel);
 		
@@ -307,10 +318,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		editButtonPanel.setExpandRatio(searchPanel, 0.70F);
 
 		String[] filterProperties = null;
-		if(searchProperties == null) 
-			filterProperties = displayProperties;
-		else 
-			filterProperties = searchProperties;
+		//if(searchProperties == null) 
+			filterProperties = buildDisplayProperties();
+	//	else 
+		//	filterProperties = searchProperties;
 		
 		MenuItem filtermenu = menuF.addItem(I18nUtils.getMessage("filter.filter", "Filter"), null);	
 		ht = new Hashtable<String, String>();
@@ -349,17 +360,17 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
     private Command addFilterComponent = new Command() {
     	public void menuSelected(MenuItem selectedItem) {
     		
-    		String caption = ht.get(selectedItem.getText());
+    		String propertyId = ht.get(selectedItem.getText());
+    		
     		if (selectedItem.isChecked()) {
 				if(!filterPanel.isEnabled()) filterPanel.setEnabled(true);
 				if(!filterPanel.isVisible()) filterPanel.setVisible(true);
     			
-				filterComponent = new FilterComponent();
+				filterComponent = new FilterComponent(propertyId);
 	    		filterComponent.setContainer(container);
-	    		filterComponent.setCaption(caption);
-	    		filterComponent.setId("fc-"+caption);
-    			filterComponent.buildContent();
-    			filterPanel.addComponent(filterComponent); 
+	    		filterComponent.buildContent();
+	    		filterPanel.addComponent(filterComponent); 
+	    		filterMap.put(propertyId, filterComponent);
     		 } else {
     			//SE TOLTI TUTTI GLI ELEMENTI DISABILITO PANNELLO FILTRI
     			 List<MenuItem> li = selectedItem.getParent().getChildren();
@@ -371,7 +382,10 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 						break;
 					}
 				}
-    			 filterComponent.removeContent(caption, filterPanel);
+    			FilterComponent filterComponent = filterMap.get(propertyId);
+    			filterComponent.removeCurrentFilter();
+    			filterPanel.removeComponent(filterComponent);
+    			 
     			if(disableAll) {
     				filterPanel.setEnabled(false); // rimossi tutti filtri disabulito pannello
     				filterPanel.setVisible(false);
@@ -531,14 +545,18 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 	private String[] buildDisplayProperties(){
 		List<String> properties = new ArrayList<String>();
 		for (Object pid : container.getContainerPropertyIds()) {
-			 if (propertyList.getClassMetadata().getProperty(pid.toString())
-					.getAnnotation(Id.class) == null)
-				if (propertyList.getClassMetadata().getProperty(pid.toString())
-						.getAnnotation(EmbeddedId.class) == null)
-					if (propertyList.getPropertyKind(pid.toString()).equals(
-							PropertyKind.SIMPLE) || Multilingual.class.isAssignableFrom(propertyList.getPropertyType(pid.toString())))
-								properties.add(pid.toString());
+			LOG.info("check property {}.{}" , container.getEntityClass().getSimpleName(), pid);
+			if (propertyList.getClassMetadata().getProperty(pid.toString()) != null) 
+				 if (propertyList.getClassMetadata().getProperty(pid.toString())
+						.getAnnotation(Id.class) == null)
+					if (propertyList.getClassMetadata().getProperty(pid.toString())
+							.getAnnotation(EmbeddedId.class) == null)
+						if (propertyList.getPropertyKind(pid.toString()).equals(
+								PropertyKind.SIMPLE) || Multilingual.class.isAssignableFrom(propertyList.getPropertyType(pid.toString())))
+									properties.add(pid.toString());
 		}
+		
+		Collections.sort(properties);
 		
 		return  properties.toArray(new String[]{});
 		

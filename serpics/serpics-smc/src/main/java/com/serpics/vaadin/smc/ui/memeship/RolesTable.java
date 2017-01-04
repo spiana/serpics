@@ -19,6 +19,7 @@ package com.serpics.vaadin.smc.ui.memeship;
 import com.serpics.membership.data.model.Role;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.MasterForm;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
 
@@ -47,7 +48,7 @@ public class RolesTable extends MasterTable<Role> {
             }
 
         };
-        _e.addTab(editor, "main");
+        _e.addTab(editor, I18nUtils.getMessage("role", "main"));
     	return _e;
     }
     

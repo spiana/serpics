@@ -19,6 +19,7 @@ package com.serpics.vaadin.smc.ui.memeship;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.VaadinComponent;
+import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.MasterDetailForm;
 import com.serpics.vaadin.ui.component.ComboBox;
 import com.vaadin.addon.jpacontainer.EntityContainer;
@@ -34,7 +35,7 @@ public class PrimaryAddressEditor extends MasterDetailForm<UsersReg,PrimaryAddre
 
  
     public PrimaryAddressEditor() {
-        super(PrimaryAddress.class , "primaryAddress");
+        super(PrimaryAddress.class , I18nUtils.getMessage("primaryaddress","primaryAddress"));
     }
 
     @Override
