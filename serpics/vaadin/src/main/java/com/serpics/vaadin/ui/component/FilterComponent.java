@@ -65,11 +65,18 @@ public class FilterComponent<T> extends CustomComponent {
 	private MenuBar menuBar;
 	private Filter currentFilter;
 	private FilteringMode filteringMode = FilteringMode.OFF;
+	EntityItem<T> entityItem;
 	
 	protected transient JPAContainer<T> container;
 
-	public FilterComponent(String propertyId) {
+	public FilterComponent(String propertyId , JPAContainer<T> container) {
 		this.propertyId = propertyId;
+		this.container = container;
+		try {
+			this.entityItem =  container.createEntityItem(container.getEntityClass().newInstance());
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void buildContent() {
@@ -84,7 +91,8 @@ public class FilterComponent<T> extends CustomComponent {
 		menuBar = new MenuBar();
 		menuBar.setCaption(printLabelLang(propertyId));
 		main.addComponentAsFirst(this.menuBar);
-		if (this.container.getPropertyKind(propertyId).equals(PropertyKind.SIMPLE)){
+		if (this.container.getPropertyKind(propertyId).equals(PropertyKind.SIMPLE) ||
+				this.container.getPropertyKind(propertyId).equals(PropertyKind.ONE_TO_ONE)){
 			
 			if (String.class.isAssignableFrom(this.container.getType(this.propertyId)))
 				menuStringItem();
@@ -99,78 +107,34 @@ public class FilterComponent<T> extends CustomComponent {
 			else if (Enum.class.isAssignableFrom(container.getType(propertyId)))
 				menuEnumeration();
 		}
-	
-		this.container.getPropertyKind(propertyId);
-
-
 	}
-
-	protected void menuEnumeration(){
-		    try {
-		    	EntityItem<T> entityItem =  container.createEntityItem(container.getEntityClass().newInstance());
-		    	final Field<?> f  = CustomFieldFactory.get().createField(entityItem, propertyId, this);
-		    	f.setCaption("");
-		    	
-		    	final MenuItem item = menuBar.addItem("", null); 
-				item.addItem(printFilterLabelLang("isempty"), new Command() {
-					
-					@Override
-					public void menuSelected(MenuItem selectedItem) {
-						container.removeContainerFilter(currentFilter);
-						filteringMode = FilteringMode.ISEMPTY;
-						currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, (AbstractField) f , null);
-						
-					}
-				});
-
-				item.addItem(printFilterLabelLang("equals"), new Command() {
-					
-					@Override
-					public void menuSelected(MenuItem selectedItem) {
-						container.removeContainerFilter(currentFilter);
-						filteringMode = FilteringMode.EQUALS;
-						selectedItem.getParent().setText(selectedItem.getText());
-						if (f.getValue() != null)
-							currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, (AbstractField) f  , null);
-					}
-				});
-		    	
-				
-				main.addComponent(f);
-				f.addValueChangeListener(new ValueChangeListener() {
-					
-					@Override
-					public void valueChange(ValueChangeEvent event) {
-						container.removeContainerFilter(currentFilter);	
-						if (f.getValue() != null){
-							currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, (AbstractField) f, null);
-							container.addContainerFilter(currentFilter);
-						}
-						
-					}
-				});
-			} catch (InstantiationException | IllegalAccessException e) {
-				
-				e.printStackTrace();
-			}
-	         
-	    }
 	
-	protected void menuStringItem() {
-		
-		final TextField searchString = new TextField();
-		
-		final MenuItem item = menuBar.addItem("", null); 
+	protected void menuEnumeration(){
+		final Field<?> searchField  = CustomFieldFactory.get().createField(entityItem, propertyId, this);
+		searchField.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				container.removeContainerFilter(currentFilter);	
+				if (event.getProperty().getValue() != null){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, event.getProperty().getValue(),null);
+					container.addContainerFilter(currentFilter);
+				}
+				
+			}
+		});
+
+		searchField.setCaption("");
+    	
+    	final MenuItem item = menuBar.addItem("", null); 
 		item.addItem(printFilterLabelLang("isempty"), new Command() {
 			
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.ISEMPTY;
-				selectedItem.getParent().setText(selectedItem.getText());
-				if (!searchString.getValue().isEmpty())
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
-				
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchField.getValue(), null);
+				container.addContainerFilter(currentFilter);
 			}
 		});
 
@@ -181,9 +145,71 @@ public class FilterComponent<T> extends CustomComponent {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.EQUALS;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (!searchString.getValue().isEmpty())
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
+				if (searchField.getValue() != null){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchField.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
+			}
+		});
+		
+		main.addComponent(searchField);
+     
+}
+	
+	protected void menuStringItem() {
+		
+		final TextField searchText= new TextField();
+		
+		searchText.addTextChangeListener(new TextChangeListener() {
+			
+			@Override
+			public void textChange(TextChangeEvent event) {
+				container.removeContainerFilter(currentFilter);
+				if (StringUtils.isNoneEmpty(event.getText())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, event.getText(), null);
+					container.addContainerFilter(currentFilter);
+				}
 				
+			}
+		});
+		searchText.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				container.removeContainerFilter(currentFilter);
+				if (event.getProperty().getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
+			}
+		});
+		
+		final MenuItem item = menuBar.addItem("", null); 
+		
+		item.addItem(printFilterLabelLang("isempty"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ISEMPTY;
+				selectedItem.getParent().setText(selectedItem.getText());
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+				container.addContainerFilter(currentFilter);
+			}
+		});
+
+		item.addItem(printFilterLabelLang("equals"), new Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.EQUALS;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (StringUtils.isNotEmpty(searchText.getValue())){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
+				
+			
 			}
 		});
 		
@@ -193,8 +219,11 @@ public class FilterComponent<T> extends CustomComponent {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.STARTSWITH;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(searchString.getValue()))
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
+				if (StringUtils.isNotEmpty(searchText.getValue())){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
+			
 			}
 		});
 		
@@ -204,8 +233,10 @@ public class FilterComponent<T> extends CustomComponent {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.ENDWITH;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(searchString.getValue()))
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
+				if (StringUtils.isNotEmpty(searchText.getValue())){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
 		
@@ -216,39 +247,23 @@ public class FilterComponent<T> extends CustomComponent {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.CONTAINS;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(searchString.getValue()))
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, searchString , null);
-				
+				if (StringUtils.isNotEmpty(searchText.getValue())){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+					container.addContainerFilter(currentFilter);				}
 			}
 		});
 	
 		String id = getFilterComponentName();
 		
-		searchString.setCaption("");
-		searchString.setTextChangeTimeout(200);
-		searchString.setTextChangeEventMode(TextChangeEventMode.LAZY);
-		searchString.setVisible(true);
-		searchString.setValue("");
-		searchString.setImmediate(true);
+		searchText.setCaption("");
+		searchText.setTextChangeTimeout(200);
+		searchText.setTextChangeEventMode(TextChangeEventMode.LAZY);
+		searchText.setVisible(true);
+		searchText.setValue("");
+		searchText.setImmediate(true);
 
-		searchString.setId(id);
 		
-		searchString.addTextChangeListener(new TextChangeListener() {
-			
-			@Override
-			public void textChange(TextChangeEvent event) {
-				LOG.info("text change" + event.getText());
-				container.removeContainerFilter(currentFilter);
-				AbstractTextField c = (AbstractTextField)event.getComponent();
-				c.setValue(event.getText());
-				if (event.getText().equals("")) 
-					showNotificationMessage("Remove all filter from container!!");
-				else
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, c, null); //CREA TIPOLOGIA FILTRIO
-			}
-		});
-		
-		this.main.addComponent(searchString);
+		this.main.addComponent(searchText);
 	}
 
 
@@ -269,8 +284,10 @@ public class FilterComponent<T> extends CustomComponent {
 				filteringMode = FilteringMode.ISEMPTY;
 				selectedItem.getParent().setText(selectedItem.getText());
 				dataEnd.setVisible(false);
-				if (dataStart.getValue() != null)
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, dataStart , null);
+				if (dataStart.getValue() != null){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
 		
@@ -283,8 +300,10 @@ public class FilterComponent<T> extends CustomComponent {
 				filteringMode = FilteringMode.LESSOREQUAL;
 				selectedItem.getParent().setText(selectedItem.getText());
 				dataEnd.setVisible(false);
-				if (dataStart.getValue() != null)
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, dataStart , null);
+				if (dataStart.getValue() != null){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
 		item.addItem(printFilterLabelLang("after"), new Command() {
@@ -296,8 +315,10 @@ public class FilterComponent<T> extends CustomComponent {
 				filteringMode = FilteringMode.GREATEROREQUAL;
 				dataEnd.setVisible(false);
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (dataStart.getValue() != null)
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, dataStart , null);
+				if (dataStart.getValue() != null){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
 				
 			}
 		});
@@ -310,9 +331,10 @@ public class FilterComponent<T> extends CustomComponent {
 				filteringMode = FilteringMode.BETWEEN;
 				dataEnd.setVisible(true);
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (dataStart.getValue() != null && dataEnd.getValue() != null)
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, dataStart , dataEnd);
-				
+				if (dataStart.getValue() != null && dataEnd.getValue() != null){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , dataEnd.getValue());
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
 		
@@ -332,10 +354,8 @@ public class FilterComponent<T> extends CustomComponent {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
-				if (event.getProperty().getValue() == null) 
-					showNotificationMessage("Remove all filter from container!!");
-				else {
-					currentFilter =FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart, dataEnd); 
+				if (event.getProperty().getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , dataEnd.getValue());
 					container.addContainerFilter(currentFilter);
 				}
 			}
@@ -345,10 +365,9 @@ public class FilterComponent<T> extends CustomComponent {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
-				if (event.getProperty().getValue().equals("")) 
-					showNotificationMessage("Remove all filter from container!!");
-				else {
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart, dataEnd); 
+				if (event.getProperty().getValue() != null) 
+				{
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , dataEnd.getValue());
 					container.addContainerFilter(currentFilter);
 				}
 			}
@@ -371,9 +390,10 @@ public class FilterComponent<T> extends CustomComponent {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.ISEMPTY;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(textField.getValue()))
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, textField , null);
-				
+				if (StringUtils.isNotEmpty(textField.getValue())){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, textField.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
 		
@@ -385,9 +405,10 @@ public class FilterComponent<T> extends CustomComponent {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.LESSOREQUAL;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(textField.getValue()))
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, textField , null);
-				
+				if (StringUtils.isNotEmpty(textField.getValue())){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, textField.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
 		item.addItem(printFilterLabelLang("greaterequal"), new Command() {
@@ -398,9 +419,10 @@ public class FilterComponent<T> extends CustomComponent {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.GREATEROREQUAL;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(textField.getValue()))
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, textField , null);
-				
+				if (StringUtils.isNotEmpty(textField.getValue())){
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, textField.getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
 		
@@ -410,6 +432,7 @@ public class FilterComponent<T> extends CustomComponent {
 		textField.setVisible(true);
 		textField.setValue("0");
 		textField.setConverter(Integer.class);
+		
 		main.addComponent(textField);
 		
 		textField.addValueChangeListener(new ValueChangeListener() {
@@ -417,14 +440,14 @@ public class FilterComponent<T> extends CustomComponent {
 			public void valueChange(ValueChangeEvent event) {
 				LOG.info("text change" + event.getProperty().getValue() + "  " +  event.getClass().toString());
 				container.removeContainerFilter(currentFilter);
-				if (event.getProperty().getValue().equals("")) 
-					showNotificationMessage("Remove all filter from container!!");
-				else 
-					currentFilter =FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, textField, null); 
+				if (!event.getProperty().getValue().equals("")) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, event.getProperty().getValue() , null);
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
 	}
-	
+
 	
 	private void menuBooleanItem() {
 		final MenuItem item = menuBar.addItem("", null); 
@@ -436,11 +459,8 @@ public class FilterComponent<T> extends CustomComponent {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.EQUALS;
 				selectedItem.getParent().setText(selectedItem.getText());
-				CheckBox cb = new CheckBox();
-				cb.setValue(true);
-				cb.setVisible(false);
-				currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, cb , null);
-				
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, true , null);
+				container.addContainerFilter(currentFilter);
 			}
 		});
 		item.addItem(printFilterLabelLang("false"), new Command() {
@@ -451,10 +471,8 @@ public class FilterComponent<T> extends CustomComponent {
 					container.removeContainerFilter(currentFilter);
 					filteringMode = FilteringMode.EQUALS;
 					selectedItem.getParent().setText(selectedItem.getText());
-					CheckBox cb = new CheckBox();
-					cb.setValue(false);
-					cb.setVisible(false);
-					currentFilter = FilterComponentUtils.get().addFilter(container, propertyId, filteringMode, cb , null);
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, false , null);
+					container.addContainerFilter(currentFilter);
 			}
 		});
 	}
@@ -464,10 +482,6 @@ public class FilterComponent<T> extends CustomComponent {
 	public void removeCurrentFilter(){
 		if (currentFilter != null)
 			container.removeContainerFilter(currentFilter);
-	}
-
-	public void setContainer(JPAContainer<T> container) {
-		this.container = container;
 	}
 
 	public void removeContent(String id, HorizontalLayout filterPanel) {

@@ -366,8 +366,7 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 				if(!filterPanel.isEnabled()) filterPanel.setEnabled(true);
 				if(!filterPanel.isVisible()) filterPanel.setVisible(true);
     			
-				filterComponent = new FilterComponent(propertyId);
-	    		filterComponent.setContainer(container);
+				filterComponent = new FilterComponent(propertyId , container);
 	    		filterComponent.buildContent();
 	    		filterPanel.addComponent(filterComponent); 
 	    		filterMap.put(propertyId, filterComponent);

@@ -81,43 +81,30 @@ public class FilterComponentUtils {
 		LESSOREQUAL, GREATEROREQUAL, BETWEEN , ISEMPTY;
 	}
 
-	@Deprecated
-	public <T> Filter addFilter(final JPAContainer<T> container, final String entry,FilteringMode filteringMode,  final AbstractField dataField, final AbstractField dataFieldEnd){
-		return addFilter(container, entry, filteringMode, dataField, dataFieldEnd, null);
-	}
 	
-	@Deprecated
-	public <T> Filter addFilter(final JPAContainer<T> container, final String entry,FilteringMode filteringMode,  final AbstractField dataField, final AbstractField dataFieldEnd, String id){
-			Filter filter = addFilter(container.getType(entry), entry, filteringMode, dataField, dataFieldEnd);
-			container.addContainerFilter(filter);
-		return filter;
-	}
-	
-	public Filter addFilter(Class<?> type, final String entry, FilteringMode filteringMode,  final AbstractField dataField, final AbstractField dataFieldEnd){
+	public Filter addFilter(Class<?> type, final String entry, FilteringMode filteringMode,  final Object value, final Object value1){
 		Filter filter = null;
 		if (entry != null) {
 			LOG.info("filter mode : [{}]", filteringMode);
 			if (filteringMode != FilteringMode.OFF){
 			if (Multilingual.class.isAssignableFrom(type)) {
-				filter = buildMultilinguaStringFilter(entry, ((AbstractTextField)dataField).getValue(), filteringMode);
+				filter = buildMultilinguaStringFilter(entry, value.toString(), filteringMode);
 			} else if(String.class.isAssignableFrom(type)) {
-				filter = buildSimpleStringFilter(entry, ((AbstractTextField)dataField).getValue(), filteringMode);
+				filter = buildSimpleStringFilter(entry, value.toString(), filteringMode);
 			} else if(Date.class.isAssignableFrom(type)) {
-				filter = buildDateFilter(entry, (DateField)dataField, (DateField)dataFieldEnd, filteringMode);
-			} else if(Number.class.isAssignableFrom(type)) {
-				if(dataFieldEnd != null)  filter = buildNumericFilter(entry, (Integer)dataField.getConvertedValue(), (Integer)dataFieldEnd.getConvertedValue(), filteringMode);
-				else filter = buildNumericFilter(entry, (Integer)dataField.getConvertedValue(), null, filteringMode);
+				filter = buildDateFilter(entry, (Date)value, (Date) value1, filteringMode);
 			} else if(Boolean.class.isAssignableFrom(type)) {	
-				filter = new Compare.Equal(entry, ((CheckBox) dataField).getValue());
+				filter = new Compare.Equal(entry, value);
+			} else if(Number.class.isAssignableFrom(type)) {
+				filter = buildNumericFilter(entry, (Number)value, (Number)value1, filteringMode);
 			}else if (Enum.class.isAssignableFrom(type)){
-				filter = buildFilter(entry, dataField.getValue(), filteringMode);
+				filter = buildFilter(entry, value, filteringMode);
 			} else 
 				LOG.warn("no type detected ! could not ctrate a new filter ");
 			}
 		}
 		return filter;
 	}
-	
 	
 	 protected Filter buildMultilinguaStringFilter(String entry, String filterString, FilteringMode filteringMode) {
 		 	Locale locale = UI.getCurrent().getSession().getLocale();
@@ -170,7 +157,7 @@ public class FilterComponentUtils {
 	        return filter;
 	    }
 	 
-	 protected Filter buildDateFilter(String entry, DateField dataField, DateField dataFieldEnd, FilteringMode filteringMode){
+	 protected Filter buildDateFilter(String entry, Comparable<?> valueStart, Comparable<?> valueEnd, FilteringMode filteringMode){
 		 Filter filter = null;
 		 
             switch (filteringMode) {
@@ -178,13 +165,13 @@ public class FilterComponentUtils {
 	            	filter = new IsNull(entry);
 	            	break;
 	            case LESSOREQUAL:
-	            	filter = new Compare.LessOrEqual(entry, dataField.getValue());
+	            	filter = new Compare.LessOrEqual(entry, valueStart);
 	                break;
 	            case GREATEROREQUAL:
-	            	filter = new Compare.GreaterOrEqual(entry, dataField.getValue());
+	            	filter = new Compare.GreaterOrEqual(entry, valueStart);
 	                break;
 	            case BETWEEN:
-	            	filter = new Between(entry, dataFieldEnd.getValue(), dataField.getValue());
+	            	filter = new Between(entry, valueStart	, valueEnd);
 	                break;
             }
 	       
@@ -206,7 +193,7 @@ public class FilterComponentUtils {
 	        }
 	      return filter;
 	 }
-	protected Filter buildNumericFilter(String entry, Integer dataField, Integer dataFieldEnd, FilteringMode filteringMode){
+	protected Filter buildNumericFilter(String entry, Number valueStart, Number valueEnd, FilteringMode filteringMode){
 	
 		 Filter filter = null;
 	        switch (filteringMode) {
@@ -214,13 +201,13 @@ public class FilterComponentUtils {
 	            	filter = new IsNull(entry);
 	            	break;
 	            case LESSOREQUAL:
-	            	filter = new Compare.LessOrEqual(entry, dataField);
+	            	filter = new Compare.LessOrEqual(entry, valueStart);
 	                break;
 	            case GREATEROREQUAL:
-	            	filter = new Compare.GreaterOrEqual(entry, dataField);
+	            	filter = new Compare.GreaterOrEqual(entry, valueStart);
 	                break;
 	            case BETWEEN:
-	            	filter = new And(new Compare.LessOrEqual(entry, dataFieldEnd), new Compare.GreaterOrEqual(entry, dataField));
+	            	filter = new Between(entry, (Comparable<?>)valueStart	, (Comparable<?>)valueEnd);
 	                break;
             }
 	    return filter;
