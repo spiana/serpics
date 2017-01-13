@@ -16,9 +16,11 @@
  *******************************************************************************/
 package com.serpics.vaadin.ui.component;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,10 +39,8 @@ import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.AbstractTextField;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
@@ -61,19 +61,19 @@ public class FilterComponent<T> extends CustomComponent {
 	private static transient Logger LOG = LoggerFactory.getLogger(FilterComponent.class);
 
 	HorizontalLayout main;
-	private String propertyId;	
+	private String propertyId;
 	private MenuBar menuBar;
 	private Filter currentFilter;
 	private FilteringMode filteringMode = FilteringMode.OFF;
 	EntityItem<T> entityItem;
-	
+
 	protected transient JPAContainer<T> container;
 
-	public FilterComponent(String propertyId , JPAContainer<T> container) {
+	public FilterComponent(String propertyId, JPAContainer<T> container) {
 		this.propertyId = propertyId;
 		this.container = container;
 		try {
-			this.entityItem =  container.createEntityItem(container.getEntityClass().newInstance());
+			this.entityItem = container.createEntityItem(container.getEntityClass().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
@@ -82,18 +82,18 @@ public class FilterComponent<T> extends CustomComponent {
 	public void buildContent() {
 
 		LOG.info("entry buildContent");
-		
+
 		main = new HorizontalLayout();
 		setCompositionRoot(main);
-		
-		main.setMargin(new MarginInfo(false,true,false,true));
-		
+
+		main.setMargin(new MarginInfo(false, true, false, true));
+
 		menuBar = new MenuBar();
 		menuBar.setCaption(printLabelLang(propertyId));
 		main.addComponentAsFirst(this.menuBar);
-		if (this.container.getPropertyKind(propertyId).equals(PropertyKind.SIMPLE) ||
-				this.container.getPropertyKind(propertyId).equals(PropertyKind.ONE_TO_ONE)){
-			
+		if (this.container.getPropertyKind(propertyId).equals(PropertyKind.SIMPLE)
+				|| this.container.getPropertyKind(propertyId).equals(PropertyKind.ONE_TO_ONE)) {
+
 			if (String.class.isAssignableFrom(this.container.getType(this.propertyId)))
 				menuStringItem();
 			else if (Multilingual.class.isAssignableFrom(this.container.getType(propertyId)))
@@ -108,68 +108,84 @@ public class FilterComponent<T> extends CustomComponent {
 				menuEnumeration();
 		}
 	}
-	
-	protected void menuEnumeration(){
-		final Field<?> searchField  = CustomFieldFactory.get().createField(entityItem, propertyId, this);
+
+	protected void menuEnumeration() {
+		final Field<?> searchField = CustomFieldFactory.get().createField(entityItem, propertyId, this);
 		searchField.addValueChangeListener(new ValueChangeListener() {
-			
+
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				container.removeContainerFilter(currentFilter);	
-				if (event.getProperty().getValue() != null){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, event.getProperty().getValue(),null);
+				container.removeContainerFilter(currentFilter);
+				if (event.getProperty().getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, event.getProperty().getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
-				
+
 			}
 		});
 
 		searchField.setCaption("");
-    	
-    	final MenuItem item = menuBar.addItem("", null); 
+
+		final MenuItem item = menuBar.addItem("", null);
 		item.addItem(printFilterLabelLang("isempty"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.ISEMPTY;
-				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchField.getValue(), null);
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+						filteringMode, searchField.getValue(), null);
+				container.addContainerFilter(currentFilter);
+			}
+		});
+
+		item.addItem(printFilterLabelLang("isnotempty"), new Command() {
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ISNOTEMPTY;
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+						filteringMode, searchField.getValue(), null);
 				container.addContainerFilter(currentFilter);
 			}
 		});
 
 		item.addItem(printFilterLabelLang("equals"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.EQUALS;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (searchField.getValue() != null){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchField.getValue() , null);
+				if (searchField.getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, searchField.getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
+
 		main.addComponent(searchField);
-     
-}
-	
+
+	}
+
 	protected void menuStringItem() {
-		
-		final TextField searchText= new TextField();
-		
+
+		final TextField searchText = new TextField();
+
 		searchText.addTextChangeListener(new TextChangeListener() {
-			
+
 			@Override
 			public void textChange(TextChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
 				if (StringUtils.isNoneEmpty(event.getText())) {
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, event.getText(), null);
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, event.getText(), null);
 					container.addContainerFilter(currentFilter);
 				}
-				
+
 			}
 		});
 		searchText.addValueChangeListener(new ValueChangeListener() {
@@ -177,84 +193,102 @@ public class FilterComponent<T> extends CustomComponent {
 			public void valueChange(ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
 				if (event.getProperty().getValue() != null) {
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, searchText.getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
-		final MenuItem item = menuBar.addItem("", null); 
-		
+
+		final MenuItem item = menuBar.addItem("", null);
+
 		item.addItem(printFilterLabelLang("isempty"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.ISEMPTY;
 				selectedItem.getParent().setText(selectedItem.getText());
-				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+						filteringMode, searchText.getValue(), null);
 				container.addContainerFilter(currentFilter);
 			}
 		});
 
+		item.addItem(printFilterLabelLang("isnotempty"), new Command() {
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ISNOTEMPTY;
+				selectedItem.getParent().setText(selectedItem.getText());
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+						filteringMode, searchText.getValue(), null);
+				container.addContainerFilter(currentFilter);
+			}
+		});
 		item.addItem(printFilterLabelLang("equals"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.EQUALS;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(searchText.getValue())){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+				if (StringUtils.isNotEmpty(searchText.getValue())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, searchText.getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
-				
-			
+
 			}
 		});
-		
+
 		item.addItem(printFilterLabelLang("startwith"), new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.STARTSWITH;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(searchText.getValue())){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+				if (StringUtils.isNotEmpty(searchText.getValue())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, searchText.getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
-			
+
 			}
 		});
-		
+
 		item.addItem(printFilterLabelLang("endwith"), new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.ENDWITH;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(searchText.getValue())){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
+				if (StringUtils.isNotEmpty(searchText.getValue())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, searchText.getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
+
 		item.addItem(printFilterLabelLang("like"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.CONTAINS;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(searchText.getValue())){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, searchText.getValue() , null);
-					container.addContainerFilter(currentFilter);				}
+				if (StringUtils.isNotEmpty(searchText.getValue())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, searchText.getValue(), null);
+					container.addContainerFilter(currentFilter);
+				}
 			}
 		});
-	
+
 		String id = getFilterComponentName();
-		
+
 		searchText.setCaption("");
 		searchText.setTextChangeTimeout(200);
 		searchText.setTextChangeEventMode(TextChangeEventMode.LAZY);
@@ -262,21 +296,22 @@ public class FilterComponent<T> extends CustomComponent {
 		searchText.setValue("");
 		searchText.setImmediate(true);
 
-		
 		this.main.addComponent(searchText);
 	}
 
-
-
 	private void menuDateItem() {
-		
+
 		final DateField dataStart = new DateField();
 		final DateField dataEnd = new DateField();
-		
-		final MenuItem item = menuBar.addItem("", null); 
-		
+
+		dataStart.setResolution(Resolution.SECOND);
+		dataEnd.setResolution(Resolution.SECOND);
+		;
+
+		final MenuItem item = menuBar.addItem("", null);
+
 		item.addItem(printFilterLabelLang("isempty"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				selectedItem.getParent().setText(selectedItem.getText());
@@ -284,15 +319,33 @@ public class FilterComponent<T> extends CustomComponent {
 				filteringMode = FilteringMode.ISEMPTY;
 				selectedItem.getParent().setText(selectedItem.getText());
 				dataEnd.setVisible(false);
-				if (dataStart.getValue() != null){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , null);
+				if (dataStart.getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, dataStart.getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
+
+		item.addItem(printFilterLabelLang("isnotempty"), new Command() {
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ISNOTEMPTY;
+				selectedItem.getParent().setText(selectedItem.getText());
+				dataEnd.setVisible(false);
+				if (dataStart.getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, dataStart.getValue(), null);
+					container.addContainerFilter(currentFilter);
+				}
+			}
+		});
+
 		item.addItem(printFilterLabelLang("before"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				selectedItem.getParent().setText(selectedItem.getText());
@@ -300,14 +353,15 @@ public class FilterComponent<T> extends CustomComponent {
 				filteringMode = FilteringMode.LESSOREQUAL;
 				selectedItem.getParent().setText(selectedItem.getText());
 				dataEnd.setVisible(false);
-				if (dataStart.getValue() != null){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , null);
+				if (dataStart.getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, dataStart.getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
 		item.addItem(printFilterLabelLang("after"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				selectedItem.getParent().setText(selectedItem.getText());
@@ -315,15 +369,16 @@ public class FilterComponent<T> extends CustomComponent {
 				filteringMode = FilteringMode.GREATEROREQUAL;
 				dataEnd.setVisible(false);
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (dataStart.getValue() != null){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , null);
+				if (dataStart.getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, dataStart.getValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
-				
+
 			}
 		});
 		item.addItem(printFilterLabelLang("between"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				selectedItem.getParent().setText(selectedItem.getText());
@@ -331,181 +386,205 @@ public class FilterComponent<T> extends CustomComponent {
 				filteringMode = FilteringMode.BETWEEN;
 				dataEnd.setVisible(true);
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (dataStart.getValue() != null && dataEnd.getValue() != null){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , dataEnd.getValue());
+				if (dataStart.getValue() != null && dataEnd.getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, dataStart.getValue(), dataEnd.getValue());
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
-		
-		
+
+		Date d = new Date();
+		d = DateUtils.truncate(d, Calendar.DAY_OF_MONTH);
+
 		dataStart.setCaption("");
-		dataStart.setValue(new Date());
+		dataStart.setValue(d);
 		dataStart.setVisible(true);
 		main.addComponent(dataStart);
-		
-		dataEnd.setValue(new Date());
+
+		d = DateUtils.addDays(d, 7);
+		dataEnd.setValue(d);
 		dataEnd.setCaption("");
 		dataEnd.setVisible(false);
 		main.addComponent(dataEnd);
-	
+
 		dataStart.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
 				if (event.getProperty().getValue() != null) {
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , dataEnd.getValue());
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, dataStart.getValue(), dataEnd.getValue());
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
+
 		dataEnd.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
-				if (event.getProperty().getValue() != null) 
-				{
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, dataStart.getValue() , dataEnd.getValue());
+				if (event.getProperty().getValue() != null) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, dataStart.getValue(), dataEnd.getValue());
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
+
 	}
-	
+
 	private void menuNumericItem() {
-		
+
 		final TextField textField = new TextField();
 		textField.setCaption("");
-		
-		final MenuItem item = menuBar.addItem("", null); 
-		
+
+		final MenuItem item = menuBar.addItem("", null);
+
 		item.addItem(printFilterLabelLang("isempty"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				selectedItem.getParent().setText(selectedItem.getText());
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.ISEMPTY;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(textField.getValue())){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, textField.getValue() , null);
+				if (StringUtils.isNotEmpty(textField.getValue())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, textField.getConvertedValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
+		item.addItem(printFilterLabelLang("isnotempty"), new Command() {
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.ISNOTEMPTY;
+				selectedItem.getParent().setText(selectedItem.getText());
+				if (StringUtils.isNotEmpty(textField.getValue())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, textField.getConvertedValue(), null);
+					container.addContainerFilter(currentFilter);
+				}
+			}
+		});
+
 		item.addItem(printFilterLabelLang("lessequal"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				selectedItem.getParent().setText(selectedItem.getText());
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.LESSOREQUAL;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(textField.getValue())){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, textField.getValue() , null);
+				if (StringUtils.isNotEmpty(textField.getValue())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, textField.getConvertedValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
 		item.addItem(printFilterLabelLang("greaterequal"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				selectedItem.getParent().setText(selectedItem.getText());
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.GREATEROREQUAL;
 				selectedItem.getParent().setText(selectedItem.getText());
-				if (StringUtils.isNotEmpty(textField.getValue())){
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, textField.getValue() , null);
+				if (StringUtils.isNotEmpty(textField.getValue())) {
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, textField.getConvertedValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
-		
-		
-		
+
 		textField.setCaption(this.propertyId);
 		textField.setVisible(true);
 		textField.setValue("0");
 		textField.setConverter(Integer.class);
-		
+		textField.setTextChangeTimeout(200);
+		textField.setTextChangeEventMode(TextChangeEventMode.LAZY);
+
 		main.addComponent(textField);
-		
+
 		textField.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				LOG.info("text change" + event.getProperty().getValue() + "  " +  event.getClass().toString());
+				LOG.info("text change" + event.getProperty().getValue() + "  " + event.getClass().toString());
 				container.removeContainerFilter(currentFilter);
 				if (!event.getProperty().getValue().equals("")) {
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, event.getProperty().getValue() , null);
+					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+							filteringMode, ((TextField) event.getProperty()).getConvertedValue(), null);
 					container.addContainerFilter(currentFilter);
 				}
 			}
 		});
 	}
 
-	
 	private void menuBooleanItem() {
-		final MenuItem item = menuBar.addItem("", null); 
+		final MenuItem item = menuBar.addItem("", null);
 		item.addItem(printFilterLabelLang("true"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				selectedItem.getParent().setText(selectedItem.getText());
 				container.removeContainerFilter(currentFilter);
 				filteringMode = FilteringMode.EQUALS;
 				selectedItem.getParent().setText(selectedItem.getText());
-				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, true , null);
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+						filteringMode, true, null);
 				container.addContainerFilter(currentFilter);
 			}
 		});
 		item.addItem(printFilterLabelLang("false"), new Command() {
-			
+
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-					selectedItem.getParent().setText(selectedItem.getText());
-					container.removeContainerFilter(currentFilter);
-					filteringMode = FilteringMode.EQUALS;
-					selectedItem.getParent().setText(selectedItem.getText());
-					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId, filteringMode, false , null);
-					container.addContainerFilter(currentFilter);
+				selectedItem.getParent().setText(selectedItem.getText());
+				container.removeContainerFilter(currentFilter);
+				filteringMode = FilteringMode.EQUALS;
+				selectedItem.getParent().setText(selectedItem.getText());
+				currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
+						filteringMode, false, null);
+				container.addContainerFilter(currentFilter);
 			}
 		});
 	}
-		
-	
-	
-	public void removeCurrentFilter(){
+
+	public void removeCurrentFilter() {
 		if (currentFilter != null)
 			container.removeContainerFilter(currentFilter);
 	}
 
 	public void removeContent(String id, HorizontalLayout filterPanel) {
-		LOG.info("removeContent - id main" + this.main.getId() + " id menubar " + this.menuBar.getId() + " id attule " + id);
+		LOG.info("removeContent - id main" + this.main.getId() + " id menubar " + this.menuBar.getId() + " id attule "
+				+ id);
 		container.removeContainerFilter(currentFilter);
 		filterPanel.removeComponent(this);
 	}
-	
-	
-	private String printLabelLang(String name){
-		return I18nUtils.getMessage(container.getEntityClass().getSimpleName().toLowerCase() + "." + name,name);
+
+	private String printLabelLang(String name) {
+		return I18nUtils.getMessage(container.getEntityClass().getSimpleName().toLowerCase() + "." + name, name);
 	}
-	private String printFilterLabelLang(String name){
-		return I18nUtils.getMessage("filter." + name,name);
+
+	private String printFilterLabelLang(String name) {
+		return I18nUtils.getMessage("filter." + name, name);
 	}
-	
+
 	private String getFilterComponentName() {
 		return getFilterComponentName("");
 	}
+
 	private String getFilterComponentName(String prex) {
 		String id = prex + container.getEntityClass().getSimpleName() + "-" + getCaption();
 		return id;
 	}
-	
+
 	private void showNotificationMessage(String message) {
 		Notification notification = new Notification("");
 		notification.setHtmlContentAllowed(true);
