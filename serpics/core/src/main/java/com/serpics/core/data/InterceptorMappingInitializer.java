@@ -17,6 +17,7 @@
 package com.serpics.core.data;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
+import com.serpics.stereotype.ModelInterceptor;
 
 public class InterceptorMappingInitializer implements InitializingBean , ApplicationContextAware{
 
@@ -37,7 +40,31 @@ public class InterceptorMappingInitializer implements InitializingBean , Applica
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		
+		loadByMapping();
+		loadByAnnotation();
+	}
+
+	private void loadByAnnotation(){
+		Map<String , Object> interceprors = applicationContext.getBeansWithAnnotation(ModelInterceptor.class);
+		Set<String> keys = interceprors.keySet();
+		for (String string : keys) {
+			Object interceptor = interceprors.get(string);
+			if (interceptor instanceof Interceptor) {
+				ModelInterceptor a = interceptor.getClass().getAnnotation(ModelInterceptor.class);
+				Class<?> entityClass = a.value();
+				InterceptorMapping i = new InterceptorMapping();
+				if (interceptor instanceof SaveInterceptor){
+					i.setInterceptor((Interceptor)interceptor);
+					i.setOrder(a.order());
+					i.setTargetEntity(entityClass.getName());
+					createinterceptor.put(i.getTargetEntity() , i);
+				}
+			}
+		}
+	
+	}
+	
+	private void loadByMapping(){
 		Map<String, InterceptorMapping> m =  applicationContext.getBeansOfType(InterceptorMapping.class);
 		
 		for (String interceptor : m.keySet()) {
@@ -52,7 +79,6 @@ public class InterceptorMappingInitializer implements InitializingBean , Applica
 			}
 		}
 	}
-
 	@Override
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {

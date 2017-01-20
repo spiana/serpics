@@ -16,6 +16,40 @@
  *******************************************************************************/
 package com.serpics.core.test;
 
-public class InterceptorTest {
+import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+
+import com.serpics.core.data.Interceptor;
+import com.serpics.core.data.InterceptorMapping;
+import com.serpics.core.data.InterceptorMappingInitializer;
+import com.serpics.test.ExecutionTestListener;
+
+@ContextConfiguration({  "classpath:META-INF/core-serpics.xml","classpath:META-INF/core-serpics-test.xml"} )
+@TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
+@TransactionConfiguration(defaultRollback = true)
+@RunWith(SpringJUnit4ClassRunner.class)
+public class InterceptorTest {
+	@Resource(name="interceptorMapping")
+	InterceptorMappingInitializer interceptorMapping;
+	
+	@Test
+	public void interceptorTest(){
+		
+		Assert.assertEquals(1,interceptorMapping.getCreateInterceptor().size());
+		String key  = interceptorMapping.getCreateInterceptor().keySet().iterator().next();
+		List<InterceptorMapping> mapping = interceptorMapping.getCreateInterceptor().get(key);
+		Assert.assertEquals(1,mapping.size());
+		Assert.assertEquals("com.serpics.core.test.repositories.TestInterceptor", mapping.get(0).getTargetEntity());
+		
+	}
 }
