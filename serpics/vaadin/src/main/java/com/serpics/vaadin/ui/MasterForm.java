@@ -174,6 +174,11 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		final Property p = item.getItemProperty(pid);
 		LOG.debug("create field : {}", pid);
 		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
+		
+		return bindField(pid, f);
+	}
+	
+	protected Field<?> bindField(final String pid , final Field<?> f ){
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 	
@@ -186,6 +191,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		PropertiesUtils.get().setFieldProperty(entityClass.getSimpleName(), pid, f , !entityItem.isPersistent());
 		return f;
 	}
+	
 
 	@Override
 	public void save() throws CommitException {
