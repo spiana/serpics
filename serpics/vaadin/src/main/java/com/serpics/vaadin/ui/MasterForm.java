@@ -188,7 +188,7 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		if (message != null)
 			f.setCaption(message);
 
-		PropertiesUtils.get().setFieldProperty(entityClass.getSimpleName(), pid, f , !entityItem.isPersistent());
+		PropertiesUtils.get().setFieldProperty(entityClass, pid, f , !entityItem.isPersistent());
 		return f;
 	}
 	

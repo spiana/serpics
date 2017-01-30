@@ -67,7 +67,7 @@ public class ExtendedComboBox<T> extends CustomField<T> {
 		this.combo = new ComboBox();
 		
 		 
-     	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass().getSimpleName(), propertyId.toString());
+     	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass(), propertyId.toString());
      	if (def != null){
      		mappedClass =  (Class<? extends T>)def.getMappedClass();
      	}

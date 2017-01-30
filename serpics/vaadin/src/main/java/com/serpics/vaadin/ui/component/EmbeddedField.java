@@ -132,7 +132,7 @@ public class EmbeddedField<M ,T> extends CustomField<T> {
 		String message = I18nUtils.getMessage(getType().getSimpleName().toLowerCase() +"." + pid , pid);
 		if (message != null)
 			f.setCaption(message);
-		PropertiesUtils.get().setFieldProperty(getType().getSimpleName(), pid, f , !entityItem.isPersistent());
+		PropertiesUtils.get().setFieldProperty(getType(), pid, f , !entityItem.isPersistent());
 		
 		return f;
 	}

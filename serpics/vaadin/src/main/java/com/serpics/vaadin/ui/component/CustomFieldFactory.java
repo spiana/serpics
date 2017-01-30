@@ -176,7 +176,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     	 if (referencedPropertyId.contains("."))
     		 referencedContainer.addNestedContainerProperty(referencedPropertyId);
     	 
-    	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass().getSimpleName(),propertyId.toString() );
+    	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass(), propertyId.toString() );
     	
     	 if (def != null && def.isExtendedCombo()){
     		 ExtendedComboBox ecombo = new ExtendedComboBox(item,propertyId.toString());

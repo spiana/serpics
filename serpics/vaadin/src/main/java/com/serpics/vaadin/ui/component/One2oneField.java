@@ -145,7 +145,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 		if (message != null)
 			f.setCaption(message);
 		
-		PropertiesUtils.get().setFieldProperty(getType().getSimpleName(), pid, f , !entityItem.isPersistent());
+		PropertiesUtils.get().setFieldProperty(getType(), pid, f , !entityItem.isPersistent());
 		
 		return f;
 	}

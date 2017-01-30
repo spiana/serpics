@@ -35,10 +35,12 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 
 import com.serpics.core.EngineFactory;
 import com.serpics.core.EngineFactoryUtils;
+import com.serpics.core.data.jpa.AbstractEntity;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.DateField;
@@ -489,19 +491,24 @@ public class PropertiesUtils implements ApplicationContextAware,
 		return properties;
 	}
 
-	public List<SmcPropertyDef> getPropertyForEntity(String entity) {
-		SmcDefinition def = properties.get(entity.toLowerCase());
-		if (def == null)
-			return new ArrayList<PropertiesUtils.SmcPropertyDef>();
-			
+	public List<SmcPropertyDef> getPropertiesForEntity(Class<?> entity) {
+		
+		SmcDefinition def = properties.get(entity.getSimpleName().toLowerCase());
+		if (def == null){
+			if (entity.getSuperclass() != null && 
+					AbstractEntity.class.isAssignableFrom(entity.getSuperclass()))
+				return getPropertiesForEntity(entity.getSuperclass());
+			else			
+				return new ArrayList<PropertiesUtils.SmcPropertyDef>();
+		}
 		List<SmcPropertyDef> _l = def.getProperties();
 		if (_l == null)
 			_l = new ArrayList<PropertiesUtils.SmcPropertyDef>();
 		return _l;
 	}
 
-	public SmcPropertyDef getPropertyForEntity(String entity, String propertyId) {
-		List<SmcPropertyDef> properties = getPropertyForEntity(entity);
+	public SmcPropertyDef getPropertyForEntity(Class<?> entity, String propertyId) {
+		List<SmcPropertyDef> properties = getPropertiesForEntity(entity);
 		if (!properties.isEmpty())
 			if (properties.indexOf(new SmcPropertyDef(propertyId)) > -1)
 				return properties.get(properties.indexOf(new SmcPropertyDef(
@@ -510,7 +517,7 @@ public class PropertiesUtils implements ApplicationContextAware,
 		return null;
 	}
 
-	public void setFieldProperty(String entity, String propertyId,Field<?> field , boolean isnew) {
+	public void setFieldProperty(Class<?> entity, String propertyId,Field<?> field , boolean isnew) {
 		SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(entity,
 				propertyId);
 		if (def != null) {
@@ -538,6 +545,7 @@ public class PropertiesUtils implements ApplicationContextAware,
 
 	public Object getEditBean(String enityName) {
 		SmcDefinition definition = properties.get(enityName.toLowerCase());
+		
 		if (definition != null && definition.getEditBean() != null) {
 			try{
 				Object bean = applicationContext.getBean(definition.getEditBean());
@@ -564,17 +572,14 @@ public class PropertiesUtils implements ApplicationContextAware,
 	}
 	
 	public void loadAllSmcDefinitions() throws IOException, DocumentException{
+	
 		List<Resource> resources  = EngineFactoryUtils.loadResourceByModule(applicationContext, "classpath*:META-INF/", "-smc.xml");
 		
 		for (Resource resource : resources) {
-//			LOG.info("found smc definition file : {} with URL {}",
-//					resource.getFilename(), resource.getURL());
-//			
-			Resource r = applicationContext.getResource("classpath:META-INF/"+ resource.getFilename());
-			if (r != null){
-				loadSmcDefinition(r.getURL());
+			if (resource != null){
+				loadSmcDefinition(resource.getURL());
 				LOG.info("found smc definition file : {} with URL {}",
-						r.getFilename(), r.getURL());
+						resource.getFilename(), resource.getURL());
 			}
 		}
 	}
@@ -590,6 +595,5 @@ public class PropertiesUtils implements ApplicationContextAware,
 		selectProperties.clear();
 		searchProperties.clear();
 		properties.clear();
-		
 	}
 }
