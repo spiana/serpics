@@ -15,9 +15,9 @@ http://www.springframework.org/schema/util/spring-util.xsd">
 	
 	<import resource="classpath:META-INF/initialsetup-serpics.xml"/>
 	
-	<util:list id="listOfTasksTest">
+<!-- 	<util:list id="listOfTasksTest"> -->
 		<bean class="com.serpics.initialsetup.test.task.TaskTest"/>
 		<bean class="com.serpics.initialsetup.test.task.TaskTest2"/>
-	</util:list>	
-
+<!-- 	</util:list>	 -->
+	
 </beans>    

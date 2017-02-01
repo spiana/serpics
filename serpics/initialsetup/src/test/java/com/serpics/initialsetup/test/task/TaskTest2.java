@@ -22,7 +22,7 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.initialsetup.annotation.SystemSetupTaskConfig;
 import com.serpics.initialsetup.task.AbstractSystemTask;
 
-@SystemSetupTaskConfig(order=2,description="Test Task Two")
+@SystemSetupTaskConfig(module = "test1" , order=2,description="Test Task Two")
 public class TaskTest2 extends AbstractSystemTask {
 
 	@Override

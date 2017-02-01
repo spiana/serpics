@@ -17,10 +17,13 @@
 package com.serpics.initialsetup.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -31,7 +34,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import com.serpics.initialsetup.ImportType;
@@ -48,21 +54,26 @@ import com.serpics.initialsetup.task.SystemSetupTask;
  *
  */
 @Service("systemSetupService")
-public class SystemSetupServiceImpl implements SystemSetupService{
+public class SystemSetupServiceImpl implements SystemSetupService , ApplicationContextAware{
 
 	private static final Logger logger = LoggerFactory.getLogger(SystemSetupServiceImpl.class);
-
-	private List<SystemSetupTask> listOfTask;
-
-	private boolean stopOnErrorCheckTask = true;
+	
+	private ApplicationContext applicationContext;
+	
+	
+	@Override
+	public void doSystemSetupTasks(ImportType iType){
+		doSystemSetupTasks(iType , null);
+	}
 	
 	/**
 	 * Main method that manage list of Task
 	 */
 	@Override
-	public void doSystemSetupTasks(ImportType iType) {
+	public void doSystemSetupTasks(ImportType iType, String...modules) {
 		logger.info("Start to execute Task...");
-
+		
+		
 		List<SystemSetupTask> listOfTaskToExecute = getListOfTask();
 
 		if (CollectionUtils.isEmpty(listOfTaskToExecute)) {
@@ -71,20 +82,23 @@ public class SystemSetupServiceImpl implements SystemSetupService{
 		}
 
 		logger.info("Check list of task if contains error");
-		Collection<SystemSetupTask> listOfTaskChecked = checkListOfTasks(listOfTaskToExecute);
-		int taskInError = getListOfTask().size() - listOfTaskChecked.size();
-		if (taskInError > 0) {
-
-			logger.info("Exist {} Task in error", taskInError);
-
-			logger.debug("To continue execution Tasks not in error? {}",
-					BooleanUtils.toStringYesNo(stopOnErrorCheckTask));
-
-			if (stopOnErrorCheckTask) {
-				return;
-			}
-
-		}
+		
+		Collection<SystemSetupTask> listOfTaskChecked = checkListOfTasks(listOfTaskToExecute, modules != null ? Arrays.asList(modules): null);
+		logger.info("found {} setup tasks to run !" , listOfTaskChecked.size());
+		
+//		int taskInError = listOfTaskToExecute.size() - listOfTaskChecked.size();
+//		if (taskInError > 0) {
+//
+//			logger.info("Exist {} Task in error", taskInError);
+//
+//			logger.debug("To continue execution Tasks not in error? {}",
+//					BooleanUtils.toStringYesNo(stopOnErrorCheckTask));
+//
+//			if (stopOnErrorCheckTask) {
+//				return;
+//			}
+//
+//		}
 
 		logger.info("Order task by order value in annotation");
 
@@ -103,7 +117,7 @@ public class SystemSetupServiceImpl implements SystemSetupService{
 	}
 
 	@SuppressWarnings("unchecked")
-	private Collection<SystemSetupTask> checkListOfTasks(Collection<SystemSetupTask> tasksToCheck) {
+	private Collection<SystemSetupTask> checkListOfTasks(Collection<SystemSetupTask> tasksToCheck , final Collection<String> requestedModules) {
 
 		return CollectionUtils.select(tasksToCheck, new Predicate() {
 
@@ -123,13 +137,11 @@ public class SystemSetupServiceImpl implements SystemSetupService{
 					logger.info("Task class {0} store not set.", taskToCheck.getClass().getSimpleName());
 					return false;
 				}
-
-				// Catalog blank will be set default Catalog
-//				if (StringUtils.isBlank(annotation.catalog())) {
-//					logger.info("Task class {0} catalog not set.", taskToCheck.getClass().getSimpleName());
-//					return false;
-//				}
-
+				if (requestedModules != null){
+					if (!requestedModules.contains(annotation.module())){
+						return false;
+					}
+				}
 				return true;
 			}
 		});
@@ -158,21 +170,17 @@ public class SystemSetupServiceImpl implements SystemSetupService{
 	}
 
 	public List<SystemSetupTask> getListOfTask() {
+		Map<String , Object> tasks = applicationContext.getBeansWithAnnotation(SystemSetupTaskConfig.class);
+		List<SystemSetupTask> listOfTask = new ArrayList<SystemSetupTask>();;
+		for (String bean : tasks.keySet()) {
+		   Object task = tasks.get(bean);
+		   if (task instanceof SystemSetupTask)
+			   listOfTask.add((SystemSetupTask) task);
+		}
 		return listOfTask;
 	}
 
-	@Autowired(required=false)
-	public void setListOfTask(final List<SystemSetupTask> listOfTask) {
-		this.listOfTask = listOfTask;
-	}
 
-	public boolean isStopOnErrorCheckTask() {
-		return stopOnErrorCheckTask;
-	}
-
-	public void setStopOnErrorCheckTask(boolean stopOnErrorCheckTask) {
-		this.stopOnErrorCheckTask = stopOnErrorCheckTask;
-	}
 
 	@SuppressWarnings({"unchecked"})
 	protected <T> T getTargetObject(Object proxy, Class<T> targetClass){
@@ -184,6 +192,12 @@ public class SystemSetupServiceImpl implements SystemSetupService{
 		  }
 	  } 
 	    return (T) proxy; // expected to be cglib proxy then, which is simply a specialized class
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
+		this.applicationContext=arg0;
+		
 	}
 	
 }
