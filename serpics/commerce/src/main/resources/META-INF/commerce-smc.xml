@@ -51,9 +51,11 @@
 		<property name="sku" table="true" edit="true" />
 		<property name="product" />
 		<property name="skuDescription" table="true"/>
+		<property name="quantity" table="true" />
 		<property name="skuNetPrice" table="true"/>
 		<property name="skuPrice" table="true"/>
 		<property name="discountAmount" table="true"/>
+		<properry name="quantity" table="true" />
 	</entity>
 	<entity name="paymethod">
 		<property name="name" table="true" select="true" search="true" />

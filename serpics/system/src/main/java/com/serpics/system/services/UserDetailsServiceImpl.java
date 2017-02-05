@@ -27,6 +27,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -115,5 +116,18 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
         userRegRepository.save(user);
 	
 		
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public String getDefaultStore(User	 princial) {
+		String defaultStore = "default-store";
+		
+		UsersReg user = userRegrepository.findBylogonid(princial.getUsername());
+		if (user != null && !user.getStores().isEmpty()){
+			defaultStore = user.getStores().iterator().next().getName();
+		}
+		
+		return defaultStore;
 	}
 }

@@ -24,7 +24,7 @@ import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterTable;
 
 
-@VaadinComponent(value = "roleTable")
+@VaadinComponent(value = "roleTable" )
 public class RolesTable extends MasterTable<Role> {
 
     private static final long serialVersionUID = -1487550710132191348L;

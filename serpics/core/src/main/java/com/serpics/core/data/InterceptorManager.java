@@ -28,7 +28,6 @@ public class InterceptorManager<Z> {
 	
 	InterceptorMappingInitializer interceptorMappingInitializer;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Z performBeforeSaveInterceptor(final Z entity) {
 		checkInitialize();
 		

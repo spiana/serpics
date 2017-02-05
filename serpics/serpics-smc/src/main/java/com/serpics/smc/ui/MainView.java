@@ -17,8 +17,12 @@
 package com.serpics.smc.ui;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +30,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.commerce.services.StoreService;
+import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.system.web.WebCostant;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -37,9 +45,14 @@ import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.NavigatorMenuTree;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomComponent;
@@ -47,6 +60,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
@@ -63,6 +77,14 @@ public class MainView extends CustomComponent {
 
 	Logger LOG = LoggerFactory.getLogger(MainView.class);
 
+	private static LinkedHashMap<String, String> themeVariants = new LinkedHashMap<>();
+    static {
+        themeVariants.put("tests-valo", "Default");
+        themeVariants.put("tests-valo-facebook", "Facebook");
+        themeVariants.put("tests-valo-dark", "Dark");
+    }
+    
+	
 	@Autowired
 	private transient CommerceEngine commerceEngine;
 	
@@ -72,9 +94,13 @@ public class MainView extends CustomComponent {
 	@Autowired
 	private NavigatorMenuTree navigatorMenuTree;
 	
-	private final Label storeLabel = new Label();
+	@Resource
+	private StoreService storeService;
+	
+	
 
 	private final TabSheet rightContentTabPanel = new TabSheet();
+	
 	@SuppressWarnings("rawtypes")
 	private final Map<String, com.vaadin.ui.Component> activeComponent = new HashMap<String, com.vaadin.ui.Component>(0);
 
@@ -112,7 +138,7 @@ public class MainView extends CustomComponent {
 		
 		
 		
-		 storeLabel.setCaption(commerceEngine.getCurrentContext().getStoreRealm().getName());
+		 //storeLabel.setCaption(commerceEngine.getCurrentContext().getStoreRealm().getName());
 	}
 
 	
@@ -126,10 +152,12 @@ public class MainView extends CustomComponent {
 		toolbarLayout.addStyleName("top-toolbar");
 		 toolbarLayout.setWidth("100%");
          toolbarLayout.setSpacing(true);
+         toolbarLayout.addComponent(createThemeSelect());
          
+         com.vaadin.ui.Component storeLabel= createStoreSelect();
          storeLabel.setSizeUndefined();
          toolbarLayout.addComponent(storeLabel);
-         toolbarLayout.setExpandRatio(storeLabel, 1);
+         toolbarLayout.setExpandRatio(storeLabel, 0.25F);
          toolbarLayout.setComponentAlignment(storeLabel,
                  Alignment.TOP_RIGHT);
 		
@@ -226,14 +254,12 @@ public class MainView extends CustomComponent {
 		rightPanel.setSizeFull();
 		rightPanel.addComponents(toolbarLayout, rightContentTabPanel);
 		rightPanel.setExpandRatio(toolbarLayout, 0.050F);
-		rightPanel.setExpandRatio(rightContentTabPanel, 1F);
+		rightPanel.setExpandRatio(rightContentTabPanel, 0.950F);
 		
 		
 		content.addComponent(rightPanel);
 		content.setExpandRatio(rightPanel, 5);
 		content.setExpandRatio(leftPanel, 1);
-//
-		
 		
 		layout.addComponent(content);
 		layout.setExpandRatio(content, 1);
@@ -243,6 +269,78 @@ public class MainView extends CustomComponent {
 		setSizeFull();
 	}
 
+	private com.vaadin.ui.Component createStoreSelect(){
+		 final NativeSelect ns = new NativeSelect();
+	        ns.setNullSelectionAllowed(false);
+	        ns.setId("storeSelect");
+	        ns.addContainerProperty("caption", String.class, "");
+	        ns.setItemCaptionPropertyId("caption");
+	        
+	        List<Store> stores = storeService.findAllStoreAvailable();
+	        
+	       
+	        
+	        for (Store identifier : stores) {
+	            ns.addItem(identifier.getName()).getItemProperty("caption")
+	                    .setValue(identifier.getName());
+	        }
+	        ns.setValue(commerceEngine.getCurrentContext().getRealm());
+	        
+	        ns.addValueChangeListener(new ValueChangeListener() {
+				
+	        	@Override
+	          public void valueChange(ValueChangeEvent event) {
+	             try {
+					commerceEngine.connect(ns.getValue().toString() , commerceEngine.getCurrentContext().getUserPrincipal());
+					
+					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, commerceEngine.getCurrentContext().getRealm() );
+					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.SERPICS_SESSION, commerceEngine.getCurrentContext().getSessionId());
+					rightContentTabPanel.removeAllComponents();
+	             } catch (SerpicsException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	          }
+			});
+	        
+	       return ns ; 
+	}
+	private com.vaadin.ui.Component createThemeSelect() {
+        // Keep theme select the same size as in the current screenshots
+        double width = 96;
+        WebBrowser browser = VaadinSession.getCurrent().getBrowser();
+        if (browser.isChrome()) {
+            width = 95;
+        } else if (browser.isIE()) {
+            width = 95.39;
+        } else if (browser.isFirefox()) {
+            width = 98;
+        }
+        UI.getCurrent().getPage()
+        .getStyles()
+                .add("#themeSelect select {width: " + width + "px;}");
+        final NativeSelect ns = new NativeSelect();
+        ns.setNullSelectionAllowed(false);
+        ns.setId("themeSelect");
+        ns.addContainerProperty("caption", String.class, "");
+        ns.setItemCaptionPropertyId("caption");
+        for (String identifier : themeVariants.keySet()) {
+            ns.addItem(identifier).getItemProperty("caption")
+                    .setValue(themeVariants.get(identifier));
+        }
+
+        ns.setValue("tests-valo");
+        ns.addValueChangeListener(new ValueChangeListener() {
+			
+        	@Override
+          public void valueChange(ValueChangeEvent event) {
+              UI.getCurrent().setTheme((String) ns.getValue());
+          }
+		});
+        
+        return  ns;
+    }
+	
 	private void addComponent(final String id, final String caption) {
 		
 		final com.vaadin.ui.Component _component = getComponent(id);

@@ -29,7 +29,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
 //@Theme("tests-valo-light")
-@Theme("valo")
+@Theme("tests-valo")
 @Component
 @Scope("prototype")
 @SuppressWarnings("rawtypes")

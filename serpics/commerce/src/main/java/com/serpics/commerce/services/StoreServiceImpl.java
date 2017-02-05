@@ -16,6 +16,9 @@
  *******************************************************************************/
 package com.serpics.commerce.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -30,6 +33,9 @@ import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
+import com.serpics.membership.UserType;
+import com.serpics.membership.data.model.UsersReg;
+import com.serpics.membership.data.repositories.UserregRepository;
 
 /**
  * @author spiana
@@ -44,6 +50,9 @@ public class StoreServiceImpl implements StoreService {
 	
 	@Resource
 	StoreRepository storerepository;
+	
+	@Resource
+	UserregRepository userregRepository;
 	
 	@Resource
 	PriceListRepository priceListrepository;
@@ -106,5 +115,15 @@ public class StoreServiceImpl implements StoreService {
 				engine.bind(_s.getSessionId());
 		}
 		
+	}
+
+	@Override
+	public List<Store> findAllStoreAvailable() {
+		UsersReg u = (UsersReg) engine.getCurrentContext().getUserPrincipal();
+		u = userregRepository.refresh(u);
+		if (u.getUserType().equals(UserType.SUPERSUSER))
+			return storerepository.findAll();
+		else
+			return  new ArrayList<>(u.getStores());
 	}
 }
