@@ -26,5 +26,5 @@ public interface UserDetailsService extends org.springframework.security.core.us
     public void setCredentials(Authentication authentication);
 
     public void updateLastVisit(UsersReg user);
-    public String getDefaultStore(User principal);
+    public String getDefaultStore(User principal , String preferred);
 }

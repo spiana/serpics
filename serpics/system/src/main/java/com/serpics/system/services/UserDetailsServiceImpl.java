@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -120,12 +121,18 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
 
 	@Override
 	@Transactional(readOnly=true)
-	public String getDefaultStore(User	 princial) {
+	public String getDefaultStore(User princial , String preferred) {
 		String defaultStore = "default-store";
 		
 		UsersReg user = userRegrepository.findBylogonid(princial.getUsername());
-		if (user != null && !user.getStores().isEmpty()){
-			defaultStore = user.getStores().iterator().next().getName();
+		if (user != null){
+			Set<Store> stores = user.getStores();
+			if ( !stores.isEmpty()){
+				if (stores.contains(preferred))
+					defaultStore = preferred;
+				else	
+					defaultStore = user.getStores().iterator().next().getName();
+			}
 		}
 		
 		return defaultStore;

@@ -43,8 +43,6 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
     @Autowired
     private CommerceEngine commerceEngine;
 
-//    @Autowired
-//    private MembersRoleRepository membersRoleRepository;
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -60,7 +58,7 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
         String selectedRealm = (String) request.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
         final String sessionId = (String) request.getSession().getAttribute(WebCostant.SERPICS_SESSION);
    
-    	selectedRealm = userDetailsService.getDefaultStore((User)authentication.getPrincipal());
+    	selectedRealm = userDetailsService.getDefaultStore((User)authentication.getPrincipal(), selectedRealm);
     	
         
         try {

@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -329,12 +330,16 @@ public class MainView extends CustomComponent {
                     .setValue(themeVariants.get(identifier));
         }
 
-        ns.setValue("tests-valo");
+        ns.setValue(UI.getCurrent().getTheme());
         ns.addValueChangeListener(new ValueChangeListener() {
 			
         	@Override
           public void valueChange(ValueChangeEvent event) {
               UI.getCurrent().setTheme((String) ns.getValue());
+              Cookie cookie = new Cookie("smc-theme", ns.getValue().toString());
+              cookie.setPath("/");
+              cookie.setMaxAge(30*24*60*60);
+              VaadinService.getCurrentResponse().addCookie(cookie);
           }
 		});
         

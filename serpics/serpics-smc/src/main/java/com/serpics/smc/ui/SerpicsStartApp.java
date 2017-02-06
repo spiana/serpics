@@ -17,6 +17,7 @@
 package com.serpics.smc.ui;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinService;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
@@ -53,12 +55,26 @@ public class SerpicsStartApp extends UI {
 
 	@Override
 	protected void init(final VaadinRequest request) {
-			mainView.builContent();
-			setContent(mainView);
+		Cookie[] cookies =request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("smc-theme")){
+				String theme = cookie.getValue();
+				setTheme(theme);
+				// reset cookie expire
+				 Cookie new_cookie = new Cookie("smc-theme", theme);
+	              new_cookie.setPath("/");
+	              new_cookie.setMaxAge(30*24*60*60);
+	              VaadinService.getCurrentResponse().addCookie(new_cookie);
+				break;
+			}
+		}
+		
+			
+		mainView.builContent();
+		setContent(mainView);
 		
 			
 			
-		
 	}
 
 	
