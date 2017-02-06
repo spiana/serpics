@@ -16,10 +16,19 @@
  *******************************************************************************/
 package com.serpics.smc.ui;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
+import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.core.Engine;
 import com.serpics.scheduler.exception.JobSchedulerException;
+import com.serpics.scheduler.job.AbstractStoreJob;
 import com.serpics.scheduler.model.JobLog;
+import com.serpics.scheduler.model.StoreJobDetails;
 import com.serpics.scheduler.service.JobService;
 import com.serpics.scheduler.service.SchedulerService;
 import com.serpics.vaadin.data.utils.I18nUtils;
@@ -27,6 +36,7 @@ import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
+import com.serpics.vaadin.ui.component.ComboBox;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -50,6 +60,9 @@ public abstract class AbstractJobDetailMasterTable<T> extends MasterTable<T> {
 
 	@Resource
 	private JobSchedulerTable jobSchedulerTable;
+	
+	@Resource
+	CommerceEngine commerceEngine;
 
 	/**
 	 * 
@@ -89,6 +102,22 @@ public abstract class AbstractJobDetailMasterTable<T> extends MasterTable<T> {
 				
 				int index= getComponentIndex(stopOnFail);
 				addComponent(resumeJobButton, index+1);
+				
+				
+			}
+			@Override
+			protected Field<?> createField(String pid) {
+				// Add  Select for choose the job to run.
+				if (pid.equals("nameClassJob") && 
+						entityClass.isAssignableFrom(StoreJobDetails.class)
+						){
+					ComboBox _s = new ComboBox("nameClassJob");
+					loadAllJobs(_s);
+					_s.setWidth("50%");
+					return bindField(pid, _s);
+				}else
+					return super.createField(pid);
+				
 			}
 			/*
 			 * (non-Javadoc)
@@ -106,10 +135,22 @@ public abstract class AbstractJobDetailMasterTable<T> extends MasterTable<T> {
 					throw new CommitException(e);
 				}
 				entityItem.refresh();
-
 				entityItem.getContainer().refresh();
 				}
+			
+			private Set<String> loadAllJobs(ComboBox combo){
+				Map<String , AbstractStoreJob> jobs = commerceEngine.getApplicationContext().getBeansOfType(AbstractStoreJob.class);
+				Set<String>  jobClasses = new HashSet<String>();
+				for (String component : jobs.keySet()) {
+					combo.addItem(jobs.get(component).getClass().getName());
+					combo.setItemCaption(jobs.get(component).getClass().getName(), component);
+					jobClasses.add(jobs.get(component).getClass().getName());
+				}
+				return jobClasses;
+			}
+			
 		};
+		
 	}
 
 	public abstract T execSave(T entity, boolean create) throws ClassNotFoundException, JobSchedulerException;// entityItem.getEntity().getNameClassJob()

@@ -34,8 +34,8 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
 import com.serpics.membership.UserType;
-import com.serpics.membership.data.model.UsersReg;
-import com.serpics.membership.data.repositories.UserregRepository;
+import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.repositories.UserRepository;
 
 /**
  * @author spiana
@@ -52,7 +52,7 @@ public class StoreServiceImpl implements StoreService {
 	StoreRepository storerepository;
 	
 	@Resource
-	UserregRepository userregRepository;
+	UserRepository userRepository;
 	
 	@Resource
 	PriceListRepository priceListrepository;
@@ -119,8 +119,8 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public List<Store> findAllStoreAvailable() {
-		UsersReg u = (UsersReg) engine.getCurrentContext().getUserPrincipal();
-		u = userregRepository.refresh(u);
+		User u = (User) engine.getCurrentContext().getUserPrincipal();
+		u = userRepository.refresh(u);
 		if (u.getUserType().equals(UserType.SUPERSUSER))
 			return storerepository.findAll();
 		else
