@@ -58,6 +58,11 @@ public class InterceptorMappingInitializer implements InitializingBean , Applica
 					i.setOrder(a.order());
 					i.setTargetEntity(entityClass.getName());
 					createinterceptor.put(i.getTargetEntity() , i);
+				}else if (interceptor instanceof UpdateInterceptor){
+					i.setInterceptor((Interceptor)interceptor);
+					i.setOrder(a.order());
+					i.setTargetEntity(entityClass.getName());
+					updateinterceptor.put(i.getTargetEntity(), i);
 				}
 			}
 		}

@@ -40,6 +40,27 @@ public class InterceptorManager<Z> {
 
 	}
 	
+	public Z performAfterUpdateInterceptor(final Z entity) {
+		checkInitialize();
+		final InterceptorEntityMapping afterCreate = interceptorMappingInitializer
+				.getUpdateInterceptor();
+		
+		executeAfterSave(entity, entity.getClass(), afterCreate);
+	
+		return entity;
+	}
+	public Z performBeforeUpdateInterceptor(final Z entity) {
+		checkInitialize();
+		
+		final InterceptorEntityMapping beforeCreate = interceptorMappingInitializer
+				.getUpdateInterceptor();
+		
+		executeBeforeSave(entity, entity.getClass(), beforeCreate);
+		
+		return entity;
+
+	}
+	
 	public Z performAfterSaveInterceptor(final Z entity) {
 		checkInitialize();
 		final InterceptorEntityMapping afterCreate = interceptorMappingInitializer
@@ -63,7 +84,7 @@ public class InterceptorManager<Z> {
 		if (interceptorMapping != null) {
 			for (InterceptorMapping beforeSaveInterceptor : interceptorMapping) {
 				if(LOG.isDebugEnabled())
-					LOG.debug("perform before create interceptor {} for entity {}" ,
+					LOG.debug("perform before save interceptor {} for entity {}" ,
 							beforeSaveInterceptor.getInterceptor().getClass().getName(),
 							clazz.getName());
 				
@@ -87,7 +108,7 @@ public class InterceptorManager<Z> {
 		if (interceptorMapping != null) {
 			for (InterceptorMapping beforeSaveInterceptor : interceptorMapping) {
 				if(LOG.isDebugEnabled())
-					LOG.debug("perform before create interceptor {} for entity {}" ,
+					LOG.debug("perform after save interceptor {} for entity {}" ,
 							beforeSaveInterceptor.getInterceptor().getClass().getName(),
 							clazz.getName());
 				((SaveInterceptor) beforeSaveInterceptor.getInterceptor()).afterSave(entity);

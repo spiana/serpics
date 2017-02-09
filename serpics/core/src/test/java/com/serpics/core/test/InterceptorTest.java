@@ -29,7 +29,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import com.serpics.core.data.Interceptor;
 import com.serpics.core.data.InterceptorMapping;
 import com.serpics.core.data.InterceptorMappingInitializer;
 import com.serpics.test.ExecutionTestListener;
@@ -46,10 +45,17 @@ public class InterceptorTest {
 	public void interceptorTest(){
 		
 		Assert.assertEquals(1,interceptorMapping.getCreateInterceptor().size());
+		Assert.assertEquals(1,interceptorMapping.getUpdateInterceptor().size());
 		String key  = interceptorMapping.getCreateInterceptor().keySet().iterator().next();
 		List<InterceptorMapping> mapping = interceptorMapping.getCreateInterceptor().get(key);
 		Assert.assertEquals(1,mapping.size());
-		Assert.assertEquals("com.serpics.core.test.repositories.TestInterceptor", mapping.get(0).getTargetEntity());
+		Assert.assertEquals("com.serpics.core.test.repositories.TestSaveInterceptor", mapping.get(0).getTargetEntity());
+		
+		String key1  = interceptorMapping.getUpdateInterceptor().keySet().iterator().next();
+		List<InterceptorMapping> mapping1 = interceptorMapping.getUpdateInterceptor().get(key1);
+		Assert.assertEquals(1,mapping1.size());
+		
+		Assert.assertEquals("com.serpics.core.test.repositories.TestUpdateInterceptor", mapping1.get(0).getTargetEntity());
 		
 	}
 }

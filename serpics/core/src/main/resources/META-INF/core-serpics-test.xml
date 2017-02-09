@@ -9,6 +9,7 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 	
 <!--     <bean name="testScope" class="com.serpics.core.test.TestScopebean" /> -->
     
-	<bean name="testInterceptor" class="com.serpics.core.test.repositories.TestInterceptor"/>
+	<bean name="testInterceptor" class="com.serpics.core.test.repositories.TestSaveInterceptor"/>
+	<bean name="testInterceptor1" class="com.serpics.core.test.repositories.TestUpdateInterceptor"/>
  </beans>    
 
