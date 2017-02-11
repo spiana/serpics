@@ -16,49 +16,21 @@
  *******************************************************************************/
 package com.serpics.vaadin.ui;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
-
-import javax.persistence.Transient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.base.Multilingual;
-import com.serpics.base.data.model.MultilingualString;
-import com.serpics.vaadin.ui.component.MultilingualTextField;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.serpics.vaadin.ui.filter.MultilingualisNullFilter;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.filter.Filters;
-import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.IsNull;
 import com.vaadin.data.util.filter.Not;
 import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.FieldEvents.TextChangeEvent;
-import com.vaadin.event.FieldEvents.TextChangeListener;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.Position;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.AbstractTextField;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 public class FilterComponentUtils {
@@ -143,8 +115,10 @@ public class FilterComponentUtils {
 	         switch (filteringMode) {
 	            case ISEMPTY:
 	            	filter = new IsNull(propertyId);
+	            	break;
 	            case ISNOTEMPTY:
 	            	filter = new Not(new IsNull(propertyId));
+	            	break;
 	            case EQUALS:
 	            	filter = new Compare.Equal(propertyId, filterString);
 	                break;

@@ -180,7 +180,12 @@ public class FilterComponent<T> extends CustomComponent {
 			@Override
 			public void textChange(TextChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
-				if (StringUtils.isNoneEmpty(event.getText())) {
+				if (StringUtils.isNoneEmpty(event.getText()) &&
+						(filteringMode.equals(FilteringMode.EQUALS) ||
+								filteringMode.equals(FilteringMode.STARTSWITH)	||
+								filteringMode.equals(FilteringMode.ENDWITH) ||
+								filteringMode.equals(FilteringMode.CONTAINS)
+								)) {
 					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
 							filteringMode, event.getText(), null);
 					container.addContainerFilter(currentFilter);

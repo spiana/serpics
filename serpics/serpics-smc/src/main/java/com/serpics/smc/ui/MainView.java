@@ -32,6 +32,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.serpics.base.data.model.Store;
+import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.services.StoreService;
 import com.serpics.core.SerpicsException;
@@ -88,6 +89,9 @@ public class MainView extends CustomComponent {
 	
 	@Autowired
 	private transient CommerceEngine commerceEngine;
+	
+	@Autowired
+	private CatalogService catalogService;
 	
 	@Autowired
 	private UserRegEditorComponent userProfile;
@@ -293,6 +297,7 @@ public class MainView extends CustomComponent {
 	          public void valueChange(ValueChangeEvent event) {
 	             try {
 					commerceEngine.connect(ns.getValue().toString() , commerceEngine.getCurrentContext().getUserPrincipal());
+					catalogService.setDefaultCatalog("");
 					
 					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, commerceEngine.getCurrentContext().getRealm() );
 					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.SERPICS_SESSION, commerceEngine.getCurrentContext().getSessionId());
