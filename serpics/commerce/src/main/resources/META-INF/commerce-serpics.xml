@@ -16,6 +16,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
      
      <!-- Default Specification -->
      <bean name="defaultPaymethodlookupSpecification" class="com.serpics.commerce.data.specifications.DefaultPaymethodlookupSpecification"/>
+    <bean name="defaultAbstractOrderStoreSpecification" class="com.serpics.commerce.data.specifications.AbstractOrderStoreSpecification"/>
     
     <!-- Interceptor Mapping -->
     <bean name="abstractOrderSaveInterceptor" class="com.serpics.commerce.data.interceptors.AbstractOrderSaveInterceptor"/>

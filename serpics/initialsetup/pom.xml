@@ -85,6 +85,11 @@
 			<artifactId>import-export</artifactId>
 			<version>${serpics.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>catalog</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
   </dependencies>
   
   

@@ -27,9 +27,9 @@ http://www.springframework.org/schema/jee/spring-jee.xsd" >
        	 <property name="persistenceUnitName" value="serpics"/>
          <property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">	
-				<property name="showSql" value="true"/>
-				<property name="generateDdl" value="true"/>
-			 <property name="databasePlatform" value="org.hibernate.dialect.HANARowStoreDialect" />
+				<property name="showSql" value="false"/>
+				<property name="generateDdl" value="false"/>
+			 	<property name="databasePlatform" value="org.hibernate.dialect.HANARowStoreDialect" />
 			</bean>
 		 </property>
 		<property name="jpaProperties">

@@ -65,10 +65,10 @@ public class CommerceSessionFilter implements Filter {
          
         	logger.info("current URL {} !", pathInfo);
         	logger.info("request store is {}" , request_store);
-        	String[] _temp = pathInfo.split(";");
-        	if(_temp.length==2)
-        		realm = _temp[1];
-        	
+//        	String[] _temp = pathInfo.split(";");
+//        	if(_temp.length==2)
+//        		realm = _temp[1];
+//        	
             if(realm == null)
     	         realm = (String) httpReq.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
             

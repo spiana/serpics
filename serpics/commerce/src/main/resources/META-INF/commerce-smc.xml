@@ -39,7 +39,7 @@
 		<property name="billingAddress"   extendedcombo="true" />
 		<property name="shippingAddress"  extendedcombo="true" />
 		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
-		<property name="orderitems"/>
+		<property name="orderitems" mappedClass="com.serpics.commerce.data.model.Orderitem"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>
 		<property name="totalService" readonly="true" style="align-right"/>
 		<property name="totalShipping" readonly="true" style="align-right"/>
@@ -49,7 +49,7 @@
 	
 	<entity name="orderitem">
 		<property name="sku" table="true" edit="true" />
-		<property name="product" />
+		<property name="product" mappedClass="com.serpics.catalog.data.model.Product"/>
 		<property name="skuDescription" table="true"/>
 		<property name="quantity" table="true" />
 		<property name="skuNetPrice" table="true"/>

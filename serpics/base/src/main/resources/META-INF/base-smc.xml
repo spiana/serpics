@@ -69,5 +69,10 @@
 		<property name="updated" />
 	
 	</entity>
+	<entity name="locale">
+		<property name="name" table="true" select="false"/>
+		<property name="language" table="true" select="true"/>
+		<property name="country" table="true" select="false"/>
+	</entity>
 
 </smc-definition>

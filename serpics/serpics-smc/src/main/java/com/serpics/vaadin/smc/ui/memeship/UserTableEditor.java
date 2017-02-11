@@ -62,7 +62,7 @@ public class UserTableEditor extends MasterTable<UsersReg> {
     public EntityFormWindow<UsersReg> buildEntityWindow() {
     	EntityFormWindow<UsersReg> editorWindow = new EntityFormWindow<UsersReg>();
     	editorWindow.addTab(userEditorComponent, I18nUtils.getMessage("user", ""));
-    	//editorWindow.addTab(primaryAddressEditor, "contactAddress");
+    	editorWindow.addTab(primaryAddressEditor, "contactAddress");
         editorWindow.addTab(billingAddressEditor, I18nUtils.getMessage("billingaddress", ""));
         editorWindow.addTab(userRegEditorComponent,I18nUtils.getMessage("usersreg", ""));
         editorWindow.addTab(addressTableEditor, I18nUtils.getMessage("address", ""));

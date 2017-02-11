@@ -12,7 +12,7 @@
 		<property name="lastname" table="true" search="true"/>
 		<property name="phone"  />
 		<property name="email" table="true" search="true" />
-		<property name="primaryAddress" />
+<!-- 		<property name="primaryAddress" /> -->
 		<property name="created" table="true" readony ="true" />
 	</entity>
 	
