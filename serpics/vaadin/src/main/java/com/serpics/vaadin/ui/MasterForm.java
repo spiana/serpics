@@ -100,10 +100,10 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		fieldGroup.setBuffered(true);
 
 		if (this.displayProperties == null)
-			this.displayProperties = PropertiesUtils.get().getEditProperty(entityClass.getSimpleName());
+			this.displayProperties = PropertiesUtils.get().getEditProperty(entityClass);
 
 		if (this.readOnlyProperties == null || this.readOnlyProperties.isEmpty()){
-			String[] _readonly = PropertiesUtils.get().getReadOnlyProperty(entityClass.getSimpleName());
+			String[] _readonly = PropertiesUtils.get().getReadOnlyProperty(entityClass);
 			if (_readonly != null)
 				this.readOnlyProperties  = new HashSet<String>(Arrays.asList(_readonly));
 			else

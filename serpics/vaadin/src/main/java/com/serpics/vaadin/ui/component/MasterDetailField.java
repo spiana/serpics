@@ -134,7 +134,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		
 		
 		if (displayProperties == null){
-			displayProperties = PropertiesUtils.get().getTableProperty(referencedType.getSimpleName());
+			displayProperties = PropertiesUtils.get().getTableProperty(referencedType);
 			
 		}
 		

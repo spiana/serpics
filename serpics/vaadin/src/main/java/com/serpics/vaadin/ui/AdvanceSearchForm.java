@@ -68,7 +68,7 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 		super(clazz);
 		this.entityClass = clazz;
 		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(entityClass));
-		searchProperties = PropertiesUtils.get().getSearchProperty(entityClass.getSimpleName());
+		searchProperties = PropertiesUtils.get().getSearchProperty(entityClass);
 		if (searchProperties == null) {
 			this.searchProperties = buildDisplayProperties(entityClass);
 			

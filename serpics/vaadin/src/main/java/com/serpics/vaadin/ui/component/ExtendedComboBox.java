@@ -104,10 +104,10 @@ public class ExtendedComboBox<T> extends CustomField<T> implements com.vaadin.da
 	
 	private String buildReferencedPropertyToShow( EntityContainer containerForProperty , Object propertyId){
 		Class<?> referencedType=  containerForProperty.getType(propertyId);
-		String referencedProperty = PropertiesUtils.get().getSelectProperty(referencedType.getSimpleName());
+		String referencedProperty = PropertiesUtils.get().getSelectProperty(referencedType);
 		
 		if (referencedProperty == null)
-			referencedProperty = "code"; // this is default
+			referencedProperty = "uuid"; // this is default
 		
 		return referencedProperty;
 	}

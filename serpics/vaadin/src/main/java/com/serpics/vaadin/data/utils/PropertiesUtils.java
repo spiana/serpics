@@ -35,7 +35,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 
 import com.serpics.core.EngineFactory;
@@ -314,24 +313,54 @@ public class PropertiesUtils implements ApplicationContextAware,
 		return instance;
 	}
 
-	public String[] getTableProperty(String entity) {
-		return tableProperties.get(entity.toLowerCase());
+	public String[] getTableProperty(Class<?> entity) {
+		String[] properties = tableProperties.get(entity.getSimpleName().toLowerCase());
+		
+		if (properties == null)
+			if (entity.getSuperclass() != null)
+				properties = getTableProperty(entity.getSuperclass());
+		
+ 		return properties;
 	}
 
-	public String[] getEditProperty(String entity) {
-		return editProperties.get(entity.toLowerCase());
+	public String[] getEditProperty(Class<?> entity) {
+		String[] properties = editProperties.get(entity.getSimpleName().toLowerCase());
+		
+		if (properties == null)
+			if (entity.getSuperclass() != null)
+				properties = getEditProperty(entity.getSuperclass());
+		
+ 		return properties;
 	}
 
-	public String[] getReadOnlyProperty(String entity) {
-		return readOnlyProperties.get(entity.toLowerCase());
+	public String[] getReadOnlyProperty(Class<?> entity) {
+		String[] properties = readOnlyProperties.get(entity.getSimpleName().toLowerCase());
+		
+		if (properties == null)
+			if (entity.getSuperclass() != null)
+				properties = getReadOnlyProperty(entity.getSuperclass());
+		
+ 		return properties;
 	}
 
-	public String getSelectProperty(String entity) {
-		return selectProperties.get(entity.toLowerCase());
+	public String getSelectProperty(Class<?> entity) {
+		String property = selectProperties.get(entity.getSimpleName().toLowerCase());
+		
+		if (property == null)
+			if (entity.getSuperclass() != null)
+				property = getSelectProperty(entity.getSuperclass());
+		
+		return property; 
 	}
 
-	public String[] getSearchProperty(String entity) {
-		return searchProperties.get(entity.toLowerCase());
+	public String[] getSearchProperty(Class<?> entity) {
+		String[] properties = searchProperties.get(entity.getSimpleName().toLowerCase());
+		
+		if (properties == null)
+			if (entity.getSuperclass() != null)
+				properties = getSearchProperty(entity.getSuperclass());
+		
+ 		return properties;
 	}
 
 	@Override

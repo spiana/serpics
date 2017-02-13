@@ -106,7 +106,7 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
 	    if ((otm != null) && (!("".equals(otm.mappedBy())))) {
 	      return otm.mappedBy();
 	    }
-	    return getType().getSimpleName().toLowerCase();
+	    return propertyName;
 	  }
 	
 	 @SuppressWarnings("unchecked")

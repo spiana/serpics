@@ -101,6 +101,11 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>membership</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
   </dependencies>
   
   
