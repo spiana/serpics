@@ -34,6 +34,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		class="com.serpics.catalog.data.interceptors.FeatureSaveInterceptor" />
 	
 	<bean name="catalog2StoreSaveInterceptor" class="com.serpics.catalog.data.interceptors.Catalog2StoreSaveInterceptor" />
+	<bean name="memeberPricelistRelationInterceptor" class="com.serpics.catalog.data.interceptors.MemeberPricelistRelationInterceptor"/>	
 		
 	<bean name="ctentrySaveMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.catalog.data.model.Ctentry" />
