@@ -7,13 +7,18 @@ import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.catalog.data.model.MemberPricelistRelation;
+import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.model.Product;
-import com.serpics.catalog.data.model.UserPricelistRelation;
+import com.serpics.catalog.data.repositories.MemberPricelistRepository;
 import com.serpics.catalog.data.repositories.PriceListRepository;
+import com.serpics.catalog.data.repositories.PriceRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.catalog.data.repositories.UserPricelistRepository;
+import com.serpics.catalog.services.PriceService;
+import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.UserRepository;
@@ -27,15 +32,21 @@ public class MemberPriceListTest extends CatalogBaseTest{
 	PriceListRepository pricelistRepository;
 	
 	@Resource
-	UserPricelistRepository userPricelistRepository;
+	MemberPricelistRepository memberPricelistRepository;
 	
 	@Resource
 	UserRepository userRepositoy;
 	
+	@Autowired
+	PriceRepository priceRepository;
+	
+	@Autowired
+	PriceService priceService;
+	
 	@Test
 	@Transactional
 	public void test1() throws SerpicsException{
-		//CommerceSessionContext context = commerceEngine.connect("default-store");
+		CommerceSessionContext context = commerceEngine.getCurrentContext();
 		
 		
 		Product p = new Product();
@@ -51,15 +62,43 @@ public class MemberPriceListTest extends CatalogBaseTest{
 		u.setCommonName("cn=test");
 		userRepositoy.save(u);
 		
-		UserPricelistRelation ur= new UserPricelistRelation();
-		ur.setUser(u);
+		Price price = new Price();
+		price.setProduct(p);
+		price.setCurrency((com.serpics.base.data.model.Currency)context.getCurrency() );
+		price.setCurrentPrice(10.0);
+		priceRepository.save(price);
+		
+		
+		Price price1 = new Price();
+		price1.setProduct(p);
+		price1.setCurrency((com.serpics.base.data.model.Currency)context.getCurrency() );
+		price1.setCurrentPrice(5.0);
+		price1.setPricelist(pl);
+		priceRepository.save(price1);
+		
+		Price p1 = priceService.findProductPrice(p);
+		Assert.assertEquals(10.0, p1.getCurrentPrice().doubleValue() , 0);
+		
+		
+		
+		
+		MemberPricelistRelation ur= new MemberPricelistRelation();
+		ur.setMember(u);
 		ur.setPriceList(pl);
-		userPricelistRepository.save(ur);
-		
-		List<UserPricelistRelation> list = userPricelistRepository.findAll();
-		
+		memberPricelistRepository.save(ur);
+		List<MemberPricelistRelation> list = memberPricelistRepository.findAll();
 		Assert.assertEquals(1, list.size());
 		
+		context.setCustomer(u);
+		Price p2 = priceService.findProductPrice(p);
+		Assert.assertEquals(10.0, p2.getCurrentPrice().doubleValue(),0 );
+		
+		commerceEngine.disconnect(context);
+		context = commerceEngine.connect("default-store");
+		
+		context.setCustomer(u);
+		Price p3 = priceService.findProductPrice(p);
+		Assert.assertEquals(5.0, p3.getCurrentPrice().doubleValue(),0 );
 		
 	}
 }

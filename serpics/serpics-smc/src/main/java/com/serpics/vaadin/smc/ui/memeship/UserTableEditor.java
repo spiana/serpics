@@ -18,7 +18,7 @@ package com.serpics.vaadin.smc.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.catalog.data.model.UserPricelistRelation;
+import com.serpics.catalog.data.model.MemberPricelistRelation;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.stereotype.VaadinComponent;
@@ -71,7 +71,7 @@ public class UserTableEditor extends MasterTable<UsersReg> {
         editorWindow.addTab(addressTableEditor, I18nUtils.getMessage("address", "address"));
         editorWindow.addTab(membergroupRelTable, I18nUtils.getMessage("membergrouprel", "membergrouprel"));
         editorWindow.addTab(memberRoleTable, I18nUtils.getMessage("membersrole", "membersrole"));
-        editorWindow.addTab(new MasterDetailTable<UserPricelistRelation , User>(UserPricelistRelation.class , "user") {
+        editorWindow.addTab(new MasterDetailTable<MemberPricelistRelation , User>(MemberPricelistRelation.class , "member") {
 			private static final long serialVersionUID = -6807854177166353469L;
         	
         }, I18nUtils.getMessage("userpricelist", "userpricelist"));

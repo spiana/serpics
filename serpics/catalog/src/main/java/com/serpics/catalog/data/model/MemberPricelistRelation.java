@@ -1,19 +1,34 @@
 package com.serpics.catalog.data.model;
 
 import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 
 import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.membership.data.model.Member;
 
-@MappedSuperclass
-public abstract class MemberPricelistRelation  extends AbstractEntity{
-	
+@Entity
+public  class MemberPricelistRelation  extends AbstractEntity{
+	private static final long serialVersionUID = -527591768485015980L;
+
+
 	@EmbeddedId
 	MemberPricelistRelationPK id ;
 	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id" , insertable=false, updatable=false)
+    private Member member;
+
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
 
     //bi-directional many-to-one association to Ctentry
     @ManyToOne(fetch = FetchType.LAZY)

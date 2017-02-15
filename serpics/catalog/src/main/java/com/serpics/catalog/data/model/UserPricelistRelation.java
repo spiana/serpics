@@ -1,13 +1,12 @@
 package com.serpics.catalog.data.model;
 
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.serpics.membership.data.model.User;
 
-@Entity
+//@Entity
 public class UserPricelistRelation extends MemberPricelistRelation{
 	
 	/**

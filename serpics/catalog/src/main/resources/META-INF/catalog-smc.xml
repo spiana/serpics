@@ -99,7 +99,7 @@
 		<property name="value" table="true" />
 	</entity>
 	
-	<entity name="userpricelistrelation">
+	<entity name="memberpricelistrelation">
 		<property name="priceList"/>
 		<property name="priceList.name" edit="false" table="true"/>
 		<property name="updated" readonly="true" table="true" />

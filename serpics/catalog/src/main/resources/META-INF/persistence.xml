@@ -22,7 +22,7 @@
 		<class>com.serpics.catalog.data.model.ProductffmtPK</class>
 		<class>com.serpics.catalog.data.model.AbstractProduct</class>
 		
-		<class>com.serpics.catalog.data.model.UserPricelistRelation</class>
+		<class>com.serpics.catalog.data.model.MemberPricelistRelation</class>
 		
 		<class>com.serpics.catalog.data.model.Product</class>
 		<class>com.serpics.catalog.data.model.ProductVariant</class>
