@@ -220,7 +220,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			}
 		}
 
-		return getSessionCart();
+		return cart;
 	}
 
 	@Override
@@ -261,8 +261,10 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	@Override
 	@Transactional
 	public Cart cartUpdate(final Cartitem cartItem) throws InventoryNotAvailableException, ProductNotFoundException {
-		final Cart cart = createSessionCart();
-		return cartUpdate(cartItem, cart);
+		 final Cart cart = createSessionCart();
+		 cartUpdate(cartItem, cart);
+		 putCartinSession(cart);
+		 return cart;
 	}
 
 	@Override
@@ -309,17 +311,20 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	@Override
 	@Transactional
 	public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
-		final Cart cart = getSessionCart();
+		Cart cart = getSessionCart();
 		Assert.notNull(cart);
 		cartRepository.refresh(cart);
 
-		return prepareCart(cart);
+		cart  = prepareCart(cart);
+		
+		putCartinSession(cart);
+		return cart;
 	}
 
 	@Override
 	@Transactional
 	public Cart prepareCart(final Cart cart) throws InventoryNotAvailableException, ProductNotFoundException {
-		return prepareCart(cart, false);
+		return  prepareCart(cart, false);
 	}
 
 	@Override
@@ -359,8 +364,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 		cart = cartRepository.saveAndFlush(cart);
 
-		putCartinSession(cart);
-
+		
 		return cart;
 	}
 
@@ -369,7 +373,6 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	public void cartDelete() {
 		final Cart cart = getSessionCart();
 		cartDelete(cart);
-
 	}
 
 	@Override
@@ -400,7 +403,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			LOG.error("Error not expected in remove CartItem", e);
 			throw new RuntimeException(e);
 		}
-
+		putCartinSession(cart);
 	}
 
 	@Override
@@ -618,7 +621,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		sessionCart.setCustomer(customer);	
 		
 		cartRepository.saveAndFlush(sessionCart);
-		
+		putCartinSession(sessionCart);
 		
 	}
 
