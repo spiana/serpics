@@ -71,7 +71,7 @@ public class UserTableEditor extends MasterTable<UsersReg> {
         editorWindow.addTab(addressTableEditor, I18nUtils.getMessage("address", "address"));
         editorWindow.addTab(membergroupRelTable, I18nUtils.getMessage("membergrouprel", "membergrouprel"));
         editorWindow.addTab(memberRoleTable, I18nUtils.getMessage("membersrole", "membersrole"));
-        editorWindow.addTab(new MasterDetailTable<MemberPricelistRelation , User>(MemberPricelistRelation.class , "member") {
+        editorWindow.addTab(new MasterDetailTable<MemberPricelistRelation , User>(MemberPricelistRelation.class , "member" , "member") {
 			private static final long serialVersionUID = -6807854177166353469L;
         	
         }, I18nUtils.getMessage("userpricelist", "userpricelist"));

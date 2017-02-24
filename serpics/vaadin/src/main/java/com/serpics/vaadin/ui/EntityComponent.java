@@ -38,6 +38,7 @@ public interface EntityComponent<T> extends Component{
 
     public interface EntityComponentChild<DETAIL,MASTER> extends EntityComponent<DETAIL> {
         public void setParentEntity(EntityItem<MASTER> parent);
+        @Deprecated
         public void setParentProperty(Object parentPropertyId);
 
        

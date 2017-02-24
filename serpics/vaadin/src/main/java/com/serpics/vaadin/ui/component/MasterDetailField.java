@@ -32,6 +32,7 @@ import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
+import com.serpics.vaadin.data.utils.PropertiesUtils.SmcPropertyDef;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
@@ -71,6 +72,8 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	private  Table table;
 	private transient  String[] displayProperties;
 	private transient PropertyList<T> propertyList;
+	
+	
 	
 	public Table getTable() {
 		return table;
@@ -248,6 +251,7 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 		return form;
 	  }
 	  
+	  
 	  public EntityFormWindow<X> buildEntityWindow() {
 			EntityFormWindow<X> editorWindow =  (EntityFormWindow<X> ) PropertiesUtils.get().getEditBean(container.getEntityClass().getSimpleName());	
 			if (editorWindow == null){
@@ -261,7 +265,15 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	  private void addNew()
 	  {
 	    try {
-	      X newInstance = this.container.getEntityClass().newInstance();
+	    	Class<? extends X> mappedClass = null;
+	    	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(entityItem.getEntity().getClass(), propertyId.toString());
+	     	if (def != null){
+	     		mappedClass =  (Class<? extends X>)def.getMappedClass();
+	     	}
+	     	if (mappedClass == null)
+	     		mappedClass = this.container.getEntityClass();
+	     	
+	      X newInstance = mappedClass.newInstance();
 	      BeanItem beanItem = new BeanItem(newInstance);
 	      beanItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity);
 	      EntityItem<X> item = this.container.createEntityItem(newInstance);
@@ -414,6 +426,9 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	    return null;
 	  }
 
-	
+	private Class<?> getMappedClass(){
+		
+		return null;
+	}
 	
 }

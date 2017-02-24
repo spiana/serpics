@@ -277,7 +277,7 @@ public class ProductTable extends MasterTable<Product> {
 	
 	
 private MasterDetailTable<ProductVariant, Product> buildVariantTab(){
-	return new MasterDetailTable<ProductVariant, Product>(ProductVariant.class , "variants") {
+	return new MasterDetailTable<ProductVariant, Product>(ProductVariant.class , "variants", "parentProduct") {
 		private static final long serialVersionUID = 4046128089106726731L;
 		/* (non-Javadoc)
 		 * @see com.serpics.vaadin.ui.MasterTable#init()

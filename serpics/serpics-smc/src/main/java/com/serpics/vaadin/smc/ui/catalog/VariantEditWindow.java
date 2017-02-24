@@ -81,12 +81,11 @@ public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
     
 	private MasterDetailTable<VariantAttribute, ProductVariant> buildProductAttributeTab(){
 		
-		return new MasterDetailTable<VariantAttribute , ProductVariant>(VariantAttribute.class) {
+		return new MasterDetailTable<VariantAttribute , ProductVariant>(VariantAttribute.class, "attributes") {
     	
     		@Override
     		public void init() {
     			super.init();
-    			setParentProperty("attributes");
     			setPropertyToShow(new String[] {"baseAttribute.name","value", "sequence"});
     		}
     		
@@ -157,7 +156,7 @@ public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
 	}
 	
 	private MasterDetailTable<ProductVariant, Product> buildVariantTab(){
-		return new MasterDetailTable<ProductVariant, Product>(ProductVariant.class , "variants") {
+		return new MasterDetailTable<ProductVariant, Product>(ProductVariant.class , "variants", "parentProduct") {
 			private static final long serialVersionUID = 4046128089106726731L;
 			/* (non-Javadoc)
 			 * @see com.serpics.vaadin.ui.MasterTable#init()
