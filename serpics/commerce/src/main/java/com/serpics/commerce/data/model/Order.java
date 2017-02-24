@@ -26,7 +26,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.serpics.commerce.OrderStatus;
@@ -52,11 +51,7 @@ public class Order extends AbstractOrder {
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Orderpayment> orderpayments = new HashSet<Orderpayment>(0);
 
-    // bi-directional many-to-one association to Orderitem
-    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity=Orderitem.class)
-    protected Set<Orderitem> orderitems = new HashSet<Orderitem>(0);
-
-    
+   
     public Set<Orderpayment> getOrderpayments() {
         return orderpayments;
     }
@@ -88,20 +83,8 @@ public class Order extends AbstractOrder {
         this.orderNumber = orderNumber;
     }
 
-	public Set<Orderitem> getOrderitems() {
-		return orderitems;
-	}
-
-	public void setOrderItems(Set<Orderitem> items) {
-		this.orderitems = items;
-	}
-
-	@Override
-	public Set<? extends AbstractOrderitem> getItems() {
-	
-		return getOrderitems();
-	}
- 
-  
-
+    @Override
+    public Set<Orderitem> getItems() {
+    	return (Set<Orderitem>) super.getItems();
+    }
 }

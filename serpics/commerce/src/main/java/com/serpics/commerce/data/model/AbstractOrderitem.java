@@ -25,6 +25,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.TaxCategory;
@@ -71,6 +71,10 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
     @Column(name = "shipping_address_id")
     protected Long shippingAddressId;
 
+    @ManyToOne
+	@JoinColumn(name = "order_id", nullable = false,foreignKey=@ForeignKey(name="order_fk"))
+	protected AbstractOrder order;
+    
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = true)
     protected AbstractProduct product;
@@ -268,6 +272,14 @@ public abstract class AbstractOrderitem extends com.serpics.core.data.jpa.Abstra
 
 	public void setTaxcategory(TaxCategory taxcategory) {
 		this.taxcategory = taxcategory;
+	}
+
+	public AbstractOrder getOrder() {
+		return order;
+	}
+
+	public void setOrder(AbstractOrder order) {
+		this.order = order;
 	}
 
 }

@@ -14,25 +14,13 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.facade;
+package com.serpics.commerce.data.repositories;
 
+import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.core.data.Repository;
 
-import com.serpics.commerce.data.model.AbstractOrderitem;
-import com.serpics.commerce.facade.data.CartItemData;
-import com.serpics.core.facade.Populator;
+public interface CartItemRepository extends Repository<Cartitem, Long> {
 
-public  class CartItemPopulator extends AbstractOrderItemPopulator implements Populator<AbstractOrderitem ,  CartItemData >{
-
-
-	
-	@Override
-	public void populate(AbstractOrderitem source, CartItemData target) {
-		super.populate(source, target);
-		
-		
-	}
-	
-	
 	
 
 }

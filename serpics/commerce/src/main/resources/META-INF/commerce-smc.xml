@@ -12,7 +12,7 @@
 		<property name="billingAddress" extendedCombo="true" />
 		<property name="shippingAddress"  extendedCombo="true" />
 		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
-		<property name="cartitems"/>
+		<property name="items" mappedClass="com.serpics.commerce.data.model.Cartitem"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>
 		<property name="totalService" readonly="true" style="align-right"/>
 		<property name="totalShipping" readonly="true" style="align-right"/>
@@ -20,15 +20,6 @@
 		<property name="orderAmount" readonly="true" table="true" style="align-right color2"/>
 	</entity>	
 	
-	<entity name="cartitem">
-		<property name="sku" table="true" edit="true" />
-		<property name="product" />
-		<property name="skuDescription" table="true"/>
-		<property name="skuNetPrice" table="true"/>
-		<property name="skuPrice" table="true"/>
-		<property name="discountAmount" table="true"/>
-	</entity>
-
 	<entity name="order">
 		<property name="customer.commonName" table="true" search="true" edit="false" />
 		<property name="customer" extendedcombo="true" mappedClass="com.serpics.membership.data.model.UsersReg"  />
@@ -39,7 +30,7 @@
 		<property name="billingAddress"   extendedcombo="true" />
 		<property name="shippingAddress"  extendedcombo="true" />
 		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
-		<property name="orderitems" mappedClass="com.serpics.commerce.data.model.Orderitem"/>
+		<property name="items" mappedClass="com.serpics.commerce.data.model.Orderitem"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>
 		<property name="totalService" readonly="true" style="align-right"/>
 		<property name="totalShipping" readonly="true" style="align-right"/>
@@ -47,7 +38,7 @@
 		<property name="orderAmount" readonly="true" table="true" style="align-right color2"/>
 	</entity>	
 	
-	<entity name="orderitem">
+	<entity name="abstractorderitem">
 		<property name="sku" table="true" edit="true" />
 		<property name="product" mappedClass="com.serpics.catalog.data.model.Product"/>
 		<property name="skuDescription" table="true"/>
@@ -57,6 +48,7 @@
 		<property name="discountAmount" table="true"/>
 		<properry name="quantity" table="true" />
 	</entity>
+	
 	<entity name="paymethod">
 		<property name="name" table="true" select="true" search="true" />
 		<property name="description"  table="true"/>
@@ -107,7 +99,6 @@
 	</entity>
 	
 	<entity name="payment">
-	
 		<property name="paymethod.name" readonly="true" table="true"  edit="false"/>
 		<property name="paymethod" readonly="true" />
 		<property name="intent" table="true"  readonly="true" />

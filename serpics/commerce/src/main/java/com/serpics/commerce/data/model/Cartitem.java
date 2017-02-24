@@ -14,25 +14,27 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.facade;
+package com.serpics.commerce.data.model;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-import com.serpics.commerce.data.model.AbstractOrderitem;
-import com.serpics.commerce.facade.data.CartItemData;
-import com.serpics.core.facade.Populator;
+@Entity
+@DiscriminatorValue(value = "1")
+public class Cartitem extends AbstractOrderitem {
 
-public  class CartItemPopulator extends AbstractOrderItemPopulator implements Populator<AbstractOrderitem ,  CartItemData >{
-
-
+	private static final long serialVersionUID = -346014887001626903L;
 	
-	@Override
-	public void populate(AbstractOrderitem source, CartItemData target) {
-		super.populate(source, target);
-		
+	public Cartitem() {
+		super();
+	
+	}
+
+	public Cartitem(String sku, String sku_description, double quantity,
+			Double price) {
+		super(sku, sku_description, quantity, price);
 		
 	}
-	
-	
-	
+
 
 }

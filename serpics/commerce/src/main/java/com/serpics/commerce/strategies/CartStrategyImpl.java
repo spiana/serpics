@@ -50,7 +50,7 @@ public class CartStrategyImpl implements CartStrategy {
 		// contenuto del carrello.
 
 		// Merge di due carrelli repositorycart e sessioncart
-		final Iterator<Cartitem> repoItems = repositoryCart.getCartitems().iterator();
+		final Iterator<Cartitem> repoItems = repositoryCart.getItems().iterator();
 
 			while (repoItems.hasNext()) {
 
@@ -64,7 +64,7 @@ public class CartStrategyImpl implements CartStrategy {
 				//cartItem.setSkuNetPrice(repoItem.getSkuNetPrice());
 
 				
-				final Iterator<Cartitem> items = sessionCart.getCartitems().iterator();
+				final Iterator<Cartitem> items = sessionCart.getItems().iterator();
 
 				while (items.hasNext()) {
 					final Cartitem oi = items.next();
@@ -75,9 +75,9 @@ public class CartStrategyImpl implements CartStrategy {
 					}
 				}
 
-				cartItem.setCart(sessionCart);
+				cartItem.setOrder(sessionCart);
 
-				sessionCart.getCartitems().add(cartItem);
+				sessionCart.getItems().add(cartItem);
 
 				cartRepository.saveAndFlush(sessionCart);
 				cartRepository.refresh(sessionCart);
