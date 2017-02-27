@@ -27,7 +27,6 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
@@ -92,7 +91,7 @@ public class StoreServiceImpl implements StoreService {
 		
 	
 		String catalogName =  storeName + "-catalog";
-		String listName = storeName + "-list";
+	
 		
 		SessionContext _s = engine.getCurrentContext();
 		try{
@@ -100,12 +99,6 @@ public class StoreServiceImpl implements StoreService {
 			storerepository.save(store);
 			CommerceSessionContext context = engine.connect(store.getName());
 			catalogService.initialize(catalogName);
-			
-			Pricelist priceList = new Pricelist();
-			priceList.setName(listName);
-			priceList.setDefaultList(true);
-			priceList.setStore(store);
-			priceListrepository.saveAndFlush(priceList);
 			
 			engine.disconnect(context);
 		}catch(Exception e){
