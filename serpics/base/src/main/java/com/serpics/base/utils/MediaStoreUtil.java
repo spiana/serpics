@@ -78,7 +78,7 @@ public class MediaStoreUtil implements InitializingBean{
 	 * @return the complete local path
 	 */
 	public String getDestinationPath(String filePath){
-		Long storeId= engine.getCurrentContext().getStoreId();
+		String storeId= engine.getCurrentContext().getCatalog().getCode();
 				
 		String[] path = filePath.replace("\\", "/").split("/");
 		String fileName= path[path.length-1];

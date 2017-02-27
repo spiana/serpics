@@ -20,17 +20,29 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.serpics.base.data.model.Media;
 
 @Entity
-@Table(name="ctentry_media")
+@Table(name="ctentry_media" , uniqueConstraints= @UniqueConstraint(columnNames= {"catalog_id","content_type", "name"}))
 public class CtentryMedia extends Media{
 
 	@ManyToOne
 	@JoinColumn(name="ctentry_id")
 	private Ctentry ctentry;
 
+	@ManyToOne(optional = false  )
+    @JoinColumn(name = "catalog_id" )
+    protected Catalog catalog;
+
+	public Catalog getCatalog() {
+		return catalog;
+	}
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
+	}
+	
 	public Ctentry getCtentry() {
 		return ctentry;
 	}
@@ -38,4 +50,6 @@ public class CtentryMedia extends Media{
 	public void setCtentry(Ctentry ctentry) {
 		this.ctentry = ctentry;
 	}
+	
+
 }
