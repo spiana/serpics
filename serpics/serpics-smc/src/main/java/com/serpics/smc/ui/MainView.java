@@ -37,6 +37,7 @@ import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.services.StoreService;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.UsersReg;
+import com.serpics.smc.ui.dashboard.Dashboard;
 import com.serpics.system.web.WebCostant;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
@@ -272,6 +273,10 @@ public class MainView extends CustomComponent {
 		setCompositionRoot(layout);
 	
 		setSizeFull();
+		
+		// Add dashBoard as first Tab
+		Dashboard d = new Dashboard();
+		rightContentTabPanel.addTab(d, "dashboard");
 	}
 
 	private com.vaadin.ui.Component createStoreSelect(){

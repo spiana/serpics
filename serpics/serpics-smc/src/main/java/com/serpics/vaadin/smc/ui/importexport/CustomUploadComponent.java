@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serpics.importexport.services.ImportCsvService;
-import com.serpics.importexport.services.ImportCsvService.ImportPorgressListener;
+import com.serpics.importexport.services.ImportCsvService.ImportProgressListener;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.JPAUtils;
@@ -162,7 +162,7 @@ public class CustomUploadComponent extends CustomComponent {
 				
 				try {
 					if (fileToLoad != null) {
-						importCsvService.importFromZip(fileToLoad , new ImportPorgressListener() {
+						importCsvService.importFromZip(fileToLoad , new ImportProgressListener() {
 							
 							@Override
 							public void process(int curentRecord, int maxrecord) {
@@ -181,9 +181,10 @@ public class CustomUploadComponent extends CustomComponent {
 								
 							}
 						});
-						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
+						showNotification("Import process", I18nUtils.getMessage("smc.upload.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
 					}
 				} catch (IOException e) {
+					
 					logger.error("Import failed!!!!!!!!",e);
 					
 	        	}
@@ -265,7 +266,7 @@ public class CustomUploadComponent extends CustomComponent {
 				else{
 					try{
 						UI.getCurrent().setPollInterval(500);
-						importCsvService.importCsv(new StringReader(reader), getMappedClass(), new ImportPorgressListener() {
+						importCsvService.importCsv(new StringReader(reader), getMappedClass(), new ImportProgressListener() {
 							@Override
 							public void process(int curentRecord, int maxrecord) {
 								float value = (float)(curentRecord*100)/(float)maxrecord;
@@ -285,11 +286,11 @@ public class CustomUploadComponent extends CustomComponent {
 							}
 						});
 						
-						showNotification("Serpics Ecommerce Platform", I18nUtils.getMessage("smc.upload.string.csv.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
+						showNotification("Import process", I18nUtils.getMessage("smc.upload.string.csv.succesfully", ""), Position.TOP_RIGHT, 6000, "success closable");
 						data.setValue("");
 						text_f.setValue("");
 					}catch(Exception e){
-						showNotification("Serpics Ecommerce Platform",I18nUtils.getMessage("smc.upload.scv.string.notvalid", "") , Position.TOP_RIGHT, 6000, "failure closable");
+						showNotification("Import process !!",e.getCause().getMessage() , Position.TOP_RIGHT, 6000, "failure closable");
 						logger.debug("Error importCsvService.importCsv():",e); 
 					}finally{
 						UI.getCurrent().setPollInterval(-1);

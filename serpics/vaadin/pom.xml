@@ -11,6 +11,7 @@
   	<version>1.1-SNAPSHOT</version>
   </parent>
   
+  
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.4.0</vaadin.version>
@@ -106,6 +107,11 @@
 			<artifactId>membership</artifactId>
 			<version>${serpics.version}</version>
 		</dependency>
+		<dependency>
+  			 <groupId>com.byteowls</groupId>
+   			<artifactId>vaadin-chartjs</artifactId>
+   		<version>0.4.0</version>
+</dependency>
   </dependencies>
   
   
