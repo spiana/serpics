@@ -16,6 +16,8 @@
  *******************************************************************************/
 package com.serpics.commerce.services;
 
+import java.util.List;
+
 import com.serpics.base.data.model.Store;
 
 /**
@@ -26,4 +28,5 @@ public interface StoreService {
 
 		public void createStore(String storeName);
 		public void createStore(Store store);
+		public List<Store> findAllStoreAvailable();
 }

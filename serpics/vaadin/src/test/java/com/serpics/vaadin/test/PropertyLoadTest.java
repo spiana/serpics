@@ -23,6 +23,8 @@ import org.dom4j.DocumentException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.serpics.membership.data.model.PrimaryAddress;
+import com.serpics.membership.data.model.UsersReg;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 
 public class PropertyLoadTest {
@@ -35,10 +37,10 @@ public class PropertyLoadTest {
 		
 		URL r = this.getClass().getClassLoader().getResource("test-smc.xml");
 		p.loadSmcDefinition(r);
-		Assert.assertEquals(15, p.getEditProperty("primaryaddress").length);
-		Assert.assertEquals(6, p.getTableProperty("primaryaddress").length);
-		Assert.assertEquals(2, p.getReadOnlyProperty("primaryaddress").length);
-		Assert.assertEquals(1, p.getSearchProperty("usersreg").length);
+		Assert.assertEquals(15, p.getEditProperty(PrimaryAddress.class).length);
+		Assert.assertEquals(6, p.getTableProperty(PrimaryAddress.class).length);
+		Assert.assertEquals(2, p.getReadOnlyProperty(PrimaryAddress.class).length);
+		Assert.assertEquals(1, p.getSearchProperty(UsersReg.class).length);
 	}
 	
 }

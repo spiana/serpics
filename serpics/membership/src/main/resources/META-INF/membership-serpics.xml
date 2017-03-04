@@ -10,15 +10,14 @@ http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+
+	<bean name="memberService" class="com.serpics.membership.services.MembershipServiceImpl" scope="store" /> 
+
     <context:component-scan base-package="com.serpics.membership.services" />
     
   <data:repositories base-package="com.serpics.membership.data.repositories"
   	base-class="com.serpics.core.data.RepositoryImpl"/>
-   
-
-   
-  <bean name="memberService" class="com.serpics.membership.services.MembershipServiceImpl" scope="store" /> 
-    
+      
   <!--  Interceptor  definition  --> 
   <bean name="abstractStoreEntityInterceptor" class="com.serpics.membership.data.interceptors.AbstractStoreEntitySaveInterceptor" />
   <bean name="addressInterceptor" class="com.serpics.membership.data.interceptors.AbstractAddressSaveInterceptor" />   
@@ -59,7 +58,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
    
   <bean name="userSpecification" class="com.serpics.membership.data.specifications.DefaultUserSpecification"/>  
   <bean name="abstractStoreEntitySpecification" class="com.serpics.membership.data.specifications.DefaultAbstractStoreEntitySpecification" />
-
+  <bean name="memberroleSpecification" class="com.serpics.membership.data.specifications.MemberroleSpecification"/>
+ 
+  
   <!-- facade -->
   <alias name="defaultAddressPopulator" alias="addressPopulator"/>
   <bean name="defaultAddressPopulator" class="com.serpics.membership.facade.AddressPopulator" >

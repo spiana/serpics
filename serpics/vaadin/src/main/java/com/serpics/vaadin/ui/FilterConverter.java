@@ -31,6 +31,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
 import com.serpics.vaadin.jpacontainer.filters.SubQueryFilter;
+import com.serpics.vaadin.ui.filter.MultilingualisNullFilter;
 import com.vaadin.addon.jpacontainer.filter.JoinFilter;
 import com.vaadin.addon.jpacontainer.filter.util.AdvancedFilterableSupport;
 import com.vaadin.addon.jpacontainer.util.CollectionUtil;
@@ -137,13 +138,28 @@ public class FilterConverter {
      */
     private static class IsNullConverter implements Converter {
         public boolean canConvert(Filter filter) {
-            return filter instanceof IsNull;
+            return filter instanceof IsNull ;
         }
 
         public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
                 From<X, Y> root , CriteriaQuery query) {
             return cb.isNull(AdvancedFilterableSupport.getPropertyPath(root,
                     ((IsNull) filter).getPropertyId()));
+        }
+    }
+    
+    /**
+     * Converts {@link MultilingualisNullFilter} filters.
+     */
+    private static class MultilingualisNullConverter implements Converter {
+        public boolean canConvert(Filter filter) {
+            return filter instanceof MultilingualisNullFilter;
+        }
+
+        public <X, Y> Predicate toPredicate(Filter filter, CriteriaBuilder cb,
+                From<X, Y> root , CriteriaQuery query) {
+            return cb.isNull(AdvancedFilterableSupport.getPropertyPath(root,
+                    ((MultilingualisNullFilter) filter).getPropertyId()));
         }
     }
 
@@ -274,7 +290,8 @@ public class FilterConverter {
                 new AndConverter(), new OrConverter(), new CompareConverter(),
                 new IsNullConverter(), new SimpleStringFilterConverter(),
                 new LikeConverter(), new BetweenConverter(),
-                new JoinFilterConverter(), new NotFilterConverter() , new SubQueryFilterConverter()));
+                new JoinFilterConverter(), new NotFilterConverter() , new SubQueryFilterConverter(),
+                new MultilingualisNullConverter()));
     }
 
     /**

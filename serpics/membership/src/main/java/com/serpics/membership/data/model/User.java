@@ -53,7 +53,7 @@ import com.serpics.membership.UserType;
 
 @XmlRootElement(name="user")
 @Entity(name = "User")
-@Table(name = "users")
+@Table(name = "user_table")
 @DiscriminatorValue("USER")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User extends Member implements UserDetail, Customer{

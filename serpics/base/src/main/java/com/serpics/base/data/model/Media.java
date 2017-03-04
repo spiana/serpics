@@ -33,6 +33,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import com.serpics.base.MediaSupportType;
+import com.serpics.core.data.jpa.AbstractEntity;
 
 
 /**
@@ -42,7 +43,7 @@ import com.serpics.base.MediaSupportType;
 @Entity
 @Table(name="media")
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Media extends AbstractStoreEntity{
+public abstract class Media extends AbstractEntity{
 	private static final long serialVersionUID = -952890230499530957L;
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)

@@ -34,6 +34,8 @@ import org.dom4j.DocumentException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ContextConfiguration;
@@ -67,6 +69,8 @@ import com.serpics.warehouse.data.repositories.WarehouseRepository;
 	"classpath:META-INF/importexport-serpics.xml"})
 public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
 
+	Logger LOG = LoggerFactory.getLogger(ImportBaseTest.class);
+	
     @Autowired
     BaseService baseService;
     @Autowired
@@ -110,10 +114,16 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
 		catalogService.initialize();
     }
 
+    @Test
     public void test(){
     
-		String b = "code[unique];name{it}\np1;prodotto 1\np2;prodotto 2\np3;prodotto 3\n";
-		importCsvService.importCsv(new StringReader(b), AbstractProduct.class);
+		String b = "code1[unique];name{it}\np1;prodotto 1\np2;prodotto 2\np3;prodotto 3\n";
+		try{
+			importCsvService.importCsv(new StringReader(b), AbstractProduct.class);
+		}catch (Exception e) {
+			LOG.error(e.getMessage());
+			LOG.error(e.getCause().getMessage());
+		}
 		Assert.assertEquals(3, productRepository.findAll().size());
 		String b1 = "code[unique];name{en}\np1;product 1\np5;product 5\np3;product 3\np4;product four\n";
 		importCsvService.importCsv(new StringReader(b1), AbstractProduct.class);

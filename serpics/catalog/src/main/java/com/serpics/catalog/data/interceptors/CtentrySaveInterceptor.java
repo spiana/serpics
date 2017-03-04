@@ -32,7 +32,7 @@ public class CtentrySaveInterceptor implements SaveInterceptor<Ctentry>{
 
 	@Override
 	public void afterSave(Ctentry entity) {
-		System.out.println(entity);
+		//System.out.println(entity);
 	}
 
 }

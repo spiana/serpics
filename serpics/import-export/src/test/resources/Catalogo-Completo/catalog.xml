@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<importdefinition>
+	<importentry name="media_it" cvs="media_it.csv" class="com.serpics.catalog.data.model.CtentryMedia" />
+	<importentry name="category_it" cvs="category_it.csv" class="com.serpics.catalog.data.model.Category" />
+	<importentry name="category_rel" cvs="category_rel.csv" class="com.serpics.catalog.data.model.CategoryRelation" />
+	<importentry name="brand_it" cvs="brand_it.csv" class="com.serpics.catalog.data.model.Brand" />
+	<importentry name="product_it" cvs="product_it.csv" class="com.serpics.catalog.data.model.Product" />
+	<importentry name="prices" cvs="prices.csv" class="com.serpics.catalog.data.model.Price" />
+	<importentry name="mediarel" cvs="media_rel.csv" class="com.serpics.catalog.data.model.CtentryMedia" />
+	<importentry name="product_category" cvs="product_category.csv" class="com.serpics.catalog.data.model.CategoryProductRelation" />	
+</importdefinition>

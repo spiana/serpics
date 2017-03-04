@@ -77,14 +77,14 @@ public class SystemTaskServiceTest extends AbstractTransactionalJunit4SerpicTest
 		context.setLocale(localeRepository.findByLanguage("en"));
 		catalogService.initialize();
 
-		((SystemSetupServiceImpl) systemSetupService).setListOfTask(getListOfTaskTest());
+	//	((SystemSetupServiceImpl) systemSetupService).setListOfTask(getListOfTaskTest());
 		commerceEngine.disconnect(context);
 	}
 
-	@Resource(name = "listOfTasksTest")
-	public void setListOfTaskTest(List<SystemSetupTask> listOfTaskTest) {
-		this.listOfTaskTest = listOfTaskTest;
-	}
+//	@Resource(name = "listOfTasksTest")
+//	public void setListOfTaskTest(List<SystemSetupTask> listOfTaskTest) {
+//		this.listOfTaskTest = listOfTaskTest;
+//	}
 	
 	@Test
 	public void listTaskTestSample() throws SerpicsException {
@@ -128,6 +128,25 @@ public class SystemTaskServiceTest extends AbstractTransactionalJunit4SerpicTest
 		
 		prodotto = productService.findByCode("P28");
 		Assert.assertNotEquals(28,prodotto.getWeight(),0);
+		commerceEngine.disconnect(context);
+	}
+	
+	@Test
+	public void ListTaskTestProjectModuleTest() throws SerpicsException{
+		
+		systemSetupService.doSystemSetupTasks(ImportType.PROJECT , "test");
+		
+		context = commerceEngine.connect("default-store", "superuser", "admin".toCharArray());
+		context.setLocale(localeRepository.findByLanguage("en"));
+		catalogService.setDefaultCatalog("");
+
+		Product prodotto = productService.findByCode("P10");
+		Assert.assertNotNull(prodotto);
+		
+		Product prodotto1 = productService.findByCode("P20");
+		Assert.assertNull(prodotto1);
+		
+		
 		commerceEngine.disconnect(context);
 	}
 	

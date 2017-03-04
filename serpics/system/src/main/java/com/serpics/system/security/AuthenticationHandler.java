@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.serpics.base.data.model.Locale;
@@ -42,8 +43,6 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
     @Autowired
     private CommerceEngine commerceEngine;
 
-//    @Autowired
-//    private MembersRoleRepository membersRoleRepository;
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -58,15 +57,15 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
                     throws IOException, ServletException {
         String selectedRealm = (String) request.getSession().getAttribute(WebCostant.CURRENT_SESSION_STORE);
         final String sessionId = (String) request.getSession().getAttribute(WebCostant.SERPICS_SESSION);
-
-        if (selectedRealm == null)
-            selectedRealm = "default-store";
-
+   
+    	selectedRealm = userDetailsService.getDefaultStore((User)authentication.getPrincipal(), selectedRealm);
+    	
+        
         try {
             // disconnect old session if exist !
             if (sessionId != null)
                 commerceEngine.disconnect(sessionId);
-
+            
             final CommerceSessionContext context = commerceEngine.connect(selectedRealm, (Principal) authentication);
             // setting credentials for selected store
             userDetailsService.setCredentials(authentication);

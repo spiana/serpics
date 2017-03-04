@@ -11,11 +11,12 @@
 		<property name="address"/>
 		<property name="created" readonly="true" resolution="MINUTE"/>
 	</entity>
+	
 	<entity name="inventory">
-		<property name="warehouse.name" edit="false" table="true" serach="true" />
-		<property name="product.code" edit="false" table="true" serach="true"/>
+		<property name="warehouse.name" edit="false" table="true" search="true" />
+		<property name="product.code" edit="false" table="true" search="true"/>
 		<property name="warehouse" />
-		<property name="product" />
+		<property name="product" mappedClass="com.serpics.catalog.data.model.Product" />
 		<property name="available" />
 		<property name="reserved" />
 		<property name="updated" readony="true" resolution="SECOND"/>

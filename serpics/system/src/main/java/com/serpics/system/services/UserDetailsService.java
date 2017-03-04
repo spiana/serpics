@@ -17,6 +17,7 @@
 package com.serpics.system.services;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 
 import com.serpics.membership.data.model.UsersReg;
 
@@ -25,4 +26,5 @@ public interface UserDetailsService extends org.springframework.security.core.us
     public void setCredentials(Authentication authentication);
 
     public void updateLastVisit(UsersReg user);
+    public String getDefaultStore(User principal , String preferred);
 }

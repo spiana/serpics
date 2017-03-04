@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  */
 @Entity
-@Table(name="roles")
+@Table(name="role_table")
 @XmlRootElement
 public class Role extends com.serpics.core.data.jpa.AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

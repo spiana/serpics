@@ -16,6 +16,9 @@
  *******************************************************************************/
 package com.serpics.commerce.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -24,12 +27,14 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
+import com.serpics.membership.UserType;
+import com.serpics.membership.data.model.User;
+import com.serpics.membership.data.repositories.UserRepository;
 
 /**
  * @author spiana
@@ -44,6 +49,9 @@ public class StoreServiceImpl implements StoreService {
 	
 	@Resource
 	StoreRepository storerepository;
+	
+	@Resource
+	UserRepository userRepository;
 	
 	@Resource
 	PriceListRepository priceListrepository;
@@ -83,7 +91,7 @@ public class StoreServiceImpl implements StoreService {
 		
 	
 		String catalogName =  storeName + "-catalog";
-		String listName = storeName + "-list";
+	
 		
 		SessionContext _s = engine.getCurrentContext();
 		try{
@@ -91,12 +99,6 @@ public class StoreServiceImpl implements StoreService {
 			storerepository.save(store);
 			CommerceSessionContext context = engine.connect(store.getName());
 			catalogService.initialize(catalogName);
-			
-			Pricelist priceList = new Pricelist();
-			priceList.setName(listName);
-			priceList.setDefaultList(true);
-			priceList.setStore(store);
-			priceListrepository.saveAndFlush(priceList);
 			
 			engine.disconnect(context);
 		}catch(Exception e){
@@ -106,5 +108,15 @@ public class StoreServiceImpl implements StoreService {
 				engine.bind(_s.getSessionId());
 		}
 		
+	}
+
+	@Override
+	public List<Store> findAllStoreAvailable() {
+		User u = (User) engine.getCurrentContext().getUserPrincipal();
+		u = userRepository.refresh(u);
+		if (u.getUserType().equals(UserType.SUPERSUSER))
+			return storerepository.findAll();
+		else
+			return  new ArrayList<>(u.getStores());
 	}
 }

@@ -36,7 +36,11 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 
 
-@ContextConfiguration( {"classpath*:META-INF/applicationContext-test.xml" })
+@ContextConfiguration( {
+	"classpath*:META-INF/base-serpics.xml",
+	"classpath*:META-INF/membership-serpics.xml",
+	"classpath*:META-INF/applicationContext-test.xml"
+})
 @SerpicsTest("default-store")
 @Ignore
 public class LoadSmcConfigTest  extends AbstractTransactionalJunit4SerpicTest{
@@ -58,13 +62,13 @@ public class LoadSmcConfigTest  extends AbstractTransactionalJunit4SerpicTest{
 	public void test(){
 		Assert.assertNotNull(props);
 
-		String[] table = props.getTableProperty("test.entity");
+		String[] table = props.getTableProperty(TestEntity.class);
 		Assert.assertEquals(2, table.length);
 	}
 
 	@Test
 	@Transactional
-	@Ignore
+//	@Ignore
 	public void test1() throws SerpicsException{
 		if(!baseService.isInitialized())
 			baseService.initIstance();
@@ -74,13 +78,10 @@ public class LoadSmcConfigTest  extends AbstractTransactionalJunit4SerpicTest{
 		JPAContainer<UsersReg> s = ServiceContainerFactory.make(UsersReg.class);
 		
 		
-		for (int x=1 ; x< 200 ;x++){
+		for (int x=0 ; x< 200 ;x++){
 			UsersReg u = new UsersReg();
 			u.setLogonid("test"+x);
 			userService.registerUser(u, new PrimaryAddress());
 		}
-		
-	
-		System.out.println("elemnenti presenti :" + s.getItemIds().size());
 	}
 }

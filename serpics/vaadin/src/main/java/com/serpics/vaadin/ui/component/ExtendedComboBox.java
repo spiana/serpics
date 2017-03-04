@@ -29,6 +29,7 @@ import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -45,7 +46,7 @@ import com.vaadin.ui.Window.CloseListener;
  * @author spiana
  *
  */
-public class ExtendedComboBox<T> extends CustomField<T> {
+public class ExtendedComboBox<T> extends CustomField<T> implements com.vaadin.data.Container.Viewer {
 	private static final long serialVersionUID = 1L;
 	
 	private EntityItem<? extends T> item;
@@ -67,7 +68,7 @@ public class ExtendedComboBox<T> extends CustomField<T> {
 		this.combo = new ComboBox();
 		
 		 
-     	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass().getSimpleName(), propertyId.toString());
+     	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass(), propertyId.toString());
      	if (def != null){
      		mappedClass =  (Class<? extends T>)def.getMappedClass();
      	}
@@ -91,7 +92,8 @@ public class ExtendedComboBox<T> extends CustomField<T> {
 			@Override
 			public void valueChange(
 					com.vaadin.data.Property.ValueChangeEvent event) {
-				setValue((T) referencedContainer.getItem(combo.getValue()).getEntity());
+				if (combo.getValue() != null)
+					setValue((T) referencedContainer.getItem(combo.getValue()).getEntity());
 			}
 		});
          
@@ -102,10 +104,10 @@ public class ExtendedComboBox<T> extends CustomField<T> {
 	
 	private String buildReferencedPropertyToShow( EntityContainer containerForProperty , Object propertyId){
 		Class<?> referencedType=  containerForProperty.getType(propertyId);
-		String referencedProperty = PropertiesUtils.get().getSelectProperty(referencedType.getSimpleName());
+		String referencedProperty = PropertiesUtils.get().getSelectProperty(referencedType);
 		
 		if (referencedProperty == null)
-			referencedProperty = "code"; // this is default
+			referencedProperty = "uuid"; // this is default
 		
 		return referencedProperty;
 	}
@@ -230,6 +232,23 @@ public class ExtendedComboBox<T> extends CustomField<T> {
 		super.setPropertyDataSource(newDataSource);
 		combo.setPropertyDataSource(newDataSource);
 	}
-	
+
+	@Override
+	public Property getPropertyDataSource() {
+		return combo.getPropertyDataSource();
+	}
+
+
+	@Override
+	public void setContainerDataSource(Container newDataSource) {
+		combo.setContainerDataSource(newDataSource);
+		
+	}
+
+
+	@Override
+	public Container getContainerDataSource() {
+		return combo.getContainerDataSource();
+	}
 		
 }

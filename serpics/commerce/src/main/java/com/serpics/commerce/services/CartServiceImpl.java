@@ -220,7 +220,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			}
 		}
 
-		return getSessionCart();
+		return cart;
 	}
 
 	@Override
@@ -245,10 +245,10 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		cartItem.setSkuPrice(priceStrategy.resolveProductPrice(product, cart.getCurrency()));
 
 		discountStrategy.applyItemDiscount(cartItem);
-		cartItem.setCart(cart);
+		cartItem.setOrder(cart);
 
 		// cartItem.setProduct(product);
-		cart.getCartitems().add(cartItem);
+		cart.getItems().add(cartItem);
 
 		commerceStrategy.calculateShipping(cartItem);
 
@@ -261,8 +261,10 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	@Override
 	@Transactional
 	public Cart cartUpdate(final Cartitem cartItem) throws InventoryNotAvailableException, ProductNotFoundException {
-		final Cart cart = createSessionCart();
-		return cartUpdate(cartItem, cart);
+		 final Cart cart = createSessionCart();
+		 cartUpdate(cartItem, cart);
+		 putCartinSession(cart);
+		 return cart;
 	}
 
 	@Override
@@ -275,7 +277,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 	private Cartitem mergeCart(final Cart cart, final Cartitem cartItem) {
 
-		final Iterator<Cartitem> items = cart.getCartitems().iterator();
+		final Iterator<Cartitem> items = cart.getItems().iterator();
 
 		while (items.hasNext()) {
 			final Cartitem oi = items.next();
@@ -309,17 +311,20 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	@Override
 	@Transactional
 	public Cart prepareCart() throws InventoryNotAvailableException, ProductNotFoundException {
-		final Cart cart = getSessionCart();
+		Cart cart = getSessionCart();
 		Assert.notNull(cart);
 		cartRepository.refresh(cart);
 
-		return prepareCart(cart);
+		cart  = prepareCart(cart);
+		
+		putCartinSession(cart);
+		return cart;
 	}
 
 	@Override
 	@Transactional
 	public Cart prepareCart(final Cart cart) throws InventoryNotAvailableException, ProductNotFoundException {
-		return prepareCart(cart, false);
+		return  prepareCart(cart, false);
 	}
 
 	@Override
@@ -332,7 +337,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		cart.setTotalShipping(0D);
 		cart.setTotalTax(0D);
 
-		for (final Cartitem orderitem : cart.getCartitems()) {
+		for (final Cartitem orderitem : cart.getItems()) {
 			final AbstractProduct product = productStrategy.resolveSKU(orderitem.getSku());
 			if (updateInventory)
 				inventoryService.reserve(product, orderitem.getQuantity());
@@ -359,8 +364,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 		cart = cartRepository.saveAndFlush(cart);
 
-		putCartinSession(cart);
-
+		
 		return cart;
 	}
 
@@ -369,7 +373,6 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	public void cartDelete() {
 		final Cart cart = getSessionCart();
 		cartDelete(cart);
-
 	}
 
 	@Override
@@ -390,8 +393,8 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	public void cartItemDelete(Cartitem item) throws InventoryNotAvailableException {
 		Cart cart = createSessionCart();
 
-		if (cart.getCartitems().contains(item))
-			cart.getCartitems().remove(item);
+		if (cart.getItems().contains(item))
+			cart.getItems().remove(item);
 
 		cart = cartRepository.save(cart);
 		try {
@@ -400,7 +403,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 			LOG.error("Error not expected in remove CartItem", e);
 			throw new RuntimeException(e);
 		}
-
+		putCartinSession(cart);
 	}
 
 	@Override
@@ -482,7 +485,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 	public void mergeSessionRepositoryCart(Cart repositoryCart, Cart sessionCart)
 			throws InventoryNotAvailableException, ProductNotFoundException {
 		// Merge di due carrelli repositorycart e sessioncart
-		final Iterator<Cartitem> repoItems = repositoryCart.getCartitems().iterator();
+		final Iterator<Cartitem> repoItems = repositoryCart.getItems().iterator();
 
 		if (sessionCart != null) {
 			while (repoItems.hasNext()) {
@@ -497,9 +500,9 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 
 				cartItem = mergeCart(sessionCart, cartItem);
 
-				cartItem.setCart(sessionCart);
+				cartItem.setOrder(sessionCart);
 
-				sessionCart.getCartitems().add(cartItem);
+				sessionCart.getItems().add(cartItem);
 
 				cartRepository.saveAndFlush(sessionCart);
 				cartRepository.refresh(sessionCart);
@@ -618,7 +621,7 @@ public class CartServiceImpl extends AbstractService<CommerceSessionContext> imp
 		sessionCart.setCustomer(customer);	
 		
 		cartRepository.saveAndFlush(sessionCart);
-		
+		putCartinSession(sessionCart);
 		
 	}
 

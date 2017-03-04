@@ -47,7 +47,7 @@ public class MemberRoleTable extends MasterDetailTable<MembersRole, User> {
     private RoleRepository roleRepository;
    
     public MemberRoleTable() {
-        super(MembersRole.class);
+        super(MembersRole.class , "membersRoles" , "member");
     }
 
 	@Override
@@ -93,7 +93,6 @@ public class MemberRoleTable extends MasterDetailTable<MembersRole, User> {
     @Override
     public void init() {
         super.init();
-        setParentProperty("membersRoles");
         setPropertyToShow(new String[] { "role.name" });
     }
 

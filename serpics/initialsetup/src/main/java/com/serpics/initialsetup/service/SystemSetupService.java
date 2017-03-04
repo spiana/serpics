@@ -21,5 +21,5 @@ import com.serpics.initialsetup.ImportType;
 public interface SystemSetupService {
 
 	public void doSystemSetupTasks(ImportType iType);
-	
+	public void doSystemSetupTasks( ImportType iType , String...module);
 }

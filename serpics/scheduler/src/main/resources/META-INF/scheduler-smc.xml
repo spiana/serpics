@@ -3,7 +3,8 @@
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
 	<entity name="storejobdetails">
-		<property name="nameClassJob"  table="true" select="true"/>
+		<property name="name"  table="true" select="true" search="true"/>
+		<property name="nameClassJob"  table="true"  updatable="false" />
 		<property name="jobParameters" />
 		<property name="catalog" />
 		<property name="stopOnFail"/>
@@ -12,7 +13,8 @@
 	</entity>
 	
 	<entity name="systemjobdetails">
-		<property name="nameClassJob"  table="true" select="true"/>
+		<property name="name"  table="true" select="true" search="true"/>
+		<property name="nameClassJob"  table="true" updatable="false" />
 		<property name="jobParameters" />
 		<property name="catalog" />
 		<property name="stopOnFail"/>
@@ -37,9 +39,15 @@
 		<property name="nextRun" readonly="true" table="true" resolution="SECOND"/>
 	</entity>
 	
+	<entity name="cronjob">
+		<property name="cronExpression" table="true"/>
+		<property name="lastRun" readonly="true" table="true" resolution="SECOND"/>
+		<property name="nextRun" readonly="true" table="true" resolution="SECOND"/>
+	</entity>
+	
 	<entity name="abstractschedulerjob">
-		<property name="whenStart" readonly="true" resolution="SECOND"/>
-		<property name="whenEnd" readonly="true" resolution="SECOND" />
+<!-- 		<property name="whenStart" table="true"  readonly="true" resolution="SECOND"/> -->
+<!-- 		<property name="whenEnd"  table="true"  readonly="true" resolution="SECOND" /> -->
 		<property name="lastRun" readonly="true" table="true" resolution="SECOND"/>
 		<property name="nextRun" readonly="true" table="true" resolution="SECOND" />
 	</entity>

@@ -34,6 +34,8 @@ import org.springframework.stereotype.Component;
 @Component
 public @interface SystemSetupTaskConfig {
 	
+	String module() ;
+	
 	/**
 	 * 
 	 * @return The realm name of store, Default is default-store

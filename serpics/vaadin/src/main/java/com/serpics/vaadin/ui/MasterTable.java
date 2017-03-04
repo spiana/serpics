@@ -33,7 +33,6 @@ import javax.persistence.Transient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import com.serpics.base.MultiValueField;
 import com.serpics.base.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
@@ -185,11 +184,11 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		entityList.setContainerDataSource(this.container);
 
 		if(this.searchProperties==null)
-			this.searchProperties = PropertiesUtils.get().getSearchProperty(this.entityClass.getSimpleName());
+			this.searchProperties = PropertiesUtils.get().getSearchProperty(this.entityClass);
 
 		
 		if (this.displayProperties == null)
-			this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass.getSimpleName());
+			this.displayProperties = PropertiesUtils.get().getTableProperty(this.entityClass);
 
 		if (this.displayProperties == null)
 			this.displayProperties = buildDisplayProperties();

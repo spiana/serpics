@@ -17,7 +17,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<!-- Interceptor Mapping -->
 	<bean name="ctentrySaveInterceptor" class="com.serpics.catalog.data.interceptors.CtentrySaveInterceptor" />
-	
 	<bean name="abstractCatalogEntrySaveInterceptor"
 		class="com.serpics.catalog.data.interceptors.AbstractCatalogEntrySaveInterceptor" />
 	
@@ -34,6 +33,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		class="com.serpics.catalog.data.interceptors.FeatureSaveInterceptor" />
 	
 	<bean name="catalog2StoreSaveInterceptor" class="com.serpics.catalog.data.interceptors.Catalog2StoreSaveInterceptor" />
+	<bean name="memeberPricelistRelationInterceptor" class="com.serpics.catalog.data.interceptors.MemeberPricelistRelationInterceptor"/>	
 		
 	<bean name="ctentrySaveMapping" class="com.serpics.core.data.InterceptorMapping">
 		<property name="targetEntity" value="com.serpics.catalog.data.model.Ctentry" />
@@ -77,6 +77,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="order" value="10" />
 		<property name="interceptor" ref="catalog2StoreSaveInterceptor" />
 	</bean>
+	<!--  annotated interceptor -->
+	<bean name="ctentryMediaSaveInterceptor" class="com.serpics.catalog.data.interceptors.CtentryMediaSaveInterceptor"/>
+	
 
 	<!-- default specification -->
 	<bean name="abstractCatalogEntrySpecification"

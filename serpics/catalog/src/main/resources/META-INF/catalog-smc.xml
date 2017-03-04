@@ -18,7 +18,7 @@
 	</entity>
 	
 	<entity name="pricelist">
-		<property name="name"  table="true"  search="true"/>
+		<property name="name"  table="true"  search="true" select="true"/>
 		<property name="description" table="true" search="true" />
 		<property name="defaultList"  table="true"  search="true"/>
 	</entity>
@@ -95,8 +95,14 @@
 	<entity name="featurevalues">
 		<property name="feature.name" edit="false" table="true" search="true"/>
 		<property name="feature.description" edit="false" table="true" search="true"/>
-		<property name="feature" updatabel="false" />
+		<property name="feature" updatable="false" />
 		<property name="value" table="true" />
+	</entity>
+	
+	<entity name="memberpricelistrelation">
+		<property name="priceList"/>
+		<property name="priceList.name" edit="false" table="true"/>
+		<property name="updated" readonly="true" table="true" />
 	</entity>
 	
 </smc-definition>

@@ -112,13 +112,25 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 	@Transactional
 	@Override
 	public <S extends T> S save(S entity) {
+		boolean isnew = false;
 		// if entity is not new merge it
-		if (!entityInformation.isNew(entity))
+		if (entityInformation.isNew(entity)){
+			isnew =true;
+		}
+		if (isnew){
+			interceptorMapping.performBeforeSaveInterceptor(entity);
+		}
+		else{
 			entity = entityManager.merge(entity);
-	
-		interceptorMapping.performBeforeSaveInterceptor(entity);
+			interceptorMapping.performBeforeUpdateInterceptor(entity);
+		}
 		entity = super.save(entity);
-		interceptorMapping.performAfterSaveInterceptor(entity);
+		
+		if(isnew)
+			interceptorMapping.performAfterSaveInterceptor(entity);
+		else
+			interceptorMapping.performAfterUpdateInterceptor(entity);
+		
 		return entity;
 	}
 

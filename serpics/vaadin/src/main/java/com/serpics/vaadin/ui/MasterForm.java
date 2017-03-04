@@ -100,10 +100,10 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		fieldGroup.setBuffered(true);
 
 		if (this.displayProperties == null)
-			this.displayProperties = PropertiesUtils.get().getEditProperty(entityClass.getSimpleName());
+			this.displayProperties = PropertiesUtils.get().getEditProperty(entityClass);
 
 		if (this.readOnlyProperties == null || this.readOnlyProperties.isEmpty()){
-			String[] _readonly = PropertiesUtils.get().getReadOnlyProperty(entityClass.getSimpleName());
+			String[] _readonly = PropertiesUtils.get().getReadOnlyProperty(entityClass);
 			if (_readonly != null)
 				this.readOnlyProperties  = new HashSet<String>(Arrays.asList(_readonly));
 			else
@@ -174,6 +174,11 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		final Property p = item.getItemProperty(pid);
 		LOG.debug("create field : {}", pid);
 		final Field<?> f = CustomFieldFactory.get().createField(item, pid, uicontext);
+		
+		return bindField(pid, f);
+	}
+	
+	protected Field<?> bindField(final String pid , final Field<?> f ){
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
 	
@@ -183,9 +188,10 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		if (message != null)
 			f.setCaption(message);
 
-		PropertiesUtils.get().setFieldProperty(entityClass.getSimpleName(), pid, f , !entityItem.isPersistent());
+		PropertiesUtils.get().setFieldProperty(entityClass, pid, f , !entityItem.isPersistent());
 		return f;
 	}
+	
 
 	@Override
 	public void save() throws CommitException {

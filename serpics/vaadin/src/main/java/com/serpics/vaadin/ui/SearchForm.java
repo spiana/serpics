@@ -62,7 +62,7 @@ public abstract class SearchForm<T> extends FormLayout{
 		this.item = item;
 		this.propertyList = new PropertyList<T>(MetadataFactory.getInstance()
 				.getEntityClassMetadata(entityClass));
-		searchProperties = PropertiesUtils.get().getSearchProperty(entityClass.getSimpleName());
+		searchProperties = PropertiesUtils.get().getSearchProperty(entityClass);
 		
 		if (searchProperties == null){
 			this.searchProperties = buildDisplayProperties(entityClass);

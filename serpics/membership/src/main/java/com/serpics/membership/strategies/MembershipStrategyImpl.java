@@ -45,21 +45,21 @@ public class MembershipStrategyImpl  implements MembershipStrategy {
     	 UsersReg ur = userRegRepository.findBylogonid(userName);
     	 
     	// if not superuser test store
-         if (ur != null && !ur.getUserType().equals(UserType.SUPERSUSER)) {
-        	 boolean found = false;
-        	 for (Store store : ur.getStores()) {
-				if (store.equals((Store)commerceEngine.getCurrentContext().getStoreRealm() )){
-					found = true ;
-					break;
-				}
-        	 }
-			if (!found) {
-                 throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
-                         ur.getLogonid(), commerceEngine.getCurrentContext().getRealm()));
-             }
-			
-             
-         }
+//         if (ur != null && !ur.getUserType().equals(UserType.SUPERSUSER)) {
+//        	 boolean found = false;
+//        	 for (Store store : ur.getStores()) {
+//				if (store.equals((Store)commerceEngine.getCurrentContext().getStoreRealm() )){
+//					found = true ;
+//					break;
+//				}
+//        	 }
+//			if (!found) {
+//                 throw new MembershipException(String.format("Invalid store relation for userId %s and store %s",
+//                         ur.getLogonid(), commerceEngine.getCurrentContext().getRealm()));
+//             }
+//			
+//             
+//         }
     	return ur;
     }
     

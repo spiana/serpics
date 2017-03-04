@@ -102,4 +102,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	</bean>
 
 	<bean id="schedulerInitializer" class ="com.serpics.scheduler.listener.SchedulerInitializerListener"/>
+	
+	<!--  cronjob  start -->
+		<bean name="testJobDetail" class="TestJobDetail" scope="prototype"/>
+	<!-- cronjob end -->
 </beans>    

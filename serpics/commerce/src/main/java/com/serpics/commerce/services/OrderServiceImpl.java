@@ -75,7 +75,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Order createOrder(Cart cart) throws EmptyCartException {
 		Order order = null;
-		if (!cart.getCartitems().isEmpty()) {
+		if (!cart.getItems().isEmpty()) {
 			try {
 
 				cartService.prepareCart(cart, true);

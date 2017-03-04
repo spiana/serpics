@@ -2,7 +2,7 @@
 <smc-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="" xsi:schemaLocation="xmc.xsd">
 
-	<entity name="test.entity">
+	<entity name="testentity">
 		<table>
 			<display>
 				<property name="p1" />

@@ -17,16 +17,16 @@
 package com.serpics.commerce.facade;
 
 
-import com.serpics.commerce.data.model.Cartitem;
+import com.serpics.commerce.data.model.AbstractOrderitem;
 import com.serpics.commerce.facade.data.CartItemData;
 import com.serpics.core.facade.Populator;
 
-public  class CartItemPopulator extends AbstractOrderItemPopulator implements Populator<Cartitem ,  CartItemData >{
+public  class CartItemPopulator extends AbstractOrderItemPopulator implements Populator<AbstractOrderitem ,  CartItemData >{
 
 
 	
 	@Override
-	public void populate(Cartitem source, CartItemData target) {
+	public void populate(AbstractOrderitem source, CartItemData target) {
 		super.populate(source, target);
 		
 		

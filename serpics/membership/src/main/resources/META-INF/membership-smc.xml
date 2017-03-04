@@ -6,13 +6,17 @@
 		<property name="commonName" edit="false" select="true"/>
 	</entity>
 	
+<!-- 	<entity name="user"> -->
+<!-- 		<property name="commonName" edit="false" select="true"/> -->
+<!-- 	</entity> -->
+	
 	<entity name="usersreg" editbean="userEditorComponent">
 		<property name="logonid" table="true" edit="true" select="true" width="70%"  type="TEXT" search="true"/>
 		<property name="firstname" table="true" search="true"/>
 		<property name="lastname" table="true" search="true"/>
 		<property name="phone"  />
 		<property name="email" table="true" search="true" />
-		<property name="primaryAddress" />
+<!-- 		<property name="primaryAddress" /> -->
 		<property name="created" table="true" readony ="true" />
 	</entity>
 	

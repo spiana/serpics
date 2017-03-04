@@ -29,4 +29,5 @@ public interface PriceListService {
 
 	
 	public Pricelist getCurrentPriceList();
+	public void setCurrentPriceList(Pricelist pricelist);
 }

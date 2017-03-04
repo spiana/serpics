@@ -94,9 +94,9 @@ public class One2oneField<M, T> extends CustomField<T> {
 		fieldGroup.setBuffered(true);
 		
 		if (displayProperties == null)
-			displayProperties = PropertiesUtils.get().getEditProperty(getType().getSimpleName());
+			displayProperties = PropertiesUtils.get().getEditProperty(getType());
 			
-		String[] _readOnlyProperties = PropertiesUtils.get().getReadOnlyProperty(getType().getSimpleName());
+		String[] _readOnlyProperties = PropertiesUtils.get().getReadOnlyProperty(getType());
 			
 		if (_readOnlyProperties != null)
 			readOnlyProperties.addAll(Arrays.asList(_readOnlyProperties));
@@ -145,7 +145,7 @@ public class One2oneField<M, T> extends CustomField<T> {
 		if (message != null)
 			f.setCaption(message);
 		
-		PropertiesUtils.get().setFieldProperty(getType().getSimpleName(), pid, f , !entityItem.isPersistent());
+		PropertiesUtils.get().setFieldProperty(getType(), pid, f , !entityItem.isPersistent());
 		
 		return f;
 	}

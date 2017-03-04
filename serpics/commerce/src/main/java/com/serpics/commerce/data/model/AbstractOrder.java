@@ -18,6 +18,7 @@ package com.serpics.commerce.data.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -36,6 +37,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -97,6 +99,9 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     // @Column(name="shipping_address_id")
     // private Long shippingAddressId;
 
+    @OneToMany(mappedBy = "order", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy
+    protected Set<AbstractOrderitem> items = new LinkedHashSet<AbstractOrderitem>(0);
    
     @Column(nullable = true)
     @Enumerated(EnumType.STRING)
@@ -168,7 +173,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.id = orderId;
     }
 
-    public abstract Set<? extends AbstractOrderitem> getItems();
+   
     
     public Currency getCurrency() {
         return currency;
@@ -266,14 +271,7 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.store = store;
     }
 
-//    public Set<? extends AbstractOrderitem> getOrderitems() {
-//        return orderitems;
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//	public void setOrderitems(final Set<? extends AbstractOrderitem> orderitems) {
-//        this.orderitems = (Set<AbstractOrderitem>) orderitems;
-//    }
+
 
 	public Double getDiscountAmount() {
 		return discountAmount;
@@ -354,6 +352,14 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
 
 	public void setPayments(Set<Payment> payments) {
 		this.payments = payments;
+	}
+
+	public Set<? extends AbstractOrderitem> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<AbstractOrderitem> items) {
+		this.items = items;
 	}
 
 }

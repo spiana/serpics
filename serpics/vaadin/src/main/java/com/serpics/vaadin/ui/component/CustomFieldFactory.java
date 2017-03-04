@@ -170,18 +170,19 @@ public class CustomFieldFactory extends DefaultFieldFactory{
     
     @SuppressWarnings("rawtypes")
 	private Field<?> createSelect(Object propertyId , JPAContainerItem item){
-    	 final ComboBox combo = new ComboBox(propertyId.toString());
+    	
     	 JPAContainer referencedContainer =buildcontainer(item.getContainer(), propertyId);
     	 String referencedPropertyId = buildReferencedPropertyToShow(item.getContainer(), propertyId);
     	 if (referencedPropertyId.contains("."))
     		 referencedContainer.addNestedContainerProperty(referencedPropertyId);
     	 
-    	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass().getSimpleName(),propertyId.toString() );
+    	SmcPropertyDef def = PropertiesUtils.get().getPropertyForEntity(item.getEntity().getClass(), propertyId.toString() );
     	
     	 if (def != null && def.isExtendedCombo()){
     		 ExtendedComboBox ecombo = new ExtendedComboBox(item,propertyId.toString());
     	 	return ecombo;
     	 } else{
+    		 final ComboBox combo = new ComboBox(propertyId.toString());
 	    	 item.getItemProperty(propertyId).getType();
 	  
 	    	 combo.setContainerDataSource(referencedContainer);
@@ -236,7 +237,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
 	@SuppressWarnings("rawtypes")
 	private String buildReferencedPropertyToShow( EntityContainer containerForProperty , Object propertyId){
 		Class<?> referencedType=  containerForProperty.getType(propertyId);
-		String referencedProperty = PropertiesUtils.get().getSelectProperty(referencedType.getSimpleName());
+		String referencedProperty = PropertiesUtils.get().getSelectProperty(referencedType);
 		
 		if (referencedProperty == null)
 			referencedProperty = "uuid"; // this is default

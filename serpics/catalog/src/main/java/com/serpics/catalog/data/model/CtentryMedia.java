@@ -24,13 +24,24 @@ import javax.persistence.Table;
 import com.serpics.base.data.model.Media;
 
 @Entity
-@Table(name="ctentry_media")
+@Table(name="ctentry_media" )
 public class CtentryMedia extends Media{
 
 	@ManyToOne
 	@JoinColumn(name="ctentry_id")
 	private Ctentry ctentry;
 
+	@ManyToOne(optional = false  )
+    @JoinColumn(name = "catalog_id" )
+    protected Catalog catalog;
+
+	public Catalog getCatalog() {
+		return catalog;
+	}
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
+	}
+	
 	public Ctentry getCtentry() {
 		return ctentry;
 	}
@@ -38,4 +49,6 @@ public class CtentryMedia extends Media{
 	public void setCtentry(Ctentry ctentry) {
 		this.ctentry = ctentry;
 	}
+	
+
 }

@@ -18,16 +18,13 @@ package com.serpics.commerce.data.model;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 @DiscriminatorValue(value = "1")
 public class Cartitem extends AbstractOrderitem {
 
 	private static final long serialVersionUID = -346014887001626903L;
-
+	
 	public Cartitem() {
 		super();
 	
@@ -39,16 +36,5 @@ public class Cartitem extends AbstractOrderitem {
 		
 	}
 
-	 @ManyToOne
-	 @JoinColumn(name = "order_id", nullable = false,foreignKey=@ForeignKey(name="cartitems_fk"))
-	 protected Cart cart;
-
-	public Cart getCart() {
-		return cart;
-	}
-
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
 
 }

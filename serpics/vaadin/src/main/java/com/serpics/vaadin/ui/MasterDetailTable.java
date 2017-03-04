@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 
 import javax.persistence.OneToMany;
 
+import org.springframework.util.Assert;
+
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.Container;
@@ -43,9 +45,20 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
     public MasterDetailTable(final Class<T> entityClass , Object parentProperty) {
         super(entityClass);
         setSearchFormEnable(false);
+        Assert.notNull(parentProperty , "parent property can not be null !");
         this.propertyId= parentProperty;
+      
     }
 
+    public MasterDetailTable(final Class<T> entityClass , Object parentProperty , Object backReferencePropertyId) {
+        super(entityClass);
+        setSearchFormEnable(false);
+        Assert.notNull(parentProperty , "parent property can not be null !");
+        this.propertyId= parentProperty;
+        Assert.notNull(backReferencePropertyId , "backRefeferenceProperty can not be null !");
+        this.backReferencePropertyId = backReferencePropertyId;
+    }
+    
     @Override
     public void setParentEntity(final EntityItem<P> parent) {
     	
@@ -59,22 +72,30 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
     private void setBackReferenceContainerFilter(){
     	if (this.backReferencePropertyId == null)
     		this.backReferencePropertyId = getMappedByProperty(this.propertyId.toString());
-    	
-    	 container.removeContainerFilters(backReferencePropertyId);
-        if (parentEntity.isPersistent()	){
-        	container.addContainerFilter(new Compare.Equal(backReferencePropertyId, masterEntity));
-        }else{
-        	Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
-			this.container.addContainerFilter(filter);
-        }
+    
+    	if (this.backReferencePropertyId != null){
+    		container.removeContainerFilters(backReferencePropertyId);
+	        if (parentEntity.isPersistent()	){
+	        	container.addContainerFilter(new Compare.Equal(backReferencePropertyId, masterEntity));
+	        }else{
+	        	Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
+				this.container.addContainerFilter(filter);
+	        }
+    	}else{
+    		Assert.notNull(this.backReferencePropertyId , "enable to resolve back refeference property !");
+    	}
+    		
          container.refresh();
     }
     
     
     @Override
+    @Deprecated
     public void setParentProperty(final Object propertyId) {
         this.propertyId = propertyId;
     }
+    
+   
    
    /* (non-Javadoc)
     * @see com.serpics.vaadin.ui.MasterTable#removeAllFilter()
@@ -91,7 +112,8 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
      try{
     	  T newInstance = container.getEntityClass().newInstance();
 	      BeanItem<T> beanItem =  new BeanItem<T>(newInstance);
-	      beanItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity);
+	      if(backReferencePropertyId != null)
+	    	  beanItem.getItemProperty(this.backReferencePropertyId).setValue(this.masterEntity);
 	      EntityItem<T> item = container.createEntityItem(newInstance);
 	      return item ;
      }catch (Exception _e){
@@ -106,7 +128,7 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
 	    if ((otm != null) && (!("".equals(otm.mappedBy())))) {
 	      return otm.mappedBy();
 	    }
-	    return getType().getSimpleName().toLowerCase();
+	    return null;
 	  }
 	
 	 @SuppressWarnings("unchecked")

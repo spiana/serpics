@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.membership.data.repositories;
+package com.serpics.membership.data.specifications;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,14 +26,16 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.serpics.base.data.model.Store;
 import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.membership.data.model.Membergroup;
+import com.serpics.membership.data.model.MembersRole;
+import com.serpics.stereotype.DefaultSpec;
 
-public class MembergroupSpecification implements Specification<Membergroup> {
+@DefaultSpec(MembersRole.class)
+public class MemberroleSpecification implements Specification<MembersRole> {
 	@Autowired
 	CommerceEngine engine;
 	
 	@Override
-	public Predicate toPredicate(Root<Membergroup> root, CriteriaQuery<?> cq,
+	public Predicate toPredicate(Root<MembersRole> root, CriteriaQuery<?> cq,
 			CriteriaBuilder cb) {
 		  return cb.equal(root.get("store"), (Store) engine.getCurrentContext().getStoreRealm());
 	}
