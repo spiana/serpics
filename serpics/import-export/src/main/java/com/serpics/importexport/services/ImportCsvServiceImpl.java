@@ -58,7 +58,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 	
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void importCsv(Reader reader , Class<?> type ,int line, CSVParser parser ,  ImportPorgressListener listener) {
+	public void importCsv(Reader reader , Class<?> type ,int line, CSVParser parser ,  ImportProgressListener listener) {
 		
 		if(listener != null)
 			listener.init();
@@ -100,7 +100,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 		
 	}
 	
-	protected void importFileFromXml(InputStream in , String basePath , ImportPorgressListener listener) throws DocumentException{
+	protected void importFileFromXml(InputStream in , String basePath , ImportProgressListener listener) throws DocumentException{
 		
 		if(!basePath.endsWith(File.separator))
 			basePath = basePath+ File.separator;
@@ -128,7 +128,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 	}
 
 	@Override
-	public void importFromZip(ZipFile file , ImportPorgressListener listener)  throws IOException{
+	public void importFromZip(ZipFile file , ImportProgressListener listener)  throws IOException{
 //		String zipPath = FileUtils.getTempDirectoryPath()+String.valueOf(new Date().getTime());
 		String zipPath = FilenameUtils.concat(FileUtils.getTempDirectoryPath(), String.valueOf(new Date().getTime()));
 		File tmp = new File(zipPath) ; // create temporary directory
@@ -203,28 +203,28 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 
 	@Override
 	public void importCsv(Reader reader, Class<?> type,
-			ImportPorgressListener listener) {
+			ImportProgressListener listener) {
 		importCsv(reader, type , new CSVParser(';' ) , listener);
 		
 	}
 
 	@Override
 	public void importCsv(Reader reader, Class<?> type, CSVParser parser,
-			ImportPorgressListener listener) {
+			ImportProgressListener listener) {
 		importCsv(reader, type , 0 , parser ,listener);
 		
 	}
 
 	@Override
 	public void importFromXml(String fileName, String basePath,
-			ImportPorgressListener listener) throws FileNotFoundException,
+			ImportProgressListener listener) throws FileNotFoundException,
 			DocumentException {
 		importFileFromXml(new FileInputStream(fileName), basePath, listener);
 		
 	}
 
 	@Override
-	public void importFromZip(String filePath, ImportPorgressListener listener)
+	public void importFromZip(String filePath, ImportProgressListener listener)
 			throws IOException {
 		ZipFile _f = new ZipFile(filePath);
 		importFromZip(_f , listener);
