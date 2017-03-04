@@ -20,12 +20,11 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.serpics.base.data.model.Media;
 
 @Entity
-@Table(name="ctentry_media" , uniqueConstraints= @UniqueConstraint(columnNames= {"catalog_id","content_type", "name"}))
+@Table(name="ctentry_media" )
 public class CtentryMedia extends Media{
 
 	@ManyToOne
