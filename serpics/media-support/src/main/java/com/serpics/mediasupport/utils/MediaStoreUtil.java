@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.base.utils;
+package com.serpics.mediasupport.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -34,8 +34,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.serpics.base.data.model.Media;
 import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.mediasupport.data.model.MediaField;
 
 /**
  * @author spiana
@@ -130,7 +130,7 @@ public class MediaStoreUtil implements InitializingBean{
 	}
 	
 	
-	public byte[] getLocalMedia(Media media) throws IOException{
+	public byte[] getLocalMedia(MediaField media) throws IOException{
 		String sourceStorePath = getMediaStorePathFromSource(media.getSourcePath());
 		File fileMedia = new File(sourceStorePath);
 		if(fileMedia.exists()){

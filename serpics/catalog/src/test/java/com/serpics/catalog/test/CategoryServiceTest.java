@@ -24,13 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.Locale;
-import com.serpics.base.data.model.MultilingualText;
-import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.model.Locale;
+import com.serpics.i18n.data.model.MultilingualText;
+import com.serpics.i18n.data.repositories.LocaleRepository;
 
 @TransactionConfiguration(defaultRollback = true)
 @Transactional

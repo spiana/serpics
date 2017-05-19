@@ -37,6 +37,7 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 
 
 @ContextConfiguration( {
+	"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml" ,
 	"classpath*:META-INF/base-serpics.xml",
 	"classpath*:META-INF/membership-serpics.xml",
 	"classpath*:META-INF/applicationContext-test.xml"

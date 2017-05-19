@@ -28,19 +28,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
-import com.serpics.base.data.repositories.CurrencyRepository;
 import com.serpics.base.data.repositories.StoreRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.model.Currency;
+import com.serpics.i18n.data.repositories.CurrencyRepository;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.data.repositories.UserregRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/postman-serpics.xml" ,"classpath:META-INF/membership-serpics.xml"})
+@ContextConfiguration({"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/postman-serpics.xml" ,"classpath:META-INF/membership-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @SerpicsTest("defualt-store")

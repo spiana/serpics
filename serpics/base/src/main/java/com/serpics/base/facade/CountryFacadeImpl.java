@@ -30,13 +30,13 @@ import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
-import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.facade.data.CountryData;
 import com.serpics.base.services.CountryService;
 import com.serpics.base.services.GeocodeService;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.i18n.data.model.MultilingualString;
 import com.serpics.stereotype.StoreFacade;
 
 @StoreFacade("countryFacade")

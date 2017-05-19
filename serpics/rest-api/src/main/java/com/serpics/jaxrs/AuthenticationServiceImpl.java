@@ -33,11 +33,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.repositories.LocaleRepository;
 @Path("/connect/")
 public class AuthenticationServiceImpl implements AuthenticationService {
 	

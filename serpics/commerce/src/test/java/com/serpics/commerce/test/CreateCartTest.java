@@ -50,7 +50,9 @@ import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
+@ContextConfiguration({ 
+	"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml" ,
+	"classpath:META-INF/base-serpics.xml" , 
 	"classpath:META-INF/postman-serpics.xml" ,
 	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml",
 	"classpath:META-INF/warehouse-serpics.xml",

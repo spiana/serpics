@@ -38,8 +38,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.data.model.MultilingualText;
+import com.serpics.i18n.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualText;
 
 /**
  * The persistent class for the ctentry database table.

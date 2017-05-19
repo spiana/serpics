@@ -134,7 +134,7 @@ public class MainView extends CustomComponent {
 	
 	private void setLanguage(){
 	
-		final com.serpics.base.data.model.Locale locale = (com.serpics.base.data.model.Locale) commerceEngine
+		final com.serpics.i18n.data.model.Locale locale = (com.serpics.i18n.data.model.Locale) commerceEngine
 				.getCurrentContext().getLocale();
 		
 		if (locale != null) {

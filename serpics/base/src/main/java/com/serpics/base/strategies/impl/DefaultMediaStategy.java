@@ -10,10 +10,10 @@ import java.io.InputStream;
 
 import javax.annotation.Resource;
 
-import com.serpics.base.MediaSupportType;
 import com.serpics.base.data.model.Media;
 import com.serpics.base.strategies.MediaStrategy;
-import com.serpics.base.utils.MediaStoreUtil;
+import com.serpics.mediasupport.MediaSupportType;
+import com.serpics.mediasupport.utils.MediaStoreUtil;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy(value="mediaStrategy")

@@ -18,9 +18,9 @@ package com.serpics.vaadin.ui.component;
 
 import java.io.File;
 
-import com.serpics.base.MediaSupportType;
-import com.serpics.base.data.model.Media;
-import com.serpics.base.utils.MediaStoreUtil;
+import com.serpics.mediasupport.MediaSupportType;
+import com.serpics.mediasupport.data.model.MediaField;
+import com.serpics.mediasupport.utils.MediaStoreUtil;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.component.MediaEditForm.MediaSourceChangeEventListener;
@@ -39,7 +39,7 @@ import com.vaadin.ui.Video;
  * @author spiana
  *
  */
-public class MediaComponent<T extends Media> extends CustomComponent implements EntityFormComponent<T> {
+public class MediaComponent<T extends MediaField> extends CustomComponent implements EntityFormComponent<T> {
 
 	MediaEditForm<T> mediaForm ;
 	

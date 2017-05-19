@@ -32,10 +32,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.PaymentState;
 import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.i18n.data.model.Currency;
 
 @Entity
 public class Payment extends AbstractEntity{

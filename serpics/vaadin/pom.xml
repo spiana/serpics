@@ -83,11 +83,6 @@
 			<version>${vaadin.version}</version>
 		</dependency>		
 		<dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>base</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring.security}</version>
@@ -103,15 +98,20 @@
 			<version>2.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>membership</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
-		<dependency>
   			 <groupId>com.byteowls</groupId>
    			<artifactId>vaadin-chartjs</artifactId>
    		<version>0.4.0</version>
 </dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>serpics-i18n</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>media-support</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
   </dependencies>
   
   

@@ -33,7 +33,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.serpics.base.data.model.AbstractStoreEntity;
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualString;
 
 /**
  * The persistent class for the pricelist database table.

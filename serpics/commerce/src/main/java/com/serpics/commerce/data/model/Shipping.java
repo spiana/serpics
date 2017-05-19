@@ -29,7 +29,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.serpics.base.data.model.Currency;
+import com.serpics.i18n.data.model.Currency;
 
 
 /**

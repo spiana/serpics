@@ -33,13 +33,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
-import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.model.MultilingualString;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.MembersRole;
@@ -56,7 +56,7 @@ import com.serpics.membership.services.PermanentAddressService;
 import com.serpics.membership.services.UserService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" ,"classpath:META-INF/postman-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
+@ContextConfiguration({ "classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/base-serpics.xml" ,"classpath:META-INF/postman-serpics.xml" , "classpath:META-INF/membership-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserServiceTest extends AbstractTransactionalJunit4SerpicTest{
     Logger log = LoggerFactory.getLogger(UserServiceTest.class);

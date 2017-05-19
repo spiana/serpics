@@ -41,9 +41,9 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
 import com.serpics.commerce.OrderStatus;
+import com.serpics.i18n.data.model.Currency;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.User;

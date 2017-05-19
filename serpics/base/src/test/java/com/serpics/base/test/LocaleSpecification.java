@@ -23,7 +23,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.serpics.base.data.model.Locale;
+import com.serpics.i18n.data.model.Locale;
 import com.serpics.stereotype.DefaultSpec;
 
 @DefaultSpec(Locale.class)

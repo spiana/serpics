@@ -34,7 +34,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.MultilingualText;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.services.CatalogService;
@@ -42,6 +41,7 @@ import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.model.MultilingualText;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.services.BaseService;
@@ -53,8 +53,10 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 
 
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" ,
-						"classpath:META-INF/membership-serpics.xml","classpath:META-INF/catalog-serpics.xml"})
+@ContextConfiguration({ 
+	"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml" ,
+	"classpath:META-INF/base-serpics.xml" ,
+	"classpath:META-INF/membership-serpics.xml","classpath:META-INF/catalog-serpics.xml"})
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {

@@ -48,7 +48,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.serpics.base.data.model.Media;
-import com.serpics.base.utils.MediaStoreUtil;
+import com.serpics.mediasupport.utils.MediaStoreUtil;
 import com.serpics.postman.model.MailState;
 import com.serpics.postman.model.MetaDataMail;
 import com.serpics.postman.repositories.MetaDataMailRepository;

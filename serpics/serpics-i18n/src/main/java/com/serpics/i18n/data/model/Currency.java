@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.base.data.model;
+package com.serpics.i18n.data.model;
 
 import java.io.Serializable;
 

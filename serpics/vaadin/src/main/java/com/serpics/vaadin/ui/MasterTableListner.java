@@ -30,7 +30,7 @@ import javax.persistence.Transient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualString;
 import com.serpics.vaadin.ui.component.MultilingualTextField;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;

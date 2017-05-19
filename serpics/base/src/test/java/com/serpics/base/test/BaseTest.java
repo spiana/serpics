@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
-import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.repositories.CountryRepository;
 import com.serpics.base.data.repositories.GeoCodeRepository;
@@ -36,10 +35,14 @@ import com.serpics.base.data.repositories.RegionRepository;
 import com.serpics.base.services.CountryService;
 import com.serpics.base.services.RegionService;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.model.MultilingualString;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml"})
+@ContextConfiguration({ 
+	 "classpath:META-INF/i18n-serpics.xml",
+	"classpath:META-INF/mediasupport-serpics.xml",
+	"classpath:META-INF/base-serpics.xml"})
 @SerpicsTest("default-store")
 @RunWith(SpringJUnit4ClassRunner.class)
 //@Transactional

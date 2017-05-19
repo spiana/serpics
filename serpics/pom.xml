@@ -141,6 +141,9 @@
     <module>serpics-smc</module>
     <module>standalone</module>
 <!--    <module>b2bcatalog</module> -->
+  	
+  	<module>serpics-i18n</module>
+  	<module>media-support</module>
   </modules>
   
   <version>1.1-SNAPSHOT</version>

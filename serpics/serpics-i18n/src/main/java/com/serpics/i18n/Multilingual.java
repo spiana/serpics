@@ -14,30 +14,9 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.base;
+package com.serpics.i18n;
 
-import java.util.Date;
-
-public interface MultiValueField {
-
-	public AttributeType getAttributeType();
-	public void setAttributeType(AttributeType type);
+public interface Multilingual {
 	
-    public Date getDateValue() ;
-   
-    public Integer getIntegerValue() ;
-   
-    public Double getDoubleValue();
-    
-    public String getStringValue() ;
-  
-    public void setDateValue(Date value) ;
-    
-    public void setIntegerValue(Integer value) ;
-   
-    public void setDoubleValue(Double value);
-    
-    public void setStringValue(String value) ;
-
-  
+	public void addText(String language , String text);
 }

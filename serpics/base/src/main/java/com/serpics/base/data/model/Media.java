@@ -32,8 +32,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.serpics.base.MediaSupportType;
 import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.i18n.data.model.MultilingualString;
+import com.serpics.mediasupport.MediaSupportType;
+import com.serpics.mediasupport.data.model.MediaField;
+
 
 
 /**
@@ -43,7 +46,7 @@ import com.serpics.core.data.jpa.AbstractEntity;
 @Entity
 @Table(name="media")
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Media extends AbstractEntity{
+public abstract class Media extends AbstractEntity implements MediaField{
 	private static final long serialVersionUID = -952890230499530957L;
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)

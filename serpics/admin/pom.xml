@@ -223,11 +223,6 @@
 			<artifactId>postman-service</artifactId>
 			<version>${serpics.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>it.test</groupId>
-			<artifactId>mytest</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<build>

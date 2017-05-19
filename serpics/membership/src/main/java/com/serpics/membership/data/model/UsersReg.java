@@ -31,8 +31,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.serpics.base.data.model.Locale;
 import com.serpics.core.security.UserDetail;
+import com.serpics.i18n.data.model.Locale;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
 

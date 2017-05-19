@@ -25,17 +25,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.serpics.base.data.model.Locale;
-import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.data.InterceptorEntityMapping;
 import com.serpics.core.data.InterceptorMappingInitializer;
+import com.serpics.i18n.data.model.Locale;
+import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
-@ContextConfiguration({  "classpath:META-INF/base-serpics-test.xml"})
+@ContextConfiguration({ 
+	"classpath:META-INF/i18n-serpics.xml",
+	"classpath:META-INF/base-serpics-test.xml"})
 @SerpicsTest("default-store")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class InterceptorTest extends AbstractTransactionalJunit4SerpicTest{

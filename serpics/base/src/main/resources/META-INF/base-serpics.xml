@@ -24,7 +24,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	</bean>
     
     <bean name="defaultBaseAttributeSpecification" class="com.serpics.base.data.specification.DefaultBaseAttributeSpecification"/>
-    <bean name="mediaStoreUtil" class="com.serpics.base.utils.MediaStoreUtil" />
+  
     
 <!--     					 factory-class="com.serpics.core.data.RepositoryFactoryBean"/> -->
      <!--  facade -->

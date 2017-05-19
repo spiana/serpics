@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
@@ -37,6 +36,7 @@ import com.serpics.catalog.data.repositories.VariantAttributeRepository;
 import com.serpics.catalog.facade.ProductFacade;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.ProductService;
+import com.serpics.core.datatype.AttributeType;
 
 /**
  * @author spiana
@@ -71,11 +71,15 @@ public class VariantsTest extends CatalogBaseTest{
 		
 		Product p = productService.findByCode("P");
 		
+		Assert.assertEquals(4, productVariantRepository.findAll().size());
+		Assert.assertEquals(p, productVariantRepository.findAll().get(0).getParentProduct() );
 		Assert.assertEquals(3, p.getVariants().size());
 		Assert.assertEquals("P.0", p.getVariants().iterator().next().getCode());
+	
 		Assert.assertEquals("P.1.5", p.getVariants().toArray(new ProductVariant[]{})[1].getCode());
-		
-		
+		ProductVariant p1_5 = p.getVariants().toArray(new ProductVariant[]{})[1];
+		Assert.assertEquals(1, p1_5.getVariants().size());
+		Assert.assertEquals("P.1.5_1", p1_5.getVariants().iterator().next().getCode());	
 	}
 	
 	@Test
@@ -144,9 +148,21 @@ public class VariantsTest extends CatalogBaseTest{
 		
 		productVariantRepository.save(pv2);
 		
+		ProductVariant pv2_1 = new ProductVariant();
+		pv2_1.setCode("P.1.5_1");
+		pv2_1.setParentVariant(pv2);
+		pv2_1.setSequence(0.5D);
+		
+		productVariantRepository.save(pv2_1);
+		
+		
+		
 		productVariantRepository.detach(pv0);
 		productVariantRepository.detach(pv1);
 		productVariantRepository.detach(pv2);
+		productVariantRepository.detach(pv2_1);
+		
+	
 		productRepository.detach(p);
 	}
 }

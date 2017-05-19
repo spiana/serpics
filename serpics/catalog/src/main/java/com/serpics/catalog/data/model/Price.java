@@ -31,7 +31,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.serpics.base.data.model.AbstractStoreEntity;
-import com.serpics.base.data.model.Currency;
+import com.serpics.i18n.data.model.Currency;
 
 /**
  * The persistent class for the prices database table.

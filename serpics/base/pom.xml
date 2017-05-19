@@ -25,6 +25,16 @@
 	  		<artifactId>commons-io</artifactId>
 	  		<version>2.4</version>
 	  	</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>serpics-i18n</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>media-support</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

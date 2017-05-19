@@ -41,8 +41,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.repositories.LocaleRepository;
-import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CategoryRelation;
@@ -55,6 +53,7 @@ import com.serpics.catalog.services.ProductService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.importexport.services.ImportCsvService;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
@@ -63,7 +62,9 @@ import com.serpics.warehouse.data.model.Warehouse;
 import com.serpics.warehouse.data.repositories.InventoryRepository;
 import com.serpics.warehouse.data.repositories.WarehouseRepository;
 
-@ContextConfiguration( {"classpath:META-INF/base-serpics.xml" , 
+@ContextConfiguration( {
+	"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml" ,
+	"classpath:META-INF/base-serpics.xml" , 
 	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml" ,
 	"classpath:META-INF/warehouse-serpics.xml",
 	"classpath:META-INF/importexport-serpics.xml"})
@@ -117,16 +118,16 @@ public class ImportBaseTest extends AbstractTransactionalJunit4SerpicTest {
     @Test
     public void test(){
     
-		String b = "code1[unique];name{it}\np1;prodotto 1\np2;prodotto 2\np3;prodotto 3\n";
+		String b = "code[unique];name{it}\np1;prodotto 1\np2;prodotto 2\np3;prodotto 3\n";
 		try{
-			importCsvService.importCsv(new StringReader(b), AbstractProduct.class);
+			importCsvService.importCsv(new StringReader(b), Product.class);
 		}catch (Exception e) {
 			LOG.error(e.getMessage());
 			LOG.error(e.getCause().getMessage());
 		}
 		Assert.assertEquals(3, productRepository.findAll().size());
 		String b1 = "code[unique];name{en}\np1;product 1\np5;product 5\np3;product 3\np4;product four\n";
-		importCsvService.importCsv(new StringReader(b1), AbstractProduct.class);
+		importCsvService.importCsv(new StringReader(b1), Product.class);
 		Assert.assertEquals(5, productRepository.findAll().size());
 		Assert.assertEquals("product 5", productService.findByName("p5").getName().getText("en"));
 		Assert.assertEquals("prodotto 1",productService.findByName("p1").getName().getText("it"));

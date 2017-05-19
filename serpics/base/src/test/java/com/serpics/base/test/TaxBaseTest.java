@@ -29,17 +29,21 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.model.TaxCategory;
-import com.serpics.base.data.repositories.CurrencyRepository;
 import com.serpics.base.data.repositories.StoreRepository;
 import com.serpics.base.data.repositories.TaxCategoryRepository;
 import com.serpics.base.facade.data.TaxCategoryData;
 import com.serpics.core.facade.Converter;
+import com.serpics.i18n.data.model.Currency;
+import com.serpics.i18n.data.repositories.CurrencyRepository;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml"} )
+
+@ContextConfiguration({ 
+	 "classpath:META-INF/i18n-serpics.xml",
+	"classpath:META-INF/mediasupport-serpics.xml",
+	"classpath:META-INF/base-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TaxBaseTest extends AbstractTransactionalJunit4SerpicTest {
 

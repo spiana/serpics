@@ -30,12 +30,12 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.serpics.base.data.model.Store;
-import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.base.data.repositories.StoreRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.scheduler.exception.JobSchedulerException;
 import com.serpics.scheduler.job.TestJob;
@@ -50,7 +50,9 @@ import com.serpics.scheduler.service.JobLogService;
 import com.serpics.scheduler.service.JobService;
 import com.serpics.scheduler.service.SchedulerService;
 
-@ContextConfiguration({ "classpath:META-INF/applicationContext.xml", "classpath:META-INF/core-serpics.xml","classpath:META-INF/base-serpics.xml", "classpath:META-INF/membership-serpics.xml",
+@ContextConfiguration({ "classpath:META-INF/applicationContext.xml", "classpath:META-INF/core-serpics.xml",
+	"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml" ,
+	"classpath:META-INF/base-serpics.xml", "classpath:META-INF/membership-serpics.xml",
 		"classpath:META-INF/catalog-serpics.xml", "classpath:META-INF/warehouse-serpics.xml",
 		"classpath:META-INF/importexport-serpics.xml", "classpath:META-INF/scheduler-serpics.xml" })
 @TransactionConfiguration(defaultRollback = true )

@@ -21,11 +21,11 @@ import java.text.NumberFormat;
 
 import javax.annotation.Resource;
 
-import com.serpics.base.AttributeType;
 import com.serpics.catalog.data.model.VariantAttribute;
 import com.serpics.catalog.facade.data.AttributeValueData;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.model.Locale;
+import com.serpics.core.datatype.AttributeType;
 import com.serpics.core.facade.Populator;
 
 /**

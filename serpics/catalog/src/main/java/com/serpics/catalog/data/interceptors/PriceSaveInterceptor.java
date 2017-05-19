@@ -20,13 +20,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
+import com.serpics.i18n.data.model.Currency;
 
 public class PriceSaveInterceptor implements SaveInterceptor<Price> {
 

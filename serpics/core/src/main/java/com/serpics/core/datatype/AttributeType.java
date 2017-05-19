@@ -14,9 +14,10 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.base;
+package com.serpics.core.datatype;
 
-public enum MediaSupportType {
-
-	LOCAL, REMOTE;
+public enum AttributeType  {
+    INTEGER, DOUBLE, STRING, DATE
+    
+    
 }

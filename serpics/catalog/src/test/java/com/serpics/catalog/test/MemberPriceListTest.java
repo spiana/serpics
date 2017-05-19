@@ -64,14 +64,14 @@ public class MemberPriceListTest extends CatalogBaseTest{
 		
 		Price price = new Price();
 		price.setProduct(p);
-		price.setCurrency((com.serpics.base.data.model.Currency)context.getCurrency() );
+		price.setCurrency((com.serpics.i18n.data.model.Currency)context.getCurrency() );
 		price.setCurrentPrice(10.0);
 		priceRepository.save(price);
 		
 		
 		Price price1 = new Price();
 		price1.setProduct(p);
-		price1.setCurrency((com.serpics.base.data.model.Currency)context.getCurrency() );
+		price1.setCurrency((com.serpics.i18n.data.model.Currency)context.getCurrency() );
 		price1.setCurrentPrice(5.0);
 		price1.setPricelist(pl);
 		priceRepository.save(price1);

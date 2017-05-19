@@ -16,7 +16,8 @@
  *******************************************************************************/
 package com.serpics.vaadin.ui.component;
 
-import com.serpics.base.MultiValueField;
+
+import com.serpics.core.data.model.MultiValueField;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;

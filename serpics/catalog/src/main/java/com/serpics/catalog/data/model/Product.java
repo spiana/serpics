@@ -27,8 +27,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -82,8 +80,8 @@ public class Product extends AbstractProduct implements Serializable {
     @JoinColumn(name="featuremodel_id" ,updatable=false)
     protected FeatureModel featureModel;
     
-    @ManyToMany
-    @JoinTable(name = "product_variant_rel", joinColumns = { @JoinColumn(name = "parent_product") }, inverseJoinColumns = { @JoinColumn(name = "ctentry_id") })
+    @OneToMany(mappedBy="parentProduct")
+    @OrderBy("sequence")
     protected Set<ProductVariant> variants;
    
     @OneToMany(mappedBy="product" , orphanRemoval=true , cascade=CascadeType.REMOVE , fetch=FetchType.LAZY)

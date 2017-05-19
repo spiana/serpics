@@ -16,9 +16,9 @@
  *******************************************************************************/
 package com.serpics.commerce.strategies;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
+import com.serpics.i18n.data.model.Currency;
 
 
 public interface PriceStrategy {

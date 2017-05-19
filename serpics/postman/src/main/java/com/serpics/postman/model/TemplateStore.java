@@ -30,8 +30,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.serpics.base.data.model.AbstractStoreEntity;
-import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.data.model.MultilingualText;
+import com.serpics.i18n.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualText;
 @Table(name="template_store")
 @Entity
 public class TemplateStore extends AbstractStoreEntity {

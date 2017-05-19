@@ -22,8 +22,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.serpics.base.AttributeType;
-import com.serpics.base.MultiValueField;
+import com.serpics.core.data.model.MultiValueField;
+import com.serpics.core.datatype.AttributeType;
 
 @Embeddable
 public class MultiValueAttribute implements MultiValueField{

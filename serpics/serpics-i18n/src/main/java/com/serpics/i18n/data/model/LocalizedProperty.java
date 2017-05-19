@@ -14,9 +14,15 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.base;
+package com.serpics.i18n.data.model;
 
-public interface Multilingual {
-	
-	public void addText(String language , String text);
+public interface LocalizedProperty {
+
+	public String getText();
+
+	public void setText(final String text);
+
+	public String getLanguage();
+
+	public void setLanguage(final String language);
 }

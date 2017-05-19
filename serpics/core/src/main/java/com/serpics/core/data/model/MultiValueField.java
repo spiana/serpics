@@ -14,11 +14,34 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.base.data.repositories;
+package com.serpics.core.data.model;
 
-import com.serpics.base.data.model.Currency;
-import com.serpics.core.data.Repository;
+import java.util.Date;
 
-public interface CurrencyRepository extends Repository<Currency, Long> {
+import com.serpics.core.datatype.AttributeType;
 
+
+
+public interface MultiValueField {
+
+	public AttributeType getAttributeType();
+	public void setAttributeType(AttributeType type);
+	
+    public Date getDateValue() ;
+   
+    public Integer getIntegerValue() ;
+   
+    public Double getDoubleValue();
+    
+    public String getStringValue() ;
+  
+    public void setDateValue(Date value) ;
+    
+    public void setIntegerValue(Integer value) ;
+   
+    public void setDoubleValue(Double value);
+    
+    public void setStringValue(String value) ;
+
+  
 }

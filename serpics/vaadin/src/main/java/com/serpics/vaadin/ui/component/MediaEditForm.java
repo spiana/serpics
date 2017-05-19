@@ -20,9 +20,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import com.serpics.base.MediaSupportType;
-import com.serpics.base.data.model.Media;
-import com.serpics.base.utils.MediaStoreUtil;
+import com.serpics.mediasupport.MediaSupportType;
+import com.serpics.mediasupport.data.model.MediaField;
+import com.serpics.mediasupport.utils.MediaStoreUtil;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -38,7 +38,7 @@ import com.vaadin.ui.Upload.SucceededListener;
  * @author spiana
  *
  */
-public class MediaEditForm<T extends Media> extends MasterForm<T> {
+public class MediaEditForm<T extends MediaField> extends MasterForm<T> {
 	
 	public interface MediaSourceChangeEventListener extends Listener{}
 	

@@ -38,7 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Country;
-import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.District;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.data.model.Store;
@@ -67,6 +66,7 @@ import com.serpics.commerce.strategies.DiscountStrategy;
 import com.serpics.commerce.strategies.PriceStrategy;
 import com.serpics.commerce.strategies.ProductStrategy;
 import com.serpics.core.service.AbstractService;
+import com.serpics.i18n.data.model.Currency;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.BillingAddress;
 import com.serpics.membership.data.model.Member;

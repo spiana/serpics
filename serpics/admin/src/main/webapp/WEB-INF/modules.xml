@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modules>
 	<module>core</module>
+	<module>i18n</module>
+	<module>mediasupport</module>
 	<module>base</module>
 	<module>membership</module>
 	<module>catalog</module>

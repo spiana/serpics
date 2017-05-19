@@ -14,10 +14,13 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.base;
+package com.serpics.i18n.data.repositories;
 
-public enum AttributeType  {
-    INTEGER, DOUBLE, STRING, DATE
-    
-    
+import com.serpics.core.data.Repository;
+import com.serpics.i18n.data.model.Locale;
+
+public interface LocaleRepository extends Repository<Locale, Long>  {
+
+    public Locale findByLanguage(String Language);
 }
+
