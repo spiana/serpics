@@ -307,6 +307,10 @@ public class MainView extends CustomComponent {
 					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, commerceEngine.getCurrentContext().getRealm() );
 					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.SERPICS_SESSION, commerceEngine.getCurrentContext().getSessionId());
 					rightContentTabPanel.removeAllComponents();
+					// Add dashBoard as first Tab
+					Dashboard d = new Dashboard();
+					rightContentTabPanel.addTab(d, "dashboard");
+					
 	             } catch (SerpicsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

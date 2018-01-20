@@ -13,7 +13,7 @@ http://www.springframework.org/schema/aop
 	
 
     
-    <bean name="sessionManager" class="com.serpics.core.session.ContextSessionManager" >
+    <bean name="sessionManager" class="com.serpics.commerce.session.CommerceContextSessionManager" >
     	<property name="generateSessionIdStrategy" ref="generateSessionIdStrategy"/>
     </bean>
     <bean name="engineFactory" class="com.serpics.core.EngineFactory" />

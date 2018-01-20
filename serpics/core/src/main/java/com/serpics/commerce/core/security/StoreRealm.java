@@ -14,17 +14,12 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.core.session;
+package com.serpics.commerce.core.security;
 
+import com.serpics.core.data.model.Currency;
 import com.serpics.core.security.Realm;
 
-public interface SessionManager {
-
-	public SessionContext getSessionContext(String sessionId);
-	public void putSessionContext(String sessionId , SessionContext context);
-	
-
-	public SessionContext createSessionContext(Realm realm , String sessionId);
-	
-	public void removeSessionContext(String sessionId);
+public interface StoreRealm extends Realm{
+    public Long getId();
+    public Currency getCurrency();
 }

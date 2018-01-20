@@ -18,8 +18,8 @@ package com.serpics.core.event;
 
 import org.springframework.context.ApplicationEvent;
 
+import com.serpics.commerce.core.security.StoreRealm;
 import com.serpics.core.data.model.Catalog;
-import com.serpics.core.security.StoreRealm;
 
 public abstract class SerpicsEvent extends ApplicationEvent {
 

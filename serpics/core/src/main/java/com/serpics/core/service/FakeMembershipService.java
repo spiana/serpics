@@ -18,8 +18,8 @@ package com.serpics.core.service;
 
 import java.security.Principal;
 
+import com.serpics.commerce.core.security.StoreRealm;
 import com.serpics.core.SerpicsException;
-import com.serpics.core.security.StoreRealm;
 import com.serpics.core.security.UserDetail;
 
 

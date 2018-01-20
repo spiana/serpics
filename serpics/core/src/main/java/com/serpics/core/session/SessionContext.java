@@ -22,15 +22,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.serpics.core.scope.SessionScopeAttributes;
+import com.serpics.core.security.Realm;
 import com.serpics.core.security.UserDetail;
 
-public abstract class SessionContext implements Serializable {
+public class SessionContext implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private UserDetail userDetail;
     private String sessionId;
-    private String realm;
+    private Realm realm;
     private Date lastAccess = new Date();
     private SessionScopeAttributes sessionScopeAttribute;
 
@@ -42,7 +43,7 @@ public abstract class SessionContext implements Serializable {
         this.lastAccess = lastAccess;
     }
 
-    public SessionContext(final String realm) {
+    public SessionContext(final Real realm) {
         super();
         this.realm = realm;
 

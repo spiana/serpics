@@ -30,8 +30,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.serpics.commerce.core.security.StoreRealm;
 import com.serpics.core.data.jpa.AbstractEntity;
-import com.serpics.core.security.StoreRealm;
 import com.serpics.i18n.data.model.Currency;
 
 /**

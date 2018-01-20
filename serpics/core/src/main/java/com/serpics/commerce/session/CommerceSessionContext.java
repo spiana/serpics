@@ -17,10 +17,10 @@
 package com.serpics.commerce.session;
 
 import com.serpics.commerce.core.Customer;
+import com.serpics.commerce.core.security.StoreRealm;
 import com.serpics.core.data.model.Catalog;
 import com.serpics.core.data.model.Currency;
 import com.serpics.core.data.model.Locale;
-import com.serpics.core.security.StoreRealm;
 import com.serpics.core.session.SessionContext;
 
 public class CommerceSessionContext extends SessionContext {
@@ -30,7 +30,7 @@ public class CommerceSessionContext extends SessionContext {
     private Customer customer;
     private Currency currency;
     private Locale locale;
-    private StoreRealm storeRealm;
+ //   private StoreRealm storeRealm;
     private String userCookie;
 
     public CommerceSessionContext() {
@@ -53,7 +53,7 @@ public class CommerceSessionContext extends SessionContext {
 
     public void setStoreRealm(final StoreRealm storeRealm) {
         this.storeRealm = storeRealm;
-        super.setRealm(storeRealm.getName());
+        super.setRealm(storeRealm);
     }
 
     public String getUserCookie() {

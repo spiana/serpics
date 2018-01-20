@@ -30,9 +30,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
+import com.serpics.commerce.core.security.StoreRealm;
 import com.serpics.core.scope.SessionScopeContextHolder;
 import com.serpics.core.scope.StoreScopeContextHolder;
-import com.serpics.core.security.StoreRealm;
 import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.Membership;
 import com.serpics.core.session.SessionContext;

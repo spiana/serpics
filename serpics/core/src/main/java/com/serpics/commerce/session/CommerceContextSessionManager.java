@@ -14,13 +14,10 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.core.security;
+package com.serpics.commerce.session;
 
-import com.serpics.core.data.model.Currency;
+// default Implementation
+public class CommerceContextSessionManager extends AbstractCommerceSessionManager  {
+	   
 
-public interface StoreRealm {
-    public Long getId();
-    public String getName();
-    public Currency getCurrency();
-   
 }
