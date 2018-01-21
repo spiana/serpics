@@ -26,8 +26,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;

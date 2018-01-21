@@ -16,7 +16,7 @@
  *******************************************************************************/
 package com.serpics.system.web;
 
-import com.serpics.commerce.session.AbstractCommerceSessionManager;
+import com.serpics.base.commerce.session.AbstractCommerceSessionManager;
 
 public class WebSessionManager extends AbstractCommerceSessionManager {
 

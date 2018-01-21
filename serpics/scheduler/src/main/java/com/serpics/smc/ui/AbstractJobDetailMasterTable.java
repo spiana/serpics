@@ -23,7 +23,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.core.Engine;
 import com.serpics.scheduler.exception.JobSchedulerException;
 import com.serpics.scheduler.job.AbstractStoreJob;

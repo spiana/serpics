@@ -18,8 +18,8 @@ package com.serpics.core.service;
 
 import java.security.Principal;
 
-import com.serpics.commerce.core.security.StoreRealm;
 import com.serpics.core.SerpicsException;
+import com.serpics.core.security.Realm;
 import com.serpics.core.security.UserDetail;
 
 public interface Membership {
@@ -28,7 +28,7 @@ public interface Membership {
 
     public UserDetail createAnonymous();
 
-    public StoreRealm fetchStoreByName(String storeName);
+    public Realm fetchRealmByName(String name);
 
     public UserDetail connect(Principal principal);
 }

@@ -24,12 +24,12 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.ProductService;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.initialsetup.ImportType;

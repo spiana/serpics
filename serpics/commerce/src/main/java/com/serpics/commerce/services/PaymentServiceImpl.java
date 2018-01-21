@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.commerce.service.AbstractCommerceService;
 import com.serpics.commerce.PaymentException;
 import com.serpics.commerce.PaymentIntent;
 import com.serpics.commerce.PaymentState;
@@ -42,7 +43,6 @@ import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.model.PaymethodlookupPK;
 import com.serpics.commerce.data.repositories.PaymentRepository;
 import com.serpics.commerce.data.repositories.PaymethodlookupRepository;
-import com.serpics.commerce.service.AbstractCommerceService;
 import com.serpics.commerce.strategies.PaymentStrategy;
 
 @Service("paymentService")

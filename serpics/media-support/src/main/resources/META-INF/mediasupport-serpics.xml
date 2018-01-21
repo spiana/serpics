@@ -8,7 +8,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd">
 
-
-  <bean name="mediaStoreUtil" class="com.serpics.mediasupport.utils.MediaStoreUtil" />
+ 
+  <bean name="mediaUtil" class="com.serpics.mediasupport.utils.MediaUtil" >
+  		<property name="mediaPathResolver" ref="mediaPathResolver"/>
+  </bean>
+  
+  <alias name="baseMediaPathResolver" alias="mediaPathResolver"/>
+  <bean name="baseMediaPathResolver" class="com.serpics.mediasupport.utils.MediaPathResolverImpl"/>
   
  </beans>

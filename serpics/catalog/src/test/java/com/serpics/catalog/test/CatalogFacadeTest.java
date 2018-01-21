@@ -32,6 +32,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.facade.BrandFacade;
 import com.serpics.catalog.facade.CategoryFacade;
@@ -42,8 +44,6 @@ import com.serpics.catalog.facade.data.CategoryData;
 import com.serpics.catalog.facade.data.PriceData;
 import com.serpics.catalog.facade.data.ProductData;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 

@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.session;
+package com.serpics.base.commerce.session;
 
 import java.util.Date;
 
@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.core.security.StoreRealm;
+import com.serpics.base.commerce.security.StoreRealm;
 import com.serpics.core.scope.SessionScopeAttributes;
 import com.serpics.core.scope.SessionScopeContextHolder;
 import com.serpics.core.security.Realm;
@@ -44,7 +44,7 @@ public abstract class AbstractCommerceSessionManager extends AbstractSessionMana
     	  
     	  	SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
            final CommerceSessionContext context = new CommerceSessionContext();
-           context.setStoreRealm((StoreRealm)realm);
+           context.setRealm(realm);
            context.setSessionId(sessionId);
            context.setUserCookie(sessionId);
            context.setLastAccess(new Date());

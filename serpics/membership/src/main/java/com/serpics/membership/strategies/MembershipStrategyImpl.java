@@ -21,8 +21,8 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MembershipException;

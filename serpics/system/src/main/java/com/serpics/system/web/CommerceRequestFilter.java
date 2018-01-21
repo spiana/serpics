@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.i18n.data.model.Locale;
 import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.membership.services.BaseService;

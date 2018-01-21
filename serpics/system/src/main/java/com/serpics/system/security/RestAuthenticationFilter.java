@@ -33,8 +33,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.GenericFilterBean;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.system.web.WebCostant;

@@ -41,6 +41,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
 import com.serpics.catalog.data.model.CategoryRelation;
@@ -50,8 +52,6 @@ import com.serpics.catalog.data.repositories.CategoryRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.ProductService;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.importexport.services.ImportCsvService;

@@ -20,9 +20,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import javax.annotation.Resource;
+
 import com.serpics.mediasupport.MediaSupportType;
 import com.serpics.mediasupport.data.model.MediaField;
-import com.serpics.mediasupport.utils.MediaStoreUtil;
+import com.serpics.mediasupport.utils.MediaUtil;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -42,6 +44,9 @@ public class MediaEditForm<T extends MediaField> extends MasterForm<T> {
 	
 	public interface MediaSourceChangeEventListener extends Listener{}
 	
+	@Resource(name= "mediaUtil")
+	MediaUtil mediaUtil;
+	
 	class ImageUploader implements Receiver, SucceededListener {
 	    public File file;
 
@@ -51,7 +56,7 @@ public class MediaEditForm<T extends MediaField> extends MasterForm<T> {
 	        FileOutputStream fos = null; // Stream to write to
 	        try {
 	            // Open the file for writing.
-	            file = new File(MediaStoreUtil.getInstance().getDestinationPath(filename));
+	            file = new File(MediaUtil.getInstance().getDestinationPath(filename));
 	            fos = new FileOutputStream(file);
 	            
 	        } catch (final java.io.FileNotFoundException e) {
@@ -64,7 +69,7 @@ public class MediaEditForm<T extends MediaField> extends MasterForm<T> {
 	    }
 
 	    public void uploadSucceeded(SucceededEvent event) {
-	    	getEntityItem().getItemProperty("source").setValue(MediaStoreUtil.getInstance().getMediaSourcePathFromLocal(file.getAbsolutePath()));
+	    	getEntityItem().getItemProperty("source").setValue(mediaUtil.getMediaSourcePathFromLocal(file.getAbsolutePath()));
 	    	getEntityItem().getItemProperty("contentType").setValue(event.getMIMEType());
 	    	
 	    	fieldGroup.bind(fieldGroup.getField("source"), "source");

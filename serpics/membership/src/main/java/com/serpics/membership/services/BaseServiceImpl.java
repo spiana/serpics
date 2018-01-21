@@ -26,9 +26,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
 import com.serpics.i18n.data.model.Currency;

@@ -23,9 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.membership.services.BaseService;

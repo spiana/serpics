@@ -18,7 +18,7 @@ package com.serpics.scheduler.job;
 
 import org.quartz.JobExecutionContext;
 
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 
 public class TestJob extends AbstractStoreJob {
 

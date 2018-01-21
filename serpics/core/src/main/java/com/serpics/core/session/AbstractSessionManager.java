@@ -47,7 +47,7 @@ public abstract class AbstractSessionManager implements SessionManager {
     	  
     	  	SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
            final SessionContext context = new SessionContext();
-           context.setRealm(realm.getName());
+           context.setRealm(realm);
            context.setSessionId(sessionId);
            context.setLastAccess(new Date());
 

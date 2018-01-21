@@ -14,10 +14,11 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.core;
+package com.serpics.base.commerce.service;
 
-import com.serpics.core.session.SessionContext;
+import com.serpics.base.commerce.session.CommerceSessionContext;
+import com.serpics.core.service.AbstractService;
 
-public class SerpicsEngine extends AbstractEngine<SessionContext>{
+public abstract class AbstractCommerceService extends AbstractService<CommerceSessionContext> {
 
 }

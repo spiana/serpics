@@ -20,7 +20,7 @@ import java.io.File;
 
 import com.serpics.mediasupport.MediaSupportType;
 import com.serpics.mediasupport.data.model.MediaField;
-import com.serpics.mediasupport.utils.MediaStoreUtil;
+import com.serpics.mediasupport.utils.MediaUtil;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.component.MediaEditForm.MediaSourceChangeEventListener;
@@ -116,7 +116,7 @@ public class MediaComponent<T extends MediaField> extends CustomComponent implem
 				}
 			}else{
 				if (source != null){
-					String mediaFilePath = MediaStoreUtil.getInstance().getMediaStorePathFromSource(source);
+					String mediaFilePath = MediaUtil.getInstance().getMediaStorePathFromSource(source);
 					resource = new FileResource(new File(mediaFilePath));
 				}
 			}

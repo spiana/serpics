@@ -14,11 +14,10 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.core;
+package com.serpics.base.commerce.session;
 
-import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.core.Engine;
-
-public interface CommerceEngine extends  Engine<CommerceSessionContext>{
+// default Implementation
+public class CommerceContextSessionManager extends AbstractCommerceSessionManager  {
+	   
 
 }

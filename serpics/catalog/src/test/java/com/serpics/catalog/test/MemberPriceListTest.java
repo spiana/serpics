@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.data.model.MemberPricelistRelation;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
@@ -18,7 +19,6 @@ import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.data.repositories.PriceRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.services.PriceService;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.UserRepository;

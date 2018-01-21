@@ -43,7 +43,7 @@ public class SessionContext implements Serializable {
         this.lastAccess = lastAccess;
     }
 
-    public SessionContext(final Real realm) {
+    public SessionContext(final Realm realm) {
         super();
         this.realm = realm;
 
@@ -53,11 +53,11 @@ public class SessionContext implements Serializable {
         super();
     }
 
-    public String getRealm() {
+    public Realm getRealm() {
         return realm;
     }
 
-    public void setRealm(final String realm) {
+    public void setRealm(final Realm realm) {
         this.realm = realm;
     }
 

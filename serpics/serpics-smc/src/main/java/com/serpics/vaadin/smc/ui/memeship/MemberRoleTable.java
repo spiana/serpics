@@ -18,7 +18,7 @@ package com.serpics.vaadin.smc.ui.memeship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.Role;
 import com.serpics.membership.data.model.User;

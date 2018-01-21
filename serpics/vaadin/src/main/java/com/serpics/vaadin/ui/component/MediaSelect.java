@@ -21,7 +21,7 @@ import java.io.File;
 
 import com.serpics.mediasupport.MediaSupportType;
 import com.serpics.mediasupport.data.model.MediaField;
-import com.serpics.mediasupport.utils.MediaStoreUtil;
+import com.serpics.mediasupport.utils.MediaUtil;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -234,7 +234,7 @@ public class MediaSelect<T extends MediaField> extends CustomField<T> {
 			}else{
 				String source = media.getSource();
 				if (source != null){
-					String mediaFilePath = MediaStoreUtil.getInstance().getMediaStorePathFromSource(source);
+					String mediaFilePath = MediaUtil.getInstance().getMediaStorePathFromSource(source);
 					FileResource resource = new FileResource(new File(mediaFilePath));
 					this.image.setSource(resource);
 					this.image.markAsDirty();

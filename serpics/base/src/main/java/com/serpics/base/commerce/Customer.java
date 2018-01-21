@@ -14,22 +14,9 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.core;
+package com.serpics.base.commerce;
 
-import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.core.AbstractEngine;
-import com.serpics.core.SerpicsException;
 
-public class CommerceEngineImpl  extends AbstractEngine<CommerceSessionContext> implements CommerceEngine{
+public interface Customer {
 
-	
-	@Override
-	protected CommerceSessionContext doConnection(String storeName , String sessionId)
-			throws SerpicsException {
-	
-		CommerceSessionContext context = super.doConnection(storeName , sessionId);
-		context.setCurrency(context.getStoreRealm().getCurrency());
-		return context;
-	}
-	
 }

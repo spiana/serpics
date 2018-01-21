@@ -31,8 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.serpics.base.data.model.Store;
+import com.serpics.base.strategies.AbstractStrategy;
 import com.serpics.catalog.data.model.AbstractProduct;
-import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 import com.serpics.warehouse.InventoryNotAvailableException;
 import com.serpics.warehouse.InventoryStatus;

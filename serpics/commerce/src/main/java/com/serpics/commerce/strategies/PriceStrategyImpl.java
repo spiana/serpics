@@ -18,6 +18,7 @@ package com.serpics.commerce.strategies;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.strategies.AbstractStrategy;
 import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Price;

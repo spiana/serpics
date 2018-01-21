@@ -14,12 +14,11 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.core.security;
+package com.serpics.base.commerce;
 
-import com.serpics.core.data.model.Currency;
-import com.serpics.core.security.Realm;
+import com.serpics.base.commerce.session.CommerceSessionContext;
+import com.serpics.core.Engine;
 
-public interface StoreRealm extends Realm{
-    public Long getId();
-    public Currency getCurrency();
+public interface CommerceEngine extends  Engine<CommerceSessionContext>{
+
 }

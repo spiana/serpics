@@ -14,10 +14,10 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.session;
+package com.serpics.base.commerce.session;
 
-import com.serpics.commerce.core.Customer;
-import com.serpics.commerce.core.security.StoreRealm;
+import com.serpics.base.commerce.Customer;
+import com.serpics.base.commerce.security.StoreRealm;
 import com.serpics.core.data.model.Catalog;
 import com.serpics.core.data.model.Currency;
 import com.serpics.core.data.model.Locale;
@@ -30,7 +30,6 @@ public class CommerceSessionContext extends SessionContext {
     private Customer customer;
     private Currency currency;
     private Locale locale;
- //   private StoreRealm storeRealm;
     private String userCookie;
 
     public CommerceSessionContext() {
@@ -38,21 +37,18 @@ public class CommerceSessionContext extends SessionContext {
     }
 
     public CommerceSessionContext(final StoreRealm realm) {
-        super(realm.getName());
-        this.storeRealm = realm;
-
-    }
+        super(realm);
+       }
 
     public Long getStoreId() {
-        return this.storeRealm.getId();
+        return getStoreRealm().getId();
     }
 
     public StoreRealm getStoreRealm() {
-        return storeRealm;
+        return (StoreRealm) getRealm();
     }
 
     public void setStoreRealm(final StoreRealm storeRealm) {
-        this.storeRealm = storeRealm;
         super.setRealm(storeRealm);
     }
 

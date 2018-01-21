@@ -14,18 +14,10 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.service;
+package com.serpics.core;
 
-import java.io.Serializable;
+import com.serpics.core.session.SessionContext;
 
-import org.springframework.transaction.annotation.Transactional;
-
-import com.serpics.commerce.session.CommerceSessionContext;
-import com.serpics.core.service.AbstractEntityService;
-import com.serpics.core.service.EntityService;
-
-@Transactional(readOnly = true)
-public abstract class AbstractCommerceEntityService<T, ID extends Serializable> extends 
-					AbstractEntityService< T ,ID , CommerceSessionContext>  implements EntityService<T, ID>{
+public class EngineImpl extends AbstractEngine<SessionContext>{
 
 }

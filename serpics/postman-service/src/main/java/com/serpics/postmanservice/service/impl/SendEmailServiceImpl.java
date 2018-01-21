@@ -30,10 +30,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -42,13 +38,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.serpics.base.data.model.Media;
-import com.serpics.mediasupport.utils.MediaStoreUtil;
+import com.serpics.mediasupport.utils.MediaUtil;
 import com.serpics.postman.model.MailState;
 import com.serpics.postman.model.MetaDataMail;
 import com.serpics.postman.repositories.MetaDataMailRepository;
@@ -63,7 +58,7 @@ public class SendEmailServiceImpl implements SendEmailService {
 	private MetaDataMailRepository metaDataMailRepository;
 
 	@Autowired
-	private MediaStoreUtil mediaStoreUtil;
+	private MediaUtil mediaStoreUtil;
 	
 	@Autowired
 	private JavaMailSender javaMail;

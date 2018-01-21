@@ -20,9 +20,9 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.User;

@@ -31,29 +31,27 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Required;
 
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.mediasupport.data.model.MediaField;
 
 /**
  * @author spiana
  *
  */
-public class MediaStoreUtil implements InitializingBean{
+public class MediaUtil implements InitializingBean{
 
-	@Autowired
-	CommerceEngine engine;
+	private MediaPathResolver mediaPathResolver;
 	
-
-	@Value("${media.base.path}")
-	private String baseMediaPath;
+	@Required
+	public void setMediaPathResolver(MediaPathResolver mediaPathResolver) {
+		this.mediaPathResolver = mediaPathResolver;
+	}
+	private static MediaUtil instance;
 	
-	@Value("${media.base.webpath}")
-	private String mediaWebPath ;
-	
-	private static MediaStoreUtil instance ;
+	public static MediaUtil getInstance(){
+		return instance;
+	}
 	
 	/**
 	 * Convert local File path removing baseMediaPath.
@@ -62,14 +60,14 @@ public class MediaStoreUtil implements InitializingBean{
 	 * @return the path to store media Object
 	 */
 	public String getMediaSourcePathFromLocal(String localPath){
-		String returnPath = localPath.replaceFirst(baseMediaPath, "");
+		String returnPath = localPath.replaceFirst(mediaPathResolver.getBaseMediaPath(), "");
 		if (!returnPath.startsWith("/"))
 			returnPath = "/"+returnPath;
 		return returnPath;
 	}
 	 
 	public String getMediaStorePathFromSource(String sourcePath){
-		String returnPath =baseMediaPath;
+		String returnPath =mediaPathResolver.getBaseMediaPath();
 		return FilenameUtils.concat(returnPath, sourcePath.substring(1));
 	}
 	/**
@@ -78,7 +76,6 @@ public class MediaStoreUtil implements InitializingBean{
 	 * @return the complete local path
 	 */
 	public String getDestinationPath(String filePath){
-		String storeId= engine.getCurrentContext().getCatalog().getCode();
 				
 		String[] path = filePath.replace("\\", "/").split("/");
 		String fileName= path[path.length-1];
@@ -93,7 +90,7 @@ public class MediaStoreUtil implements InitializingBean{
 			throw new RuntimeException(e);
 		}
 		
-		String completepath =FilenameUtils.concat(baseMediaPath, storeId.toString());
+		String completepath = mediaPathResolver.getBaseMediaPath();
 		completepath=FilenameUtils.concat(completepath, md5String.substring(0,3).toUpperCase());
 		completepath=FilenameUtils.concat(completepath, md5String.substring(3,6).toUpperCase());
 		
@@ -139,29 +136,11 @@ public class MediaStoreUtil implements InitializingBean{
 			throw new FileNotFoundException(sourceStorePath);
 		}
 	}
-	
-	public static MediaStoreUtil getInstance(){
-		return instance;
-	}
-	/* (non-Javadoc)
-	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
-			instance = this;
-		
+		instance = this;
 	}
-	public String getBaseMediaPath() {
-		return baseMediaPath;
-	}
-	public void setBaseMediaPath(String baseMediaPath) {
-		this.baseMediaPath = baseMediaPath;
-	}
-	public String getMediaWebPath() {
-		return mediaWebPath;
-	}
-	public void setMediaWebPath(String mediaWebPath) {
-		this.mediaWebPath = mediaWebPath;
-	}
+	
+	
 	
 }

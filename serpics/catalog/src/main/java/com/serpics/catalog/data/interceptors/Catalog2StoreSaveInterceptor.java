@@ -18,10 +18,10 @@ package com.serpics.catalog.data.interceptors;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Catalog2StoreRelation;
 import com.serpics.catalog.data.model.Catalog2StoreRelPK;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
 
 public class Catalog2StoreSaveInterceptor  implements SaveInterceptor<Catalog2StoreRelation>{

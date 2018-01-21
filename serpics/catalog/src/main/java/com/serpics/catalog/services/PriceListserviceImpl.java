@@ -27,13 +27,13 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 
+import com.serpics.base.commerce.Customer;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.MemberPricelistRelation;
 import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.MemberPricelistRepository;
 import com.serpics.catalog.data.repositories.PriceListRepository;
-import com.serpics.commerce.core.Customer;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
 import com.serpics.membership.data.model.Member;
 import com.serpics.stereotype.StoreService;

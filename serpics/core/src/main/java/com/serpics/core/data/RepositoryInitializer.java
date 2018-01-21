@@ -32,7 +32,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.core.Engine;
+import com.serpics.core.session.SessionContext;
 import com.serpics.stereotype.DefaultSpec;
 
 
@@ -50,7 +51,7 @@ public class RepositoryInitializer implements InitializingBean , ApplicationCont
 	@SuppressWarnings("unchecked")
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		CommerceEngine engine = applicationContext.getBean(CommerceEngine.class);
+		Engine<SessionContext> engine = (Engine<SessionContext>)applicationContext.getBean("engine");
 		
 		Map<String , Object> specs = applicationContext.getBeansWithAnnotation(DefaultSpec.class);
 		Set<String> keys = specs.keySet();

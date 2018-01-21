@@ -18,24 +18,24 @@ package com.serpics.vaadin.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.Engine;
+import com.serpics.core.session.SessionContext;
 
 public class AbstractComponent {
 
     @Autowired(required = true)
-    private transient CommerceEngine commerceEngine;
+    private transient Engine<SessionContext> commerceEngine;
     
-    public CommerceEngine getCommerceEngine() {
+    public Engine<SessionContext> getCommerceEngine() {
         return commerceEngine;
     }
 
-    public void setCommerceEngine(final CommerceEngine commerceEngine) {
+    public void setCommerceEngine(final Engine<SessionContext> commerceEngine) {
         this.commerceEngine = commerceEngine;
     }
 
 
-    protected CommerceSessionContext getCurrentContext() {
+    protected SessionContext getCurrentContext() {
         return commerceEngine.getCurrentContext();
     }
 

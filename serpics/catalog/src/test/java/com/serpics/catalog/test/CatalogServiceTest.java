@@ -41,7 +41,7 @@ import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.AttributeType;
-import com.serpics.mediasupport.utils.MediaStoreUtil;
+import com.serpics.mediasupport.utils.MediaPathResolver;
 
 @TransactionConfiguration(defaultRollback = true)
 public class CatalogServiceTest extends CatalogBaseTest {
@@ -69,7 +69,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     PriceService priceService;
     
     @Autowired
-    MediaStoreUtil mediaStoreUtil;
+    MediaPathResolver mediaPathResolver;
 
 
  //   @Test
@@ -109,7 +109,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     @Transactional
     @Test
     public void testMediaBasePath(){
-    	Assert.assertEquals("/mediafolder", mediaStoreUtil.getBaseMediaPath());
+    	Assert.assertEquals("/mediafolder", mediaPathResolver.getBaseMediaPath());
     }
 
     @Test

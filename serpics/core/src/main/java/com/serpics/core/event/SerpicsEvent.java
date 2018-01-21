@@ -18,52 +18,30 @@ package com.serpics.core.event;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.serpics.commerce.core.security.StoreRealm;
-import com.serpics.core.data.model.Catalog;
+import com.serpics.core.session.SessionContext;
 
 public abstract class SerpicsEvent extends ApplicationEvent {
 
 	private static final long serialVersionUID = -4819807126083042202L;
 	
-	private String sessionId;
-    private String realm;
-	private StoreRealm storeRealm;
-	private Catalog catalog;
+	private SessionContext context;
+ 
 	
 	public SerpicsEvent(Object source) {
 		super(source);
 	}
 
-	public String getSessionId() {
-		return sessionId;
+
+	public SessionContext getContext() {
+		return context;
 	}
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+
+	public void setContext(SessionContext context) {
+		this.context = context;
 	}
 
-	public String getRealm() {
-		return realm;
-	}
+	
 
-	public void setRealm(String realm) {
-		this.realm = realm;
-	}
-
-	public StoreRealm getStoreRealm() {
-		return storeRealm;
-	}
-
-	public void setStoreRealm(StoreRealm storeRealm) {
-		this.storeRealm = storeRealm;
-	}
-
-	public Catalog getCatalog() {
-		return catalog;
-	}
-
-	public void setCatalog(Catalog catalog) {
-		this.catalog = catalog;
-	}
 	
 }

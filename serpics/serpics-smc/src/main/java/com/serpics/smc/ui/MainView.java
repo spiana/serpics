@@ -31,9 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.services.StoreService;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.UsersReg;

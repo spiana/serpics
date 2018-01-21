@@ -23,8 +23,8 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.Engine;
+import com.serpics.core.session.SessionContext;
 
 @Service("serpicsPublisherEvent")
 public class SerpicsPublisherEvent implements ApplicationEventPublisherAware {
@@ -32,7 +32,7 @@ public class SerpicsPublisherEvent implements ApplicationEventPublisherAware {
 	private ApplicationEventPublisher publisher;
 	
 	@Resource
-	CommerceEngine commerceEngine;
+	Engine<SessionContext> engine;
 	
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher paramApplicationEventPublisher) {
@@ -43,13 +43,10 @@ public class SerpicsPublisherEvent implements ApplicationEventPublisherAware {
 		
 		Assert.notNull(event,"Event object must be passed to mehod");
 		
-		CommerceSessionContext context = commerceEngine.getCurrentContext();
+		SessionContext context = engine.getCurrentContext();
 		Assert.notNull(context,"Current context not found");
 		
-		event.setRealm(context.getRealm());
-		event.setSessionId(context.getSessionId());
-		event.setStoreRealm(context.getStoreRealm());
-		event.setCatalog(context.getCatalog());
+		event.setContext(context);
 		
 		publisher.publishEvent(event);
 	}

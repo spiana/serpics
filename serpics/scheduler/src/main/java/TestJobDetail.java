@@ -2,7 +2,7 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.scheduler.job.AbstractStoreJob;
 
 /*******************************************************************************

@@ -14,9 +14,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
      	<data:repositories base-package="com.serpics.commerce.data.repositories" 
   base-class="com.serpics.core.data.RepositoryImpl"/>
    
-   	<bean name="sessionManager" class="com.serpics.commerce.session.CommerceContextSessionManager" >
-    	<property name="generateSessionIdStrategy" ref="generateSessionIdStrategy"/>
-    </bean>
+<!--    	<bean name="sessionManager" class="com.serpics.commerce.session.CommerceContextSessionManager" > -->
+<!--     	<property name="generateSessionIdStrategy" ref="generateSessionIdStrategy"/> -->
+<!--     </bean> -->
      
      <!-- Default Specification -->
      <bean name="defaultPaymethodlookupSpecification" class="com.serpics.commerce.data.specifications.DefaultPaymethodlookupSpecification"/>

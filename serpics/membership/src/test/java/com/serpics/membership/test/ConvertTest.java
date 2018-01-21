@@ -29,7 +29,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.facade.AbstractPopulatingConverter;

@@ -23,9 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractEntityService;
 import com.serpics.membership.data.model.Member;
 import com.serpics.membership.data.model.MembersRole;

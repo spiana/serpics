@@ -40,8 +40,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.serpics.base.commerce.Customer;
 import com.serpics.base.data.model.Store;
-import com.serpics.commerce.core.Customer;
 import com.serpics.core.security.UserDetail;
 import com.serpics.membership.MemberType;
 import com.serpics.membership.UserType;

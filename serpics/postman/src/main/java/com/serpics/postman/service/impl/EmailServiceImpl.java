@@ -28,8 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.postman.freemarker.DatabaseTemplateStoreLoader;
 import com.serpics.postman.model.MailState;
 import com.serpics.postman.model.MetaDataMail;

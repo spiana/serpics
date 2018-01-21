@@ -14,9 +14,28 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.core;
+package com.serpics.base.strategies;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 
 
-public interface Customer {
+public abstract class AbstractStrategy {
+
+    @Autowired
+    CommerceEngine commerceEngine;
+
+    protected CommerceSessionContext currentContext;
+
+    public CommerceSessionContext getCurrentContext() {
+        return currentContext != null ? currentContext : commerceEngine.getCurrentContext();
+    }
+
+    public void setCurrentContext(final CommerceSessionContext sessionContext) {
+        this.currentContext = (CommerceSessionContext) sessionContext;
+
+    }
 
 }

@@ -26,9 +26,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.commerce.service.AbstractCommerceService;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.commerce.service.AbstractCommerceService;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.Membership;
@@ -72,7 +72,7 @@ public class MembershipServiceImpl extends AbstractCommerceService implements Me
    
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS, isolation = Isolation.READ_UNCOMMITTED)
-    public Store fetchStoreByName(final String name) {
+    public Store fetchRealmByName(final String name) {
         return storeRepository.findByname(name);
     }
 

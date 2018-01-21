@@ -14,28 +14,18 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.commerce.strategies;
+package com.serpics.base.commerce.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.Serializable;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.commerce.session.CommerceSessionContext;
+import com.serpics.core.service.AbstractEntityService;
+import com.serpics.core.service.EntityService;
 
-public abstract class AbstractStrategy {
-
-    @Autowired
-    CommerceEngine commerceEngine;
-
-    protected CommerceSessionContext currentContext;
-
-    public CommerceSessionContext getCurrentContext() {
-        return currentContext != null ? currentContext : commerceEngine.getCurrentContext();
-    }
-
-    public void setCurrentContext(final CommerceSessionContext sessionContext) {
-        this.currentContext = (CommerceSessionContext) sessionContext;
-
-    }
+@Transactional(readOnly = true)
+public abstract class AbstractCommerceEntityService<T, ID extends Serializable> extends 
+					AbstractEntityService< T ,ID , CommerceSessionContext>  implements EntityService<T, ID>{
 
 }

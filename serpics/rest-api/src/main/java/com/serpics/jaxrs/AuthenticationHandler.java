@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.system.web.WebCostant;
 
 public class AuthenticationHandler implements RequestHandler {

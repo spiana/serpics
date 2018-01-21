@@ -28,9 +28,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.i18n.data.model.Currency;
 import com.serpics.i18n.data.repositories.CurrencyRepository;

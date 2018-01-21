@@ -24,7 +24,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.session.SessionContext;
 
 
 public interface Repository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T>  {
@@ -51,7 +51,7 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	public T update(T entity);
     
 	public void setRepositoryIniziatializer(RepositoryInitializer inizializer);
-	public CommerceSessionContext getCurrentContext();
+	public SessionContext getCurrentContext();
 
 	
 	public Class<?> getDomainClass();

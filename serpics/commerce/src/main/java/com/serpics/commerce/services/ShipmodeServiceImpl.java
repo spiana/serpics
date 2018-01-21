@@ -21,10 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.commerce.service.AbstractCommerceService;
 import com.serpics.commerce.ShipmodeException;
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.commerce.data.model.Shipmode;
-import com.serpics.commerce.service.AbstractCommerceService;
 import com.serpics.commerce.strategies.ShipmodeStrategy;
 
 @Service("shipmodeService")
