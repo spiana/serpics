@@ -103,6 +103,9 @@ public class MainView extends CustomComponent {
 	@Resource
 	private StoreService storeService;
 	
+	@Resource
+	private Dashboard dashboard;
+	
 	
 
 	private final TabSheet rightContentTabPanel = new TabSheet();
@@ -275,8 +278,8 @@ public class MainView extends CustomComponent {
 		setSizeFull();
 		
 		// Add dashBoard as first Tab
-		Dashboard d = new Dashboard();
-		rightContentTabPanel.addTab(d, "dashboard");
+		//Dashboard d = new Dashboard();
+		rightContentTabPanel.addTab(dashboard, "dashboard");
 	}
 
 	private com.vaadin.ui.Component createStoreSelect(){
@@ -308,8 +311,8 @@ public class MainView extends CustomComponent {
 					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.SERPICS_SESSION, commerceEngine.getCurrentContext().getSessionId());
 					rightContentTabPanel.removeAllComponents();
 					// Add dashBoard as first Tab
-					Dashboard d = new Dashboard();
-					rightContentTabPanel.addTab(d, "dashboard");
+					//Dashboard d = new Dashboard();
+					rightContentTabPanel.addTab(dashboard, "dashboard");
 					
 	             } catch (SerpicsException e) {
 					// TODO Auto-generated catch block

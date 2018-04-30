@@ -16,6 +16,8 @@
  *******************************************************************************/
 package com.serpics.core.session;
 
+import java.util.Hashtable;
+
 import com.serpics.core.security.Realm;
 
 public interface SessionManager {
@@ -27,4 +29,5 @@ public interface SessionManager {
 	public SessionContext createSessionContext(Realm realm , String sessionId);
 	
 	public void removeSessionContext(String sessionId);
+	public Hashtable<String, SessionContext> getSesssionList();
 }

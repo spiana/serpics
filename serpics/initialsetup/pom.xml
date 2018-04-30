@@ -1,74 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.serpics</groupId>
 	<artifactId>initialsetup</artifactId>
 	<packaging>jar</packaging>
 
 
-<build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.0</version>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-        </configuration>
-      </plugin>
-       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-		<version>${surefire-plugin.version}</version>
-     	
-	     <configuration>
-	        <!-- 
-	       <parallel>methods</parallel>
-	   		<threadCount>5</threadCount>
-	   		      -->
-	   		<useSystemClassLoader>false</useSystemClassLoader> 
-	     </configuration>
- 
-        <executions>
-          <execution>
-            <id>default-test</id>
-            <phase>test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.4.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <mainClass>com.serpics.initialsetup.Application</mainClass>
-          		<arguments>
-            		<argument>ALL</argument>
-            	</arguments>
-           <useSystemClassLoader>false</useSystemClassLoader> 
-        </configuration>
-      </plugin>
-      
-    </plugins>
-    
-  </build>
-  <parent>
-  	<groupId>com.serpics</groupId>
-  	<artifactId>serpics</artifactId>
-  	<version>1.1-SNAPSHOT</version>
-  </parent>
-  <dependencies>	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire-plugin.version}</version>
+
+				<configuration>
+					<!-- <parallel>methods</parallel> <threadCount>5</threadCount> -->
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>com.serpics.initialsetup.Application</mainClass>
+					<arguments>
+						<argument>ALL</argument>
+					</arguments>
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+	<parent>
+		<groupId>com.serpics</groupId>
+		<artifactId>serpics</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -76,10 +74,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-	<groupId>commons-collections</groupId>
-	<artifactId>commons-collections</artifactId>
-	<version>3.2.2</version>
-</dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.serpics</groupId>
 			<artifactId>import-export</artifactId>
@@ -90,57 +87,57 @@
 			<artifactId>catalog</artifactId>
 			<version>${serpics.version}</version>
 		</dependency>
-  </dependencies>
-  
-  
-  <profiles>
-	<profile>
-		<id>initAll</id>
-		<build>
-			<plugins>
-			  <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-        		<artifactId>exec-maven-plugin</artifactId>
-				<configuration>
-          		<arguments>
-            		<argument>ALL</argument>
-            	</arguments>
-        		</configuration>
-			  </plugin>
-			</plugins>
-		</build>
-	</profile>
-	<profile>
-		<id>initSample</id>
-		<build>
-			<plugins>
-			  <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-        		<artifactId>exec-maven-plugin</artifactId>
-				<configuration>
-          		<arguments>
-            		<argument>SAMPLE</argument>
-            	</arguments>
-        		</configuration>
-			  </plugin>
-			</plugins>
-		</build>
-	</profile>
-	<profile>
-		<id>initProject</id>
-		<build>
-			<plugins>
-			  <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-        		<artifactId>exec-maven-plugin</artifactId>
-				<configuration>
-          		<arguments>
-            		<argument>PROJECT</argument>
-            	</arguments>
-        		</configuration>
-			  </plugin>
-			</plugins>
-		</build>
-	</profile>
-  </profiles>
+	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>initAll</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<arguments>
+								<argument>ALL</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>initSample</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<arguments>
+								<argument>SAMPLE</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>initProject</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<arguments>
+								<argument>PROJECT</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

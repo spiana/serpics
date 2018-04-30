@@ -2,18 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-		
+
 	<artifactId>serpics-standalone</artifactId>
 	<packaging>war</packaging>
 	<name>standalone</name>
-	
-  <parent>
-  	<groupId>com.serpics</groupId>
-  	<artifactId>serpics</artifactId>
-  	<version>1.1-SNAPSHOT</version>
-  </parent>
-  
-  
+
+	<parent>
+		<groupId>com.serpics</groupId>
+		<artifactId>serpics</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,18 +36,18 @@
 			</snapshots>
 		</repository>
 	</repositories>
-<!-- 	<pluginRepositories> -->
-<!-- 		<pluginRepository> -->
-<!-- 			<id>vaadin-snapshots</id> -->
-<!-- 			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url> -->
-<!-- 			<releases> -->
-<!-- 				<enabled>false</enabled> -->
-<!-- 			</releases> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>true</enabled> -->
-<!-- 			</snapshots> -->
-<!-- 		</pluginRepository> -->
-<!-- 	</pluginRepositories> -->
+	<!-- <pluginRepositories> -->
+	<!-- <pluginRepository> -->
+	<!-- <id>vaadin-snapshots</id> -->
+	<!-- <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url> -->
+	<!-- <releases> -->
+	<!-- <enabled>false</enabled> -->
+	<!-- </releases> -->
+	<!-- <snapshots> -->
+	<!-- <enabled>true</enabled> -->
+	<!-- </snapshots> -->
+	<!-- </pluginRepository> -->
+	<!-- </pluginRepositories> -->
 
 
 
@@ -66,21 +66,12 @@
 			<artifactId>vaadin-client-compiled</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
-		<!--
-		  Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory).
-		  
-		  For widgetset compilation, vaadin-client-compiler is automatically added on the
-		  compilation classpath by vaadin-maven-plugin so normally there is no need for an
-		  explicit dependency.
-		-->
-		<!--
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client-compiler</artifactId>
-			<version>${vaadin.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		-->
+		<!-- Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory). 
+			For widgetset compilation, vaadin-client-compiler is automatically added 
+			on the compilation classpath by vaadin-maven-plugin so normally there is 
+			no need for an explicit dependency. -->
+		<!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-client-compiler</artifactId> 
+			<version>${vaadin.version}</version> <scope>provided</scope> </dependency> -->
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-client</artifactId>
@@ -97,53 +88,46 @@
 			<artifactId>vaadin-themes</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 		   <groupId>org.vaadin.addons</groupId> -->
-<!-- 		   <artifactId>jain-i18N</artifactId> -->
-<!-- 		   <version>1.1.5</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		   <groupId>de.steinwedel.vaadin.addon</groupId> -->
-<!-- 		   <artifactId>messagebox</artifactId> -->
-<!-- 		   <version>2.0.6</version> -->
-<!-- 		</dependency> -->
-		<!-- 
-		<dependency>
-		   <groupId>com.vaadin.addon</groupId>
-		   <artifactId>beanvalidation-addon</artifactId>
-		   <version>1.0.0</version>
-		</dependency>
-		 -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.vaadin.addons</groupId> -->
+		<!-- <artifactId>jain-i18N</artifactId> -->
+		<!-- <version>1.1.5</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>de.steinwedel.vaadin.addon</groupId> -->
+		<!-- <artifactId>messagebox</artifactId> -->
+		<!-- <version>2.0.6</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> <groupId>com.vaadin.addon</groupId> <artifactId>beanvalidation-addon</artifactId> 
+			<version>1.0.0</version> </dependency> -->
 
 
-		
-		
+
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-<!-- 		<dependency> -->
-<!--         	<groupId>ru.xpoft.vaadin</groupId> -->
-<!--         	<artifactId>spring-vaadin-integration</artifactId> -->
-<!--         	<version>1.7.3</version> -->
-<!--     	</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>ru.xpoft.vaadin</groupId> -->
+		<!-- <artifactId>spring-vaadin-integration</artifactId> -->
+		<!-- <version>1.7.3</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.6.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.6</version>
 		</dependency>
-<!-- 	<dependency> -->
-<!--    <groupId>com.vaadin.addon</groupId> -->
-<!--    <artifactId>jpacontainer</artifactId> -->
-<!--    <version>3.2.0</version> -->
-<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.vaadin.addon</groupId> -->
+		<!-- <artifactId>jpacontainer</artifactId> -->
+		<!-- <version>3.2.0</version> -->
+		<!-- </dependency> -->
 
 
 		<dependency>
@@ -160,16 +144,15 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.vaadin.spring</groupId> -->
-<!-- 			<artifactId>spring-vaadin</artifactId> -->
-<!-- 			<version>0.0.4.RELEASE</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.vaadin.spring</groupId> -->
+		<!-- <artifactId>spring-vaadin</artifactId> -->
+		<!-- <version>0.0.4.RELEASE</version> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 

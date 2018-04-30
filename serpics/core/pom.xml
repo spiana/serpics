@@ -10,96 +10,96 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>${spring-version}</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>${spring-version}</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
+			
 		</dependency>
 				<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
+			
 		</dependency>
 
 
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.0</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.38</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.6.6</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.2.8</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${spring-version}</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>1.9.0.RELEASE</version>
+			
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>com.mysema.querydsl</groupId> -->
 		<!-- <artifactId>querydsl-apt</artifactId> -->
-		<!-- <version>1.8.2</version> -->
+		<!--  -->
 		<!-- <scope>provided</scope> -->
 		<!-- </dependency> -->
 		<!-- <dependency> -->
 		<!-- <groupId>com.mysema.querydsl</groupId> -->
 		<!-- <artifactId>querydsl-hql</artifactId> -->
-		<!-- <version>1.8.2</version> -->
+		<!--  -->
 		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.6</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>tv.cntt</groupId>
 			<artifactId>annovention</artifactId>
-			<version>1.7</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>${spring-version}</version>
+			
 		</dependency>
 
 
@@ -108,7 +108,7 @@
 		<dependency>
 			<groupId>javax.xml</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>${jaxb.version}</version>
+			
 		</dependency>
 		<dependency>
 		<groupId>org.hibernate</groupId>
@@ -118,23 +118,23 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>1.1.0.Final</version>
+			
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>com.serpics</groupId> -->
 		<!-- <artifactId>core-junit</artifactId> -->
-		<!-- <version>${serpics.version}</version> -->
+		<!--  -->
 		<!-- <scope>test</scope> -->
 		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
+			
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.10</version>
+			
 		</dependency>
 
 		
@@ -142,7 +142,7 @@
 <dependency>
 	<groupId>com.fasterxml.jackson.core</groupId>
 	<artifactId>jackson-annotations</artifactId>
-	<version>${fasterxml-version}</version>
+	
 </dependency>
 	</dependencies>
 

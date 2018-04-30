@@ -15,9 +15,6 @@
 	<module>paypal</module> 
 	<module>postman</module> 
 	<module>postman-service</module> 
-	<module>b2bcatalog</module>
-	<module>test-module</module>
-
 	<module>admin</module>
 
 </modules>

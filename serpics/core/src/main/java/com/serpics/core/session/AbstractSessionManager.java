@@ -94,6 +94,11 @@ public abstract class AbstractSessionManager implements SessionManager {
     }
     
     @Override
+    public Hashtable<String, SessionContext> getSesssionList() {
+    	return sessionList;
+    }
+    
+    @Override
     public void putSessionContext(String sessionId, SessionContext context) {
     	sessionList.put(sessionId, context);
     }
