@@ -23,7 +23,6 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.AvailableforType;
@@ -43,7 +42,6 @@ import com.serpics.core.SerpicsException;
 import com.serpics.core.datatype.AttributeType;
 import com.serpics.mediasupport.utils.MediaPathResolver;
 
-@TransactionConfiguration(defaultRollback = true)
 public class CatalogServiceTest extends CatalogBaseTest {
 
     @Resource

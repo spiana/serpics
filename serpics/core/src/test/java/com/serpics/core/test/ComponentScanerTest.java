@@ -22,9 +22,9 @@ public class ComponentScanerTest {
 
 	@Test	
 	public void testComponentScanner(){
-//		StoreComponentScannerPostProcessor sc = new StoreComponentScannerPostProcessor();
+		//StoreComponentScannerPostProcessor sc = new StoreComponentScannerPostProcessor();
 		
-	//	sc.testComponentScanner();
+		//sc.testComponentScanner();
 		
 	}
 }

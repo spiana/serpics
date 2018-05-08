@@ -71,7 +71,7 @@ public abstract class Media extends AbstractEntity implements MediaField{
   
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "description_string_id")
-    private final MultilingualString description = new MultilingualString();
+    private MultilingualString description = new MultilingualString();
 
     public Media() {
     	type = MediaSupportType.REMOTE;

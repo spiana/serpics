@@ -31,7 +31,7 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	
 	@SuppressWarnings("hiding")
 	public <T> Specification<T> makeSpecification(final T example);
-//	public T findOne(Specification<T> spec , final Sort sort , int index );
+	public T findOne(ID id);
 	public T refresh(T entity);
 	
 	public void detach(final T entity);

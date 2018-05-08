@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 import com.serpics.test.ExecutionTestListener;
@@ -32,7 +31,6 @@ import com.serpics.test.ExecutionTestListener;
 	"classpath:META-INF/importexport-serpics.xml", "classpath:META-INF/scheduler-serpics.xml",
 	"classpath:META-INF/postman-serpics.xml" })
 @TestExecutionListeners({ ExecutionTestListener.class})
-@TransactionConfiguration(defaultRollback = true )
 public class EmailServiceTest extends AbstractTransactionalJunit4SerpicTest{
 	
 	@Test

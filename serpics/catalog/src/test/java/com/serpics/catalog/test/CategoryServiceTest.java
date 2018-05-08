@@ -21,7 +21,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.catalog.data.model.Catalog;
@@ -32,7 +31,6 @@ import com.serpics.i18n.data.model.Locale;
 import com.serpics.i18n.data.model.MultilingualText;
 import com.serpics.i18n.data.repositories.LocaleRepository;
 
-@TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class CategoryServiceTest extends CatalogBaseTest {
 

@@ -3,8 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>serpics-paypal</artifactId>
+	<artifactId>elastichsearch</artifactId>
 	<packaging>jar</packaging>
+	<groupId>com.serpics</groupId>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -35,32 +37,51 @@
 					</execution>
 				</executions>
 			</plugin>
+
+
+
 		</plugins>
 
 	</build>
+
+
+	<version>1.1-SNAPSHOT</version>
 	<parent>
 		<groupId>com.serpics</groupId>
 		<artifactId>serpics</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
+	<repositories>
+		<repository>
+			<id>spring-libs-release</id>
+			<name>Spring Releases</name>
+			<url>https://repo.spring.io/libs-release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
+			<version>4.11</version>
 		</dependency>
 		<dependency>
-		  <groupId>com.paypal.sdk</groupId>
-		  <artifactId>rest-api-sdk</artifactId>
-		  <version>${paypal-version}</version>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-elasticsearch</artifactId>
+			<version>3.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>com.serpics</groupId>
-			<artifactId>commerce</artifactId>
-			<version>${serpics.version}</version>
+			<artifactId>catalog</artifactId>
+			<version>1.1-SNAPSHOT</version>
 		</dependency>
-  </dependencies>
-  <properties>
-  	<paypal-version>1.4.1</paypal-version>
-  </properties>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>initialsetup</artifactId>
+			<version>1.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 </project>

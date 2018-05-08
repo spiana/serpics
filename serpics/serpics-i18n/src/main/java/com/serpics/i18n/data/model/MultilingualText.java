@@ -44,7 +44,7 @@ public class MultilingualText extends MultilingualField<LocalizedText>implements
     @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "locale")
     @CollectionTable(name = "locale_text_map", joinColumns = @JoinColumn(name = "string_id"))
-    private final Map<String,LocalizedText> map = new HashMap<String, LocalizedText>();
+    private Map<String,LocalizedText> map = new HashMap<String, LocalizedText>();
 
     public MultilingualText() {
     }

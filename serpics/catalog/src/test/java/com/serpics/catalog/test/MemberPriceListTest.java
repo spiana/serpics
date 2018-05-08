@@ -3,7 +3,6 @@ package com.serpics.catalog.test;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,7 +43,7 @@ public class MemberPriceListTest extends CatalogBaseTest{
 	PriceService priceService;
 	
 	@Test
-	@Transactional
+	@org.springframework.transaction.annotation.Transactional
 	public void test1() throws SerpicsException{
 		CommerceSessionContext context = commerceEngine.getCurrentContext();
 		

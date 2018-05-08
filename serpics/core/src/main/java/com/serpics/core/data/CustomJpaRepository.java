@@ -134,6 +134,7 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 		return entity;
 	}
 
+	
 	protected TypedQuery<T> getQuery(Specification<T> spec, Sort sort) {
 		return super.getQuery(getMergedSpecification(spec), sort);
 	}

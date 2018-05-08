@@ -27,7 +27,6 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.commerce.session.CommerceSessionContext;
@@ -55,7 +54,6 @@ import com.serpics.scheduler.service.SchedulerService;
 	"classpath:META-INF/base-serpics.xml", "classpath:META-INF/membership-serpics.xml",
 		"classpath:META-INF/catalog-serpics.xml", "classpath:META-INF/warehouse-serpics.xml",
 		"classpath:META-INF/importexport-serpics.xml", "classpath:META-INF/scheduler-serpics.xml" })
-@TransactionConfiguration(defaultRollback = true )
 public class TestScheduler extends AbstractJUnit4SpringContextTests {
 	
 	@Autowired

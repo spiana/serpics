@@ -89,11 +89,11 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
 
     // bi-directional many-to-one association to CtentryAttribute
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
-    protected Set<CtentryAttribute> ctentryAttributes;
+    private Set<CtentryAttribute> ctentryAttributes;
 
     // bi-directional many-to-one association to Media
    @OneToMany(mappedBy="ctentry" , fetch = FetchType.LAZY, cascade= CascadeType.REMOVE)
-   protected Set<CtentryMedia> medias;
+   private Set<CtentryMedia> medias;
 
    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
    @JoinColumn(name = "meta_description")

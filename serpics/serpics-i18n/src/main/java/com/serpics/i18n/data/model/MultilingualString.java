@@ -45,7 +45,7 @@ public class MultilingualString extends MultilingualField<LocalizedString> imple
     @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "locale")
     @CollectionTable(name = "locale_string_map", joinColumns = @JoinColumn(name = "string_id"))
-    private final Map<String, LocalizedString> map = new HashMap<String, LocalizedString>();
+    private Map<String, LocalizedString> map = new HashMap<String, LocalizedString>();
 
     public MultilingualString() {
     }

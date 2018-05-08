@@ -17,6 +17,7 @@
 package com.serpics.gae.session;
 
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
@@ -99,6 +100,12 @@ public class GaeContextSessionManager implements
 	public void afterPropertiesSet() throws Exception {
 		this.mcs =MemcacheServiceFactory.getMemcacheService();
 		
+	}
+
+	@Override
+	public Hashtable<String, SessionContext> getSesssionList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

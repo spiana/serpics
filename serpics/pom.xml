@@ -25,14 +25,15 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<serpics.version>1.1-SNAPSHOT</serpics.version>
-		<spring-version>4.1.7.RELEASE</spring-version>
+		<spring-version>4.3.6.RELEASE</spring-version>
 		<cxf.version>2.7.2</cxf.version>
 		<jackson.version>1.9.11</jackson.version>
 		<jaxb.version>2.1</jaxb.version>
-		<fasterxml-version>2.1.0</fasterxml-version>
+		<fasterxml-version>2.7.3</fasterxml-version>
 		<surefire-plugin.version>2.18</surefire-plugin.version>
-		<hibernate.version>4.3.11.Final</hibernate.version>
-		<spring.security>4.0.2.RELEASE</spring.security>
+		<hibernate.version>5.2.17.Final</hibernate.version>
+		<spring.security>4.2.3.RELEASE</spring.security>
+		<vaadin.version>7.4.0</vaadin.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -67,8 +68,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -142,6 +143,8 @@
 
 		<module>serpics-i18n</module>
 		<module>media-support</module>
+		<module>elastichsearch</module>
+
 	</modules>
 
 	<version>1.1-SNAPSHOT</version>
@@ -150,7 +153,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>4.3.1.Final</version>
+				<version>5.0.3.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -166,19 +169,24 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.jboss.logging</groupId>
+						<artifactId>jboss-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>${hibernate.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.jboss.logging</groupId>
+						<artifactId>jboss-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-				<version>${hibernate.version}</version>
-			</dependency>
-
-
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
@@ -207,7 +215,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.11</version>
+				<version>4.12</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -218,23 +226,12 @@
 			<dependency>
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-jpa</artifactId>
-				<version>1.9.0.RELEASE</version>
+				<version>1.11.11.RELEASE</version>
 			</dependency>
-			<!-- <dependency> -->
-			<!-- <groupId>com.mysema.querydsl</groupId> -->
-			<!-- <artifactId>querydsl-apt</artifactId> -->
-			<!-- <version>1.8.2</version> -->
-			<!-- <scope>provided</scope> -->
-			<!-- </dependency> -->
-			<!-- <dependency> -->
-			<!-- <groupId>com.mysema.querydsl</groupId> -->
-			<!-- <artifactId>querydsl-hql</artifactId> -->
-			<!-- <version>1.8.2</version> -->
-			<!-- </dependency> -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.6.6</version>
+				<version>1.7.25</version>
 			</dependency>
 			<dependency>
 				<groupId>tv.cntt</groupId>
@@ -254,7 +251,6 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-
 			</dependency>
 			<dependency>
 				<groupId>javax.validation</groupId>
@@ -277,7 +273,6 @@
 				<artifactId>commons-codec</artifactId>
 				<version>1.10</version>
 			</dependency>
-
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-annotations</artifactId>

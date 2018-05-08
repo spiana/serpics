@@ -88,7 +88,7 @@ public class ProductTable extends MasterTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"productType","name","description","buyable","status", "featureModel" , "brand" ,"primaryImage", "medias" , "weight" , "weightMeas", "taxcategory","created", "updated"});
+                setDisplayProperties(new String[]{"code" ,"productType","name","description","buyable","status", "featureModel", "medias" , "brand" ,"primaryImage",  "weight" , "weightMeas", "taxcategory","created", "updated"});
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
             }
             

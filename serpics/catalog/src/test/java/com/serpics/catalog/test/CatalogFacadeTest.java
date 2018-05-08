@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.commerce.CommerceEngine;
@@ -48,7 +47,6 @@ import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 
 
-@TransactionConfiguration(defaultRollback = true)
 public class CatalogFacadeTest  extends CatalogBaseTest{
 	Logger log = LoggerFactory.getLogger(CatalogFacadeTest.class);
 	@Resource

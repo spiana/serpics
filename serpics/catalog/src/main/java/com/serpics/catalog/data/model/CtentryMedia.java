@@ -33,7 +33,7 @@ public class CtentryMedia extends Media{
 
 	@ManyToOne(optional = false  )
     @JoinColumn(name = "catalog_id" )
-    protected Catalog catalog;
+    private Catalog catalog;
 
 	public Catalog getCatalog() {
 		return catalog;
