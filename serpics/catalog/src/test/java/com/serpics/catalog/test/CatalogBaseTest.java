@@ -22,6 +22,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.commerce.session.CommerceSessionContext;
@@ -34,6 +35,7 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 @ContextConfiguration({ "classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml" , "classpath:META-INF/base-serpics.xml" , 
 	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 @Ignore
 public abstract class CatalogBaseTest extends AbstractTransactionalJunit4SerpicTest {
 

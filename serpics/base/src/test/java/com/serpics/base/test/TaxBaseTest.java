@@ -113,6 +113,8 @@ public class TaxBaseTest extends AbstractTransactionalJunit4SerpicTest {
 			t1.setStore(s);
 			taxRepository.save(t1);
 			
+		Assert.assertEquals(1, taxRepository.count());
+			
 	}
 
 	@Transactional

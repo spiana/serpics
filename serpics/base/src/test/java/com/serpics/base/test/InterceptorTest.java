@@ -36,6 +36,7 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 @ContextConfiguration({ 
 	"classpath:META-INF/i18n-serpics.xml",
+	"classpath:META-INF/mediasupport-serpics.xml",
 	"classpath:META-INF/base-serpics.xml",
 	"classpath:META-INF/base-serpics-test.xml"})
 @SerpicsTest("default-store")

@@ -40,7 +40,7 @@ import com.serpics.membership.services.BaseService;
 import com.serpics.stereotype.SerpicsTest;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/postman-serpics.xml" ,"classpath:META-INF/membership-serpics.xml"})
+@ContextConfiguration({"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml","classpath:META-INF/base-serpics.xml" , "classpath:META-INF/postman-serpics.xml" ,"classpath:META-INF/membership-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @SerpicsTest("defualt-store")
@@ -89,7 +89,7 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 		
 		createStore();
 		
-		ce.connect("test-store");
+		ce.connect("test-store1");
 		UsersReg u1 = new UsersReg();
 		u1.setFirstname("firstname");
 		u1.setLastname("lastname");
@@ -106,7 +106,7 @@ public class RepositoryTest extends AbstractTransactionalJunit4SerpicTest {
 		example.setIsoCode("EUR");
 		Currency c = currencyRepository.findOne(currencyRepository.makeSpecification(example));
 		Store _s = new Store();
-		_s.setName("test-store");
+		_s.setName("test-store1");
 		_s.setCurrency(c);
 		storeRepository.saveAndFlush(_s);
 	}

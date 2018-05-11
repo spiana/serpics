@@ -31,8 +31,8 @@
 		<jaxb.version>2.1</jaxb.version>
 		<fasterxml-version>2.7.3</fasterxml-version>
 		<surefire-plugin.version>2.18</surefire-plugin.version>
-		<hibernate.version>5.2.17.Final</hibernate.version>
-		<spring.security>4.2.3.RELEASE</spring.security>
+		<hibernate.version>5.2.13.Final</hibernate.version>
+		<spring.security>4.2.5.RELEASE</spring.security>
 		<vaadin.version>7.4.0</vaadin.version>
 	</properties>
 	<repositories>
@@ -200,7 +200,7 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.6.6</version>
+				<version>1.7.25</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hsqldb</groupId>

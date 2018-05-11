@@ -64,8 +64,7 @@ public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaReposi
     @Override
     public void detach(final Z entity) {
         entityManager.detach(entity);
-
-    }
+     }
 
     @Override
     public Class<Z> getDomainClass() {

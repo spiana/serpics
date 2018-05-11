@@ -32,10 +32,11 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional(readOnly = true , isolation = Isolation.DEFAULT)
 public class CustomJpaRepository<T, ID extends Serializable> extends
 		SimpleJpaRepository<T, ID>  implements JpaSpecificationExecutor<T>, SerpicsJpaRepository {
 
@@ -65,7 +66,7 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 		return super.getCountQuery(getMergedSpecification(spec));
 	 }
 	 
-	 private Specification<T> getMergedSpecification(Specification<T> spec) {
+	 private <S extends T> Specification<S> getMergedSpecification(Specification<S> spec) {
 		 
 		 List<Specification> defaultSpecs = initializer
 					.getSpecificationForClass(getDomainClass());
@@ -85,7 +86,7 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 					if (defaultSpecs.size() == 1){
 						if (LOG.isDebugEnabled())
 							LOG.debug("applied specification {} !" , defaultSpecs.get(0).getClass().getName());
-						spec = defaultSpecs.get(0);
+						spec = Specifications.where(defaultSpecs.get(0));
 						
 					}else{
 						if (LOG.isDebugEnabled())
@@ -135,8 +136,10 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 	}
 
 	
-	protected TypedQuery<T> getQuery(Specification<T> spec, Sort sort) {
-		return super.getQuery(getMergedSpecification(spec), sort);
+	@Override
+	protected  <S extends T> TypedQuery<S> getQuery(Specification<S> spec, Class<S> domainClass, Sort sort) {
+		return super.getQuery(getMergedSpecification(spec), domainClass, sort);
 	}
+	
 	
 }

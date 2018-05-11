@@ -25,7 +25,8 @@
 	 	<csrf disabled="true"/>
 	 	<intercept-url pattern="/resources/**" access="permitAll" />
 	 	<intercept-url pattern="/login" access="permitAll" />
-		<intercept-url pattern="/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
+<!-- 	 	<intercept-url pattern="/**" access="permitAll" /> -->
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER' , 'ROLE_ADMINISTRATOR')" />
 		
 	
 		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page="/login"  username-parameter="ssoId" password-parameter="password" />

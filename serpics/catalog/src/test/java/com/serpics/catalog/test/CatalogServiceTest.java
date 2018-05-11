@@ -107,7 +107,9 @@ public class CatalogServiceTest extends CatalogBaseTest {
     @Transactional
     @Test
     public void testMediaBasePath(){
-    	Assert.assertEquals("/mediafolder", mediaPathResolver.getBaseMediaPath());
+    	
+    	Catalog catalog = (Catalog)commerceEngine.getCurrentContext().getCatalog();
+    	Assert.assertEquals("/mediafolder/"+String.valueOf(catalog.getId()), mediaPathResolver.getBaseMediaPath());
     }
 
     @Test

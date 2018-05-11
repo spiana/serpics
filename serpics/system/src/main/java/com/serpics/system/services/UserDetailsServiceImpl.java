@@ -16,6 +16,7 @@
  *******************************************************************************/
 package com.serpics.system.services;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -100,6 +101,7 @@ public class UserDetailsServiceImpl extends AbstractService<CommerceSessionConte
         if(reg.getUserType() ==  UserType.SUPERSUSER){
         	authorities.add(new SimpleGrantedAuthority("ROLE_SUPERUSER"));	
         }
+        
         
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 authentication.getPrincipal(), authentication.getCredentials(),
