@@ -1,0 +1,82 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+  xmlns:cxf="http://cxf.apache.org/core"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+
+ <bean id="commerceFilter" class="com.serpics.system.web.CommerceRequestFilter"/>
+ 
+  <import resource="classpath:META-INF/cxf/cxf.xml" />
+
+  <context:property-placeholder/>
+  <context:annotation-config/>
+  <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer"/>
+<!--   <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/> -->
+
+	<bean class="com.serpics.jaxrs.utils.RestServiceUtils"/>
+	
+   <bean name="mapper" class="com.serpics.jaxrs.JaxbMapper"/>
+
+   <jaxrs:server id="services" address="/v1/">
+ 	 
+ 	 <jaxrs:features>
+    	 <cxf:logging/>
+	</jaxrs:features>
+    <jaxrs:serviceBeans>
+      <bean class="com.serpics.jaxrs.CustomerServiceImpl" />
+      <bean class="com.serpics.jaxrs.TestRestServiceImpl"/>
+      <bean class="com.serpics.jaxrs.CartRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.ProductRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.CategoryRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.BrandRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.OrderRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.GeographicRestServiceImpl" />
+      <bean class="com.serpics.jaxrs.InventoryRestServiceImpl" />
+    </jaxrs:serviceBeans>
+   
+   
+  <jaxrs:extensionMappings>
+  	<entry key="json" value="application/json"/>
+  </jaxrs:extensionMappings>
+   <jaxrs:providers>
+ 	  	<bean class="com.serpics.jaxrs.AuthenticationHandler" />
+<!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
+<!--        <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/> -->
+       <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+      		 <property name="mapper" ref="mapper"/>
+       </bean>
+    </jaxrs:providers>
+    </jaxrs:server>
+
+	<jaxrs:server id="auth" address="/v1/auth">
+ 	 <jaxrs:features>
+    	 <cxf:logging/>
+	</jaxrs:features>
+    <jaxrs:serviceBeans>
+   	   <bean class="com.serpics.jaxrs.AuthenticationServiceImpl" />
+    </jaxrs:serviceBeans>
+   
+   
+  <jaxrs:extensionMappings>
+  	<entry key="json" value="application/json"/>
+  </jaxrs:extensionMappings>
+   <jaxrs:providers>
+<!--  	  	<bean class="com.serpics.jaxrs.AuthenticationHandler" /> -->
+<!--  	  	<bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/> -->
+       <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" >
+       	 <property name="mapper" ref="mapper"/>
+       	</bean> 
+    </jaxrs:providers>
+    </jaxrs:server>
+
+</beans>

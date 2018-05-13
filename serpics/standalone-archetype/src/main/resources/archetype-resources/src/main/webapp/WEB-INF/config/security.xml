@@ -1,0 +1,57 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http realm="admin" auto-config="true" pattern="/admin/**" security-context-repository-ref="securityContextRepositoryAdmin">
+	 	<csrf disabled="true"/>
+	 	<intercept-url pattern="/admin/login/**" access="permitAll" />
+	 	 <intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/admin/smc/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
+		<intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
+		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page="/admin/login"  username-parameter="ssoId" password-parameter="password" 
+		 login-processing-url="/admin/login"  />
+		<logout invalidate-session="true" logout-url="/admin/logout" />	
+	</http>
+
+	  
+	<http realm="Protected API" use-expressions="true" auto-config="true" pattern="/api/**"
+		 entry-point-ref="restAuthenticationEntryPoint" security-context-repository-ref="securityContextRepositoryFrontend">
+		<custom-filter ref="authenticationProcessingFilter" before="BASIC_AUTH_FILTER" />
+		<intercept-url pattern="/auth/connect/**" access="permitAll" />
+		<intercept-url pattern="/customerService/login**" access="isAnonymous() or isAuthenticated()" />
+		<intercept-url pattern="/**" access="permitAll" />
+		<csrf disabled="true" />
+		
+	</http> 
+	
+	<http pattern="/**" security="none" />
+	
+	<beans:bean id="securityContextRepositoryAdmin" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository">
+	  <beans:property name="allowSessionCreation" value="true" />
+	  <beans:property name="springSecurityContextKey" value="ADMIN_SPRING_SECURITY_CONTEXT" />
+	</beans:bean>
+
+	<beans:bean id="securityContextRepositoryFrontend" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository">
+	  <beans:property name="allowSessionCreation" value="true" />
+	  <beans:property name="springSecurityContextKey" value="FRONTEND_SPRING_SECURITY_CONTEXT" />
+	</beans:bean>
+	
+	<beans:bean id="restAuthenticationEntryPoint" class="com.serpics.system.security.RestAuthenticationEntryPoint" />
+	<beans:bean id="authenticationProcessingFilter" class="com.serpics.system.security.RestAuthenticationFilter"/>
+	<beans:bean id ="userDetailsService" class="com.serpics.system.services.UserDetailsServiceImpl"/>
+	
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailsService" />
+	</authentication-manager>
+
+  <beans:bean id="successAuthenticationHandler" class="com.serpics.system.security.AuthenticationHandler">
+ 	 <beans:property name="redirectURL" value="/admin/smc" />
+  </beans:bean> 
+  
+</beans:beans>
