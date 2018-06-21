@@ -35,15 +35,15 @@ import com.serpics.vaadin.ui.component.CustomFieldFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
-import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.UI;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.data.fieldgroup.FieldGroupFieldFactory;
+import com.vaadin.v7.data.validator.BeanValidator;
+import com.vaadin.v7.ui.Field;
 
 public abstract class MasterForm<T> extends FormLayout implements EntityFormComponent<T> {
 	private static final long serialVersionUID = -7816433625437405000L;
@@ -57,14 +57,13 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 	private final Set<String> hideProperties = new HashSet<String>(0);
 	private Set<String> readOnlyProperties ;
 	protected EntityItem<T> entityItem;
-	private boolean readOnly = true;
+	private boolean readOnly = false;
 	protected Class<T> entityClass;
 
 	public MasterForm(final Class<T> clazz) {
 		propertyList = new PropertyList<T>(MetadataFactory.getInstance().getEntityClassMetadata(clazz));
 		this.entityClass = clazz;
 		setWidth("100%");
-		setImmediate(true);
 		setMargin(true);
 		setSpacing(true);
 	}
@@ -98,6 +97,8 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 		// fieldGroup.setFieldFactory(this);
 		fieldGroup.setItemDataSource(entityItem);
 		fieldGroup.setBuffered(true);
+		fieldGroup.setReadOnly(false);
+		fieldGroup.setEnabled(true);
 
 		if (this.displayProperties == null)
 			this.displayProperties = PropertiesUtils.get().getEditProperty(entityClass);
@@ -181,7 +182,8 @@ public abstract class MasterForm<T> extends FormLayout implements EntityFormComp
 	protected Field<?> bindField(final String pid , final Field<?> f ){
 		fieldGroup.bind(f, pid);
 		f.setBuffered(true);
-	
+		f.setEnabled(true);
+		f.setReadOnly(false);
 		f.addValidator(new BeanValidator(entityClass, pid));
 	
 		String message = I18nUtils.getMessage(entityClass.getSimpleName().toLowerCase() + "." + pid, null);

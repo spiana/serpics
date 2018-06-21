@@ -31,19 +31,18 @@ import com.serpics.vaadin.ui.component.CustomFieldFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.ui.Field;
 
 public abstract class SearchForm<T> extends FormLayout{
 	private static transient Logger LOG = LoggerFactory.getLogger(SearchForm.class);
@@ -139,10 +138,10 @@ public abstract class SearchForm<T> extends FormLayout{
 		f.setBuffered(true);
 
 		if (f instanceof TextField) {
-			((TextField) f).setNullRepresentation("");
+			((com.vaadin.v7.ui.TextField) f).setNullRepresentation("");
 		}
 		
-		f.addValidator(new BeanValidator(entityClass, pid));
+		f.addValidator(new com.vaadin.v7.data.validator.BeanValidator(entityClass, pid));
 		
 		if (String.class.isAssignableFrom(p.getType())) {
 			f.setWidth("80%");

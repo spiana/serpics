@@ -35,17 +35,18 @@ import com.serpics.vaadin.ui.filter.MultilingualisNullFilter;
 import com.vaadin.addon.jpacontainer.filter.JoinFilter;
 import com.vaadin.addon.jpacontainer.filter.util.AdvancedFilterableSupport;
 import com.vaadin.addon.jpacontainer.util.CollectionUtil;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.util.filter.And;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.Compare.Equal;
-import com.vaadin.data.util.filter.Compare.Greater;
-import com.vaadin.data.util.filter.IsNull;
-import com.vaadin.data.util.filter.Like;
-import com.vaadin.data.util.filter.Not;
-import com.vaadin.data.util.filter.Or;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.data.Container.Filter;
+import com.vaadin.v7.data.util.filter.And;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.Compare.Equal;
+import com.vaadin.v7.data.util.filter.Compare.Greater;
+import com.vaadin.v7.data.util.filter.IsNull;
+import com.vaadin.v7.data.util.filter.Like;
+import com.vaadin.v7.data.util.filter.Not;
+import com.vaadin.v7.data.util.filter.Or;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+
 
 /**
  * Converts a Vaadin 6.6 container filter into a JPA criteria predicate.
@@ -333,7 +334,7 @@ public class FilterConverter {
             Collection<Filter> filters, CriteriaBuilder criteriaBuilder,
             From<X, Y> root , CriteriaQuery query) {
         List<Predicate> result = new ArrayList<Predicate>();
-        for (com.vaadin.data.Container.Filter filter : filters) {
+        for (Filter filter : filters) {
             result.add(convertFilter(filter, criteriaBuilder, root, query));
         }
         return result;

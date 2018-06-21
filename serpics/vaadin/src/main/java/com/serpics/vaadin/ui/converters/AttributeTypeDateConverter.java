@@ -23,9 +23,9 @@ import org.springframework.util.StringUtils;
 
 import com.serpics.core.data.model.MultiValueField;
 import com.serpics.core.datatype.AttributeType;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.Field;
 
 public class AttributeTypeDateConverter implements Converter<Date, MultiValueField>{
 
@@ -44,7 +44,7 @@ public class AttributeTypeDateConverter implements Converter<Date, MultiValueFie
 	@Override
 	public MultiValueField convertToModel(Date value,
 			Class<? extends MultiValueField> targetType, Locale locale)
-			throws com.vaadin.data.util.converter.Converter.ConversionException {
+			throws ConversionException {
 	
 		MultiValueField field = null ;
 		if (this.currentField != null)
@@ -65,7 +65,7 @@ public class AttributeTypeDateConverter implements Converter<Date, MultiValueFie
 	@Override
 	public Date convertToPresentation(MultiValueField value,
 			Class<? extends Date> targetType, Locale locale)
-			throws com.vaadin.data.util.converter.Converter.ConversionException {
+			throws ConversionException {
 		
 		if (StringUtils.isEmpty(value))
 			return null;

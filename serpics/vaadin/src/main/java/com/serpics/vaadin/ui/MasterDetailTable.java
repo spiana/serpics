@@ -26,9 +26,10 @@ import org.springframework.util.Assert;
 
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.filter.Compare;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.filter.Compare;
+
 
 public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements EntityComponentChild<T, P>{
     private static final long serialVersionUID = 5325235469617666772L;
@@ -78,7 +79,7 @@ public abstract class MasterDetailTable<T, P> extends MasterTable<T> implements 
 	        if (parentEntity.isPersistent()	){
 	        	container.addContainerFilter(new Compare.Equal(backReferencePropertyId, masterEntity));
 	        }else{
-	        	Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
+	        	Container.Filter filter = new com.vaadin.v7.data.util.filter.IsNull(backReferencePropertyId);
 				this.container.addContainerFilter(filter);
 	        }
     	}else{

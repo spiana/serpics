@@ -33,13 +33,14 @@ import com.serpics.vaadin.ui.MasterForm;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
+
 
 /**
  * @author spiana
@@ -100,7 +101,7 @@ public class VariantEditWindow  extends EntityFormWindow<ProductVariant>{
     					setDisplayProperties(new String[]{"baseAttribute" , "sequence","value" , "localize"});
     				}
     				private void addvalueField(){
-    	    			Field <?>  f = fieldGroup.getField("value");
+    	    			Field<?>  f = fieldGroup.getField("value");
     	    			if(f != null){
     	    				fieldGroup.unbind(f);
     	    				removeComponent(f);

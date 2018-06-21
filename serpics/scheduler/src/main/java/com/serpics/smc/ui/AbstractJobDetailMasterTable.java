@@ -17,14 +17,12 @@
 package com.serpics.smc.ui;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
 
 import com.serpics.base.commerce.CommerceEngine;
-import com.serpics.core.Engine;
 import com.serpics.scheduler.exception.JobSchedulerException;
 import com.serpics.scheduler.job.AbstractStoreJob;
 import com.serpics.scheduler.model.JobLog;
@@ -37,10 +35,10 @@ import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.component.ComboBox;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.ui.Field;
 
 /**
  * @author spiana

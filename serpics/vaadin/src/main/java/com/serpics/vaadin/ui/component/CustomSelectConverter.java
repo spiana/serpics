@@ -19,7 +19,8 @@ package com.serpics.vaadin.ui.component;
 import java.util.Locale;
 
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
-import com.vaadin.ui.AbstractSelect;
+import com.vaadin.v7.ui.AbstractSelect;
+
 
 public class CustomSelectConverter extends SingleSelectConverter{
 

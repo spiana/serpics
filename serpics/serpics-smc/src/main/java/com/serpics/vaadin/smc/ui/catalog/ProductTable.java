@@ -44,13 +44,14 @@ import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
+
 
 
 @VaadinComponent("productTable")
@@ -246,6 +247,7 @@ public class ProductTable extends MasterTable<Product> {
 									combo.setConverter(new SingleSelectConverter(
 											combo));
 									fieldGroup.bind(combo, "feature");
+						
 									
 									combo.addValueChangeListener(new ValueChangeListener() {
 										
@@ -260,6 +262,7 @@ public class ProductTable extends MasterTable<Product> {
 												addvalueField();
 											
 										}
+									
 									});
 									return combo;
     					}else	

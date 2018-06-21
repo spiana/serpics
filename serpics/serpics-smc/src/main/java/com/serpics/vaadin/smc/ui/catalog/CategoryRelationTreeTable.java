@@ -25,10 +25,10 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent;
 import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 
 
 

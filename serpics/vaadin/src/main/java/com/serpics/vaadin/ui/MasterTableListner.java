@@ -35,25 +35,24 @@ import com.serpics.vaadin.ui.component.MultilingualTextField;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.filter.Filters;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.Not;
-import com.vaadin.data.util.filter.Or;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.FieldEvents.TextChangeEvent;
-import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.v7.data.Container.Filter;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.Or;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
+import com.vaadin.v7.event.FieldEvents.TextChangeListener;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 
 /**
  * 
@@ -107,7 +106,7 @@ public class MasterTableListner extends FormLayout implements Serializable {
 				filter = new Compare.Equal(property, field.getValue());
 				break;
 			case "è diverso da":
-				filter = new Not(new Compare.Equal(property, field.getValue()));
+				filter = new com.vaadin.v7.data.util.filter.Not(new Compare.Equal(property, field.getValue()));
 				break;
 			case "è maggiore di":
 				filter = new Compare.Greater(property, field.getValue());
@@ -137,11 +136,11 @@ public class MasterTableListner extends FormLayout implements Serializable {
 	 */
 	public <T> void resetButtonClickListener(final JPAContainer<T> container, final Button reset) {
 		reset.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
+			
 			@Override
-			public void buttonClick(final ClickEvent event) {				
+			public void buttonClick(ClickEvent event) {
 				container.removeAllContainerFilters();
+				
 			}
 		});
 	}

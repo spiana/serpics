@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -48,16 +49,11 @@ import com.serpics.vaadin.ui.MasterTable;
 import com.serpics.vaadin.ui.NavigatorMenuTree;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.server.WebBrowser;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -69,6 +65,10 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.event.ItemClickEvent;
+
+
+
 
 @Component("mainView")
 @Scope("prototype")
@@ -161,15 +161,11 @@ public class MainView extends CustomComponent {
 		toolbarLayout.addStyleName("top-toolbar");
 		 toolbarLayout.setWidth("100%");
          toolbarLayout.setSpacing(true);
+         toolbarLayout.addComponent(createStoreSelect());
          toolbarLayout.addComponent(createThemeSelect());
-         
-         com.vaadin.ui.Component storeLabel= createStoreSelect();
-         storeLabel.setSizeUndefined();
-         toolbarLayout.addComponent(storeLabel);
-         toolbarLayout.setExpandRatio(storeLabel, 0.25F);
-         toolbarLayout.setComponentAlignment(storeLabel,
-                 Alignment.TOP_RIGHT);
-		
+           
+        //toolbarLayout.setExpandRatio(storeLabel, 0.25F);
+     	
 		final HorizontalLayout menuTitle = new HorizontalLayout();
 		menuTitle.addStyleName("valo-menu-title");
 
@@ -236,14 +232,15 @@ public class MainView extends CustomComponent {
 		leftPanel.setContent(leftSide);
 		
 		content.addComponent(leftPanel);
-
-		navigatorMenuTree.addItemClickListener(new ItemClickListener() {
-			private static final long serialVersionUID = 1L;
+		
+	
+		
+		navigatorMenuTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
 			@Override
-			public void itemClick(final ItemClickEvent event) {
-
+			public void itemClick(ItemClickEvent event) {
 				final String itemid = (String) event.getItemId();
+				
 				if (navigatorMenuTree.getBeanComponent(itemid) != null)
 					addComponent(navigatorMenuTree.getBeanComponent(itemid),
 							I18nUtils.getMessage("smc.navigator."+itemid, itemid));
@@ -252,7 +249,12 @@ public class MainView extends CustomComponent {
 							navigatorMenuTree.getClassComponent(itemid),
 							I18nUtils.getMessage("smc.navigator."+itemid, itemid));
 				}
+				
 			}
+			
+		
+			
+			
 		});
 
 		rightContentTabPanel.setSizeFull();
@@ -262,8 +264,8 @@ public class MainView extends CustomComponent {
 		VerticalLayout rightPanel = new VerticalLayout();
 		rightPanel.setSizeFull();
 		rightPanel.addComponents(toolbarLayout, rightContentTabPanel);
-		rightPanel.setExpandRatio(toolbarLayout, 0.050F);
-		rightPanel.setExpandRatio(rightContentTabPanel, 0.950F);
+		rightPanel.setExpandRatio(toolbarLayout, 0.025F);
+		rightPanel.setExpandRatio(rightContentTabPanel, 0.975F);
 		
 		
 		content.addComponent(rightPanel);
@@ -283,43 +285,44 @@ public class MainView extends CustomComponent {
 	}
 
 	private com.vaadin.ui.Component createStoreSelect(){
-		 final NativeSelect ns = new NativeSelect();
-	        ns.setNullSelectionAllowed(false);
+		  // Keep theme select the same size as in the current screenshots
+        double width = 96;
+        WebBrowser browser = VaadinSession.getCurrent().getBrowser();
+        if (browser.isChrome()) {
+            width = 95;
+        } else if (browser.isIE()) {
+            width = 95.39;
+        } else if (browser.isFirefox()) {
+            width = 98;
+        }
+        UI.getCurrent().getPage()
+        .getStyles()
+                .add("#themeSelect select {width: " + width + "px;}");
+		 final NativeSelect<String> ns = new NativeSelect<String>();
 	        ns.setId("storeSelect");
-	        ns.addContainerProperty("caption", String.class, "");
-	        ns.setItemCaptionPropertyId("caption");
-	        
+	        ns.setCaption("");
+	        ns.setEmptySelectionAllowed(false);
 	        List<Store> stores = storeService.findAllStoreAvailable();
-	        
-	       
-	        
-	        for (Store identifier : stores) {
-	            ns.addItem(identifier.getName()).getItemProperty("caption")
-	                    .setValue(identifier.getName());
-	        }
-	        ns.setValue(commerceEngine.getCurrentContext().getRealm());
-	        
-	        ns.addValueChangeListener(new ValueChangeListener() {
-				
-	        	@Override
-	          public void valueChange(ValueChangeEvent event) {
-	             try {
-					commerceEngine.connect(ns.getValue().toString() , commerceEngine.getCurrentContext().getUserPrincipal());
-					catalogService.setDefaultCatalog("");
-					
-					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, commerceEngine.getCurrentContext().getRealm() );
-					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.SERPICS_SESSION, commerceEngine.getCurrentContext().getSessionId());
-					rightContentTabPanel.removeAllComponents();
-					// Add dashBoard as first Tab
-					//Dashboard d = new Dashboard();
-					rightContentTabPanel.addTab(dashboard, "dashboard");
-					
-	             } catch (SerpicsException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	          }
-			});
+	        ns.setItems(stores.stream().iterator().next().getName());
+	        ns.setValue(commerceEngine.getCurrentContext().getRealm().getName());
+	        ns.addValueChangeListener(event -> {
+	        	 try {
+						commerceEngine.connect(ns.getValue().toString() , commerceEngine.getCurrentContext().getUserPrincipal());
+						catalogService.setDefaultCatalog("");
+						
+						VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, commerceEngine.getCurrentContext().getRealm() );
+						VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.SERPICS_SESSION, commerceEngine.getCurrentContext().getSessionId());
+						rightContentTabPanel.removeAllComponents();
+						// Add dashBoard as first Tab
+						//Dashboard d = new Dashboard();
+						rightContentTabPanel.addTab(dashboard, "dashboard");
+						
+		             } catch (SerpicsException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	        	
+	        });
 	        
 	       return ns ; 
 	}
@@ -337,27 +340,20 @@ public class MainView extends CustomComponent {
         UI.getCurrent().getPage()
         .getStyles()
                 .add("#themeSelect select {width: " + width + "px;}");
-        final NativeSelect ns = new NativeSelect();
-        ns.setNullSelectionAllowed(false);
+        final NativeSelect<String> ns = new NativeSelect<String>();
+        ns.setEmptySelectionAllowed(false);
         ns.setId("themeSelect");
-        ns.addContainerProperty("caption", String.class, "");
-        ns.setItemCaptionPropertyId("caption");
-        for (String identifier : themeVariants.keySet()) {
-            ns.addItem(identifier).getItemProperty("caption")
-                    .setValue(themeVariants.get(identifier));
-        }
-
+        ns.setCaption("");
+        ns.setItems(themeVariants.keySet().stream().collect(Collectors.toList()));
+  
         ns.setValue(UI.getCurrent().getTheme());
-        ns.addValueChangeListener(new ValueChangeListener() {
-			
-        	@Override
-          public void valueChange(ValueChangeEvent event) {
-              UI.getCurrent().setTheme((String) ns.getValue());
+        ns.addValueChangeListener(event -> {
+		      UI.getCurrent().setTheme((String) ns.getValue());
               Cookie cookie = new Cookie("smc-theme", ns.getValue().toString());
               cookie.setPath("/");
               cookie.setMaxAge(30*24*60*60);
               VaadinService.getCurrentResponse().addCookie(cookie);
-          }
+         
 		});
         
         return  ns;

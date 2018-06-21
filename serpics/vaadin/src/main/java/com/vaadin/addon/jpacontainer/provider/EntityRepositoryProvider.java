@@ -42,8 +42,7 @@ import com.vaadin.addon.jpacontainer.LazyLoadingDelegate;
 import com.vaadin.addon.jpacontainer.SortBy;
 import com.vaadin.addon.jpacontainer.filter.util.AdvancedFilterableSupport;
 import com.vaadin.addon.jpacontainer.util.CollectionUtil;
-import com.vaadin.data.Container.Filter;
-
+import com.vaadin.v7.data.Container.Filter;
 
 public class EntityRepositoryProvider<T> extends MutableLocalEntityProvider<T> implements EntityManagerProvider  , BatchableEntityProvider<T>{
 	 private static final Logger logger = LoggerFactory.getLogger(EntityRepositoryProvider.class);

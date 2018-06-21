@@ -30,25 +30,25 @@
 	</entity>
 	
 	<entity name="triggerjob">
-		<property name="secondsInterval" table="true"/>
+		<property name="DAYInterval" table="true"/>
 		<property name="numberOfIteration" table="true"/>
 		<property name="itereted" readonly="true"/>
-		<property name="whenStart" readonly="true" resolution="SECOND"/>
-		<property name="whenEnd" readonly="true" resolution="SECOND" />
-		<property name="lastRun" readonly="true" table="true" resolution="SECOND"/>
-		<property name="nextRun" readonly="true" table="true" resolution="SECOND"/>
+		<property name="whenStart" readonly="true" resolution="DAY"/>
+		<property name="whenEnd" readonly="true" resolution="DAY" />
+		<property name="lastRun" readonly="true" table="true" resolution="DAY"/>
+		<property name="nextRun" readonly="true" table="true" resolution="DAY"/>
 	</entity>
 	
 	<entity name="cronjob">
 		<property name="cronExpression" table="true"/>
-		<property name="lastRun" readonly="true" table="true" resolution="SECOND"/>
-		<property name="nextRun" readonly="true" table="true" resolution="SECOND"/>
+		<property name="lastRun" readonly="true" table="true" resolution="DAY"/>
+		<property name="nextRun" readonly="true" table="true" resolution="DAY"/>
 	</entity>
 	
 	<entity name="abstractschedulerjob">
-<!-- 		<property name="whenStart" table="true"  readonly="true" resolution="SECOND"/> -->
-<!-- 		<property name="whenEnd"  table="true"  readonly="true" resolution="SECOND" /> -->
-		<property name="lastRun" readonly="true" table="true" resolution="SECOND"/>
-		<property name="nextRun" readonly="true" table="true" resolution="SECOND" />
+<!-- 		<property name="whenStart" table="true"  readonly="true" resolution="DAY"/> -->
+<!-- 		<property name="whenEnd"  table="true"  readonly="true" resolution="DAY" /> -->
+		<property name="lastRun" readonly="true" table="true" resolution="DAY"/>
+		<property name="nextRun" readonly="true" table="true" resolution="DAY" />
 	</entity>
 </smc-definition>

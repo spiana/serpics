@@ -1,0 +1,263 @@
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#uml_slmembership.atxa> a atxa-core:reloFile .
+
+atxa:DetailNode atxa-core:detailLevel "0" .
+
+atxa-core:docRoot atxa-core:browseModel "com.architexa.diagrams.relo.jdt/com.architexa.diagrams.relo.jdt.browse.ClassStrucBrowseModel" ;
+	atxa-core:contains _:node1a2uj3hv5x13599 .
+
+_:node1a2uj3hv5x13599 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model> ;
+	atxa-core:posX "33" ;
+	atxa-core:posY "-17" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$PrimaryAddress> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$UsersReg> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$User2UserRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$UserStoreRelation> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$AbstractAddress> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$BillingAddress> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Address> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Membergrouprel> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Member> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Role> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$User> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$MembersRole> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Store> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Membergroup> .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x13609 .
+
+_:node1a2uj3hv5x13609 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$PrimaryAddress> ;
+	atxa-core:posX "461" ;
+	atxa-core:posY "133" .
+
+_:node1a2uj3hv5x12226 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x13609 ;
+	rdf:object _:node1a2uj3hv5x13601 .
+
+_:node1a2uj3hv5x12436 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node1a2uj3hv5x13609 ;
+	rdf:object _:node1a2uj3hv5x13610 ;
+	atxa-core:bendpoint _:node1a2uj3hv5x21565 .
+
+_:node1a2uj3hv5x21565 atxa-core:bpLocation "524,65" ;
+	atxa-core:bpIndex "0" .
+
+_:node1a2uj3hv5x12436 atxa-core:bendpoint _:node1a2uj3hv5x21566 .
+
+_:node1a2uj3hv5x21566 atxa-core:bpLocation "602,65" ;
+	atxa-core:bpIndex "1" .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x13607 .
+
+_:node1a2uj3hv5x13607 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$UsersReg> ;
+	atxa-core:posX "39" ;
+	atxa-core:posY "339" .
+
+_:node1a2uj3hv5x12737 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node1a2uj3hv5x13607 ;
+	rdf:object _:node1a2uj3hv5x13600 ;
+	atxa-core:bendpoint _:node1a2uj3hv5x21567 .
+
+_:node1a2uj3hv5x21567 atxa-core:bpLocation "85,197" ;
+	atxa-core:bpIndex "0" .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x18876 .
+
+_:node1a2uj3hv5x18876 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$User2UserRelation> ;
+	atxa-core:posX "169" ;
+	atxa-core:posY "344" .
+
+_:node1a2uj3hv5x17137 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x18876 ;
+	rdf:object _:node1a2uj3hv5x13600 .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x18877 .
+
+_:node1a2uj3hv5x18877 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$UserStoreRelation> ;
+	atxa-core:posX "201" ;
+	atxa-core:posY "265" .
+
+_:node1a2uj3hv5x15056 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x18877 ;
+	rdf:object _:node1a2uj3hv5x13604 .
+
+_:node1a2uj3hv5x15141 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x18877 ;
+	rdf:object _:node1a2uj3hv5x13600 .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x13610 .
+
+_:node1a2uj3hv5x13610 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$AbstractAddress> ;
+	atxa-core:posX "536" ;
+	atxa-core:posY "13" .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x13603 .
+
+_:node1a2uj3hv5x13603 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$BillingAddress> ;
+	atxa-core:posX "543" ;
+	atxa-core:posY "185" .
+
+_:node1a2uj3hv5x13391 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node1a2uj3hv5x13603 ;
+	rdf:object _:node1a2uj3hv5x13610 ;
+	atxa-core:bendpoint _:node1a2uj3hv5x21568 .
+
+_:node1a2uj3hv5x21568 atxa-core:bpLocation "602,65" ;
+	atxa-core:bpIndex "0" .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x13614 .
+
+_:node1a2uj3hv5x13614 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Address> ;
+	atxa-core:posX "416" ;
+	atxa-core:posY "91" .
+
+_:node1a2uj3hv5x12040 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x13614 ;
+	rdf:object _:node1a2uj3hv5x13601 .
+
+_:node1a2uj3hv5x12437 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node1a2uj3hv5x13614 ;
+	rdf:object _:node1a2uj3hv5x13610 ;
+	atxa-core:bendpoint _:node1a2uj3hv5x21569 .
+
+_:node1a2uj3hv5x21569 atxa-core:bpLocation "458,65" ;
+	atxa-core:bpIndex "0" .
+
+_:node1a2uj3hv5x12437 atxa-core:bendpoint _:node1a2uj3hv5x21570 .
+
+_:node1a2uj3hv5x21570 atxa-core:bpLocation "602,65" ;
+	atxa-core:bpIndex "1" .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x21571 .
+
+_:node1a2uj3hv5x21571 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Membergrouprel> ;
+	atxa-core:posX "373" ;
+	atxa-core:posY "251" .
+
+_:node1a2uj3hv5x19921 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x21571 ;
+	rdf:object _:node1a2uj3hv5x21572 .
+
+_:node1a2uj3hv5x19994 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x21571 ;
+	rdf:object _:node1a2uj3hv5x13601 .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x13601 .
+
+_:node1a2uj3hv5x13601 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Member> ;
+	atxa-core:posX "43" ;
+	atxa-core:posY "12" .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x21573 .
+
+_:node1a2uj3hv5x21573 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Role> ;
+	atxa-core:posX "419" ;
+	atxa-core:posY "8" .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x13600 .
+
+_:node1a2uj3hv5x13600 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$User> ;
+	atxa-core:posX "53" ;
+	atxa-core:posY "145" .
+
+_:node1a2uj3hv5x12057 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x13600 ;
+	rdf:object _:node1a2uj3hv5x13601 .
+
+_:node1a2uj3hv5x12058 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node1a2uj3hv5x13600 ;
+	rdf:object _:node1a2uj3hv5x13601 ;
+	atxa-core:bendpoint _:node1a2uj3hv5x21574 .
+
+_:node1a2uj3hv5x21574 atxa-core:bpLocation "85,64" ;
+	atxa-core:bpIndex "0" .
+
+_:node1a2uj3hv5x13500 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x13600 ;
+	rdf:object _:node1a2uj3hv5x13603 .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x21575 .
+
+_:node1a2uj3hv5x21575 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$MembersRole> ;
+	atxa-core:posX "264" ;
+	atxa-core:posY "20" .
+
+_:node1a2uj3hv5x20202 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x21575 ;
+	rdf:object _:node1a2uj3hv5x13601 .
+
+_:node1a2uj3hv5x20374 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x21575 ;
+	rdf:object _:node1a2uj3hv5x21573 .
+
+_:node1a2uj3hv5x21252 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x21575 ;
+	rdf:object _:node1a2uj3hv5x13604 .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x13604 .
+
+_:node1a2uj3hv5x13604 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Store> ;
+	atxa-core:posX "210" ;
+	atxa-core:posY "199" .
+
+_:node1a2uj3hv5x12044 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x13604 ;
+	rdf:object _:node1a2uj3hv5x13601 .
+
+_:node1a2uj3hv5x12045 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node1a2uj3hv5x13604 ;
+	rdf:object _:node1a2uj3hv5x13601 ;
+	atxa-core:bendpoint _:node1a2uj3hv5x21576 .
+
+_:node1a2uj3hv5x21576 atxa-core:bpLocation "244,64" ;
+	atxa-core:bpIndex "0" .
+
+_:node1a2uj3hv5x12045 atxa-core:bendpoint _:node1a2uj3hv5x21577 .
+
+_:node1a2uj3hv5x21577 atxa-core:bpLocation "85,64" ;
+	atxa-core:bpIndex "1" .
+
+_:node1a2uj3hv5x13599 atxa-core:contains _:node1a2uj3hv5x21572 .
+
+_:node1a2uj3hv5x21572 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.membership.data.model$Membergroup> ;
+	atxa-core:posX "316" ;
+	atxa-core:posY "137" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#uml_slmembership.atxa> a atxa-core:reloFile ;
+	atxa-core:contains _:node1a2uj3hv5x13609 , _:node1a2uj3hv5x13607 , _:node1a2uj3hv5x18876 , _:node1a2uj3hv5x18877 , _:node1a2uj3hv5x13610 , _:node1a2uj3hv5x13603 , _:node1a2uj3hv5x13614 , _:node1a2uj3hv5x21571 , _:node1a2uj3hv5x13601 , _:node1a2uj3hv5x21573 , _:node1a2uj3hv5x13600 , _:node1a2uj3hv5x21575 , _:node1a2uj3hv5x13604 , _:node1a2uj3hv5x21572 , _:node1a2uj3hv5x13599 , atxa-core:docRoot , _:node1a2uj3hv5x13609 , _:node1a2uj3hv5x13607 , _:node1a2uj3hv5x18876 , _:node1a2uj3hv5x18877 , _:node1a2uj3hv5x13610 , _:node1a2uj3hv5x13603 , _:node1a2uj3hv5x13614 , _:node1a2uj3hv5x21571 , _:node1a2uj3hv5x13601 , _:node1a2uj3hv5x21573 , _:node1a2uj3hv5x13600 , _:node1a2uj3hv5x21575 , _:node1a2uj3hv5x13604 , _:node1a2uj3hv5x21572 , _:node1a2uj3hv5x13599 , atxa-core:docRoot , _:node1a2uj3hv5x12226 , _:node1a2uj3hv5x12436 , _:node1a2uj3hv5x12737 , _:node1a2uj3hv5x17137 , _:node1a2uj3hv5x15056 , _:node1a2uj3hv5x15141 , _:node1a2uj3hv5x13391 , _:node1a2uj3hv5x12040 , _:node1a2uj3hv5x12437 , _:node1a2uj3hv5x19921 , _:node1a2uj3hv5x19994 , _:node1a2uj3hv5x12057 , _:node1a2uj3hv5x12058 , _:node1a2uj3hv5x13500 , _:node1a2uj3hv5x20202 , _:node1a2uj3hv5x20374 , _:node1a2uj3hv5x21252 , _:node1a2uj3hv5x12044 , _:node1a2uj3hv5x12045 , _:node1a2uj3hv5x12226 , _:node1a2uj3hv5x12436 , _:node1a2uj3hv5x12737 , _:node1a2uj3hv5x17137 , _:node1a2uj3hv5x15056 , _:node1a2uj3hv5x15141 , _:node1a2uj3hv5x13391 , _:node1a2uj3hv5x12040 , _:node1a2uj3hv5x12437 , _:node1a2uj3hv5x19921 , _:node1a2uj3hv5x19994 , _:node1a2uj3hv5x12057 , _:node1a2uj3hv5x12058 , _:node1a2uj3hv5x13500 , _:node1a2uj3hv5x20202 , _:node1a2uj3hv5x20374 , _:node1a2uj3hv5x21252 , _:node1a2uj3hv5x12044 , _:node1a2uj3hv5x12045 .
+

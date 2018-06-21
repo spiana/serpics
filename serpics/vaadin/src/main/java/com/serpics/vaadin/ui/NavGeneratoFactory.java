@@ -37,8 +37,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 
 import com.serpics.core.EngineFactoryUtils;
-import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.Tree;
+import com.vaadin.v7.ui.AbstractSelect;
+import com.vaadin.v7.ui.Tree;
 
 /**
  * @author christian

@@ -1,0 +1,29 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+	<http auto-config="true" >
+	 	<csrf disabled="true"/>
+	 	<intercept-url pattern="/resources/**" access="permitAll" />
+	 	<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_SUPERUSER' , 'ROLE_ADMINISTRATOR')" />
+		
+	
+		<form-login authentication-success-handler-ref="successAuthenticationHandler" login-page="/login"  username-parameter="ssoId" password-parameter="password" />
+		<logout invalidate-session="true" />	
+	</http>
+ 
+	<authentication-manager alias="authenticationManager" >
+	  <authentication-provider user-service-ref="userDatailsService"  />
+	</authentication-manager>
+
+ 
+</beans:beans>

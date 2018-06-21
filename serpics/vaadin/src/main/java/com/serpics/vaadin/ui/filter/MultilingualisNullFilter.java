@@ -1,13 +1,10 @@
 package com.serpics.vaadin.ui.filter;
 
-import javax.xml.crypto.dsig.spec.XPathType.Filter;
-
 import com.serpics.i18n.data.model.MultilingualField;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.filter.IsNull;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
 
-public class MultilingualisNullFilter implements com.vaadin.data.Container.Filter {
+public class MultilingualisNullFilter implements com.vaadin.v7.data.Container.Filter {
 
 	private Object propertyId;
 	private String language;

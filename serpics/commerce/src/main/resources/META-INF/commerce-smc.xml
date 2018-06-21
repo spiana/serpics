@@ -11,7 +11,7 @@
 <!-- 		<property name="cookie" /> -->
 		<property name="billingAddress" extendedCombo="true" />
 		<property name="shippingAddress"  extendedCombo="true" />
-		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
+		<property name="created" readonly="true" style="color1" resolution="DAY"/>
 		<property name="items" mappedClass="com.serpics.commerce.data.model.Cartitem"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>
 		<property name="totalService" readonly="true" style="align-right"/>
@@ -29,7 +29,7 @@
 <!-- 		<property name="cookie" /> -->
 		<property name="billingAddress"   extendedcombo="true" />
 		<property name="shippingAddress"  extendedcombo="true" />
-		<property name="created" readonly="true" style="color1" resolution="MINUTE"/>
+		<property name="created" readonly="true" style="color1" resolution="DAY"/>
 		<property name="items" mappedClass="com.serpics.commerce.data.model.Orderitem"/>
 		<property name="totalProduct" readonly="true" style="align-right"/>
 		<property name="totalService" readonly="true" style="align-right"/>

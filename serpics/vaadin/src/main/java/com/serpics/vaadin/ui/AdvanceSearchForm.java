@@ -34,14 +34,14 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.TextField;
 
 /**
  * @author christian
@@ -115,7 +115,6 @@ public class AdvanceSearchForm<T> extends MasterForm<T> {
 					Arrays.asList(new String[] { "iniza con", "contiene", "finisce con", "è uguale a", "è diverso da",
 							"è maggiore di", "è maggiore o uguale a", "è minore o uguale a" }));
 			filterProperty.setCaption("Choose type of filter");
-			filterProperty.setInputPrompt("filter");
 			Field<?> field = createField(pid, searchForm );
 
 			field.setCaption("Property to filter: " + pid);

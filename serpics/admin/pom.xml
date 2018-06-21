@@ -2,17 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-		
+
 	<artifactId>admin</artifactId>
 	<packaging>war</packaging>
 	<name>Serpics Admin</name>
-	
-  <parent>
-  	<groupId>com.serpics</groupId>
-  	<artifactId>serpics</artifactId>
-	<version>1.1-SNAPSHOT</version>
-  </parent>
-  
+
+	<parent>
+		<groupId>com.serpics</groupId>
+		<artifactId>serpics</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
@@ -23,29 +23,29 @@
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
-<!-- 		<repository> -->
-<!-- 			<id>vaadin-snapshots</id> -->
-<!-- 			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url> -->
-<!-- 			<releases> -->
-<!-- 				<enabled>false</enabled> -->
-<!-- 			</releases> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>true</enabled> -->
-<!-- 			</snapshots> -->
-<!-- 		</repository> -->
+		<!-- <repository> -->
+		<!-- <id>vaadin-snapshots</id> -->
+		<!-- <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url> -->
+		<!-- <releases> -->
+		<!-- <enabled>false</enabled> -->
+		<!-- </releases> -->
+		<!-- <snapshots> -->
+		<!-- <enabled>true</enabled> -->
+		<!-- </snapshots> -->
+		<!-- </repository> -->
 	</repositories>
-<!-- 	<pluginRepositories> -->
-<!-- 		<pluginRepository> -->
-<!-- 			<id>vaadin-snapshots</id> -->
-<!-- 			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url> -->
-<!-- 			<releases> -->
-<!-- 				<enabled>false</enabled> -->
-<!-- 			</releases> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>true</enabled> -->
-<!-- 			</snapshots> -->
-<!-- 		</pluginRepository> -->
-<!-- 	</pluginRepositories> -->
+	<!-- <pluginRepositories> -->
+	<!-- <pluginRepository> -->
+	<!-- <id>vaadin-snapshots</id> -->
+	<!-- <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url> -->
+	<!-- <releases> -->
+	<!-- <enabled>false</enabled> -->
+	<!-- </releases> -->
+	<!-- <snapshots> -->
+	<!-- <enabled>true</enabled> -->
+	<!-- </snapshots> -->
+	<!-- </pluginRepository> -->
+	<!-- </pluginRepositories> -->
 
 
 
@@ -54,88 +54,53 @@
 
 
 	<dependencies>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-server</artifactId>
-			<version>${vaadin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client-compiled</artifactId>
-			<version>${vaadin.version}</version>
-		</dependency>
-		
+
+
 		<!-- https://mvnrepository.com/artifact/com.sap.cloud/neo-java-web-sdk -->
-<dependency>
-    <groupId>com.sap.cloud</groupId>
-    <artifactId>neo-java-web-sdk</artifactId>
-    <version>3.12.4.3</version>
-    <type>pom</type>
-</dependency>
+		<dependency>
+			<groupId>com.sap.cloud</groupId>
+			<artifactId>neo-java-web-sdk</artifactId>
+			<version>3.12.4.3</version>
+			<type>pom</type>
+		</dependency>
 
-		<!--
-		  Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory).
-		  
-		  For widgetset compilation, vaadin-client-compiler is automatically added on the
-		  compilation classpath by vaadin-maven-plugin so normally there is no need for an
-		  explicit dependency.
-		-->
-		<!--
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client-compiler</artifactId>
-			<version>${vaadin.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		-->
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client</artifactId>
-			<version>${vaadin.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-push</artifactId>
-			<version>${vaadin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-themes</artifactId>
-			<version>${vaadin.version}</version>
-		</dependency>
-<!-- 		<dependency> -->
-<!-- 		   <groupId>org.vaadin.addons</groupId> -->
-<!-- 		   <artifactId>jain-i18N</artifactId> -->
-<!-- 		   <version>1.1.5</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		   <groupId>de.steinwedel.vaadin.addon</groupId> -->
-<!-- 		   <artifactId>messagebox</artifactId> -->
-<!-- 		   <version>2.0.6</version> -->
-<!-- 		</dependency> -->
-		<!-- 
-		<dependency>
-		   <groupId>com.vaadin.addon</groupId>
-		   <artifactId>beanvalidation-addon</artifactId>
-		   <version>1.0.0</version>
-		</dependency>
-		 -->
+		<!-- Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory). 
+			For widgetset compilation, vaadin-client-compiler is automatically added 
+			on the compilation classpath by vaadin-maven-plugin so normally there is 
+			no need for an explicit dependency. -->
+		<!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-server</artifactId> 
+			<version>${vaadin.version}</version> </dependency> <dependency> <groupId>com.vaadin</groupId> 
+			<artifactId>vaadin-client-compiled</artifactId> <version>${vaadin.version}</version> 
+			</dependency> <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-client-compiler</artifactId> 
+			<version>${vaadin.version}</version> <scope>provided</scope> </dependency> 
+			<dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-client</artifactId> 
+			<version>${vaadin.version}</version> <scope>provided</scope> </dependency> 
+			<dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-push</artifactId> 
+			<version>${vaadin.version}</version> </dependency> <dependency> <groupId>com.vaadin</groupId> 
+			<artifactId>vaadin-themes</artifactId> <version>${vaadin.version}</version> 
+			</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.vaadin.addons</groupId> -->
+		<!-- <artifactId>jain-i18N</artifactId> -->
+		<!-- <version>1.1.5</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>de.steinwedel.vaadin.addon</groupId> -->
+		<!-- <artifactId>messagebox</artifactId> -->
+		<!-- <version>2.0.6</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> <groupId>com.vaadin.addon</groupId> <artifactId>beanvalidation-addon</artifactId> 
+			<version>1.0.0</version> </dependency> -->
 
 
-		
-		
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-<!-- 		<dependency> -->
-<!--         	<groupId>ru.xpoft.vaadin</groupId> -->
-<!--         	<artifactId>spring-vaadin-integration</artifactId> -->
-<!--         	<version>1.8.3</version> -->
-<!--     	</dependency> -->
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -144,12 +109,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
-<!-- 	<dependency> -->
-<!--    <groupId>com.vaadin.addon</groupId> -->
-<!--    <artifactId>jpacontainer</artifactId> -->
-<!--    <version>3.2.0</version> -->
-<!-- </dependency> -->
-
 
 		<dependency>
 			<groupId>com.serpics</groupId>
@@ -161,23 +120,14 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring.security}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.vaadin.spring</groupId> -->
-<!-- 			<artifactId>spring-vaadin</artifactId> -->
-<!-- 			<version>0.0.4.RELEASE</version> -->
-<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-spring</artifactId>
-			<version>1.2.0</version>
-		</dependency>
+		<!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-spring</artifactId> 
+			<version>${vaadin-spring.version}</version> </dependency> -->
 		<dependency>
 			<groupId>com.serpics</groupId>
 			<artifactId>serpics-vaadin</artifactId>
@@ -226,25 +176,25 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-	
-	<plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-     	<version>${surefire-plugin.version}</version>
-    	
-	     <configuration>
-	    	<useSystemClassLoader>false</useSystemClassLoader> 
-	     </configuration>
-        <executions>
-          <execution>
-            <id>default-test</id>
-            <phase>test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>		
-   		<!-- As we are doing "inplace" GWT compilation, ensure the widgetset -->
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire-plugin.version}</version>
+
+				<configuration>
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- As we are doing "inplace" GWT compilation, ensure the widgetset -->
 			<!-- directory is cleaned properly -->
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -304,24 +254,25 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 			</plugin>
-		<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-javadoc-plugin</artifactId>
-		        <version>2.10.3</version>
-		         <configuration>
-		<!--           <stylesheetfile>${basedir}/src/main/javadoc/stylesheet.css</stylesheetfile> -->
-		          <show>public</show>
-		        </configuration>
-		      </plugin>	
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+					<!-- <stylesheetfile>${basedir}/src/main/javadoc/stylesheet.css</stylesheetfile> -->
+					<show>public</show>
+				</configuration>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>

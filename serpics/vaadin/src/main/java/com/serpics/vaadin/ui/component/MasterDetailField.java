@@ -44,16 +44,18 @@ import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.IsNull;
+import com.vaadin.v7.ui.CustomField;
+import com.vaadin.v7.ui.Table;
 
 public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 	private static final long serialVersionUID = -7646209629067140150L;
@@ -124,13 +126,13 @@ public class MasterDetailField<T,X> extends CustomField<T> implements Handler {
 				.getEntityClassMetadata(referencedType));
 		
 		if (entityItem.isPersistent()){
-			Container.Filter filter = new com.vaadin.data.util.filter.Compare.Equal(backReferencePropertyId, this.masterEntity);
+			Container.Filter filter = new Compare.Equal(backReferencePropertyId, this.masterEntity);
 		 	this.container.addContainerFilter(filter);
 		}else{
-			Container.Filter filter = new com.vaadin.data.util.filter.IsNull(backReferencePropertyId);
+			Container.Filter filter = new IsNull(backReferencePropertyId);
 			// is better user property uuid if exits to be sure no record will be found.
 			if (propertyList.getPropertyNames().contains("uuid"))
-				filter = new com.vaadin.data.util.filter.IsNull("uuid");
+				filter = new IsNull("uuid");
 			
 			this.container.addContainerFilter(filter);
 		}

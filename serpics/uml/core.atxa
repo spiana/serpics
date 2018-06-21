@@ -1,0 +1,126 @@
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#core.atxa> a atxa-core:reloFile .
+
+atxa:DetailNode atxa-core:detailLevel "0" .
+
+atxa-core:docRoot atxa-core:browseModel "com.architexa.diagrams.relo.jdt/com.architexa.diagrams.relo.jdt.browse.ClassStrucBrowseModel" ;
+	atxa-core:contains _:node1a2uj3hv5x27826 .
+
+_:node1a2uj3hv5x27826 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.session> ;
+	atxa-core:posX "347" ;
+	atxa-core:posY "216" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.session> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.session$SessionContext> .
+
+_:node1a2uj3hv5x27826 atxa-core:contains _:node1a2uj3hv5x27827 .
+
+_:node1a2uj3hv5x27827 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.session$SessionContext> ;
+	atxa-core:posX "353" ;
+	atxa-core:posY "241" .
+
+atxa-core:docRoot atxa-core:contains _:node1a2uj3hv5x27828 .
+
+_:node1a2uj3hv5x27828 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.service> ;
+	atxa-core:posX "150" ;
+	atxa-core:posY "22" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.service> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.service$SerpicsService> , <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.service$AbstractService> .
+
+_:node1a2uj3hv5x27828 atxa-core:contains _:node1a2uj3hv5x27829 .
+
+_:node1a2uj3hv5x27829 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.service$SerpicsService> ;
+	atxa-core:posX "343" ;
+	atxa-core:posY "47" .
+
+_:node1a2uj3hv5x27828 atxa-core:contains _:node1a2uj3hv5x27830 .
+
+_:node1a2uj3hv5x27830 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.core.service$AbstractService> ;
+	atxa-core:posX "156" ;
+	atxa-core:posY "119" .
+
+_:node1a2uj3hv5x27209 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x27830 ;
+	rdf:object _:node1a2uj3hv5x27827 .
+
+_:node1a2uj3hv5x27272 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node1a2uj3hv5x27830 ;
+	rdf:object _:node1a2uj3hv5x27829 ;
+	atxa-core:bendpoint _:node1a2uj3hv5x27831 .
+
+_:node1a2uj3hv5x27831 atxa-core:bpLocation "416,99" ;
+	atxa-core:bpIndex "0" .
+
+atxa-core:docRoot atxa-core:contains _:node1a2uj3hv5x27832 .
+
+_:node1a2uj3hv5x27832 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.session> ;
+	atxa-core:posX "336" ;
+	atxa-core:posY "348" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.session> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.session$CommerceSessionContext> .
+
+_:node1a2uj3hv5x27832 atxa-core:contains _:node1a2uj3hv5x27833 .
+
+_:node1a2uj3hv5x27833 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.session$CommerceSessionContext> ;
+	atxa-core:posX "342" ;
+	atxa-core:posY "373" .
+
+_:node1a2uj3hv5x27214 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node1a2uj3hv5x27833 ;
+	rdf:object _:node1a2uj3hv5x27827 ;
+	atxa-core:bendpoint _:node1a2uj3hv5x27834 .
+
+_:node1a2uj3hv5x27834 atxa-core:bpLocation "435,293" ;
+	atxa-core:bpIndex "0" .
+
+_:node1a2uj3hv5x27214 atxa-core:bendpoint _:node1a2uj3hv5x27835 .
+
+_:node1a2uj3hv5x27835 atxa-core:bpLocation "416,293" ;
+	atxa-core:bpIndex "1" .
+
+atxa-core:docRoot atxa-core:contains _:node1a2uj3hv5x27836 .
+
+_:node1a2uj3hv5x27836 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.strategies> ;
+	atxa-core:posX "69" ;
+	atxa-core:posY "192" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.strategies> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.strategies$AbstractStrategy> .
+
+_:node1a2uj3hv5x27836 atxa-core:contains _:node1a2uj3hv5x27837 .
+
+_:node1a2uj3hv5x27837 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.serpics.commerce.strategies$AbstractStrategy> ;
+	atxa-core:posX "75" ;
+	atxa-core:posY "217" .
+
+_:node1a2uj3hv5x27250 a atxa-core:link ;
+	atxa-core:model atxa-jdt:refType ;
+	rdf:subject _:node1a2uj3hv5x27837 ;
+	rdf:object _:node1a2uj3hv5x27827 .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#core.atxa> a atxa-core:reloFile ;
+	atxa-core:contains _:node1a2uj3hv5x27827 , _:node1a2uj3hv5x27826 , _:node1a2uj3hv5x27829 , _:node1a2uj3hv5x27830 , _:node1a2uj3hv5x27828 , _:node1a2uj3hv5x27833 , _:node1a2uj3hv5x27832 , _:node1a2uj3hv5x27837 , _:node1a2uj3hv5x27836 , atxa-core:docRoot , _:node1a2uj3hv5x27827 , _:node1a2uj3hv5x27826 , _:node1a2uj3hv5x27829 , _:node1a2uj3hv5x27830 , _:node1a2uj3hv5x27828 , _:node1a2uj3hv5x27833 , _:node1a2uj3hv5x27832 , _:node1a2uj3hv5x27837 , _:node1a2uj3hv5x27836 , atxa-core:docRoot , _:node1a2uj3hv5x27209 , _:node1a2uj3hv5x27272 , _:node1a2uj3hv5x27214 , _:node1a2uj3hv5x27250 , _:node1a2uj3hv5x27209 , _:node1a2uj3hv5x27272 , _:node1a2uj3hv5x27214 , _:node1a2uj3hv5x27250 .
+

@@ -21,10 +21,10 @@ import com.serpics.membership.data.model.Member;
 import com.serpics.vaadin.ui.MasterDetailForm;
 import com.serpics.vaadin.ui.component.ExtendedComboBox;
 import com.vaadin.addon.jpacontainer.EntityContainer;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.ui.Field;
 
 public abstract class AbstractAddressEditorDetail<U extends Member, T extends AbstractAddress>
 		extends MasterDetailForm<U, T> {
@@ -44,7 +44,7 @@ public abstract class AbstractAddressEditorDetail<U extends Member, T extends Ab
 			country.addValueChangeListener(new ValueChangeListener() {
 				@Override
 				public void valueChange(ValueChangeEvent event) {
-					com.vaadin.ui.Field.ValueChangeEvent _event = (com.vaadin.ui.Field.ValueChangeEvent) event;
+					com.vaadin.v7.ui.Field.ValueChangeEvent _event = (com.vaadin.v7.ui.Field.ValueChangeEvent) event;
 					ExtendedComboBox district = (ExtendedComboBox) fieldGroup.getField("district");
 					if (district != null) {
 						((EntityContainer) district.getContainerDataSource()).removeAllContainerFilters();

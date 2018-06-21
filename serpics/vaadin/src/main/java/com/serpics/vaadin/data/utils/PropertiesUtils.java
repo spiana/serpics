@@ -41,9 +41,10 @@ import com.serpics.core.EngineFactory;
 import com.serpics.core.EngineFactoryUtils;
 import com.serpics.core.data.jpa.AbstractEntity;
 import com.serpics.vaadin.ui.EntityFormWindow;
-import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.v7.ui.DateField;
+import com.vaadin.v7.ui.Field;
+
 
 public class PropertiesUtils implements ApplicationContextAware,
 		InitializingBean {
@@ -53,7 +54,7 @@ public class PropertiesUtils implements ApplicationContextAware,
 	public class SmcDefinition {
 		private String name;
 		private String editBean;
-
+		
 		private List<SmcPropertyDef> properties;
 
 		public String getName() {
@@ -560,8 +561,7 @@ public class PropertiesUtils implements ApplicationContextAware,
 
 			if (def.getResolution() != null) {
 				if (DateField.class.isAssignableFrom(field.getClass()))
-					;
-				((DateField) field).setResolution(def.getResolution());
+					((com.vaadin.v7.ui.DateField) field).setResolution(def.getResolution());
 			}
 			
 			if ( (isnew && !def.isInsertable()) || def.isReadOnly() )

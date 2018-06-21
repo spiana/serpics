@@ -17,9 +17,9 @@
 package com.serpics.vaadin.ui;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.TableFieldFactory;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.ui.TableFieldFactory;
 
 public interface EntityComponent<T> extends Component{
 

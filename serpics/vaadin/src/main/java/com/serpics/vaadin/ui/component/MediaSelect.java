@@ -30,25 +30,23 @@ import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
-import com.vaadin.data.Property;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
-import com.vaadin.ui.Window.CloseListener;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.v7.ui.CustomField;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
+
 
 /**
  * @author spiana
@@ -88,11 +86,9 @@ public class MediaSelect<T extends MediaField> extends CustomField<T> {
          combo.setBuffered(true);
          combo.setConverter(new SingleSelectConverter(combo));
          combo.addValueChangeListener(new ValueChangeListener() {
-        
-     	 
+			
 			@Override
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
+			public void valueChange(Property.ValueChangeEvent event) {
 				setValue((T) referencedContainer.getItem(combo.getValue()).getEntity());
 				loadResource();
 			}
@@ -157,9 +153,10 @@ public class MediaSelect<T extends MediaField> extends CustomField<T> {
 
 		Button newMedia = new Button(I18nUtils.getMessage("smc.mediaselect.add.media", "add"));
 		newMedia.addStyleName("top");
-		newMedia.addClickListener(new ClickListener() {
+		newMedia.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
+			
 			@Override
 			public void buttonClick(com.vaadin.ui.Button.ClickEvent event) {
 				
@@ -170,18 +167,20 @@ public class MediaSelect<T extends MediaField> extends CustomField<T> {
 					createForm.setReadOnly(false);
 					createForm.setEntityItem(referencedContainer.createEntityItem(item.getItemProperty(propertyId).getType().newInstance()));
 					getUI().addWindow(createForm);
-					createForm.addCloseListener(new CloseListener() {
+					createForm.addCloseListener(new Window.CloseListener() {
 						
 						@Override
 						public void windowClose(CloseEvent e) {
-							
 							if (createForm.getEntityItem().isPersistent())
 								setValue((T)createForm.getEntityItem().getEntity());
 							
 							
 							combo.markAsDirty();
 							combo.setValue(referencedContainer.lastItemId());
-							combo.setContainerDataSource(referencedContainer);		}
+							combo.setContainerDataSource(referencedContainer);		
+							
+						}
+				
 					});
 					
 				} catch (InstantiationException | IllegalAccessException e) {

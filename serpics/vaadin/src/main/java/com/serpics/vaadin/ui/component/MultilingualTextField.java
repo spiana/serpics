@@ -23,20 +23,18 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
-import com.vaadin.data.Property;
-import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.Validator.InvalidValueException;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
 
-public class MultilingualTextField extends CustomField<MultilingualString> {
+public class MultilingualTextField extends com.vaadin.v7.ui.CustomField<MultilingualString> {
     private static final long serialVersionUID= -8222498672841576094L;
-    
     TextField textField ;
     
     Property<MultilingualString> property;
@@ -72,10 +70,9 @@ public class MultilingualTextField extends CustomField<MultilingualString> {
          combo.setNullSelectionAllowed(false);
      
          
-		combo.addValueChangeListener(new ValueChangeListener() {
-				@Override
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
+		combo.addValueChangeListener(new Property.ValueChangeListener() {
+			@Override
+			public void valueChange(com.vaadin.v7.data.Property.ValueChangeEvent event) {
 					EntityItem<Locale> locale = locales.getItem(event.getProperty().getValue());
 					
 					if (locale != null){
@@ -94,13 +91,12 @@ public class MultilingualTextField extends CustomField<MultilingualString> {
 		textField.setWidth("100%");
 		textField.setBuffered(false);
 		
-		textField.addValueChangeListener(new ValueChangeListener() {
-			@Override
-		public void valueChange(
-				com.vaadin.data.Property.ValueChangeEvent event) {
-				getState().modified= true;
+		textField.addValueChangeListener(new Property.ValueChangeListener() {
 			
-		}
+		@Override
+		public void valueChange(com.vaadin.v7.data.Property.ValueChangeEvent event) {
+				getState().modified= true;
+			}
 		});
 		
 		h.setWidth("100%");

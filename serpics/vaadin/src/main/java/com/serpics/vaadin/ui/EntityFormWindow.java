@@ -25,19 +25,17 @@ import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.EntityComponent.MasterTableComponent;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
 
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -48,8 +46,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
     private static final long serialVersionUID = 2590755708760150150L;
 
     private final TabSheet tabSheet = new TabSheet();
-    static final Action esc = new ShortcutAction("Close window", ShortcutAction.KeyCode.ESCAPE, null);
-    static final Action[] actions = new Action[] { esc };
+    static final ShortcutAction esc = new ShortcutAction("Close window", ShortcutAction.KeyCode.ESCAPE, null);
+    static final ShortcutAction[] actions = new ShortcutAction[] { esc };
 
     private boolean readOnly = true;
     private boolean newItem = true;
@@ -79,8 +77,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
     * 
     */
     private void init() {
-   		setImmediate(true);
-        
+   		
    		setModal(true);
         setHeight("80.0%");
         setWidth("80.0%");
@@ -176,7 +173,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
 	        cancelButton.addClickListener(new Button.ClickListener() {
 	
 	            @Override
-	            public void buttonClick(final ClickEvent event) {
+	            public void buttonClick(final Button.ClickEvent event) {
 	            	delete();
 	            }
 	        });
@@ -184,7 +181,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
 	        saveButton.addClickListener(new Button.ClickListener() {
 	
 	            @Override
-	            public void buttonClick(final ClickEvent event) {
+	            public void buttonClick(final Button.ClickEvent event) {
 	            	save();
 	            }
 	        });
@@ -192,7 +189,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
         	createButton.addClickListener(new Button.ClickListener() {
         		
 	            @Override
-	            public void buttonClick(final ClickEvent event) {
+	            public void buttonClick(final Button.ClickEvent event) {
 	            	create();
 	            }
 	        });
@@ -236,7 +233,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
     private void discardAllComponent() {
         for (final EntityComponent component : componentList) {
             if (component instanceof EntityFormComponent) {
-                if (component.isEnabled() && !component.isReadOnly())
+                if (component.isEnabled())
                     ((EntityFormComponent) component).discard();
             }
 
@@ -249,7 +246,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
         try {
             for (final EntityComponent component : componentList) {
                 if (component instanceof EntityFormComponent) {
-                    if (component.isEnabled() && !component.isReadOnly() && ((EntityFormComponent) component).isModifield()) 
+                    if (component.isEnabled() &&  ((EntityFormComponent) component).isModifield()) 
                         ((EntityComponent) component).save();
                 }
             }
@@ -322,18 +319,21 @@ public class EntityFormWindow<T> extends Window implements Handler {
         componentList.add(component);
     }
 
+    
+    
+   
     @Override
-    public Action[] getActions(final Object target, final Object sender) {
+    public ShortcutAction[] getActions(final Object target, final Object sender) {
         return actions;
     }
 
     @Override
-    public void handleAction(final Action action, final Object sender, final Object target) {
-        if (action == esc) {
+    public void handleAction(com.vaadin.event.Action action, Object sender, Object target) {
+    	if (action == esc) {
             close();
         }
-
     }
+ 
 
     public EntityItem getEntityItem(){
     	return this.item;
@@ -375,9 +375,7 @@ public class EntityFormWindow<T> extends Window implements Handler {
                     c.setEnabled(true);
                 else
                     c.setEnabled(false);
-            } else {
-                c.setReadOnly(readOnly);
-            }
+            } 
             if (newItem) {
                 if (position > 0)
                     tabSheet.getTab(c).setVisible(false);

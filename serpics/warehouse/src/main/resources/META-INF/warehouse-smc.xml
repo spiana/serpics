@@ -9,7 +9,7 @@
 		<property name="inventoryThreshold" />
 		<property name="inventories"/>
 		<property name="address"/>
-		<property name="created" readonly="true" resolution="MINUTE"/>
+		<property name="created" readonly="true" resolution="DAY"/>
 	</entity>
 	
 	<entity name="inventory">
@@ -19,7 +19,7 @@
 		<property name="product" mappedClass="com.serpics.catalog.data.model.Product" />
 		<property name="available" />
 		<property name="reserved" />
-		<property name="updated" readony="true" resolution="SECOND"/>
+		<property name="updated" readony="true" resolution="DAY"/>
 	</entity>
 	<entity name="warehousestoreconfig">
 		<property name= "storeThreshold" table="true"/>

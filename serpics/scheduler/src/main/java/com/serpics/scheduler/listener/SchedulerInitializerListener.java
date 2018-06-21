@@ -18,6 +18,8 @@ package com.serpics.scheduler.listener;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -33,8 +35,7 @@ import com.serpics.scheduler.repositories.StoreJobDetailsRepository;
 import com.serpics.scheduler.repositories.SystemJobDetailsRepository;
 import com.serpics.scheduler.repositories.TriggerJobRepository;
 import com.serpics.scheduler.service.SchedulerQuartzService;
-import com.vaadin.external.org.slf4j.Logger;
-import com.vaadin.external.org.slf4j.LoggerFactory;
+
 
 /**
  * @author spiana

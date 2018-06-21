@@ -48,7 +48,8 @@ import org.springframework.util.StringUtils;
 
 import com.serpics.core.EngineFactoryUtils;
 import com.serpics.vaadin.data.utils.I18nUtils;
-import com.vaadin.ui.Tree;
+import com.vaadin.v7.ui.Tree;
+
 
 /**
  * @author christian

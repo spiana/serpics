@@ -24,7 +24,8 @@ import com.serpics.commerce.services.StoreService;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+
 
 /**
  * @author spiana

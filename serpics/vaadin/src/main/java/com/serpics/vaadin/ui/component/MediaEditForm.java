@@ -27,14 +27,14 @@ import com.serpics.mediasupport.data.model.MediaField;
 import com.serpics.mediasupport.utils.MediaUtil;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.MasterForm;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
 
 /**
  * @author spiana
@@ -106,7 +106,7 @@ public class MediaEditForm<T extends MediaField> extends MasterForm<T> {
 			addComponent(upload);
 			upload.setVisible(false);
 			fieldGroup.getField("type").setBuffered(false);
-			fieldGroup.getField("type").addValueChangeListener(new ValueChangeListener() {
+			fieldGroup.getField("type").addValueChangeListener(new Property.ValueChangeListener() {
 				
 				@Override
 				public void valueChange(ValueChangeEvent event) {
@@ -117,7 +117,7 @@ public class MediaEditForm<T extends MediaField> extends MasterForm<T> {
 				}
 				
 			});
-			fieldGroup.getField("source").addValueChangeListener(new ValueChangeListener() {
+			fieldGroup.getField("source").addValueChangeListener(new Property.ValueChangeListener() {
 				
 				@Override
 				public void valueChange(ValueChangeEvent event) {
@@ -125,7 +125,7 @@ public class MediaEditForm<T extends MediaField> extends MasterForm<T> {
 					fireMediaSourceChangeEvent();
 				}
 			});
-			fieldGroup.getField("contentType").addValueChangeListener(new ValueChangeListener() {
+			fieldGroup.getField("contentType").addValueChangeListener(new Property.ValueChangeListener() {
 				
 				@Override
 				public void valueChange(ValueChangeEvent event) {

@@ -25,7 +25,6 @@ import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.component.MediaEditForm.MediaSourceChangeEventListener;
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
@@ -34,6 +33,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Video;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 
 /**
  * @author spiana
@@ -152,7 +152,7 @@ public class MediaComponent<T extends MediaField> extends CustomComponent implem
 	 * @see com.serpics.vaadin.ui.EntityComponent#save()
 	 */
 	@Override
-	public void save() throws CommitException {
+	public void save() throws CommitException{
 		mediaForm.save();
 	}
 

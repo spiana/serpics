@@ -40,17 +40,17 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractSelect;
+import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.TextField;
 
 public class CustomFieldFactory extends DefaultFieldFactory{
 

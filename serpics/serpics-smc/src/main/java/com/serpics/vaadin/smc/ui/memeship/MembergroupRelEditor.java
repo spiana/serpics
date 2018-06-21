@@ -19,7 +19,7 @@ package com.serpics.vaadin.smc.ui.memeship;
 import com.serpics.membership.data.model.Membergrouprel;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.ui.MasterForm;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.Field;
 
 @VaadinComponent("memberGroupRelEditor")
 public class MembergroupRelEditor extends MasterForm<Membergrouprel> {

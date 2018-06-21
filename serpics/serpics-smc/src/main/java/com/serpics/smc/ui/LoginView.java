@@ -21,20 +21,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
+
 
 @SuppressWarnings("serial")
 @Theme("tests-valo-light")
@@ -123,70 +119,68 @@ public class LoginView extends CustomComponent {
 		loginPanel.setComponentAlignment(
 				loginButton, Alignment.MIDDLE_RIGHT);
 		
-		loginButton.addListener(new Button.ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				final Authentication auth = new UsernamePasswordAuthenticationToken(
-						username.getValue(), password.getValue());
-				try {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Attempting authentication for user '"
-								+ auth.getName() + "'");
-					}
-					Authentication returned = getAuthenticationManager()
-							.authenticate(auth);
-					if (logger.isDebugEnabled()) {
-						logger.debug("Authentication for user '"
-								+ auth.getName() + "' succeeded");
-					}
-					fireEvent(new LoginEvent(LoginView.this, returned));
-				} catch (BadCredentialsException e) {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Bad credentials for user '"
-								+ auth.getName() + "'", e);
-					}
-//					getWindow().showNotification(
-//							getApplication().getMessage(
-//									"login.badCredentials.title"),
-//							getApplication().getMessage(
-//									"login.badCredentials.descr"),
-//							Notification.TYPE_WARNING_MESSAGE);
-				} catch (DisabledException e) {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Account disabled for user '"
-								+ auth.getName() + "'", e);
-					}
-//					getWindow()
-//							.showNotification(
-//									getApplication().getMessage(
-//											"login.disabled.title"),
-//									getApplication().getMessage(
-//											"login.disabled.descr"),
-//									Notification.TYPE_WARNING_MESSAGE);
-				} catch (LockedException e) {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Account locked for user '"
-								+ auth.getName() + "'", e);
-					}
-//					getWindow().showNotification(
-//							getApplication().getMessage("login.locked.title"),
-//							getApplication().getMessage("login.locked.descr"),
-//							Notification.TYPE_WARNING_MESSAGE);
-				} catch (Exception e) {
-					if (logger.isErrorEnabled()) {
-						logger
-								.error("Error while attempting authentication for user '"
-										+ auth.getName() + "'");
-					}
-				//	ExceptionUtils.handleException(getWindow(), e);
-				}
-			}
-		});
+		//	@Override
+//			public void buttonClick(Button.ClickEvent event) {
+//				final Authentication auth = new UsernamePasswordAuthenticationToken(
+//						username.getValue(), password.getValue());
+//				try {
+//					if (logger.isDebugEnabled()) {
+//						logger.debug("Attempting authentication for user '"
+//								+ auth.getName() + "'");
+//					}
+//					Authentication returned = getAuthenticationManager()
+//							.authenticate(auth);
+//					if (logger.isDebugEnabled()) {
+//						logger.debug("Authentication for user '"
+//								+ auth.getName() + "' succeeded");
+//					}
+//					fireEvent(new LoginEvent(LoginView.this, returned));
+//				} catch (BadCredentialsException e) {
+//					if (logger.isDebugEnabled()) {
+//						logger.debug("Bad credentials for user '"
+//								+ auth.getName() + "'", e);
+//					}
+////					getWindow().showNotification(
+////							getApplication().getMessage(
+////									"login.badCredentials.title"),
+////							getApplication().getMessage(
+////									"login.badCredentials.descr"),
+////							Notification.TYPE_WARNING_MESSAGE);
+//				} catch (DisabledException e) {
+//					if (logger.isDebugEnabled()) {
+//						logger.debug("Account disabled for user '"
+//								+ auth.getName() + "'", e);
+//					}
+////					getWindow()
+////							.showNotification(
+////									getApplication().getMessage(
+////											"login.disabled.title"),
+////									getApplication().getMessage(
+////											"login.disabled.descr"),
+////									Notification.TYPE_WARNING_MESSAGE);
+//				} catch (LockedException e) {
+//					if (logger.isDebugEnabled()) {
+//						logger.debug("Account locked for user '"
+//								+ auth.getName() + "'", e);
+//					}
+////					getWindow().showNotification(
+////							getApplication().getMessage("login.locked.title"),
+////							getApplication().getMessage("login.locked.descr"),
+////							Notification.TYPE_WARNING_MESSAGE);
+//				} catch (Exception e) {
+//					if (logger.isErrorEnabled()) {
+//						logger
+//								.error("Error while attempting authentication for user '"
+//										+ auth.getName() + "'");
+//					}
+//				//	ExceptionUtils.handleException(getWindow(), e);
+//				}
+//			}
+//		});
 
 		
 		
-		loginPanel.setWidth("300px");
+	//	loginPanel.setWidth("300px");
 
 		final HorizontalLayout viewLayout = new HorizontalLayout();
 		viewLayout.addComponent(loginPanel);

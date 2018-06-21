@@ -20,8 +20,9 @@
 package com.serpics.vaadin.ui.converters;
 
 import com.serpics.i18n.data.model.MultilingualField;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.ui.Field;
+
 public class MultilingualFieldConvert implements Converter<String, MultilingualField> {
     private static final long serialVersionUID = 1L;
   
@@ -39,7 +40,7 @@ public class MultilingualFieldConvert implements Converter<String, MultilingualF
 
 	@Override
     public MultilingualField convertToModel(final String value, final Class<? extends MultilingualField> targetType,
-            final java.util.Locale locale) throws com.vaadin.data.util.converter.Converter.ConversionException {
+            final java.util.Locale locale) throws ConversionException {
 		
 		MultilingualField field = null;
 		 
@@ -60,7 +61,7 @@ public class MultilingualFieldConvert implements Converter<String, MultilingualF
 
     @Override
     public String convertToPresentation(final MultilingualField value, final Class<? extends String> targetType,
-            final java.util.Locale locale) throws com.vaadin.data.util.converter.Converter.ConversionException {
+            final java.util.Locale locale) throws ConversionException {
 
         if (value != null && locale != null) {
             return value.getText(locale);

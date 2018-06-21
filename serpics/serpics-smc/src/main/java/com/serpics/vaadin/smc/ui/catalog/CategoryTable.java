@@ -25,7 +25,8 @@ import com.serpics.vaadin.ui.EntityFormWindow;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.Field;
+
 
 
 @VaadinComponent("categoryTable")

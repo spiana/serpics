@@ -24,9 +24,10 @@ import org.springframework.util.StringUtils;
 
 import com.serpics.core.data.model.MultiValueField;
 import com.serpics.core.datatype.AttributeType;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.Field;
+
 
 public class AttributeTypeDoubleConverter implements
 		Converter<String, MultiValueField> {
@@ -46,7 +47,7 @@ public class AttributeTypeDoubleConverter implements
 	@Override
 	public MultiValueField convertToModel(String value,
 			Class<? extends MultiValueField> targetType, Locale locale)
-			throws com.vaadin.data.util.converter.Converter.ConversionException {
+			throws ConversionException {
 
 		MultiValueField field = null;
 		if (this.currentField != null)
@@ -76,7 +77,7 @@ public class AttributeTypeDoubleConverter implements
 	@Override
 	public String convertToPresentation(MultiValueField value,
 			Class<? extends String> targetType, Locale locale)
-			throws com.vaadin.data.util.converter.Converter.ConversionException {
+			throws ConversionException {
 
 		if (StringUtils.isEmpty(value))
 			return null;

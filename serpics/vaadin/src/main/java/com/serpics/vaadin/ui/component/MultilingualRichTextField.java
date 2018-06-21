@@ -24,16 +24,16 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
-import com.vaadin.data.Property;
-import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.UI;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.Validator.InvalidValueException;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.v7.ui.CustomField;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.RichTextArea;
 
 public class MultilingualRichTextField extends CustomField<MultilingualText> {
     private static final long serialVersionUID= -8222498672841576094L;
@@ -45,7 +45,6 @@ public class MultilingualRichTextField extends CustomField<MultilingualText> {
     public MultilingualRichTextField() {
         super();
         this.textField = new RichTextArea();
-        setBuffered(true);
        
     }
 
@@ -74,19 +73,19 @@ public class MultilingualRichTextField extends CustomField<MultilingualText> {
          combo.setNullSelectionAllowed(false);
      
          
-		combo.addValueChangeListener(new ValueChangeListener() {
-				@Override
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
-					EntityItem<Locale> locale = locales.getItem(event.getProperty().getValue());
-					if (locale != null){
-						MultilingualText m = property.getValue();
-						m.addText(getLocale().getLanguage(), textField.getValue());
-						setLocale(new java.util.Locale(locale.getEntity().getLanguage()));
-						textField.setValue(m.getText(getLocale()));
-						
-					}
+		combo.addValueChangeListener(new Property.ValueChangeListener() {
+		
+		@Override
+		public void valueChange(com.vaadin.v7.data.Property.ValueChangeEvent event) {
+			// TODO Auto-generated method stub
+			EntityItem<Locale> locale = locales.getItem(event.getProperty().getValue());
+			if (locale != null){
+				MultilingualText m = property.getValue();
+				m.addText(getLocale().getLanguage(), textField.getValue());
+				setLocale(new java.util.Locale(locale.getEntity().getLanguage()));
+				textField.setValue(m.getText(getLocale()));
 			}
+		}
 		});
          
 		h.addComponent(combo);
@@ -94,16 +93,15 @@ public class MultilingualRichTextField extends CustomField<MultilingualText> {
 		
 		combo.setWidth("100%");
 		textField.setWidth("100%");
-		textField.setBuffered(true);
 		textField.setNullRepresentation("");
+		textField.setBuffered(true);
 		
 		textField.addValueChangeListener(new ValueChangeListener() {
-				@Override
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
+			
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
 					getState().modified= true;
-				
-			}
+				}
 		});
 		
 		h.setWidth("100%");

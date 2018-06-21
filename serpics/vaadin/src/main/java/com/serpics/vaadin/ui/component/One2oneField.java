@@ -36,14 +36,15 @@ import com.serpics.vaadin.ui.PropertyList;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.MetadataFactory;
-import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.v7.data.Validator.InvalidValueException;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.data.validator.BeanValidator;
+import com.vaadin.v7.ui.CustomField;
+import com.vaadin.v7.ui.Field;
+
 
 public class One2oneField<M, T> extends CustomField<T> {
 	private static final long serialVersionUID = -6909188345491634488L;

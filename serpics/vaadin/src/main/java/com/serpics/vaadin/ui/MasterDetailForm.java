@@ -27,7 +27,8 @@ import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.serpics.vaadin.ui.EntityComponent.EntityComponentChild;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+
 
 public abstract class MasterDetailForm<MASTER, DETAIL> extends MasterForm<DETAIL> implements EntityComponentChild<DETAIL,MASTER> {
     private static final long serialVersionUID = 7628189100288027785L;

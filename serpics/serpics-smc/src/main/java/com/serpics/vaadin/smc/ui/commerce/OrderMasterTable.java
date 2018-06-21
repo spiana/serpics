@@ -29,7 +29,8 @@ import com.serpics.vaadin.ui.MasterDetailForm;
 import com.serpics.vaadin.ui.MasterDetailTable;
 import com.serpics.vaadin.ui.MasterForm;
 import com.serpics.vaadin.ui.MasterTable;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+
 
 @VaadinComponent("orderMasterTable")
 public class OrderMasterTable extends MasterTable<Order>{

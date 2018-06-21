@@ -21,7 +21,8 @@ import com.serpics.core.data.model.MultiValueField;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomField;
+import com.vaadin.v7.ui.CustomField;
+
 
 public class MultivalueAttributeField<T extends MultiValueField> extends CustomField<T>{
 

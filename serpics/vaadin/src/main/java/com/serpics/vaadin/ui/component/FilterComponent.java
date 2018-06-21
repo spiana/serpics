@@ -31,25 +31,24 @@ import com.serpics.vaadin.ui.FilterComponentUtils.FilteringMode;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.metadata.PropertyKind;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.FieldEvents.TextChangeEvent;
-import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Container.Filter;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
+import com.vaadin.v7.event.FieldEvents.TextChangeListener;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.v7.ui.AbstractTextField.TextChangeEventMode;
+import com.vaadin.v7.ui.DateField;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
+
 
 /**
  * @author spiana
@@ -111,10 +110,10 @@ public class FilterComponent<T> extends CustomComponent {
 
 	protected void menuEnumeration() {
 		final Field<?> searchField = CustomFieldFactory.get().createField(entityItem, propertyId, this);
-		searchField.addValueChangeListener(new ValueChangeListener() {
+		searchField.addValueChangeListener(new Property.ValueChangeListener() {
 
 			@Override
-			public void valueChange(ValueChangeEvent event) {
+			public void valueChange(Property.ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
 				if (event.getProperty().getValue() != null) {
 					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
@@ -128,8 +127,7 @@ public class FilterComponent<T> extends CustomComponent {
 		searchField.setCaption("");
 
 		final MenuItem item = menuBar.addItem("", null);
-		item.addItem(printFilterLabelLang("isempty"), new Command() {
-
+		item.addItem(printFilterLabelLang("isempty"), new MenuBar.Command()  {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
@@ -140,7 +138,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("isnotempty"), new Command() {
+		item.addItem(printFilterLabelLang("isnotempty"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -152,7 +150,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("equals"), new Command() {
+		item.addItem(printFilterLabelLang("equals"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -193,9 +191,9 @@ public class FilterComponent<T> extends CustomComponent {
 
 			}
 		});
-		searchText.addValueChangeListener(new ValueChangeListener() {
+		searchText.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
-			public void valueChange(ValueChangeEvent event) {
+			public void valueChange(Property.ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
 				if (event.getProperty().getValue() != null) {
 					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
@@ -207,7 +205,7 @@ public class FilterComponent<T> extends CustomComponent {
 
 		final MenuItem item = menuBar.addItem("", null);
 
-		item.addItem(printFilterLabelLang("isempty"), new Command() {
+		item.addItem(printFilterLabelLang("isempty"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -220,7 +218,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("isnotempty"), new Command() {
+		item.addItem(printFilterLabelLang("isnotempty"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -232,7 +230,7 @@ public class FilterComponent<T> extends CustomComponent {
 				container.addContainerFilter(currentFilter);
 			}
 		});
-		item.addItem(printFilterLabelLang("equals"), new Command() {
+		item.addItem(printFilterLabelLang("equals"), new MenuBar.Command(){
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -248,7 +246,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("startwith"), new Command() {
+		item.addItem(printFilterLabelLang("startwith"), new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
@@ -263,7 +261,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("endwith"), new Command() {
+		item.addItem(printFilterLabelLang("endwith"), new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				container.removeContainerFilter(currentFilter);
@@ -277,7 +275,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("like"), new Command() {
+		item.addItem(printFilterLabelLang("like"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -315,7 +313,7 @@ public class FilterComponent<T> extends CustomComponent {
 
 		final MenuItem item = menuBar.addItem("", null);
 
-		item.addItem(printFilterLabelLang("isempty"), new Command() {
+		item.addItem(printFilterLabelLang("isempty"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -332,7 +330,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("isnotempty"), new Command() {
+		item.addItem(printFilterLabelLang("isnotempty"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -349,7 +347,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("before"), new Command() {
+		item.addItem(printFilterLabelLang("before"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -365,7 +363,7 @@ public class FilterComponent<T> extends CustomComponent {
 				}
 			}
 		});
-		item.addItem(printFilterLabelLang("after"), new Command() {
+		item.addItem(printFilterLabelLang("after"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -382,7 +380,7 @@ public class FilterComponent<T> extends CustomComponent {
 
 			}
 		});
-		item.addItem(printFilterLabelLang("between"), new Command() {
+		item.addItem(printFilterLabelLang("between"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -413,9 +411,9 @@ public class FilterComponent<T> extends CustomComponent {
 		dataEnd.setVisible(false);
 		main.addComponent(dataEnd);
 
-		dataStart.addValueChangeListener(new ValueChangeListener() {
+		dataStart.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
-			public void valueChange(ValueChangeEvent event) {
+			public void valueChange(Property.ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
 				if (event.getProperty().getValue() != null) {
 					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
@@ -425,9 +423,9 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		dataEnd.addValueChangeListener(new ValueChangeListener() {
+		dataEnd.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
-			public void valueChange(ValueChangeEvent event) {
+			public void valueChange(Property.ValueChangeEvent event) {
 				container.removeContainerFilter(currentFilter);
 				if (event.getProperty().getValue() != null) {
 					currentFilter = FilterComponentUtils.get().addFilter(container.getType(propertyId), propertyId,
@@ -446,7 +444,7 @@ public class FilterComponent<T> extends CustomComponent {
 
 		final MenuItem item = menuBar.addItem("", null);
 
-		item.addItem(printFilterLabelLang("isempty"), new Command() {
+		item.addItem(printFilterLabelLang("isempty"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -461,7 +459,7 @@ public class FilterComponent<T> extends CustomComponent {
 				}
 			}
 		});
-		item.addItem(printFilterLabelLang("isnotempty"), new Command() {
+		item.addItem(printFilterLabelLang("isnotempty"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -477,7 +475,7 @@ public class FilterComponent<T> extends CustomComponent {
 			}
 		});
 
-		item.addItem(printFilterLabelLang("lessequal"), new Command() {
+		item.addItem(printFilterLabelLang("lessequal"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -492,7 +490,7 @@ public class FilterComponent<T> extends CustomComponent {
 				}
 			}
 		});
-		item.addItem(printFilterLabelLang("greaterequal"), new Command() {
+		item.addItem(printFilterLabelLang("greaterequal"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -517,9 +515,9 @@ public class FilterComponent<T> extends CustomComponent {
 
 		main.addComponent(textField);
 
-		textField.addValueChangeListener(new ValueChangeListener() {
+		textField.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
-			public void valueChange(ValueChangeEvent event) {
+			public void valueChange(Property.ValueChangeEvent event) {
 				LOG.info("text change" + event.getProperty().getValue() + "  " + event.getClass().toString());
 				container.removeContainerFilter(currentFilter);
 				if (!event.getProperty().getValue().equals("")) {
@@ -533,7 +531,7 @@ public class FilterComponent<T> extends CustomComponent {
 
 	private void menuBooleanItem() {
 		final MenuItem item = menuBar.addItem("", null);
-		item.addItem(printFilterLabelLang("true"), new Command() {
+		item.addItem(printFilterLabelLang("true"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -546,7 +544,7 @@ public class FilterComponent<T> extends CustomComponent {
 				container.addContainerFilter(currentFilter);
 			}
 		});
-		item.addItem(printFilterLabelLang("false"), new Command() {
+		item.addItem(printFilterLabelLang("false"), new MenuBar.Command() {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {

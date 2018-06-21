@@ -118,9 +118,7 @@ public class CustomModalComponent<T> extends Window implements Handler {
                     c.setEnabled(true);
                 else
                     c.setEnabled(false);
-            } else {
-                c.setReadOnly(readOnly);
-            }
+            } 
             if (newItem) {
                 if (position > 0)
                     tabSheet.getTab(c).setVisible(false);

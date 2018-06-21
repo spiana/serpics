@@ -29,24 +29,25 @@ import com.vaadin.addon.jpacontainer.EntityContainer;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Container.Viewer;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.v7.ui.CustomField;
 
 /**
  * @author spiana
  *
  */
-public class ExtendedComboBox<T> extends CustomField<T> implements com.vaadin.data.Container.Viewer {
+public class ExtendedComboBox<T> extends CustomField<T> implements Viewer {
 	private static final long serialVersionUID = 1L;
 	
 	private EntityItem<? extends T> item;
@@ -87,11 +88,12 @@ public class ExtendedComboBox<T> extends CustomField<T> implements com.vaadin.da
          combo.setImmediate(true);
          combo.setBuffered(true);
          combo.setConverter(new SingleSelectConverter(combo));
-         combo.addValueChangeListener(new ValueChangeListener() {
+         
+         combo.addValueChangeListener(new Property.ValueChangeListener() {
          
 			@Override
 			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
+					Property.ValueChangeEvent event) {
 				if (combo.getValue() != null)
 					setValue((T) referencedContainer.getItem(combo.getValue()).getEntity());
 			}

@@ -18,9 +18,10 @@ package com.serpics.vaadin.ui.filter;
 
 import com.serpics.vaadin.jpacontainer.filters.SubQueryFilter;
 import com.vaadin.addon.jpacontainer.filter.JoinFilter;
-import com.vaadin.data.util.filter.And;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.Like;
+import com.vaadin.v7.data.util.filter.And;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.Like;
+
 
 
 public class MultilingualLikeFilter extends SubQueryFilter {

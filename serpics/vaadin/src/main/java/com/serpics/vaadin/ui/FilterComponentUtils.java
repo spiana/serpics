@@ -25,13 +25,13 @@ import org.slf4j.LoggerFactory;
 import com.serpics.i18n.Multilingual;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.serpics.vaadin.ui.filter.MultilingualisNullFilter;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.IsNull;
-import com.vaadin.data.util.filter.Not;
-import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.UI;
+import com.vaadin.v7.data.Container.Filter;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.IsNull;
+import com.vaadin.v7.data.util.filter.Not;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 
 public class FilterComponentUtils {
 

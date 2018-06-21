@@ -21,16 +21,17 @@ import java.util.Collection;
 import com.serpics.i18n.data.model.MultilingualField;
 import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
+
 
 /**
  * @author spiana
  *
  */
-public class ComboBox extends com.vaadin.ui.ComboBox {
+public class ComboBox extends com.vaadin.v7.ui.ComboBox{
 
 	/* (non-Javadoc)
 	 * @see com.vaadin.ui.AbstractComponent#getCaption()
