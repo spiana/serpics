@@ -4,8 +4,8 @@
 
 	<entity name="cart">
 		<property name="customer.uuid" table="true" search="true" edit="false" />
-		<property name="customer" />
-		<property name="user" />
+		<property name="customer" extendedcombo="true" mappedClass="com.serpics.membership.data.model.UsersReg" />
+		<property name="user"  />
 		<property name="status" search="true" table="true" width="10%"  style="color3" />
 		<property name="currency" />
 <!-- 		<property name="cookie" /> -->

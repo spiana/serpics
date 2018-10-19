@@ -64,10 +64,7 @@ import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.v7.ui.TextField;
 
-import de.steinwedel.messagebox.ButtonId;
-import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import de.steinwedel.messagebox.MessageBoxListener;
 
 public abstract class MasterTable<T> extends CustomComponent implements MasterTableComponent<T> {
 
@@ -432,22 +429,19 @@ public abstract class MasterTable<T> extends CustomComponent implements MasterTa
 		
 	}
 	public void delete(final Object itemId){
-		MessageBox.showPlain(Icon.QUESTION, I18nUtils.getMessage("smc.messagebox.delete.title", ""),
-		I18nUtils.getMessage("smc.messagebox.delete.text", ""), new MessageBoxListener() {
-			@Override
-			public void buttonClicked(final ButtonId buttonId) {
-				if (buttonId.compareTo(ButtonId.YES) == 0) {
-					if (itemId  instanceof Collection) {
-						for (Object value : (Collection)itemId) {
-							container.removeItem(value);	
-						}
-					}else{
-						container.removeItem(itemId);
-					}	
-					container.commit();
+		MessageBox.createQuestion().withCaption(I18nUtils.getMessage("smc.messagebox.delete.title", ""))
+		.withMessage(I18nUtils.getMessage("smc.messagebox.delete.text", ""))
+		.withYesButton(() -> {
+			if (itemId  instanceof Collection) {
+				for (Object value : (Collection)itemId) {
+					container.removeItem(value);	
 				}
-			}
-		}, ButtonId.NO, ButtonId.YES);
+			}else{
+				container.removeItem(itemId);
+			}	
+			container.commit();})
+		.open();
+
 	}
 	
 	

@@ -37,10 +37,11 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
 
-import de.steinwedel.messagebox.ButtonId;
-import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import de.steinwedel.messagebox.MessageBoxListener;
+
+
+
+
 
 public class EntityFormWindow<T> extends Window implements Handler {
     private static final long serialVersionUID = 2590755708760150150L;
@@ -201,19 +202,12 @@ public class EntityFormWindow<T> extends Window implements Handler {
     @Override
     public void close() {
         if (isModified()) {
-            MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "se sicuro di abbandonare tutte le modifiche ?",
-                    new MessageBoxListener() {
-                @Override
-                public void buttonClicked(final ButtonId buttonId) {
-                    if (buttonId.compareTo(ButtonId.NO) == 0)
-                        return;
-                }
-
-            }, ButtonId.NO, ButtonId.YES);
-        }
-        discardAllComponent();
-        super.close();
-        
+        	MessageBox message = MessageBox.createQuestion();
+        	message.createQuestion().withCaption("Warning !").
+        	withMessage("sei sicuro di abbandonare tutte le modifiche ?").
+        	withYesButton(()->{discardAllComponent(); super.close();}).withNoButton().open();
+        } 
+        		
 
     }
 
@@ -280,18 +274,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
     }
     
     public void delete(){
-    	 MessageBox.showPlain(Icon.QUESTION, "Attenzione !", "se sicuro di abbandonare tutte le modifiche ?",
-                 new MessageBoxListener() {
-             @Override
-             public void buttonClicked(final ButtonId buttonId) {
-                 if (buttonId.compareTo(ButtonId.YES) == 0) {
-                     discardAllComponent();
-                     close();
-                 }
-             }
-
-         }, ButtonId.NO, ButtonId.YES);
-
+    	MessageBox.createInfo().withCaption("Warning !").withMessage("se sicuro di abbandonare tutte le modifiche ?")
+    	.withYesButton(()->discardAllComponent()).open();
      }
     	
     
@@ -304,8 +288,8 @@ public class EntityFormWindow<T> extends Window implements Handler {
         for (final EntityComponent component : componentList) {
             if (component instanceof EntityFormComponent) {
                 if (((EntityFormComponent) component).isModifield() && !((EntityFormComponent) component).isValid()) {
-                    MessageBox.showPlain(Icon.ERROR, "Error", "sono presenti errori di validazione !", ButtonId.OK);
-                    tabSheet.setSelectedTab(component);
+                	MessageBox.createInfo().withCaption("Error !").withMessage("sono presenti errori di validazione !")
+                	.withOkButton(()-> tabSheet.setSelectedTab(component)).open();
                     return false;
                 }
             }
