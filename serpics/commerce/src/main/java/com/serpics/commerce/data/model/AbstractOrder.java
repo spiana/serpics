@@ -46,7 +46,6 @@ import com.serpics.commerce.OrderStatus;
 import com.serpics.i18n.data.model.Currency;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.Member;
-import com.serpics.membership.data.model.User;
 
 /**
  * The persistent class for the orders database table.
@@ -82,10 +81,10 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
     @JoinColumn(name = "customer_id")
     protected Member customer;
 
-    @NotNull(message="{abstractOrder.user.notnull}")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false , targetEntity= User.class)
+  
+    @ManyToOne(fetch = FetchType.LAZY, optional = false , targetEntity= Member.class)
     @JoinColumn(name = "user_id")
-    protected User user;
+    protected Member user;
 
     @Column(name = "discount_amount", precision = 10, scale = 4)
     protected Double discountAmount ;
@@ -255,11 +254,11 @@ public abstract class AbstractOrder extends com.serpics.core.data.jpa.AbstractEn
         this.customer = customer;
     }
 
-    public User getUser() {
+    public Member getUser() {
         return user;
     }
 
-    public void setUser(final User user) {
+    public void setUser(final Member user) {
         this.user = user;
     }
 

@@ -34,7 +34,7 @@ import com.serpics.stereotype.DefaultSpec;
  *
  */
 @DefaultSpec(Catalog2StoreRelation.class)
-public class DefaultCatalo2StoreSpecification implements Specification<Catalog2StoreRelation>{
+public class DefaultCatalog2StoreSpecification implements Specification<Catalog2StoreRelation>{
 
 	@Autowired
 	CommerceEngine engine;
@@ -46,7 +46,7 @@ public class DefaultCatalo2StoreSpecification implements Specification<Catalog2S
 	public Predicate toPredicate(Root<Catalog2StoreRelation> root,
 			CriteriaQuery<?> cq, CriteriaBuilder cb) {
 		
-		return cb.equal(root.get("store"),(Store)engine.getCurrentContext().getStoreRealm());
+		return cb.equal(root.get("catalog"),(Store)engine.getCurrentContext().getCatalog());
 	}
 
 }
