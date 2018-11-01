@@ -46,7 +46,7 @@ public class DefaultCatalog2StoreSpecification implements Specification<Catalog2
 	public Predicate toPredicate(Root<Catalog2StoreRelation> root,
 			CriteriaQuery<?> cq, CriteriaBuilder cb) {
 		
-		return cb.equal(root.get("catalog"),(Store)engine.getCurrentContext().getCatalog());
+		return cb.equal(root.get("store"),(Store)engine.getCurrentContext().getStoreRealm());
 	}
 
 }
