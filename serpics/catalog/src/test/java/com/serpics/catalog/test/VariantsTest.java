@@ -72,7 +72,7 @@ public class VariantsTest extends CatalogBaseTest{
 		Product p = productService.findByCode("P");
 		
 		Assert.assertEquals(4, productVariantRepository.findAll().size());
-		Assert.assertEquals(p, productVariantRepository.findAll().get(0).getParentProduct() );
+		Assert.assertEquals(p.getCode(), productVariantRepository.findAll().get(0).getParentProduct().getCode() );
 		Assert.assertEquals(3, p.getVariants().size());
 		Assert.assertEquals("P.0", p.getVariants().iterator().next().getCode());
 	
@@ -103,33 +103,33 @@ public class VariantsTest extends CatalogBaseTest{
 		color.setAvailablefor(AvailableforType.VARIANT);
 		color.setAttributeType(AttributeType.STRING);
 		color.setName("COLOR");
-		baseAttributeRepository.save(color);
+		baseAttributeRepository.saveAndFlush(color);
 	
 		BaseAttribute size= new BaseAttribute();
 		size.setAvailablefor(AvailableforType.VARIANT);
 		size.setName("SIZE");
 		size.setAttributeType(AttributeType.STRING);
-		baseAttributeRepository.save(size);
+		baseAttributeRepository.saveAndFlush(size);
 		
 		
 		Product p = new Product();
 		p.setProductType(ProductType.CONFIGURABLE);
 		p.setCode("P");
-		productRepository.save(p);
+		productRepository.saveAndFlush(p);
 		
 		ProductVariant pv1 = new ProductVariant();
 		pv1.setCode("P.1");
 		pv1.setParentProduct(p);
 		pv1.setSequence(1D);
 		
-		productVariantRepository.save(pv1);
+		productVariantRepository.saveAndFlush(pv1);
 		
 		ProductVariant pv0 = new ProductVariant();
 		pv0.setCode("P.0");
 		pv0.setParentProduct(p);
 		pv0.setSequence(0D);
 		
-		productVariantRepository.save(pv0);
+		productVariantRepository.saveAndFlush(pv0);
 		
 		MultiValueAttribute value =  new MultiValueAttribute();
 		value.setStringValue("L");
@@ -139,21 +139,21 @@ public class VariantsTest extends CatalogBaseTest{
 		attr1.setValue(value);
 		attr1.setProduct(pv0);
 		
-		variantAttributeRepository.save(attr1);
+		variantAttributeRepository.saveAndFlush(attr1);
 		
 		ProductVariant pv2 = new ProductVariant();
 		pv2.setCode("P.1.5");
 		pv2.setParentProduct(p);
 		pv2.setSequence(0.5D);
 		
-		productVariantRepository.save(pv2);
+		productVariantRepository.saveAndFlush(pv2);
 		
 		ProductVariant pv2_1 = new ProductVariant();
 		pv2_1.setCode("P.1.5_1");
 		pv2_1.setParentVariant(pv2);
 		pv2_1.setSequence(0.5D);
 		
-		productVariantRepository.save(pv2_1);
+		productVariantRepository.saveAndFlush(pv2_1);
 		
 		
 		

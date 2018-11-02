@@ -105,13 +105,17 @@ public class TaxBaseTest extends AbstractTransactionalJunit4SerpicTest {
 			t.setRate(10.0);
 			t.setStore(s);
 			
-			taxRepository.save(t);
+			taxRepository.saveAndFlush(t);
+	
+			
 			
 			TaxCategory t1 = new TaxCategory();
 			t1.setName("VAT");
 			t1.setRate(10.0);
 			t1.setStore(s);
-			taxRepository.save(t1);
+			taxRepository.saveAndFlush(t1);
+			
+		
 			
 	}
 

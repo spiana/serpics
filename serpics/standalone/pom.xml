@@ -101,6 +101,10 @@
 		<!-- <dependency> <groupId>com.vaadin.addon</groupId> <artifactId>beanvalidation-addon</artifactId> 
 			<version>1.0.0</version> </dependency> -->
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
 
 
 
@@ -140,10 +144,6 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring.security}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.vaadin.spring</groupId> -->
 		<!-- <artifactId>spring-vaadin</artifactId> -->
@@ -159,7 +159,7 @@
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring</artifactId>
-			<version>1.0.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.serpics</groupId>

@@ -22,6 +22,7 @@
 	
 	<beans:bean id ="userDetailsService" class="com.serpics.system.services.UserDetailsServiceImpl"/>
 	
+	
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userDetailsService" />
 	</authentication-manager>

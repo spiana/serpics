@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  
  *******************************************************************************/
-package com.serpics.membership.data.interceptors;
+package com.serpics.base.data.interceptor;
 
 import javax.annotation.Resource;
 
@@ -22,7 +22,9 @@ import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.AbstractStoreEntity;
 import com.serpics.base.data.model.Store;
 import com.serpics.core.data.SaveInterceptor;
+import com.serpics.stereotype.ModelInterceptor;
 
+@ModelInterceptor(AbstractStoreEntity.class)
 public class AbstractStoreEntitySaveInterceptor implements SaveInterceptor<AbstractStoreEntity>{
 
 	@Resource(name="commerceEngine")

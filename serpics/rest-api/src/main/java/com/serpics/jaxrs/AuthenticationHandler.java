@@ -16,15 +16,13 @@
  *******************************************************************************/
 package com.serpics.jaxrs;
 
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
 import javax.annotation.Resource;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 
-import org.apache.cxf.jaxrs.ext.RequestHandler;
-import org.apache.cxf.jaxrs.model.ClassResourceInfo;
-import org.apache.cxf.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,44 +30,37 @@ import org.springframework.transaction.annotation.Transactional;
 import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.system.web.WebCostant;
 
-public class AuthenticationHandler implements RequestHandler {
+public class AuthenticationHandler implements ContainerRequestFilter {
 	private static transient Logger LOG = LoggerFactory.getLogger(AuthenticationHandler.class);
 
 	@Resource
 	CommerceEngine commerceEngine;
-	
-	@SuppressWarnings("unchecked")
+
+
 	@Override
 	@Transactional(readOnly=true)
-	public Response handleRequest(final Message message, final ClassResourceInfo resourceClass) {
-	
-		Map<String, List<String>> headers = (Map<String, List<String>>) message.get(Message.PROTOCOL_HEADERS);
-	
-		String uri = (	String) message.get(Message.REQUEST_URI);
+	public void filter(ContainerRequestContext requestContext) throws IOException {
 		
-		LOG.info("uri {}" , uri);
+		String sessionId = requestContext.getHeaderString(WebCostant.SSID_SERPICS_TOKEN);
 		
-		String sessionId = null;
-		List<String> sessionids = headers.get(WebCostant.SSID_SERPICS_TOKEN);
-		
-		if (sessionids != null && !sessionids.isEmpty()){
-			sessionId = sessionids.get(0);
+		if (sessionId != null){
+			
 			try{
 				if(commerceEngine.bind(sessionId)==null){
 					//FIXME in caso di sessionexpired
 					//403 Forbidden La richiesta è legittima ma il server si rifiuta di soddisfarla.
-					return Response.status(403).build();
+					requestContext.abortWith(Response.status(403).build());
+					
 				}
 				
 			}catch(Exception e){
-				return Response.status(412).build();
+				requestContext.abortWith(Response.status(412).build());
+				
 			}
 		}else{
-			return Response.status(401).build();
+			requestContext.abortWith(Response.status(401).build());
 			
 		}
 		
-		return null;
 	}
-
 }
