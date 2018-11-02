@@ -47,6 +47,7 @@ import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
 @ContextConfiguration({"classpath:META-INF/i18n-serpics.xml",
+	"classpath:META-INF/mediasupport-serpics.xml",
 	"classpath:META-INF/base-serpics.xml" , 
 	"classpath:META-INF/postman-serpics.xml" ,"classpath:META-INF/membership-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)

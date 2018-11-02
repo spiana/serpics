@@ -34,6 +34,14 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="interceptor" ref="baseAttributeSaveInterceptor" />
 	</bean>
     
+    
+    <bean name="abstractStoreEntityInterceptor" class="com.serpics.base.data.interceptor.AbstractStoreEntitySaveInterceptor" />
+    <bean name="abstractStoreEntityMapping" class="com.serpics.core.data.InterceptorMapping" >
+	  <property name="targetEntity" value="com.serpics.base.data.model.AbstractStoreEntity" />
+	  <property name="order" value="100"/>
+	  <property name="interceptor" ref="abstractStoreEntityInterceptor" />
+ </bean> 
+    
     <bean name="defaultBaseAttributeSpecification" class="com.serpics.base.data.specification.DefaultBaseAttributeSpecification"/>
   
     

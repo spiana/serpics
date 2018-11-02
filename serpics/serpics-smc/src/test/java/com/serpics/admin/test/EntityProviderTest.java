@@ -24,6 +24,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.commerce.session.CommerceSessionContext;
+import com.serpics.base.data.model.Store;
+import com.serpics.base.data.repositories.StoreRepository;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.services.CatalogService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.model.Currency;
 import com.serpics.i18n.data.model.MultilingualText;
+import com.serpics.i18n.data.repositories.CurrencyRepository;
 import com.serpics.membership.data.model.PrimaryAddress;
 import com.serpics.membership.data.model.UsersReg;
 import com.serpics.membership.services.BaseService;
@@ -79,11 +84,35 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 	@Autowired
 	ProductService productService;
 	
+	@Autowired
+	StoreRepository storeRepository;
+	
+	@Autowired
+	CurrencyRepository currencyRepository;
+	
+	@Before
+	public void initTest(){
+		if (!baseService.isInitialized()){
+			baseService.initIstance();
+			createStore();
+		}
+		
+	}
+	
+	private void createStore(){
+		Currency example = new Currency();
+		example.setIsoCode("EUR");
+		Currency c = currencyRepository.findOne(currencyRepository.makeSpecification(example));
+		Store _s = new Store();
+		_s.setName("test-store");
+		_s.setCurrency(c);
+		storeRepository.saveAndFlush(_s);
+	}
+	
+	
 	@Test
 	@Transactional
 	public void EntityProviderTest () throws SerpicsException{
-		if (!baseService.isInitialized())
-			baseService.initIstance();
 		
 		CommerceSessionContext context = engine.connect("default-store");
 		
@@ -124,8 +153,6 @@ public class EntityProviderTest extends AbstractTransactionalJunit4SerpicTest {
 	@Test
 	@Transactional
 	public void EntityProviderTest1 () throws SerpicsException{
-		if (!baseService.isInitialized())
-			baseService.initIstance();
 		
 		engine.connect("default-store");
 		

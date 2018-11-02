@@ -55,6 +55,7 @@ import com.serpics.i18n.data.model.MultilingualText;
 import com.serpics.stereotype.StoreService;
 
 @StoreService("productService")
+@Transactional(readOnly=true)
 public class ProductServiceImpl extends AbstractCommerceEntityService<Product, Long> implements ProductService{
 
 	@Resource
