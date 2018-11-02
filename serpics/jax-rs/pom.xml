@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>serpics</artifactId>
 		<groupId>com.serpics</groupId>
-		<version>1.1-RELEASE</version>
+		<version>1.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>jax-rs</artifactId>
 	<packaging>war</packaging>
