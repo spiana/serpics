@@ -23,15 +23,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.serpics.base.data.repositories.LocaleRepository;
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
+import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
+@ContextConfiguration({ "classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml" , "classpath:META-INF/base-serpics.xml" , 
 	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Ignore

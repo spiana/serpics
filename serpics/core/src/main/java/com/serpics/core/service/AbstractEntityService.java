@@ -65,12 +65,9 @@ EntityService<T, ID> , SerpicsService<CONTEXT>{
     public List<T> findAll() {
         return getEntityRepository().findAll();
     }
-
-
-
     @Override
     public T findOne(final ID id) {
-        return getEntityRepository().findOne(id);
+    	return getEntityRepository().findOne(id);
     }
     
     @Override

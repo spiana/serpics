@@ -10,17 +10,20 @@ import java.io.InputStream;
 
 import javax.annotation.Resource;
 
-import com.serpics.base.MediaSupportType;
 import com.serpics.base.data.model.Media;
 import com.serpics.base.strategies.MediaStrategy;
-import com.serpics.base.utils.MediaStoreUtil;
+import com.serpics.mediasupport.MediaSupportType;
+import com.serpics.mediasupport.utils.MediaPathResolver;
+import com.serpics.mediasupport.utils.MediaUtil;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy(value="mediaStrategy")
 public class DefaultMediaStategy implements MediaStrategy<Media> {
 
 	@Resource
-	private MediaStoreUtil mediaUtils;
+	private MediaPathResolver mediaPathResolver;
+	@Resource
+	private MediaUtil mediaUtil;
 	
 	@Override
 	public Media create(Media media) throws IOException {
@@ -38,7 +41,7 @@ public class DefaultMediaStategy implements MediaStrategy<Media> {
 	public String getMediaUrl(Media media) {
 		
 		if (media.getType().equals(MediaSupportType.LOCAL)){
-			String mediaWeb  = mediaUtils.getMediaWebPath();
+			String mediaWeb  = mediaPathResolver.getMediaWebPath();
 			if (!mediaWeb.endsWith("/"))
 				mediaWeb +="/";
 			return mediaWeb+ media.getSource();
@@ -61,7 +64,7 @@ public class DefaultMediaStategy implements MediaStrategy<Media> {
 	}
 
 	protected String createLocalMedia(String fileName , InputStream is ) throws IOException{
-		String destinationPath = mediaUtils.getDestinationPath(fileName);
+		String destinationPath = mediaUtil.getDestinationPath(fileName);
 		FileOutputStream fos = new FileOutputStream(destinationPath);
 		BufferedInputStream bis = new BufferedInputStream(is);
 

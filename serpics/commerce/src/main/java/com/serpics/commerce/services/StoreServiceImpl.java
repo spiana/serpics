@@ -25,12 +25,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.base.data.model.Store;
 import com.serpics.base.data.repositories.StoreRepository;
 import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.session.SessionContext;
 import com.serpics.membership.UserType;
 import com.serpics.membership.data.model.User;
@@ -56,7 +56,7 @@ public class StoreServiceImpl implements StoreService {
 	@Resource
 	PriceListRepository priceListrepository;
 	
-	@Resource
+	@Resource(name="commerceEngine")
 	CommerceEngine engine;
 	
 	/* (non-Javadoc)

@@ -18,18 +18,19 @@ package com.serpics.base.data.interceptor;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.BaseAttribute;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
 
 public class BaseAttributeSaveInterceptor implements SaveInterceptor<BaseAttribute> {
 
 	@Resource
-	CommerceEngine engine;
+	CommerceEngine commerceEngine;
 	
 	@Override
 	public void beforeSave(BaseAttribute entity) {
-		entity.setStoreId(engine.getCurrentContext().getStoreId());
+		
+		entity.setStoreId(commerceEngine.getCurrentContext().getStoreId());
 		
 	}
 

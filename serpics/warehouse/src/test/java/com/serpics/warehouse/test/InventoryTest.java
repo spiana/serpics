@@ -21,7 +21,6 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Store;
@@ -38,7 +37,6 @@ import com.serpics.warehouse.data.repositories.WarehouseStoreConfigRepository;
 import com.serpics.warehouse.service.InventoryService;
 import com.serpics.warehouse.service.WareHouseService;
 
-@TransactionConfiguration(defaultRollback=true)
 public class InventoryTest extends WarehouseBaseTest{
 
 	@Resource

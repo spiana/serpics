@@ -16,8 +16,8 @@
  *******************************************************************************/
 package com.serpics.base.test.interceptor;
 
-import com.serpics.base.data.model.Locale;
 import com.serpics.core.data.SaveInterceptor;
+import com.serpics.i18n.data.model.Locale;
 
 public class LocaleCreateInterceptor implements SaveInterceptor<Locale> {
 

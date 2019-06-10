@@ -29,7 +29,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.facade.AbstractPopulatingConverter;
@@ -46,7 +46,10 @@ import com.serpics.membership.services.MembershipService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , "classpath:META-INF/postman-serpics.xml" ,"classpath:META-INF/membership-serpics.xml"})
+@ContextConfiguration({"classpath:META-INF/i18n-serpics.xml",
+	"classpath:META-INF/mediasupport-serpics.xml",
+	"classpath:META-INF/base-serpics.xml" , 
+	"classpath:META-INF/postman-serpics.xml" ,"classpath:META-INF/membership-serpics.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class ConvertTest extends AbstractTransactionalJunit4SerpicTest {

@@ -27,14 +27,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.data.model.MultilingualText;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.facade.data.BrandData;
 import com.serpics.catalog.services.BrandService;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.i18n.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualText;
 import com.serpics.stereotype.StoreFacade;
 
 @StoreFacade("brandFacade")

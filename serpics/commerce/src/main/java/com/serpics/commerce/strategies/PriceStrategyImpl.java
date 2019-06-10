@@ -18,11 +18,12 @@ package com.serpics.commerce.strategies;
 
 import javax.annotation.Resource;
 
-import com.serpics.base.data.model.Currency;
+import com.serpics.base.strategies.AbstractStrategy;
 import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.services.PriceService;
+import com.serpics.i18n.data.model.Currency;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy("priceStrategy")

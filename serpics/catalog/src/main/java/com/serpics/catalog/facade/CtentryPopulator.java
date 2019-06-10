@@ -18,11 +18,11 @@ package com.serpics.catalog.facade;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Media;
 import com.serpics.base.facade.data.MediaData;
 import com.serpics.catalog.data.model.Ctentry;
 import com.serpics.catalog.facade.data.CtentryData;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 

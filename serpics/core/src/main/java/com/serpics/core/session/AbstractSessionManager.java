@@ -24,10 +24,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.scope.SessionScopeAttributes;
 import com.serpics.core.scope.SessionScopeContextHolder;
-import com.serpics.core.security.StoreRealm;
+import com.serpics.core.security.Realm;
 
 public abstract class AbstractSessionManager implements SessionManager {
     private static transient Logger logger = LoggerFactory.getLogger(AbstractSessionManager.class);
@@ -40,17 +39,16 @@ public abstract class AbstractSessionManager implements SessionManager {
         return getGenerateSessionIdStrategy().generate(realm);
     }
     
-    private SessionContext makeSessionContext(String sessionId , StoreRealm realm){
+    protected SessionContext makeSessionContext(String sessionId , Realm realm){
     	   Assert.notNull(sessionId, "sessionId can non be null !");
     	  	final SessionScopeAttributes commerceScopeAttributes = new SessionScopeAttributes();
 
     	  	commerceScopeAttributes.setConversationId(sessionId);
     	  
     	  	SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
-           final CommerceSessionContext context = new CommerceSessionContext();
-           context.setStoreRealm(realm);
+           final SessionContext context = new SessionContext();
+           context.setRealm(realm);
            context.setSessionId(sessionId);
-           context.setUserCookie(sessionId);
            context.setLastAccess(new Date());
 
            context.setCommerceScopeAttribute(commerceScopeAttributes);
@@ -62,7 +60,7 @@ public abstract class AbstractSessionManager implements SessionManager {
     }
 
     @Override
-    public SessionContext createSessionContext(final StoreRealm realm , String sessionId) {
+    public SessionContext createSessionContext(final Realm realm , String sessionId) {
     	if (sessionId == null){
     		sessionId = generateSessionID(realm.getName());
     	}
@@ -93,6 +91,11 @@ public abstract class AbstractSessionManager implements SessionManager {
         }
 
         return sessionContext;
+    }
+    
+    @Override
+    public Hashtable<String, SessionContext> getSesssionList() {
+    	return sessionList;
     }
     
     @Override

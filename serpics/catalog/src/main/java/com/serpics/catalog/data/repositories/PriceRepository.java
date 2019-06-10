@@ -21,11 +21,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.core.data.Repository;
+import com.serpics.i18n.data.model.Currency;
 
 public interface PriceRepository extends Repository<Price, Long> {
 

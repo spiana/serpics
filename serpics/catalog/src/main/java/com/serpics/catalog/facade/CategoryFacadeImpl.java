@@ -28,8 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.data.model.MultilingualText;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Ctentry;
 import com.serpics.catalog.facade.data.CategoryData;
@@ -38,9 +37,10 @@ import com.serpics.catalog.services.BrandService;
 import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.Engine;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.i18n.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualText;
 import com.serpics.stereotype.StoreFacade;
 
 @StoreFacade("categoryFacade")

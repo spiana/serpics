@@ -149,8 +149,12 @@ public class UserServiceImpl extends AbstractMemberService<User, Long> implement
         if (reg.getStatus() == null)
             reg.setStatus(UserRegStatus.ACTIVE);
 
+        userRegrepository.saveAndFlush(reg);
+        
         if (primaryAddress != null) {
             primaryAddress.setMember(u);
+            primaryAddressRepository.saveAndFlush(primaryAddress);
+            
             reg.setPrimaryAddress(primaryAddress);
         }
         

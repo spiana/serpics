@@ -10,10 +10,7 @@
 		<class>com.serpics.base.data.model.Geocode</class>
 		<class>com.serpics.base.data.model.Region</class>
 		<class>com.serpics.base.data.model.District</class>
-		<class>com.serpics.base.data.model.Currency</class>
-		<class>com.serpics.base.data.model.Locale</class>
-		<class>com.serpics.base.data.model.MultilingualString</class>
-		<class>com.serpics.base.data.model.MultilingualText</class>
+
 		<class>com.serpics.base.data.model.Media</class>
 		<class>com.serpics.base.data.model.MediaSupport</class>
 		<class>com.serpics.base.data.model.Store</class>

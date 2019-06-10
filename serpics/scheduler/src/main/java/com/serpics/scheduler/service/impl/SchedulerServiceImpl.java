@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
 import com.serpics.scheduler.model.AbstractSchedulerJob;
 import com.serpics.scheduler.repositories.AbstractSchedulerJobRepository;

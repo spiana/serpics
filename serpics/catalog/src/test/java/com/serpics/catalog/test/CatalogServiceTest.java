@@ -23,14 +23,11 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.repositories.BaseAttributeRepository;
-import com.serpics.base.utils.MediaStoreUtil;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.Price;
@@ -42,8 +39,9 @@ import com.serpics.catalog.services.CategoryService;
 import com.serpics.catalog.services.PriceService;
 import com.serpics.catalog.services.ProductService;
 import com.serpics.core.SerpicsException;
+import com.serpics.core.datatype.AttributeType;
+import com.serpics.mediasupport.utils.MediaPathResolver;
 
-@TransactionConfiguration(defaultRollback = true)
 public class CatalogServiceTest extends CatalogBaseTest {
 
     @Resource
@@ -69,7 +67,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     PriceService priceService;
     
     @Autowired
-    MediaStoreUtil mediaStoreUtil;
+    MediaPathResolver mediaPathResolver;
 
 
  //   @Test
@@ -109,7 +107,7 @@ public class CatalogServiceTest extends CatalogBaseTest {
     @Transactional
     @Test
     public void testMediaBasePath(){
-    	Assert.assertEquals("/mediafolder", mediaStoreUtil.getBaseMediaPath());
+    	Assert.assertEquals("/mediafolder/"+commerceEngine.getCurrentContext().getCatalog().getId().toString(), mediaPathResolver.getBaseMediaPath());
     }
 
     @Test

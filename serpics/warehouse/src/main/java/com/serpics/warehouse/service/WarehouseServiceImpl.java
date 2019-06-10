@@ -20,9 +20,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.AbstractProduct;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.service.AbstractService;
 import com.serpics.stereotype.StoreService;
 import com.serpics.warehouse.data.model.Warehouse;

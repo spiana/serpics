@@ -4,8 +4,8 @@
 
 	<entity name="cart">
 		<property name="customer.uuid" table="true" search="true" edit="false" />
-		<property name="customer" />
-		<property name="user" />
+		<property name="customer" extendedcombo="true" mappedClass="com.serpics.membership.data.model.UsersReg" />
+		<property name="user" extendedCombo="false" />
 		<property name="status" search="true" table="true" width="10%"  style="color3" />
 		<property name="currency" />
 <!-- 		<property name="cookie" /> -->
@@ -22,7 +22,8 @@
 	
 	<entity name="order">
 		<property name="customer.commonName" table="true" search="true" edit="false" />
-		<property name="customer" extendedcombo="true" mappedClass="com.serpics.membership.data.model.UsersReg"  />
+		<property name="customer" extendedcombo="true" mappedClass="com.serpics.membership.data.model.UsersReg"  />		
+		<property name="user" />
 		
 		<property name="status" search="true" table="true" width="40%" style="color2"/>
 		<property name="currency"  width="25%"/>
@@ -100,13 +101,14 @@
 	
 	<entity name="payment">
 		<property name="paymethod.name" readonly="true" table="true"  edit="false"/>
-		<property name="paymethod" readonly="true" />
-		<property name="intent" table="true"  readonly="true" />
-		<property name="amount" table="true" readonly="true"/>
+		<property name="paymethod" readonly="false" />
+		<property name="intent" table="true"  readonly="false" />
+		<property name="amount" table="true" readonly="false"/>
 		<property name="currency.isoCode" table="true" edit ="false"/>
-		<property name="currency" table="false" edit ="true" readonly="true" />
-		<property name="state" table="true" readonly="true"/>
-		<property name="transactions" readonly="true"/>
+		<property name="currency" table="false" edit ="true" readonly="false" />
+		<property name="state" table="true" readonly="false"/>
+		<property name="transactions" readonly="false"/>
+		<property name="paymentIdentifier"/>
 	</entity>
 	
 	<entity name="paymenttransaction">

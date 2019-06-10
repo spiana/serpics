@@ -18,12 +18,12 @@ package com.serpics.catalog.services;
 
 import java.util.List;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.core.service.EntityService;
+import com.serpics.i18n.data.model.Currency;
 
 public interface PriceService extends EntityService<Price, Long> {
 	

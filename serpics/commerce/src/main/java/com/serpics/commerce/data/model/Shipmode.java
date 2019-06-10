@@ -32,8 +32,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import com.serpics.base.data.model.MultilingualString;
 import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.i18n.data.model.MultilingualString;
 
 /**
  * The persistent class for the shipmode database table.

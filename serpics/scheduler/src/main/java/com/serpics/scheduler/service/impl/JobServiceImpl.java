@@ -92,7 +92,7 @@ public class JobServiceImpl implements JobService {
 		Assert.notNull(jobToCreate, "If you want to create a job, please provide an job object.");
 		Assert.notNull(store,"Indicate the Store where the perform job");
 		
-		LOG.info("Create Job Details for job  [{}] with params store [ {} ] , catalog [ {} ]",jobToCreate.getCanonicalName(),store.getName(),catalog!=null?catalog.getCode():"No Catalog");
+		LOG.info(String.format("Create Job Details for job  [%s] with params store [ %s ] , catalog [ %s ]",jobToCreate.getCanonicalName(),store.getName(),catalog!=null?catalog.getCode():"No Catalog"));
 		
 		JobDetails jobDetails = new StoreJobDetails();
 		jobDetails.setStore(store);

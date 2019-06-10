@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.base.commerce.service.AbstractCommerceEntityService;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.data.model.Catalog;
 import com.serpics.catalog.data.model.Catalog2StoreRelation;
@@ -34,8 +34,8 @@ import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.Catalog2StoreRelationRepository;
 import com.serpics.catalog.data.repositories.CatalogRepository;
 import com.serpics.catalog.data.repositories.PriceListRepository;
-import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
+import com.serpics.i18n.data.model.MultilingualString;
 
 @Service("catalogService")
 @Scope("store")

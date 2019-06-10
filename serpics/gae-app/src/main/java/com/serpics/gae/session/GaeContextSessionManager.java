@@ -17,20 +17,23 @@
 package com.serpics.gae.session;
 
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.security.StoreRealm;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.core.scope.SessionScopeAttributes;
 import com.serpics.core.scope.SessionScopeContextHolder;
-import com.serpics.core.security.StoreRealm;
+import com.serpics.core.security.Realm;
 import com.serpics.core.session.SessionContext;
 import com.serpics.core.session.SessionManager;
 
@@ -57,7 +60,9 @@ public class GaeContextSessionManager implements
 	}
 
 	@Override
-	public SessionContext createSessionContext(StoreRealm realm , String sessionId) {
+	public SessionContext createSessionContext(Realm realm , String sessionId) {
+		 Assert.isInstanceOf(StoreRealm.class, realm);
+		 
 		if (sessionId == null){
 			sessionId = UUID.randomUUID().toString();
 			String prefix = Base64.encodeBase64String(realm.getName().getBytes());
@@ -73,7 +78,7 @@ public class GaeContextSessionManager implements
         SessionScopeContextHolder.setSessionScopeAttributes(commerceScopeAttributes);
 
         final CommerceSessionContext context = new CommerceSessionContext();
-        context.setStoreRealm(realm);
+        context.setStoreRealm((StoreRealm)realm);
         context.setSessionId(sessionId);
         context.setUserCookie(sessionId);
         context.setLastAccess(new Date());
@@ -95,6 +100,12 @@ public class GaeContextSessionManager implements
 	public void afterPropertiesSet() throws Exception {
 		this.mcs =MemcacheServiceFactory.getMemcacheService();
 		
+	}
+
+	@Override
+	public Hashtable<String, SessionContext> getSesssionList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

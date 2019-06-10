@@ -10,9 +10,20 @@ http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+	 <alias name="commerceSessionManager" alias="sessionManager"/>
+    <bean name="commerceSessionManager" class="com.serpics.base.commerce.session.CommerceContextSessionManager" >
+    	<property name="generateSessionIdStrategy" ref="generateSessionIdStrategy"/>
+    </bean>
+    
+    <alias name="commerceEngine" alias="engine"/>
+    <bean name="commerceEngine" class="com.serpics.base.commerce.CommerceEngineImpl" />
+    
     <context:component-scan base-package="com.serpics.base.services" />
     <data:repositories base-package="com.serpics.base.data.repositories" 
      base-class="com.serpics.core.data.RepositoryImpl"/>
+   
+  	<alias name="commerceMediaPathResolver" alias="mediaPathResolver"/>
+   	<bean name="commerceMediaPathResolver" class="com.serpics.base.mediasupport.utils.CommerceMediaPathResolver" parent="baseMediaPathResolver"/>
    
     <bean name="baseAttributeSaveInterceptor"
 		class="com.serpics.base.data.interceptor.BaseAttributeSaveInterceptor" />
@@ -23,8 +34,16 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 		<property name="interceptor" ref="baseAttributeSaveInterceptor" />
 	</bean>
     
+    
+    <bean name="abstractStoreEntityInterceptor" class="com.serpics.base.data.interceptor.AbstractStoreEntitySaveInterceptor" />
+    <bean name="abstractStoreEntityMapping" class="com.serpics.core.data.InterceptorMapping" >
+	  <property name="targetEntity" value="com.serpics.base.data.model.AbstractStoreEntity" />
+	  <property name="order" value="100"/>
+	  <property name="interceptor" ref="abstractStoreEntityInterceptor" />
+ </bean> 
+    
     <bean name="defaultBaseAttributeSpecification" class="com.serpics.base.data.specification.DefaultBaseAttributeSpecification"/>
-    <bean name="mediaStoreUtil" class="com.serpics.base.utils.MediaStoreUtil" />
+  
     
 <!--     					 factory-class="com.serpics.core.data.RepositoryFactoryBean"/> -->
      <!--  facade -->

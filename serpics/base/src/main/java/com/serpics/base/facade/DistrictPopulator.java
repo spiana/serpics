@@ -19,9 +19,9 @@ package com.serpics.base.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.District;
 import com.serpics.base.facade.data.DistrictData;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.facade.Populator;
 
 public class DistrictPopulator implements Populator<District, DistrictData>{

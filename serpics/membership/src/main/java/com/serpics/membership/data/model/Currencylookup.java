@@ -20,9 +20,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.serpics.base.data.model.Currency;
 import com.serpics.base.data.model.Store;
 import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.i18n.data.model.Currency;
 
 //@Entity
 public class Currencylookup extends AbstractEntity{

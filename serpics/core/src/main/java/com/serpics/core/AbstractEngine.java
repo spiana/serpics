@@ -26,25 +26,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
 import com.serpics.core.scope.SessionScopeContextHolder;
 import com.serpics.core.scope.StoreScopeContextHolder;
-import com.serpics.core.security.StoreRealm;
+import com.serpics.core.security.Realm;
 import com.serpics.core.security.UserDetail;
 import com.serpics.core.service.Membership;
 import com.serpics.core.session.SessionContext;
 import com.serpics.core.session.SessionManager;
 
 
-public abstract class AbstractEngine<T extends SessionContext> implements Engine<T> , InitializingBean{
+public abstract class AbstractEngine<T extends SessionContext> implements Engine<T> {
 
     Logger logger = LoggerFactory.getLogger(AbstractEngine.class);
 
     private transient static final ThreadLocal<SessionContext> threadLocal = new ThreadLocal<SessionContext>();
 
+    @Resource(name="memberService")
     private Membership membershipService;
     
     private boolean reconnectEnable = true;
@@ -82,8 +82,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     @SuppressWarnings("unchecked")
 	protected T doConnection(String storeName , String sessionId) throws SerpicsException{
-    	final StoreRealm s = membershipService.fetchStoreByName(storeName);
-        Assert.notNull(s , "invalid store ! connection rejected !");
+    	final Realm s = membershipService.fetchRealmByName(storeName);
+        Assert.notNull(s , "invalid Realm ! connection rejected !");
         final SessionContext context = getSessionManager().createSessionContext(s , sessionId);
     	return (T) context;
     }
@@ -171,7 +171,7 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
 
     public void bind(final SessionContext context) {
         threadLocal.set(context);
-        StoreScopeContextHolder.setCurrentStoreRealm(context.getRealm());
+        StoreScopeContextHolder.setCurrentStoreRealm(context.getRealm().getName());
         SessionScopeContextHolder.setSessionScopeAttributes(context.getCommerceScopeAttribute());
         return;
     }
@@ -212,8 +212,8 @@ public abstract class AbstractEngine<T extends SessionContext> implements Engine
         threadLocal.remove();
     }
     
-    @Override
-    public void afterPropertiesSet() throws Exception {
-    	this.membershipService = (Membership) beanFactory.getBean("memberService");
-    }
+//    @Override
+//    public void afterPropertiesSet() throws Exception {
+//    	this.membershipService = (Membership) beanFactory.getBean("memberService");
+//    }
 }

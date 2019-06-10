@@ -18,13 +18,13 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<bean name= "localeCreateInterceptor" class="com.serpics.base.test.interceptor.LocaleCreateInterceptor"/>
 	
    <bean name="languageBeforeSave" class="com.serpics.core.data.InterceptorMapping" >
-  		 <property name="targetEntity" value="com.serpics.base.data.model.Locale" />
+  		 <property name="targetEntity" value="com.serpics.i18n.data.model.Locale" />
   		 <property name="order" value="100" />
   		 <property name="interceptor" ref="localeCreateInterceptor"/>
    </bean>
    
     <bean name="languageBeforeSave1" class="com.serpics.core.data.InterceptorMapping" >
-  		 <property name="targetEntity" value="com.serpics.base.data.model.Locale" />
+  		 <property name="targetEntity" value="com.serpics.i18n.data.model.Locale" />
   		 <property name="order" value="90" />
   		 <property name="interceptor" ref="localeCreateInterceptor"/>
    </bean>

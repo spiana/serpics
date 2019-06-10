@@ -19,7 +19,7 @@
 
 package com.serpics.vaadin.ui.converters;
 
-import com.serpics.base.data.model.MultilingualField;
+import com.serpics.i18n.data.model.MultilingualField;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.Field;
 public class MultilingualFieldConvert implements Converter<String, MultilingualField> {

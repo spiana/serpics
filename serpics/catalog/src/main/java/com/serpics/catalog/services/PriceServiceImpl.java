@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.base.data.model.Currency;
+import com.serpics.base.commerce.service.AbstractCommerceEntityService;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.PriceNotFoundException;
 import com.serpics.catalog.data.model.AbstractProduct;
@@ -34,8 +34,8 @@ import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
 import com.serpics.catalog.data.repositories.AbstractProductRepository;
 import com.serpics.catalog.data.repositories.PriceRepository;
-import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
+import com.serpics.i18n.data.model.Currency;
 
 @Service("priceService")
 @Scope("store")

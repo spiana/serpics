@@ -24,14 +24,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.session.SessionContext;
 
 
 public interface Repository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T>  {
 	
 	@SuppressWarnings("hiding")
 	public <T> Specification<T> makeSpecification(final T example);
-//	public T findOne(Specification<T> spec , final Sort sort , int index );
+	public T findOne(ID id);
 	public T refresh(T entity);
 	
 	public void detach(final T entity);
@@ -51,7 +51,7 @@ public interface Repository<T, ID extends Serializable> extends JpaRepository<T,
 	public T update(T entity);
     
 	public void setRepositoryIniziatializer(RepositoryInitializer inizializer);
-	public CommerceSessionContext getCurrentContext();
+	public SessionContext getCurrentContext();
 
 	
 	public Class<?> getDomainClass();

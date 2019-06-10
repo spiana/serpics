@@ -17,8 +17,8 @@
 package com.serpics.vaadin.ui.component;
 
 
-import com.serpics.base.data.model.Locale;
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.i18n.data.model.Locale;
+import com.serpics.i18n.data.model.MultilingualString;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;

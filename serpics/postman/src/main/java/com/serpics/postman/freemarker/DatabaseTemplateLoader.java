@@ -30,8 +30,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.postman.data.CoupleStore;
 import com.serpics.postman.model.TemplateStore;
 import com.serpics.postman.repositories.TemplateStoreRepository;

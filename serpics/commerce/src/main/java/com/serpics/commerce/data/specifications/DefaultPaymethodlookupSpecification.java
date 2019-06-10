@@ -24,8 +24,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.stereotype.DefaultSpec;
 

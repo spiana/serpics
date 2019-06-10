@@ -19,7 +19,6 @@ package com.serpics.vaadin.smc.ui.catalog;
 import javax.annotation.Resource;
 
 import com.serpics.base.AvailableforType;
-import com.serpics.base.MultiValueField;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
 import com.serpics.catalog.data.ProductType;
@@ -33,6 +32,7 @@ import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.ProductVariant;
 import com.serpics.catalog.data.repositories.CategoryRepository;
+import com.serpics.core.data.model.MultiValueField;
 import com.serpics.stereotype.VaadinComponent;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -88,7 +88,7 @@ public class ProductTable extends MasterTable<Product> {
             @Override
             public void init() {
                 super.init();
-                setDisplayProperties(new String[]{"code" ,"productType","name","description","buyable","status", "featureModel" , "brand" ,"primaryImage", "medias" , "weight" , "weightMeas", "taxcategory","created", "updated"});
+                setDisplayProperties(new String[]{"code" ,"productType","name","description","buyable","status", "featureModel", "medias" , "brand" ,"primaryImage",  "weight" , "weightMeas", "taxcategory","created", "updated"});
                 setReadOnlyProperties(new String[] { "created", "updated" , "uuid"});
             }
             

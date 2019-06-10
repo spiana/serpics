@@ -61,7 +61,7 @@ public class SchedulerTriggerListener extends TriggerListenerSupport {
 	@Override
 	public void triggerFired(Trigger trigger, JobExecutionContext context) {
 		
-		getLog().debug("triggerFired {}  of Job {} on store {}, mayFireAgain? ",trigger.getKey(),trigger.getJobKey(),context.getJobDetail().getJobDataMap().get("realmStore"),trigger.mayFireAgain());
+		getLog().debug(String.format("triggerFired %s  of Job %s on store %s, mayFireAgain? ",trigger.getKey(),trigger.getJobKey(),context.getJobDetail().getJobDataMap().get("realmStore"),trigger.mayFireAgain()));
 		
 		JobLog jLog = new JobLog();
 		jLog.setDateStart(new Date());

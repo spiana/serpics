@@ -22,9 +22,9 @@ import javax.annotation.Resource;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Media;
 import com.serpics.base.strategies.MediaStrategy;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.Repository;
 
 @Transactional(readOnly = true)

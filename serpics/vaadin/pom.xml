@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>serpics-vaadin</artifactId>
 	<packaging>jar</packaging>
-  
-  <parent>
-  	<groupId>com.serpics</groupId>
-  	<artifactId>serpics</artifactId>
-  	<version>1.1-SNAPSHOT</version>
-  </parent>
-  
-  
-  <properties>
+
+	<parent>
+		<groupId>com.serpics</groupId>
+		<artifactId>serpics</artifactId>
+		<version>1.1-RELEASE</version>
+	</parent>
+
+
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.4.0</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
 	<repositories>
@@ -32,13 +32,12 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-	</repositories>	
-  
-  <dependencies>	
+	</repositories>
+
+	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -83,11 +82,6 @@
 			<version>${vaadin.version}</version>
 		</dependency>		
 		<dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>base</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring.security}</version>
@@ -103,15 +97,20 @@
 			<version>2.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.serpics</groupId>
-			<artifactId>membership</artifactId>
-			<version>${serpics.version}</version>
-		</dependency>
-		<dependency>
   			 <groupId>com.byteowls</groupId>
    			<artifactId>vaadin-chartjs</artifactId>
    		<version>0.4.0</version>
 </dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>serpics-i18n</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.serpics</groupId>
+			<artifactId>media-support</artifactId>
+			<version>${serpics.version}</version>
+		</dependency>
   </dependencies>
   
   
@@ -122,8 +121,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.0</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
        <plugin>

@@ -19,9 +19,9 @@ package com.serpics.base.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Region;
 import com.serpics.base.facade.data.RegionData;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.facade.Populator;
 
 public class RegionPopulator implements Populator<Region, RegionData>{

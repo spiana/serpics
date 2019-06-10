@@ -22,7 +22,7 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.Multilingual;
+import com.serpics.i18n.Multilingual;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.serpics.vaadin.ui.filter.MultilingualisNullFilter;
 import com.vaadin.data.Container.Filter;

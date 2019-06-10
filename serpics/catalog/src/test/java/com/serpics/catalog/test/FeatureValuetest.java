@@ -22,8 +22,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.AttributeType;
 import com.serpics.catalog.data.model.Feature;
+import com.serpics.core.datatype.AttributeType;
 
 
 

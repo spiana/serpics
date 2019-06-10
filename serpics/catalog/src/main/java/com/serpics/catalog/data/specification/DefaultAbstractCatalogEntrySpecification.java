@@ -24,10 +24,10 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.catalog.data.model.AbstractCatalogEntry;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Catalog;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.stereotype.DefaultSpec;
 
 @DefaultSpec(AbstractCatalogEntry.class)

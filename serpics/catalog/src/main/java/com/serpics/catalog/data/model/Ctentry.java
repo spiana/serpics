@@ -38,8 +38,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.data.model.MultilingualText;
+import com.serpics.i18n.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualText;
 
 /**
  * The persistent class for the ctentry database table.
@@ -89,11 +89,11 @@ public abstract class Ctentry extends AbstractCatalogEntry implements Serializab
 
     // bi-directional many-to-one association to CtentryAttribute
     @OneToMany(mappedBy = "ctentry", fetch = FetchType.LAZY)
-    protected Set<CtentryAttribute> ctentryAttributes;
+    private Set<CtentryAttribute> ctentryAttributes;
 
     // bi-directional many-to-one association to Media
    @OneToMany(mappedBy="ctentry" , fetch = FetchType.LAZY, cascade= CascadeType.REMOVE)
-   protected Set<CtentryMedia> medias;
+   private Set<CtentryMedia> medias;
 
    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true , fetch= FetchType.EAGER)
    @JoinColumn(name = "meta_description")

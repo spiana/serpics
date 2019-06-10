@@ -33,7 +33,7 @@ import javax.persistence.Table;
 
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.model.MultiValueAttribute;
-import com.serpics.base.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualString;
 
 
 /**

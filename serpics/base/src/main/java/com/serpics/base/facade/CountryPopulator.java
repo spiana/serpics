@@ -18,11 +18,11 @@ package com.serpics.base.facade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Country;
 import com.serpics.base.data.model.Geocode;
 import com.serpics.base.facade.data.CountryData;
 import com.serpics.base.facade.data.GeocodeData;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.facade.AbstractPopulatingConverter;
 import com.serpics.core.facade.Populator;
 

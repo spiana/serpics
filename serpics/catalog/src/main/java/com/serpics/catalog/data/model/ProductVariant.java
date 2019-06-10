@@ -23,12 +23,10 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.serpics.catalog.data.CatalogEntryType;
@@ -59,13 +57,16 @@ public class ProductVariant extends AbstractProduct implements Serializable {
         this.status= ProductApprovalStatus.check;
     }
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name="parent_product", foreignKey=@ForeignKey(name="fk_abtract_product"),referencedColumnName="ctentry_id")
-    protected AbstractProduct parentProduct;
+    @ManyToOne(optional=true)
+    @JoinColumn(name="parent_product")
+    protected Product parentProduct;
     
+    @ManyToOne(optional=true)
+    @JoinColumn(name="parent_variant")
+    protected ProductVariant parentVariant;
 
-    @ManyToMany
-    @JoinTable(name = "variant_variant_rel", joinColumns = { @JoinColumn(name = "parent_product") }, inverseJoinColumns = { @JoinColumn(name = "ctentry_id") })
+    @OneToMany(mappedBy="parentVariant")
+    @OrderBy("sequence")
     protected Set<ProductVariant> variants;
     
     protected double sequence = 0.0;
@@ -73,11 +74,11 @@ public class ProductVariant extends AbstractProduct implements Serializable {
     @OneToMany(mappedBy="product" , orphanRemoval=true , cascade=CascadeType.REMOVE , fetch=FetchType.LAZY)
     Set<VariantAttribute> attributes = new LinkedHashSet<VariantAttribute>(0);
     
-	public AbstractProduct getParentProduct() {
+	public Product  getParentProduct() {
 		return parentProduct;
 	}
 
-	public void setParentProduct(AbstractProduct parentProduct) {
+	public void setParentProduct(Product parentProduct) {
 		this.parentProduct = parentProduct;
 	}
 
@@ -95,6 +96,15 @@ public class ProductVariant extends AbstractProduct implements Serializable {
 
 	public void setAttributes(Set<VariantAttribute> attributes) {
 		this.attributes = attributes;
+	}
+
+
+	public ProductVariant getParentVariant() {
+		return parentVariant;
+	}
+
+	public void setParentVariant(ProductVariant parentVariant) {
+		this.parentVariant = parentVariant;
 	}
 
 	public Set<ProductVariant> getVariants() {

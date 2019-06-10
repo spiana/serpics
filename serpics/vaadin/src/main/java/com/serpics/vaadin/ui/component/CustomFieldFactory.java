@@ -23,10 +23,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.MultiValueField;
-import com.serpics.base.Multilingual;
-import com.serpics.base.data.model.Media;
-import com.serpics.base.data.model.MultilingualText;
+import com.serpics.core.data.model.MultiValueField;
+import com.serpics.i18n.Multilingual;
+import com.serpics.i18n.data.model.MultilingualText;
+import com.serpics.mediasupport.data.model.MediaField;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils.SmcPropertyDef;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -126,7 +126,7 @@ public class CustomFieldFactory extends DefaultFieldFactory{
               if (propertyId.toString().contains("."))
             	  container.addNestedContainerProperty(propertyId.toString());
               
-              if (Media.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
+              if (MediaField.class.isAssignableFrom(item.getItemProperty(propertyId).getType())){
               	MediaSelect f = new MediaSelect(jpaitem, propertyId);
           		f.setWidth(FIELD_WIDTH);
           		return f;

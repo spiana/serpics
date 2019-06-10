@@ -29,8 +29,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.serpics.base.MediaSupportType;
 import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.mediasupport.MediaSupportType;
 
 @Entity()
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"media_id", "format"}))

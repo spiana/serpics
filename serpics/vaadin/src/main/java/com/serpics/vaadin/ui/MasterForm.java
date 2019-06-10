@@ -26,8 +26,8 @@ import javax.persistence.Id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.MultiValueField;
-import com.serpics.base.Multilingual;
+import com.serpics.core.data.model.MultiValueField;
+import com.serpics.i18n.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.ui.EntityComponent.EntityFormComponent;

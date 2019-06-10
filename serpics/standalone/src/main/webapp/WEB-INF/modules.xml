@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>
+	<module>core</module>
+	<module>i18n</module>
+	<module>mediasupport</module>
+	<module>base</module>
+	<module>membership</module>
+	<module>catalog</module>
+	<module>commerce</module>
+	<module>system</module>
+	<module>smc</module>
+	<module>warehouse</module>
+	<module>importexport</module>
+	<module>scheduler</module> 
+	<module>paypal</module> 
+	<module>postman</module> 
+	<module>postman-service</module> 
+	<module>admin</module>
+	<module>rest-api</module>
+	<module>jax-rs</module>
+</modules>

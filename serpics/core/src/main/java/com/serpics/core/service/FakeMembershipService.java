@@ -19,7 +19,7 @@ package com.serpics.core.service;
 import java.security.Principal;
 
 import com.serpics.core.SerpicsException;
-import com.serpics.core.security.StoreRealm;
+import com.serpics.core.security.Realm;
 import com.serpics.core.security.UserDetail;
 
 
@@ -41,7 +41,7 @@ public  class FakeMembershipService implements Membership{
 	}
 
 	@Override
-	public StoreRealm fetchStoreByName(String storeName) {
+	public Realm fetchRealmByName(String storeName) {
 		return null;
 	}
 

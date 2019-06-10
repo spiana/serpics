@@ -27,7 +27,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.serpics.core.EngineFactory;
 import com.serpics.core.scope.StoreScopeContextHolder;
@@ -39,7 +38,6 @@ import com.serpics.test.ExecutionTestListener;
 
 @ContextConfiguration({  "classpath*:META-INF/core-serpics.xml"} )
 @TestExecutionListeners({ ExecutionTestListener.class, DependencyInjectionTestExecutionListener.class })
-@TransactionConfiguration(defaultRollback = true)
 @RunWith(SpringJUnit4ClassRunner.class)
 @SerpicsTest("store4")
 public class ServiceLayerTest extends Assert {

@@ -2,9 +2,9 @@ package com.serpics.catalog.data.interceptors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.catalog.data.model.CtentryMedia;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
 import com.serpics.core.data.model.Catalog;
 import com.serpics.stereotype.ModelInterceptor;

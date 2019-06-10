@@ -20,15 +20,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.Engine;
+import com.serpics.core.session.SessionContext;
 import com.serpics.stereotype.StoreEvent;
 
 
 public abstract class AbstractSerpicsListener<E extends SerpicsEvent> implements ApplicationListener<E> {
 
 	@Autowired
-	CommerceEngine commerceEngine;
+	Engine<SessionContext> engine;
 
 	@Override
 	public void onApplicationEvent(E serpicsEvent) {
@@ -38,8 +38,8 @@ public abstract class AbstractSerpicsListener<E extends SerpicsEvent> implements
 		if (annotation != null){
 			String[] stores =annotation.stores();
 			for (String string : stores) {
-				if(string.equals(serpicsEvent.getStoreRealm()) || string.equals("default-store")){
-						CommerceSessionContext context = commerceEngine.bind(serpicsEvent.getSessionId());
+				if(string.equals(serpicsEvent.getContext().getRealm().getName()) || string.equals("default-store")){
+						SessionContext context = engine.bind(serpicsEvent.getContext().getSessionId());
 						if (context != null){
 							handleEvent(serpicsEvent);
 						}

@@ -19,7 +19,7 @@ package com.serpics.membership.data.interceptors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.core.data.SaveInterceptor;
 import com.serpics.membership.data.model.MembersRole;
 import com.serpics.membership.data.model.MembersRolePK;

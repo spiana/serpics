@@ -34,8 +34,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.Store;
+import com.serpics.i18n.data.model.MultilingualString;
 import com.serpics.membership.data.model.Address;
 
 /**

@@ -30,10 +30,10 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.MappingStrategy;
-import com.serpics.base.MultiValueField;
-import com.serpics.base.Multilingual;
 import com.serpics.core.data.Repository;
 import com.serpics.core.data.RepositoryInitializer;
+import com.serpics.core.data.model.MultiValueField;
+import com.serpics.i18n.Multilingual;
 
 public class SerpicsCsvToBean<T> extends CsvToBean<T> {
 

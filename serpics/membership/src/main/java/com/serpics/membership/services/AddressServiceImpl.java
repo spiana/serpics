@@ -30,7 +30,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.serpics.commerce.service.AbstractCommerceEntityService;
+import com.serpics.base.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
 import com.serpics.membership.data.model.Address;
 import com.serpics.membership.data.model.Member;

@@ -18,7 +18,7 @@ package com.serpics.commerce.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.serpics.commerce.core.CommerceEngine;
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.commerce.data.model.Shipmode;
 import com.serpics.commerce.facade.data.ShipmodeData;
 import com.serpics.core.facade.Populator;

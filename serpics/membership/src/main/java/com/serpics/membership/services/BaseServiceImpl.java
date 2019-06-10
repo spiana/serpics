@@ -26,15 +26,15 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.base.data.model.Currency;
-import com.serpics.base.data.model.Locale;
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
-import com.serpics.base.data.repositories.CurrencyRepository;
-import com.serpics.base.data.repositories.LocaleRepository;
 import com.serpics.base.data.repositories.StoreRepository;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.core.SerpicsException;
 import com.serpics.core.service.AbstractService;
+import com.serpics.i18n.data.model.Currency;
+import com.serpics.i18n.data.model.Locale;
+import com.serpics.i18n.data.repositories.CurrencyRepository;
+import com.serpics.i18n.data.repositories.LocaleRepository;
 import com.serpics.membership.MemberType;
 import com.serpics.membership.UserRegStatus;
 import com.serpics.membership.UserType;
@@ -107,10 +107,10 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
         s = m.createStore(s);
         
         
-        Store s1 = new Store();
-        s1.setName("test-store");
-        s1.setCurrency(currency);
-        s1 = m.createStore(s1);
+//        Store s1 = new Store();
+//        s1.setName("test-store");
+//        s1.setCurrency(currency);
+//        s1 = m.createStore(s1);
         
         final User anonymous = new User();
         anonymous.setMemberType(MemberType.USER);

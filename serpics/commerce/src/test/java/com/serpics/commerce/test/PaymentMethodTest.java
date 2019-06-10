@@ -27,20 +27,22 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.base.data.model.Store;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.Paymethod;
 import com.serpics.commerce.data.model.Paymethodlookup;
 import com.serpics.commerce.data.repositories.PaymethodRepository;
 import com.serpics.commerce.data.repositories.PaymethodlookupRepository;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.services.BaseService;
 import com.serpics.test.AbstractTransactionalJunit4SerpicTest;
 
 
 
-@ContextConfiguration({ "classpath:META-INF/base-serpics.xml" , 
+@ContextConfiguration({ 
+	"classpath:META-INF/i18n-serpics.xml" , "classpath:META-INF/mediasupport-serpics.xml" ,
+	"classpath:META-INF/base-serpics.xml" , 
 	"classpath:META-INF/postman-serpics.xml" ,
 	"classpath:META-INF/membership-serpics.xml", "classpath:META-INF/catalog-serpics.xml",
 	"classpath:META-INF/warehouse-serpics.xml",

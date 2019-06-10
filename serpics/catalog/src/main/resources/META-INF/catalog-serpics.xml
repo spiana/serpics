@@ -92,8 +92,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<bean name="brandSpecificationRegisterd" class="com.serpics.catalog.data.specification.DefaultRegisteredBrandSpecification"/>		
 	
 	<!-- restrict catalog visibility  to current store -->
-	<bean name= "catalog2storeSpecification" class="com.serpics.catalog.data.specification.DefaultCatalo2StoreSpecification" />	
-	
+	<bean name= "catalog2storeSpecification" class="com.serpics.catalog.data.specification.DefaultCatalog2StoreSpecification" />	
+	<bean name="ctentryMediaSpecification" class="com.serpics.catalog.data.specification.DefaultCtentryMediaSpecification"/>
 	
 	<!--  facade -->
 	

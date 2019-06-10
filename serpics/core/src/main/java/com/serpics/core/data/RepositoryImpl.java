@@ -37,8 +37,8 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.Engine;
+import com.serpics.core.session.SessionContext;
 
 @org.springframework.stereotype.Repository
 @Transactional(readOnly=true)
@@ -151,11 +151,11 @@ public class RepositoryImpl<Z,  ID extends Serializable> extends CustomJpaReposi
 			return (Z) getEntityManager().find(entity.getClass(), id);
 	}
 	
-	private CommerceEngine engine;
+	private Engine<SessionContext> engine;
 	 
 	
 	@Override
-	public CommerceSessionContext getCurrentContext() {
+	public SessionContext getCurrentContext() {
 		Assert.notNull(this.engine , "engine must be set in a repository !");
 		return engine.getCurrentContext();
 	}

@@ -19,9 +19,9 @@ package com.serpics.vaadin.ui.component;
 
 import java.io.File;
 
-import com.serpics.base.MediaSupportType;
-import com.serpics.base.data.model.Media;
-import com.serpics.base.utils.MediaStoreUtil;
+import com.serpics.mediasupport.MediaSupportType;
+import com.serpics.mediasupport.data.model.MediaField;
+import com.serpics.mediasupport.utils.MediaUtil;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.data.utils.PropertiesUtils;
 import com.serpics.vaadin.jpacontainer.ServiceContainerFactory;
@@ -54,7 +54,7 @@ import com.vaadin.ui.Window.CloseListener;
  * @author spiana
  *
  */
-public class MediaSelect<T extends Media> extends CustomField<T> {
+public class MediaSelect<T extends MediaField> extends CustomField<T> {
 	private static final long serialVersionUID = 1L;
 	
 	private EntityItem item;
@@ -222,7 +222,7 @@ public class MediaSelect<T extends Media> extends CustomField<T> {
 	}
 	
 	private void loadResource(){
-		Media media = getValue();
+		MediaField media = getValue();
 		if (media != null){
 			if (media.getType().equals(MediaSupportType.REMOTE)){
 				String source = media.getSource();
@@ -234,7 +234,7 @@ public class MediaSelect<T extends Media> extends CustomField<T> {
 			}else{
 				String source = media.getSource();
 				if (source != null){
-					String mediaFilePath = MediaStoreUtil.getInstance().getMediaStorePathFromSource(source);
+					String mediaFilePath = MediaUtil.getInstance().getMediaStorePathFromSource(source);
 					FileResource resource = new FileResource(new File(mediaFilePath));
 					this.image.setSource(resource);
 					this.image.markAsDirty();

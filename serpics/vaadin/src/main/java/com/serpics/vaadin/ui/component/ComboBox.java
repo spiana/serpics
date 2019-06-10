@@ -18,7 +18,7 @@ package com.serpics.vaadin.ui.component;
 
 import java.util.Collection;
 
-import com.serpics.base.data.model.MultilingualField;
+import com.serpics.i18n.data.model.MultilingualField;
 import com.serpics.vaadin.ui.converters.MultilingualFieldConvert;
 import com.serpics.vaadin.ui.filter.MultilingualLikeFilter;
 import com.vaadin.data.Container;

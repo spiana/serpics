@@ -33,9 +33,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.serpics.base.AttributeType;
 import com.serpics.base.AvailableforType;
 import com.serpics.core.data.jpa.AbstractEntity;
+import com.serpics.core.datatype.AttributeType;
+import com.serpics.i18n.data.model.MultilingualString;
 
 /**
  * The persistent class for the base_attributes database table.

@@ -25,7 +25,6 @@ import javax.persistence.criteria.Root;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Store;
@@ -36,7 +35,6 @@ import com.serpics.warehouse.data.model.Warehouse;
 import com.serpics.warehouse.data.repositories.InventoryRepository;
 import com.serpics.warehouse.data.repositories.WarehouseRepository;
 
-@TransactionConfiguration(defaultRollback=true)
 public class RepositoryTest extends WarehouseBaseTest {
 
 	@Resource

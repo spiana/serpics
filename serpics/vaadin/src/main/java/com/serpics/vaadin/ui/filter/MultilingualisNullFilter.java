@@ -2,7 +2,7 @@ package com.serpics.vaadin.ui.filter;
 
 import javax.xml.crypto.dsig.spec.XPathType.Filter;
 
-import com.serpics.base.data.model.MultilingualField;
+import com.serpics.i18n.data.model.MultilingualField;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.IsNull;

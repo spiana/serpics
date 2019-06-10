@@ -27,7 +27,7 @@ import com.serpics.core.session.SessionContext;
 public abstract class AbstractService<T extends SessionContext> implements SerpicsService<T>{
 
 	//@Autowired(required = true)
-	@Resource(name="commerceEngine")
+	@Resource(name="engine")
 	Engine<T> engine;
 
 	@Override

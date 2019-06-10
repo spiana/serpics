@@ -19,14 +19,15 @@ package com.serpics.core.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.session.CommerceSessionContext;
+import com.serpics.core.Engine;
+import com.serpics.core.session.SessionContext;
 
 
 
 public class InterceptorMapping implements Ordered{
+	
 	@Autowired
-	CommerceEngine commerceEngine;
+	Engine<SessionContext> engine;
 	
 	String targetEntity;
 	int order = 0;
@@ -40,8 +41,8 @@ public class InterceptorMapping implements Ordered{
 		this.order = order;
 	}
 	
-	protected CommerceSessionContext getCurrentContext(){
-		return commerceEngine.getCurrentContext();
+	protected SessionContext getCurrentContext(){
+		return engine.getCurrentContext();
 	}
 
 	public String getTargetEntity() {

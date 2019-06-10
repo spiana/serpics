@@ -3,12 +3,12 @@ package com.serpics.catalog.test;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.commerce.session.CommerceSessionContext;
 import com.serpics.catalog.data.model.MemberPricelistRelation;
 import com.serpics.catalog.data.model.Price;
 import com.serpics.catalog.data.model.Pricelist;
@@ -18,7 +18,6 @@ import com.serpics.catalog.data.repositories.PriceListRepository;
 import com.serpics.catalog.data.repositories.PriceRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
 import com.serpics.catalog.services.PriceService;
-import com.serpics.commerce.session.CommerceSessionContext;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.User;
 import com.serpics.membership.data.repositories.UserRepository;
@@ -44,7 +43,7 @@ public class MemberPriceListTest extends CatalogBaseTest{
 	PriceService priceService;
 	
 	@Test
-	@Transactional
+	@org.springframework.transaction.annotation.Transactional
 	public void test1() throws SerpicsException{
 		CommerceSessionContext context = commerceEngine.getCurrentContext();
 		
@@ -64,14 +63,14 @@ public class MemberPriceListTest extends CatalogBaseTest{
 		
 		Price price = new Price();
 		price.setProduct(p);
-		price.setCurrency((com.serpics.base.data.model.Currency)context.getCurrency() );
+		price.setCurrency((com.serpics.i18n.data.model.Currency)context.getCurrency() );
 		price.setCurrentPrice(10.0);
 		priceRepository.save(price);
 		
 		
 		Price price1 = new Price();
 		price1.setProduct(p);
-		price1.setCurrency((com.serpics.base.data.model.Currency)context.getCurrency() );
+		price1.setCurrency((com.serpics.i18n.data.model.Currency)context.getCurrency() );
 		price1.setCurrentPrice(5.0);
 		price1.setPricelist(pl);
 		priceRepository.save(price1);

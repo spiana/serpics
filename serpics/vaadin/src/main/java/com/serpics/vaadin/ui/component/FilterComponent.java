@@ -24,7 +24,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.serpics.base.Multilingual;
+import com.serpics.i18n.Multilingual;
 import com.serpics.vaadin.data.utils.I18nUtils;
 import com.serpics.vaadin.ui.FilterComponentUtils;
 import com.serpics.vaadin.ui.FilterComponentUtils.FilteringMode;

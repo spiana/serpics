@@ -16,8 +16,8 @@
  *******************************************************************************/
 package com.serpics.base.facade.data;
 
-import com.serpics.base.MediaSupportType;
 import com.serpics.core.facade.AbstractData;
+import com.serpics.mediasupport.MediaSupportType;
 
 public class MediaData extends AbstractData {
 	

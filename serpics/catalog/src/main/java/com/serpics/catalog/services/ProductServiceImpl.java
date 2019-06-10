@@ -38,8 +38,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.MultilingualString;
-import com.serpics.base.data.model.MultilingualText;
+import com.serpics.base.commerce.CommerceEngine;
+import com.serpics.base.commerce.service.AbstractCommerceEntityService;
 import com.serpics.catalog.data.model.Brand;
 import com.serpics.catalog.data.model.Category;
 import com.serpics.catalog.data.model.CategoryProductRelation;
@@ -49,12 +49,13 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.repositories.BrandRepository;
 import com.serpics.catalog.data.repositories.Category2ProductRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.commerce.core.CommerceEngine;
-import com.serpics.commerce.service.AbstractCommerceEntityService;
 import com.serpics.core.data.Repository;
+import com.serpics.i18n.data.model.MultilingualString;
+import com.serpics.i18n.data.model.MultilingualText;
 import com.serpics.stereotype.StoreService;
 
 @StoreService("productService")
+@Transactional(readOnly=true)
 public class ProductServiceImpl extends AbstractCommerceEntityService<Product, Long> implements ProductService{
 
 	@Resource

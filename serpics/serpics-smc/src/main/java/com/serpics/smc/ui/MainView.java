@@ -31,9 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
 import com.serpics.catalog.services.CatalogService;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.services.StoreService;
 import com.serpics.core.SerpicsException;
 import com.serpics.membership.data.model.UsersReg;
@@ -103,6 +103,9 @@ public class MainView extends CustomComponent {
 	@Resource
 	private StoreService storeService;
 	
+	@Resource
+	private Dashboard dashboard;
+	
 	
 
 	private final TabSheet rightContentTabPanel = new TabSheet();
@@ -134,7 +137,7 @@ public class MainView extends CustomComponent {
 	
 	private void setLanguage(){
 	
-		final com.serpics.base.data.model.Locale locale = (com.serpics.base.data.model.Locale) commerceEngine
+		final com.serpics.i18n.data.model.Locale locale = (com.serpics.i18n.data.model.Locale) commerceEngine
 				.getCurrentContext().getLocale();
 		
 		if (locale != null) {
@@ -275,8 +278,8 @@ public class MainView extends CustomComponent {
 		setSizeFull();
 		
 		// Add dashBoard as first Tab
-		Dashboard d = new Dashboard();
-		rightContentTabPanel.addTab(d, "dashboard");
+		//Dashboard d = new Dashboard();
+		rightContentTabPanel.addTab(dashboard, "dashboard");
 	}
 
 	private com.vaadin.ui.Component createStoreSelect(){
@@ -307,6 +310,10 @@ public class MainView extends CustomComponent {
 					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.CURRENT_SESSION_STORE, commerceEngine.getCurrentContext().getRealm() );
 					VaadinService.getCurrentRequest().getWrappedSession().setAttribute(WebCostant.SERPICS_SESSION, commerceEngine.getCurrentContext().getSessionId());
 					rightContentTabPanel.removeAllComponents();
+					// Add dashBoard as first Tab
+					//Dashboard d = new Dashboard();
+					rightContentTabPanel.addTab(dashboard, "dashboard");
+					
 	             } catch (SerpicsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

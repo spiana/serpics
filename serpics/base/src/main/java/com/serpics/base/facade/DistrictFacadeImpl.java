@@ -27,12 +27,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.data.model.District;
 import com.serpics.base.facade.data.DistrictData;
 import com.serpics.base.services.CountryService;
 import com.serpics.base.services.DistrictService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.i18n.data.model.MultilingualString;
 import com.serpics.stereotype.StoreFacade;
 
 

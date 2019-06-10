@@ -18,8 +18,8 @@ package com.serpics.commerce.data.interceptors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.serpics.base.commerce.CommerceEngine;
 import com.serpics.base.data.model.Store;
-import com.serpics.commerce.core.CommerceEngine;
 import com.serpics.commerce.data.model.AbstractOrder;
 import com.serpics.core.data.SaveInterceptor;
 import com.serpics.membership.data.model.User;

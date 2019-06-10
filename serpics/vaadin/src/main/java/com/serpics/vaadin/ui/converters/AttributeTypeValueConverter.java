@@ -23,7 +23,7 @@ import java.util.Locale;
 
 import org.springframework.util.StringUtils;
 
-import com.serpics.base.MultiValueField;
+import com.serpics.core.data.model.MultiValueField;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Field;

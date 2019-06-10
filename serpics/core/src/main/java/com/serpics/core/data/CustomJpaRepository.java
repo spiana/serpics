@@ -65,7 +65,7 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 		return super.getCountQuery(getMergedSpecification(spec));
 	 }
 	 
-	 private Specification<T> getMergedSpecification(Specification<T> spec) {
+	 private <S extends T> Specification<S> getMergedSpecification(Specification<S> spec) {
 		 
 		 List<Specification> defaultSpecs = initializer
 					.getSpecificationForClass(getDomainClass());
@@ -134,8 +134,11 @@ public class CustomJpaRepository<T, ID extends Serializable> extends
 		return entity;
 	}
 
-	protected TypedQuery<T> getQuery(Specification<T> spec, Sort sort) {
-		return super.getQuery(getMergedSpecification(spec), sort);
+	
+	protected <S extends T> TypedQuery<S> getQuery(Specification<S> spec, Class<S> domainClass, Sort sort){
+		return super.getQuery(getMergedSpecification(spec), domainClass, sort);
 	}
+	
+
 	
 }

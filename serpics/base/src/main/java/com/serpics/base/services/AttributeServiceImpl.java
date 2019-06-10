@@ -29,9 +29,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.serpics.base.AvailableforType;
+import com.serpics.base.commerce.service.AbstractCommerceService;
 import com.serpics.base.data.model.BaseAttribute;
 import com.serpics.base.data.repositories.BaseAttributeRepository;
-import com.serpics.commerce.service.AbstractCommerceService;
+
 
 @Service("attributeService")
 public class AttributeServiceImpl extends AbstractCommerceService implements AttributeService{

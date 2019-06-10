@@ -28,10 +28,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpics.base.data.model.Geocode;
-import com.serpics.base.data.model.MultilingualString;
 import com.serpics.base.facade.data.GeocodeData;
 import com.serpics.base.services.GeocodeService;
 import com.serpics.core.facade.AbstractPopulatingConverter;
+import com.serpics.i18n.data.model.MultilingualString;
 import com.serpics.stereotype.StoreFacade;
 
 @StoreFacade("geocodeFacade")

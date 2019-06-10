@@ -26,6 +26,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.serpics.base.strategies.AbstractStrategy;
 import com.serpics.catalog.ProductNotFoundException;
 import com.serpics.catalog.data.ProductType;
 import com.serpics.catalog.data.model.AbstractProduct;
@@ -33,7 +34,6 @@ import com.serpics.catalog.data.model.Product;
 import com.serpics.catalog.data.model.ProductVariant;
 import com.serpics.catalog.data.repositories.AbstractProductRepository;
 import com.serpics.catalog.data.repositories.ProductRepository;
-import com.serpics.commerce.strategies.AbstractStrategy;
 import com.serpics.stereotype.StoreStrategy;
 
 @StoreStrategy("productStrategy")
